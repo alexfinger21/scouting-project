@@ -1,0 +1,18 @@
+#counter {
+    transform: translate(750px, 300px);
+}
+#number {
+    transform: translate(730px, 300px);
+}
+#reset {
+    transform: translate(690px, 330px);
+}
+#minus {
+    transform: translate(630px, 300px);
+}
+#saveToConsole {
+    transform: translate(615px, 360px);
+}
+#clearSaved {
+    transform: translate(-150px, -50px);
+}
