@@ -105,21 +105,22 @@
   #logo {
     padding: 1px;
     object-fit: cover;
-    width: 50px;
-    height: 50px;
+    width:  50px;
+    height: auto;
   }
   #headerlogin .container{
     display: flex;
-    align-items: center;
+    align-items: start;
     flex-wrap: nowrap;
     flex-direction: row;
-    background: #f6d052;
+    background: #3492ea;
     width: 100%;
   }
   #headertext {
+    margin-top:  10px;
     margin-left: 10px;
-    font-size: 230%;
-    font-family: Impact, fantasy;
+    font-size: 90%;
+    font-family: 'Rubik', fantasy;
     color: #ffffff;
   }
   #headertext ul {
