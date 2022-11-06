@@ -6,7 +6,8 @@
   }
   
   body {
-    background: #e35869;
+    background-image: url(695_inaction.jpg);
+    background-size: cover;
     font-family: 'Rubik', sans-serif;
   }
   
@@ -109,4 +110,28 @@
   #logo {
     width: 5%;
     height: auto;
+    float:left;
+  }
+  #headerlogin {
+    background: #f6d052;
+  }
+  #headerlogin::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+  #headertext {
+    float: right;
+    font-size: 150%;
+  }
+  #headertext ul {
+    margin: 0;
+  }
+  .centerform {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    width: 19%;
   }
