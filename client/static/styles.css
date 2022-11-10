@@ -15,7 +15,7 @@
     background: #fff;
     width: 25%;
     height: auto;
-    margin: 4% auto;
+    margin: 10% auto;
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
@@ -26,7 +26,7 @@
 
   }
   .login-form h1 {
-    padding: 5% 20% 23% 3.5%;
+    padding: 5% 5% 5% 3.5%;
     font-weight: 300;
   }
   .login-form .content {
