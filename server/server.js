@@ -7,7 +7,7 @@ const ejs = require("ejs")
 
 app.use("/static", express.static("./client/static"));
 
-app.set("views", "./client")
+app.set("views", "./client/templates")
 app.set("view engine", "ejs");
 
 app.get("/", function(req, res) {
