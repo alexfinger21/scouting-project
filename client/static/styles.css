@@ -6,7 +6,7 @@
   }
   
   body {
-    background-image: url(./images/695_inaction.jpg);
+    background-color: #FBFDFF;
     background-size: cover;
     font-family: 'Rubik', sans-serif;
   }
@@ -103,9 +103,11 @@
     background: #3c4d6d;
   }
   #logo {
-    padding: 1px;
+    margin-top:  20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
     object-fit: cover;
-    width:  50px;
+    width:  9%;
     height: auto;
   }
   #headerlogin .container{
@@ -117,9 +119,9 @@
     width: 100%;
   }
   #headertext {
-    margin-top:  10px;
+    margin-top:  25px;
     margin-left: 10px;
-    font-size: 90%;
+    font-size: 200%;
     font-family: 'Rubik', fantasy;
     color: #ffffff;
   }
