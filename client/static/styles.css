@@ -1,3 +1,6 @@
+
+@media screen and (max-width: 480px) {
+    
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +10,6 @@
   
   body {
     background-color: #FBFDFF;
-    /*background-image: url(./images/695_inaction.jpg);*/
     background-size: cover;
     font-family: 'Rubik', sans-serif;
     font-size: 2vh;
@@ -16,10 +18,7 @@
   .login-form {
     background: #fff;
     width: 90%;
-    height: auto;
-    margin: 10% auto;
-    width: 40vw;
-    height: 92.5vh;
+    height: 60%;
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
@@ -106,17 +105,22 @@
     background: #3c4d6d;
   }
   #logo {
-    margin-top:  20px;
-    margin-bottom: 20px;
-    margin-left: 10px;
-    height: calc(20px + 3vh);
+    height: 7.5vh;
     padding: 0.2%;
     object-fit: cover;
-
+  }
+  #dropdown {
+    height: 7.5vh;
+    padding: 0.2%;
+    margin-top: 10;
+    margin-bottom: 10;
+    margin-right: 10;
+    margin-left: auto;
+    object-fit: cover;
   }
 
   #headerlogin .container{
-    box-shadow: 0px -2px 15px rgb(135, 173, 209) inset;
+    /*box-shadow: 0px -2px 15px rgb(135, 173, 209) inset;*/
     box-sizing: border-box;
     display: flex;
     align-items: start;
@@ -124,11 +128,12 @@
     flex-direction: row;
     background: #3492ea;
     width: 100%;
-    height: calc(20px + 3vh);
+    height: 7.5vh;
     border-bottom: 5px;
   }
   #headertext {
-    margin-top:  25px;
+    height: 7.5vh;
+    margin-top:  10px;
     margin-left: 10px;
     font-family: 'Rubik', fantasy;
     color: #ffffff;
@@ -152,3 +157,4 @@
     width: 60%;
     height: 92.5vh;
   }
+}
