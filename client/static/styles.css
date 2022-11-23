@@ -19,6 +19,9 @@
     background: #fff;
     width: 90%;
     height: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10vh;
     display: -webkit-box;
     display: flex;
     -webkit-box-orient: vertical;
@@ -110,11 +113,11 @@
     object-fit: cover;
   }
   #dropdown {
-    height: 7.5vh;
+    height: 4vh;
     padding: 0.2%;
-    margin-top: 10;
-    margin-bottom: 10;
-    margin-right: 10;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
     margin-left: auto;
     object-fit: cover;
   }
@@ -147,7 +150,6 @@
     align-items: start;
     flex-wrap: nowrap;
     flex-direction: row;
-    background: rgb(52, 146, 234);
     width: 100%;
     border-bottom: 5px;
   }
