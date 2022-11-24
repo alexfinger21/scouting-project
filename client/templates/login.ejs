@@ -4,7 +4,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Log In</title>
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'><link rel="stylesheet" href="./static/styles.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+  <link rel="stylesheet" href="./static/styles.css">
+  <link rel="stylesheet" href="./static/login-page.css">
+
 
 </head>
 <body>
@@ -17,22 +20,30 @@
   </div>
 <!-- partial:index.partial.html -->
 <div class = "page-holder">
-  <div class="login-form">
-    <form class = "centerform">
-      <img id = "PersonIcon" src = "../static/images/PersonIcon.png";
-      <div class="content">
-        <div class="input-field">
-          <input type="username" placeholder="username" autocomplete="nope">
+  <img id = "login-form-icon" src = "../static/images/PersonIcon.png">
+  
+  <div id="login-form">
+    <form class = "centerform" action="/login" method="POST">
+      <div id = "form-container">
+
+        <div class="input-container">
+          <img src="../static/images/hashtag.png">
+          <input type = "text" name="Team Number" placeholder="Team Number">
         </div>
-        <div class="input-field">
-          <input type="tNum" placeholder="Team Number" autocomplete="nope">
+
+        <div class="input-container">
+          <img src="../static/images/atSymbol.png">
+          <input type = "text" name="Username" placeholder="Username">
         </div>
-        <div class="input-field">
-          <input type="password" placeholder="Password" autocomplete="new-password">
+
+        <div class="input-container">
+          <img src="../static/images/lock.png">
+          <input type = "text" name="Password" placeholder="Password">
         </div>
-      </div>
-      <div class="action">
-        <button>Sign in</button>
+        
+        <input id = "sign-in-btn" type="submit" value="Sign In">
+        <div class="line"></div>
+        <input id = "sign-up-btn" type="submit" value="Sign Up">
       </div>
     </form>
   </div>
