@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
@@ -10,45 +11,41 @@
 
 
 </head>
+
 <body>
-<div id = headerlogin>
-    <div class = "container">
-        <img id = "logo" src = "../static/images/bison-robotics.png">
-        <p id = headertext><b>Bison Robotics <br> Team 695</b></p>
-        <img id = "dropdown" src = "../static/images/dropdown.png">
+  
+  <%- include("../static/partials/header") %>
+
+  <div class="page-holder">
+    <img id="login-form-icon" src="../static/images/PersonIcon.png">
+
+    <div id="login-form">
+      <form class="centerform" action="/login" method="POST">
+        <div id="form-container">
+
+          <div class="input-container">
+            <img src="../static/images/hashtag.png">
+            <input type="text" name="Team Number" placeholder="Team Number">
+          </div>
+
+          <div class="input-container">
+            <img src="../static/images/atSymbol.png">
+            <input type="text" name="Username" placeholder="Username">
+          </div>
+
+          <div class="input-container">
+            <img src="../static/images/lock.png">
+            <input type="text" name="Password" placeholder="Password">
+          </div>
+
+          <input id="sign-in-btn" type="submit" value="Sign In">
+          <div class="line"></div>
+          <input id="sign-up-btn" type="submit" value="Sign Up">
+        </div>
+      </form>
     </div>
   </div>
-<!-- partial:index.partial.html -->
-<div class = "page-holder">
-  <img id = "login-form-icon" src = "../static/images/PersonIcon.png">
-  
-  <div id="login-form">
-    <form class = "centerform" action="/login" method="POST">
-      <div id = "form-container">
-
-        <div class="input-container">
-          <img src="../static/images/hashtag.png">
-          <input type = "text" name="Team Number" placeholder="Team Number">
-        </div>
-
-        <div class="input-container">
-          <img src="../static/images/atSymbol.png">
-          <input type = "text" name="Username" placeholder="Username">
-        </div>
-
-        <div class="input-container">
-          <img src="../static/images/lock.png">
-          <input type = "text" name="Password" placeholder="Password">
-        </div>
-        
-        <input id = "sign-in-btn" type="submit" value="Sign In">
-        <div class="line"></div>
-        <input id = "sign-up-btn" type="submit" value="Sign Up">
-      </div>
-    </form>
-  </div>
-</div>
-<!-- partial -->
 
 </body>
+
 </html>
