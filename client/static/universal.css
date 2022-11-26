@@ -13,6 +13,10 @@
     font-family: 'Rubik', sans-serif;
     font-size: 2vh;
   }
+
+/*
+-------------------------HEADER-----------------
+*/
   
   #logo {
     height: 6vh;
@@ -48,8 +52,50 @@
     color: #ffffff;
   }
 
+/*
+---------------------------FOOTER--------------------
+*/
+
   #footer {
     position: fixed;
     bottom: 0;
     left: 0;
   }
+
+  
+.footer-icon {
+  object-fit: contain;
+  height: 4.5vh;
+}
+
+.button-wrapper {
+  display: flex; 
+  flex-wrap: nowrap;
+  flex-direction: column;
+  width: 100%;
+  background-color: #E2F1FF;
+}
+
+
+.footer-page-button {
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  border: 0px;
+  background-color: #E2F1FF;
+}
+
+.footer-subtext {
+  font-size: 1.5vh;
+  color: #2D3B55;
+}
+
+#footer-wrapper {
+  display: flex; 
+  flex-wrap: nowrap;
+  flex-direction: row;
+  flex: 1;
+}
+
+#footer {
+  width: 100vw;
+}
