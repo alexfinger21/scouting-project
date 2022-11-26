@@ -4,7 +4,8 @@ const router = express.Router()
 const testUser = {
     team_number: 695,
     username: "alex", 
-    password: "npc"}
+    password: "npc"
+}
 
 router.get("/", function(req, res) {
     res.render("login")
