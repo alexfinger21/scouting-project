@@ -13,6 +13,23 @@
 <body>
     <%- include("../static/partials/header") %>
 
+    <div id="page-holder">
+        <form id="match-number-form">
+            <!-- MATCH NUMBER-->
+
+            <div class="input-container">
+                <label for="match-number">Match Number:</label>
+                <button class="smallButton"><b>+</b></button>
+                <input type="number" name="match-number" min="0" value="1">
+                <button class="smallButton"><b>-</b></button>
+            </div>
+            <!--ASSIGNED TEAM-->
+            <div>
+                <span>Assigned Team: </span>
+                <span class=<%= user.teamColor %> > <%= user.assignedTeam %></span>
+            </div>
+        </form>
+    </div>
 
     <%- include("../static/partials/footer") %>
 

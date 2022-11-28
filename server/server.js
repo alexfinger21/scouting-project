@@ -13,6 +13,12 @@ const routeDirectory = "routers"
 
 const login = require(path.resolve(serverDirectory, routeDirectory, "login.js"))
 
+//CONSTS
+const user = { //TEST USER
+    assignedTeam: 695,
+    teamColor: "red"
+}
+
 app.use("/static", express.static("./client/static"))
 
 //sets variables to be used later
@@ -38,7 +44,9 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
 app.use("/login", login) //it makes the app use the login router's get and post methods. its a replacement for get and post for the specific path
 
 app.get("/data-collection", function(req, res) { //only gets used if the url == data-collection
-    res.render("data-collection")
+    res.render("data-collection", {
+        user
+    })
 })
 
 app.listen(3000) //goes to localhost 3000
