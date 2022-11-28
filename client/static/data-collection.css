@@ -24,6 +24,11 @@
     font-size: 2.5vh;
 }
 
+
+#match-number-form div {
+    padding-bottom: 1vh;
+}
+
 .input-container {
     margin-top: 1vh;
     display: flex;
@@ -39,7 +44,8 @@
 }
 
 input[type=number] {
-    -moz-appearance: textfield; /* removes the arrows/spinners */
+    -moz-appearance: textfield;
+    /* removes the arrows/spinners */
     color: #5B6671;
     text-align: center;
     font-size: 2.5vh;
@@ -59,6 +65,26 @@ input[type=number]:focus {
     text-underline-offset: 0.5vh;
 }
 
+#pre-game {
+    position: relative;
+    height: 0.05vh;
+    width: 80%;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    background-color: #D9D9D9;
+}
+
+#pre-game::before {
+    content: "pre-game";
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    background-color: #FFF;
+    color: #777777;
+    padding: 0 15px;
+}
+
 .smallButton {
     font-size: 2.5vh;
     width: 10vw;
@@ -70,5 +96,6 @@ input[type=number]:focus {
 }
 
 .red {
-    color: #FF2B2B !important; /* overrides the default color */
+    color: #FF2B2B !important;
+    /* overrides the default color */
 }
