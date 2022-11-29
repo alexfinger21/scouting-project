@@ -20,9 +20,12 @@ router.post("/", function(req, res) {
             if (req.body.team_number == testUser.team_number) {
                 //successful login
                 res.redirect("data-collection")
+                return
             }
         }
     }
+     //wrong info
+    res.redirect("/login")
 })
 
 module.exports = router
