@@ -24,7 +24,7 @@
     font-size: 2.5vh;
 }
 
-.input-container {
+.small-input-container {
     margin-top: 1vh;
     display: flex;
     flex-wrap: nowrap;
@@ -32,7 +32,7 @@
     flex-direction: row;
 }
 
-.input-container label {
+.small-input-container label {
     color: #3492EA;
     font-size: 2.5vh;
     margin-right: 5vh;
@@ -74,7 +74,17 @@ input[type=number]:focus {
 .smallButton {
     font-size: 2.5vh;
     width: 10vw;
-    height: 7vw;
+    height: 5vh;
+    color: #FFF;
+    background-color: #3492EA;
+    border: 0;
+    border-radius: 5px;
+}
+
+.numberButton {
+    font-size: 2.5vh;
+    width: 35vw;
+    height: 5vh;
     color: #FFF;
     background-color: #3492EA;
     border: 0;
