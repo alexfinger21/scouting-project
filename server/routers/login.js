@@ -14,18 +14,19 @@ router.get("/", function(req, res) {
 router.post("/", function(req, res) {
     //TO DO - SQL QUERY TO RETRIEVE THE USER
     const body = req.body
+    console.log(body)
 
-    if (req.body.username == testUser.username) {
-        if (req.body.password == testUser.password) {
-            if (req.body.team_number == testUser.team_number) {
+    if (body.username == testUser.username) {
+        if (body.password == testUser.password) {
+            if (body.team_number == testUser.team_number) {
                 //successful login
-                res.redirect("data-collection")
-                return
+                console.log("success for " + body.username)
+                return res.status(200).send({result: 'redirect', url:'/data-collection'})
             }
         }
     }
      //wrong info
-    res.redirect("/login")
+    return res.status(200).send({result: 'redirect', url:'/login'})
 })
 
 module.exports = router
