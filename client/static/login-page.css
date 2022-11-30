@@ -114,16 +114,7 @@
     box-shadow: 0 0px 8px 0 rgba(0,0,0,0.2);
   }
 
-  .line{
-    position: relative;
-    height: 0.1vh;
-    width: 80%;
-    margin-top: 2vh;
-    margin-bottom: 2vh;
-    background-color: #D9D9D9;
-  }
-
-  .line::before {
+  #or::before {
     content: "OR";
     position: absolute;
     top: 50%;
