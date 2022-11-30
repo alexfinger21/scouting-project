@@ -1,17 +1,21 @@
 
-document.addEventListener("load", () => {
 
-    const form = document.getElementById("login-form")
 
-    form.onsubmit(event => {
+window.addEventListener("load", function() {
+    console.log(document.getElementsByClassName("centerform")[0])
+    const form = document.getElementsByClassName("centerform")[0]
+
+    form.onsubmit = (event) => {
         event.preventDefault()
 
-        const children = form.children
+        const children = form.children[0].children
 
-        children.forEach(element => {
-            console.log(element.tagName.toLowerCase())
-        });
+        console.log(children)
 
-        return false;
-    })
+        for (const child of children) {
+            console.log(child.tagName.toLowerCase())
+        }
+
+        return false
+    }
 })
