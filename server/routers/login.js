@@ -8,7 +8,10 @@ const testUser = {
 }
 
 router.get("/", function(req, res) {
-    res.render("login")
+
+    const login_data = req.query.info ? req.query.info : {}
+
+    res.render("login", login_data)
 })
 
 router.post("/", function(req, res) {
@@ -26,7 +29,7 @@ router.post("/", function(req, res) {
         }
     }
      //wrong info
-    return res.status(200).send({result: 'redirect', url:'/login'})
+    return res.status(200).send({result: 'redirect', url:'/login?info=wrong'})
 })
 
 module.exports = router
