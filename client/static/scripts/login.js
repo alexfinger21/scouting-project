@@ -25,6 +25,13 @@ window.addEventListener("load", function() {
 
         console.log(data)
 
+       for (const key in data) {
+            const value = data[key]
+
+            if (value == "") {
+                return false;
+            }
+        }
         
         $.ajax({
             type: "POST",
