@@ -124,3 +124,10 @@
     color: #777777;
     padding: 0 15px;
   }
+
+  #error-container {
+    margin-top: 4vh;
+    width: 80%;
+    background-color: rgb(255, 215, 215);
+    border-radius: 0.5vh;
+  }
