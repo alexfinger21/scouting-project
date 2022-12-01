@@ -29,7 +29,7 @@ router.post("/", function(req, res) {
         }
     }
      //wrong info
-    return res.status(200).send({result: 'redirect', url:'/login?info=wrong'})
+    return res.status(200).send({result: 'redirect', url:'/login?error=visible'})
 })
 
 module.exports = router
