@@ -39,12 +39,12 @@ router.post("/", function(req, res) {
                 });
 
                 console.log("success for " + body.username)
-                return res.status(200).send({result: 'redirect', url:'/data-collection'})
+                return res.status(301).send({result: 'redirect', url:'/data-collection'})
             }
         }
     }
      //wrong info
-    return res.status(200).send({result: 'redirect', url:'/login?error=visible'})
+    return res.status(301).send({result: 'redirect', url:'/login?error=visible'})
 })
 
 module.exports = router
