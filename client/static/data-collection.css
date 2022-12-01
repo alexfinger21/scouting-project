@@ -38,6 +38,14 @@
     margin-right: 5vh;
 }
 
+.input-container {
+    margin-bottom: 1vh;
+}
+
+.input-container span {
+    margin-left: 28% !important;    
+}
+
 input[type=number] {
     -moz-appearance: textfield;
     /* removes the arrows/spinners */
