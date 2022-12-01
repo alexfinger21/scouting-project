@@ -9,9 +9,9 @@ const testUser = {
 
 router.get("/", function(req, res) {
 
-    const login_data = req.query.info ? req.query.info : {}
+    const login_data = req.query.error ? req.query.error : {}
 
-    res.render("login", login_data)
+    res.render("login", error = login_data)
 })
 
 router.post("/", function(req, res) {
