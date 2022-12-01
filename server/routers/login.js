@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const crypto = require("crypto")
 
 const testUser = {
     team_number: 695,
@@ -9,9 +10,15 @@ const testUser = {
 
 router.get("/", function(req, res) {
 
-    const login_data = req.query.error ? req.query.error : {}
+    if (!req.cookies["user_id"]) {//if user hasn't logged in before
+        const login_data = req.query.error ? req.query.error : "invisible"
 
-    res.render("login", error = login_data)
+        console.log(login_data)
+
+        res.render("login", {error: login_data})
+    } else { //if user has logged in before
+        res.redirect("/")
+    }
 })
 
 router.post("/", function(req, res) {
@@ -23,6 +30,14 @@ router.post("/", function(req, res) {
         if (body.password == testUser.password) {
             if (body.team_number == testUser.team_number) {
                 //successful login
+                res.cookie("user_id", crypto.randomBytes(32).toString, {
+                    maxAge: 172800,
+                    // expires works the same as the maxAge
+                    secure: true,
+                    httpOnly: true,
+                    sameSite: 'lax'
+                });
+
                 console.log("success for " + body.username)
                 return res.status(200).send({result: 'redirect', url:'/data-collection'})
             }
