@@ -76,6 +76,17 @@
     margin-top: 10%;
   }
 
+  input[type=number] {
+    outline: 0;
+    transition: border 200ms;
+    color: #5B6671;
+    font-size: 2.5vh;
+    border: 0;
+    border-bottom: 2px solid #D9D9D9;
+    padding-bottom: 1%;
+    margin-top: 10%;
+  }
+
   input[type=text]:focus{
     border-color: #3492EA;
   }

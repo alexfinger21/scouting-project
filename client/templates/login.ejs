@@ -12,8 +12,8 @@
 </head>
 
 <body>
-
-  <script src="../static/scripts/login.js" async></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+  <script src="../static/scripts/login.js" defer></script>
 
   <%- include("../static/partials/header") %>
 
@@ -26,7 +26,7 @@
 
           <div class="input-container">
             <img src="../static/images/hashtag.png">
-            <input type="text" name="team_number" placeholder="Team Number">
+            <input type="number" name="team_number" placeholder="Team Number">
           </div>
 
           <div class="input-container">

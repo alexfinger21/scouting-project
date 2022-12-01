@@ -1,5 +1,4 @@
-
-
+const loginPath = "/login"
 
 window.addEventListener("load", function() {
     console.log(document.getElementsByClassName("centerform")[0])
@@ -9,13 +8,48 @@ window.addEventListener("load", function() {
         event.preventDefault()
 
         const children = form.children[0].children
-
-        console.log(children)
+        
+        let tempChildArr = []
 
         for (const child of children) {
-            console.log(child.tagName.toLowerCase())
+            if (child.children.length != 0) { 
+                tempChildArr.push(child.children[1])
+            }
         }
 
-        return false
+        const data = {}
+
+        tempChildArr.forEach((child) => {
+            data[child.name] = child.value
+        })
+
+        console.log(data)
+
+       for (const key in data) {
+            const value = data[key]
+
+            if (value == "") {
+                return false;
+            }
+        }
+        
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",   
+            url: loginPath,
+            data: JSON.stringify(data),
+            success: function(response) {
+                if (response.result == 'redirect') {
+                  //redirect from the login to data collection if successful, otherwise refresh
+                  window.location.replace(response.url);
+                }
+            },
+
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                console.log("Error\n" + errorThrown, jqXHR)
+            },
+        })
+        
     }
 })
