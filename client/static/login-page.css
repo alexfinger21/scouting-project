@@ -141,7 +141,7 @@
     width: 80%;
     background-color: rgb(255, 215, 215);
     border-radius: 0.5vh;
-    visibility: hidden;
+    /*visibility: hidden;*/
   }
 
   .visible {

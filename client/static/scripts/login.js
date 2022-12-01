@@ -7,14 +7,12 @@ window.addEventListener("load", function() {
     form.onsubmit = (event) => {
         event.preventDefault()
 
-        const children = form.children[0].children
+        const children = document.getElementsByClassName("input-container")
         
         let tempChildArr = []
 
         for (const child of children) {
-            if (child.children.length != 0) { 
-                tempChildArr.push(child.children[1])
-            }
+            tempChildArr.push(child.children[1])
         }
 
         const data = {}
