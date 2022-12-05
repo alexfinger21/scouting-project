@@ -24,7 +24,7 @@
                 <button class="smallButton"><b>-</b></button>
             </div>
             <!--ASSIGNED TEAM-->
-            <div>
+            <div id="assigned-team">
                 <span>Assigned Team: </span>
                 <span class=<%= user.teamColor %> > <%= user.assignedTeam %></span>
             </div>
@@ -33,9 +33,52 @@
             <div class="input-container">
                 <span>Starting Position</span>
                 <div class="NumberButtonContainer">
-                    <button class="numberButton"><b>+</b></button>
+                    <button class="big-button">+</button>
                     <input type="number" name="starting-position" min="1" value="1">
-                    <button class="numberButton"><b>-</b></button>
+                    <button class="big-button">-</button>
+                </div>
+            </div>
+            <div class="input-container">
+                <span>Robot Preload</span>
+                <div class="NumberButtonContainer">
+                    <button class="big-button">+</button>
+                    <input type="number" name="starting-position" min="0" max="2" value="1">
+                    <button class="big-button">-</button>
+                </div>
+            </div>
+
+            <div class="line" id="autonomous"></div>
+
+            <div class="input-container">
+                <span>Robot Taxies (moves)</span>
+                <div class="button-container">
+                    <button class="big-button">x</button>
+                    <input type="number" name="starting-position" min="0" max="2" value="1">
+                    <button class="big-button">🗸</button>
+                </div>
+            </div>
+            <div class="input-container">
+                <span>Auto Cargo Acquired</span>
+                <div class="NumberButtonContainer">
+                    <button class="big-button">+</button>
+                    <input type="number" name="starting-position" min="0" max="2" value="1">
+                    <button class="big-button">-</button>
+                </div>
+            </div>
+            <div class="input-container">
+                <span>Auto Cargo High Goal</span>
+                <div class="NumberButtonContainer">
+                    <button class="big-button">+</button>
+                    <input type="number" name="starting-position" min="0" max="2" value="1">
+                    <button class="big-button">-</button>
+                </div>
+            </div>
+            <div class="input-container">
+                <span>Auto Cargo Low Goal</span>
+                <div class="NumberButtonContainer">
+                    <button class="big-button">+</button>
+                    <input type="number" name="starting-position" min="0" max="2" value="1">
+                    <button class="big-button">-</button>
                 </div>
             </div>
         </form>
