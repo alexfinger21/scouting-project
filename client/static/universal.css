@@ -107,7 +107,7 @@ input::-webkit-inner-spin-button {
 
 .line {
   position: relative;
-  height: 0.1vh;
+  height: 2px;
   border: none;
   outline: none;
   width: 80%;

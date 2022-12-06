@@ -79,6 +79,17 @@ input[type=number]:focus {
     padding: 0 15px;
 }
 
+#autonomous::before {
+    content: "Autonomous";
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    background-color: #FFF;
+    color: #777777;
+    padding: 0 15px;
+}
+
 .smallButton {
     font-size: 2.5vh;
     width: 10vw;
@@ -89,7 +100,7 @@ input[type=number]:focus {
     border-radius: 5px;
 }
 
-.numberButton {
+.big-button {
     font-size: 2.5vh;
     width: 35vw;
     height: 5vh;
@@ -97,6 +108,10 @@ input[type=number]:focus {
     background-color: #3492EA;
     border: 0;
     border-radius: 5px;
+}
+
+.NumberButtonContainer {
+    margin-top: 4vh;
 }
 
 .red {
