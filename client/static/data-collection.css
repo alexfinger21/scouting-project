@@ -17,8 +17,6 @@
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    overflow: scroll;
-    height: 70vh;
 }
 
 #match-number-form span {
@@ -27,7 +25,7 @@
 }
 
 .small-input-container {
-    margin-top: 2vh;
+    margin-top: 1vh;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -42,7 +40,10 @@
 
 .input-container {
     margin-bottom: 1vh;
-    text-align: center;
+}
+
+.input-container span {
+    margin-left: 28% !important;    
 }
 
 input[type=number] {
@@ -50,7 +51,7 @@ input[type=number] {
     /* removes the arrows/spinners */
     color: #5B6671;
     text-align: center;
-    font-size: 3vh;
+    font-size: 2.5vh;
     width: 7vw;
     height: 7vw;
     border: 0;
@@ -77,16 +78,6 @@ input[type=number]:focus {
     color: #777777;
     padding: 0 15px;
 }
-#autonomous::before {
-    content: "Autonomous";
-    position: absolute;
-    top: 50%;
-    right: 50%;
-    transform: translate(50%, -50%);
-    background-color: #FFF;
-    color: #777777;
-    padding: 0 15px;
-}
 
 .smallButton {
     font-size: 2.5vh;
@@ -98,14 +89,8 @@ input[type=number]:focus {
     border-radius: 5px;
 }
 
-#assigned-team {
-    margin-top: 1vh;
-    margin-bottom: 0.5vh;
-}
-
-.big-button {
-    font-size: 4vh;
-    text-align: center;
+.numberButton {
+    font-size: 2.5vh;
     width: 35vw;
     height: 5vh;
     color: #FFF;
@@ -114,9 +99,6 @@ input[type=number]:focus {
     border-radius: 5px;
 }
 
-.button-container {
-    margin-top: 0.5vh;
-}
 .red {
     color: #FF2B2B !important;
     /* overrides the default color */
