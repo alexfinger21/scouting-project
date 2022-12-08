@@ -97,6 +97,29 @@ input[type=number]:focus {
     padding: 0 15px;
 }
 
+
+#tele-op::before {
+    content: "Tele-op";
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    background-color: #FFF;
+    color: #777777;
+    padding: 0 15px;
+}
+
+#endgame::before {
+    content: "endgame";
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    background-color: #FFF;
+    color: #777777;
+    padding: 0 15px;
+}
+
 #autonomous::before {
     content: "Autonomous";
     position: absolute;

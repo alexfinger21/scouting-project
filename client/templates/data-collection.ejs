@@ -32,7 +32,7 @@
 
                 <div id="input-scroller">
                     <!--PREGAME-->
-                    <div class="line" id="pre-game"></div>
+                    <div class="line" id="pre-game">ㅤ</div>
                     <div class="input-container">
                         <span>Starting Position</span>
                         <div class="NumberButtonContainer">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
 
-                    <div class="line" id="autonomous"></div>
+                    <div class="line" id="autonomous">ㅤ</div>
 
                     <div class="input-container">
                         <span>Robot Taxies (moves)</span>
@@ -84,10 +84,73 @@
                             <button type="button" class="big-button">-</button>
                         </div>
                     </div>
+
+                    <!--TELEOP-->
+                    <div class="line" id="tele-op">ㅤ</div>
+                    <div class="input-container">
+                        <span>Cargo Acquired</span>
+                        <div class="NumberButtonContainer">
+                            <button type="button" class="big-button">+</button>
+                            <input type="number" name="starting-position" min="0" max="2" value="1">
+                            <button type="button" class="big-button">-</button>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <span>Cargo High Goal</span>
+                        <div class="NumberButtonContainer">
+                            <button type="button" class="big-button">+</button>
+                            <input type="number" name="starting-position" min="0" max="2" value="1">
+                            <button type="button" class="big-button">-</button>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <span>Cargo Low Goal</span>
+                        <div class="NumberButtonContainer">
+                            <button type="button" class="big-button">+</button>
+                            <input type="number" name="starting-position" min="0" max="2" value="1">
+                            <button type="button" class="big-button">-</button>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <span>Cargo Dropped/Missed</span>
+                        <div class="NumberButtonContainer">
+                            <button type="button" class="big-button">+</button>
+                            <input type="number" name="starting-position" min="0" max="2" value="1">
+                            <button type="button" class="big-button">-</button>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <span>Defense Performed</span>
+                        <div class="NumberButtonContainer">
+                            <button type="button" class="big-button">x</button>
+                            <input type="number" name="starting-position" min="0" max="2" value="1">
+                            <button type="button" class="big-button">🗸</button>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <span>Fouls Drawn</span>
+                        <div class="NumberButtonContainer">
+                            <button type="button" class="big-button">+</button>
+                            <input type="number" name="starting-position" min="0" max="2" value="1">
+                            <button type="button" class="big-button">-</button>
+                        </div>
+                    </div>
+
+                    <!--ENDGAME-->
+                    <div class="line" id="endgame">ㅤ</div>
+                    <div class="input-container">
+                        <span>Hang Level (1-4)</span>
+                        <div class="NumberButtonContainer">
+                            <button type="button" class="big-button">+</button>
+                            <input type="number" name="starting-position" min="0" max="2" value="1">
+                            <button type="button" class="big-button">-</button>
+                        </div>
+                    </div>
                 </div>
-                <img src="../static/images/fade.png" id = "data-fade">
+                <img src="../static/images/fade.png" id="data-fade">
                 <!--SUBMIT-->
-                <button type="submit" id = "data-submit" class="big-button">Submit</button>
+                <button type="submit" id="data-submit" class="big-button">Submit</button>
             </form>
         </div>
 
