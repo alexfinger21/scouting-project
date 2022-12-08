@@ -23,6 +23,7 @@
 }
 #assigned-team {
     margin-left: 6vw;
+    margin-top: 2vh;
 }
 
 #input-scroller {
@@ -46,7 +47,7 @@
     margin-top: 1vh;
     display: flex;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: flex-end;
     flex-direction: row;
 }
 
