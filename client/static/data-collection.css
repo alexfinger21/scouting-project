@@ -10,6 +10,9 @@
 
 #match-number-form {
     margin-top: 5%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     width: 90%;
     height: 76vh;
     overflow: scroll;
@@ -18,19 +21,11 @@
     border-radius: 5px;
 }
 
-#match-number {
-    margin-left: 6vw;
-}
-#assigned-team {
-    margin-left: 6vw;
-    margin-top: 2vh;
-}
-
 #input-scroller {
     margin-top: 1vh;
     margin-bottom: 2vh;
     width: 100%;
-    height: 60vh;
+    height: 55vh;
     overflow: scroll;
     display: flex;
     align-items: center;
@@ -47,7 +42,7 @@
     margin-top: 1vh;
     display: flex;
     flex-wrap: nowrap;
-    align-items: flex-end;
+    align-items: center;
     flex-direction: row;
 }
 
