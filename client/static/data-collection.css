@@ -10,15 +10,19 @@
 
 #match-number-form {
     margin-top: 5%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
     width: 90%;
     height: 76vh;
     overflow: scroll;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+}
+
+#match-number {
+    margin-left: 6vw;
+}
+#assigned-team {
+    margin-left: 6vw;
 }
 
 #input-scroller {
