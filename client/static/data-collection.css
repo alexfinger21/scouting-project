@@ -9,14 +9,28 @@
 }
 
 #match-number-form {
-    margin-top: 10%;
+    margin-top: 5%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
+    height: 76vh;
+    overflow: scroll;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+}
+
+#input-scroller {
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    width: 100%;
+    height: 60vh;
+    overflow: scroll;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    scroll-behavior: smooth; 
 }
 
 #match-number-form span {
