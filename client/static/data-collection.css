@@ -21,11 +21,15 @@
     border-radius: 5px;
 }
 
+#assigned-team {
+    margin-top: 1vh;
+}
+
 #input-scroller {
     margin-top: 1vh;
     margin-bottom: 2vh;
     width: 100%;
-    height: 55vh;
+    height: 57vh;
     overflow: scroll;
     display: flex;
     align-items: center;
@@ -42,7 +46,7 @@
     margin-top: 1vh;
     display: flex;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: flex-end;
     flex-direction: row;
 }
 
