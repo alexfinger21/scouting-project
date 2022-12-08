@@ -132,3 +132,14 @@ input[type=number]:focus {
     color: #FF2B2B !important;
     /* overrides the default color */
 }
+
+#data-submit {
+    margin-top: 69vh;
+    position: fixed;
+}
+
+#data-fade {
+    margin-top: 60vh;
+    width: 90%;
+    position: fixed;
+}
