@@ -11,8 +11,8 @@ window.addEventListener("load", () => {
                 let input = parent.getElementsByTagName("input")[0]
 
                 if (input.type == "number") {
-                    let plusButton = parent.getElementsByTagName("button")[0]
-                    let subtractButton = parent.getElementsByTagName("button")[1]
+                    const plusButton = parent.getElementsByTagName("button")[0]
+                    const subtractButton = parent.getElementsByTagName("button")[1]
     
                     const inputMin = Number(input.min)
                     const inputMax = Number(input.max) 
@@ -25,20 +25,29 @@ window.addEventListener("load", () => {
                         input.value = clamp(Number(input.value) - 1, inputMin, inputMax)
                     })
                 }
-                else if (input.type == "checkbox") {
-                    let xButton = parent.getElementsByTagName("button")[0]
-                    let checkButton = parent.getElementsByTagName("button")[1]
+            } else if (child.getElementsByTagName("img").length == 1 && child.tagName.toLowerCase() == "button") {
+                //img
 
-                    xButton.addEventListener("click", (event) => {
-                        xButton.style.backgroundColor = "#3492EA";
-                        checkButton.style.backgroundColor = "D9D9D9";
-                    })
-    
-                    checkButton.addEventListener("click", (event) => {
-                        checkButton.style.backgroundColor = "#3492EA";
-                        xButton.style.backgroundColor = "D9D9D9";
-                    })
-                }
+                const parent = child.parentElement
+                
+                const xButton = parent.getElementsByTagName("button")[0]
+                const checkButton = parent.getElementsByTagName("button")[1]
+                
+                //initialize
+
+                xButton.style.backgroundColor = "#D9D9D9"
+                checkButton.style.backgroundColor = "#D9D9D9"
+
+                xButton.addEventListener("click", (event) => {
+                    console.log("clicked")
+                    xButton.style.backgroundColor = "#3492EA"
+                    checkButton.style.backgroundColor = "#D9D9D9"
+                })
+
+                checkButton.addEventListener("click", (event) => {
+                    checkButton.style.backgroundColor = "#3492EA"
+                    xButton.style.backgroundColor = "#D9D9D9"
+                })
             }
         }
     }
