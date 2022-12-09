@@ -86,6 +86,17 @@ input[type=number]:focus {
     text-underline-offset: 0.5vh;
 }
 
+input[list="recommended-games"] {
+    width: 15vw !important;
+}
+
+#button-checkmark {
+    display: block;
+    height: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #pre-game::before {
     content: "Pre-Game";
     position: absolute;
