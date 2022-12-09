@@ -39,7 +39,6 @@ window.addEventListener("load", () => {
                 checkButton.style.backgroundColor = "#D9D9D9"
 
                 xButton.addEventListener("click", (event) => {
-                    console.log("clicked")
                     xButton.style.backgroundColor = "#3492EA"
                     checkButton.style.backgroundColor = "#D9D9D9"
                 })
