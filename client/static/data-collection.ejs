@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Log In</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+    <link rel="stylesheet" href="../static/universal.css">
+    <link rel="stylesheet" href="../static/team-summary.css">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
+
+</head>
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+    <script src="../static/scripts/team-summary.js" defer></script>
+    <%- include("../static/partials/header") %>
+
+        <div id="page-holder">
+            <div id="legend">
+                <h1>Legend</h1>
+                <div class="line" id="divider">ㅤ</div>
+                <ul>
+                    <li>
+                        The climb letter is represented by the letter on the graph
+                    </li>
+                    <li>
+                        The shooting ability is represented by the color of the letter
+                    </li>
+                </ul>
+            </div>
+
+            <div id="graph-holder">
+                <!--Chart.js-->
+                <canvas id="teamSummaryChart" style="width:100%; height: 500px"></canvas>
+
+            </div>
+        </div>
+
+        <%- include("../static/partials/footer") %>
+
+</body>
+
+</html>

@@ -2,10 +2,9 @@ const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
 
-const testUser = {
-    team_number: 695,
-    username: "alex", 
-    password: "npc"
+const user = { //TEST USER
+    assignedTeam: 695,
+    teamColor: "red"
 }
 
 router.get("/", function(req, res) {
@@ -26,9 +25,9 @@ router.post("/", function(req, res) {
     const body = req.body
     console.log(body)
 
-    if (body.username == testUser.username) {
-        if (body.password == testUser.password) {
-            if (body.team_number == testUser.team_number) {
+    if (body.username == user.username) {
+        if (body.password == user.password) {
+            if (body.team_number == user.team_number) {
                 //successful login
                 res.cookie("user_id", crypto.randomBytes(32).toString, {
                     maxAge: 86400 * 1000,

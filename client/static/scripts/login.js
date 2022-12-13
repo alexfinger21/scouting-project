@@ -1,4 +1,4 @@
-const loginPath = "/login"
+import {loginPath} from "./utility.js"
 
 window.addEventListener("load", function() {
     console.log(document.getElementsByClassName("centerform")[0])
