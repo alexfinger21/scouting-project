@@ -12,8 +12,9 @@ const routeDirectory = "routers"
 //ROUTERS
 
 const login = require(path.resolve(serverDirectory, routeDirectory, "login.js"))
+const dataCollection = require(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))
 
-//CONSTS
+//CONSTANTS
 const user = { //TEST USER
     assignedTeam: 695,
     teamColor: "red"
@@ -48,12 +49,7 @@ app.get("/", function(req, res) { //only gets used if the url == /
 app.use("/login", login) //it makes the app use the login router's get and post methods. its a replacement for get and post for the specific path
 
 //DATA COLLECTION
-app.get("/data-collection", function(req, res) { //only gets used if the url == data-collection
-    console.log("hi")
-    res.render("data-collection", {
-        user
-    })
-})
+app.use("/data-collection", dataCollection)
 
 //PORT
 app.listen(3000) //goes to localhost 3000
