@@ -3,8 +3,9 @@ const router = express.Router()
 const crypto = require("crypto")
 
 const user = { //TEST USER
-    assignedTeam: 695,
-    teamColor: "red"
+    team_number: 695,
+    username: "alex",
+    password: "npc"
 }
 
 router.get("/", function(req, res) {

@@ -2,8 +2,9 @@ const express = require("express")
 const router = express.Router()
 
 const user = { //TEST USER
-    assignedTeam: 695,
-    teamColor: "red"
+    team_number: 695,
+    username: "alex",
+    password: "npc"
 }
 
 router.get("/",  function(req, res) { //only gets used if the url == data-collection
