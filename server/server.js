@@ -16,8 +16,9 @@ const dataCollection = require(path.resolve(serverDirectory, routeDirectory, "da
 
 //CONSTANTS
 const user = { //TEST USER
-    assignedTeam: 695,
-    teamColor: "red"
+    team_number: 695,
+    username: "alex",
+    password: "npc"
 }
 
 app.use("/static", express.static("./client/static"))
