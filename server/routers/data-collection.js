@@ -14,7 +14,6 @@ router.get("/",  function(req, res) { //only gets used if the url == data-collec
 })
 
 router.post("/", function(req, res) {
-    //TO DO - SQL QUERY TO RETRIEVE THE USER
     const body = req.body
     console.log(body)
 
