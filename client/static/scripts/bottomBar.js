@@ -1,3 +1,13 @@
+let globalPos = 0;
+
+function moveToPage(pos) {
+    return new Promise((res, rej) => {    
+        for (let i = 0; i <= 1; i+=i/50) {
+            wait()
+        }
+    })
+}
+
 window.addEventListener("load", () => {
 
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
