@@ -69,8 +69,10 @@ input::-webkit-inner-spin-button {
 
   
 .footer-icon {
+  position: relative;
   object-fit: contain;
   height: 4.5vh;
+  z-index: 3;
 }
 
 .button-wrapper {
@@ -90,8 +92,10 @@ input::-webkit-inner-spin-button {
 }
 
 .footer-subtext {
+  position: relative;
   font-size: 1.5vh;
   color: #2D3B55;
+  z-index: 3;
 }
 
 #footer-wrapper {
