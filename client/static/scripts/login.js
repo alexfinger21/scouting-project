@@ -1,6 +1,6 @@
 import {loginPath} from "./utility.js"
 
-window.addEventListener("load", function() {
+window.addEventListener("load", () => {
     console.log(document.getElementsByClassName("centerform")[0])
     const form = document.getElementsByClassName("centerform")[0]
 
