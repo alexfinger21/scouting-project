@@ -1,10 +1,29 @@
 let globalPos = 0;
+const speed = 10;
 
-function moveToPage(pos) {
+function moveToPage(ogPos, pos, btn) {
+    if (pos == globalPos) return
+    
+    globalPos = pos
+
     return new Promise((res, rej) => {    
-        for (let i = 0; i <= 1; i+=i/50) {
-            wait()
+        //console.log(speed/Math.abs(pos-ogPos))
+        for (let i = 0; i <= 1; i+=speed/Math.abs(pos-ogPos)) {
+            if (pos != globalPos) {
+                rej("already clicked")
+                return
+            }
+
+            //console.log(btn.style.left)
+
+            setTimeout(() => {btn.style.left = ogPos + (pos-ogPos) * i + "px"}, 100*i)
+
+            if (i+speed/Math.abs(pos-ogPos) > 1) {
+                i = 1;
+            }
         }
+
+        res("done")
     })
 }
 
@@ -31,7 +50,7 @@ window.addEventListener("load", () => {
         buttonUrls[btn.children[1].textContent] = btn.children[1].textContent.replaceAll(" ", "-").toLowerCase()
 
         btn.addEventListener("click", event => {
-            //btn.style.backgroundColor = "#ffffff"
+            moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
         })
     })
 
