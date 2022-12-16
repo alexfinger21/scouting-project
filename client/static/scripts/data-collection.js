@@ -48,7 +48,7 @@ new Chart("teamSummaryChart", {
             }],
         },
         legend: {
-            display: false,
+            display: false
         },
         layout: {
             padding: {
