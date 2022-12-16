@@ -7,7 +7,10 @@
     <title>Log In</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel="stylesheet" href="../static/universal.css">
-    <link rel="stylesheet" href="../static/data-collection.css">
+    <link rel="stylesheet" href="../static/team-summary.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
+    
 </head>
 
 <body>
@@ -20,169 +23,10 @@
             <form id="match-number-form" action="/data-collection" method="POST">
                 <!-- MATCH NUMBER-->
 
-                <div class="small-input-container" id="match-number">
-                    <label for="match-number"><b>Match Number:</b></label>
-                    <input id="games-val" type="number" name="match-number" list="games">
-                    
-                    <datalist id="games">
-                        <option value="1">
-                        <option value="2">
-                        <option value="3">
-                        <option value="4">
-                        <option value="5">
-                    </datalist>
-                </div>
-
-                <!--ASSIGNED TEAM-->
-                <div id="assigned-team">
-                    <span>Assigned Team: </span>
-                    <span class=<%=user.teamColor %> > <%= user.assignedTeam %></span>
-                </div>
-
-                <div id="input-scroller">
-                    <!--PREGAME-->
-                    <div class="line" id="pre-game">ㅤ</div>
-                    <div class="input-container">
-                        <span>Starting Position</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="starting-position" min="1" max="6" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Robot Preload</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="robot-preload">
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="line" id="autonomous">ㅤ</div>
-
-                    <div class="input-container">
-                        <span>Robot Taxies (moves)</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="robot-taxies">
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Auto Cargo Acquired</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="auto-cargo-acquired" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Auto Cargo High Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="auto-cargo-high-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Auto Cargo Low Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="auto-cargo-low-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-
-                    <!--TELEOP-->
-                    <div class="line" id="tele-op">ㅤ</div>
-                    <div class="input-container">
-                        <span>Cargo Acquired</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-acquired" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-
-                    <div class="input-container">
-                        <span>Cargo High Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-high-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Cargo Low Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-low-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Cargo Dropped/Missed</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-dropped" min="0" max="2" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Defense Performed</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="defense-performed" >
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Fouls Drawn</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="fouls-drawn" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-
-                    <!--ENDGAME-->
-                    <div class="line" id="Endgame">ㅤ</div>
-                    <div class="input-container">
-                        <span>Hangar Attempt</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="hangar-attempt" >
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Hang Level (0-4)</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="hang-level" min="0" max="4" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <!--EXTRA SPACING AT THE END-->
-                    <div>
-                        ㅤ
-                    </div>
-                </div>
-
-                <!--SUBMIT-->
-                <img src="../static/images/fade.png" id="data-fade">
-                <!--fade out at the bottom-->
-                <button type="submit" id="data-submit" class="big-button">Submit</button>
-            </form>
+            <div id="graph-holder">
+                <!--Chart.js-->
+                <canvas id="teamSummaryChart" style="width:100%; height: 500px"></canvas>
+            </div>
         </div>
 
         <%- include("../static/partials/footer") %>

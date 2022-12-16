@@ -33,7 +33,7 @@ window.addEventListener("load", () => {
 
     const hoverButton = document.createElement('div');
     hoverButton.style.position = "absolute"
-    hoverButton.style.backgroundColor = "#ffffff"
+    hoverButton.style.backgroundColor = "#cce6ff"
     hoverButton.style.zIndex = 1
 
     //hoverButton.style.top = String(footerPageButtons[0].getBoundingClientRect().top) + "px"
