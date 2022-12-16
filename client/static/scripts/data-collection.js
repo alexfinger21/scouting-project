@@ -1,5 +1,3 @@
-const { createPublicKey } = require("crypto")
-
 const T = new Image()
 T.src = "https://th.bing.com/th/id/OIP.gWZUaARRArsTT9Q-PR_z8QHaHa?pid=ImgDet&rs=1"
 T.height = 20
@@ -21,8 +19,15 @@ const points = [
 
 new Chart("teamSummaryChart", {
     type: "scatter",
+    labels: [
+        "red",
+        "blue",
+        "true",
+        "false"
+    ],
     data: {
         datasets: [{
+            label: "yes",
             pointRadius: 4,
             pointStyle: points.map(p => p.shape),
             borderColor: points.map(p => p.color),
@@ -31,7 +36,6 @@ new Chart("teamSummaryChart", {
         }]
     },
     options: {
-        labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
         scales: {
             xAxes: [{
                 scaleLabel: {
@@ -56,6 +60,5 @@ new Chart("teamSummaryChart", {
                 right: 20
             }
         }
-    },
-    tooltipEvents: ["click"]
+    }
 })
