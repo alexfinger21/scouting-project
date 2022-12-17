@@ -13,6 +13,7 @@ const routeDirectory = "routers"
 
 const login = require(path.resolve(serverDirectory, routeDirectory, "login.js"))
 const dataCollection = require(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))
+const teamSummary = require(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))
 
 //CONSTANTS
 const user = { //TEST USER
@@ -51,6 +52,9 @@ app.use("/login", login) //it makes the app use the login router's get and post 
 
 //DATA COLLECTION
 app.use("/data-collection", dataCollection)
+
+//TEAM SUMMARY
+app.use("/team-summary", teamSummary)
 
 //PORT
 app.listen(3000) //goes to localhost 3000
