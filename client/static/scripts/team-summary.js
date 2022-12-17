@@ -11,6 +11,7 @@ const observer = new MutationObserver(function(mutations_list) {
 });
 
 observer.observe(document.body, { subtree: false, childList: true });
+window.addEventListener("load", main)
 
 function main() {
     const letterOptions = [
@@ -133,5 +134,4 @@ function main() {
         }
     })
 }
-window.addEventListener("load", main)
 
