@@ -35,7 +35,8 @@ h1 {
 }
 
 #graph-holder {
-    margin-top: 5%;
+    margin-top: 3.5vh;
+    margin-bottom: 3.5vh;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -44,4 +45,9 @@ h1 {
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+}
+
+#update-graph {
+    box-shadow: 0 6px #3077b9;
+    transition: all .1s ease-in-out;
 }
