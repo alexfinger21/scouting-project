@@ -1,0 +1,97 @@
+import {selectRandom, getColor} from "./utility.js"
+
+//Point style options
+const letterOptions = [
+    "l",
+    "t"
+]
+
+//Point color options
+const colorOptions = [
+    "red",
+    "green",
+    "yellow"
+]
+
+//Generates a dictionary containing randomized values
+function generatePoint() {
+    const img = new Image()
+
+    let letter = selectRandom(letterOptions)
+    let color = selectRandom(colorOptions)
+
+    img.src = "../static/images/letters/" + letter + "/" + color + ".png"
+    console.log(img.src)
+    img.height = 15
+    img.width = 12
+
+    let teamName = "Team " +  Math.round(Math.random() * 9999)
+
+    return {teamName, x: Math.round(Math.random() * 50), y: Math.round(Math.random() * 50), shape: img, color: getColor(color) }
+}
+
+//Returns the data to be fed into a chart.js scatterchart given an array containing the points
+function createGraph(points) {
+    return {
+        type: 'scatter',
+        data: {
+            teamName: points.map(p => p.teamName),
+            datasets: [{
+                label: 'Legend',
+                pointRadius: 4,
+                pointStyle: points.map(p => p.shape),
+                borderColor: points.map(p => p.color),
+                pointBackgroundColor: points.map(p => p.color),
+                data: points
+            }]
+        },
+        options: {
+            tooltips: {
+                bodyFontStyle: "bold",
+                footerFontStyle: "normal",
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        let teamName = data.teamName[tooltipItem.index];
+                        let text = [teamName + ": (" + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ")"]
+                        return text;
+                    },
+                    //color does not appear before the footer
+                    footer: function (tooltipItems, data) {
+                        return [
+                            "Plays Defense: ✅",
+                            "Avg. Auto Score: 4",
+                            "Avg. Tele-op Score: 2",
+                            "Avg. Endgame Score: 15"
+                        ]
+                    }
+                }
+            },
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Team Ranking",
+                    },
+                }],
+    
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Average Total Score",
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            },
+            layout: {
+                padding: {
+                    top: 20,
+                    right: 20
+                }
+            }
+        }
+    }
+}
+
+export {generatePoint, createGraph}
