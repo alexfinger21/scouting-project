@@ -30,7 +30,7 @@ function generatePoint() {
     return {teamName, x: Math.round(Math.random() * 50), y: Math.round(Math.random() * 50), shape: img, color: getColor(color) }
 }
 
-function writeData() {
+function writeData(points) {
     return {
         teamName: points.map(p => p.teamName),
         datasets: [{
@@ -98,4 +98,4 @@ function createGraph(points, chartType) {
     }
 }
 
-export {generatePoint, createGraph}
+export {generatePoint, createGraph, writeData}
