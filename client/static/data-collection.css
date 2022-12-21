@@ -179,6 +179,9 @@
 #data-submit {
     margin-top: 69vh;
     position: fixed;
+    
+    box-shadow: 0 6px #3077b9;
+    transition: all .1s ease-in-out;
 }
 
 #data-fade {

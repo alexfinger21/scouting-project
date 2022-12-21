@@ -107,4 +107,19 @@ function main() {
             }
         }
     }
+
+    const submitButton = document.getElementById("data-submit")
+    submitButton.addEventListener("click", () => {
+        //animate the button click effect
+        submitButton.style.backgroundColor = "#3b86cc"
+        submitButton.style.boxShadow = "0 2px #1c3750"
+        submitButton.style.transform = "translateY(4px)"
+
+        //animate the button back
+        setTimeout(() => {
+            submitButton.style.backgroundColor = "#3492EA"
+            submitButton.style.boxShadow = "0 6px #3077b9"
+            submitButton.style.transform = ""
+        }, 100); //in milliseconds
+    })
 }
