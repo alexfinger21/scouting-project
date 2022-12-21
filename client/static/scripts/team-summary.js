@@ -39,6 +39,9 @@ function main() {
         for (let i = 0; i < 10; i++) {
             points.push(graphHandler.generatePoint())
         }
+
+        console.log(graphHandler)
+
         scatterChart.data = graphHandler.writeData(points)
         scatterChart.update()
 
