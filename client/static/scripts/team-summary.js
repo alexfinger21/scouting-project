@@ -1,4 +1,4 @@
-import { generatePoint, createGraph } from "./graphHandler.js";
+import * as graphHandler from "./graphHandler.js";
 
 //When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
@@ -18,12 +18,12 @@ function main() {
     //create a point array
     let points = []
     for (let i = 0; i < 10; i++) {
-        points.push(generatePoint())
+        points.push(graphHandler.generatePoint())
     }
 
     //write point array to a scatterplot
     const ctx = document.getElementById("teamSummaryChart").getContext("2d")
-    let scatterChart = new Chart(ctx, createGraph(points, "scatter"))
+    let scatterChart = new Chart(ctx, graphHandler.createGraph(points, "scatter"))
 
     //when the update button is clicked, redraw the graph
     const updateButton = document.getElementById("update-graph")
@@ -37,9 +37,10 @@ function main() {
         //create a new point array
         points = []
         for (let i = 0; i < 10; i++) {
-            points.push(generatePoint())
+            points.push(graphHandler.generatePoint())
         }
-        scatterChart = new Chart(ctx, createGraph(points, "scatter"))
+        scatterChart.data = graphHandler.writeData(points)
+        scatterChart.update()
 
         //animate the button back
         setTimeout(() => {

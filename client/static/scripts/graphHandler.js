@@ -30,21 +30,25 @@ function generatePoint() {
     return {teamName, x: Math.round(Math.random() * 50), y: Math.round(Math.random() * 50), shape: img, color: getColor(color) }
 }
 
+function writeData() {
+    return {
+        teamName: points.map(p => p.teamName),
+        datasets: [{
+            label: 'Legend',
+            pointRadius: 4,
+            pointStyle: points.map(p => p.shape),
+            borderColor: points.map(p => p.color),
+            pointBackgroundColor: points.map(p => p.color),
+            data: points
+        }]
+    }
+}
+
 //Returns the data to be fed into a chart.js scatterchart given an array containing the points
 function createGraph(points, chartType) {
     return {
         type: chartType,
-        data: {
-            teamName: points.map(p => p.teamName),
-            datasets: [{
-                label: 'Legend',
-                pointRadius: 4,
-                pointStyle: points.map(p => p.shape),
-                borderColor: points.map(p => p.color),
-                pointBackgroundColor: points.map(p => p.color),
-                data: points
-            }]
-        },
+        data: writeData(points),
         options: {
             tooltips: {
                 bodyFontStyle: "bold",
