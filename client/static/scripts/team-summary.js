@@ -7,9 +7,9 @@ const observer = new MutationObserver(function (mutations_list) {
             if (removed_node.id == 'page-holder') {
                 main()
             }
-        });
-    });
-});
+        })
+    })
+})
 
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
@@ -23,7 +23,7 @@ function main() {
 
     //write point array to a scatterplot
     const ctx = document.getElementById("teamSummaryChart").getContext("2d")
-    let scatterChart = new Chart(ctx, createGraph(points))
+    let scatterChart = new Chart(ctx, createGraph(points, "scatter"))
 
     //when the update button is clicked, redraw the graph
     const updateButton = document.getElementById("update-graph")
@@ -39,7 +39,7 @@ function main() {
         for (let i = 0; i < 10; i++) {
             points.push(generatePoint())
         }
-        scatterChart = new Chart(ctx, createGraph(points))
+        scatterChart = new Chart(ctx, createGraph(points, "scatter"))
 
         //animate the button back
         setTimeout(() => {

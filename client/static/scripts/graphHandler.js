@@ -31,9 +31,9 @@ function generatePoint() {
 }
 
 //Returns the data to be fed into a chart.js scatterchart given an array containing the points
-function createGraph(points) {
+function createGraph(points, chartType) {
     return {
-        type: 'scatter',
+        type: chartType,
         data: {
             teamName: points.map(p => p.teamName),
             datasets: [{
@@ -51,9 +51,9 @@ function createGraph(points) {
                 footerFontStyle: "normal",
                 callbacks: {
                     label: function (tooltipItem, data) {
-                        let teamName = data.teamName[tooltipItem.index];
+                        let teamName = data.teamName[tooltipItem.index]
                         let text = [teamName + ": (" + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ")"]
-                        return text;
+                        return text
                     },
                     //color does not appear before the footer
                     footer: function (tooltipItems, data) {
