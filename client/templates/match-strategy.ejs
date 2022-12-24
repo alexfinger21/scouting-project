@@ -7,7 +7,7 @@
     <title>Log In</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel="stylesheet" href="../static/universal.css">
-    <link rel="stylesheet" href="../static/team-summary.css">
+    <link rel="stylesheet" href="../static/match-strategy.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
 
@@ -17,17 +17,17 @@
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <%- include("../static/partials/header") %>
     <div id="page-holder">
-        <div id="legend">
-            <h1>hi</h1>
-            <div class="line" id="divider">ㅤ</div>
-            <ul>
-                <li>
-                    no
-                </li>
-                <li>
-                    yes
-                </li>
-            </ul>
+        <div class="small-input-container" id="match-number">
+            <label for="match-number"><b>Select Match:</b></label>
+            <input id="games-val" type="number" name="match-number" list="games">
+            
+            <datalist id="games">
+                <option value="1">
+                <option value="2">
+                <option value="3">
+                <option value="4">
+                <option value="5">
+            </datalist>
         </div>
     </div>
 </body>
