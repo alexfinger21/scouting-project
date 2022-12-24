@@ -14,6 +14,7 @@ const routeDirectory = "routers"
 const login = require(path.resolve(serverDirectory, routeDirectory, "login.js"))
 const dataCollection = require(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))
 const teamSummary = require(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))
+const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
 
 //CONSTANTS
 const user = { //TEST USER
@@ -55,6 +56,9 @@ app.use("/data-collection", dataCollection)
 
 //TEAM SUMMARY
 app.use("/team-summary", teamSummary)
+
+app.use("/match-strategy", matchStrategy)
+
 
 //PORT
 app.listen(3000) //goes to localhost 3000
