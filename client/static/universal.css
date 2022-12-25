@@ -46,22 +46,27 @@ input::-webkit-inner-spin-button {
   }
 
   #dropdown-content {
-    display: none;
-    position: absolute;
-    z-index: 100;
+    display: block;
+    position: fixed;
     background-color: #fff;
     width: 15vw;
-    transform: translateX(-1vh);
+    transform: translate(-1.5vw, 1.5vh);
     text-align: left;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
+    border-radius: 0px 0px 5px 5px;
+    overflow: hidden;
+    
+    transition: max-height 0.5s;
+    max-height: 0;
   }
+
 
   #headerlogin .container{
     /*box-shadow: 0px -2px 15px rgb(135, 173, 209) inset;*/
     position: fixed;
     box-sizing: border-box;
     display: flex;
+    z-index: 100;
     align-items: center;
     flex-wrap: nowrap;
     flex-direction: row;
