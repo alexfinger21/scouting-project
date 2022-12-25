@@ -7,7 +7,7 @@ const user = { //TEST USER
     password: "npc"
 }
 
-router.get("/",  function(req, res) { //only gets used if the url == data-collection
+router.get("/",  function(req, res) { //only gets used if the url == team-summary
     res.render("team-summary", {
         user
     })

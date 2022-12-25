@@ -24,7 +24,7 @@ const tableLabels = [
     "Defensive Score"
 ]
 
-router.get("/",  function(req, res) { //only gets used if the url == data-collection
+router.get("/",  function(req, res) { //only gets used if the url == match-strategy
     res.render("match-strategy", {
         matches: matches,
         teamData: teamData,
