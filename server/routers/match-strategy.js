@@ -1,15 +1,34 @@
 const express = require("express")
 const router = express.Router()
 
-const user = { //TEST USER
-    team_number: 695,
-    username: "alex",
-    password: "npc"
-}
+const matches = [
+    {occured: true, id: "1", winner: "red"},
+    {occured: true, id: "2", winner: "blue"},
+    {occured: false, id: "3", winner: "undecided"},
+    {occured: false, id: "4", winner: "undecided"},
+]
+
+const teamData = [ //TEST data
+    //team, alliance color,  avg hangar points, avg scoring, defensive score
+    [4269, "red", 6, 15, 5],
+    [6834, "red", 3, 12, 34],
+    [5324, "red", 3, 213, 34],
+    [1233, "blue", 3, 12, 34],
+    [2134, "blue", 1, 12, 34],
+    [3431, "blue", 3, 12, 34],
+]
+
+const tableLabels = [
+    "Avg Hangar Pts",
+    "Avg Scoring",
+    "Defensive Score"
+]
 
 router.get("/",  function(req, res) { //only gets used if the url == data-collection
     res.render("match-strategy", {
-        user
+        matches: matches,
+        teamData: teamData,
+        tableLabels: tableLabels
     })
 })
 

@@ -1,0 +1,38 @@
+#select-match {
+    margin-top: 2vh;
+}
+
+#stats {
+    margin-top: 2%;
+    width: 95%;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 0.5vh;
+    font-size: 1.8vh;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 4px;
+    font-weight: normal;
+}
+
+tr:nth-child(even) { /* copied from w3schools lol*/
+    background-color: #dddddd;
+}
+
+#winner {
+    color:#5B6671;
+    margin-top: 5vh;
+    font-size: 3vh;
+}
+
+.blue {
+    color: #3492EA;
+}
+
+.red {
+    color: #FF2A2A;
+}

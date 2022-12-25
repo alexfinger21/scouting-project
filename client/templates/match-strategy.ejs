@@ -7,7 +7,6 @@
     <title>Log In</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel="stylesheet" href="../static/universal.css">
-    <link rel="stylesheet" href="../static/match-strategy.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
 
@@ -17,17 +16,46 @@
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <%- include("../static/partials/header") %>
     <div id="page-holder">
-        <div class="small-input-container" id="match-number">
-            <label for="match-number"><b>Select Match:</b></label>
-            <input id="games-val" type="number" name="match-number" list="games">
+        <div class="small-input-container" id="select-match">
+            <label for="select-match"><b>Select Match:</b></label>
+            <input id="available-matches" type="number" name="select-match" list="games">
             
             <datalist id="games">
-                <option value="1">
-                <option value="2">
-                <option value="3">
-                <option value="4">
-                <option value="5">
+                <% for(let i = 0; i < matches.length; i++) { %>
+                    <option>
+                        <%= matches[i].id %>
+                    </option>
+                <% } %>
             </datalist>
         </div>
+
+        <table id="stats">
+            <tr>
+                <th>
+                      
+                </th>
+                <% for(let y = 0; y < teamData.length; y++) { %>
+                    <th class= <%= teamData[y][1] %> >
+                        <%= teamData[y][0] %>
+                    </th>
+                <% } %>
+            </tr>
+            <% for(let x = 2; x < teamData[1].length; x++) { %>
+                <tr>
+                    <td>
+                        <%=tableLabels[x-2]%>
+                    </td>
+                    <% for(let y = 0; y < teamData.length; y++) { %>
+                        <td>
+                            <%=teamData[y][x]%>
+                        </td>
+                    <% } %>
+                </tr>
+            <% } %>
+        </table>
+
+        <h1 id="winner">
+            <%= "Winner: " %>
+        </h1>
     </div>
 </body>
