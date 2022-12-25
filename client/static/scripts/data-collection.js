@@ -126,14 +126,24 @@ function main() {
     const dropdown = document.getElementById("dropdown")
     const content = document.getElementById("dropdown-content")
 
+    let maxHeight = 0
+
+    Array.from(content.children).forEach((element) => {
+        maxHeight += element.clientHeight
+    })
+
+    maxHeight += 10
+
     //when the button is clicked, adds the "show" class to the dropdowncontent
     dropdown.addEventListener("click", () => {
-        content.style.display = "block" //enable
+        content.style.maxHeight = String(maxHeight) + "px"
     })
+    
     //close the dropdown content when the user clicks outside of the button
     window.addEventListener("click", (event) => {
-        if (!event.target.matches("#dropdownImg")) { //clicked outside of the button
-            content.style.display = "none" //disable
+        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content")) { 
+            console.log(event.target)
+            content.style.maxHeight = "0px"
         }
     })
 }
