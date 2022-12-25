@@ -29,12 +29,32 @@ input::-webkit-inner-spin-button {
     margin-left: 2%;
     object-fit: cover;
   }
+
   #dropdown {
-    height: 3vh;
+    height: 4vh;
+    aspect-ratio: 1.2;
+    background-color: transparent;
+    border: none;
     padding: 0.2%;
     margin-right: 5%;
     margin-left: auto;
+  }
+
+  #dropdownImg {
+    height: 100%;
     object-fit: cover;
+  }
+
+  #dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    background-color: #fff;
+    width: 15vw;
+    transform: translateX(-1vh);
+    text-align: left;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
   }
 
   #headerlogin .container{

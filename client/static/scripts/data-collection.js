@@ -122,4 +122,18 @@ function main() {
             submitButton.style.transform = ""
         }, 100); //in milliseconds
     })
+
+    const dropdown = document.getElementById("dropdown")
+    const content = document.getElementById("dropdown-content")
+
+    //when the button is clicked, adds the "show" class to the dropdowncontent
+    dropdown.addEventListener("click", () => {
+        content.style.display = "block" //enable
+    })
+    //close the dropdown content when the user clicks outside of the button
+    window.addEventListener("click", (event) => {
+        if (!event.target.matches("#dropdownImg")) { //clicked outside of the button
+            content.style.display = "none" //disable
+        }
+    })
 }
