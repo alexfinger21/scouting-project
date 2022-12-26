@@ -56,7 +56,7 @@ input::-webkit-inner-spin-button {
     border-radius: 0px 0px 5px 5px;
     overflow: hidden;
     
-    transition: max-height 0.5s;
+    transition: max-height 0.3s;
     max-height: 0;
   }
 
