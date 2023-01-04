@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <script type="module" src="../static/scripts/bottomBar.js" defer></script>
+    <div id="page-holder">
+        <div class="small-input-container" id="select-match">
+            <label for="select-match"><b>Select Match:</b></label>
+            <input id="available-matches" type="number" name="select-match" list="games">
+            
+            <datalist id="games">
+                <% for(let i = 0; i < matches.length; i++) { %>
+                    <option>
+                        <%= matches[i] %>
+                    </option>
+                <% } %>
+            </datalist>
+        </div>
+
+        <table id="stats">
+            <tr>
+                <th>
+                      
+                </th>
+                <% for(let y = 0; y < info.teamData.length; y++) { %>
+                    <th class= <%= info.teamData[y][1] %> >
+                        <%= info.teamData[y][0] %>
+                    </th>
+                <% } %>
+            </tr>
+            <% for(let x = 2; x < info.teamData[1].length; x++) { %>
+                <tr>
+                    <td>
+                        <% if(info.undecided) { %>
+                            <%=undecidedTableLabels[x-2]%>
+                        <% } else { %>
+                            <%= decidedTableLabels[x-2] %>
+                        <% } %>
+                    </td>
+                    <% for(let y = 0; y < info.teamData.length; y++) { %>
+                        <td>
+                            <%=info.teamData[y][x]%>
+                        </td>
+                    <% } %>
+                </tr>
+            <% } %>
+        </table>
+
+        <div id="scoring">
+            <div id="red-score">
+                <% if(info.undecided) {%>
+                    <h4>
+                        Red Team Predicted Score
+                    </h4>
+                    <h2>
+                        <%= info.redPredictedScore %>
+                    </h2>
+                <% } else { %>
+                    <h4>
+                        Red Team  Score
+                    </h4>
+                    <h2>
+                        <%= info.redScore %>
+                    </h2>
+                <% } %>
+            </div>
+    
+            <div id="blue-score">
+                <% if(info.undecided) {%>
+                    <h4>
+                        Blue Team Predicted Score
+                    </h4>
+                    <h2>
+                        <%= info.bluePredictedScore %>
+                    </h2>
+                <% } else { %>
+                    <h4>
+                        Blue Team  Score
+                    </h4>
+                    <h2">
+                        <%= info.blueScore %>
+                    </h2>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="strategy-display">
+             <!--<em> is for red text and <b> is for blue text-->
+            <p class="strategy-header">
+                Suggested Strategy for <b>Blue Team</b>
+            </p>
+            <div class="strategy-divider">ㅤ</div>
+            <p>
+                <%- info.blueStrategy[0] %>
+            </p>
+            <p>
+                <%- info.blueStrategy[1] %>
+            </p>
+            <p>
+                <%- info.blueStrategy[2] %>
+            </p>
+        </div>
+
+        <div class="strategy-display">
+            <!--<em> is for red text and <b> is for blue text-->
+           <p class="strategy-header">
+               Suggested Strategy for <em>Red Team</em>
+           </p>
+           <div class="strategy-divider">ㅤ</div>
+           <p>
+               <%- info.redStrategy[0] %>
+           </p>
+           <p>
+               <%- info.redStrategy[1] %>
+           </p>
+           <p>
+               <%- info.redStrategy[2] %>
+           </p>
+       </div>
+    </div>
+</body>
