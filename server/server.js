@@ -45,8 +45,11 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
 
 //DEFAULT PATH
 app.get("/", function(req, res) { //only gets used if the url == /
-   res.redirect("data-collection")
+   res.redirect("main")
 })
+
+//MAIN
+app.use("/app", dataCollection)
 
 //LOGIN
 app.use("/login", login) //it makes the app use the login router's get and post methods. its a replacement for get and post for the specific path
