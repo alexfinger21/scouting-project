@@ -1,12 +1,6 @@
+const user = require("../user")
 const express = require("express")
 const router = express.Router()
-
-const user = { //TEST USER
-    team_number: 695,
-    username: "alex",
-    password: "npc",
-    admin: true,
-}
 
 router.get("/",  function(req, res) { //only gets used if the url == data-collection
     res.render("data-collection", {

@@ -1,3 +1,4 @@
+const user = require("../user")
 const express = require("express")
 const router = express.Router()
 
@@ -60,7 +61,8 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
         matches: matches,
         info: testInfo1,
         undecidedTableLabels: undecidedTableLabels,
-        decidedTableLabels: decidedTableLabels
+        decidedTableLabels: decidedTableLabels,
+        user: user,
     })
 })
 

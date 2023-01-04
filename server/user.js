@@ -1,3 +1,4 @@
+/*
 class user {
 
     #username
@@ -16,3 +17,13 @@ class user {
         return this.#password
     }
 }
+*/
+
+let user = {
+    team_number: 695,
+    username: "alex",
+    password: "npc",
+    admin: true,
+}
+
+module.exports = user
