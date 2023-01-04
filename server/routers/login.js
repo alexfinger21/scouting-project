@@ -1,13 +1,7 @@
+const user = require("../user")
 const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
-
-const user = { //TEST USER
-    team_number: 695,
-    username: "alex",
-    password: "npc",
-    admin: true,
-}
 
 router.get("/", function(req, res) {
 
