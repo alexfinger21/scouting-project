@@ -20,7 +20,8 @@ const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "mat
 const user = { //TEST USER
     team_number: 695,
     username: "alex",
-    password: "npc"
+    password: "npc",
+    admin: true,
 }
 
 app.use("/static", express.static("./client/static"))

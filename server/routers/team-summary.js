@@ -4,7 +4,8 @@ const router = express.Router()
 const user = { //TEST USER
     team_number: 695,
     username: "alex",
-    password: "npc"
+    password: "npc",
+    admin: true,
 }
 
 router.get("/",  function(req, res) { //only gets used if the url == team-summary
