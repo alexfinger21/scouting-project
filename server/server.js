@@ -45,7 +45,7 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
 
 //DEFAULT PATH
 app.get("/", function(req, res) { //only gets used if the url == /
-   res.redirect("main")
+   res.redirect("app")
 })
 
 //MAIN
