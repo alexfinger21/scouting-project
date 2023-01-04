@@ -10,7 +10,7 @@ const user = { //TEST USER
 
 router.get("/",  function(req, res) { //only gets used if the url == data-collection
     res.render("data-collection", {
-        user
+        user: user
     })
 })
 
