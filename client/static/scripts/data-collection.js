@@ -141,7 +141,7 @@ function main() {
     
     //close the dropdown content when the user clicks outside of the button
     window.addEventListener("click", (event) => {
-        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content")) { 
+        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) { 
             console.log(event.target)
             content.style.maxHeight = "0px"
         }

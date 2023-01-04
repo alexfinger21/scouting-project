@@ -1,9 +1,13 @@
+#page-holder {
+    color: #5B6671;
+}
+
 #select-match {
     margin-top: 2vh;
 }
 
 #stats {
-    margin-top: 2%;
+    margin-top: 2vh;
     width: 95%;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
@@ -23,10 +27,39 @@ tr:nth-child(even) { /* copied from w3schools lol*/
     background-color: #dddddd;
 }
 
-#winner {
-    color:#5B6671;
-    margin-top: 5vh;
+#scoring {
+    width: 100%;
+    margin-top: 1vh;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+#scoring h2 {
     font-size: 3vh;
+    font-weight: normal;
+}
+
+#scoring h4 {
+    font-size: 2vh;
+    font-weight: normal;
+}
+
+#red-score {
+    padding: 2vh;
+    color:#FF2A2A;
+    text-align: center;
+    font-style: normal;
+    font-size: 2vh;
+}
+
+#blue-score {
+    padding: 2vh;
+    color:#3492EA;
+    font-style: normal;
+    text-align: center;
+    font-size: 2vh;
 }
 
 .blue {
@@ -35,4 +68,45 @@ tr:nth-child(even) { /* copied from w3schools lol*/
 
 .red {
     color: #FF2A2A;
+}
+
+.strategy-display {
+    width: 95%;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 1.5vh;
+    font-size: 1.8vh;
+}
+
+.strategy-display p {
+    font-size: 2vh;
+    margin-bottom: 1vh;
+}
+
+.strategy-display p  b {
+    color: #3492EA;
+    font-weight: normal;
+}
+
+.strategy-display p em {
+    color: #FF2A2A;
+    font-style: normal;
+}
+
+.strategy-header {
+    font-size: 2.5vh !important;
+    text-align: center;
+    font-weight: normal;
+}
+
+.strategy-divider {
+    background-color: #dddddd;
+    width: 50%;
+    height: 2px;
+    margin-top: 0.5vh !important;
+    margin-bottom: 1vh !important;
+    margin: auto;
 }
