@@ -1,0 +1,81 @@
+#page-holder {
+    color: #5B6671;
+}
+
+#our-team {
+    width: 95%;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 1.5vh;
+    font-size: 1.8vh;
+}
+
+#our-team-header {
+    font-size: 2.5vh !important;
+    text-align: center;
+    font-weight: normal;
+}
+
+#selected-teams-display {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: stretch;
+    margin-top: 1vh;
+}
+
+.selected-team {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.selected-team button {
+    background-color: #3492EA;
+    color: #FFF;
+    font-size: 2vh;
+    border: none;
+    border-radius: 4px;
+    width: 15vw;
+    aspect-ratio: 1.9; /*Sets height so button always stays the same shape */
+}
+
+
+
+.empty-team {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.empty-team button {
+    background-color: transparent;
+    color: #5B6671;
+    font-size: 2vh;
+    border: 0px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='4' ry='4' stroke='%23333' stroke-width='2' stroke-dasharray='5' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+border-radius: 4px; /* curved, dashed border https://kovart.github.io/dashed-border-generator/ */
+    width: 15vw;
+    aspect-ratio: 1.9; /*Sets height so button always stays the same shape */
+}
+
+#our-team-stats {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 2vh;
+}
+
+#our-team-stats p {
+    flex-grow: 1;
+    font-size: 2vh;
+    text-align: center;
+}
