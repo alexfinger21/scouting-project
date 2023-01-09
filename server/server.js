@@ -16,6 +16,7 @@ const dataCollection = require(path.resolve(serverDirectory, routeDirectory, "da
 const teamSummary = require(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))
 const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
 const allianceSelector = require(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
+const matchListing = require(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
 
 //CONSTANTS
 const user = { //TEST USER
@@ -67,6 +68,9 @@ app.use("/match-strategy", matchStrategy)
 
 //ALLIANCE SELECTOR
 app.use("/alliance-selector", allianceSelector)
+
+//MATCH LISTING
+app.use("/match-listing", matchListing)
 
 //PORT
 app.listen(3000) //goes to localhost 3000

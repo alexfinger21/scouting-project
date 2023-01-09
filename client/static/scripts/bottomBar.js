@@ -1,3 +1,6 @@
+import {requestPage} from "./utility.js"
+
+
 let globalPos = 0;
 const speed = 10;
 
@@ -24,35 +27,6 @@ function moveToPage(ogPos, pos, btn) {
         }
 
         res("done")
-    })
-}
-
-async function requestPage(url, data) {
-    $.ajax({
-        type: "GET",
-        contentType: "application/json",   
-        url: url,
-        data: JSON.stringify(data),
-        success: function(response) {
-            
-            let temp
-
-            $(response).each(function() {
-               if ($(this).attr('id') == "page-holder") {
-                temp = $(this)
-               }
-            })
-            console.log(temp)
-
-            document.body.removeChild(document.getElementById("page-holder"))
-
-            $("body").append(temp)
-        },
-
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            console.log("Error\n" + errorThrown, jqXHR)
-        },
     })
 }
 
@@ -83,6 +57,11 @@ window.addEventListener("load", () => {
             console.log(buttonUrls[btn.children[1].textContent])
             requestPage(buttonUrls[btn.children[1].textContent], {})
         })
+    })
+
+    const matchListingButton = document.getElementById("match-listing")
+    matchListingButton.addEventListener("click", () =>  {
+        requestPage("match-listing")
     })
 
     console.log(buttonUrls)
