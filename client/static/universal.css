@@ -47,17 +47,37 @@ input::-webkit-inner-spin-button {
 
   #dropdown-content {
     display: block;
+    visibility: hidden;
     position: fixed;
-    background-color: #fff;
-    width: 15vw;
+    top: 5vh;
+    right: 0vw;
+    background-color: rgb(255, 255, 255);
+    width: 21vw;
+    padding: 0.5vh;
     transform: translate(-1.5vw, 1.5vh);
     text-align: left;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 0px 0px 5px 5px;
     overflow: hidden;
     
-    transition: max-height 0.3s;
+    transition: max-height 0.3s ease-in-out;
     max-height: 0;
+  }
+
+  #dropdown-content button {
+    background-color: rgb(255, 255, 255);
+    color: #4007A2;
+    font-weight:500;
+    text-decoration: underline;
+    border: none;
+    text-align: left;
+    font-size: 2vh;
+    margin-bottom: 1.5vh;
+  }
+
+  #dropdown-content a {
+    display: inline-block;
+    font-size: 2vh;
+    margin-bottom: 1.5vh;
   }
 
 
