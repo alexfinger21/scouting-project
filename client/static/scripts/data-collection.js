@@ -1,4 +1,4 @@
-import {clamp, dataCollectionPath} from "./utility.js"
+import {clamp, dataCollectionPath, requestPage} from "./utility.js"
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -122,8 +122,6 @@ function main() {
             submitButton.style.transform = ""
         }, 100); //in milliseconds
     })
-
-    const matchListingButton = document.getElementById
 
     const dropdown = document.getElementById("dropdown")
     const content = document.getElementById("dropdown-content")

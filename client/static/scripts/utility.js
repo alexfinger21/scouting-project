@@ -27,4 +27,34 @@ function getColor(color)
     }
 }
 
-export {clamp, dataCollectionPath, loginPath, selectRandom, getColor}
+
+async function requestPage(url, data) {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",   
+        url: url,
+        data: JSON.stringify(data),
+        success: function(response) {
+            
+            let temp
+
+            $(response).each(function() {
+               if ($(this).attr('id') == "page-holder") {
+                temp = $(this)
+               }
+            })
+            console.log(temp)
+
+            document.body.removeChild(document.getElementById("page-holder"))
+
+            $("body").append(temp)
+        },
+
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            console.log("Error\n" + errorThrown, jqXHR)
+        },
+    })
+}
+
+export {clamp, dataCollectionPath, loginPath, selectRandom, getColor, requestPage}
