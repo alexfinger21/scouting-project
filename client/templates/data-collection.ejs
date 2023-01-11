@@ -72,7 +72,7 @@
                     <div class="line" id="autonomous">ㅤ</div>
 
                     <div class="input-container">
-                        <span>Robot Taxies (moves)</span>
+                        <span>Robot Leaves Community</span>
                         <div class="NumberButtonContainer">
                             <button type="button" class="big-button">x</button>
                             <input name="robot-taxies">
@@ -81,105 +81,47 @@
                             </button>
                         </div>
                     </div>
-                    <div class="input-container">
-                        <span>Auto Cargo Acquired</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="auto-cargo-acquired" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Auto Cargo High Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="auto-cargo-high-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Auto Cargo Low Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="auto-cargo-low-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
 
+                    <div class="input-container">
+                        <span>Robot Auto Docking</span>
+                        <div class="radio-button-container">
+                            <input type="radio" id="auto-engaged" name="auto-docking" value="engaged">
+                            <label for="auto-engaged">Engaged</label>
+                            <br>
+                            <input type="radio" id="auto-docked" name="auto-docking" value="docked">
+                            <label for="auto-docked">Docked (not engaged)</label>
+                            <br>
+                            <input type="radio" id="auto-attempted" name="auto-docking" value="attempted">
+                            <label for="auto-attempted">Attempted</label>
+                            <br>
+                            <input type="radio" id="auto-unattempted" name="auto-docking" value="unattempted">
+                            <label for="auto-unattempted">Unattempted</label>
+                        </div>
+                    </div>
+                    
                     <!--TELEOP-->
                     <div class="line" id="tele-op">ㅤ</div>
-                    <div class="input-container">
-                        <span>Cargo Acquired</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-acquired" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
 
                     <div class="input-container">
-                        <span>Cargo High Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-high-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Cargo Low Goal</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-low-goal" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Cargo Dropped/Missed</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="cargo-dropped" min="0" max="2" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Defense Performed</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="defense-performed" >
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Fouls Drawn</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="fouls-drawn" min="0" max="200" value="1">
-                            <button type="button" class="big-button">-</button>
+                        <span>Robot Teleop Docking</span>
+                        <div class="radio-button-container">
+                            <input type="radio" id="teleop-engaged" name="teleop-docking" value="engaged">
+                            <label for="teleop-engaged">Engaged</label>
+                            <br>
+                            <input type="radio" id="teleop-docked" name="teleop-docking" value="docked">
+                            <label for="teleop-docked">Docked (not engaged)</label>
+                            <br>
+                            <input type="radio" id="teleop-attempted" name="teleop-docking" value="attempted">
+                            <label for="teleop-attempted">Attempted</label>
+                            <br>
+                            <input type="radio" id="teleop-unattempted" name="teleop-docking" value="unattempted">
+                            <label for="teleop-unattempted">Unattempted</label>
                         </div>
                     </div>
 
                     <!--ENDGAME-->
                     <div class="line" id="endgame">ㅤ</div>
-                    <div class="input-container">
-                        <span>Hangar Attempt</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="hangar-attempt" >
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Hang Level (0-4)</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="hang-level" min="0" max="4" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
+                    
                     <!--EXTRA SPACING AT THE END-->
                     <div style="margin-bottom: 3.69vh;">
                     </div>
