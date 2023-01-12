@@ -83,13 +83,48 @@
                     </div>
 
                     <div class="input-container">
+                        <span>Robot Auto Scoring</span>
+                        <div class="scoring-button-container">
+                            <table>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button type="button" class="scoring-button"></button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="scoring-button"></button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="scoring-button"></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button type="button" class="scoring-button"></button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="scoring-button"></button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="scoring-button"></button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
                         <span>Robot Auto Docking</span>
                         <div class="radio-button-container">
                             <input type="radio" id="auto-engaged" name="auto-docking" value="engaged">
                             <label for="auto-engaged">Engaged</label>
                             <br>
                             <input type="radio" id="auto-docked" name="auto-docking" value="docked">
-                            <label for="auto-docked">Docked (not engaged)</label>
+                            <label for="auto-docked">Docked</label>
                             <br>
                             <input type="radio" id="auto-attempted" name="auto-docking" value="attempted">
                             <label for="auto-attempted">Attempted</label>
@@ -109,7 +144,7 @@
                             <label for="teleop-engaged">Engaged</label>
                             <br>
                             <input type="radio" id="teleop-docked" name="teleop-docking" value="docked">
-                            <label for="teleop-docked">Docked (not engaged)</label>
+                            <label for="teleop-docked">Docked</label>
                             <br>
                             <input type="radio" id="teleop-attempted" name="teleop-docking" value="attempted">
                             <label for="teleop-attempted">Attempted</label>
@@ -121,6 +156,24 @@
 
                     <!--ENDGAME-->
                     <div class="line" id="endgame">ㅤ</div>
+
+                    <div class="input-container">
+                        <span>Cargo Intake From</span>
+                        <div class="radio-button-container">
+                            <input type="radio" id="cargo-from-substation" name="cargo-from" value="substation">
+                            <label for="cargo-from-substation">Substation</label>
+                            <br>
+                            <input type="radio" id="cargo-from-ground" name="cargo-from" value="ground">
+                            <label for="cargo-from-ground">Ground</label>
+                            <br>
+                            <input type="radio" id="cargo-from-both" name="cargo-from" value="both">
+                            <label for="cargo-from-both">Both</label>
+                            <br>
+                            <input type="radio" id="cargo-from-unattempted" name="cargo-from" value="unattempted">
+                            <label for="cargo-from-substation">Substation</label>
+                            <br>
+                        </div>
+                    </div>
                     
                     <!--EXTRA SPACING AT THE END-->
                     <div style="margin-bottom: 3.69vh;">

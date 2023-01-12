@@ -34,7 +34,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    scroll-behavior: smooth; 
+    scroll-behavior: smooth;
 }
 
 #match-number-form span {
@@ -71,7 +71,7 @@
 
 .input-container span {
     display: inline-block;
-    width: 100%;
+    width: 80vw;
     text-align: center;
 }
 
@@ -99,19 +99,49 @@
 
 .radio-button-container {
     display: inline-block;
-    margin-left: 5vw;
+    width: 100%;
+    margin-left: 6vw;
     margin-top: 1vh;
 }
+
 .radio-button-container input {
     font-size: 2vh;
     margin-bottom: 1vh;
 
 }
+
 .radio-button-container input:checked {
     accent-color: #3492EA;
 }
+
 .radio-button-container label {
     font-size: 2vh;
+}
+
+.scoring-button-container {
+    display: inline-block;
+    width: 100%;
+    margin-left: 4vw;
+    scroll-behavior: smooth;
+    overflow-x: scroll;
+}
+
+.scoring-button-container table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.scoring-button-container td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    width: 5vh;
+    height: 5vh;
+    padding: 8px;
+}
+
+.scoring-button-container tr:nth-child(even) {
+    background-color: #dddddd;
 }
 
 #button-checkmark {
@@ -188,6 +218,7 @@
 
 .NumberButtonContainer {
     margin-top: 0.8vh;
+    margin-left: 1vw;
 }
 
 .red {
@@ -198,7 +229,7 @@
 #data-submit {
     margin-top: 69vh;
     position: fixed;
-    
+
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
 }
