@@ -34,7 +34,7 @@ router.post("/", function(req, res) {
                 });
 
                 console.log("success for " + body.username)
-                return res.status(200).send({result: 'redirect', url:'/data-collection'})
+                return res.status(200).send({result: 'redirect', url:'/app'})
             }
         }
     }
