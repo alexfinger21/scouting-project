@@ -5,6 +5,9 @@ const path = require("path")
 const app = express()
 const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
+const cors = require("cors")
+
+
 //DIRECTORIES
 const serverDirectory = "./server"
 const routeDirectory = "routers"
@@ -26,6 +29,11 @@ const user = { //TEST USER
     admin: true,
 }
 
+corsOptions = {
+    origin: '*',
+    credentials: true 
+};
+
 app.use("/static", express.static("./client/static"))
 
 //sets variables to be used later
@@ -35,6 +43,7 @@ app.set("view engine", "ejs")
 //adds json encoders and decoder libraries: middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cors(corsOptions))
 
 app.use(cookieParser())
 //middleware for anyone on the site, checking whether they're logged in or ont
