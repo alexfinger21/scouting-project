@@ -4,7 +4,7 @@ const router = express.Router()
 const crypto = require("crypto")
 
 router.get("/", function(req, res) {
-
+    console.log(req.cookies)
     if (!req.cookies["user_id"]) {//if user hasn't logged in before
         const login_data = req.query.error ? req.query.error : "invisible"
 
