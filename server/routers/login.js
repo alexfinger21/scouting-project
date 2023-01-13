@@ -28,9 +28,7 @@ router.post("/", function(req, res) {
                 res.cookie("user_id", crypto.randomBytes(32).toString, {
                     maxAge: 86400 * 1000,
                     // expires works the same as the maxAge
-                    secure: true,
                     httpOnly: true,
-                    sameSite: 'lax'
                 });
 
                 console.log("success for " + body.username)
