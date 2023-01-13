@@ -6,6 +6,7 @@
     flex-direction: column;
     width: 100%;
     border-bottom: 5px;
+    height: 90vh;
 }
 
 #match-number-form {
