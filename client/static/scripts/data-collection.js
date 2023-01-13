@@ -24,6 +24,7 @@ function main() {
         const data = {}
         const dataList = document.getElementById("games-val")
         const inputContainers = document.getElementsByClassName("input-container")
+        const radioButtonContainers = document.getElementsByClassName("radio-button-container")
 
         data.matchNumber = Number(dataList.value)
 
@@ -39,6 +40,21 @@ function main() {
             } else {
                 data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
             }
+        })
+
+        Array.from(radioButtonContainers).forEach(container => {
+            let containerName = container.parentElement.children[0].textContent
+            let selected = false
+
+            Array.from(container.children).forEach(element => {
+                if (!selected) {
+                    if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.checked) {
+                        selected = element.value
+                    }
+                }
+            })
+
+            data[containerName] = selected
         })
 
         $.ajax({
