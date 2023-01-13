@@ -226,7 +226,7 @@
 }
 
 #data-submit {
-    margin-top: 65vh;
+    margin-top: 59vh;
     position: fixed;
 
     box-shadow: 0 6px #3077b9;
@@ -234,7 +234,7 @@
 }
 
 #data-fade {
-    margin-top: 56vh;
+    margin-top: 50vh;
     width: 90%;
     position: fixed;
 }
