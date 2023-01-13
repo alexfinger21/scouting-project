@@ -71,7 +71,8 @@ input::-webkit-inner-spin-button {
     flex-direction: column;
     width: 100%;
     border-bottom: 5px;
-    height: 90vh;
+    height: 80vh;
+    overflow: auto;
   }
 
   #dropdown-content button {
