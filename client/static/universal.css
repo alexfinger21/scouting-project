@@ -63,6 +63,17 @@ input::-webkit-inner-spin-button {
     max-height: 0;
   }
 
+  #page-holder {
+    transform: translate(0, 7.5vh);
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 5px;
+    height: 90vh;
+  }
+
   #dropdown-content button {
     background-color: rgb(255, 255, 255);
     color: #4007A2;
