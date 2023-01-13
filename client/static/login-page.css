@@ -1,4 +1,13 @@
 
+  .page-holder {
+    transform: translate(0, 7.5vh);
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    width: 100%;
+    border-bottom: 5px;
+  }
 
   #login-form-icon {
     
