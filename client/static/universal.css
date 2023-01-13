@@ -72,7 +72,7 @@ input::-webkit-inner-spin-button {
     width: 100%;
     border-bottom: 5px;
     height: 80vh;
-    overflow: auto;
+    overflow: scroll;
   }
 
   #dropdown-content button {
