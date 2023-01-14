@@ -63,7 +63,7 @@ input::-webkit-inner-spin-button {
     max-height: 0;
   }
 
-  #page-holder {
+  .page-holder {
     transform: translate(0, 7.5vh);
     display: flex;
     align-items: center;
@@ -71,7 +71,6 @@ input::-webkit-inner-spin-button {
     flex-direction: column;
     width: 100%;
     border-bottom: 5px;
-    height: 90vh;
   }
 
   #dropdown-content button {
