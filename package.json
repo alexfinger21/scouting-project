@@ -14,5 +14,8 @@
   "devDependencies": {
     "http-server": "^14.1.1",
     "httpserver": "^0.3.0"
+  },
+  "scripts": {
+    "start": "node server/server.js"
   }
 }
