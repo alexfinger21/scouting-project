@@ -120,8 +120,8 @@
 
 .scoring-button-container {
     display: inline-block;
-    width: 100%;
-    margin-left: 4vw;
+    width: 90%;
+    height: 20vh;
     scroll-behavior: smooth;
     overflow-x: scroll;
 }
@@ -129,6 +129,11 @@
 .scoring-button-container table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 0.5vh;
+    font-size: 1.8vh;
     width: 100%;
 }
 
@@ -141,6 +146,7 @@
 .scoring-button-container tr:nth-child(even) {
     background-color: #dddddd;
 }
+
 
 #button-checkmark {
     display: block;
@@ -227,7 +233,7 @@
 #data-submit {
     margin-top: 69vh;
     position: fixed;
-
+    
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
 }
