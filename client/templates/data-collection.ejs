@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../static/team-summary.css">
     <link rel="stylesheet" href="../static/match-strategy.css">
     <link rel="stylesheet" href="../static/alliance-selector.css">
+    <link rel="stylesheet" href="../static/match-listing.css">
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
@@ -18,6 +20,7 @@
     <script type="module" src="../static/scripts/data-collection.js" defer></script>
     <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
+    
 </head>
 
 <body>
@@ -99,19 +102,56 @@
                         </div>
                     </div>
 
-                    <div class= "scoring-button-container">
-                        <p>wsppp</p>
-                        <table>
-                            <% for(let x = 0; x < 3; x++) { %>
-                                <tr>
-                                    <% for(let y = 0; y < 9; y++) { %>
-                                        <td>
-                                            gargar
-                                        </td>
+                    <div class="scoring-container">
+                        <div class="table-labels">
+                            <p>Top</p>
+                            <p>Middle</p>
+                            <p>Bottom</p>
+                        </div>
+                        <div class= "table-scroller">
+                            <div class="table-wrapper">
+                                <table>
+                                    <% for(let x = 0; x < 3; x++) { %>
+                                        <tr>
+                                            <% for(let y = 0; y < 3; y++) { %>
+                                                <td>
+                                                    <img src="../static/images/cone.png" class="cone-image">
+                                                </td>
+                                            <% } %>
+                                        </tr>
                                     <% } %>
-                                </tr>
-                            <% } %>
-                        </table>
+                                </table>
+                                <p>Inner</p>
+                            </div>
+                            <div class="table-wrapper">
+                                <table>
+                                    <% for(let x = 0; x < 3; x++) { %>
+                                        <tr>
+                                            <% for(let y = 0; y < 3; y++) { %>
+                                                <td>
+                                                    gar
+                                                </td>
+                                            <% } %>
+                                        </tr>
+                                    <% } %>
+                                </table>
+                                <p>Co-Op</p>
+                            </div>
+                            <div class="table-wrapper">
+                                <table>
+                                    <% for(let x = 0; x < 3; x++) { %>
+                                        <tr>
+                                            <% for(let y = 0; y < 3; y++) { %>
+                                                <td>
+                                                    gar
+                                                </td>
+                                            <% } %>
+                                        </tr>
+                                    <% } %>
+                                </table>
+                                <p>Outer</p>
+                            </div>
+                        </div>
                     </div>
                     
                     <!--TELEOP-->
@@ -156,8 +196,7 @@
                     </div>
                     
                     <!--EXTRA SPACING AT THE END-->
-                    <div style="margin-bottom: 3.69vh;">
-                    </div>
+                    <div style="margin-bottom: 3.69vh;"></div>
                 </div>
 
                 <!--SUBMIT-->
