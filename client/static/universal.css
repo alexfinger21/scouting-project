@@ -158,6 +158,7 @@ input::-webkit-inner-spin-button {
   display: flex; 
   flex-wrap: nowrap;
   flex-direction: row;
+  height: 10.5vh;
   flex: 1;
 }
 
