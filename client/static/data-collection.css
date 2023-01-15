@@ -30,7 +30,8 @@
     margin-bottom: 2vh;
     width: 100%;
     height: 57vh;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -118,12 +119,48 @@
     font-size: 2vh;
 }
 
-.scoring-button-container {
-    display: inline-block;
-    width: 90%;
-    height: 20vh;
-    scroll-behavior: smooth;
+.scoring-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 95%;
+    margin-bottom: 2vh;
+}
+
+.table-labels {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 8vh;
+    padding-top: 1vh;
+    height: 16vh;
+}
+
+.table-labels p {
+    margin-bottom: 1.4vh;
+}
+
+.table-scroller {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    min-height: 17vh;
+    background-color: transparent;
+    width: 70%;
     overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+.table-wrapper {
+    display: inline-block;
+    margin-right: 2vh;
+}
+
+.table-wrapper p {
+    width: 100%;
+    text-align: center;
+    font-size: 2vh;
 }
 
 .scoring-button-container table {
@@ -147,6 +184,10 @@
     background-color: #dddddd;
 }
 
+.cone-image {
+    width: 2vh;
+    aspect-ratio: 1.22352941;
+}
 
 #button-checkmark {
     display: block;
