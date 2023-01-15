@@ -109,48 +109,65 @@
                             <p>Bottom</p>
                         </div>
                         <div class= "table-scroller">
-                            <div class="table-wrapper">
-                                <table>
-                                    <% for(let x = 0; x < 3; x++) { %>
-                                        <tr>
-                                            <% for(let y = 0; y < 3; y++) { %>
-                                                <td>
-                                                    <img src="../static/images/cone.png" class="cone-image">
+                            <%let tblNames = ["Inner", "Co-Op", "Outer"]%>
+                            <% for(let i = 0; i < 3; i++) { %>
+                                <div class="table-wrapper">
+                                    <table>
+                                            <tr>
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
                                                 </td>
-                                            <% } %>
-                                        </tr>
-                                    <% } %>
-                                </table>
-                                <p>Inner</p>
-                            </div>
-                            <div class="table-wrapper">
-                                <table>
-                                    <% for(let x = 0; x < 3; x++) { %>
-                                        <tr>
-                                            <% for(let y = 0; y < 3; y++) { %>
-                                                <td>
-                                                    gar
+                                                <td class="fill-cube">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
                                                 </td>
-                                            <% } %>
-                                        </tr>
-                                    <% } %>
-                                </table>
-                                <p>Co-Op</p>
-                            </div>
-                            <div class="table-wrapper">
-                                <table>
-                                    <% for(let x = 0; x < 3; x++) { %>
-                                        <tr>
-                                            <% for(let y = 0; y < 3; y++) { %>
-                                                <td>
-                                                    gar
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
                                                 </td>
-                                            <% } %>
-                                        </tr>
-                                    <% } %>
-                                </table>
-                                <p>Outer</p>
-                            </div>
+                                            </tr>
+                                            <tr>
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src = "">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-cube">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fill-both">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-both">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-both">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                    </table>
+                                    <p> <%= tblNames[i] %> </p>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
                     
