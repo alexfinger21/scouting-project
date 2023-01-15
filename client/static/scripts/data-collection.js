@@ -124,6 +124,57 @@ function main() {
         }
     }
 
+    //ANIMATE SCORING GRIDS
+
+    //CONE ONLY BUTTONS
+    const coneTds = document.getElementsByClassName("fill-cone") //table element
+    for (const fillCone of coneTds) {
+        const coneBtn = fillCone.getElementsByTagName("button")[0]
+        const btnImg = coneBtn.getElementsByTagName("img")[0]
+        coneBtn.addEventListener("click", (event) => {            
+            if(btnImg.src.indexOf("cone.svg") > -1 ) { //filled image, make it empty
+                btnImg.src = ""
+            }
+            else { //its empty, make it a cone
+                btnImg.src = "../static/images/cone.svg"
+            }
+        })
+    }
+
+    //CUBE ONLY BUTTONS
+    const cubeTds = document.getElementsByClassName("fill-cube") //table element
+    for (const fillCube of cubeTds) {
+        const cubeBtn = fillCube.getElementsByTagName("button")[0]
+        const btnImg = cubeBtn.getElementsByTagName("img")[0]
+        cubeBtn.addEventListener("click", (event) => {            
+            if(btnImg.src.indexOf("cube.svg") > -1 ) { //filled image, make it empty
+                btnImg.src = ""
+            }
+            else { //its empty, make it a cone
+                btnImg.src = "../static/images/cube.svg"
+            }
+        })
+    }
+
+    //BUTTONS THAT HAVE EITHER A CUBE OR A CONE
+    //CLICK ONCE FOR CONE, CLICK AGAIN FOR CUBE, CLICK AGAIN TO EMPTY
+    const bothTds = document.getElementsByClassName("fill-both") //table element
+    for (const fillBoth of bothTds) {
+        const bothBtn = fillBoth.getElementsByTagName("button")[0]
+        const btnImg = bothBtn.getElementsByTagName("img")[0]
+        bothBtn.addEventListener("click", (event) => {            
+            if(btnImg.src.indexOf("cone.svg") > -1 ) { //filled cone, make it a cube
+                btnImg.src = "../static/images/cube.svg"
+            }
+            else if(btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
+                btnImg.src = ""
+            }
+            else { //its empty, make it a cone
+                btnImg.src = "../static/images/cone.svg"
+            }
+        })
+    }
+
     const submitButton = document.getElementById("data-submit")
     submitButton.addEventListener("click", () => {
         //animate the button click effect

@@ -137,7 +137,7 @@
 }
 
 .table-labels p {
-    margin-bottom: 1.4vh;
+    margin-bottom: 1.7vh;
 }
 
 .table-scroller {
@@ -163,7 +163,7 @@
     font-size: 2vh;
 }
 
-.scoring-button-container table {
+.table-wrapper table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     background-color: #FFF;
@@ -174,19 +174,23 @@
     width: 100%;
 }
 
-.scoring-button-container td {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+.table-wrapper td {
+    min-height: 4.5vh;
+    min-width: 3.8vh;
+    padding: 4px !important;
 }
 
-.scoring-button-container tr:nth-child(even) {
-    background-color: #dddddd;
+.scoring-button {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+
 }
 
-.cone-image {
-    width: 2vh;
-    aspect-ratio: 1.22352941;
+.scoring-button img {
+    height: 2.5vh;
+    width: auto;
 }
 
 #button-checkmark {
