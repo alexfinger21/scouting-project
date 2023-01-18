@@ -23,6 +23,9 @@ let user = {
     team_number: 695,
     username: "alex",
     password: "npc",
+    matchNumber: 1,
+    assignedTeam: "4269",
+    assignedTeamColor: "red",
     admin: true,
 }
 

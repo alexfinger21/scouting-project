@@ -31,14 +31,13 @@
             <form id="match-number-form" action="/data-collection" method="POST">
                 <!-- MATCH NUMBER-->
                 <div id="text-container">
-                    <span>Assigned Team: </span>
-                    <span class=<%=user.teamColor %> > <%= user.assignedTeam %></span>
+                    <span>Match Number: <%= user.matchNumber %> </span>
                 </div>
 
                 <!--ASSIGNED TEAM-->
                 <div id="text-container">
                     <span>Assigned Team: </span>
-                    <span class=<%=user.teamColor %> > <%= user.assignedTeam %></span>
+                    <span class=<%=user.assignedTeamColor %> > <%= user.assignedTeam %> </span>
                 </div>
 
                 <div id="input-scroller">
