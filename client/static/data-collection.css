@@ -21,8 +21,9 @@
     border-radius: 5px;
 }
 
-#assigned-team {
+#text-container {
     margin-top: 1vh;
+    font-weight: bold;
 }
 
 #input-scroller {
