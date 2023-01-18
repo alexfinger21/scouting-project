@@ -30,22 +30,13 @@
         <div id="page-holder">
             <form id="match-number-form" action="/data-collection" method="POST">
                 <!-- MATCH NUMBER-->
-
-                <div class="small-input-container" id="match-number">
-                    <label for="match-number"><b>Match Number:</b></label>
-                    <input id="games-val" type="number" name="match-number" list="games">
-                    
-                    <datalist id="games">
-                        <option value="1">
-                        <option value="2">
-                        <option value="3">
-                        <option value="4">
-                        <option value="5">
-                    </datalist>
+                <div id="text-container">
+                    <span>Assigned Team: </span>
+                    <span class=<%=user.teamColor %> > <%= user.assignedTeam %></span>
                 </div>
 
                 <!--ASSIGNED TEAM-->
-                <div id="assigned-team">
+                <div id="text-container">
                     <span>Assigned Team: </span>
                     <span class=<%=user.teamColor %> > <%= user.assignedTeam %></span>
                 </div>
@@ -85,109 +76,185 @@
                         </div>
                     </div>
 
+                    <!--AUTON SCORING GRID-->
+                    <div class="input-container">
+                        <span>Robot Auto Scoring</span>
+                        <div class="scoring-container" id="auto-scoring">
+                            <div class="table-labels">
+                                <p>Top</p>
+                                <p>Middle</p>
+                                <p>Bottom</p>
+                            </div>
+                            <div class= "table-scroller">
+                                <%let tblNames = ["Inner", "Co-Op", "Outer"]%>
+                                <% for(let i = 0; i < 3; i++) { %>
+                                    <div class="table-wrapper">
+                                        <table>
+                                                <tr>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cube">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src = "">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cube">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fill-both">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-both">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-both">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                        </table>
+                                        <p> <%= tblNames[i] %> </p>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
                     <div class="input-container">
                         <span>Robot Auto Docking</span>
                         <div class="radio-button-container">
-                            <input type="radio" id="auto-engaged" name="auto-docking" value="engaged">
-                            <label for="auto-engaged">Engaged</label>
+                            <input type="radio" id="auto-unattempted" name="auto-docking" value="unattempted">
+                            <label for="auto-unattempted">Unattempted</label>
+                            <br>
+                            <input type="radio" id="auto-attempted" name="auto-docking" value="attempted">
+                            <label for="auto-attempted">Attempted (unsuccessful)</label>
                             <br>
                             <input type="radio" id="auto-docked" name="auto-docking" value="docked">
                             <label for="auto-docked">Docked</label>
                             <br>
-                            <input type="radio" id="auto-attempted" name="auto-docking" value="attempted">
-                            <label for="auto-attempted">Attempted</label>
-                            <br>
-                            <input type="radio" id="auto-unattempted" name="auto-docking" value="unattempted">
-                            <label for="auto-unattempted">Unattempted</label>
-                        </div>
-                    </div>
-
-                    <div class="scoring-container">
-                        <div class="table-labels">
-                            <p>Top</p>
-                            <p>Middle</p>
-                            <p>Bottom</p>
-                        </div>
-                        <div class= "table-scroller">
-                            <%let tblNames = ["Inner", "Co-Op", "Outer"]%>
-                            <% for(let i = 0; i < 3; i++) { %>
-                                <div class="table-wrapper">
-                                    <table>
-                                            <tr>
-                                                <td class="fill-cone">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cube">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cone">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fill-cone">
-                                                    <button class="scoring-button">
-                                                        <img src = "">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cube">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cone">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fill-both">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-both">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-both">
-                                                    <button class="scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                    </table>
-                                    <p> <%= tblNames[i] %> </p>
-                                </div>
-                            <% } %>
+                            <input type="radio" id="auto-engaged" name="auto-docking" value="engaged">
+                            <label for="auto-engaged">Engaged</label>
                         </div>
                     </div>
                     
                     <!--TELEOP-->
                     <div class="line" id="tele-op">ㅤ</div>
 
+                    
+                    <!-- TELEOP SCORING GRID-->
+                    <div class="input-container">
+                        <span>Robot Teleop Scoring</span>
+                        <div class="scoring-container" id="teleop-scoring">
+                            <div class="table-labels">
+                                <p>Top</p>
+                                <p>Middle</p>
+                                <p>Bottom</p>
+                            </div>
+                            <div class= "table-scroller">
+                                <% for(let i = 0; i < 3; i++) { %>
+                                    <div class="table-wrapper">
+                                        <table>
+                                                <tr>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cube">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src = "">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cube">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-cone">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fill-both">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-both">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                    <td class="fill-both">
+                                                        <button class="scoring-button">
+                                                            <img src="">
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                        </table>
+                                        <p> <%= tblNames[i] %> </p>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="input-container">
                         <span>Robot Teleop Docking</span>
                         <div class="radio-button-container">
-                            <input type="radio" id="teleop-engaged" name="teleop-docking" value="engaged">
-                            <label for="teleop-engaged">Engaged</label>
+                            <input type="radio" id="teleop-unattempted" name="teleop-docking" value="unattempted">
+                            <label for="teleop-unattempted">Unattempted</label>
+                            <br>
+                            <input type="radio" id="teleop-attempted" name="teleop-docking" value="attempted">
+                            <label for="teleop-attempted">Attempted (unsuccessful)</label>
                             <br>
                             <input type="radio" id="teleop-docked" name="teleop-docking" value="docked">
                             <label for="teleop-docked">Docked</label>
                             <br>
-                            <input type="radio" id="teleop-attempted" name="teleop-docking" value="attempted">
-                            <label for="teleop-attempted">Attempted</label>
-                            <br>
-                            <input type="radio" id="teleop-unattempted" name="teleop-docking" value="unattempted">
-                            <label for="teleop-unattempted">Unattempted</label>
+                            <input type="radio" id="teleop-engaged" name="teleop-docking" value="engaged">
+                            <label for="teleop-engaged">Engaged</label>
                         </div>
                     </div>
 
@@ -206,8 +273,38 @@
                             <input type="radio" id="cargo-from-both" name="cargo-from" value="both">
                             <label for="cargo-from-both">Both</label>
                             <br>
-                            <input type="radio" id="cargo-from-unattempted" name="cargo-from" value="unattempted">
-                            <label for="cargo-from-substation">Substation</label>
+                            <input type="radio" id="cargo-from-none" name="cargo-from" value="none">
+                            <label for="cargo-from-substation">None</label>
+                            <br>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <span>Robot Fumbles Cones</span>
+                        <div class="radio-button-container">
+                            <input type="radio" id="fumbles-cones-often" name="fumbles-cones" value="often">
+                            <label for="fumbles-cones-often">Often</label>
+                            <br>
+                            <input type="radio" id="fumbles-cones-sometimes" name="fumbles-cones" value="sometimes">
+                            <label for="fumbles-cones-sometimes">Sometimes</label>
+                            <br>
+                            <input type="radio" id="fumbles-cones-rarely" name="fumbles-cones" value="rarely">
+                            <label for="fumbles-cones-rarely">Rarely</label>
+                            <br>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <span>Robot Fumbles Cubes</span>
+                        <div class="radio-button-container">
+                            <input type="radio" id="fumbles-cubes-often" name="fumbles-cubes" value="often">
+                            <label for="fumbles-cubes-often">Often</label>
+                            <br>
+                            <input type="radio" id="fumbles-cubes-sometimes" name="fumbles-cubes" value="sometimes">
+                            <label for="fumbles-cubes-sometimes">Sometimes</label>
+                            <br>
+                            <input type="radio" id="fumbles-cubes-rarely" name="fumbles-cubes" value="rarely">
+                            <label for="fumbles-cubes-rarely">Rarely</label>
                             <br>
                         </div>
                     </div>
