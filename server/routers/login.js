@@ -26,7 +26,7 @@ router.post("/", function(req, res) {
             if (body.team_number == user.team_number) {
                 //successful login
                 res.cookie("user_id", crypto.randomBytes(32).toString, {
-                    maxAge: 86400 * 1000,
+                    maxAge: 24 * 60 * 60 * 1000,
                     // expires works the same as the maxAge
                     httpOnly: true,
                 });
