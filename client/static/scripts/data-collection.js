@@ -10,6 +10,14 @@ const observer = new MutationObserver(function(mutations_list) {
 	});
 });
 
+function loadData() {
+
+}
+
+function saveData() {
+
+}
+
 observer.observe(document.body, { subtree: false, childList: true });
 
 window.addEventListener("load", main)
@@ -131,12 +139,18 @@ function main() {
     for (const fillCone of coneTds) {
         const coneBtn = fillCone.getElementsByTagName("button")[0]
         const btnImg = coneBtn.getElementsByTagName("img")[0]
+        
+        coneBtn.setAttribute("object", "empty")
+
         coneBtn.addEventListener("click", (event) => {            
             if(btnImg.src.indexOf("cone.svg") > -1 ) { //filled image, make it empty
+                coneBtn.setAttribute("object", "empty")
+
                 btnImg.src = ""
             }
             else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
+                coneBtn.setAttribute("object", "cone")
             }
         })
     }
@@ -146,12 +160,17 @@ function main() {
     for (const fillCube of cubeTds) {
         const cubeBtn = fillCube.getElementsByTagName("button")[0]
         const btnImg = cubeBtn.getElementsByTagName("img")[0]
+
+        cubeBtn.setAttribute("object", "empty")
+
         cubeBtn.addEventListener("click", (event) => {            
             if(btnImg.src.indexOf("cube.svg") > -1 ) { //filled image, make it empty
+                cubeBtn.setAttribute("object", "empty")
                 btnImg.src = ""
             }
             else { //its empty, make it a cone
                 btnImg.src = "../static/images/cube.svg"
+                cubeBtn.setAttribute("object", "cube")
             }
         })
     }
@@ -162,15 +181,21 @@ function main() {
     for (const fillBoth of bothTds) {
         const bothBtn = fillBoth.getElementsByTagName("button")[0]
         const btnImg = bothBtn.getElementsByTagName("img")[0]
+
+        bothBtn.setAttribute("object", "empty")
+
         bothBtn.addEventListener("click", (event) => {            
             if(btnImg.src.indexOf("cone.svg") > -1 ) { //filled cone, make it a cube
                 btnImg.src = "../static/images/cube.svg"
+                bothBtn.setAttribute("object", "cube")
             }
             else if(btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
                 btnImg.src = ""
+                bothBtn.setAttribute("object", "empty")
             }
             else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
+                bothBtn.setAttribute("object", "cone")
             }
         })
     }
