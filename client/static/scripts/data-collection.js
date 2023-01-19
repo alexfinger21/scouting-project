@@ -94,7 +94,15 @@ function loadData() {
                             const item = row.children[x].children[0]
                             item.setAttribute("object", data.tables[name][tableCounter][y][x])
                             //console.log(item)
-                            item.children[0].src = playPiecesDict[data.tables[name][tableCounter][y][x]]
+                            let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
+                            if (itemImage)
+                            {
+                                item.children[0].src = itemImage
+                            }
+                            else
+                            {
+                                item.children[0].src = playPiecesDict["empty"]
+                            }
                         }
                     }
 
