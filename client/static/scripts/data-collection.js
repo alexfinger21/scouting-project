@@ -24,7 +24,7 @@ function loadData() {
     const tableScrollers = document.querySelectorAll(".table-scroller")
     const data = JSON.parse(localStorage.getItem("data"))
 
-    console.log(data)
+    //console.log(data)
 
     if (data) {
 
@@ -34,7 +34,7 @@ function loadData() {
             const name = element.children[0].textContent
             const buttonContainer = element.children[1]
 
-            console.log(data[name] + " - " + name)
+            //console.log(data[name] + " - " + name)
 
             Array.from(inputContainers).forEach(element => {
                 const name = element.children[0].textContent
@@ -45,7 +45,7 @@ function loadData() {
                     buttonContainer.children[0].parentElement.querySelector("input").value = data[name]
                 } else if ((buttonContainer.children[0].getElementsByTagName("img").length == 1 && buttonContainer.children[0].tagName.toLowerCase() == "button") || (buttonContainer.children[0].textContent == "x" && buttonContainer.children[0].tagName.toLowerCase() == "button")){
                     //image
-                    console.log(buttonContainer.children[0])
+                    //console.log(buttonContainer.children[0])
                     if (data[name]) {
                         buttonContainer.children[0].style.backgroundColor = "rgb(217, 217, 217)"
                         buttonContainer.children[2].style.backgroundColor = "rgb(52, 146, 234)"
@@ -73,19 +73,19 @@ function loadData() {
         let tableCounter = 0;
 
         Array.from(tableScrollers).forEach(tableContainer => {
-            console.log(tableContainer)
+            //console.log(tableContainer)
 
             const name = tableContainer.parentElement.parentElement.children[0].textContent
 
             tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
 
-            console.log(data.tables)
-            console.log(data.tables[name])
+            //console.log(data.tables)
+            //console.log(data.tables[name])
 
             if (data.tables[name]) {
                 Array.from(tableContainer).forEach(container => {
-                    console.log(container)
-                    console.log(tableCounter)
+                    //console.log(container)
+                    //console.log(tableCounter)
 
                     for (let y = 0; y<3; y++) {
                         const row = container.children[y]
@@ -93,7 +93,7 @@ function loadData() {
                         for (let x = 0; x<3; x++) {
                             const item = row.children[x].children[0]
                             item.setAttribute("object", data.tables[name][tableCounter][y][x])
-                            console.log(item)
+                            //console.log(item)
                             item.children[0].src = playPiecesDict[data.tables[name][tableCounter][y][x]]
                         }
                     }
@@ -164,8 +164,8 @@ function saveData() {
         tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
 
         Array.from(tableContainer).forEach(container => {
-            console.log(container)
-            console.log(tableCounter)
+            //console.log(container)
+            //console.log(tableCounter)
             data.tables[name][tableCounter] = {}
 
             for (let y = 0; y<3; y++) {
@@ -175,7 +175,7 @@ function saveData() {
 
                 for (let x = 0; x<3; x++) {
                     const item = row.children[x].children[0].getAttribute("object")
-                    console.log(item)
+                    //console.log(item)
                     data.tables[name][tableCounter][y][x] = item
                 }
             }
@@ -184,7 +184,7 @@ function saveData() {
         })
     })
 
-    console.log(data.tables)
+    //console.log(data.tables)
 
     localStorage.setItem("data", JSON.stringify(data))
 
@@ -224,7 +224,7 @@ function main() {
 
             error: function(jqXHR, textStatus, errorThrown)
             {
-                console.log("Error\n" + errorThrown, jqXHR)
+                //console.log("Error\n" + errorThrown, jqXHR)
             },
         })
     }
@@ -387,7 +387,7 @@ function main() {
     //close the dropdown content when the user clicks outside of the button
     window.addEventListener("click", (event) => {
         if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) { 
-            console.log(event.target)
+            //console.log(event.target)
             content.style.maxHeight = "0px"
             setTimeout(() => {
                 content.style.visibility = "hidden"
