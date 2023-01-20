@@ -1,0 +1,28 @@
+#admin-container {
+    width: 95%;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 1.5vh;
+    font-size: 1.8vh;
+}
+
+
+#select-user {
+    height: 4vh;
+    background-color: #FFF;
+    color: #2d3236;
+    border: 2px solid #000;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 2.2vh;
+}
+
+#user-container {
+    border: none;
+    background-color: transparent;
+    align-self: flex-start;
+    margin-bottom: 3vh;
+}
