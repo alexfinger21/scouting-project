@@ -204,6 +204,11 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function main() {
+    setTimeout(function(){
+        // This hides the address bar:
+        window.scrollTo(0, 1);
+    }, 0);
+    
     loadData()
 
     const form = document.getElementById("match-number-form")
