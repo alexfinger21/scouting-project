@@ -6,7 +6,7 @@ const app = express()
 const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
 const cors = require("cors")
-
+const mysql = require("mysql")
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -34,6 +34,33 @@ corsOptions = {
     origin: '*',
     credentials: true 
 };
+
+//CONNECT MYSQL
+
+const connection = mysql.createConnection({
+    host     : 'gator4049.hostgator.com',
+    database : 'teamsixn_scouting_dev',
+    user     : 'teamsixn_alex',
+    password : 'alexfinger21',
+});
+
+connection.connect(function(err) {
+    if (err) {
+        console.error('Error connecting: ' + err.stack);
+        return;
+    }
+
+    console.log('Connected as id ' + connection.threadId);
+});
+
+connection.query('SELECT * FROM teamsixn_scouting_dev.game_matchup LIMIT 5', function (error, results, fields) {
+    if (error)
+        throw error;
+
+    console.log(results)
+});
+
+connection.end();
 
 app.use("/static", express.static("./client/static"))
 
