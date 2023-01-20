@@ -7,6 +7,8 @@ const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
+const crypto = require("crypto")
+require('dotenv').config()
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -30,19 +32,30 @@ const user = { //TEST USER
     admin: true,
 }
 
-corsOptions = {
+const algorithm = "aes-256-cbc"
+const initVector = crypto.randomBytes(16)
+const securitykey = crypto.randomBytes(32)
+const cipher = crypto.createCipheriv(algorithm, securitykey, initVector);
+
+console.log(securitykey + "\n" + initVector)
+
+const corsOptions = {
     origin: '*',
     credentials: true 
 };
 
 //CONNECT MYSQL
 
+console.log(process.env.DB_PASS)
+
 const connection = mysql.createConnection({
-    host     : 'gator4049.hostgator.com',
-    database : 'teamsixn_scouting_dev',
-    user     : 'teamsixn_alex',
-    password : 'alexfinger21',
+    host     : process.env.DATABASE_HOST,
+    database : process.env.DATABASE,
+    user     : process.env.USER,
+    password : process.env.DB_PASS,
 });
+
+//SELECT * FROM user_master um WHERE um.um_id = AND team_master_tm_number = ;
 
 connection.connect(function(err) {
     if (err) {
@@ -53,14 +66,15 @@ connection.connect(function(err) {
     console.log('Connected as id ' + connection.threadId);
 });
 
-connection.query('SELECT * FROM teamsixn_scouting_dev.game_matchup LIMIT 5', function (error, results, fields) {
-    if (error)
-        throw error;
+// connection.query("SELECT * FROM user_master um WHERE um.um_id = AND team_master_tm_number = ;", function (error, results, fields) {
+//     if (error)
+//         throw error;
 
-    console.log(results)
-});
+//     console.log(results)
+// });
 
-connection.end();
+
+//connection.end();
 
 app.use("/static", express.static("./client/static"))
 
