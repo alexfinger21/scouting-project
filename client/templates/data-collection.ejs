@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+
     <title>Log In</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel="stylesheet" href="../static/universal.css">
@@ -21,14 +22,14 @@
     <script type="module" src="../static/scripts/data-collection.js" defer></script>
     <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
-    
+
 </head>
 
 <body>
 
     <%- include("../static/partials/header") %>
 
-        <div id="page-holder">
+        <div id="page-holder" onmousedown="event.preventDefault ? event.preventDefault() : event.returnValue = false">
             <form id="match-number-form" action="/data-collection" method="POST">
                 <!-- MATCH NUMBER-->
                 <div id="text-container">
@@ -85,11 +86,11 @@
                                 <p>Middle</p>
                                 <p>Bottom</p>
                             </div>
-                            <div class= "table-scroller">
-                                <%let tblNames = ["Inner", "Co-Op", "Outer"]%>
-                                <% for(let i = 0; i < 3; i++) { %>
-                                    <div class="table-wrapper">
-                                        <table>
+                            <div class="table-scroller">
+                                <%let tblNames=["Inner", "Co-Op" , "Outer" ]%>
+                                    <% for(let i=0; i < 3; i++) { %>
+                                        <div class="table-wrapper">
+                                            <table>
                                                 <tr>
                                                     <td class="fill-cone">
                                                         <button class="scoring-button">
@@ -110,7 +111,7 @@
                                                 <tr>
                                                     <td class="fill-cone">
                                                         <button class="scoring-button">
-                                                            <img src = "">
+                                                            <img src="">
                                                         </button>
                                                     </td>
                                                     <td class="fill-cube">
@@ -141,10 +142,12 @@
                                                         </button>
                                                     </td>
                                                 </tr>
-                                        </table>
-                                        <p> <%= tblNames[i] %> </p>
-                                    </div>
-                                <% } %>
+                                            </table>
+                                            <p>
+                                                <%= tblNames[i] %>
+                                            </p>
+                                        </div>
+                                        <% } %>
                             </div>
                         </div>
                     </div>
@@ -164,11 +167,11 @@
                             <label for="auto-engaged">Engaged</label>
                         </div>
                     </div>
-                    
+
                     <!--TELEOP-->
                     <div class="line" id="tele-op">ㅤ</div>
 
-                    
+
                     <!-- TELEOP SCORING GRID-->
                     <div class="input-container">
                         <span>Robot Teleop Scoring</span>
@@ -178,65 +181,67 @@
                                 <p>Middle</p>
                                 <p>Bottom</p>
                             </div>
-                            <div class= "table-scroller">
-                                <% for(let i = 0; i < 3; i++) { %>
+                            <div class="table-scroller">
+                                <% for(let i=0; i < 3; i++) { %>
                                     <div class="table-wrapper">
                                         <table>
-                                                <tr>
-                                                    <td class="fill-cone">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                    <td class="fill-cube">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                    <td class="fill-cone">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="fill-cone">
-                                                        <button class="scoring-button">
-                                                            <img src = "">
-                                                        </button>
-                                                    </td>
-                                                    <td class="fill-cube">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                    <td class="fill-cone">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="fill-both">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                    <td class="fill-both">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                    <td class="fill-both">
-                                                        <button class="scoring-button">
-                                                            <img src="">
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-cube">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-cube">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-cone">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fill-both">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-both">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                                <td class="fill-both">
+                                                    <button class="scoring-button">
+                                                        <img src="">
+                                                    </button>
+                                                </td>
+                                            </tr>
                                         </table>
-                                        <p> <%= tblNames[i] %> </p>
+                                        <p>
+                                            <%= tblNames[i] %>
+                                        </p>
                                     </div>
-                                <% } %>
+                                    <% } %>
                             </div>
                         </div>
                     </div>
@@ -308,20 +313,15 @@
                             <br>
                         </div>
                     </div>
-                    
-                    <!--EXTRA SPACING AT THE END-->
-                    <div style="margin-bottom: 4vh;"></div>
                 </div>
-
-                <!--SUBMIT-->
-                <img src="../static/images/fade.png" id="data-fade">
-                <!--fade out at the bottom-->
+                
                 <button type="submit" id="data-submit" class="big-button">Save</button>
+
             </form>
         </div>
 
         <%- include("../static/partials/footer") %>
 
-    </body>
+</body>
 
-    </html>
+</html>
