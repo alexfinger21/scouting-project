@@ -16,6 +16,17 @@ const playPiecesDict = {
     empty: "",
 }
 
+function hideAddressBar() {
+    if(!window.location.hash) {
+      if(document.height < window.outerHeight)
+        document.body.style.height = (window.outerHeight + 50) + 'px';
+      setTimeout( function(){ 
+          window.scrollTo(0, 1); 
+          document.body.style.height = 'auto'; 
+        }, 50 );
+    }
+  }
+
 function loadData() {
     const buttonContainers = document.getElementsByClassName("NumberButtonContainer")
     const matchNumber = document.getElementById("match-number")
@@ -204,10 +215,7 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function main() {
-    setTimeout(function(){
-        // This hides the address bar:
-        window.scrollTo(0, 1);
-    }, 0);
+    hideAddressBar()
     
     loadData()
 
