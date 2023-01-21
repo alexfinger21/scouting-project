@@ -55,11 +55,7 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
         database.query("SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = '" + user_id + "' AND um.um_id = '" + username + "' AND um.um_timeout_ts > current_timestamp();", (err, results) => {
             if (results.length == 1) {
                 const result = results[0]
-                 if (result.um_timeout_ts > currentime) {
-                    next() //goes to the next middleware function (login or data collection)
-                 } else {
-                    res.redirect("/login")
-                 }
+                next() //goes to the next middleware function (login or data collection)
             } else {
                 res.redirect("/login")
             }
