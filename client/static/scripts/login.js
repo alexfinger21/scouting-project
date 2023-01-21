@@ -32,7 +32,7 @@ window.addEventListener("load", () => {
             }
         }
         
-        data.password = SHA256(data.password).toString(CryptoJS)
+        data.password = SHA256(data.password).toString(CryptoJS.enc.Hex)
         
         console.log(data)
 
