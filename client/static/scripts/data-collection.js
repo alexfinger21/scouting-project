@@ -216,6 +216,8 @@ function main() {
     form.onsubmit = (event) => {
         event.preventDefault()
         
+        console.log("submitted!")
+
         const data = saveData()
 
         $.ajax({
