@@ -1,12 +1,21 @@
 #login-form-icon {
-  margin-left: auto;
-  margin-right: auto;
-  transform: translate(0, 120%);
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transform: translate(0, 110%);
   height: 8vh;
   padding: 0.2%;
   margin-left: auto;
   margin-right: auto;
   object-fit: cover;
+}
+
+#login-form-icon img {
+  height: 100%;
+  width: auto;
+  
 }
 
 #login-form {
