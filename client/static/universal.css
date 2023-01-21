@@ -5,11 +5,18 @@
     -webkit-font-smoothing: antialiased;
   }
   
+html {
+  height: -webkit-fill-available;
+}
+
   body {
     background-color: #FBFDFF;
     background-size: cover;
     font-family: 'Rubik', sans-serif;
     font-size: 2vh;
+    height: 150vh;
+    height: -webkit-fill-available;
+    overflow: hidden;
   }
 
   /* Removes input spinners/arrows on Chrome, Safari, Edge, Opera */
