@@ -72,7 +72,7 @@ router.post("/", async function(req, res) {
         teamsixn_scouting_dev.user_master
     SET 
         um_session_id = "`+ sessionId + `",
-        um_timeout_ts = GETDATE()
+        um_timeout_ts = current_timestamp()
 
     WHERE 
         team_master_tm_number = ` + body.team_number +` and 
