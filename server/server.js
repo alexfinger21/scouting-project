@@ -53,7 +53,8 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
         const user_id = req.cookies["user_id"]
         const username = req.cookies["username"]
         database.query("SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = '" + user_id + "' AND um.um_id = '" + username + "' AND um.um_timeout_ts > current_timestamp();", (err, results) => {
-            if (results.length == 1) {
+            console.log(results)
+            if (results) {
                 const result = results[0]
                 next() //goes to the next middleware function (login or data collection)
             } else {
