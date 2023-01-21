@@ -46,6 +46,7 @@ app.use(cors(corsOptions))
 app.use(cookieParser())
 //middleware for anyone on the site, checking whether they're logged in or ont
 app.use((req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
+    console.log(req.path)
     if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else if (req.path != "/login") {
