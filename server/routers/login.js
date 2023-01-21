@@ -3,6 +3,7 @@ const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
 const database = require("../database/database.js")
+const { query } = require("express")
 require('dotenv').config()
 
 //SQL
@@ -57,11 +58,21 @@ router.post("/", async function(req, res) {
 
         console.log("success for " + body.username)
 
+        const sessionId = crypto.randomBytes(32).toString
+
         res.cookie("user_id", crypto.randomBytes(32).toString, {
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
             httpOnly: true,
         })
+
+        database.query(`UPDATE 
+        teamsixn_scouting_dev.user_master
+    SET 
+        um_session_id = '`+ sessionId + `'
+    WHERE 
+        team_master_tm_number = 695 and 
+        um_id = 'alex';`)
 
         return res.status(200).send({result: 'redirect', url:'/app'})
     }
