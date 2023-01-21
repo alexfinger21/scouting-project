@@ -72,7 +72,9 @@ router.post("/", async function(req, res) {
         database.query(`UPDATE 
         teamsixn_scouting_dev.user_master
     SET 
-        um_session_id = "`+ sessionId + `"
+        um_session_id = "`+ sessionId + `",
+        um_timeout_ts = GETDATE()
+
     WHERE 
         team_master_tm_number = ` + body.team_number +` and 
         um_id = "` + body.username + `";`, () => {})
