@@ -10,7 +10,7 @@ require('dotenv').config()
 
 function checkUser(body) {
     return new Promise(resolve => {
-        database.query("SELECT * FROM user_master um WHERE um.um_id = '" + body.username + "' AND team_master_tm_number = " + "695" + " ;", function (error, results) {
+        database.query("SELECT * FROM user_master um WHERE um.um_id = '" + body.username + "' AND team_master_tm_number = " + " + body.team_number +" + " ;", function (error, results) {
             if (error)
                 throw error;
         
@@ -58,9 +58,9 @@ router.post("/", async function(req, res) {
 
         console.log("success for " + body.username)
 
-        const sessionId = crypto.randomBytes(32).toString
+        const sessionId = crypto.randomBytes(32).toString(crypto.enc.Hex)
 
-        res.cookie("user_id", crypto.randomBytes(32).toString, {
+        res.cookie("user_id", crypto.randomBytes(32).toString(crypto.enc.Hex), {
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
             httpOnly: true,
@@ -71,8 +71,8 @@ router.post("/", async function(req, res) {
     SET 
         um_session_id = '`+ sessionId + `'
     WHERE 
-        team_master_tm_number = 695 and 
-        um_id = 'alex';`, () => {})
+        team_master_tm_number = ` + body.team_number +` and 
+        um_id = '` + body.username + `';`, () => {})
 
         return res.status(200).send({result: 'redirect', url:'/app'})
     }
