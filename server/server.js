@@ -64,6 +64,7 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
             }
         })
     } else {
+        console.log("next")
         next()
     }
 })
