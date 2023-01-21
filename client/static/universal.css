@@ -32,6 +32,20 @@ input::-webkit-inner-spin-button {
 -------------------------HEADER-----------------
 */
 
+
+
+#page-holder {
+  transform: translate(0, 7.5vh);
+  color: #5B6671;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 5px;
+}
+
 #logo {
   height: 6vh;
   padding: 0.2%;
@@ -70,17 +84,6 @@ input::-webkit-inner-spin-button {
 
   transition: max-height 0.3s ease-in-out;
   max-height: 0;
-}
-
-#page-holder {
-  transform: translate(0, 7.5vh);
-  color: #5B6671;
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  width: 100%;
-  border-bottom: 5px;
 }
 
 #dropdown-content button {
