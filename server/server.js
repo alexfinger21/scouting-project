@@ -25,56 +25,11 @@ const matchListing = require(path.resolve(serverDirectory, routeDirectory, "matc
 const adminPage = require(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
 
 //CONSTANTS
-const user = { //TEST USER
-    team_number: 695,
-    username: "alex",
-    password: "npc",
-    admin: true,
-}
-
-const algorithm = "aes-256-cbc"
-const initVector = crypto.randomBytes(16)
-const securitykey = crypto.randomBytes(32)
-const cipher = crypto.createCipheriv(algorithm, securitykey, initVector);
-
-console.log(securitykey + "\n" + initVector)
 
 const corsOptions = {
     origin: '*',
     credentials: true 
-};
-
-//CONNECT MYSQL
-
-console.log(process.env.DB_PASS)
-
-const connection = mysql.createConnection({
-    host     : process.env.DATABASE_HOST,
-    database : process.env.DATABASE,
-    user     : process.env.USER,
-    password : process.env.DB_PASS,
-});
-
-//SELECT * FROM user_master um WHERE um.um_id = AND team_master_tm_number = ;
-
-connection.connect(function(err) {
-    if (err) {
-        console.error('Error connecting: ' + err.stack);
-        return;
-    }
-
-    console.log('Connected as id ' + connection.threadId);
-});
-
-// connection.query("SELECT * FROM user_master um WHERE um.um_id = AND team_master_tm_number = ;", function (error, results, fields) {
-//     if (error)
-//         throw error;
-
-//     console.log(results)
-// });
-
-
-//connection.end();
+}
 
 app.use("/static", express.static("./client/static"))
 

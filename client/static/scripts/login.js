@@ -1,5 +1,7 @@
 import {loginPath} from "./utility.js"
 
+const SHA256 = CryptoJS.SHA256
+
 window.addEventListener("load", () => {
     console.log(document.getElementsByClassName("centerform")[0])
     const form = document.getElementsByClassName("centerform")[0]
@@ -18,19 +20,22 @@ window.addEventListener("load", () => {
         const data = {}
 
         tempChildArr.forEach((child) => {
-            data[child.name] = child.value
+            data[child.name] = child.value.length <= 30 ? child.value : child.value.substring(0, 30)
+            console.log("original : " + child.value + "\n truncated: " + child.value.substring(0, 30))
         })
 
-        console.log(data)
-
-       for (const key in data) {
+        for (const key in data) {
             const value = data[key]
-
+            
             if (value == "") {
                 return false;
             }
         }
         
+        data.password = SHA256(data.password).toString(CryptoJS.enc.Hex)
+        
+        console.log(data)
+
         $.ajax({
             type: "POST",
             contentType: "application/json",   
@@ -38,8 +43,8 @@ window.addEventListener("load", () => {
             data: JSON.stringify(data),
             success: function(response) {
                 if (response.result == 'redirect') {
-                  //redirect from the login to data collection if successful, otherwise refresh
-                  window.location.replace(response.url);
+                    //redirect from the login to data collection if successful, otherwise refresh
+                    window.location.replace(response.url);
                 }
             },
 
@@ -49,5 +54,5 @@ window.addEventListener("load", () => {
             },
         })
         
-    }
+     }
 })
