@@ -5,30 +5,30 @@
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <script type="module" src="../static/scripts/match-listing.js" defer></script>
     <div id="page-holder">
-        <div class="match-listing-container">
-            <table id="match-listing-table">
-                <tr>
-                    <th>Match Number</th>
-                    <th class="red">Red 1</th>
-                    <th class="red">Red 2</th>
-                    <th class="red">Red 3</th>
-                    <th class="blue">Blue 1</th>
-                    <th class="blue">Blue 2</th>
-                    <th class="blue">Blue 3</th>
-                </tr>
+        <table id="match-listing-table">
+            <tr>
+                <th>Match</th>
+                <th class="red">R1</th>
+                <th class="red">R2</th>
+                <th class="red">R3</th>
+                <th class="blue">B1</th>
+                <th class="blue">B2</th>
+                <th class="blue">B3</th>
+            </tr>
 
-                <% for (let i = 0; i < 5; i++) { %>
-                    <tr>
-                        <td><%= i + 1 %></td>
-                        <td>695</td>
-                        <td>1234</td>
-                        <td>1234</td>
-                        <td>1234</td>
-                        <td>1234</td>
-                        <td>1234</td>
-                    </tr>
+            <% for (let i=0; i < 5; i++) { %>
+                <tr>
+                    <td>
+                        <%= i + 1 %>
+                    </td>
+                    <td>695</td>
+                    <td>1234</td>
+                    <td>1234</td>
+                    <td>1234</td>
+                    <td>1234</td>
+                    <td>1234</td>
+                </tr>
                 <% } %>
-            </table>
-        </div>
+        </table>
     </div>
 </body>
