@@ -68,6 +68,12 @@ router.post("/", async function(req, res) {
             httpOnly: true,
         })
 
+        res.cookie("username", body.username, {
+            maxAge: 24 * 60 * 60 * 1000,
+            // expires works the same as the maxAge
+            httpOnly: true,
+        })
+
         database.query(`UPDATE 
         teamsixn_scouting_dev.user_master
     SET 
