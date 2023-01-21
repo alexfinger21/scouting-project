@@ -3,7 +3,6 @@ const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
 const database = require("../database/database.js")
-const { query } = require("express")
 require('dotenv').config()
 
 //SQL
@@ -77,7 +76,9 @@ router.post("/", async function(req, res) {
 
     WHERE 
         team_master_tm_number = ` + body.team_number +` and 
-        um_id = "` + body.username + `";`, () => {})
+        um_id = "` + body.username + `";`, (err, results) => {
+            console.log(results)
+        })
 
         return res.status(200).send({result: 'redirect', url:'/app'})
     }
