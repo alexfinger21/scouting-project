@@ -7,6 +7,8 @@ const dbConfig = {
     password : process.env.DB_PASS,
 }
 
+console.log(dbConfig)
+
 let pool = mysql.createPool(dbConfig)
 // Ping database to check for common exception errors.
 pool.getConnection((err, connection) => {
