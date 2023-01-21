@@ -52,6 +52,9 @@ router.post("/", async function(req, res) {
     const body = req.body
     console.log(body)
 
+    const date = new Date()
+    console.log(date)
+
     let success = await checkUser(body)
     
     if (success) { //successful login
@@ -60,7 +63,7 @@ router.post("/", async function(req, res) {
 
         const sessionId = crypto.randomBytes(32).toString()
 
-        res.cookie("user_id", crypto.randomBytes(32).toString(), {
+        res.cookie("user_id", sessionId, {
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
             httpOnly: true,
