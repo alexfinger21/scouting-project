@@ -10,7 +10,7 @@ require('dotenv').config()
 
 function checkUser(body) {
     return new Promise(resolve => {
-        database.query("SELECT * FROM user_master um WHERE um.um_id = '" + body.username + "' AND team_master_tm_number = " + " + body.team_number +" + " ;", function (error, results) {
+        database.query("SELECT * FROM user_master um WHERE um.um_id = '" + body.username + "' AND team_master_tm_number = " + body.team_number + ";", function (error, results) {
             if (error)
                 throw error;
         
@@ -69,10 +69,10 @@ router.post("/", async function(req, res) {
         database.query(`UPDATE 
         teamsixn_scouting_dev.user_master
     SET 
-        um_session_id = '`+ sessionId + `'
+        um_session_id = "`+ sessionId + `"
     WHERE 
         team_master_tm_number = ` + body.team_number +` and 
-        um_id = '` + body.username + `';`, () => {})
+        um_id = "` + body.username + `";`, () => {})
 
         return res.status(200).send({result: 'redirect', url:'/app'})
     }
