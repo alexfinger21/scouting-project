@@ -3,7 +3,7 @@ const mysql = require("mysql")
 const dbConfig = {
     host     : process.env.DATABASE_HOST,
     database : process.env.DATABASE,
-    user     : process.env.USER,
+    user     : process.env.DB_USER,
     password : process.env.DB_PASS,
 }
 
