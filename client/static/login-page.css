@@ -1,5 +1,6 @@
 #login-form-icon {
-
+  margin-left: auto;
+  margin-right: auto;
   transform: translate(0, 120%);
   height: 8vh;
   padding: 0.2%;
