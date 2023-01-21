@@ -72,7 +72,7 @@ router.post("/", async function(req, res) {
         um_session_id = '`+ sessionId + `'
     WHERE 
         team_master_tm_number = 695 and 
-        um_id = 'alex';`)
+        um_id = 'alex';`, () => {})
 
         return res.status(200).send({result: 'redirect', url:'/app'})
     }
