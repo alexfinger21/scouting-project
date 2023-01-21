@@ -48,8 +48,8 @@ app.use(cookieParser())
 app.use((req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
     if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
-    } else if ( req.path != "/login") {
-        console.log("here")
+    } else if (req.path != "/login") {
+        console.log(req.path)
         const user_id = req.cookies["user_id"]
         const username = req.cookies["username"]
         database.query("SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = '" + user_id + "' AND um.um_id = '" + username + "' AND um.um_timeout_ts > current_timestamp();", (err, results) => {
