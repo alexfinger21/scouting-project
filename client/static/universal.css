@@ -6,7 +6,6 @@
   }
   
 html {
-  height: -webkit-fill-available;
 }
 
   body {
@@ -15,7 +14,6 @@ html {
     font-family: 'Rubik', sans-serif;
     font-size: 2vh;
     height: 150vh;
-    height: -webkit-fill-available;
     overflow: hidden;
   }
 
