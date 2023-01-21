@@ -58,6 +58,7 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
                 const result = results[0]
                 next() //goes to the next middleware function (login or data collection)
             } else {
+                console.log("redirect")
                 res.redirect("/login")
             }
         })
