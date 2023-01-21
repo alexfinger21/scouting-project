@@ -15,9 +15,8 @@ body {
   background-size: cover;
   font-family: 'Rubik', sans-serif;
   font-size: 2vh;
-  height: -webkit-fill-available;
-  height: -moz-available;
-  height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100vh;
   overflow: hidden;
 }
 
