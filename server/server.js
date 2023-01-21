@@ -48,7 +48,18 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
     if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else {
-        next() //goes to the next middleware function (login or data collection)
+        const user_id = req.cookies["user_id"]
+        const username = req.cookies["username"]
+        database.query("SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = '" + user_id + "' AND um.um_id = '" + username + "' AND um.um_timeout_ts > current_timestamp();", (err, results) => {
+            if (results.length == 1) {
+                const result = results[0]
+                 if (result.um_timeout_ts > currentime) {
+                    next() //goes to the next middleware function (login or data collection)
+                 } else {
+                    res.redirect("/login")
+                 }
+            }
+        })
     }
 })
 
