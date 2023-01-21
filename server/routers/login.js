@@ -58,9 +58,9 @@ router.post("/", async function(req, res) {
 
         console.log("success for " + body.username)
 
-        const sessionId = crypto.randomBytes(32).toString(crypto.enc.Hex)
+        const sessionId = crypto.randomBytes(32).toString()
 
-        res.cookie("user_id", crypto.randomBytes(32).toString(crypto.enc.Hex), {
+        res.cookie("user_id", crypto.randomBytes(32).toString(), {
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
             httpOnly: true,
