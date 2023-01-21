@@ -8,8 +8,8 @@ const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
 const crypto = require("crypto")
-const database = require("./database/database.js")
 require('dotenv').config()
+const database = require("./database/database.js")
 
 //DIRECTORIES
 const serverDirectory = "./server"

@@ -2,8 +2,8 @@ const user = require("../user")
 const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
-const database = require("../database/database.js")
 require('dotenv').config()
+const database = require("../database/database.js")
 
 //SQL
 
