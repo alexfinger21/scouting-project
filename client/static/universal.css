@@ -6,7 +6,6 @@
 }
 
 html {
-  height: -webkit-fill-available;
 }
 
 body {
@@ -37,7 +36,6 @@ input::-webkit-inner-spin-button {
   display: inline-block;
   width: 100%;
   height: 30vh;
-  height: -webkit-fill-available;
   border-bottom: 5px;
 }
 
