@@ -3,7 +3,7 @@ import {loginPath} from "./utility.js"
 const SHA256 = CryptoJS.SHA256
 
 window.addEventListener("load", () => {
-    screen.lockOrientation("orientation"); //prevents turning the device
+    screen.lockOrientation("portrait"); //prevents turning the device
     console.log(document.getElementsByClassName("centerform")[0])
     const form = document.getElementsByClassName("centerform")[0]
 
