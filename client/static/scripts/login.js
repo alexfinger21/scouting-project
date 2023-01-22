@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
     form.onsubmit = (event) => {
         event.preventDefault()
 
-        const children = document.getElementsByClassName("input-container")
+        const children = document.getElementsByClassName("login-input-container")
         
         let tempChildArr = []
 
