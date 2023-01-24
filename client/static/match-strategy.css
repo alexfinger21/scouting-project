@@ -1,9 +1,11 @@
 #select-match {
-    margin-top: 2vh;
+    margin-left: 8vw;
 }
 
 #stats {
     margin-top: 2vh;
+    margin-left: auto;
+    margin-right: auto;
     width: 95%;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
@@ -70,6 +72,8 @@ tr:nth-child(even) { /* copied from w3schools lol*/
     width: 95%;
     margin-top: 1vh;
     margin-bottom: 2vh;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
