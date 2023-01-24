@@ -4,7 +4,8 @@
     outline: 0;
 }
 
-.match-listing-table {
+.match-top {
+    width: 80vw;
     margin-top: 2vh;
     margin-left: auto;
     margin-right: auto;
@@ -16,11 +17,26 @@
     border-radius: 12px 12px 0 0;;
 }
 
-.match-listing-table th,td {
+.match-top th {
     padding: 5px 6px;
+    background: #FFF;
+    text-align: center;
 }
 
-.match-listing-table th {
+.match-bottom {
+    width:80vw;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fafafa;
+    text-align: center;
+    border-spacing: 0;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(32, 32, 32, 0.3);
+    border-radius: 0 0 4px 4px;
+}
+
+.match-bottom th {
+    padding: 5px 6px;
     background: #FFF;
 }
 
@@ -35,7 +51,4 @@
 .start-stop-button img {
     height: 100%;
     width: auto;
-}
-
-#match-listing-table td {
 }
