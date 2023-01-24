@@ -53,9 +53,9 @@ window.addEventListener("load", () => {
         buttonUrls[btn.children[1].textContent] = btn.children[1].textContent.replaceAll(" ", "-").toLowerCase()
 
         btn.addEventListener("click", event => {
-            moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
             console.log(buttonUrls[btn.children[1].textContent])
             requestPage(buttonUrls[btn.children[1].textContent], {})
+            moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
         })
     })
 
