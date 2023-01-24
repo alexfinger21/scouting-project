@@ -15,7 +15,7 @@ window.onunload = saveData
 const playPiecesDict = {
     cone: "../static/images/cone.svg",
     cube: "../static/images/cube.svg",
-    empty: "",
+    empty: "../static/images/transparent.png",
 }
 
 function loadData() {
@@ -306,7 +306,7 @@ function main() {
             if(btnImg.src.indexOf("cone.svg") > -1 ) { //filled image, make it empty
                 coneBtn.setAttribute("object", "empty")
 
-                btnImg.src = ""
+                btnImg.src = "../static/images/transparent.png"
             }
             else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
@@ -326,7 +326,7 @@ function main() {
         cubeBtn.addEventListener("click", (event) => {            
             if(btnImg.src.indexOf("cube.svg") > -1 ) { //filled image, make it empty
                 cubeBtn.setAttribute("object", "empty")
-                btnImg.src = ""
+                btnImg.src = "../static/images/transparent.png"
             }
             else { //its empty, make it a cone
                 btnImg.src = "../static/images/cube.svg"
@@ -350,7 +350,7 @@ function main() {
                 bothBtn.setAttribute("object", "cube")
             }
             else if(btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
-                btnImg.src = ""
+                btnImg.src = "../static/images/transparent.png"
                 bothBtn.setAttribute("object", "empty")
             }
             else { //its empty, make it a cone
