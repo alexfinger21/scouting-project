@@ -13,8 +13,7 @@
 {
     display: block;
     height: 100%;
-    width: 90%;
-    
+    width: 97%;
     margin-left: auto;
     margin-right: auto;
     overflow: scroll;
@@ -22,7 +21,7 @@
 }
 
 .match-top {
-    width: 80vw;
+    width: 90vw;
     margin-top: 2vh;
     margin-left: auto;
     margin-right: auto;
@@ -43,7 +42,7 @@
 }
 
 .match-bottom {
-    width:80vw;
+    width:90vw;
     margin-left: auto;
     margin-right: auto;
     background-color: #fafafa;
