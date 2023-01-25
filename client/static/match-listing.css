@@ -4,8 +4,10 @@
     outline: 0;
 }
 
-#match-listing-table {
+.match-listing-table {
     margin-top: 2vh;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #fafafa;
     text-align: center;
     border-spacing: 0;
@@ -14,12 +16,25 @@
     border-radius: 12px 12px 0 0;;
 }
 
-#match-listing-table th,td {
+.match-listing-table th,td {
     padding: 5px 6px;
 }
 
-#match-listing-table th {
+.match-listing-table th {
     background: #FFF;
+}
+
+.start-stop-button {
+    font-size: 2.5vh;
+    height: 3vh;
+    color: #000;
+    background-color: transparent;
+    border: 0;
+}
+
+.start-stop-button img {
+    height: 100%;
+    width: auto;
 }
 
 #match-listing-table td {
