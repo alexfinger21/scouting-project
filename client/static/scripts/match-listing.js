@@ -44,24 +44,22 @@ function main()
                 //set image
                 img.src = "../static/images/stop-button.png"
                 //highlight table
-                const tbl = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-                const highlightElements = tbl.querySelectorAll("th")
-                console.log(highlightElements)
-                highlightElements.forEach((hl) => {
-                    hl.style.backgroundColor = "#FFF5D6"
-                })
+                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+                const tables = container.getElementsByTagName("table")
+                console.log(tables)
+                for(const tbl of tables) {
+                    tbl.style.backgroundColor = "#FFF5D6"
+                }
             }
             else { //press stop
                 //set image
                 img.src = "../static/images/play-button.png"
                 //unhighlight table
-                const tbl = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-                const highlightElements = tbl.querySelectorAll("th")
-                console.log(highlightElements)
-                highlightElements.forEach((hl) => {
-                    console.log(hl)
-                    hl.style.backgroundColor = "#FFF"
-                })
+                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+                const tables = container.getElementsByTagName("table")
+                for(const tbl of tables) {
+                    tbl.style.backgroundColor = "#FFF"
+                }
             }
         })
     }

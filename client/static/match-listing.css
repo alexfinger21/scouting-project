@@ -25,7 +25,7 @@
     margin-top: 2vh;
     margin-left: auto;
     margin-right: auto;
-    background-color: #fafafa;
+    background-color: #FFF;
     text-align: center;
     border-spacing: 0;
     overflow: hidden;
@@ -37,7 +37,6 @@
 
 .match-top th {
     padding: 5px 6px;
-    background: #FFF;
     text-align: center;
 }
 
@@ -45,7 +44,7 @@
     width:90vw;
     margin-left: auto;
     margin-right: auto;
-    background-color: #fafafa;
+    background-color: #FFF;
     text-align: center;
     border-spacing: 0;
     overflow: hidden;
@@ -57,7 +56,6 @@
 
 .match-bottom th {
     padding: 5px 6px;
-    background: #FFF;
 }
 
 .start-stop-button {
