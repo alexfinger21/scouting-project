@@ -1,6 +1,7 @@
 //scroll animations
 const scrollObserver = new IntersectionObserver((entries) => { //runs whenever the visibility of an element changes
     entries.forEach((entry) => {
+        console.log(entry.isIntersecting)
         if(entry.isIntersecting) { //is in the viewport (user scrolled in)
             entry.target.classList.add("show") //fade in
         }
@@ -26,7 +27,6 @@ window.addEventListener("load", main)
 
 function main()
 {
-    console.log("HII!!")
     const hiddenElements = document.querySelectorAll('.hidden');
     hiddenElements.forEach((elm) =>{
         scrollObserver.observe(elm);
