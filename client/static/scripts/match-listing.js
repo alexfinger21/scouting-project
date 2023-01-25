@@ -1,7 +1,6 @@
 //scroll animations
 const scrollObserver = new IntersectionObserver((entries) => { //runs whenever the visibility of an element changes
-    entries.forEach((entry) => {
-        console.log(entry.isIntersecting)
+    entries.forEach((entry) => { //theres 8 dictionaries containing one property, go through until you find isIntersecting
         if(entry.isIntersecting) { //is in the viewport (user scrolled in)
             entry.target.classList.add("show") //fade in
         }
@@ -27,7 +26,47 @@ window.addEventListener("load", main)
 
 function main()
 {
-    const hiddenElements = document.querySelectorAll('.hidden');
+    //highlight every th element that has our team
+    const thElements = document.querySelectorAll("th")
+    thElements.forEach((elm) => {
+        if(elm.textContent == "695") {
+            //highlight the element
+            elm.style.backgroundColor = "#FFD962"
+        }
+    })
+    //play buttns
+    const buttons = document.getElementsByClassName("start-stop-button")
+    for(const btn of buttons) {
+        btn.addEventListener("click", (event) => {
+            //get img
+            const img = btn.getElementsByTagName("img")[0]
+            if(img.src.indexOf("play-button.png") > -1 ) { //press play
+                //set image
+                img.src = "../static/images/stop-button.png"
+                //highlight table
+                const tbl = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+                const highlightElements = tbl.querySelectorAll("th")
+                console.log(highlightElements)
+                highlightElements.forEach((hl) => {
+                    hl.style.backgroundColor = "#FFF5D6"
+                })
+            }
+            else { //press stop
+                //set image
+                img.src = "../static/images/play-button.png"
+                //unhighlight table
+                const tbl = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+                const highlightElements = tbl.querySelectorAll("th")
+                console.log(highlightElements)
+                highlightElements.forEach((hl) => {
+                    console.log(hl)
+                    hl.style.backgroundColor = "#FFF"
+                })
+            }
+        })
+    }
+    //animate on scroll
+    const hiddenElements = document.querySelectorAll(".hidden");
     hiddenElements.forEach((elm) =>{
         scrollObserver.observe(elm);
     })
