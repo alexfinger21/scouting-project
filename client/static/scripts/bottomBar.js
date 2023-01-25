@@ -64,5 +64,10 @@ window.addEventListener("load", () => {
         requestPage("match-listing")
     })
 
-    console.log(buttonUrls)
+    const resizeObserver = new ResizeObserver((entries) => {
+        $(hoverButton).width(footerPageButtons[0].clientWidth)
+        $(hoverButton).height(footerPageButtons[0].clientHeight)
+    })
+
+    resizeObserver.observe(document.body)
 })
