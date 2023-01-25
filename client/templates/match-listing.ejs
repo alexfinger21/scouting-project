@@ -5,29 +5,33 @@
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <script type="module" src="../static/scripts/match-listing.js" defer></script>
     <div id="page-holder">
-            <% for (let i=0; i < 5; i++) { %>
-                <table class="match-top">
-                    <th>
-                        <%= "Match " + i %>
-                    </th>
-                    <th>
-                        10:10
-                    </th>
-                    <th>
-                        <div class="start-stop-button">
-                            <img src="../static/images/play-button.png">
-                        </div>
-                    </th>
-                </table>
-                <table class="match-bottom">
-                    <th class="red">1234</th>
-                    <th class="red">5431</th>
-                    <th class="red">4269</th>
-                    <th class="blue">9892</th>
-                    <th class="blue">0921</th>
-                    <th class="blue">3219</th>
-                </table>
+        <h1 id="match-listing-title">Matches</h1>
+        <div id="match-scroller">
+            <% for (let i=0; i < 20; i++) { %>
+                <div class="match-container hidden">
+                    <table class="match-top">
+                        <th>
+                            <%= "Match " + i %>
+                        </th>
+                        <th>
+                            10:10
+                        </th>
+                        <th>
+                            <div class="start-stop-button">
+                                <img src="../static/images/play-button.png">
+                            </div>
+                        </th>
+                    </table>
+                    <table class="match-bottom">
+                        <th class="red">1234</th>
+                        <th class="red">5431</th>
+                        <th class="red">4269</th>
+                        <th class="blue">9892</th>
+                        <th class="blue">0921</th>
+                        <th class="blue">3219</th>
+                    </table>
+                </div>
             <% } %>
-        </table>
+        </div>
     </div>
 </body>
