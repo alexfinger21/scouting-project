@@ -1,6 +1,4 @@
-console.log("WSP BBG \n\n\n")
-
-//When teamsummary is loaded, call the main function 
+//When alliance selector is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {

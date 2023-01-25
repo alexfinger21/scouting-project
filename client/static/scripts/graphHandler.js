@@ -21,7 +21,6 @@ function generatePoint() {
     let color = selectRandom(colorOptions)
 
     img.src = "../static/images/letters/" + letter + "/" + color + ".png"
-    console.log(img.src)
     img.height = 15
     img.width = 12
 
