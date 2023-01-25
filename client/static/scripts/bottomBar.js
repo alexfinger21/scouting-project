@@ -31,6 +31,7 @@ function moveToPage(ogPos, pos, btn) {
 }
 
 window.addEventListener("load", () => {
+    let selectedObj = document.getElementById("data-collection-btn")
 
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
@@ -56,6 +57,7 @@ window.addEventListener("load", () => {
             console.log(buttonUrls[btn.children[1].textContent])
             requestPage(buttonUrls[btn.children[1].textContent], {})
             moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
+            selectedObj = btn
         })
     })
 
@@ -67,6 +69,10 @@ window.addEventListener("load", () => {
     const resizeObserver = new ResizeObserver((entries) => {
         $(hoverButton).width(footerPageButtons[0].clientWidth)
         $(hoverButton).height(footerPageButtons[0].clientHeight)
+
+        console.log(selectedObj.getBoundingClientRect().left)
+
+        hoverButton.style.left = selectedObj.getBoundingClientRect().left + "px"
     })
 
     resizeObserver.observe(document.body)
