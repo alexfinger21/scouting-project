@@ -13,7 +13,7 @@ router.get("/",  function(req, res) {
     database.query(`SELECT * FROM game_matchup gm 
     WHERE gm.frc_season_master_sm_year = ` + YEAR + `
     ORDER BY gm_number ASC;`, (err, results) => {
-        console.log(results[0])
+        console.log(new Date(results[0].gm_timestamp).getMinutes())
         res.render("match-listing", {
             teams: results, user: user
         })
