@@ -1,14 +1,22 @@
 const user = require("../user")
 const express = require("express")
 const router = express.Router()
+require('dotenv').config()
+const database = require("../database/database.js")
+const YEAR = 2023
 
 const teams = { //TEST TEAMS
     
 }
 
 router.get("/",  function(req, res) {
-    res.render("match-listing", {
-        teams: teams, user: user
+    database.query(`SELECT * FROM game_matchup gm 
+    WHERE gm.frc_season_master_sm_year = ` + YEAR + `
+    ORDER BY gm_number ASC;`, (err, results) => {
+        console.log(results)
+        res.render("match-listing", {
+            teams: teams, user: user
+        })
     })
 })
 
