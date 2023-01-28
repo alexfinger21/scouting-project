@@ -8,7 +8,7 @@
         <h1 id="match-listing-title">Matches</h1>
         <div id="match-scroller">
             <% for (let i=0; i < teams.length; i++) { %>
-                <div class="match-container hidden">
+                <div class="match-container hidden" game_type = <%= teams[i].gm_game_type %> game_number = <%= teams[i].gm_number %>>
                     <table class="match-top">
                         <th>
                             <%= "Match " + (i + 1) %>
