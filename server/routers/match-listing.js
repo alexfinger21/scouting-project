@@ -36,6 +36,7 @@ router.get("/",  function(req, res) {
 })
 
 router.post("/", function(req, res) {
+    console.log("posted")
     const body = req.body
     console.log(body)
 })
