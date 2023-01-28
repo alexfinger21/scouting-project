@@ -7,14 +7,14 @@
     <div id="page-holder">
         <h1 id="match-listing-title">Matches</h1>
         <div id="match-scroller">
-            <% for (let i=0; i < 20; i++) { %>
+            <% for (let i=1; i <= 20; i++) { %>
                 <div class="match-container hidden">
                     <table class="match-top">
                         <th>
                             <%= "Match " + i %>
                         </th>
                         <th>
-                            10:10
+                            <% match[i].time %> 
                         </th>
                         <th>
                             <div class="start-stop-button">
