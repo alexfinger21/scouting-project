@@ -21,6 +21,8 @@ router.get("/",  function(req, res) {
         const h = addZero(date.getHours())
         const m = addZero(date.getMinutes())
         teams.time = h + ":" + m
+
+        console.log(teams.time)
         res.render("match-listing", {
             teams: results, user: user
         })
