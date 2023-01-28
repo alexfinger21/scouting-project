@@ -45,15 +45,15 @@ const testInfo2 = {
 }
 
 const undecidedTableLabels = [
-    "Avg Hangar Pts",
-    "Avg Scoring",
-    "Defensive Score"
+    "Docking",
+    "Scoring",
+    "Defense"
 ]
 
 const decidedTableLabels = [
-    "Hangar Pts",
+    "Docking",
     "Scoring",
-    "Defensive Score"
+    "Defense"
 ]
 
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
