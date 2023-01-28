@@ -15,7 +15,7 @@ router.get("/",  function(req, res) {
     ORDER BY gm_number ASC;`, (err, results) => {
         console.log(results[0])
         res.render("match-listing", {
-            teams: teams, user: user
+            teams: results, user: user
         })
     })
 })
