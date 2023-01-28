@@ -1,5 +1,8 @@
-const dataCollectionPath = "/data-collection"
-const loginPath = "/login"
+const paths = {
+    dataCollection: "/data-collection",
+    login: "/login",
+    matchListing: "/match-listing"
+}
 
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
@@ -57,4 +60,4 @@ async function requestPage(url, data) {
     })
 }
 
-export {clamp, dataCollectionPath, loginPath, selectRandom, getColor, requestPage}
+export {clamp, selectRandom, getColor, requestPage, paths}
