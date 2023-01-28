@@ -1,4 +1,4 @@
-import {clamp, dataCollectionPath, requestPage} from "./utility.js"
+import {clamp, paths, requestPage} from "./utility.js"
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -225,7 +225,7 @@ function main() {
         $.ajax({
             type: "POST",
             contentType: "application/json",   
-            url: dataCollectionPath,
+            url: paths.dataCollection,
             data: JSON.stringify(data),
             success: function(response) {
                 if (response.result == 'redirect') {
