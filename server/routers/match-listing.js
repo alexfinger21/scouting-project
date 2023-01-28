@@ -24,7 +24,7 @@ router.get("/",  function(req, res) {
 
         console.log(teams.time)
         res.render("match-listing", {
-            teams: results, user: user
+            teams: teams, user: user
         })
     })
 })
