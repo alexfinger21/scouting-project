@@ -1,4 +1,4 @@
-import {loginPath} from "./utility.js"
+import {paths} from "./utility.js"
 
 const SHA256 = CryptoJS.SHA256
 
@@ -39,7 +39,7 @@ window.addEventListener("load", () => {
         $.ajax({
             type: "POST",
             contentType: "application/json",   
-            url: loginPath,
+            url: paths.login,
             data: JSON.stringify(data),
             success: function(response) {
                 if (response.result == 'redirect') {
