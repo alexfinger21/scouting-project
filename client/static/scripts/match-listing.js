@@ -1,4 +1,4 @@
-import { paths } from "./utility"
+import { paths } from "./utility.js"
 
 //scroll animations
 const scrollObserver = new IntersectionObserver((entries) => { //runs whenever the visibility of an element changes
@@ -32,10 +32,7 @@ function startMatch(data) {
         url: paths.matchListing,
         data: JSON.stringify(data),
         success: function(response) {
-            if (response.result == 'redirect') {
-              //redirect from the login to data collection if successful, otherwise refresh
-              window.location.replace(response.url);
-            }
+            
         },
 
         error: function(jqXHR, textStatus, errorThrown)
@@ -72,7 +69,7 @@ function main()
                     gm_type: "Q", //P, Q, or E
                     gm_number: 0
                 }
-                startMatch(data)
+                //startMatch(data)
 
                 //set image
                 img.src = "../static/images/stop-button.png"
@@ -97,8 +94,10 @@ function main()
         })
     }
     //animate on scroll
+    console.log("animate")
     const hiddenElements = document.querySelectorAll(".hidden");
     hiddenElements.forEach((elm) =>{
         scrollObserver.observe(elm);
+        console.log("gerr")
     })
 }
