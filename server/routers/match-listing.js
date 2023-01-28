@@ -40,8 +40,7 @@ router.post("/", function(req, res) {
     const body = req.body
     database.query(`insert into teamsixn_scouting_dev.current_game 
     (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
-select
-    ` + body.year + body.event_code + body.gm_type + body.gm_number + `;`, (err, results) => {
+    select ` + body.year + body.event_code + body.gm_type + body.gm_number + `;`, (err, results) => {
         console.log(results)
     })
 })
