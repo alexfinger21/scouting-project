@@ -1,14 +1,34 @@
 const user = require("../user")
 const express = require("express")
 const router = express.Router()
+require('dotenv').config()
+const database = require("../database/database.js")
+const { data } = require("jquery")
+const YEAR = 2023
 
-const teams = { //TEST TEAMS
-    
+function addZero(num) {
+    return num<10 ? "0" + num : num
 }
 
 router.get("/",  function(req, res) {
-    res.render("match-listing", {
-        teams: teams, user: user
+    database.query(database.getTeams(), (err, results) => {
+        const teams = {}
+
+        for (let i = 0; i<results.length; i++) {
+            const currentTeam = results[i]
+
+            teams[i] = currentTeam
+
+            const date = new Date(teams[i].gm_timestamp)
+            const h = addZero(date.getHours())
+            const m = addZero(date.getMinutes())
+            teams[i].time = h + ":" + m
+        }
+
+        
+        res.render("match-listing", {
+            teams: teams, user: user
+        })
     })
 })
 
