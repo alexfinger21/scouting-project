@@ -1,4 +1,6 @@
 import { paths } from "./utility.js"
+const YEAR = 2023
+const EVENT_CODE = "test"
 
 //scroll animations
 const scrollObserver = new IntersectionObserver((entries) => { //runs whenever the visibility of an element changes
@@ -32,7 +34,7 @@ function startMatch(data) {
         url: paths.matchListing,
         data: JSON.stringify(data),
         success: function(response) {
-            
+            //nothing to see here
         },
 
         error: function(jqXHR, textStatus, errorThrown)
@@ -63,18 +65,22 @@ function main()
             //get img
             const img = btn.getElementsByTagName("img")[0]
             if(img.src.indexOf("play-button.png") > -1 ) { //press play
+                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+
                 const data = {
-                    year: 2023,
-                    event_code: 0,
-                    gm_type: "Q", //P, Q, or E
-                    gm_number: 0
+                    year: YEAR,
+                    event_code: EVENT_CODE,
+                    gm_type: container.getAttribute("game_type"), //P, Q, or E
+                    gm_number: container.getAttribute("game_number")
                 }
-                //startMatch(data)
+
+                console.log(data)
+
+                startMatch(data)
 
                 //set image
                 img.src = "../static/images/stop-button.png"
                 //highlight table
-                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
                 const tables = container.getElementsByTagName("table")
                 console.log(tables)
                 for(const tbl of tables) {
