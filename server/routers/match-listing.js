@@ -35,9 +35,9 @@ router.get("/",  function(req, res) {
     })
 })
 
-router.post("/", function(req, res) {
-    const body = req.body
-    console.log(body)
+
+router.post("/", function(req, res) { //when it gets a post request from the client
+    
 })
 
 module.exports = router
