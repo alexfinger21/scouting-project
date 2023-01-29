@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get("/",  async function(req, res) { //only gets used if the url == data-collection
     const body = req.body
+    console.log(body)
     const isAdmin = await checkAdmin(body)
     res.render("data-collection", {
         user: user,
