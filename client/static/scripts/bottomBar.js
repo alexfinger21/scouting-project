@@ -3,8 +3,18 @@ import {requestPage} from "./utility.js"
 
 let globalPos = 0;
 const speed = 10;
+let isHighlightVisible = false
+
+function hideHighlight(btn) {
+    btn.style.opacity = 0
+    isHighlightVisible = false
+}
 
 function moveToPage(ogPos, pos, btn) {
+    if (!isHighlightVisible) {
+        btn.style.opacity = 1
+    }
+    
     if (pos == globalPos) return
     
     globalPos = pos
@@ -61,9 +71,10 @@ window.addEventListener("load", () => {
         })
     })
 
-    const allianceSelectorButton = document.getElementById("alliance-selector")
+    const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {
         requestPage("alliance-selector")
+        hideHighlight(hoverButton)
     })
 
     const resizeObserver = new ResizeObserver((entries) => {
