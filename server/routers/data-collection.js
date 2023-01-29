@@ -1,10 +1,13 @@
 const user = require("../user")
 const express = require("express")
+const { checkAdmin } = require("../utility")
 const router = express.Router()
 
-router.get("/",  function(req, res) { //only gets used if the url == data-collection
+router.get("/",  async function(req, res) { //only gets used if the url == data-collection
+    const isAdmin = await checkAdmin()
     res.render("data-collection", {
-        user: user
+        user: user,
+        isAdmin: isAdmin
     })
 })
 
