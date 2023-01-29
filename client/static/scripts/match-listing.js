@@ -1,4 +1,5 @@
 import { paths } from "./utility.js"
+let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
 

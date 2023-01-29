@@ -61,9 +61,9 @@ window.addEventListener("load", () => {
         })
     })
 
-    const matchListingButton = document.getElementById("match-listing")
-    matchListingButton.addEventListener("click", () =>  {
-        requestPage("match-listing")
+    const allianceSelectorButton = document.getElementById("alliance-selector")
+    allianceSelectorButton.addEventListener("click", () =>  {
+        requestPage("alliance-selector")
     })
 
     const resizeObserver = new ResizeObserver((entries) => {

@@ -1,6 +1,12 @@
 <div id="footer">
     <div id="footer-wrapper">
         <div class="button-wrapper">
+            <button type="button" class="footer-page-button">
+                <img class="footer-icon" src="../static/images/team-summary.png">
+                <p class="footer-subtext">Match Listing</p>
+            </button>
+        </div>
+        <div class="button-wrapper">
             <button type="button" class="footer-page-button" id="data-collection-btn">
                 <img class="footer-icon" src="../static/images/data-collection.png">
                 <p class="footer-subtext">Data Collection</p>
@@ -18,21 +24,5 @@
                 <p class="footer-subtext">Team Summary</p>
             </button>
         </div>
-        
-        <div class="button-wrapper">
-            <button type="button" class="footer-page-button">
-                <img class="footer-icon" src="../static/images/alliance-selector.png">
-                <p class="footer-subtext">Alliance Selector</p>
-            </button>
-        </div>
-        <% if (user.admin) { %>
-        <div class="button-wrapper">
-            <button type="button" class="footer-page-button">
-                <img class="footer-icon" src="../static/images/admin-page.png">
-                <p class="footer-subtext">Admin Page</p>
-            </button>
-        </div>
-
-        <%}%>
     </div>
 </div>
