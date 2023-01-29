@@ -8,7 +8,7 @@ function checkAdmin(username) {
                 throw error;
 
             console.log(results[0])
-            if (results[0] == true) {
+            if (results[0].um_admin_f == 1) { //is admin
                 resolve(true)
             }
         })
