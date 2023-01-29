@@ -31,7 +31,7 @@ function getColor(color)
 }
 
 
-async function requestPage(url, data) {
+async function requestPage(url, data, ) {
     $.ajax({
         type: "GET",
         contentType: "application/json",   
