@@ -1,4 +1,3 @@
-import { json } from "express"
 import { paths } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
