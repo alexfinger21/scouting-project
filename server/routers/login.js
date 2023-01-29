@@ -22,6 +22,15 @@ function checkUser(body) {
 
                     return
                 }
+
+                if (result.um_admin_f)
+                {
+                    user.admin = true
+                }
+                else
+                {
+                    user.admin = false
+                }
             }
 
             resolve(false)

@@ -26,7 +26,7 @@ let user = {
     matchNumber: 1,
     assignedTeam: "4269",
     assignedTeamColor: "red",
-    admin: true,
+    admin: null,
 }
 
 module.exports = user
