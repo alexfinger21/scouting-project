@@ -14,7 +14,7 @@ function moveToPage(ogPos, pos, btn) {
     if (!isHighlightVisible) {
         btn.style.opacity = 1
     }
-    
+
     if (pos == globalPos) return
     
     globalPos = pos
@@ -74,6 +74,12 @@ window.addEventListener("load", () => {
     const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {
         requestPage("alliance-selector")
+        hideHighlight(hoverButton)
+    })
+
+    const adminPageButton = document.getElementById("admin-page-button")
+    adminPageButton.addEventListener("click", () =>  {
+        requestPage("admin-page")
         hideHighlight(hoverButton)
     })
 
