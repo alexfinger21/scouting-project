@@ -13,7 +13,6 @@ function checkUser(body) {
             if (error)
                 throw error;
 
-            console.log("RESULT: " + result)
             if (results.length == 1) {
                 const result = results[0]
 
