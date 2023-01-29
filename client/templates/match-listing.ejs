@@ -17,9 +17,11 @@
                             <%= teams[i].time %>
                         </th>
                         <th>
-                            <div class="start-stop-button">
-                                <img src="../static/images/play-button.png">
-                            </div>
+                            <%if(isAdmin) { %>
+                                <div class="start-stop-button">
+                                    <img src="../static/images/play-button.png">
+                                </div>
+                            <% } %>
                         </th>
                     </table>
                     <table class="match-bottom">
