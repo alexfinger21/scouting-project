@@ -46,6 +46,7 @@ function startMatch(data) {
 }
 
 function stopMatch() {
+    console.log("what s u[p")
     const data = {
         stop_match: true
     }
