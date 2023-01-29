@@ -1,3 +1,4 @@
+import { json } from "express"
 import { paths } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
@@ -46,7 +47,6 @@ function startMatch(data) {
 }
 
 function stopMatch() {
-    console.log("what s u[p")
     const data = {
         stop_match: true
     }
@@ -54,7 +54,7 @@ function stopMatch() {
         type: "POST",
         contentType: "application/json",   
         url: paths.matchListing,
-        data: data,
+        data: JSON.stringify(data),
         success: function(response) {
             //nothing to see here
         },
