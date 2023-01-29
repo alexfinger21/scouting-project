@@ -7,8 +7,9 @@ const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
+const socketio = require("socket.io")
 const crypto = require("crypto")
-require('dotenv').config()
+require("dotenv").config()
 const database = require("./database/database.js")
 
 //DIRECTORIES
@@ -32,6 +33,9 @@ const corsOptions = {
     credentials: true 
 }
 
+//sockets, they let us connect users and the server based on events
+const io = socketio(server)
+
 app.use("/static", express.static("./client/static"))
 
 //sets variables to be used later
@@ -44,7 +48,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 
 app.use(cookieParser())
-//middleware for anyone on the site, checking whether they're logged in or ont
+
+
+//middleware for anyone on the site, checking whether they're logged in or not
+
 app.use((req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
     console.log(req.path)
     if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
@@ -102,3 +109,5 @@ app.use("/admin-page", adminPage)
 
 //PORT
 app.listen(3000) //goes to localhost 3000
+
+module.exports = io
