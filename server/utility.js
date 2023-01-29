@@ -3,11 +3,12 @@ const database = require("./database/database.js")
 
 function checkAdmin(username) {
     return new Promise((resolve) => {
-        database.query("SELECT * FROM user_master um WHERE um.um_id = '" + username + "';", function (error, results) {
+        database.query("SELECT um.um_admin_f FROM user_master um WHERE um.um_id = '" + username + "';", function (error, results) {
             if (error)
                 throw error;
 
-            if (result.um_admin_f == true) {
+            console.log(results[0])
+            if (results[0] == true) {
                 resolve(true)
             }
         })
