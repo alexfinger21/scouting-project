@@ -1,4 +1,4 @@
-const database = require("../database/database.js")
+const database = require("./database/database.js")
 
 function checkAdmin() {
     return new Promise((resolve) => {
