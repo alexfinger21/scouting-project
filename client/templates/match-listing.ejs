@@ -9,7 +9,11 @@
         <div id="match-scroller">
             <% for (let i=0; i < teams.length; i++) { %>
                 <div class="match-container hidden" game_type = <%= teams[i].gm_game_type %> game_number = <%= teams[i].gm_number %>>
-                    <table class="match-top">
+                    <%if (runningMatch == i) {
+                        <table class="match-top" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-top">
+                    <%}%>
                         <th>
                             <%= "Match " + (i + 1) %>
                         </th>
