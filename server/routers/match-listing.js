@@ -50,14 +50,16 @@ router.post("/", function(req, res) {
         //check if a match is already running
         database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
             if(results.length > 0) {
-                return res.status(200).send({response: false})
+                res.status(200).send({response: false})
             }
-        })
-
-        database.query(`insert into teamsixn_scouting_dev.current_game 
-        (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
-        select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
-            console.log(err)
+            else {
+                database.query(`insert into teamsixn_scouting_dev.current_game 
+                (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
+                select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
+                    console.log(err)
+                })
+                res.status(200).send({response: true})
+            }
         })
     }
 })
