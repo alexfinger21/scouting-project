@@ -28,20 +28,21 @@ const observer = new MutationObserver(function (mutations_list) {
 
 
 function startMatch(data) {
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",   
-        url: paths.matchListing,
-        data: JSON.stringify(data),
-        success: function(response) {
-            //nothing to see here
-        },
-
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            //console.log("Error\n" + errorThrown, jqXHR)
-        },
+    return new Promise(resolve => {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",   
+            url: paths.matchListing,
+            data: JSON.stringify(data),
+            success: function(response) {
+                resolve(response.response)
+            },
+    
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                resolve(false)
+            },
+        })
     })
 }
 
@@ -82,7 +83,7 @@ function main()
     const buttons = document.getElementsByClassName("start-stop-button")
     for(const btn of buttons) {
         //play button onclick
-        btn.addEventListener("click", (event) => {
+        btn.addEventListener("click", async (event) => {
             //get img
             const img = btn.getElementsByTagName("img")[0]
             if(img.src.indexOf("play-button.png") > -1 ) { //press play
@@ -98,7 +99,7 @@ function main()
 
                 console.log(data)
 
-                startMatch(data)
+                const isSuccess = await startMatch(data)
 
                 //set image
                 img.src = "../static/images/stop-button.png"
