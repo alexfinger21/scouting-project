@@ -393,7 +393,7 @@ function main() {
     dropdown.addEventListener("click", () => {
         content.style.visibility = "visible"
         content.style.display = "block"
-        content.style.maxHeight = "20vh"
+        content.style.maxHeight = "30vh"
     })
     
     //close the dropdown content when the user clicks outside of the button
