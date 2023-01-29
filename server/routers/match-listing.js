@@ -50,7 +50,7 @@ router.post("/", function(req, res) {
         //check if a match is already running
         database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
             if(results.length > 0) {
-                res.status(200).send({response: false})
+                return res.status(200).send({response: false})
             }
         })
 
