@@ -117,7 +117,7 @@ function main()
                     }
                 }
                 else{
-                    alert("Stop match " + matchNumber + "before starting a new match")
+                    alert("Stop match " + matchNumber + " before starting a new match")
                 }
             }
             else { //press stop
