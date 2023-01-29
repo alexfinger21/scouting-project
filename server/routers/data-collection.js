@@ -4,9 +4,8 @@ const { checkAdmin } = require("../utility")
 const router = express.Router()
 
 router.get("/",  async function(req, res) { //only gets used if the url == data-collection
-    const body = req.body
-    console.log(body)
-    const isAdmin = await checkAdmin(body)
+    const username = req.cookies["username"]
+    const isAdmin = await checkAdmin(username)
     res.render("data-collection", {
         user: user,
         isAdmin: isAdmin
