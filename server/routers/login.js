@@ -12,7 +12,8 @@ function checkUser(body) {
         database.query("SELECT * FROM user_master um WHERE um.um_id = '" + body.username + "' AND team_master_tm_number = " + body.team_number + ";", function (error, results) {
             if (error)
                 throw error;
-        
+
+            console.log("RESULT: " + result)
             if (results.length == 1) {
                 const result = results[0]
 
@@ -23,7 +24,7 @@ function checkUser(body) {
                     return
                 }
 
-                if (result.um_admin_f)
+                if (result.um_admin_f == true)
                 {
                     user.admin = true
                 }
