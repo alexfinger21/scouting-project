@@ -45,6 +45,26 @@ function startMatch(data) {
     })
 }
 
+function stopMatch() {
+    const data = {
+        stop_match: true
+    }
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",   
+        url: paths.matchListing,
+        data: data,
+        success: function(response) {
+            //nothing to see here
+        },
+
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            //console.log("Error\n" + errorThrown, jqXHR)
+        },
+    })
+}
+
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
@@ -72,7 +92,8 @@ function main()
                     year: YEAR,
                     event_code: EVENT_CODE,
                     gm_type: container.getAttribute("game_type"), //P, Q, or E
-                    gm_number: container.getAttribute("game_number")
+                    gm_number: container.getAttribute("game_number"),
+                    stop_match: false
                 }
 
                 console.log(data)
@@ -89,8 +110,12 @@ function main()
                 }
             }
             else { //press stop
+                //send query
+                stopMatch()
+
                 //set image
                 img.src = "../static/images/play-button.png"
+                
                 //unhighlight table
                 const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
                 const tables = container.getElementsByTagName("table")
