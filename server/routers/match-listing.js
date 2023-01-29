@@ -12,8 +12,19 @@ function addZero(num) {
 
 router.get("/",  async function(req, res) {
     database.query(database.getTeams(), async (err, results) => {
-        const teams = {}
+        //get isAdmin
         const isAdmin = await checkAdmin(req)
+
+        //get running game
+        const runningMatch = -1
+        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
+            if(results.length > 0) {
+                runningMatch = results[0].cg_gm_number
+            }
+        })
+
+        //get teams
+        const teams = {}
 
         for (let i = 0; i<results.length; i++) {
             const currentTeam = results[i]
@@ -32,7 +43,8 @@ router.get("/",  async function(req, res) {
         
         res.render("match-listing", {
             teams: teams, user: user,
-            isAdmin: isAdmin
+            isAdmin: isAdmin,
+            runningMatch: runningMatch
         })
     })
 })
