@@ -39,16 +39,21 @@ router.get("/",  async function(req, res) {
 })
 
 router.post("/", function(req, res) { 
-    console.log("posted")
     const body = req.body
-    console.log(body.stop_match)
-    if(body.stop_match == true) {
+    if(body.stop_match == true) { //stop match
         database.query(`delete from teamsixn_scouting_dev.current_game 
         where cg_sm_year > 0;`, (err, results) => {
             console.log(err)
         })
     }
-    else {
+    else { //attempt tostart match
+        //check if a match is already running
+        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
+            if(results.length > 0) {
+                res.status(200).send(false)
+            }
+        })
+
         database.query(`insert into teamsixn_scouting_dev.current_game 
         (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
         select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
