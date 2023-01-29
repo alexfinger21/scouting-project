@@ -18,7 +18,7 @@ router.get("/",  async function(req, res) {
 
         for (let i = 0; i<results.length; i++) {
             const currentTeam = results[i]
-
+            
             teams[i] = currentTeam
 
             const date = new Date(teams[i].gm_timestamp)
@@ -39,13 +39,29 @@ router.get("/",  async function(req, res) {
 })
 
 router.post("/", function(req, res) { 
-    console.log("posted")
     const body = req.body
-    database.query(`insert into teamsixn_scouting_dev.current_game 
-    (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
-    select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
-        console.log(err)
-    })
+    if(body.stop_match == true) { //stop match
+        database.query(`delete from teamsixn_scouting_dev.current_game 
+        where cg_sm_year > 0;`, (err, results) => {
+            console.log(err)
+        })
+    }
+    else { //attempt tostart match
+        //check if a match is already running
+        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
+            if(results.length > 0) {
+                res.status(200).send({response: false, matchNumber: results[0].cg_gm_number})
+            }
+            else {
+                database.query(`insert into teamsixn_scouting_dev.current_game 
+                (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
+                select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
+                    console.log(err)
+                })
+                res.status(200).send({response: true})
+            }
+        })
+    }
 })
 
 module.exports = router

@@ -41,7 +41,34 @@ const observer = new MutationObserver(function (mutations_list) {
 
 
 function startMatch(data) {
+    return new Promise(resolve => {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",   
+            url: paths.matchListing,
+            data: JSON.stringify(data),
+            success: function(response) {
+                if(response.response == true)
+                {
+                    resolve([true])
+                }
+                else {
+                    resolve([false, response.matchNumber])
+                }
+            },
+    
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                resolve([false, response.matchNumber])
+            },
+        })
+    })
+}
 
+function stopMatch() {
+    const data = {
+        stop_match: true
+    }
     $.ajax({
         type: "POST",
         contentType: "application/json",   
@@ -75,7 +102,7 @@ function main()
     const buttons = document.getElementsByClassName("start-stop-button")
     for(const btn of buttons) {
         //play button onclick
-        btn.addEventListener("click", (event) => {
+        btn.addEventListener("click", async (event) => {
             //get img
             const img = btn.getElementsByTagName("img")[0]
             if(img.src.indexOf("play-button.png") > -1 ) { //press play
@@ -85,25 +112,34 @@ function main()
                     year: YEAR,
                     event_code: EVENT_CODE,
                     gm_type: container.getAttribute("game_type"), //P, Q, or E
-                    gm_number: container.getAttribute("game_number")
+                    gm_number: container.getAttribute("game_number"),
+                    stop_match: false
                 }
 
                 console.log(data)
 
-                startMatch(data)
-
-                //set image
-                img.src = "../static/images/stop-button.png"
-                //highlight table
-                const tables = container.getElementsByTagName("table")
-                console.log(tables)
-                for(const tbl of tables) {
-                    tbl.style.backgroundColor = "#FFF5D6"
+                const [isSuccess, matchNumber] = await startMatch(data)
+                if (isSuccess) {
+                    //set image
+                    img.src = "../static/images/stop-button.png"
+                    //highlight table
+                    const tables = container.getElementsByTagName("table")
+                    console.log(tables)
+                    for(const tbl of tables) {
+                        tbl.style.backgroundColor = "#FFF5D6"
+                    }
+                }
+                else{
+                    alert("Stop match " + matchNumber + " before starting a new match")
                 }
             }
             else { //press stop
+                //send query
+                stopMatch()
+
                 //set image
                 img.src = "../static/images/play-button.png"
+                
                 //unhighlight table
                 const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
                 const tables = container.getElementsByTagName("table")
