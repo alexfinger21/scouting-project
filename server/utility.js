@@ -7,12 +7,13 @@ function checkAdmin(username) {
             if (error)
                 throw error;
 
-            console.log(results[0])
+            console.log(results[0].um_admin_f == true)
             if (results[0].um_admin_f == 1) { //is admin
                 resolve(true)
             }
+            
+            resolve(false)
         })
-        resolve(false)
     })
 }
 
