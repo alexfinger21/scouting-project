@@ -1,7 +1,8 @@
 const { request } = require("express");
 const database = require("./database/database.js")
 
-function checkAdmin(username) {
+function checkAdmin(req) {
+    const username = req.cookies["username"]
     return new Promise((resolve) => {
         database.query("SELECT um.um_admin_f FROM user_master um WHERE um.um_id = '" + username + "';", function (error, results) {
             if (error)

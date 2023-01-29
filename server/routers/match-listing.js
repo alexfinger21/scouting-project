@@ -3,6 +3,7 @@ const express = require("express")
 const router = express.Router()
 require('dotenv').config()
 const database = require("../database/database.js")
+const { checkAdmin } = require("../utility")
 const { data } = require("jquery")
 const YEAR = 2023
 
@@ -10,9 +11,10 @@ function addZero(num) {
     return num<10 ? "0" + num : num
 }
 
-router.get("/",  function(req, res) {
-    database.query(database.getTeams(), (err, results) => {
+router.get("/",  async function(req, res) {
+    database.query(database.getTeams(), async (err, results) => {
         const teams = {}
+        const isAdmin = await checkAdmin(req)
 
         for (let i = 0; i<results.length; i++) {
             const currentTeam = results[i]
@@ -30,7 +32,8 @@ router.get("/",  function(req, res) {
         //console.log(teams)
         
         res.render("match-listing", {
-            teams: teams, user: user
+            teams: teams, user: user,
+            isAdmin: isAdmin
         })
     })
 })
