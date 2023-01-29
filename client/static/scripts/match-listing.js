@@ -3,6 +3,19 @@ let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
 
+const connectionOptions =  {
+    "force new connection" : true,
+    "reconnectionAttempts": "Infinity",
+    "timeout" : 10000,                 
+    "transports" : ["websocket"]
+};
+ 
+const socket = io.connect('https://www.frc695.com:5000',connectionOptions);
+
+socket.on("changeMatch", (match_num) => {
+    console.log("MATCH NUM: " + match_num)
+})
+
 //scroll animations
 const scrollObserver = new IntersectionObserver((entries) => { //runs whenever the visibility of an element changes
     entries.forEach((entry) => { //theres 8 dictionaries containing one property, go through until you find isIntersecting
