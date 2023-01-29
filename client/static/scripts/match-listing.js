@@ -37,16 +37,16 @@ function startMatch(data) {
             success: function(response) {
                 if(response.response == true)
                 {
-                    resolve([true, response.matchNumber])
+                    resolve([true])
                 }
                 else {
-                    resolve([false])
+                    resolve([false, response.matchNumber])
                 }
             },
     
             error: function(jqXHR, textStatus, errorThrown)
             {
-                resolve([false])
+                resolve([false, response.matchNumber])
             },
         })
     })
