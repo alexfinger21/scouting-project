@@ -35,12 +35,18 @@ function startMatch(data) {
             url: paths.matchListing,
             data: JSON.stringify(data),
             success: function(response) {
-                resolve(response.response)
+                if(response.response == true)
+                {
+                    resolve([true, response.matchNumber])
+                }
+                else {
+                    resolve([false])
+                }
             },
     
             error: function(jqXHR, textStatus, errorThrown)
             {
-                resolve(false)
+                resolve([false])
             },
         })
     })
@@ -99,15 +105,19 @@ function main()
 
                 console.log(data)
 
-                const isSuccess = await startMatch(data)
-
-                //set image
-                img.src = "../static/images/stop-button.png"
-                //highlight table
-                const tables = container.getElementsByTagName("table")
-                console.log(tables)
-                for(const tbl of tables) {
-                    tbl.style.backgroundColor = "#FFF5D6"
+                const [isSuccess, matchNumber] = await startMatch(data)
+                if (isSuccess) {
+                    //set image
+                    img.src = "../static/images/stop-button.png"
+                    //highlight table
+                    const tables = container.getElementsByTagName("table")
+                    console.log(tables)
+                    for(const tbl of tables) {
+                        tbl.style.backgroundColor = "#FFF5D6"
+                    }
+                }
+                else{
+                    alert("Stop match " + matchNumber + "before starting a new match")
                 }
             }
             else { //press stop
