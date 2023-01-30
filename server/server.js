@@ -7,8 +7,8 @@ const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
-const socketio = require("socket.io")
-const server = http.createServer()
+const { Server } = require("socket.io")
+const server = http.createServer(app)
 const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
@@ -35,7 +35,18 @@ const corsOptions = {
 }
 
 //sockets, they let us connect users and the server based on events
-const io = socketio(server)
+const io = new Server(server, {
+    cors: {
+      origin: '*',
+    }
+})
+
+io.on("connection", (socket) => {
+    console.log("user logged in")
+    socket.on("disconnect", () => {
+        console.log("disconnected")
+    })
+})
 
 app.use("/static", express.static("./client/static"))
 
@@ -110,5 +121,7 @@ app.use("/admin-page", adminPage)
 
 //PORT
 app.listen(3000) //goes to localhost 3000
+
+server.listen(5000)
 
 module.exports = io
