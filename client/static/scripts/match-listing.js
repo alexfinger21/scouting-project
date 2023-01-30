@@ -2,15 +2,11 @@ import { paths } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
-
-const connectionOptions =  {
-    "force new connection" : true,
-    "reconnectionAttempts": "Infinity",
-    "timeout" : 10000,                 
-    "transports" : ["websocket"]
-};
  
-const socket = io.connect('https://www.frc695.com:5000',connectionOptions);
+const socket = io.connect("http://localhost:5000", {
+    forceNew: true,
+    transports: ["polling"],
+ })
 
 socket.on("changeMatch", (match_num) => {
     console.log("MATCH NUM: " + match_num)
