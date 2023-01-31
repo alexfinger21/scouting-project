@@ -123,5 +123,3 @@ app.use("/admin-page", adminPage)
 app.listen(3000) //goes to localhost 3000
 
 server.listen(5000)
-
-module.exports = io
