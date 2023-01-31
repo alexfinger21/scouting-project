@@ -18,11 +18,9 @@ router.get("/", async function (req, res) {
 
         //get running game
         let runningMatch = -1
-        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
-            console.log("RESULTS: \n")
-            console.log(results)
-            console.log("LENGTH: " + results.length)
-            if (results.length > 0) {
+        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
+
+            if (runningMatchResults.length > 0) {
                 runningMatch = results[0].cg_gm_number
             }
 
