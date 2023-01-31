@@ -25,7 +25,7 @@ router.get("/", async function (req, res) {
             }
 
 
-            //get teams
+            //get teams 
             const teams = {}
 
             for (let i = 0; i < results.length; i++) {
