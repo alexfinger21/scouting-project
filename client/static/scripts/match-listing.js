@@ -3,7 +3,7 @@ let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
  
-const socket = io.connect("http://localhost:5000", {
+const socket = io.connect(`${window.location.hostname}:5000`, {
     forceNew: true,
     transports: ["polling"],
  })
