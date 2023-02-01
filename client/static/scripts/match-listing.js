@@ -16,7 +16,7 @@ socket.on("changeMatch", (match_num) => {
     Array.from(matchScroller.children).forEach((container) => {
         //unhighlight table
         for (const table in container.children) {
-            tbl.style.backgroundColor = "#FFF"
+            table.style.backgroundColor = "#FFF"
         }
         //change play button image
         console.log(container)
