@@ -1,4 +1,3 @@
-import { matchNumber } from "../../../server/user.js"
 import { paths } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
