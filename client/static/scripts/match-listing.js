@@ -15,9 +15,9 @@ socket.on("changeMatch", (match_num) => {
     //DELETE OLD DATA
     Array.from(matchScroller.children).forEach((container) => {
         //unhighlight table
-        for (const table in container.children) {
+        Array.from(container.children).forEach((table) => {
             table.style.backgroundColor = "#FFF"
-        }
+        })
         //change play button image
         console.log(container)
         const img = container.getElementsByTagName("img")[0]
