@@ -11,7 +11,21 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
 socket.on("changeMatch", (match_num) => {
     console.log("MATCH NUM: " + match_num)
     const matchScroller = document.getElementById("match-scroller")
-    const container  = matchScroller.children[match_num - 1]
+    
+    //DELETE OLD DATA
+    for (container in matchScroller.children) {
+        //unhighlight table
+        for(table in container.children) {
+            tbl.style.backgroundColor = "#FFF"
+        }
+        //change play button image
+        const img = container.getElementsByTagName("img")
+        if(img) {
+            img.src = "../static/images/play-button.png"
+        }
+    }
+    //UPDATE NEW MATCH
+    container  = matchScroller.children[match_num - 1]
     //change image
     const img = container.getElementsByTagName("img")
     img.src = "../static/images/stop-button.png"
