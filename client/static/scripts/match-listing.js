@@ -11,7 +11,7 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
 socket.on("changeMatch", (match_num) => {
     console.log("MATCH NUM: " + match_num)
     const matchScroller = document.getElementById("match-scroller")
-    const container  = matchScroller.children[matchNumber - 1]
+    const container  = matchScroller.children[match_num - 1]
     //change image
     const img = container.getElementsByTagName("img")
     img.src = "../static/images/stop-button.png"
