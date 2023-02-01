@@ -19,7 +19,6 @@ socket.on("changeMatch", (match_num) => {
             table.style.backgroundColor = "#FFF"
         })
         //change play button image
-        console.log(container)
         const img = container.getElementsByTagName("img")[0]
         if (img) {
             img.src = "../static/images/play-button.png"
@@ -27,6 +26,7 @@ socket.on("changeMatch", (match_num) => {
     })
     //UPDATE NEW MATCH
     const container = matchScroller.children[match_num - 1]
+    console.log(container)
     //change image
     const img = container.getElementsByTagName("img")
     img.src = "../static/images/stop-button.png"
