@@ -5,6 +5,7 @@ require('dotenv').config()
 const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
 const io = require("../server.js")
+const socketManager = require("../sockets.js")
 const YEAR = 2023
 
 function addZero(num) {
@@ -62,7 +63,7 @@ router.post("/", function (req, res) {
             console.log(err)
         })
     }
-    else { //attempt tostart match
+    else { //attempt to start match
         //check if a match is already running
         database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
             if (results.length > 0) {
@@ -74,6 +75,9 @@ router.post("/", function (req, res) {
                 select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
                     console.log(err)
                 })
+                
+                socketManager.emitAllSockets("hi", "changeMatch")
+                
                 res.status(200).send({ response: true })
             }
         })
