@@ -10,7 +10,7 @@
         <div id="match-scroller">
             <% for (let i=0; i < teams.length; i++) { %>
                 <div class="match-container hidden" game_type = <%= teams[i].gm_game_type %> game_number = <%= teams[i].gm_number %>>
-                    <%if (runningMatch == i) { %>
+                    <%if (runningMatch-1 == i) { %>
                         <table class="match-top" style="background-color:#FFF5D6">
                     <% } else {%>
                         <table class="match-top">
@@ -23,14 +23,23 @@
                         </th>
                         <th>
                             <%if(isAdmin) { %>
-                                <div class="start-stop-button">
-                                    <img src="../static/images/play-button.png">
-                                </div>
+                                <%if(runningMatch-1 == i) { %>
+                                    <div class="start-stop-button">
+                                        <img src="../static/images/stop-button.png">
+                                    </div>
+                                <% } else {%>
+                                    <div class="start-stop-button">
+                                        <img src="../static/images/play-button.png">
+                                    </div>
+                                <%}%>
                             <% } %>
                         </th>
                     </table>
-                    <table class="match-bottom">
-                        <% for (let j = 1; j <= 3; j++) { %>
+                    <%if (runningMatch-1 == i) { %>
+                        <table class="match-bottom" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-bottom">
+                    <%}%>                        <% for (let j = 1; j <= 3; j++) { %>
                             <th class="red"><%= teams[i]["r" + j + "_team_number"] %></th>
                         <%}%>
                         <% for (let j = 1; j <= 3; j++) { %>
