@@ -1,3 +1,4 @@
+import { matchNumber } from "../../../server/user.js"
 import { paths } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
@@ -10,6 +11,17 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
 
 socket.on("changeMatch", (match_num) => {
     console.log("MATCH NUM: " + match_num)
+    const matchScroller = document.getElementById("match-scroller")
+    const container  = matchScroller.children[matchNumber - 1]
+    //change image
+    const img = container.getElementsByTagName("img")
+    img.src = "../static/images/stop-button.png"
+    //highlight table
+    const tables = container.getElementsByTagName("table")
+    console.log(tables)
+    for(const tbl of tables) {
+        tbl.style.backgroundColor = "#FFF5D6"
+    }
 })
 
 //scroll animations
@@ -120,7 +132,6 @@ function main()
                     img.src = "../static/images/stop-button.png"
                     //highlight table
                     const tables = container.getElementsByTagName("table")
-                    console.log(tables)
                     for(const tbl of tables) {
                         tbl.style.backgroundColor = "#FFF5D6"
                     }
