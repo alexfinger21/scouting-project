@@ -2,38 +2,38 @@ import { paths } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
- 
+
 const socket = io.connect(`${window.location.hostname}:5000`, {
     forceNew: true,
     transports: ["polling"],
- })
+})
 
 socket.on("changeMatch", (match_num) => {
     console.log("MATCH NUM: " + match_num)
     const matchScroller = document.getElementById("match-scroller")
-    
+
     //DELETE OLD DATA
-    for (const container in matchScroller.children) {
+    Array.from(matchScroller.children).forEach((container) => {
         //unhighlight table
-        for(table in container.children) {
+        for (table in container.children) {
             tbl.style.backgroundColor = "#FFF"
         }
         //change play button image
         console.log(container)
         const img = container.getElementsByTagName("img")[0]
-        if(img) {
+        if (img) {
             img.src = "../static/images/play-button.png"
         }
-    }
+    })
     //UPDATE NEW MATCH
-    container  = matchScroller.children[match_num - 1]
+    const container = matchScroller.children[match_num - 1]
     //change image
     const img = container.getElementsByTagName("img")
     img.src = "../static/images/stop-button.png"
     //highlight table
     const tables = container.getElementsByTagName("table")
     console.log(tables)
-    for(const tbl of tables) {
+    for (const tbl of tables) {
         tbl.style.backgroundColor = "#FFF5D6"
     }
 })
@@ -41,7 +41,7 @@ socket.on("changeMatch", (match_num) => {
 //scroll animations
 const scrollObserver = new IntersectionObserver((entries) => { //runs whenever the visibility of an element changes
     entries.forEach((entry) => { //theres 8 dictionaries containing one property, go through until you find isIntersecting
-        if(entry.isIntersecting) { //is in the viewport (user scrolled in)
+        if (entry.isIntersecting) { //is in the viewport (user scrolled in)
             entry.target.classList.add("show") //fade in
         }
         else { //left the viewport (user scrolled out)
@@ -66,21 +66,19 @@ function startMatch(data) {
     return new Promise(resolve => {
         $.ajax({
             type: "POST",
-            contentType: "application/json",   
+            contentType: "application/json",
             url: paths.matchListing,
             data: JSON.stringify(data),
-            success: function(response) {
-                if(response.response == true)
-                {
+            success: function (response) {
+                if (response.response == true) {
                     resolve([true])
                 }
                 else {
                     resolve([false, response.matchNumber])
                 }
             },
-    
-            error: function(jqXHR, textStatus, errorThrown)
-            {
+
+            error: function (jqXHR, textStatus, errorThrown) {
                 resolve([false, response.matchNumber])
             },
         })
@@ -93,15 +91,14 @@ function stopMatch() {
     }
     $.ajax({
         type: "POST",
-        contentType: "application/json",   
+        contentType: "application/json",
         url: paths.matchListing,
         data: JSON.stringify(data),
-        success: function(response) {
+        success: function (response) {
             //nothing to see here
         },
 
-        error: function(jqXHR, textStatus, errorThrown)
-        {
+        error: function (jqXHR, textStatus, errorThrown) {
             //console.log("Error\n" + errorThrown, jqXHR)
         },
     })
@@ -110,24 +107,23 @@ function stopMatch() {
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
-function main()
-{
+function main() {
     //highlight every th element that has our team
     const thElements = document.querySelectorAll("th")
     thElements.forEach((elm) => {
-        if(elm.textContent == "695") {
+        if (elm.textContent == "695") {
             //highlight the element
             elm.style.backgroundColor = "#FFD962"
         }
     })
     //play buttns
     const buttons = document.getElementsByClassName("start-stop-button")
-    for(const btn of buttons) {
+    for (const btn of buttons) {
         //play button onclick
         btn.addEventListener("click", async (event) => {
             //get img
             const img = btn.getElementsByTagName("img")[0]
-            if(img.src.indexOf("play-button.png") > -1 ) { //press play
+            if (img.src.indexOf("play-button.png") > -1) { //press play
                 const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
 
                 const data = {
@@ -146,11 +142,11 @@ function main()
                     img.src = "../static/images/stop-button.png"
                     //highlight table
                     const tables = container.getElementsByTagName("table")
-                    for(const tbl of tables) {
+                    for (const tbl of tables) {
                         tbl.style.backgroundColor = "#FFF5D6"
                     }
                 }
-                else{
+                else {
                     alert("Stop match " + matchNumber + " before starting a new match")
                 }
             }
@@ -160,11 +156,11 @@ function main()
 
                 //set image
                 img.src = "../static/images/play-button.png"
-                
+
                 //unhighlight table
                 const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
                 const tables = container.getElementsByTagName("table")
-                for(const tbl of tables) {
+                for (const tbl of tables) {
                     tbl.style.backgroundColor = "#FFF"
                 }
             }
@@ -173,7 +169,7 @@ function main()
     //animate on scroll
     console.log("animate")
     const hiddenElements = document.querySelectorAll(".hidden");
-    hiddenElements.forEach((elm) =>{
+    hiddenElements.forEach((elm) => {
         scrollObserver.observe(elm);
         console.log("gerr")
     })
