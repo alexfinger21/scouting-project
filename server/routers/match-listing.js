@@ -76,7 +76,7 @@ router.post("/", function (req, res) {
                     console.log(err)
                 })
                 
-                socketManager.emitAllSockets("hi", "changeMatch")
+                socketManager.emitAllSockets(body.gm_number, "changeMatch")
                 
                 res.status(200).send({ response: true })
             }
