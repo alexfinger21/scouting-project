@@ -7,6 +7,7 @@ const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
+const socketManager = require("./sockets.js")
 const { Server } = require("socket.io")
 const server = http.createServer(app)
 const crypto = require("crypto")
@@ -42,10 +43,14 @@ const io = new Server(server, {
 })
 
 io.on("connection", (socket) => {
-    console.log("user logged in")
+    const index = socketManager.addSocket(socket)
+
     socket.on("disconnect", () => {
-        console.log("disconnected")
+        socketManager.removeSocket(index)
+        console.log(socketManager.getSockets())
     })
+
+    console.log(socketManager.getSockets())
 })
 
 app.use("/static", express.static("./client/static"))
