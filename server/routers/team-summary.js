@@ -1,10 +1,13 @@
 const user = require("../user")
 const express = require("express")
+const { checkAdmin } = require("../utility")
 const router = express.Router()
 
-router.get("/",  function(req, res) { //only gets used if the url == team-summary
+router.get("/",  async function(req, res) { //only gets used if the url == team-summary
+    const isAdmin = await checkAdmin(req)
     res.render("team-summary", {
-        user: user
+        user: user,
+        isAdmin: isAdmin
     })
 })
 
