@@ -13,7 +13,7 @@ socket.on("changeMatch", (match_num) => {
     const matchScroller = document.getElementById("match-scroller")
     
     //DELETE OLD DATA
-    for (container in matchScroller.children) {
+    for (const container in matchScroller.children) {
         //unhighlight table
         for(table in container.children) {
             tbl.style.backgroundColor = "#FFF"
