@@ -19,6 +19,7 @@ socket.on("changeMatch", (match_num) => {
             tbl.style.backgroundColor = "#FFF"
         }
         //change play button image
+        console.log(container)
         const img = container.getElementsByTagName("img")[0]
         if(img) {
             img.src = "../static/images/play-button.png"
