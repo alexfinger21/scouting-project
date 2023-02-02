@@ -1,10 +1,14 @@
 const user = require("../user")
 const express = require("express")
+const database = require("../database/database")
 const router = express.Router()
 
-router.get("/",  function(req, res) {
-    res.render("admin-page", {
-        
+router.get("/",  async function(req, res) {
+    database.query(` SELECT um_id, um_name FROM teamsixn_scouting_dev.userMaster`, async (err, results) => {
+        console.log(results)
+        res.render("admin-page", {
+            
+        })
     })
 })
 
