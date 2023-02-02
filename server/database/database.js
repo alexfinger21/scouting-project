@@ -1,4 +1,12 @@
-const pool = require('./dbconfig')                  
+const pool = require('./dbconfig')    
+
+function getUsers() {
+    const returnStr = `
+    SELECT um_id, um_name
+    FROM teamsixn_scouting_dev.userMaster
+    `
+    return returnStr
+}
 
 function getTeams() {
     const returnStr = `
