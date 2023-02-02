@@ -1,5 +1,5 @@
 /*custom login header (functionality disabled) (based off of viewport width)*/
-@media (min-aspect-ratio: 1) {
+@media (min-aspect-ratio: 7/8) {
 
   /* LAPTOP longer than its taller */
   #disabled-container {
@@ -162,7 +162,8 @@
   }
 }
 
-@media (max-aspect-ratio: 1) {
+
+@media (max-aspect-ratio: 7/8) {
   /* PHONE taller than its longer*/
 
   #disabled-container {
