@@ -61,6 +61,7 @@ router.post("/", function (req, res) {
         database.query(`delete from teamsixn_scouting_dev.current_game 
         where cg_sm_year > 0;`, (err, results) => {
             console.log(err)
+            socketManager.emitAllSockets(body.gm_number, "stopMatch")
         })
     }
     else { //attempt to start match
