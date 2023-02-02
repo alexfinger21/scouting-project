@@ -8,6 +8,26 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
     transports: ["polling"],
 })
 
+//when an admin stops a match
+socket.on("stopMatch", (match_num) => {
+    console.log("MATCH NUM: " + match_num)
+    const matchScroller = document.getElementById("match-scroller")
+
+    //DELETE OLD DATA
+    Array.from(matchScroller.children).forEach((container) => {
+        //unhighlight table
+        Array.from(container.children).forEach((table) => {
+            table.style.backgroundColor = "#FFF"
+        })
+        //change play button image
+        const img = container.getElementsByTagName("img")[0]
+        if (img) {
+            img.src = "../static/images/play-button.png"
+        }
+    })
+})
+
+//when an admin starts a new match
 socket.on("changeMatch", (match_num) => {
     console.log("MATCH NUM: " + match_num)
     const matchScroller = document.getElementById("match-scroller")
@@ -137,32 +157,13 @@ function main() {
                 console.log(data)
 
                 const [isSuccess, matchNumber] = await startMatch(data)
-                if (isSuccess) {
-                    //set image
-                    img.src = "../static/images/stop-button.png"
-                    //highlight table
-                    const tables = container.getElementsByTagName("table")
-                    for (const tbl of tables) {
-                        tbl.style.backgroundColor = "#FFF5D6"
-                    }
-                }
-                else {
+                if (!isSuccess) {
                     alert("Stop match " + matchNumber + " before starting a new match")
                 }
             }
             else { //press stop
                 //send query
                 stopMatch()
-
-                //set image
-                img.src = "../static/images/play-button.png"
-
-                //unhighlight table
-                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-                const tables = container.getElementsByTagName("table")
-                for (const tbl of tables) {
-                    tbl.style.backgroundColor = "#FFF"
-                }
             }
         })
     }
