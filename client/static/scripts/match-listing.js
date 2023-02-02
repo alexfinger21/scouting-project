@@ -27,8 +27,8 @@ socket.on("changeMatch", (match_num) => {
     //UPDATE NEW MATCH
     const container = matchScroller.children[match_num - 1]
     //change image
-    const img = container.querySelector(".start-stop-button")
-    img.src = "../static/images/stop-button.png"
+    const imgContainer = container.querySelector(".start-stop-button")
+    imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
     console.log("changed")
     //highlight table
     const tables = container.getElementsByTagName("table")
