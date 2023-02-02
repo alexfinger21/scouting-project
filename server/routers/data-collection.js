@@ -13,7 +13,8 @@ router.get("/",  async function(req, res) { //only gets used if the url == data-
 
 router.post("/", function(req, res) {
     const body = req.body
-    //console.log(body)
+    console.log("req recieved")
+    return res.send("req recieved")
 
     
 })

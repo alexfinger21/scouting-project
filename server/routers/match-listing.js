@@ -62,6 +62,7 @@ router.post("/", function (req, res) {
         where cg_sm_year > 0;`, (err, results) => {
             console.log(err)
             socketManager.emitAllSockets(body.gm_number, "stopMatch")
+            res.send("match stopped")
         })
     }
     else { //attempt to start match
