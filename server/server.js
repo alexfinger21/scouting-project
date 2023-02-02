@@ -35,10 +35,19 @@ const corsOptions = {
     credentials: true 
 }
 
+const allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+    next();
+}
+
+
 //sockets, they let us connect users and the server based on events
 const io = new Server(server, {
     cors: {
-      origin: '*',
+        origin: '*',
     }
 })
 
@@ -49,12 +58,13 @@ io.on("connection", (socket) => {
         socketManager.removeSocket(index)
         console.log(socketManager.getSockets())
     })
-
+    
     console.log(socketManager.getSockets())
 })
 
 app.use("/static", express.static("./client/static"))
 
+app.use(allowCrossDomain);
 //sets variables to be used later
 app.set("views", "./client/templates")
 app.set("view engine", "ejs")
@@ -78,7 +88,7 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
         const user_id = req.cookies["user_id"]
         const username = req.cookies["username"]
         database.query("SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = '" + user_id + "' AND um.um_id = '" + username + "' AND um.um_timeout_ts > current_timestamp();", (err, results) => {
-            console.log(results)
+            console.log(err)
             if (results) {
                 const result = results[0]
                 next() //goes to the next middleware function (login or data collection)
