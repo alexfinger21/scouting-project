@@ -29,7 +29,9 @@ socket.on("changeMatch", (match_num) => {
     console.log(container)
     //change image
     const img = container.getElementsByTagName("img")
+    console.log(img)
     img.src = "../static/images/stop-button.png"
+    console.log("changed")
     //highlight table
     const tables = container.getElementsByTagName("table")
     console.log(tables)
