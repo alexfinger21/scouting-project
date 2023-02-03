@@ -6,7 +6,7 @@ const paths = {
     matchListing: "/match-listing"
 }
 
-const socket = io.connect(${window.location.hostname}:5000, {
+const socket = io.connect(`${window.location.hostname}:5000`, {
     forceNew: true,
     transports: ["polling"],
 })
