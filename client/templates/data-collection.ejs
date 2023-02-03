@@ -320,8 +320,10 @@
                     <button type="submit" id="data-submit" class="big-button">Save</button>
 
                 </form>
-            <% } %>
+            <% } else {%>
 
+                <h1>No Match In Progress</h1>
+            <% } %>
             </div>
 
         <%- include("../static/partials/footer") %>
