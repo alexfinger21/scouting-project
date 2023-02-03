@@ -5,65 +5,27 @@
     <div id="page-holder">
         <div id="admin-container">
             <h1>Select Users</h1>
-            <!--RED ONE-->
-            <div class="small-input-container" id="user-container">
-                <label for="red-one"><b>Red One:</b></label>
-                <select name="red-one" id="select-user">
-                    <option value="alex">Alex</option>
-                    <option value="dotan">Dotan</option>
-                    <option value="shamith">Shamith</option>
-                </select>
-            </div>
-    
-            <!--RED TWO-->
-            <div class="small-input-container" id="user-container">
-                <label for="red-two"><b>Red Two:</b></label>
-                <select name="red-two" id="select-user">
-                    <option value="alex">Alex</option>
-                    <option value="dotan">Dotan</option>
-                    <option value="shamith">Shamith</option>
-                </select>
-            </div>
-    
-            <!--RED THREE-->
-            <div class="small-input-container" id="user-container">
-                <label for="red-three"><b>Red Three:</b></label>
-                <select name="red-three" id="select-user">
-                    <option value="alex">Alex</option>
-                    <option value="dotan">Dotan</option>
-                    <option value="shamith">Shamith</option>
-                </select>
-            </div>
-    
-            <!--BLUE ONE-->
-            <div class="small-input-container" id="user-container">
-                <label for="blue-one"><b>Blue One:</b></label>
-                <select name="blue-one" id="select-user">
-                    <option value="alex">Alex</option>
-                    <option value="dotan">Dotan</option>
-                    <option value="shamith">Shamith</option>
-                </select>
-            </div>
-    
-            <!--BLUE TWO-->
-            <div class="small-input-container" id="user-container">
-                <label for="blue-two"><b>Blue Two:</b></label>
-                <select name="blue-two" id="select-user">
-                    <option value="alex">Alex</option>
-                    <option value="dotan">Dotan</option>
-                    <option value="shamith">Shamith</option>
-                </select>
-            </div>
-    
-            <!--BLUE THREE-->
-            <div class="small-input-container" id="user-container">
-                <label for="blue-three"><b>Blue Three:</b></label>
-                <select name="blue-three" id="select-user">
-                    <option value="alex">Alex</option>
-                    <option value="dotan">Dotan</option>
-                    <option value="shamith">Shamith</option>
-                </select>
-            </div>
+
+            <%for(let i = 0; i < 3; i++) { %>
+                <div class="small-input-container" id="user-container">
+                    <label for="red-one"><b> <%= "Red " + (i + 1) %> </b></label>
+                    <select name="red-one" id="select-user">
+                        <%for(let i = 0; i < team.length; i++) { %>
+                            <option value= <%=team[i].id%> > <%=team[i].name%> </option>
+                        <% }%>
+                    </select>
+                </div>
+            <% } %>
+            <%for(let i = 0; i < 3; i++) { %>
+                <div class="small-input-container" id="user-container">
+                    <label for="blue-one"><b> <%= "Blue " + (i + 1) %> </b></label>
+                    <select name="blue-one" id="select-user">
+                        <%for(let i = 0; i < team.length; i++) { %>
+                            <option value= <%=team[i].id%> > <%=team[i].name%> </option>
+                        <% }%>
+                    </select>
+                </div>
+            <% } %>
         </div>
     </div>
 </body>
