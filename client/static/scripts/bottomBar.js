@@ -51,7 +51,7 @@ window.addEventListener("load", () => {
     hoverButton.style.zIndex = 1
 
     //hoverButton.style.top = String(footerPageButtons[0].getBoundingClientRect().top) + "px"
-    hoverButton.style.left = String(footerPageButtons[0].getBoundingClientRect().left) + "px"
+    hoverButton.style.left = String(footerPageButtons[1].getBoundingClientRect().left) + "px"
 
     $(hoverButton).width(footerPageButtons[0].clientWidth)
     $(hoverButton).height(footerPageButtons[0].clientHeight)
