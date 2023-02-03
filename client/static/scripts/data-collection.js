@@ -1,4 +1,4 @@
-import {clamp, paths, requestPage, socket, currentPage} from "./utility.js"
+import {clamp, paths, requestPage} from "./utility.js"
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
