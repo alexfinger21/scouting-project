@@ -1,4 +1,3 @@
-const { request } = require("express");
 const database = require("./database/database.js")
 
 function checkAdmin(req) {

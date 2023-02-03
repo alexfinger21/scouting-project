@@ -4,10 +4,16 @@ const database = require("../database/database")
 const router = express.Router()
 
 router.get("/",  async function(req, res) {
-    database.query(` SELECT um_id, um_name FROM teamsixn_scouting_dev.userMaster`, async (err, results) => {
+    database.query(` SELECT um_id, um_name FROM user_master`, async (err, results) => {
+        console.log(err)
         console.log(results)
+        console.log([].map.call(results, (item) => {
+            return {id: item.um_id, name: item.um_name}
+        }))
         res.render("admin-page", {
-            
+            team: [].map.call(results, (item) => {
+                return {id: item.um_id, name: item.um_name}
+            })
         })
     })
 })

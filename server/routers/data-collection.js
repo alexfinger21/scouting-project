@@ -15,8 +15,6 @@ router.post("/", function(req, res) {
     const body = req.body
     console.log("req recieved")
     return res.send("req recieved")
-
-    
 })
 
 module.exports = router
