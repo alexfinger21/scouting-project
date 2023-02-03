@@ -31,64 +31,159 @@
     <%- include("../static/partials/header") %>
 
         <div id="page-holder" onmousedown="event.preventDefault ? event.preventDefault() : event.returnValue = false">
-            <form id="match-number-form" action="/data-collection" method="POST">
-                <!-- MATCH NUMBER-->
-                <div id="text-container">
-                    <span id="match-number">Match Number: <%= runningMatch %> </span>
-                </div>
-
-                <!--ASSIGNED TEAM-->
-                <div id="text-container">
-                    <span>Assigned Team: </span>
-                    <span class=<%=user.assignedTeamColor %> > <%= user.assignedTeam %> </span>
-                </div>
-
-                <div id="input-scroller">
-                    <!--PREGAME-->
-                    <div class="line" id="pre-game">ㅤ</div>
-                    <div class="input-container">
-                        <span>Starting Position</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">+</button>
-                            <input type="number" name="starting-position" min="1" max="6" value="1">
-                            <button type="button" class="big-button">-</button>
-                        </div>
-                    </div>
-                    <div class="input-container">
-                        <span>Robot Preload</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="robot-preload">
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
+            <%if(runningMatch > -1) {%> <!--Check if a match is running-->
+                <form id="match-number-form" action="/data-collection" method="POST">
+                    <!-- MATCH NUMBER-->
+                    <div id="text-container">
+                        <span id="match-number">Match Number: <%= runningMatch %> </span>
                     </div>
 
-                    <div class="line" id="autonomous">ㅤ</div>
-
-                    <div class="input-container">
-                        <span>Robot Leaves Community</span>
-                        <div class="NumberButtonContainer">
-                            <button type="button" class="big-button">x</button>
-                            <input name="robot-taxies">
-                            <button type="button" class="big-button">
-                                <img src="../static/images/checkmark.png" id="button-checkmark">
-                            </button>
-                        </div>
+                    <!--ASSIGNED TEAM-->
+                    <div id="text-container">
+                        <span>Assigned Team: </span>
+                        <span class=<%=user.assignedTeamColor %> > <%= user.assignedTeam %> </span>
                     </div>
 
-                    <!--AUTON SCORING GRID-->
-                    <div class="input-container">
-                        <span>Robot Auto Scoring</span>
-                        <div class="scoring-container" id="auto-scoring">
-                            <div class="table-labels">
-                                <p>Top</p>
-                                <p>Middle</p>
-                                <p>Bottom</p>
+                    <div id="input-scroller">
+                        <!--PREGAME-->
+                        <div class="line" id="pre-game">ㅤ</div>
+                        <div class="input-container">
+                            <span>Starting Position</span>
+                            <div class="NumberButtonContainer">
+                                <button type="button" class="big-button">+</button>
+                                <input type="number" name="starting-position" min="1" max="6" value="1">
+                                <button type="button" class="big-button">-</button>
                             </div>
-                            <div class="table-scroller">
-                                <%let tblNames=["Inner", "Co-Op" , "Outer" ]%>
+                        </div>
+                        <div class="input-container">
+                            <span>Robot Preload</span>
+                            <div class="NumberButtonContainer">
+                                <button type="button" class="big-button">x</button>
+                                <input name="robot-preload">
+                                <button type="button" class="big-button">
+                                    <img src="../static/images/checkmark.png" id="button-checkmark">
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="line" id="autonomous">ㅤ</div>
+
+                        <div class="input-container">
+                            <span>Robot Leaves Community</span>
+                            <div class="NumberButtonContainer">
+                                <button type="button" class="big-button">x</button>
+                                <input name="robot-taxies">
+                                <button type="button" class="big-button">
+                                    <img src="../static/images/checkmark.png" id="button-checkmark">
+                                </button>
+                            </div>
+                        </div>
+
+                        <!--AUTON SCORING GRID-->
+                        <div class="input-container">
+                            <span>Robot Auto Scoring</span>
+                            <div class="scoring-container" id="auto-scoring">
+                                <div class="table-labels">
+                                    <p>Top</p>
+                                    <p>Middle</p>
+                                    <p>Bottom</p>
+                                </div>
+                                <div class="table-scroller">
+                                    <%let tblNames=["Inner", "Co-Op" , "Outer" ]%>
+                                        <% for(let i=0; i < 3; i++) { %>
+                                            <div class="table-wrapper">
+                                                <table>
+                                                    <tr>
+                                                        <td class="fill-cone">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                        <td class="fill-cube">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                        <td class="fill-cone">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fill-cone">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                        <td class="fill-cube">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                        <td class="fill-cone">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="fill-both">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                        <td class="fill-both">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                        <td class="fill-both">
+                                                            <button type="button" class = "scoring-button">
+                                                                <img src="">
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <p>
+                                                    <%= tblNames[i] %>
+                                                </p>
+                                            </div>
+                                            <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-container">
+                            <span>Robot Auto Docking</span>
+                            <div class="radio-button-container">
+                                <input type="radio" id="auto-unattempted" name="auto-docking" value="unattempted">
+                                <label for="auto-unattempted">Unattempted</label>
+                                <br>
+                                <input type="radio" id="auto-attempted" name="auto-docking" value="attempted">
+                                <label for="auto-attempted">Attempted (unsuccessful)</label>
+                                <br>
+                                <input type="radio" id="auto-docked" name="auto-docking" value="docked">
+                                <label for="auto-docked">Docked</label>
+                                <br>
+                                <input type="radio" id="auto-engaged" name="auto-docking" value="engaged">
+                                <label for="auto-engaged">Engaged</label>
+                            </div>
+                        </div>
+
+                        <!--TELEOP-->
+                        <div class="line" id="tele-op">ㅤ</div>
+
+
+                        <!-- TELEOP SCORING GRID-->
+                        <div class="input-container">
+                            <span>Robot Teleop Scoring</span>
+                            <div class="scoring-container" id="teleop-scoring">
+                                <div class="table-labels">
+                                    <p>Top</p>
+                                    <p>Middle</p>
+                                    <p>Bottom</p>
+                                </div>
+                                <div class="table-scroller">
                                     <% for(let i=0; i < 3; i++) { %>
                                         <div class="table-wrapper">
                                             <table>
@@ -149,177 +244,84 @@
                                             </p>
                                         </div>
                                         <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <span>Robot Teleop Docking</span>
+                            <div class="radio-button-container">
+                                <input type="radio" id="teleop-unattempted" name="teleop-docking" value="unattempted">
+                                <label for="teleop-unattempted">Unattempted</label>
+                                <br>
+                                <input type="radio" id="teleop-attempted" name="teleop-docking" value="attempted">
+                                <label for="teleop-attempted">Attempted (unsuccessful)</label>
+                                <br>
+                                <input type="radio" id="teleop-docked" name="teleop-docking" value="docked">
+                                <label for="teleop-docked">Docked</label>
+                                <br>
+                                <input type="radio" id="teleop-engaged" name="teleop-docking" value="engaged">
+                                <label for="teleop-engaged">Engaged</label>
+                            </div>
+                        </div>
+
+                        <!--ENDGAME-->
+                        <div class="line" id="endgame">ㅤ</div>
+
+                        <div class="input-container">
+                            <span>Cargo Intake From</span>
+                            <div class="radio-button-container">
+                                <input type="radio" id="cargo-from-substation" name="cargo-from" value="substation">
+                                <label for="cargo-from-substation">Substation</label>
+                                <br>
+                                <input type="radio" id="cargo-from-ground" name="cargo-from" value="ground">
+                                <label for="cargo-from-ground">Ground</label>
+                                <br>
+                                <input type="radio" id="cargo-from-both" name="cargo-from" value="both">
+                                <label for="cargo-from-both">Both</label>
+                                <br>
+                                <input type="radio" id="cargo-from-none" name="cargo-from" value="none">
+                                <label for="cargo-from-substation">None</label>
+                                <br>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <span>Robot Fumbles Cones</span>
+                            <div class="radio-button-container">
+                                <input type="radio" id="fumbles-cones-often" name="fumbles-cones" value="often">
+                                <label for="fumbles-cones-often">Often</label>
+                                <br>
+                                <input type="radio" id="fumbles-cones-sometimes" name="fumbles-cones" value="sometimes">
+                                <label for="fumbles-cones-sometimes">Sometimes</label>
+                                <br>
+                                <input type="radio" id="fumbles-cones-rarely" name="fumbles-cones" value="rarely">
+                                <label for="fumbles-cones-rarely">Rarely</label>
+                                <br>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <span>Robot Fumbles Cubes</span>
+                            <div class="radio-button-container">
+                                <input type="radio" id="fumbles-cubes-often" name="fumbles-cubes" value="often">
+                                <label for="fumbles-cubes-often">Often</label>
+                                <br>
+                                <input type="radio" id="fumbles-cubes-sometimes" name="fumbles-cubes" value="sometimes">
+                                <label for="fumbles-cubes-sometimes">Sometimes</label>
+                                <br>
+                                <input type="radio" id="fumbles-cubes-rarely" name="fumbles-cubes" value="rarely">
+                                <label for="fumbles-cubes-rarely">Rarely</label>
+                                <br>
                             </div>
                         </div>
                     </div>
-                    <div class="input-container">
-                        <span>Robot Auto Docking</span>
-                        <div class="radio-button-container">
-                            <input type="radio" id="auto-unattempted" name="auto-docking" value="unattempted">
-                            <label for="auto-unattempted">Unattempted</label>
-                            <br>
-                            <input type="radio" id="auto-attempted" name="auto-docking" value="attempted">
-                            <label for="auto-attempted">Attempted (unsuccessful)</label>
-                            <br>
-                            <input type="radio" id="auto-docked" name="auto-docking" value="docked">
-                            <label for="auto-docked">Docked</label>
-                            <br>
-                            <input type="radio" id="auto-engaged" name="auto-docking" value="engaged">
-                            <label for="auto-engaged">Engaged</label>
-                        </div>
-                    </div>
+                    
+                    <button type="submit" id="data-submit" class="big-button">Save</button>
 
-                    <!--TELEOP-->
-                    <div class="line" id="tele-op">ㅤ</div>
-
-
-                    <!-- TELEOP SCORING GRID-->
-                    <div class="input-container">
-                        <span>Robot Teleop Scoring</span>
-                        <div class="scoring-container" id="teleop-scoring">
-                            <div class="table-labels">
-                                <p>Top</p>
-                                <p>Middle</p>
-                                <p>Bottom</p>
-                            </div>
-                            <div class="table-scroller">
-                                <% for(let i=0; i < 3; i++) { %>
-                                    <div class="table-wrapper">
-                                        <table>
-                                            <tr>
-                                                <td class="fill-cone">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cube">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cone">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fill-cone">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cube">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-cone">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fill-both">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-both">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                                <td class="fill-both">
-                                                    <button type="button" class = "scoring-button">
-                                                        <img src="">
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <p>
-                                            <%= tblNames[i] %>
-                                        </p>
-                                    </div>
-                                    <% } %>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="input-container">
-                        <span>Robot Teleop Docking</span>
-                        <div class="radio-button-container">
-                            <input type="radio" id="teleop-unattempted" name="teleop-docking" value="unattempted">
-                            <label for="teleop-unattempted">Unattempted</label>
-                            <br>
-                            <input type="radio" id="teleop-attempted" name="teleop-docking" value="attempted">
-                            <label for="teleop-attempted">Attempted (unsuccessful)</label>
-                            <br>
-                            <input type="radio" id="teleop-docked" name="teleop-docking" value="docked">
-                            <label for="teleop-docked">Docked</label>
-                            <br>
-                            <input type="radio" id="teleop-engaged" name="teleop-docking" value="engaged">
-                            <label for="teleop-engaged">Engaged</label>
-                        </div>
-                    </div>
-
-                    <!--ENDGAME-->
-                    <div class="line" id="endgame">ㅤ</div>
-
-                    <div class="input-container">
-                        <span>Cargo Intake From</span>
-                        <div class="radio-button-container">
-                            <input type="radio" id="cargo-from-substation" name="cargo-from" value="substation">
-                            <label for="cargo-from-substation">Substation</label>
-                            <br>
-                            <input type="radio" id="cargo-from-ground" name="cargo-from" value="ground">
-                            <label for="cargo-from-ground">Ground</label>
-                            <br>
-                            <input type="radio" id="cargo-from-both" name="cargo-from" value="both">
-                            <label for="cargo-from-both">Both</label>
-                            <br>
-                            <input type="radio" id="cargo-from-none" name="cargo-from" value="none">
-                            <label for="cargo-from-substation">None</label>
-                            <br>
-                        </div>
-                    </div>
-
-                    <div class="input-container">
-                        <span>Robot Fumbles Cones</span>
-                        <div class="radio-button-container">
-                            <input type="radio" id="fumbles-cones-often" name="fumbles-cones" value="often">
-                            <label for="fumbles-cones-often">Often</label>
-                            <br>
-                            <input type="radio" id="fumbles-cones-sometimes" name="fumbles-cones" value="sometimes">
-                            <label for="fumbles-cones-sometimes">Sometimes</label>
-                            <br>
-                            <input type="radio" id="fumbles-cones-rarely" name="fumbles-cones" value="rarely">
-                            <label for="fumbles-cones-rarely">Rarely</label>
-                            <br>
-                        </div>
-                    </div>
-
-                    <div class="input-container">
-                        <span>Robot Fumbles Cubes</span>
-                        <div class="radio-button-container">
-                            <input type="radio" id="fumbles-cubes-often" name="fumbles-cubes" value="often">
-                            <label for="fumbles-cubes-often">Often</label>
-                            <br>
-                            <input type="radio" id="fumbles-cubes-sometimes" name="fumbles-cubes" value="sometimes">
-                            <label for="fumbles-cubes-sometimes">Sometimes</label>
-                            <br>
-                            <input type="radio" id="fumbles-cubes-rarely" name="fumbles-cubes" value="rarely">
-                            <label for="fumbles-cubes-rarely">Rarely</label>
-                            <br>
-                        </div>
-                    </div>
-                </div>
-                
-                <button type="submit" id="data-submit" class="big-button">Save</button>
-
-            </form>
-        </div>
+                </form>
+            </div>
+        <% } %>
 
         <%- include("../static/partials/footer") %>
 

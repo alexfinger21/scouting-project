@@ -6,10 +6,12 @@ const router = express.Router()
 
 router.get("/",  async function(req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
-    let runningMatch = 0;
+    let runningMatch = -1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        console.log(runningMatchResults)
-        runningMatch = runningMatchResults[0].cg_gm_number
+        console.log(runningm)
+        if(runningMatch) { //if a match is running
+            runningMatch = runningMatchResults[0].cg_gm_number
+        }
         res.render("data-collection", {
             runningMatch,
             user: user,
