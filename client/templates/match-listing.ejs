@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Scouting</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+    <link rel="stylesheet" href="../static/universal.css">
+    <link rel="stylesheet" href="../static/data-collection.css">
+    <link rel="stylesheet" href="../static/team-summary.css">
+    <link rel="stylesheet" href="../static/match-strategy.css">
+    <link rel="stylesheet" href="../static/alliance-selector.css">
+    <link rel="stylesheet" href="../static/match-listing.css">
+    <link rel="stylesheet" href="../static/admin-page.css">
 
-<body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script>
+    <script type="module" src="../static/scripts/team-summary.js" defer></script>
+    <script type="module" src="../static/scripts/data-collection.js" defer></script>
+    <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <script type="module" src="../static/scripts/match-listing.js" defer></script>
+</head>
+<body>
     <div id="page-holder">
         <h1 id="match-listing-title">Matches</h1>
         <div id="match-scroller">
