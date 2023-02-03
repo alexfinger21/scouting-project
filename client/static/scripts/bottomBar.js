@@ -41,7 +41,7 @@ function moveToPage(ogPos, pos, btn) {
 }
 
 window.addEventListener("load", () => {
-    let selectedObj = document.getElementById("data-collection-btn")
+    let selectedObj = document.getElementById("match-listing-btn")
 
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
@@ -50,19 +50,19 @@ window.addEventListener("load", () => {
     hoverButton.style.backgroundColor = "#cce6ff"
     hoverButton.style.zIndex = 1
 
-    //hoverButton.style.top = String(footerPageButtons[0].getBoundingClientRect().top) + "px"
-    hoverButton.style.left = String(footerPageButtons[1].getBoundingClientRect().left) + "px"
-
+    //hoverButton.style.top = String(footerPageButtons[0].getBoundingClientRect().left) + "px"
+    hoverButton.style.left = String(footerPageButtons[0].getBoundingClientRect().left) + "px"
+    
     $(hoverButton).width(footerPageButtons[0].clientWidth)
     $(hoverButton).height(footerPageButtons[0].clientHeight)
-
+    
     document.getElementById("footer-wrapper").append(hoverButton)
-
+    
     let buttonUrls = []
-
+    
     footerPageButtons.forEach((btn, index) => {
         buttonUrls[btn.children[1].textContent] = btn.children[1].textContent.replaceAll(" ", "-").toLowerCase()
-
+        
         btn.addEventListener("click", event => {
             console.log(buttonUrls[btn.children[1].textContent])
             requestPage(buttonUrls[btn.children[1].textContent], {})
@@ -76,21 +76,22 @@ window.addEventListener("load", () => {
         requestPage("alliance-selector")
         hideHighlight(hoverButton)
     })
-
+    
     const adminPageButton = document.getElementById("admin-page-button")
     adminPageButton.addEventListener("click", () =>  {
         requestPage("admin-page")
         hideHighlight(hoverButton)
     })
-
+    
     const resizeObserver = new ResizeObserver((entries) => {
         $(hoverButton).width(footerPageButtons[0].clientWidth)
         $(hoverButton).height(footerPageButtons[0].clientHeight)
-
+        
         console.log(selectedObj.getBoundingClientRect().left)
-
+        
         hoverButton.style.left = selectedObj.getBoundingClientRect().left + "px"
     })
-
+    
     resizeObserver.observe(document.body)
+    requestPage("match-listing")
 })
