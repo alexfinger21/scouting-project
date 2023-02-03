@@ -1,4 +1,11 @@
-import {clamp, paths, requestPage} from "./utility.js"
+import {clamp, paths, requestPage, socket, currentPage} from "./utility.js"
+
+socket.on("changeMatch", () => {
+    console.log("CURRENT PAGE: " + currentPage)
+    if(currentPage  == "data-collection") {
+        requestPage("data-collection")
+    }
+})
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {

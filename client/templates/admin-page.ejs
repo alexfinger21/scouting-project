@@ -9,7 +9,7 @@
             <%for(let i = 0; i < 3; i++) { %>
                 <div class="small-input-container" id="user-container">
                     <label for="red-one"><b> <%= "Red " + (i + 1) %> </b></label>
-                    <select name="red-one" id="select-user">
+                    <select name="red-one" class="select-user">
                         <%for(let i = 0; i < team.length; i++) { %>
                             <option value= <%=team[i].id%> > <%=team[i].name%> </option>
                         <% }%>
@@ -19,7 +19,7 @@
             <%for(let i = 0; i < 3; i++) { %>
                 <div class="small-input-container" id="user-container">
                     <label for="blue-one"><b> <%= "Blue " + (i + 1) %> </b></label>
-                    <select name="blue-one" id="select-user">
+                    <select name="blue-one" class="select-user">
                         <%for(let i = 0; i < team.length; i++) { %>
                             <option value= <%=team[i].id%> > <%=team[i].name%> </option>
                         <% }%>
