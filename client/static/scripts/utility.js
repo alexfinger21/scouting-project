@@ -4,6 +4,12 @@ const paths = {
     matchListing: "/match-listing"
 }
 
+const socket = io.connect(`${window.location.hostname}:5000`, {
+    forceNew: true,
+    transports: ["polling"],
+})
+
+
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
 //selects a random value from an array
@@ -60,4 +66,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {clamp, selectRandom, getColor, requestPage, paths}
+export {socket, clamp, selectRandom, getColor, requestPage, paths}
