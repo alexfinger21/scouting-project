@@ -54,8 +54,10 @@ socket.on("changeMatch", (match_num) => {
     }
     //change image
     const imgContainer = container.querySelector(".start-stop-button")
-    imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
-    console.log("changed")
+    if(imgContainer.length > 0) { //image exists, is an admin
+        imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
+    }
+    console.log("GAR GAR GAR 😈😈")
 })
 
 //scroll animations
