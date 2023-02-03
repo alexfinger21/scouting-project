@@ -1,3 +1,5 @@
+let currentPage = "data-collection"
+
 const paths = {
     dataCollection: "/data-collection",
     login: "/login",
@@ -38,6 +40,7 @@ function getColor(color)
 
 
 async function requestPage(url, data, ) {
+    currentPage = url.substring(1)
     $.ajax({
         type: "GET",
         contentType: "application/json",   
@@ -66,4 +69,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {socket, clamp, selectRandom, getColor, requestPage, paths}
+export {socket, clamp, selectRandom, getColor, requestPage, paths, currentPage}
