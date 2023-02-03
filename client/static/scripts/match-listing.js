@@ -46,16 +46,16 @@ socket.on("changeMatch", (match_num) => {
     })
     //UPDATE NEW MATCH
     const container = matchScroller.children[match_num - 1]
-    //change image
-    const imgContainer = container.querySelector(".start-stop-button")
-    imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
-    console.log("changed")
     //highlight table
     const tables = container.getElementsByTagName("table")
     console.log(tables)
     for (const tbl of tables) {
         tbl.style.backgroundColor = "#FFF5D6"
     }
+    //change image
+    const imgContainer = container.querySelector(".start-stop-button")
+    imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
+    console.log("changed")
 })
 
 //scroll animations
