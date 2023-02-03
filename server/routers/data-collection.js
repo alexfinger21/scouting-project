@@ -1,4 +1,5 @@
 const user = require("../user")
+const database = require("../database/database.js")
 const express = require("express")
 const { checkAdmin } = require("../utility")
 const router = express.Router()
