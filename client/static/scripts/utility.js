@@ -1,16 +1,8 @@
-let currentPage = "data-collection"
-
 const paths = {
     dataCollection: "/data-collection",
     login: "/login",
     matchListing: "/match-listing"
 }
-
-const socket = io.connect(`${window.location.hostname}:5000`, {
-    forceNew: true,
-    transports: ["polling"],
-})
-
 
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
@@ -40,7 +32,6 @@ function getColor(color)
 
 
 async function requestPage(url, data, ) {
-    currentPage = url.substring(1)
     $.ajax({
         type: "GET",
         contentType: "application/json",   
@@ -69,4 +60,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {socket, clamp, selectRandom, getColor, requestPage, paths, currentPage}
+export {clamp, selectRandom, getColor, requestPage, paths}
