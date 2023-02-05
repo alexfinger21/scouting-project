@@ -11,9 +11,10 @@ router.get("/", async function (req, res) {
 
         database.query(` SELECT cgua_user_id FROM teamsixn_scouting_dev.current_game_user_assignment`, async (err, assignedUsers) => { //get currently assigned users
             console.log(err)
-            assignedUsers = Object.values(JSON.parse(JSON.stringify(assignedUsers))[0]) //turn rowDataPacket into an object
             console.log("assigned users::")
             console.log(assignedUsers)
+            assignedUsers = Object.values(JSON.parse(JSON.stringify(assignedUsers))[0]) //turn rowDataPacket into an object
+
             res.render("admin-page", {
                 team: teamMembers,
                 assignedUsers: assignedUsers
