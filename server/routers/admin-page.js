@@ -30,7 +30,7 @@ router.get("/", async function (req, res) {
             console.log(err)
             console.log("assigned users::")
             console.log(assignedUsers)
-            let assignedUsers = JSON.parse(JSON.stringify(assignedUsers)) //turn rowDataPacket into an object
+            assignedUsers = JSON.parse(JSON.stringify(assignedUsers)) //turn rowDataPacket into an object
 
             console.log(assignedUsers)
 
@@ -51,14 +51,19 @@ router.post("/", function (req, res) { //admin presses save button
     database.query(`delete from teamsixn_scouting_dev.current_game_user_assignment;`, (err, results) => {
         console.log(err)
         //set new data
-        console.log(`insert into teamsixn_scouting_dev.current_game_user_assignment 
-        (cg_r1_user_id, cg_r2_user_id, cg_r3_user_id, cg_b1_user_id, cg_b2_user_id, cg_b3_user_id)
-        values ('` + body[0] + "','" + body[1] + "','" + body[2] + "','" + body[3] + "','" + body[4] + "','" + body[5] + "');")
-        database.query(`insert into teamsixn_scouting_dev.current_game_user_assignment 
-                (cg_r1_user_id, cg_r2_user_id, cg_r3_user_id, cg_b1_user_id, cg_b2_user_id, cg_b3_user_id)
-                values ('` + body[0] + "','" + body[1] + "','" + body[2] + "','" + body[3] + "','" + body[4] + "','" + body[5] + "');", (err, results) => {
-            console.log("asssigned")
-            console.log(err)
+        database.query(`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
+        (
+                cgua_alliance, 
+                cgua_alliance_position, 
+                cgua_user_id
+        )
+        VALUES 
+                ('B', 1, '` + body[0].id + `'),
+                ('B', 2, '` + body[1].id + `'),
+                ('B', 3, '` + body[2].id + `'),
+                ('R', 1, '` + body[3].id + `'),
+                ('R', 2, '` + body[4].id + `'),
+                ('R', 3, '` + body[5].id + `');`, (err, results) => {
         })
 
         res.send("assigned users")

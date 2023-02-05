@@ -30,10 +30,10 @@
                     </label>
                     <select name=<%= "B" + (i+1) %> class="select-user">
                         <%for(let j = 0; j < team.length; j++) { %>
-                            <% if(assignedUsers[i+3] == team[j].um_id) {%>
-                                <option value= <%=team[j].um_id%> selected> <%=team[j].um_name%> </option>
+                            <% if(assignedUsers[i+3].cgua_user_id == team[j].um_id) {%>
+                                <option value= <%=team[j].um_id%> selected> <%=team[j].admin_display%> </option>
                             <% } else { %>
-                                <option value= <%=team[j].um_id%> > <%=team[j].um_name%> </option>
+                                <option value= <%=team[j].um_id%> > <%=team[j].admin_display%> </option>
                             <%}%>
                         <% }%>
                     </select>
