@@ -15,25 +15,23 @@ window.addEventListener("load", main)
 
 
 function assignUsers(data) {
-    return new Promise(resolve => {
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: paths.adminPage,
-            data: JSON.stringify(data),
-            success: function (response) {
-                if (response.response == true) {
-                    resolve([true])
-                }
-                else {
-                    resolve([false])
-                }
-            },
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: paths.adminPage,
+        data: JSON.stringify(data),
+        success: function (response) {
+            if (response.response == true) {
+                //resolve([true])
+            }
+            else {
+                //resolve([false])
+            }
+        },
 
-            error: function (jqXHR, textStatus, errorThrown) {
-                resolve([false])
-            },
-        })
+        error: function (jqXHR, textStatus, errorThrown) {
+            resolve([false])
+        },
     })
 }
 
@@ -50,11 +48,20 @@ function main() {
         //get all the data
         const data = new Array(selections.length)
         for(let i = 0; i < selections.length; i++) {
-            data[i] = selections[i].value
-            console.log(selections[i].value)
+            data[i] = {
+                alliance: (i < 3 && "R") || "B",
+                position: i % 3 + 1,
+                id: selections[i].value,
+            }
         }
 
-        if(arrHasDuplicates(data)) { //can't have duplicates
+        console.log(data.map( (obj) => {
+            return obj.id
+        }))
+
+        if(arrHasDuplicates(data.map( (obj) => {
+            return obj.id
+        }))) { //can't have duplicates
             alert("You assigned a user more than once")
         }
         else { //send post request
