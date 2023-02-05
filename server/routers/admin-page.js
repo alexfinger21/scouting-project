@@ -4,16 +4,29 @@ const database = require("../database/database")
 const router = express.Router()
 
 router.get("/", async function (req, res) {
-    database.query(` SELECT um_id, um_name FROM user_master`, async (err, teamMembers) => { //get all team members
+    database.query(`select 
+    um.um_id ,
+    concat(um.um_name," - ", um.um_id) as admin_display
+    from 
+    teamsixn_scouting_dev.user_master um`, async (err, teamMembers) => { //get all team members
         teamMembers = JSON.parse(JSON.stringify(teamMembers)) //convert rowDataPacket to object
         console.log(err)
         console.log(teamMembers)
 
         database.query(`select 
-            um.um_id ,
-            concat(um.um_name," - ", um.um_id) as admin_display
-            from 
-            teamsixn_scouting_dev.user_master um`, async (err, assignedUsers) => { //get currently assigned users
+        cgua_alliance, 
+        cgua_alliance_position ,
+        cgua.cgua_user_id,
+        concat(um.um_name," - ", cgua.cgua_user_id) as admin_display
+    from 
+        teamsixn_scouting_dev.current_game_user_assignment cgua 
+        left join
+            teamsixn_scouting_dev.user_master um 
+            on
+                cgua.cgua_user_id = um.um_id
+    order by 
+        cgua_alliance, 
+        cgua_alliance_position ;`, async (err, assignedUsers) => { //get currently assigned users
             console.log(err)
             console.log("assigned users::")
             console.log(assignedUsers)
