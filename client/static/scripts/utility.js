@@ -7,6 +7,11 @@ const paths = {
     adminPage: "/admin-page"
 }
 
+const socket = io.connect(`${window.location.hostname}:5000`, {
+    forceNew: true,
+    transports: ["polling"],
+})
+
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
 //selects a random value from an array
@@ -75,4 +80,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates}
+export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates}
