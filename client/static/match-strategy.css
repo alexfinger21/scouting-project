@@ -60,14 +60,6 @@ tr:nth-child(even) { /* copied from w3schools lol*/
     font-size: 2vh;
 }
 
-.blue {
-    color: #3492EA;
-}
-
-.red {
-    color: #FF2A2A;
-}
-
 .strategy-display {
     width: 95%;
     margin-bottom: 2vh;
