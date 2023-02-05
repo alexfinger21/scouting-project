@@ -9,6 +9,7 @@
 
             <%for(let i = 0; i < 3; i++) { %>
                 <div class="small-input-container" id="user-container">
+                    <p><%assignedUsers[0].substring(0, 5)%></p>
                     <label for=<%= "R" + (i+1) %> class="red" >
                         <%= "Red " + (i + 1) %> </b>
                     </label>
@@ -30,7 +31,7 @@
                     </label>
                     <select name=<%= "B" + (i+1) %> class="select-user">
                         <%for(let j = 0; j < team.length; j++) { %>
-                            <% if(assignedUsers[i] == team[j].um_id) {%>
+                            <% if(assignedUsers[i+3] == team[j].um_id) {%>
                                 <option value= <%=team[j].um_id%> selected> <%=team[j].um_name%> </option>
                             <% } else { %>
                                 <option value= <%=team[j].um_id%> > <%=team[j].um_name%> </option>
