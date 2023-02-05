@@ -1,4 +1,4 @@
-import {clamp, paths, requestPage, socket} from "./utility.js"
+import {clamp, currentPage, paths, requestPage, socket} from "./utility.js"
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -13,6 +13,7 @@ const observer = new MutationObserver(function(mutations_list) {
 window.onunload = saveData
 
 socket.on("changeMatch", () => {
+    console.log("CURRENT PAGE: " + currentPage)
     requestPage(paths.dataCollection)
 })
 
