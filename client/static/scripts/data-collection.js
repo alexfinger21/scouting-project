@@ -12,11 +12,6 @@ const observer = new MutationObserver(function(mutations_list) {
 
 window.onunload = saveData
 
-socket.on("changeMatch", () => {
-    if(currentPage == paths.dataCollection.substring(1)) {
-        requestPage(paths.dataCollection)
-    }
-})
 
 const playPiecesDict = {
     cone: "../static/images/cone.svg",
