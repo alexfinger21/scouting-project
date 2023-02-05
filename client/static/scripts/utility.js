@@ -50,7 +50,7 @@ function arrHasDuplicates(arr) {
 }
 
 async function requestPage(url, data, ) {
-    console.log(currentPage)
+    currentPage = url
     $.ajax({
         type: "GET",
         contentType: "application/json",
