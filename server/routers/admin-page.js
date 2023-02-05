@@ -30,7 +30,9 @@ router.get("/", async function (req, res) {
             console.log(err)
             console.log("assigned users::")
             console.log(assignedUsers)
-            assignedUsers = Object.values(JSON.parse(JSON.stringify(assignedUsers))[0]) //turn rowDataPacket into an object
+            let assignedUsers = JSON.parse(JSON.stringify(assignedUsers)) //turn rowDataPacket into an object
+
+            console.log(assignedUsers)
 
             res.render("admin-page", {
                 team: teamMembers,
