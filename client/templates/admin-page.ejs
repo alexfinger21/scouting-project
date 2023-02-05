@@ -4,28 +4,42 @@
 <body>
     <div id="page-holder">
         <div id="admin-container">
-            <h1>Select Users</h1>
+            <h1>Assign Users</h1>
+            <br>
 
             <%for(let i = 0; i < 3; i++) { %>
                 <div class="small-input-container" id="user-container">
-                    <label for="red-one"><b> <%= "Red " + (i + 1) %> </b></label>
-                    <select name="red-one" class="select-user">
-                        <%for(let i = 0; i < team.length; i++) { %>
-                            <option value= <%=team[i].id%> > <%=team[i].name%> </option>
+                    <label for=<%= "R" + (i+1) %> class="red" >
+                        <%= "Red " + (i + 1) %> </b>
+                    </label>
+                    <select name= <%= "R" + (i+1) %> class="select-user">
+                        <%for(let j = 0; j < team.length; j++) { %>
+                            <% if(assignedUsers[i] == team[j].um_id) {%>
+                                <option value= <%=team[j].um_id%> selected> <%=team[j].um_name%> </option>
+                            <% } else { %>
+                                <option value= <%=team[j].um_id%> > <%=team[j].um_name%> </option>
+                            <%}%>
                         <% }%>
                     </select>
                 </div>
             <% } %>
             <%for(let i = 0; i < 3; i++) { %>
                 <div class="small-input-container" id="user-container">
-                    <label for="blue-one"><b> <%= "Blue " + (i + 1) %> </b></label>
-                    <select name="blue-one" class="select-user">
-                        <%for(let i = 0; i < team.length; i++) { %>
-                            <option value= <%=team[i].id%> > <%=team[i].name%> </option>
+                    <label for=<%= "B" + (i+1) %> class="blue">
+                        <%= "Blue " + (i + 1) %> 
+                    </label>
+                    <select name=<%= "B" + (i+1) %> class="select-user">
+                        <%for(let j = 0; j < team.length; j++) { %>
+                            <% if(assignedUsers[i] == team[j].um_id) {%>
+                                <option value= <%=team[j].um_id%> selected> <%=team[j].um_name%> </option>
+                            <% } else { %>
+                                <option value= <%=team[j].um_id%> > <%=team[j].um_name%> </option>
+                            <%}%>
                         <% }%>
                     </select>
                 </div>
             <% } %>
+            <button type="submit" id="admin-submit" class="big-button">Save</button>
         </div>
     </div>
 </body>

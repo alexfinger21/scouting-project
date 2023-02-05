@@ -1,7 +1,12 @@
-import { paths, socket } from "./utility.js"
+import { paths } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
+
+const socket = io.connect(`${window.location.hostname}:5000`, {
+    forceNew: true,
+    transports: ["polling"],
+})
 
 //when an admin stops a match
 socket.on("stopMatch", (match_num) => {

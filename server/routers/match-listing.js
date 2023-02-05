@@ -66,12 +66,11 @@ router.post("/", function (req, res) {
         })
     }
     else { //attempt to start match
-        //check if a match is already running
-        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => {
+        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => { //match is already running
             if (results.length > 0) {
                 res.status(200).send({ response: false, matchNumber: results[0].cg_gm_number })
             }
-            else {
+            else { //start new match
                 database.query(`insert into teamsixn_scouting_dev.current_game 
                 (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
                 select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
