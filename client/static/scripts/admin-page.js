@@ -1,4 +1,4 @@
-import { paths } from "./utility.js"
+import { arrHasDuplicates, paths } from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -42,7 +42,7 @@ function main() {
     const submitButton = document.getElementById("admin-submit")
 
     submitButton.addEventListener("click", () => {
-        //animate the button clicAk effect
+        //animate the button click effect
         submitButton.style.backgroundColor = "#3b86cc"
         submitButton.style.boxShadow = "0 2px #1c3750"
         submitButton.style.transform = "translateY(4px)"
@@ -53,9 +53,13 @@ function main() {
             data[i] = selections[i].value
             console.log(selections[i].value)
         }
-        
-        //send post request
-        assignUsers(data)
+
+        if(arrHasDuplicates(data)) { //can't have duplicates
+            alert("You assigned a user more than once")
+        }
+        else { //send post request
+            assignUsers(data)
+        }
 
         //animate the button back
         setTimeout(() => {

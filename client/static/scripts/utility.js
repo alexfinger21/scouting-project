@@ -33,6 +33,16 @@ function getColor(color)
     }
 }
 
+function arrHasDuplicates(arr) {
+    for(let i = 0; i < arr.length-1; i++) {
+        for(let j = i+1; j < arr.length; j++) {
+            if(arr[i] == arr[j]) {
+                return true
+            }
+        }
+    }
+    return false
+}
 
 async function requestPage(url, data, ) {
     currentPage = url.substring(1)
@@ -65,4 +75,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {currentPage, clamp, selectRandom, getColor, requestPage, paths}
+export {currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates}
