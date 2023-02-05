@@ -9,12 +9,13 @@
   <link rel="stylesheet" href="./static/universal.css">
   <link rel="stylesheet" href="./static/login-page.css">
 
-</head>
-
-<body>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js" defer></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
   <script type="module" src="../static/scripts/login.js" defer></script>
+</head>
+
+<body>
 
   <!--Custom login header (functionality disabled)-->
   <div id=disabled-header>
@@ -25,7 +26,7 @@
   </div>
 
   <div id="page-holder">
-    <div id="login-form-icon" >
+    <div id="login-form-icon">
       <img src="../static/images/PersonIcon.png">
     </div>
 
@@ -49,16 +50,16 @@
           </div>
 
           <!--So if the info they submitted doesn't work we display a message-->
-          
-          <% if (error == "visible") { %>
-          <div id="error-container">
-            <span>Team number, username, and password do not match</span>
-          </div>
-          <% } %>
 
-          <input id="sign-in-btn" type="submit" value="Sign In">
-          <div class="line" id="or"></div>
-          <input id="sign-up-btn" type="button" value="Sign Up">
+          <% if (error=="visible" ) { %>
+            <div id="error-container">
+              <span>Team number, username, and password do not match</span>
+            </div>
+            <% } %>
+
+              <input id="sign-in-btn" type="submit" value="Sign In">
+              <div class="line" id="or"></div>
+              <input id="sign-up-btn" type="button" value="Sign Up">
         </div>
       </form>
     </div>
