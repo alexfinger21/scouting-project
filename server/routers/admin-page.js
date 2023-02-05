@@ -9,7 +9,7 @@ router.get("/", async function (req, res) {
         console.log(err)
         console.log(teamMembers)
 
-        database.query(` SELECT * FROM teamsixn_scouting_dev.current_game_user_assignment`, async (err, assignedUsers) => { //get currently assigned users
+        database.query(` SELECT cgua_user_id FROM teamsixn_scouting_dev.current_game_user_assignment`, async (err, assignedUsers) => { //get currently assigned users
             console.log(err)
             assignedUsers = Object.values(JSON.parse(JSON.stringify(assignedUsers))[0]) //turn rowDataPacket into an object
             console.log(assignedUsers)
