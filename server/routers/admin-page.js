@@ -9,7 +9,7 @@ router.get("/", async function (req, res) {
         console.log(err)
         console.log(teamMembers)
 
-        database.query(` SELECT * FROM teamsixn_scouting_dev.current_game_user_assignment`, async (err, assignedUsers) => { //get currently assigned users
+        database.query(` SELECT cgua_user_id, cgua_user_name FROM teamsixn_scouting_dev.current_game_user_assignment ORDER BY cgua_alliance_position ASC`, async (err, assignedUsers) => { //get currently assigned users
             console.log(err)
             console.log("assigned users::")
             console.log(assignedUsers)
