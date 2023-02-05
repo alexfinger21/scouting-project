@@ -265,11 +265,6 @@
     margin-left: 1vw;
 }
 
-.red {
-    color: #FF2B2B !important;
-    /* overrides the default color */
-}
-
 #data-submit {
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
