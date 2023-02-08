@@ -134,6 +134,20 @@ app.use("/match-listing", matchListing)
 //ADMIN PAGE
 app.use("/admin-page", adminPage)
 
+//GET MATCH
+app.get("/getMatch", function(req, res) {
+    console.log(req.body)
+    database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
+        console.log(runningMatchResults)
+        if(runningMatchResults[0]) { //if a match is running
+            runningMatch = runningMatchResults[0].cg_gm_number
+            res.status(200).send({match: runningMatch})
+        } else {
+            res.status(200).send({match: 0})
+        }
+    })
+})
+
 //PORT
 app.listen(3000) //goes to localhost 3000
 
