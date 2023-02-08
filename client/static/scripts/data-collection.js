@@ -26,14 +26,14 @@ const playPiecesDict = {
     empty: "../static/images/transparent.png",
 }
 
-function loadData() {
+async function loadData() {
+    const match = await getMatch()
     const buttonContainers = document.getElementsByClassName("NumberButtonContainer")
     const matchNumber = document.getElementById("match-number")
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
-    const data = JSON.parse(localStorage.getItem("data"))
-
+    const data = JSON.parse(localStorage.getItem("data"))[match]
     //console.log(data)
 
     if (data) {
@@ -121,15 +121,18 @@ function loadData() {
     }
 }
 
-function saveData() {
+async function saveData() {
+    const match = await getMatch()
+    const ogData = JSON.parse(localStorage.getItem("data")) != null ? JSON.parse(localStorage.getItem("data")) : {}
     const data = {}
+
     const buttonContainers = document.getElementsByClassName("NumberButtonContainer")
     const matchNumber = document.getElementById("match-number")
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
 
-    data.matchNumber = Number(matchNumber.textContent.split(" ")[2])
+    data.matchNumber = match
 
     //0th child is the title
     //1st child is the number button holder
@@ -200,9 +203,9 @@ function saveData() {
         })
     })
 
-    console.log(data)
+    ogData[match] = data
 
-    localStorage.setItem("data", JSON.stringify(data))
+    localStorage.setItem("data", JSON.stringify(ogData))
 
     return data 
 }

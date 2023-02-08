@@ -1,7 +1,5 @@
 let currentPage = "match-listing"
 
-console.log(currentMatch)
-
 const paths = {
     dataCollection: "/data-collection",
     login: "/login",
@@ -18,18 +16,20 @@ const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
 //selects a random value from an array
 function getMatch() {
-    $.ajax({
-        type: "GET",
-        contentType: "application/json",
-        url: "/getMatch",
-        success: function (response) {
-            console.log(response.match)
-            currentMatch = response.match
-        },
+    return new Promise((resolve) => {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "/getMatch",
+            success: function (response) {
+                console.log(response.match)
+                resolve(response.match)
+            },
 
-        error: function (jqXHR, textStatus, errorThrown) {
-            //console.log("Error\n" + errorThrown, jqXHR)
-        },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //console.log("Error\n" + errorThrown, jqXHR)
+            },
+        })
     })
 }
 
@@ -97,4 +97,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, currentMatch}
+export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}
