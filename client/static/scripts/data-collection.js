@@ -1,4 +1,4 @@
-import {clamp, currentPage, paths, requestPage, socket} from "./utility.js"
+import {clamp, currentPage, paths, requestPage, socket, getMatch} from "./utility.js"
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -37,8 +37,6 @@ function loadData() {
     //console.log(data)
 
     if (data) {
-
-        matchNumber.textContent = "Match Number: " + data.matchNumber
 
         Array.from(inputContainers).forEach(element => {
             const name = element.children[0].textContent
@@ -202,7 +200,7 @@ function saveData() {
         })
     })
 
-    //console.log(data.tables)
+    console.log(data)
 
     localStorage.setItem("data", JSON.stringify(data))
 

@@ -1,5 +1,7 @@
 let currentPage = "match-listing"
 
+console.log(currentMatch)
+
 const paths = {
     dataCollection: "/data-collection",
     login: "/login",
@@ -15,6 +17,22 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
 //selects a random value from an array
+function getMatch() {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/getMatch",
+        success: function (response) {
+            console.log(response.match)
+            currentMatch = response.match
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            //console.log("Error\n" + errorThrown, jqXHR)
+        },
+    })
+}
+
 function selectRandom(obj)
 {
     let num =  obj[Math.round(Math.random() * (obj.length - 1))]
@@ -39,7 +57,7 @@ function getColor(color)
 }
 
 function arrHasDuplicates(arr) {
-    for(let i = 0; i < arr.length-1; i++) {
+    for(let i = 0; i < arr.length; i++) {
         for(let j = i+1; j < arr.length; j++) {
             if(arr[i] == arr[j]) {
                 return true
@@ -79,4 +97,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates}
+export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, currentMatch}
