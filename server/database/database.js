@@ -23,6 +23,21 @@ function saveData(data) {
         '1',
         '${data.username}'`
 
+    autoScoring = []
+    let count = 0
+
+    for (let i = 0; i<3; i++) {//row
+        for (let j = 0; j<3; j++) {//grid
+            for (let x = 0; x<3; x++) {//column
+                autoScoring[count] = data.tables["Robot Auto Scoring"][j][i][x]
+                count++
+            }
+        }
+    }
+
+
+    console.log(autoScoring)
+
     console.log('SQL', `INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
