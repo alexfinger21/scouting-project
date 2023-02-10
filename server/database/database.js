@@ -13,6 +13,7 @@ function getUsers() {
 }
 
 function saveData(data) {
+    console.log(data)
     const params = 
         `${YEAR}, 
         '${COMP}', 
@@ -21,18 +22,34 @@ function saveData(data) {
         'R',
         '1',
         '${data.username}'`
-    `
-    INSERT INTO "game_details" (
-        "frc_season_master_sm_year", 
-        "competition_master_cm_event_code", 
-        "game_matchup_gm_game_type", 
-        "game_matchup_gm_number", 
-        "game_matchup_gm_alliance", 
-        "game_matchup_gm_alliance_position", 
-        "gd_um_id",
-        "game_element_group_geg_grp_key", 
-        "game_element_ge_key", 
-        "gd_value" 
+
+    console.log('SQL', `INSERT INTO teamsixn_scouting_dev.game_details (
+        frc_season_master_sm_year,
+        competition_master_cm_event_code,
+        game_matchup_gm_game_type,
+        game_matchup_gm_number,
+        game_matchup_gm_alliance,
+        game_matchup_gm_alliance_position,
+        gd_um_id,
+        game_element_group_geg_grp_key,
+        game_element_ge_key,
+        gd_value
+        )
+        VALUES 
+        (${params}, '1', '101', ${data["Starting Position"]}), 
+        (${params}, '1', '102', ${data["Robot Preload"]});`)
+
+    return `INSERT INTO teamsixn_scouting_dev.game_details (
+        frc_season_master_sm_year,
+        competition_master_cm_event_code,
+        game_matchup_gm_game_type,
+        game_matchup_gm_number,
+        game_matchup_gm_alliance,
+        game_matchup_gm_alliance_position,
+        gd_um_id,
+        game_element_group_geg_grp_key,
+        game_element_ge_key,
+        gd_value
         )
         VALUES 
         (${params}, '1', '101', ${data["Starting Position"]}), 
