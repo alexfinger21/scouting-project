@@ -1,4 +1,8 @@
-const pool = require('./dbconfig')    
+const pool = require('./dbconfig')   
+const YEAR = 2023 
+const COMP = "test"
+const GAME_TYPE = "Q"
+
 
 function getUsers() {
     const returnStr = `
@@ -6,6 +10,33 @@ function getUsers() {
     FROM teamsixn_scouting_dev.userMaster
     `
     return returnStr
+}
+
+function saveData(data) {
+    const params = 
+        `${YEAR}, 
+        '${COMP}', 
+        '${GAME_TYPE}', 
+        '${data.matchNumber}', 
+        'R',
+        '1',
+        '${data.username}'`
+    `
+    INSERT INTO "game_details" (
+        "frc_season_master_sm_year", 
+        "competition_master_cm_event_code", 
+        "game_matchup_gm_game_type", 
+        "game_matchup_gm_number", 
+        "game_matchup_gm_alliance", 
+        "game_matchup_gm_alliance_position", 
+        "gd_um_id",
+        "game_element_group_geg_grp_key", 
+        "game_element_ge_key", 
+        "gd_value" 
+        )
+        VALUES 
+        (${params}, '1', '101', ${data["Starting Position"]}), 
+        (${params}, '1', '102', ${data["Robot Preload"]});`
 }
 
 function getTeams() {
@@ -75,5 +106,6 @@ function executeQuery(sql, callback) {
 
 module.exports = {
     query: executeQuery,
-    getTeams: getTeams
+    getTeams: getTeams,
+    saveData: saveData
 }
