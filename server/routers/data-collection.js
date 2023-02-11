@@ -2,6 +2,7 @@ const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const { checkAdmin } = require("../utility")
+const { deleteData } = require("../database/database.js")
 const router = express.Router()
 
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
@@ -43,6 +44,11 @@ router.post("/", function (req, res) {
     const body = req.body
     body.username = req.cookies["username"]
     console.log(body)
+
+    database.query(database.deleteData(body), (err, results) => {
+        console.log(err)
+        console.log(results)
+    })
 
     database.query(database.saveData(body), (err, results) => {
         console.log(err)
