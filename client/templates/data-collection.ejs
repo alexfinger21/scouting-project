@@ -32,17 +32,18 @@
     <%- include("../static/partials/header") %>
 
         <div id="page-holder" onmousedown="event.preventDefault ? event.preventDefault() : event.returnValue = false">
-            <%if(runningMatch > -1) {%> <!--Check if a match is running-->
+            <%if(runningMatch > -1 && assignment != null) {%> <!--Check if user has access-->
                 <form id="match-number-form" action="/data-collection" method="POST">
                     <!-- MATCH NUMBER-->
-                    <div id="text-container">
-                        <span id="match-number">Match Number: <%= runningMatch %> </span>
+                    <div id="text-container">   
+                        <span id="match-number">
+                            <%= assignment.match_display%> 
+                        </span>
                     </div>
 
                     <!--ASSIGNED TEAM-->
                     <div id="text-container">
-                        <span>Assigned Team: </span>
-                        <span class=<%=user.assignedTeamColor %> > <%= user.assignedTeam %> </span>
+                        <span class=<%=assignment.team_color %> > <%= assignment.team_display %> </span>
                     </div>
 
                     <div id="input-scroller">
@@ -323,7 +324,7 @@
                 </form>
             <% } else {%>
 
-                <h1>No Match In Progress</h1>
+                <h1 id="access-denied">You are not currently assigned to a team</h1>
             <% } %>
             </div>
 

@@ -14,6 +14,10 @@
     border-radius: 5px;
 }
 
+#access-denied {
+    text-align: center;
+}
+
 #assigned-team {
     margin-top: 1vh;
 }

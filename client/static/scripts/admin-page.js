@@ -49,7 +49,7 @@ function main() {
         const data = new Array(selections.length)
         for(let i = 0; i < selections.length; i++) {
             data[i] = {
-                alliance: (i < 3 && "R") || "B",
+                alliance: (i < 3 && "B") || "R",
                 position: i % 3 + 1,
                 id: selections[i].value,
             }
