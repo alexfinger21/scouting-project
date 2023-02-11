@@ -46,6 +46,10 @@ function convertToInt(option) {
             return 1
         case "rarely":
             return 2
+        case false:
+            return -1
+        case "n/a":
+            return 0
     }
 }
 
@@ -95,9 +99,9 @@ function saveData(data) {
                 if (data.tables["Robot Teleop Scoring"][j][i][x] == "cone") {
                     teleopScoring[count1] = 1
                 } else if (data.tables["Robot Teleop Scoring"][j][i][x] == "cube") {
-                    autoScoring[count1] = 2 
+                    teleopScoring[count1] = 2 
                 } else {
-                    autoScoring[count1] = 0
+                    teleopScoring[count1] = 0
                 }
 
                 count1++
@@ -106,7 +110,7 @@ function saveData(data) {
     }
 
     for (let i = 0; i<count1; i++) {
-        teleopScoringStr += `,(${params}, '2', '${200 + i+1}', ${teleopScoringStr[i]}) \n`
+        teleopScoringStr += `,(${params}, '2', '${300 + i+1}', ${teleopScoring[i]}) \n`
     }
 
     const sqlStr = `INSERT INTO teamsixn_scouting_dev.game_details (
@@ -126,7 +130,13 @@ function saveData(data) {
         (${params}, '1', '102', ${data["Robot Preload"]})
         ` + autoScoringStr + `,
         (${params}, '2', '228', ${data["Robot Leaves Community"]}),
-        (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])});`
+        (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])})
+        `+ teleopScoringStr + `,
+        (${params}, '4', '401', ${convertToInt(data["Robot Endgame Docking"])}),
+        (${params}, '4', '404', ${convertToInt(data["Cargo Intake From"])}),
+        (${params}, '4', '405', ${convertToInt(data["Robot Fumbles Cones"])}),
+        (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])}),
+        (${params}, '4', '402', ${data["Robot is in Community"]});`
 
         console.log(sqlStr)
 
