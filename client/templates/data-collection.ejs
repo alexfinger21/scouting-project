@@ -35,8 +35,10 @@
             <%if(runningMatch > -1 && assignment != null) {%> <!--Check if user has access-->
                 <form id="match-number-form" action="/data-collection" method="POST">
                     <!-- MATCH NUMBER-->
-                    <div id="text-container">
-                        <span id="match-number">Match Number: <%= runningMatch %> </span>
+                    <div id="text-container">   
+                        <span id="match-number">
+                            <%= assignment.match_display%> 
+                        </span>
                     </div>
 
                     <!--ASSIGNED TEAM-->

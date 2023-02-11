@@ -15,15 +15,18 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
         }
         database.query(database.getAssignedTeam(username), (err, assignment) => {
             assignment = JSON.parse(JSON.stringify(assignment))[0] //convert rowDataPacket to object
-            if(assignment != undefined) { //user is assigned a team
-                console.log('here we go')
+            if (assignment != undefined) { //user is assigned a team
                 //add team color
-                if(assignment.gm_alliance == "B") {
+                if (assignment.gm_alliance == "B") {
                     assignment.team_color = "blue"
                 }
                 else {
                     assignment.team_color = "red"
                 }
+                //add match display
+                let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
+                assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
+                    + teamName + " " + assignment.gm_alliance_position
                 console.log(assignment)
             }
             res.render("data-collection", {
