@@ -98,9 +98,9 @@ async function loadData() {
             }
         })
 
-        let tableCounter = 0;
-
+        
         Array.from(tableScrollers).forEach(tableContainer => {
+            let tableCounter = 0;
             //console.log(tableContainer)
 
             const name = tableContainer.parentElement.parentElement.children[0].textContent
@@ -162,11 +162,13 @@ async function saveData() {
             const name = element.children[0].textContent
             const buttonContainer = element.children[1]
 
-            if (buttonContainer.children[0].textContent == "+") {
-                //input value
-                data[name] = Number(buttonContainer.children[1].value)
-            } else {
-                data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
+            if (name != "Robot Auto Scoring" && name != "Robot Teleop Scoring") {
+                if (buttonContainer.children[0].textContent == "+") {
+                    //input value
+                    data[name] = Number(buttonContainer.children[1].value)
+                } else {
+                    data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
+                }
             }
         })
 
@@ -176,25 +178,27 @@ async function saveData() {
             let containerName = container.parentElement.children[0].textContent
             let selected = false
 
-            Array.from(container.children).forEach(element => {
-                if (!selected) {
-                    if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.checked) {
-                        selected = element.value
+            if (containerName != "Robot Auto Scoring" && containerName != "Robot Teleop Scoring") {
+                Array.from(container.children).forEach(element => {
+                    if (!selected) {
+                        if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.checked) {
+                            selected = element.value
+                        }
                     }
-                }
-            })
+                })
 
-            data[containerName] = selected
+                data[containerName] = selected
+            }
         })
 
         //areas and the cones/cubes within them
 
         //none is 0, cube is 1, cone is 2 
 
-        let tableCounter = 0;
         data.tables = {}
-
+        
         Array.from(tableScrollers).forEach(tableContainer => {
+            let tableCounter = 0;
 
             const name = tableContainer.parentElement.parentElement.children[0].textContent
             data.tables[name] = {}
