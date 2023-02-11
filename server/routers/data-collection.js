@@ -31,12 +31,12 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 
 router.post("/", function (req, res) {
     const body = req.body
-    body.username = req.cookies["user_id"]
-    console.log("req recieved")
+    body.username = req.cookies["username"]
+    console.log(body)
 
     database.query(database.saveData(body), (err, results) => {
         console.log(err)
-        console(results)
+        console.log(results)
     })
 
     return res.send("req recieved")
