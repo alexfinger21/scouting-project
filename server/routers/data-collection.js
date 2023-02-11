@@ -7,29 +7,33 @@ const router = express.Router()
 
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
+    const username = req.cookies["username"]
     let runningMatch = -1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
         console.log(runningMatchResults)
         if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
         }
-        database.query(`select * from teamsixn_scouting_dev.current_game_user_assignment;`, (err, userAssignments) => {
-            userAssignments = JSON.parse(JSON.stringify(userAssignments)) //convert rowDataPacket to object
-            let userValues
-            console.log(userAssignments)
-
-            for (let i = 0; i < 6; i++) {
-                if (userAssignments[i].cgua_user_id == req.cookies["user_id"]) {
-                    userValues = userAssignments[i]
+        database.query(database.getAssignedTeam(username), (err, assignment) => {
+            assignment = JSON.parse(JSON.stringify(assignment))[0] //convert rowDataPacket to object
+            if (assignment != undefined) { //user is assigned a team
+                //add team color
+                if (assignment.gm_alliance == "B") {
+                    assignment.team_color = "blue"
                 }
+                else {
+                    assignment.team_color = "red"
+                }
+                //add match display
+                let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
+                assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
+                    + teamName + " " + assignment.gm_alliance_position
+                console.log(assignment)
             }
-
-            console.log(userValues)
-
             res.render("data-collection", {
                 runningMatch,
                 user: user,
-                userValues: userValues,
+                assignment: assignment,
                 isAdmin: isAdmin
             })
         })
