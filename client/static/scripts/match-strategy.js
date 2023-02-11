@@ -13,4 +13,8 @@ window.addEventListener("load", main)
 
 function main() {
     const select = document.getElementById("available-matches")
+    select.addEventListener("onchange", () => {
+        console.log("garrety gar gra")
+    })
+    console.log("\nWANjoenjonejoQEJOB;E\n")
 }
