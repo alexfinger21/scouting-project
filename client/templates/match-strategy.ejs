@@ -9,9 +9,9 @@
             <input id="available-matches" type="number" name="select-match" list="games">
             
             <datalist id="games">
-                <% for(let i = 0; i < matches.length; i++) { %>
+                <% for(let i = 0; i < gameNumbers.length; i++) { %>
                     <option>
-                        <%= matches[i] %>
+                        <%= gameNumbers[i].gm_number %>
                     </option>
                 <% } %>
             </datalist>
@@ -22,9 +22,9 @@
                 <th>
                       
                 </th>
-                <% for(let y = 0; y < info.teamData.length; y++) { %>
-                    <th class= <%= info.teamData[y][1] %> >
-                        <%= info.teamData[y][0] %>
+                <% for(let i = 0; i < matchup.length; i++) { %>
+                    <th class= <%= matchup[i].gm_alliance %> >
+                        <%= matchup[i].team_master_tm_number %>
                     </th>
                 <% } %>
             </tr>

@@ -1,5 +1,5 @@
-const pool = require('./dbconfig')   
-const YEAR = 2023 
+const pool = require('./dbconfig')
+const YEAR = 2023
 const COMP = "test"
 const GAME_TYPE = "Q"
 
@@ -14,7 +14,7 @@ function getUsers() {
 
 function saveData(data) {
     console.log(data)
-    const params = 
+    const params =
         `${YEAR}, 
         '${COMP}', 
         '${GAME_TYPE}', 
@@ -26,9 +26,9 @@ function saveData(data) {
     autoScoring = []
     let count = 0
 
-    for (let i = 0; i<3; i++) {//row
-        for (let j = 0; j<3; j++) {//grid
-            for (let x = 0; x<3; x++) {//column
+    for (let i = 0; i < 3; i++) {//row
+        for (let j = 0; j < 3; j++) {//grid
+            for (let x = 0; x < 3; x++) {//column
                 autoScoring[count] = data.tables["Robot Auto Scoring"][j][i][x]
                 count++
             }
@@ -123,7 +123,7 @@ function getTeams() {
         r1.competition_master_cm_event_code = 'test' and
         r1.gm_game_type = 'Q';`
 
-        return returnStr
+    return returnStr
 }
 
 function getAssignedTeam(username) {
@@ -156,17 +156,61 @@ FROM
         cgua.cgua_user_id = '${username}'`
 }
 
+function getGameNumbers(eventCode, gameNumber) {
+    return `
+    SELECT 
+        distinct gm.gm_number 
+    FROM 
+        teamsixn_scouting_dev.game_matchup gm 
+    WHERE
+    gm.frc_season_master_sm_year = 2023 and 
+        gm.competition_master_cm_event_code = 'test' and 
+        gm.gm_game_type  = 'Q'
+    ORDER BY 
+        1;
+    `
+}
+
+function getMatchData(gameNumber) {
+    return `
+    SELECT 
+        gm.gm_game_type,
+        gm.gm_number,
+        gm.gm_alliance , 
+        gm.gm_alliance_position , 
+        gm.team_master_tm_number,
+        concat(tm_number ," - ", tm_name) as team_display
+    FROM 
+        teamsixn_scouting_dev.game_matchup gm
+    LEFT JOIN 
+        teamsixn_scouting_dev.team_master tm 
+        ON
+            tm.tm_number = gm.team_master_tm_number 
+    WHERE
+        gm.frc_season_master_sm_year = 2023 and 
+        gm.competition_master_cm_event_code = 'test' and 
+        gm.gm_game_type = 'Q' and 
+        gm.gm_number = ${gameNumber}
+    ORDER BY 
+        gm.gm_game_type,
+        gm.gm_number,
+        gm.gm_alliance, 
+        gm.gm_alliance_position ;`
+}
+
 function executeQuery(sql, callback) {
     pool.query(sql, function (error, results, fields) {
         if (error) {
             return callback(error, null)
-        }else{
+        } else {
             return callback(null, results)
-        } 
+        }
     })
 }
 
 module.exports = {
+    getMatchData: getMatchData,
+    getGameNumbers: getGameNumbers,
     query: executeQuery,
     getTeams: getTeams,
     saveData: saveData,
