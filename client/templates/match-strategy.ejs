@@ -6,15 +6,13 @@
     <div id="page-holder">
         <div class="small-input-container" id="select-match">
             <label id="select-match" for="select-match"><b>Select Match:</b></label>
-            <input id="available-matches" type="number" name="select-match" list="games">
-            
-            <datalist id="games">
+            <select id="available-matches" name="select-match">
                 <% for(let i = 0; i < gameNumbers.length; i++) { %>
                     <option>
                         <%= gameNumbers[i].gm_number %>
                     </option>
                 <% } %>
-            </datalist>
+            </select>
         </div>
 
         <table id="stats">

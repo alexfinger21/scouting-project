@@ -1,3 +1,5 @@
+import {requestPage, matchStrategySelectedGame} from "./utility.js"
+
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
@@ -13,8 +15,11 @@ window.addEventListener("load", main)
 
 function main() {
     const select = document.getElementById("available-matches")
-    select.addEventListener("onchange", () => {
+    select.value = matchStrategySelectedGame
+    select.onchange = () => {
         console.log("garrety gar gra")
-    })
-    console.log("\nWANjoenjonejoQEJOB;E\n")
+        matchStrategySelectedGame = select.value
+        requestPage("match-strategy")
+    }
+
 }
