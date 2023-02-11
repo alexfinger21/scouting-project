@@ -13,12 +13,19 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
         if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
         }
-        console.log(database.getAssignedTeam(username))
         database.query(database.getAssignedTeam(username), (err, assignment) => {
-            console.log("GO\n\n\n")
-            console.log(assignment)
             assignment = JSON.parse(JSON.stringify(assignment))[0] //convert rowDataPacket to object
-            console.log(assignment)
+            if(assignment != undefined) { //user is assigned a team
+                console.log('here we go')
+                //add team color
+                if(assignment.gm_alliance == "B") {
+                    assignment.team_color = "blue"
+                }
+                else {
+                    assignment.team_color = "red"
+                }
+                console.log(assignment)
+            }
             res.render("data-collection", {
                 runningMatch,
                 user: user,
