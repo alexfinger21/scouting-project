@@ -223,6 +223,28 @@ function main() {
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
+
+    //Header Code
+    const dropdown = document.getElementById("dropdown")
+    const content = document.getElementById("dropdown-content")
+
+    //when the button is clicked, changes the max visible height
+    dropdown.addEventListener("click", () => {
+        content.style.visibility = "visible"
+        content.style.display = "block"
+        content.style.maxHeight = "30vh"
+    })
+    
+    //close the dropdown content when the user clicks outside of the button
+    window.addEventListener("click", (event) => {
+        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) { 
+            //console.log(event.target)
+            content.style.maxHeight = "0px"
+            setTimeout(() => {
+                content.style.visibility = "hidden"
+            }, 200);
+        }
+    })
     
     form.onsubmit = (event) => {
         event.preventDefault()
@@ -382,37 +404,5 @@ function main() {
             submitButton.style.boxShadow = "0 6px #3077b9"
             submitButton.style.transform = ""
         }, 100); //in milliseconds
-    })
-
-    const dropdown = document.getElementById("dropdown")
-    const content = document.getElementById("dropdown-content")
-
-    /*  doesn't work
-    let maxHeight = 0
-
-    Array.from(content.children).forEach((element) => {
-        maxHeight += element.clientHeight
-    })
-
-    maxHeight += 10
-
-    */
-
-    //when the button is clicked, changes the max visible height
-    dropdown.addEventListener("click", () => {
-        content.style.visibility = "visible"
-        content.style.display = "block"
-        content.style.maxHeight = "30vh"
-    })
-    
-    //close the dropdown content when the user clicks outside of the button
-    window.addEventListener("click", (event) => {
-        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) { 
-            //console.log(event.target)
-            content.style.maxHeight = "0px"
-            setTimeout(() => {
-                content.style.visibility = "hidden"
-            }, 200);
-        }
     })
 }

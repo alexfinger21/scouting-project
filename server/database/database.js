@@ -94,6 +94,36 @@ function getTeams() {
         return returnStr
 }
 
+function getAssignedTeam(username) {
+    return `SELECT 
+    cg.cg_gm_number, 
+    gm.gm_game_type, 
+    gm.gm_alliance , 
+    gm.gm_alliance_position , 
+    gm.team_master_tm_number, 
+    cgua.cgua_user_id, 
+    concat(tm_number ," - ", tm_name) as team_display
+FROM 
+    teamsixn_scouting_dev.current_game cg 
+    LEFT JOIN
+        teamsixn_scouting_dev.game_matchup gm 
+        ON    cg.cg_sm_year  = gm.frc_season_master_sm_year and 
+                cg.cg_cm_event_code  = gm.competition_master_cm_event_code and 
+                cg.cg_gm_game_type = gm.gm_game_type and 
+                cg.cg_gm_number  = gm.gm_number 
+    LEFT JOIN 
+        teamsixn_scouting_dev.current_game_user_assignment cgua 
+        ON
+            cgua.cgua_alliance = gm.gm_alliance and 
+            cgua.cgua_alliance_position = gm.gm_alliance_position 
+    LEFT JOIN 
+        teamsixn_scouting_dev.team_master tm 
+        ON
+            tm.tm_number = gm.team_master_tm_number 
+    WHERE
+        cgua.cgua_user_id = '${username}'`
+}
+
 function executeQuery(sql, callback) {
     pool.query(sql, function (error, results, fields) {
         if (error) {
@@ -107,5 +137,6 @@ function executeQuery(sql, callback) {
 module.exports = {
     query: executeQuery,
     getTeams: getTeams,
-    saveData: saveData
+    saveData: saveData,
+    getAssignedTeam: getAssignedTeam
 }
