@@ -57,6 +57,14 @@ function getColor(color)
     }
 }
 
+function selectMatchStrategyGame(value) {
+    matchStrategySelectedGame = value
+}
+
+function getMatchStrategyGame() {
+    return matchStrategySelectedGame
+}
+
 function arrHasDuplicates(arr) {
     for(let i = 0; i < arr.length; i++) {
         for(let j = i+1; j < arr.length; j++) {
@@ -98,4 +106,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {socket, currentPage, matchStrategySelectedGame, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}
+export {socket, currentPage, selectMatchStrategyGame, getMatchStrategyGame, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}

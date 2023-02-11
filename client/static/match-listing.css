@@ -72,6 +72,19 @@
     width: auto;
 }
 
+.match-strat-button {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border:none
+}
+
+.match-strat-button img {
+    margin-top: 4%;
+    height: 3vh;
+    width: auto;
+}
+
 /*for scrolling animations */
 .hidden {
     opacity: 0;

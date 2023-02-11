@@ -1,4 +1,4 @@
-import { paths, socket } from "./utility.js"
+import {selectMatchStrategyGame, paths, requestPage, socket } from "./utility.js"
 let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
@@ -164,6 +164,18 @@ function main() {
             }
         })
     }
+    //match strat buttons
+    const matchStrat = document.getElementsByClassName("match-strat-button")
+    for (const button of matchStrat) {
+        console.log("hs")
+        button.addEventListener("click", () => {
+            console.log("GUIG")
+            const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
+            selectMatchStrategyGame(container.getAttribute("game_number"))
+            requestPage("match-strategy")
+        })
+    }
+
     //animate on scroll
     console.log("animate")
     const hiddenElements = document.querySelectorAll(".hidden");
