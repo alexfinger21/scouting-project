@@ -12,6 +12,43 @@ function getUsers() {
     return returnStr
 }
 
+function deleteData(data) {
+    return `DELETE FROM teamsixn_scouting_dev.game_details
+    WHERE game_details.frc_season_master_sm_year = 2023
+        AND game_details.competition_master_cm_event_code = '${COMP}'
+        AND game_details.game_matchup_gm_game_type = '${GAME_TYPE}'
+        AND game_details.game_matchup_gm_number = ${data.matchNumber}
+        AND game_details.game_matchup_gm_alliance = 'R'
+        AND game_details.game_matchup_gm_alliance_position = 1;`
+}
+
+function convertToInt(option) {
+    switch (option) {
+        case "engaged":
+            return 3
+        case "docked":
+            return 2
+        case "attempted (unsuccessful)":
+            return 1
+        case "unattempted":
+            return 0
+        case "none":
+            return 3
+        case "both":
+            return 2
+        case "ground":
+            return 1
+        case "substation":
+            return 0
+        case "often":
+            return 0
+        case "sometimes":
+            return 1
+        case "rarely":
+            return 2
+    }
+}
+
 function saveData(data) {
     console.log(data)
     const params =
@@ -23,22 +60,56 @@ function saveData(data) {
         '1',
         '${data.username}'`
 
-    autoScoring = []
+    let autoScoring = []
+    let teleopScoring = []
+
+    let autoScoringStr = ""
+    let teleopScoringStr = ""
+
     let count = 0
+    let count1 = 0
 
     for (let i = 0; i < 3; i++) {//row
         for (let j = 0; j < 3; j++) {//grid
             for (let x = 0; x < 3; x++) {//column
-                autoScoring[count] = data.tables["Robot Auto Scoring"][j][i][x]
+                if (data.tables["Robot Auto Scoring"][j][i][x] == "cone") {
+                    autoScoring[count] = 1
+                } else if (data.tables["Robot Auto Scoring"][j][i][x] == "cube") {
+                    autoScoring[count] = 2 
+                } else {
+                    autoScoring[count] = 0
+                }
+
                 count++
             }
         }
     }
 
+    for (let i = 0; i<count; i++) {
+        autoScoringStr += `,(${params}, '2', '${200 + i+1}', ${autoScoring[i]}) \n`
+    }
 
-    console.log(autoScoring)
+    for (let i = 0; i<3; i++) {//row
+        for (let j = 0; j<3; j++) {//grid
+            for (let x = 0; x<3; x++) {//column
+                if (data.tables["Robot Teleop Scoring"][j][i][x] == "cone") {
+                    teleopScoring[count1] = 1
+                } else if (data.tables["Robot Teleop Scoring"][j][i][x] == "cube") {
+                    autoScoring[count1] = 2 
+                } else {
+                    autoScoring[count1] = 0
+                }
 
-    console.log('SQL', `INSERT INTO teamsixn_scouting_dev.game_details (
+                count1++
+            }
+        }
+    }
+
+    for (let i = 0; i<count1; i++) {
+        teleopScoringStr += `,(${params}, '2', '${200 + i+1}', ${teleopScoringStr[i]}) \n`
+    }
+
+    const sqlStr = `INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
         game_matchup_gm_game_type,
@@ -52,23 +123,14 @@ function saveData(data) {
         )
         VALUES 
         (${params}, '1', '101', ${data["Starting Position"]}), 
-        (${params}, '1', '102', ${data["Robot Preload"]});`)
+        (${params}, '1', '102', ${data["Robot Preload"]})
+        ` + autoScoringStr + `,
+        (${params}, '2', '228', ${data["Robot Leaves Community"]}),
+        (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])});`
 
-    return `INSERT INTO teamsixn_scouting_dev.game_details (
-        frc_season_master_sm_year,
-        competition_master_cm_event_code,
-        game_matchup_gm_game_type,
-        game_matchup_gm_number,
-        game_matchup_gm_alliance,
-        game_matchup_gm_alliance_position,
-        gd_um_id,
-        game_element_group_geg_grp_key,
-        game_element_ge_key,
-        gd_value
-        )
-        VALUES 
-        (${params}, '1', '101', ${data["Starting Position"]}), 
-        (${params}, '1', '102', ${data["Robot Preload"]});`
+        console.log(sqlStr)
+
+    return sqlStr
 }
 
 function getTeams() {
@@ -214,5 +276,6 @@ module.exports = {
     query: executeQuery,
     getTeams: getTeams,
     saveData: saveData,
+    deleteData: deleteData,
     getAssignedTeam: getAssignedTeam
 }
