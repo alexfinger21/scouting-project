@@ -1,8 +1,7 @@
 const user = require("../user")
+const database = require("../database/database.js")
 const express = require("express")
 const router = express.Router()
-
-const matches = [1, 2, 3, 4]
 
 const testInfo1 = {
     undecided: true,
@@ -57,12 +56,28 @@ const decidedTableLabels = [
 ]
 
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
-    res.render("match-strategy", {
-        matches: matches,
-        info: testInfo1,
-        undecidedTableLabels: undecidedTableLabels,
-        decidedTableLabels: decidedTableLabels,
-        user: user,
+    console.log("\n query: ")
+    database.query(database.getGameNumbers(), (err, gameNumbers) => {
+        console.log(err)
+        gameNumbers = JSON.parse(JSON.stringify(gameNumbers)) //convert RowDataPacket to object
+        console.log("\ngame numbers: ")
+        console.log(gameNumbers)
+        
+        database.query(database.getMatchData(1), (err, matchup) => {
+            console.log(err)
+            matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
+            console.log("\nmatchup: ")
+            console.log(matchup)
+    
+            res.render("match-strategy", {
+                matchup: matchup,
+                gameNumbers: gameNumbers,
+                info: testInfo1,
+                undecidedTableLabels: undecidedTableLabels,
+                decidedTableLabels: decidedTableLabels,
+                user: user,
+            })
+        })
     })
 })
 

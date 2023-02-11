@@ -24,7 +24,7 @@
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <script type="module" src="../static/scripts/match-listing.js" defer></script>
     <script type="module" src="../static/scripts/admin-page.js" defer></script>
-
+    <script type="module" src="../static/scripts/match-strategy.js" defer></script>
 </head>
 
 <body>
@@ -291,6 +291,9 @@
                         <div class="input-container">
                             <span>Robot Fumbles Cones</span>
                             <div class="radio-button-container">
+                                <input type="radio" id="fumbles-cones-n/a" name="fumbles-cones" value="n/a">
+                                <label for="fumbles-cones-n/a">Does not pick up cones</label>
+                                <br>
                                 <input type="radio" id="fumbles-cones-often" name="fumbles-cones" value="often">
                                 <label for="fumbles-cones-often">Often</label>
                                 <br>
@@ -306,6 +309,9 @@
                         <div class="input-container">
                             <span>Robot Fumbles Cubes</span>
                             <div class="radio-button-container">
+                                <input type="radio" id="fumbles-cubes-n/a" name="fumbles-cubes" value="n/a">
+                                <label for="fumbles-cubes-n/a">Does not pick up cubes</label>
+                                <br>
                                 <input type="radio" id="fumbles-cubes-often" name="fumbles-cubes" value="often">
                                 <label for="fumbles-cubes-often">Often</label>
                                 <br>

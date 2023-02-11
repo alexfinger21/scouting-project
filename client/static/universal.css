@@ -37,6 +37,14 @@ input::-webkit-inner-spin-button {
   box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
+.B {
+  color: #3492EA !important;
+}
+
+.R {
+  color: #FF2A2A !important;
+}
+
 .blue {
   color: #3492EA !important;
 }
