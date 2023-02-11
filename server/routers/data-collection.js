@@ -6,29 +6,23 @@ const router = express.Router()
 
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
+    const username = req.cookies["username"]
     let runningMatch = -1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
         console.log(runningMatchResults)
         if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
         }
-        database.query(`select * from teamsixn_scouting_dev.current_game_user_assignment;`, (err, userAssignments) => {
-            userAssignments = JSON.parse(JSON.stringify(userAssignments)) //convert rowDataPacket to object
-            let userValues
-            console.log(userAssignments)
-
-            for (let i = 0; i < 6; i++) {
-                if (userAssignments[i].cgua_user_id == req.cookies["user_id"]) {
-                    userValues = userAssignments[i]
-                }
-            }
-
-            console.log(userValues)
-
+        console.log(database.getAssignedTeam(username))
+        database.query(database.getAssignedTeam(username), (err, assignment) => {
+            console.log("GO\n\n\n")
+            console.log(assignment)
+            assignment = JSON.parse(JSON.stringify(assignment))[0] //convert rowDataPacket to object
+            console.log(assignment)
             res.render("data-collection", {
                 runningMatch,
                 user: user,
-                userValues: userValues,
+                assignment: assignment,
                 isAdmin: isAdmin
             })
         })

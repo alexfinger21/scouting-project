@@ -58,12 +58,12 @@ router.post("/", function (req, res) { //admin presses save button
                 cgua_user_id
         )
         VALUES 
-                ('B', 1, '` + body[0].id + `'),
-                ('B', 2, '` + body[1].id + `'),
-                ('B', 3, '` + body[2].id + `'),
-                ('R', 1, '` + body[3].id + `'),
-                ('R', 2, '` + body[4].id + `'),
-                ('R', 3, '` + body[5].id + `');`, (err, results) => {
+                ('R', 1, '` + body[0].id + `'),
+                ('R', 2, '` + body[1].id + `'),
+                ('R', 3, '` + body[2].id + `')
+                ('B', 1, '` + body[3].id + `'),
+                ('B', 2, '` + body[4].id + `'),
+                ('B', 3, '` + body[5].id + `'), ;`, (err, results) => {
         })
 
         res.send("assigned users")
