@@ -1,4 +1,5 @@
 let currentPage = "match-listing"
+let matchStrategySelectedGame = 1
 
 const paths = {
     dataCollection: "/data-collection",
@@ -97,4 +98,4 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}
+export {socket, currentPage, matchStrategySelectedGame, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}
