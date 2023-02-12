@@ -5,6 +5,7 @@ const paths = {
     dataCollection: "/data-collection",
     login: "/login",
     matchListing: "/match-listing",
+    matchStrategy: "/match-strategy",
     adminPage: "/admin-page"
 }
 
@@ -76,7 +77,7 @@ function arrHasDuplicates(arr) {
     return false
 }
 
-async function requestPage(url, data, ) {
+async function requestPage(url, data) {
     currentPage = url
     $.ajax({
         type: "GET",

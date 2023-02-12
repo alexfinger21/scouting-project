@@ -14,12 +14,15 @@ socket.on("stopMatch", (match_num) => {
         Array.from(container.children).forEach((table) => {
             table.style.backgroundColor = "#FFF"
         })
-        //change play button image
-        const img = container.getElementsByTagName("img")[0]
+    })
+    //change play button image
+    const buttons = document.getElementsByClassName("start-stop-button")
+    for (const button of buttons) {
+        const img = button.getElementsByTagName("img")[0]
         if (img) {
             img.src = "../static/images/play-button.png"
         }
-    })
+    }
 })
 
 //when an admin starts a new match
@@ -33,12 +36,15 @@ socket.on("changeMatch", (match_num) => {
         Array.from(container.children).forEach((table) => {
             table.style.backgroundColor = "#FFF"
         })
-        //change play button image
-        const img = container.getElementsByTagName("img")[0]
+    })
+    //change play button image
+    const buttons = document.getElementsByClassName("start-stop-button")
+    for (const button of buttons) {
+        const img = button.getElementsByTagName("img")[0]
         if (img) {
             img.src = "../static/images/play-button.png"
         }
-    })
+    }
     //UPDATE NEW MATCH
     const container = matchScroller.children[match_num - 1]
     //highlight table
