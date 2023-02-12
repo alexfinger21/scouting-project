@@ -12,10 +12,11 @@
                         <option selected>
                             <%= gameNumbers[i].gm_number %>
                         </option>
+                    <%} else {%>
+                        <option>
+                            <%= gameNumbers[i].gm_number %>
+                        </option>
                     <%}%>
-                    <option>
-                        <%= gameNumbers[i].gm_number %>
-                    </option>
                 <% } %>
             </select>
         </div>
@@ -31,22 +32,17 @@
                     </th>
                 <% } %>
             </tr>
-            <% for(let x = 2; x < info.teamData[1].length; x++) { %>
-                <tr>
-                    <td>
-                        <% if(info.undecided) { %>
-                            <%=undecidedTableLabels[x-2]%>
-                        <% } else { %>
-                            <%= decidedTableLabels[x-2] %>
-                        <% } %>
-                    </td>
-                    <% for(let y = 0; y < info.teamData.length; y++) { %>
+            <tr>
+                <td>
+                    Scoring
+                </td>
+                <% for(let i = 0; i < matchup.length; i++) { %>
                         <td>
-                            <%=info.teamData[y][x]%>
+                            <%= Math.round(matchup[i].avg_gm_score) %>
                         </td>
-                    <% } %>
-                </tr>
-            <% } %>
+                <% } %>
+            </tr>
+
         </table>
 
         <div id="scoring">
@@ -56,7 +52,7 @@
                         Red Team Predicted Score
                     </h4>
                     <h2>
-                        <%= info.redPredictedScore %>
+                        <%= Math.round(matchup[0].avg_gm_score + matchup[1].avg_gm_score + matchup[2].avg_gm_score) %>
                     </h2>
                 <% } else { %>
                     <h4>
@@ -74,7 +70,7 @@
                         Blue Team Predicted Score
                     </h4>
                     <h2>
-                        <%= info.bluePredictedScore %>
+                        <%= Math.round(matchup[3].avg_gm_score + matchup[4].avg_gm_score + matchup[5].avg_gm_score) %>
                     </h2>
                 <% } else { %>
                     <h4>
