@@ -95,3 +95,5 @@ window.addEventListener("load", () => {
     resizeObserver.observe(document.body)
     requestPage("match-listing")
 })
+
+export {moveToPage}

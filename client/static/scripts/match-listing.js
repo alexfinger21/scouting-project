@@ -1,4 +1,5 @@
 import {selectMatchStrategyGame, paths, requestPage, socket } from "./utility.js"
+import { moveToPage } from "./bottomBar.js"
 let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
@@ -14,12 +15,15 @@ socket.on("stopMatch", (match_num) => {
         Array.from(container.children).forEach((table) => {
             table.style.backgroundColor = "#FFF"
         })
-        //change play button image
-        const img = container.getElementsByTagName("img")[0]
+    })
+    //change play button image
+    const buttons = document.getElementsByClassName("start-stop-button")
+    for (const button of buttons) {
+        const img = button.getElementsByTagName("img")[0]
         if (img) {
             img.src = "../static/images/play-button.png"
         }
-    })
+    }
 })
 
 //when an admin starts a new match
@@ -33,12 +37,15 @@ socket.on("changeMatch", (match_num) => {
         Array.from(container.children).forEach((table) => {
             table.style.backgroundColor = "#FFF"
         })
-        //change play button image
-        const img = container.getElementsByTagName("img")[0]
+    })
+    //change play button image
+    const buttons = document.getElementsByClassName("start-stop-button")
+    for (const button of buttons) {
+        const img = button.getElementsByTagName("img")[0]
         if (img) {
             img.src = "../static/images/play-button.png"
         }
-    })
+    }
     //UPDATE NEW MATCH
     const container = matchScroller.children[match_num - 1]
     //highlight table
@@ -169,7 +176,6 @@ function main() {
     for (const button of matchStrat) {
         console.log("hs")
         button.addEventListener("click", () => {
-            console.log("GUIG")
             const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
             selectMatchStrategyGame(container.getAttribute("game_number"))
             requestPage("match-strategy")

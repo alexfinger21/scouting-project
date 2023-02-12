@@ -3,6 +3,7 @@
 }
 
 #available-matches {
+    background-color: #FFF;
     text-align: center;
     font-size: 2.5vh;
     width: 20vw;
@@ -11,7 +12,7 @@
 }
 
 #available-matches option {
-    font-size: 1.5vh;
+    font-size: 1.8vh;
 }
 
 #stats {

@@ -5,6 +5,7 @@ const paths = {
     dataCollection: "/data-collection",
     login: "/login",
     matchListing: "/match-listing",
+    matchStrategy: "/match-strategy",
     adminPage: "/admin-page"
 }
 
@@ -76,7 +77,7 @@ function arrHasDuplicates(arr) {
     return false
 }
 
-async function requestPage(url, data, ) {
+async function requestPage(url, data) {
     currentPage = url
     $.ajax({
         type: "GET",
@@ -106,4 +107,24 @@ async function requestPage(url, data, ) {
     })
 }
 
-export {socket, currentPage, selectMatchStrategyGame, getMatchStrategyGame, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}
+async function sendData(path, data) {
+    console.log("-------CLIENT DATA------\n")
+    console.log(data)
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: path,
+        data: JSON.stringify(data),
+        success: function (response) {
+            console.log(response)
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            //console.log("Error\n" + errorThrown, jqXHR)
+        },
+    })
+}
+
+
+export {socket, currentPage, selectMatchStrategyGame, getMatchStrategyGame, clamp, selectRandom, getColor, requestPage, sendData, paths, arrHasDuplicates, getMatch}
