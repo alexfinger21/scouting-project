@@ -340,9 +340,13 @@
                     <button type="submit" id="data-submit" class="big-button">Save</button>
 
                 </form>
-            <% } else {%>
+            <% } else if(runningMatch == -1) {%>
 
+                <h1 id="access-denied">No matches are currently running</h1>
+                <h3 id="access-denied-subheader"> Ask an admin to start a match</h3>
+            <% } else {%>
                 <h1 id="access-denied">You are not currently assigned to a team</h1>
+                <h3 id="access-denied-subheader"> Ask an admin to assign you to a team</h3>
             <% } %>
             </div>
 
