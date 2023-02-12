@@ -1,14 +1,17 @@
 import { clamp, currentPage, paths, requestPage, socket, getMatch } from "./utility.js"
 
+const autonArray = {}
+const teleopArray = {}
+
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
             if (removed_node.id == 'page-holder') {
                 main()
             }
-        });
-    });
-});
+        })
+    })
+})
 
 window.onunload = saveData
 
@@ -226,6 +229,9 @@ async function saveData() {
             })
         })
 
+        data.alliance = document.getElementById("match-number-form").getAttribute("alliance")
+        data.position = document.getElementById("match-number-form").getAttribute("alliance-position")
+
         ogData[match] = data
 
         //console.log(data)
@@ -337,10 +343,14 @@ function main() {
     for (const fillCone of coneTds) {
         const coneBtn = fillCone.getElementsByTagName("button")[0]
         const btnImg = coneBtn.getElementsByTagName("img")[0]
-
+        
         //coneBtn.setAttribute("object", "empty")
-
+        
         coneBtn.addEventListener("click", (event) => {
+            const parent = fillCone.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+
+            if (parent.id == "teleop-scoring") {console.log("hi")}
+
             if (btnImg.src.indexOf("cone.svg") > -1) { //filled image, make it empty
                 coneBtn.setAttribute("object", "empty")
 
