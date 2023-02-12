@@ -16,6 +16,13 @@
 
 #access-denied {
     text-align: center;
+    font-size: 4.5vh;
+    margin-bottom: 2vh;
+}
+
+#access-denied-subheader {
+    text-align: center;
+    font-size: 3vh;
 }
 
 #assigned-team {
