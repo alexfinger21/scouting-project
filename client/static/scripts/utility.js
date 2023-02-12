@@ -107,4 +107,24 @@ async function requestPage(url, data) {
     })
 }
 
-export {socket, currentPage, selectMatchStrategyGame, getMatchStrategyGame, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}
+async function sendData(path, data) {
+    console.log("-------CLIENT DATA------\n")
+    console.log(data)
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: path,
+        data: JSON.stringify(data),
+        success: function (response) {
+            console.log(response)
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            //console.log("Error\n" + errorThrown, jqXHR)
+        },
+    })
+}
+
+
+export {socket, currentPage, selectMatchStrategyGame, getMatchStrategyGame, clamp, selectRandom, getColor, requestPage, sendData, paths, arrHasDuplicates, getMatch}
