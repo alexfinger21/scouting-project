@@ -25,7 +25,7 @@ router.get("/", async function (req, res) {
             on
                 cgua.cgua_user_id = um.um_id
     order by 
-        cgua_alliance, 
+        cgua_alliance DESC, 
         cgua_alliance_position ;`, async (err, assignedUsers) => { //get currently assigned users
             console.log(err)
             console.log("assigned users::")

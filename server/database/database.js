@@ -1,7 +1,5 @@
 const pool = require('./dbconfig')
-const YEAR = 2023
-const COMP = "test"
-const GAME_TYPE = "Q"
+const gameConstants = require('../game.js')
 
 
 function getUsers() {
@@ -14,12 +12,12 @@ function getUsers() {
 
 function deleteData(data) {
     return `DELETE FROM teamsixn_scouting_dev.game_details
-    WHERE game_details.frc_season_master_sm_year = 2023
-        AND game_details.competition_master_cm_event_code = '${COMP}'
-        AND game_details.game_matchup_gm_game_type = '${GAME_TYPE}'
+    WHERE game_details.frc_season_master_sm_year = ${gameConstants.YEAR}
+        AND game_details.competition_master_cm_event_code = '${gameConstants.COMP}'
+        AND game_details.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}'
         AND game_details.game_matchup_gm_number = ${data.matchNumber}
-        AND game_details.game_matchup_gm_alliance = 'R'
-        AND game_details.game_matchup_gm_alliance_position = 1;`
+        AND game_details.game_matchup_gm_alliance = '${data.alliance}'
+        AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
 function convertToInt(option) {
@@ -56,9 +54,9 @@ function convertToInt(option) {
 function saveData(data) {
     console.log(data)
     const params =
-        `${YEAR}, 
-        '${COMP}', 
-        '${GAME_TYPE}', 
+        `${gameConstants.YEAR}, 
+        '${gameConstants.COMP}', 
+        '${gameConstants.GAME_TYPE}', 
         '${data.matchNumber}', 
         '${data.alliance}',
         '${data.position}',
@@ -213,9 +211,9 @@ function getTeams() {
         r1.competition_master_cm_event_code = b3.competition_master_cm_event_code and
         r1.gm_game_type = b3.gm_game_type	and 
         r1.gm_number = b3.gm_number and 
-        r1.frc_season_master_sm_year = 2023 and 
-        r1.competition_master_cm_event_code = 'test' and
-        r1.gm_game_type = 'Q';`
+        r1.frc_season_master_sm_year = ${gameConstants.YEAR} and 
+        r1.competition_master_cm_event_code = '${gameConstants.COMP}' and
+        r1.gm_game_type = '${gameConstants.GAME_TYPE}';`
 
     return returnStr
 }
@@ -257,9 +255,9 @@ function getGameNumbers(eventCode, gameNumber) {
     FROM 
         teamsixn_scouting_dev.game_matchup gm 
     WHERE
-    gm.frc_season_master_sm_year = 2023 and 
-        gm.competition_master_cm_event_code = 'test' and 
-        gm.gm_game_type  = 'Q'
+    gm.frc_season_master_sm_year = ${gameConstants.YEAR} and 
+        gm.competition_master_cm_event_code = '${gameConstants.COMP}' and 
+        gm.gm_game_type  = '${gameConstants.GAME_TYPE}'
     ORDER BY 
         1;
     `
@@ -273,22 +271,30 @@ function getMatchData(gameNumber) {
         gm.gm_alliance , 
         gm.gm_alliance_position , 
         gm.team_master_tm_number,
-        concat(tm_number ," - ", tm_name) as team_display
+        CONCAT(tm_number ," - ", tm_name) as team_display, 
+        COALESCE (vmtsa.avg_gm_score, 0) as avg_gm_score 
     FROM 
         teamsixn_scouting_dev.game_matchup gm
-    LEFT JOIN 
-        teamsixn_scouting_dev.team_master tm 
-        ON
-            tm.tm_number = gm.team_master_tm_number 
+        LEFT JOIN 
+            teamsixn_scouting_dev.team_master tm 
+            ON
+                tm.tm_number = gm.team_master_tm_number 
+        LEFT JOIN 
+            teamsixn_scouting_dev.v_match_team_score_avg vmtsa 
+            ON
+                vmtsa.frc_season_master_sm_year = gm.frc_season_master_sm_year AND
+                vmtsa.competition_master_cm_event_code = gm.competition_master_cm_event_code AND
+                vmtsa.game_matchup_gm_game_type = gm.gm_game_type AND
+                vmtsa.team_master_tm_number = gm.team_master_tm_number 
     WHERE
-        gm.frc_season_master_sm_year = 2023 and 
-        gm.competition_master_cm_event_code = 'test' and 
-        gm.gm_game_type = 'Q' and 
+        gm.frc_season_master_sm_year = ${gameConstants.YEAR} and 
+        gm.competition_master_cm_event_code = '${gameConstants.COMP}' and 
+        gm.gm_game_type = '${gameConstants.GAME_TYPE}' and 
         gm.gm_number = ${gameNumber}
     ORDER BY 
         gm.gm_game_type,
         gm.gm_number,
-        gm.gm_alliance, 
+        gm.gm_alliance DESC, 
         gm.gm_alliance_position ;`
 }
 

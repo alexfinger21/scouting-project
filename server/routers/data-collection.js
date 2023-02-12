@@ -2,10 +2,7 @@ const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const { checkAdmin } = require("../utility")
-
-const YEAR = 2023
-const COMP = "test"
-const GAME_TYPE = "Q"
+const gameConstants = require("../game.js")
 
 const router = express.Router()
 
@@ -60,9 +57,9 @@ router.post("/", function (req, res) {
             database.query(`update teamsixn_scouting_dev.game_details gd
             set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
             WHERE 
-                gd.frc_season_master_sm_year = ${YEAR} and
-                gd.competition_master_cm_event_code = '${COMP}' and 
-                gd.game_matchup_gm_game_type = '${GAME_TYPE}' and 
+                gd.frc_season_master_sm_year = ${gameConstants.YEAR} and
+                gd.competition_master_cm_event_code = '${gameConstants.COMP}' and 
+                gd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
                 gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
                 console.log(err)
                 console.log(results)
