@@ -60,8 +60,8 @@ function saveData(data) {
         '${COMP}', 
         '${GAME_TYPE}', 
         '${data.matchNumber}', 
-        'R',
-        '1',
+        '${data.alliance}',
+        '${data.position}',
         '${data.username}'`
 
     let autoScoring = []
