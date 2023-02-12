@@ -66,7 +66,8 @@ function saveData(data) {
 
     let autoScoring = []
     let teleopScoring = []
-
+    
+    let linkCount = 0
     let autoScoringStr = ""
     let teleopScoringStr = ""
 
@@ -113,6 +114,22 @@ function saveData(data) {
         teleopScoringStr += `,(${params}, '2', '${300 + i+1}', ${teleopScoring[i]}) \n`
     }
 
+    for (let i = 0; i<count; i++) {
+        if (teleopScoring[i] != 0 && teleopScoring[i+1] != 0 && teleopScoring[i+2] != 0) {
+            linkCount++
+            i+=3
+        }
+    }
+
+    for (let i = 0; i<count1; i++) {
+        if (autoScoring[i] != 0 && autoScoring[i+1] != 0 && autoScoring[i+2] != 0) {
+            linkCount++
+            i+=3
+        }
+    }
+
+    console.log("LINK COUNT: " + linkCount)
+
     const sqlStr = `INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
@@ -133,10 +150,12 @@ function saveData(data) {
         (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])})
         `+ teleopScoringStr + `,
         (${params}, '4', '401', ${convertToInt(data["Robot Endgame Docking"])}),
+        (${params}, '4', '402', ${data["Robot is in Community"]}),
+        (${params}, '4', '403', ${linkCount}),
         (${params}, '4', '404', ${convertToInt(data["Cargo Intake From"])}),
         (${params}, '4', '405', ${convertToInt(data["Robot Fumbles Cones"])}),
-        (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])}),
-        (${params}, '4', '402', ${data["Robot is in Community"]});`
+        (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])})
+        ;`
 
         console.log(sqlStr)
 
