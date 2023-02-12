@@ -1,5 +1,4 @@
 let currentPage = "match-listing"
-let matchStrategySelectedGame = 1
 
 const paths = {
     dataCollection: "/data-collection",
@@ -56,15 +55,7 @@ function getColor(color)
     {
         return "rgb(0,255,0)"
     }
-}
-
-function selectMatchStrategyGame(value) {
-    matchStrategySelectedGame = value
-}
-
-function getMatchStrategyGame() {
-    return matchStrategySelectedGame
-}
+}   
 
 function arrHasDuplicates(arr) {
     for(let i = 0; i < arr.length; i++) {
@@ -79,6 +70,7 @@ function arrHasDuplicates(arr) {
 
 async function requestPage(url, data) {
     currentPage = url
+    console.log("\nURL: " + url)
     $.ajax({
         type: "GET",
         contentType: "application/json",
@@ -107,24 +99,5 @@ async function requestPage(url, data) {
     })
 }
 
-async function sendData(path, data) {
-    console.log("-------CLIENT DATA------\n")
-    console.log(data)
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: path,
-        data: JSON.stringify(data),
-        success: function (response) {
-            console.log(response)
-        },
-
-        error: function (jqXHR, textStatus, errorThrown) {
-            //console.log("Error\n" + errorThrown, jqXHR)
-        },
-    })
-}
-
-
-export {socket, currentPage, selectMatchStrategyGame, getMatchStrategyGame, clamp, selectRandom, getColor, requestPage, sendData, paths, arrHasDuplicates, getMatch}
+export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}

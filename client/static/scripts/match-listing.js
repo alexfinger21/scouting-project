@@ -1,5 +1,5 @@
-import {selectMatchStrategyGame, paths, requestPage, socket } from "./utility.js"
-import { moveToPage } from "./bottomBar.js"
+import {paths, requestPage, socket } from "./utility.js"
+import { moveToPage, setSelectedObject } from "./bottomBar.js"
 let matchRunning = false
 const YEAR = 2023
 const EVENT_CODE = "test"
@@ -177,8 +177,11 @@ function main() {
         console.log("hs")
         button.addEventListener("click", () => {
             const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
-            selectMatchStrategyGame(container.getAttribute("game_number"))
-            requestPage("match-strategy")
+            requestPage("match-strategy?match=" + container.getAttribute("game_number"))
+            const hoverButton = document.getElementById("hover-button")
+            const matchStrategyButton = document.getElementById("match-strategy-button")
+            moveToPage(hoverButton.getBoundingClientRect().left, matchStrategyButton.getBoundingClientRect().left, hoverButton)
+            setSelectedObject(matchStrategyButton)
         })
     }
 

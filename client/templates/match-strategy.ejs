@@ -8,6 +8,11 @@
             <label id="select-match" for="select-match"><b>Select Match:</b></label>
             <select id="available-matches" name="select-match">
                 <% for(let i = 0; i < gameNumbers.length; i++) { %>
+                    <%if(gameNumbers[i].gm_number == match) {%>
+                        <option selected>
+                            <%= gameNumbers[i].gm_number %>
+                        </option>
+                    <%}%>
                     <option>
                         <%= gameNumbers[i].gm_number %>
                     </option>
