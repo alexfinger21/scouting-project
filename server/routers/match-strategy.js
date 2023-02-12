@@ -3,6 +3,8 @@ const database = require("../database/database.js")
 const express = require("express")
 const router = express.Router()
 
+let selectedMatch = 1
+
 const testInfo1 = {
     undecided: true,
     redPredictedScore: 42,
@@ -56,18 +58,15 @@ const decidedTableLabels = [
 ]
 
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
-    console.log("\n query: ")
+    console.log("\n\nreq:\n")
+    console.log(req.body)
+    console.log("SELECTED MATCH: " + selectedMatch)
     database.query(database.getGameNumbers(), (err, gameNumbers) => {
-        console.log(err)
         gameNumbers = JSON.parse(JSON.stringify(gameNumbers)) //convert RowDataPacket to object
-        console.log("\ngame numbers: ")
-        console.log(gameNumbers)
         
-        database.query(database.getMatchData(1), (err, matchup) => {
+        database.query(database.getMatchData(selectedMatch), (err, matchup) => {
             console.log(err)
             matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
-            console.log("\nmatchup: ")
-            console.log(matchup)
     
             res.render("match-strategy", {
                 matchup: matchup,
@@ -83,7 +82,7 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
 
 router.post("/", function(req, res) {
     const body = req.body
-    console.log(body)
+    selectedMatch = body.matchNumber
 })
 
 module.exports = router
