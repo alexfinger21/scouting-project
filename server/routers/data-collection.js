@@ -2,7 +2,11 @@ const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const { checkAdmin } = require("../utility")
-const { deleteData } = require("../database/database.js")
+
+const YEAR = 2023
+const COMP = "test"
+const GAME_TYPE = "Q"
+
 const router = express.Router()
 
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
@@ -48,11 +52,22 @@ router.post("/", function (req, res) {
     database.query(database.deleteData(body), (err, results) => {
         console.log(err)
         console.log(results)
-    })
-
-    database.query(database.saveData(body), (err, results) => {
-        console.log(err)
-        console.log(results)
+        
+        database.query(database.saveData(body), (err, results) => {
+            console.log(err)
+            console.log(results)
+            
+            database.query(`update teamsixn_scouting_dev.game_details gd
+            set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
+            WHERE 
+                gd.frc_season_master_sm_year = ${YEAR} and
+                gd.competition_master_cm_event_code = '${COMP}' and 
+                gd.game_matchup_gm_game_type = '${GAME_TYPE}' and 
+                gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
+                console.log(err)
+                console.log(results)
+            })
+        })
     })
 
     return res.send("req recieved")
