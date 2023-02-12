@@ -1,4 +1,4 @@
-import {paths, requestPage, sendData, selectMatchStrategyGame, getMatchStrategyGame} from "./utility.js"
+import {paths, requestPage} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -15,14 +15,10 @@ window.addEventListener("load", main)
 
 function main() {
     const select = document.getElementById("available-matches")
-    select.value = getMatchStrategyGame()
     select.onchange = () => {
-        selectMatchStrategyGame(select.value)
+        console.log("\n\nSELECT VALUE\n" + select.value)
         console.log("REQUEST PAGE\n\n")
-        sendData(paths.matchStrategy, {
-            matchNumber: getMatchStrategyGame()
-        })
-        requestPage(paths.matchStrategy)
+        requestPage(paths.matchStrategy + "?match=" + select.value)
     }
 
 }

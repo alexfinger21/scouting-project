@@ -4,6 +4,7 @@ import {requestPage} from "./utility.js"
 let globalPos = 0;
 const speed = 10;
 let isHighlightVisible = false
+let selectedObj = document.getElementById("match-listing-btn")
 
 function hideHighlight(btn) {
     btn.style.opacity = 0
@@ -40,12 +41,15 @@ function moveToPage(ogPos, pos, btn) {
     })
 }
 
-window.addEventListener("load", () => {
-    let selectedObj = document.getElementById("match-listing-btn")
+function setSelectedObject(value) {
+    selectedObj = value
+}
 
+window.addEventListener("load", () => {
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
     const hoverButton = document.createElement('div');
+    hoverButton.id = "hover-button"
     hoverButton.style.position = "absolute"
     hoverButton.style.backgroundColor = "#cce6ff"
     hoverButton.style.zIndex = 1
@@ -96,4 +100,4 @@ window.addEventListener("load", () => {
     requestPage("match-listing")
 })
 
-export {moveToPage}
+export {moveToPage, setSelectedObject}

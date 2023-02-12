@@ -58,17 +58,17 @@ const decidedTableLabels = [
 ]
 
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
-    console.log("\n\nreq:\n")
-    console.log(req.body)
-    console.log("SELECTED MATCH: " + selectedMatch)
-    database.query(database.getGameNumbers(), (err, gameNumbers) => {
+    const match = req.query.match ? req.query.match : 1
+    console.log("SELECTED MATCH: " + match)
+    database.query(database.getGameNumbers(match), (err, gameNumbers) => {
         gameNumbers = JSON.parse(JSON.stringify(gameNumbers)) //convert RowDataPacket to object
         
-        database.query(database.getMatchData(selectedMatch), (err, matchup) => {
+        database.query(database.getMatchData(match), (err, matchup) => {
             console.log(err)
             matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
     
             res.render("match-strategy", {
+                match: match,
                 matchup: matchup,
                 gameNumbers: gameNumbers,
                 info: testInfo1,
