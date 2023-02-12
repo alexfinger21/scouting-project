@@ -60,8 +60,8 @@ function saveData(data) {
         '${COMP}', 
         '${GAME_TYPE}', 
         '${data.matchNumber}', 
-        'R',
-        '1',
+        '${data.alliance}',
+        '${data.position}',
         '${data.username}'`
 
     let autoScoring = []
@@ -70,6 +70,7 @@ function saveData(data) {
     let linkCount = 0
     let autoScoringStr = ""
     let teleopScoringStr = ""
+    let linkArray = []
 
     let count = 0
     let count1 = 0
@@ -79,10 +80,13 @@ function saveData(data) {
             for (let x = 0; x < 3; x++) {//column
                 if (data.tables["Robot Auto Scoring"][j][i][x] == "cone") {
                     autoScoring[count] = 1
+                    linkArray[count] = 1
                 } else if (data.tables["Robot Auto Scoring"][j][i][x] == "cube") {
                     autoScoring[count] = 2 
+                    linkArray[count] = 2
                 } else {
                     autoScoring[count] = 0
+                    linkArray[count] = 0
                 }
 
                 count++
@@ -99,8 +103,10 @@ function saveData(data) {
             for (let x = 0; x<3; x++) {//column
                 if (data.tables["Robot Teleop Scoring"][j][i][x] == "cone") {
                     teleopScoring[count1] = 1
+                    linkArray[count1] = 1
                 } else if (data.tables["Robot Teleop Scoring"][j][i][x] == "cube") {
                     teleopScoring[count1] = 2 
+                    linkArray[count1] = 2
                 } else {
                     teleopScoring[count1] = 0
                 }
@@ -114,17 +120,14 @@ function saveData(data) {
         teleopScoringStr += `,(${params}, '2', '${300 + i+1}', ${teleopScoring[i]}) \n`
     }
 
-    for (let i = 0; i<count; i++) {
-        if (teleopScoring[i] != 0 && teleopScoring[i+1] != 0 && teleopScoring[i+2] != 0) {
-            linkCount++
-            i+=3
-        }
-    }
+    console.log(linkArray)
 
-    for (let i = 0; i<count1; i++) {
-        if (autoScoring[i] != 0 && autoScoring[i+1] != 0 && autoScoring[i+2] != 0) {
-            linkCount++
-            i+=3
+    for (let row = 0; row<3; row++) {
+        for (let col = 0; col<9; col++) {
+            if (linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col] != 0) {
+                linkCount++
+                col+=3
+            }
         }
     }
 
