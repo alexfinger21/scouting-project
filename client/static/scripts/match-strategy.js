@@ -1,4 +1,4 @@
-import {paths, requestPage, selectMatchStrategyGame, getMatchStrategyGame} from "./utility.js"
+import {paths, requestPage, sendData, selectMatchStrategyGame, getMatchStrategyGame} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -10,25 +10,6 @@ const observer = new MutationObserver(function (mutations_list) {
     })
 })
 
-async function sendData(data) {
-    console.log("-------CLIENT DATA------\n")
-    console.log(data)
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: paths.matchStrategy,
-        data: JSON.stringify(data),
-        success: function (response) {
-            console.log(response)
-        },
-
-        error: function (jqXHR, textStatus, errorThrown) {
-            //console.log("Error\n" + errorThrown, jqXHR)
-        },
-    })
-}
-
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
@@ -38,7 +19,7 @@ function main() {
     select.onchange = () => {
         selectMatchStrategyGame(select.value)
         console.log("REQUEST PAGE\n\n")
-        sendData({
+        sendData(paths.matchStrategy, {
             matchNumber: getMatchStrategyGame()
         })
         requestPage(paths.matchStrategy)
