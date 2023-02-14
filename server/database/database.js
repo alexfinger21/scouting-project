@@ -271,6 +271,7 @@ function getMatchData(gameNumber) {
         gm.gm_alliance , 
         gm.gm_alliance_position , 
         gm.team_master_tm_number,
+        tm_name,
         CONCAT(tm_number ," - ", tm_name) as team_display, 
         COALESCE (vmtsa.avg_gm_score, 0) as avg_gm_score 
     FROM 

@@ -22,26 +22,71 @@
         </div>
 
         <table id="stats">
+            <colgroup>
+                <col span="1" style="width:14%">
+            </colgroup>
+            <colgroup>
+                <col span="1" style="width:22%">
+            </colgroup>
+            <colgroup>
+                <col span="1" style="width:15%">
+            </colgroup>
+            <colgroup>
+                <col span="1" style="width:13%">
+            </colgroup>
+            <colgroup>
+                <col span="1" style="width:18%">
+            </colgroup>
+            <colgroup>
+                <col span="1" style="width:12%">
+            </colgroup>
             <tr>
                 <th>
-                      
+                    Team
                 </th>
-                <% for(let i = 0; i < matchup.length; i++) { %>
-                    <th class= <%= matchup[i].gm_alliance %> >
+                <th>
+                    Name
+                </th>
+                <th>
+                    Prefers
+                </th>
+                <th>
+                    Links
+                </th>
+                <th>
+                    Docking
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+            <% for(let i = 0; i < 6; i++) { %>
+                <%if(matchup[i].team_master_tm_number == 695) {%>
+                    <tr style="background-color:#FFF5D6">
+                <% } else { %>
+                    <tr>
+                <% } %>
+                    <td class= <%= matchup[i].gm_alliance%>>
                         <%= matchup[i].team_master_tm_number %>
-                    </th>
-                <% } %>
-            </tr>
-            <tr>
-                <td>
-                    Scoring
-                </td>
-                <% for(let i = 0; i < matchup.length; i++) { %>
-                        <td>
-                            <%= Math.round(matchup[i].avg_gm_score) %>
-                        </td>
-                <% } %>
-            </tr>
+                    </td>
+                    <td>
+                        <%= matchup[i].tm_name %>
+                    </td>
+                    <td>
+                        <img class="preferred-game-piece" src="../static/images/cone.svg">
+                        <img class="preferred-game-piece" src="../static/images/cube.svg">
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <%= Math.round(matchup[i].avg_gm_score) %>
+                    </td>
+                </tr>
+            <% } %>
 
         </table>
 
@@ -82,39 +127,40 @@
                 <% } %>
             </div>
         </div>
-
+        <!--
         <div class="strategy-display">
-             <!--<em> is for red text and <b> is for blue text-->
+             <!--<em> is for red text and <b> is for blue text
             <p class="strategy-header">
                 Suggested Strategy for <b>Blue Team</b>
             </p>
             <div class="strategy-divider">ㅤ</div>
             <p>
-                <%- info.blueStrategy[0] %>
+                <%#- info.blueStrategy[0] %>
             </p>
             <p>
-                <%- info.blueStrategy[1] %>
+                <%#- info.blueStrategy[1] %>
             </p>
             <p>
-                <%- info.blueStrategy[2] %>
+                <%#- info.blueStrategy[2] %>
             </p>
         </div>
 
         <div class="strategy-display">
-            <!--<em> is for red text and <b> is for blue text-->
+            <!--<em> is for red text and <b> is for blue text
            <p class="strategy-header">
                Suggested Strategy for <em>Red Team</em>
            </p>
            <div class="strategy-divider">ㅤ</div>
            <p>
-               <%- info.redStrategy[0] %>
+               <%#- info.redStrategy[0] %>
            </p>
            <p>
-               <%- info.redStrategy[1] %>
+               <%#- info.redStrategy[1] %>
            </p>
            <p>
-               <%- info.redStrategy[2] %>
+               <%#- info.redStrategy[2] %>
            </p>
        </div>
+    -->
     </div>
 </body>
