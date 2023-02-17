@@ -268,28 +268,30 @@ function getMatchData(gameNumber) {
     SELECT 
         gm.team_master_tm_number,
         tm.tm_name, 
-        gm.gm_alliance, 
-        gm.gm_alliance_position,
+        gm.gm_alliance , 
+        gm.gm_alliance_position , 
         vmtsar.*
     FROM 
-        teamsixn_scouting_dev.game_matchup gm, 
+        teamsixn_scouting_dev.game_matchup gm
+        LEFT JOIN
+            teamsixn_scouting_dev.team_master tm 
+            ON
+                gm.team_master_tm_number = tm.tm_number 
         LEFT JOIN 
-            teamsixn_scouting_dev.team_master tm
-        ON  gm.team_master_tm_number = tm.tm_number
-        LEFT JOIN 
-            teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar
-        ON  vmtsar.frc_season_master_sm_year = gm.frc_season_master_sm_year AND
+            teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
+        ON
+            vmtsar.frc_season_master_sm_year = gm.frc_season_master_sm_year AND
             vmtsar.competition_master_cm_event_code = gm.competition_master_cm_event_code AND
-            vmtsar.game_matchup_gm_type = gm.game_type AND
+            vmtsar.game_matchup_gm_game_type = gm.gm_game_type AND
             vmtsar.team_master_tm_number = gm.team_master_tm_number
-    WHERE
-        gm.frc_season_master_sm_year = ${gameConstants.YEAR} and 
-        gm.competition_master_cm_event_code = '${gameConstants.COMP}' and 
-        gm_game_type = '${gameConstants.GAME_TYPE}' and 
-        gm_number = ${gameNumber}
+    WHERE 
+        gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
+        gm.competition_master_cm_event_code = '${gameConstants.COMP}' AND
+        gm.gm_game_type  = '${gameConstants.GAME_TYPE}' AND
+        gm.gm_number = ${gameNumber}
     ORDER BY 
-        gm.gm_game_type,
-        gm.gm_number,
+        gm.frc_season_master_sm_year, 
+        gm.competition_master_cm_event_code, 
         gm.gm_alliance DESC, 
         gm.gm_alliance_position ;`
 }
