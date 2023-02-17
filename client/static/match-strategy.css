@@ -15,7 +15,7 @@
     font-size: 1.8vh;
 }
 
-#stats {
+.stats {
     margin-top: 2vh;
     margin-left: auto;
     margin-right: auto;
@@ -28,7 +28,7 @@
     font-size: 1.8vh;
 }
 
-td, th {
+.stats td, th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;
@@ -48,12 +48,16 @@ tr:nth-child(even) { /* copied from w3schools lol*/
 }
 
 #scoring {
-    width: 100%;
     margin-top: 1vh;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+    table-layout: fixed;
+    background-color: transparent;
+    border: none !important;
+    padding: 2px;
+    font-size: 3vh;
+    text-align: center;
 }
 
 #scoring h2 {
