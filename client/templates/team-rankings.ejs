@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+    
+    <%- include("../static/partials/header") %>
+
+    <div id="page-holder">
+        <h1 id="match-listing-title">Team Rankings</h1>
+        <div id="match-scroller">
+            <% for (let i=0; i < 20; i++) { %>
+                <div class="match-container hidden">
+                    <%if (10 == i) { %>
+                        <table class="match-top" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-top">
+                    <%}%>
+                        <th>
+                            <%= "Match " + (i + 1) %>
+                        </th>
+                        <th>
+                            <%= i %>
+                        </th>
+                        <th class="no-padding">
+                            <button class="match-strat-button">
+                                <img src="../static/images/lightbulb.svg">
+                            </button>
+                        </th>
+
+                    </table>
+                    <%if (10 == i) { %>
+                        <table class="match-bottom" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-bottom">
+                    <%}%>                        <% for (let j = 1; j <= 3; j++) { %>
+                            <th class="red"><%= j %></th>
+                        <%}%>
+                        <% for (let j = 1; j <= 3; j++) { %>
+                            <th class="blue"><%= j %></th>
+                        <%}%>
+                    </table>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+        <%- include("../static/partials/footer") %>
+</body>
+
+</html>
