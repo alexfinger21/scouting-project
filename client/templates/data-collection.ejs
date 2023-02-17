@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../static/alliance-selector.css">
     <link rel="stylesheet" href="../static/match-listing.css">
     <link rel="stylesheet" href="../static/admin-page.css">
+    <link rel="stylesheet" href="../static/team-rankings.css">
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
@@ -31,7 +32,7 @@
 
     <%- include("../static/partials/header") %>
 
-        <div id="page-holder" onmousedown="event.preventDefault ? event.preventDefault() : event.returnValue = false">
+        <div id="page-holder">
             <%if(runningMatch > -1 && assignment != null) {%> <!--Check if user has access-->
                 <form id="match-number-form" action="/data-collection" method="POST" 
                     alliance=<%=assignment.gm_alliance%> alliance-position=<%=assignment.gm_alliance_position%> >

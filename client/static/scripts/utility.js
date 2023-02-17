@@ -5,7 +5,8 @@ const paths = {
     login: "/login",
     matchListing: "/match-listing",
     matchStrategy: "/match-strategy",
-    adminPage: "/admin-page"
+    adminPage: "/admin-page",
+    rankingPage: "/team-rankings"
 }
 
 const socket = io.connect(`${window.location.hostname}:5000`, {
