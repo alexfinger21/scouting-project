@@ -42,8 +42,6 @@ router.get("/", async function (req, res) {
 
             teams.length = Object.keys(teams).length
 
-            console.log(teams)
-
             res.render("match-listing", {
                 teams: teams, 
                 user: user,
