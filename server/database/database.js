@@ -26,7 +26,7 @@ function convertToInt(option) {
             return 3
         case "docked":
             return 2
-        case "attempted (unsuccessful)":
+        case "attempted":
             return 1
         case "unattempted":
             return 0
