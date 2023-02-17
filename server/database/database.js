@@ -131,9 +131,6 @@ function saveData(data) {
 
     console.log("LINK COUNT: " + linkCount)
 
-    console.log("229 -------------------------- " + convertToInt(data["Robot Auto Docking"]) + data["Robot Auto Docking"])
-    console.log("401 -------------------------- " + convertToInt(data["Robot Endgame Docking"]) + data["Robot Endgame Docking"])
-
     const sqlStr = `INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
