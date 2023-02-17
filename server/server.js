@@ -27,6 +27,7 @@ const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "mat
 const allianceSelector = require(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
 const matchListing = require(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
 const adminPage = require(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
+const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "team-rankings.js"))
 
 //CONSTANTS
 
@@ -133,6 +134,9 @@ app.use("/match-listing", matchListing)
 
 //ADMIN PAGE
 app.use("/admin-page", adminPage)
+
+//TEAM RANKINGS
+app.use("/team-rankings", teamRankings)
 
 //GET MATCH
 app.get("/getMatch", function(req, res) {

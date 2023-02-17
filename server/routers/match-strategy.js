@@ -8,6 +8,7 @@ let selectedMatch = 1
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
     const match = req.query.match ? req.query.match : 1
     console.log("SELECTED MATCH: " + match)
+    console.log(database.getMatchData(match))
     database.query(database.getGameNumbers(match), (err, gameNumbers) => {
         gameNumbers = JSON.parse(JSON.stringify(gameNumbers)) //convert RowDataPacket to object
         database.query(database.getMatchData(match), (err, matchup) => {
