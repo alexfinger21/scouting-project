@@ -268,9 +268,17 @@ function getMatchData(gameNumber) {
     SELECT 
         gm.team_master_tm_number,
         tm.tm_name, 
-        gm.gm_alliance , 
-        gm.gm_alliance_position , 
-        vmtsar.*
+        gm.gm_alliance, 
+        gm.gm_alliance_position, 
+        vmtsar.games_played, 
+        vmtsar.api_rank, 
+        vmtsar.api_win,
+        vmtsar.api_loss, 
+        vmtsar.api_tie, 
+        vmtsar.avg_gm_score, 
+        vmtsar.avg_nbr_links, 
+        vmtsar.avg_auton_chg_station_score, 
+        vmtsar.avg_endgame_chg_station_score 
     FROM 
         teamsixn_scouting_dev.game_matchup gm
         LEFT JOIN
