@@ -4,6 +4,8 @@ require("dotenv").config()
 const request = require("request")
 const auth = process.env.FIRST_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
+const database = require("./database/database.js")
+
 const options = {
     'method': 'GET',
     'url': 'https://frc-api.firstinspires.org/v3.0/2022/rankings/flwp',
@@ -68,8 +70,12 @@ function returnAPIDATA() {
 
             //printMessage('Data', team_stats)
 
-            resolve(teamData)
+            database.query(database.writeAPIData(teamData.Rankings), (err, res) => {
+                console.log(err)
+                console.log(res)
+            })
 
+            resolve(teamData)
         })
     })
 }
