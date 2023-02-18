@@ -18,8 +18,8 @@ let sockets = {
     },
 
     emitAllSockets: function(msg, type) {
-        for (let i = 0; i<this.socketArray.length; i++) {
-            this.socketArray[i].emit(type, msg)
+        for (const socket of socketArray) {
+            socket.emit(type, msg)
         }
     }
 }
