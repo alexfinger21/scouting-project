@@ -146,9 +146,9 @@ function main() {
         let debounce = false
         //play button onclick
         btn.addEventListener("click", async (event) => {
-            debounce = true
             //get img
             if (!debounce) {
+                debounce = true
                 const img = btn.getElementsByTagName("img")[0]
                 if (img.src.indexOf("play-button.png") > -1) { //press play
                     const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
