@@ -20,6 +20,29 @@ function deleteData(data) {
         AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
+function writeAPIData() {
+    co
+    return `INSERT INTO "api_rankings" 
+    (
+        "frc_season_master_sm_year", 
+        "competition_master_cm_event_code", 
+        "team_master_tm_number", "api_rank", 
+        "api_win", "api_loss", "api_tie", "api_dq", 
+        "api_matches_played", 
+        "api_ranking_ts") 
+        VALUES (
+            '2023', 
+            'test', 
+            '1', 
+            '1', 
+            '1', 
+            '2', 
+            '3', 
+            '1', 
+            '2', 
+            'TO BE FILLED'
+            );`
+}
 function convertToInt(option) {
     switch (option) {
         case "engaged":
