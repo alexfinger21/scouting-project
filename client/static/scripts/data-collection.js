@@ -1,4 +1,5 @@
 import { clamp, currentPage, paths, requestPage, socket, getMatch } from "./utility.js"
+import {moveToPage, setSelectedObject} from "./bottomBar.js"
 
 const autonArray = {}
 const teleopArray = {}
@@ -41,6 +42,12 @@ async function sendData() {
         data: JSON.stringify(data),
         success: function (response) {
             console.log(response)
+            alert("Data saved")
+            requestPage(paths.matchListing)
+            const hoverButton = document.getElementById("hover-button")
+            const matchListingButton = document.getElementById("match-listing-button")
+            moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
+            setSelectedObject(matchListingButton)
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
