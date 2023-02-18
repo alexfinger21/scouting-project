@@ -13,6 +13,7 @@ const server = http.createServer(app)
 const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
+const { socketArray } = require("./sockets.js")
 
 //DIRECTORIES
 const serverDirectory = "./server"

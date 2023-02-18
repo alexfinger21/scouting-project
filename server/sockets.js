@@ -6,7 +6,7 @@ let sockets = {
     },
 
     getSockets: function() {
-        return this.socketArray
+        return this.socketArray.map(e => e.id)
     },
 
     removeSocket: function(index) {
