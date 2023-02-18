@@ -15,6 +15,29 @@
     font-size: 1.8vh;
 }
 
+#scoring {
+    margin-top: 1vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+    table-layout: fixed;
+    background-color: transparent;
+    border: none !important;
+    padding: 2px;
+    font-size: 3vh;
+    text-align: center;
+}
+
+#scoring h2 {
+    font-size: 2vh;
+    font-weight: normal;
+}
+
+#scoring h4 {
+    font-size: 1.5vh;
+    font-weight: normal;
+}
+
 .stats {
     margin-top: 2vh;
     margin-left: auto;
@@ -46,30 +69,6 @@
 tr:nth-child(even) { /* copied from w3schools lol*/
     background-color: #dddddd;
 }
-
-#scoring {
-    margin-top: 1vh;
-    margin-left: auto;
-    margin-right: auto;
-    width: 98%;
-    table-layout: fixed;
-    background-color: transparent;
-    border: none !important;
-    padding: 2px;
-    font-size: 3vh;
-    text-align: center;
-}
-
-#scoring h2 {
-    font-size: 3vh;
-    font-weight: normal;
-}
-
-#scoring h4 {
-    font-size: 2vh;
-    font-weight: normal;
-}
-
 #red-score {
     padding: 2vh;
     color:#FF2A2A;
