@@ -24,18 +24,8 @@
     background-color: transparent;
     border: none !important;
     padding: 2px;
-    font-size: 3vh;
-    text-align: center;
-}
-
-#scoring h2 {
     font-size: 2vh;
-    font-weight: normal;
-}
-
-#scoring h4 {
-    font-size: 1.5vh;
-    font-weight: normal;
+    text-align: center;
 }
 
 .stats {
