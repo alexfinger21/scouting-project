@@ -15,18 +15,20 @@
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    padding-top: 1vh;
 }
 
 
 #rankings-scroller {
     width: 99%;
     overflow: scroll;
-    height: 90vh;
+    height: 55vh;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #headings-table {
-    margin-top: 1vh;
-    width: 95%;
+    width: 96%;
     margin-left: auto;
     margin-right: auto;
     table-layout: fixed;
