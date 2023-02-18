@@ -69,11 +69,17 @@ function returnAPIDATA() {
             }
 
             //printMessage('Data', team_stats)
-
-            database.query(database.writeAPIData(teamData.Rankings), (err, res) => {
+            console.log(database.deleteAPIData())
+            database.query(database.deleteAPIData(), (err, res) => {
                 console.log(err)
                 console.log(res)
+                database.query(database.writeAPIData(teamData.Rankings), (err, res) => {
+                    console.log(err)
+                    console.log(res)
+                })
             })
+
+            
 
             resolve(teamData)
         })
