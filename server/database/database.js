@@ -20,9 +20,18 @@ function deleteData(data) {
         AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
+function deleteAPIData() {
+    return `DELETE FROM teamsixn_scouting_dev.api_rankings
+    WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
+        AND api_rankings.competition_master_cm_event_code = '${gameConstants.COMP}';`
+        
+}
+
 function writeAPIData(teamRankings) {
     let valuesStr = ""
     let counter = 0
+    const time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    console.log(time)
 
     for (const [k, team] of Object.entries(teamRankings)) {
         counter++
@@ -33,7 +42,7 @@ function writeAPIData(teamRankings) {
         let ties_str = String(team.ties)
         let dq_str = String(team.dq)
         let matches_played_str = String(team.matchesPlayed)
-        let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + ", timestampadd(DAY, 2, current_timestamp()))"
+        let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + ",'" + String(time) + "')"
         console.log(a)
         a = teamRankings.length != counter ? a + "," : a
         console.log(a)
@@ -43,16 +52,16 @@ function writeAPIData(teamRankings) {
 
     console.log(valuesStr)
 
-    const sqlStr = `INSERT INTO "api_rankings" 
+    const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_rankings
     (
-        "frc_season_master_sm_year", 
-        "competition_master_cm_event_code", 
-        "team_master_tm_number", "api_rank", 
-        "api_win", "api_loss", "api_tie", "api_dq", 
-        "api_matches_played", 
-        "api_ranking_ts") 
-        VALUES (${valuesStr}
-            );`
+        frc_season_master_sm_year, 
+        competition_master_cm_event_code, 
+        team_master_tm_number, api_rank, 
+        api_win, api_loss, api_tie, api_dq, 
+        api_matches_played, 
+        api_ranking_ts) 
+        VALUES ${valuesStr}
+            ;`
 
     console.log(sqlStr)
 
@@ -191,7 +200,7 @@ function saveData(data) {
         (${params}, '4', '401', ${convertToInt(data["Robot Endgame Docking"])}),
         (${params}, '4', '402', ${data["Robot is in Community"]}),
         (${params}, '4', '403', ${linkCount}),
-        (${params}, '4', '404', ${convertToInt(data["Cargo Intake From"])}),
+        (${params}, '4', '404', ${convertToInt(data["Game Piece Intake From"])}),
         (${params}, '4', '405', ${convertToInt(data["Robot Fumbles Cones"])}),
         (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])})
         ;`
@@ -360,5 +369,6 @@ module.exports = {
     saveData: saveData,
     deleteData: deleteData,
     getAssignedTeam: getAssignedTeam,
-    writeAPIData: writeAPIData
+    writeAPIData: writeAPIData,
+    deleteAPIData: deleteAPIData
 }
