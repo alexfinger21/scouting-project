@@ -143,31 +143,39 @@ function main() {
     //play buttns
     const buttons = document.getElementsByClassName("start-stop-button")
     for (const btn of buttons) {
+        let debounce = false
         //play button onclick
         btn.addEventListener("click", async (event) => {
             //get img
-            const img = btn.getElementsByTagName("img")[0]
-            if (img.src.indexOf("play-button.png") > -1) { //press play
-                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+            if (!debounce) {
+                debounce = true
+                const img = btn.getElementsByTagName("img")[0]
+                if (img.src.indexOf("play-button.png") > -1) { //press play
+                    const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
 
-                const data = {
-                    year: YEAR,
-                    event_code: EVENT_CODE,
-                    gm_type: container.getAttribute("game_type"), //P, Q, or E
-                    gm_number: container.getAttribute("game_number"),
-                    stop_match: false
+                    const data = {
+                        year: YEAR,
+                        event_code: EVENT_CODE,
+                        gm_type: container.getAttribute("game_type"), //P, Q, or E
+                        gm_number: container.getAttribute("game_number"),
+                        stop_match: false
+                    }
+
+                    console.log(data)
+
+                    const [isSuccess, matchNumber] = await startMatch(data)
+                    if (!isSuccess) {
+                        alert("Stop match " + matchNumber + " before starting a new match")
+                        debounce = false
+                    } else {
+                        debounce = false
+                    }
                 }
-
-                console.log(data)
-
-                const [isSuccess, matchNumber] = await startMatch(data)
-                if (!isSuccess) {
-                    alert("Stop match " + matchNumber + " before starting a new match")
+                else { //press stop
+                    //send query
+                    stopMatch()
+                    debounce = false
                 }
-            }
-            else { //press stop
-                //send query
-                stopMatch()
             }
         })
     }
