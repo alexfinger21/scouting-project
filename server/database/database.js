@@ -20,9 +20,30 @@ function deleteData(data) {
         AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
-function writeAPIData() {
-    co
-    return `INSERT INTO "api_rankings" 
+function writeAPIData(teamRankings) {
+    let valuesStr = ""
+    let counter = 0
+
+    for (const [k, team] of Object.entries(teamRankings)) {
+        counter++
+        let rank_str = String(team.rank)
+        let team_num_str = String(team.teamNumber)
+        let wins_str = String(team.wins)
+        let losses_str = String(team.losses)
+        let ties_str = String(team.ties)
+        let dq_str = String(team.dq)
+        let matches_played_str = String(team.matchesPlayed)
+        let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + ", timestampadd(DAY, 2, current_timestamp()))"
+        console.log(a)
+        a = teamRankings.length != counter ? a + "," : a
+        console.log(a)
+
+        valuesStr += a
+    }
+
+    console.log(valuesStr)
+
+    const sqlStr = `INSERT INTO "api_rankings" 
     (
         "frc_season_master_sm_year", 
         "competition_master_cm_event_code", 
@@ -30,18 +51,12 @@ function writeAPIData() {
         "api_win", "api_loss", "api_tie", "api_dq", 
         "api_matches_played", 
         "api_ranking_ts") 
-        VALUES (
-            '2023', 
-            'test', 
-            '1', 
-            '1', 
-            '1', 
-            '2', 
-            '3', 
-            '1', 
-            '2', 
-            'TO BE FILLED'
+        VALUES (${valuesStr}
             );`
+
+    console.log(sqlStr)
+
+    return sqlStr
 }
 function convertToInt(option) {
     switch (option) {
@@ -344,5 +359,6 @@ module.exports = {
     getTeams: getTeams,
     saveData: saveData,
     deleteData: deleteData,
-    getAssignedTeam: getAssignedTeam
+    getAssignedTeam: getAssignedTeam,
+    writeAPIData: writeAPIData
 }
