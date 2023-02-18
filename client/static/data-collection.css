@@ -178,6 +178,16 @@
     width: 100%;
 }
 
+.table-wrapper table td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: normal;
+    word-wrap:break-word;
+    text-align: center;
+}
+
 .table-wrapper td {
     min-width: 4.5vh;
     padding: 0 !important;

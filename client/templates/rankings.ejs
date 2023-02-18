@@ -3,49 +3,66 @@
 
 <body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
-    
+
     <%- include("../static/partials/header") %>
 
-    <div id="page-holder">
-        <h1 id="match-listing-title">Team Rankings</h1>
-        <div id="match-scroller">
-            <% for (let i=0; i < 20; i++) { %>
-                <div class="match-container hidden">
-                    <%if (10 == i) { %>
-                        <table class="match-top" style="background-color:#FFF5D6">
-                    <% } else {%>
-                        <table class="match-top">
-                    <%}%>
-                        <th>
-                            <%= "Match " + (i + 1) %>
-                        </th>
-                        <th>
-                            <%= i %>
-                        </th>
-                        <th class="no-padding">
-                            <button class="match-strat-button">
-                                <img src="../static/images/lightbulb.svg">
-                            </button>
-                        </th>
-
-                    </table>
-                    <%if (10 == i) { %>
-                        <table class="match-bottom" style="background-color:#FFF5D6">
-                    <% } else {%>
-                        <table class="match-bottom">
-                    <%}%>                        <% for (let j = 1; j <= 3; j++) { %>
-                            <th class="red"><%= j %></th>
-                        <%}%>
-                        <% for (let j = 1; j <= 3; j++) { %>
-                            <th class="blue"><%= j %></th>
-                        <%}%>
+        <div id="page-holder">
+            <h1 id="rankings-title">Team Rankings</h1>
+            <h3 id="rankings-subtitle">
+                <%=year%> - <%=eventCode%> - <%=timeStamp%>
+            </h3>
+            <div id="rankings-container">
+                <!--HEADINGS-->
+                <table id="headings-table">
+                    <colgroup>
+                        <col span="1" style="width: 17%">
+                        <col span="1" style="width: 17%">
+                        <col span="1" style="width: 17%">
+                        <col span="1" style="width: 32%">
+                        <col span="1" style="width: 17%">
+                    </colgroup>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team</th>
+                        <th>Games</th>
+                        <th>Win/Loss/Tie</th>
+                        <th>DQ's</th>
+                    </tr>
+                </table>
+                <!--BODY-->
+                <div id="rankings-scroller">
+                    <table id="rankings-table">
+                        <colgroup>
+                            <col span="1" style="width: 17%">
+                            <col span="1" style="width: 17%">
+                            <col span="1" style="width: 17%">
+                            <col span="1" style="width: 32%">
+                            <col span="1" style="width: 17%">
+                        </colgroup>
+                        <%for(let i=0; i < teamStats.length; i++) {%>
+                            <tr>
+                                <td>
+                                    <%= teamStats[i].rank %>
+                                </td>
+                                <td>
+                                    <%= teamStats[i].teamNumber%>
+                                </td>
+                                <td>
+                                    <%= teamStats[i].matchesPlayed%>
+                                </td>
+                                <td>
+                                    <%= teamStats[i].wins + "/" + teamStats[i].losses + "/" + teamStats[i].ties%>
+                                </td>
+                                <td>
+                                    <%= teamStats[i].dq%>
+                                </td>
+                            </tr>
+                            <% } %>
                     </table>
                 </div>
-            <% } %>
+            </div>
         </div>
-    </div>
-
-        <%- include("../static/partials/footer") %>
+    <%- include("../static/partials/footer") %>
 </body>
 
 </html>
