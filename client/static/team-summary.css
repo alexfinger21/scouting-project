@@ -15,6 +15,15 @@ h1 {
     border-radius: 5px;
 }
 
+#highlight-team-container {
+    display: flex;
+    margin-top: 2vh;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 #legend ul{
     padding-left: 8vw;
     padding-right: 8vw;
