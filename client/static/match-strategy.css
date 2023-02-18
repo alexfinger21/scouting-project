@@ -30,14 +30,14 @@
 
 #match-strategy-container {
     width: 99.5%;
-    height: 60vh;
+    height: 58vh;
     overflow: scroll;
 }
 
 .stats {
-    margin-top: 2vh;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 2vh;
     width: 95%;
     table-layout: fixed;
     background-color: #FFF;
