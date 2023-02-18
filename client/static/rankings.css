@@ -23,7 +23,7 @@
 #rankings-scroller {
     width: 99%;
     overflow: scroll;
-    height: 55vh;
+    height: 51vh;
     margin-left: auto;
     margin-right: auto;
 }
