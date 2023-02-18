@@ -147,8 +147,8 @@ function main() {
         //play button onclick
         btn.addEventListener("click", async (event) => {
             //get img
-            if (!debounce) {
-                debounce = true
+            //if (!debounce) {
+                //debounce = true
                 const img = btn.getElementsByTagName("img")[0]
                 if (img.src.indexOf("play-button.png") > -1) { //press play
                     const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
@@ -166,17 +166,17 @@ function main() {
                     const [isSuccess, matchNumber] = await startMatch(data)
                     if (!isSuccess) {
                         alert("Stop match " + matchNumber + " before starting a new match")
-                        debounce = false
+                        //debounce = false
                     } else {
-                        debounce = false
+                        //debounce = false
                     }
                 }
                 else { //press stop
                     //send query
                     stopMatch()
-                    debounce = false
+                    //debounce = false
                 }
-            }
+            //}
         })
     }
     //match strat buttons
