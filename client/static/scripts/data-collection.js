@@ -30,6 +30,13 @@ const playPiecesDict = {
     empty: "../static/images/transparent.png",
 }
 
+//given a TD's id and index in the auton-scoring table, it returns the corresponding TD in the teleop-scoring table
+function getCorrespondingTd(id, index) {
+    const teleopConeButtons = document.getElementById("teleop-scoring").getElementsByClassName(id) //get all cone buttons in teleop
+    const correspondingTd = teleopConeButtons.item(index)//the corresponding TD under teleop-scoring
+    return correspondingTd //return the image in the TD
+}
+
 async function sendData() {
     const data = await saveData()
     console.log("-------CLIENT DATA------\n")
@@ -347,72 +354,157 @@ function main() {
 
     //CONE ONLY BUTTONS
     const coneTds = document.getElementsByClassName("fill-cone") //table element
+    let coneButtonIndex = 0
     for (const fillCone of coneTds) {
         const coneBtn = fillCone.getElementsByTagName("button")[0]
         const btnImg = coneBtn.getElementsByTagName("img")[0]
+        const savedIndex = coneButtonIndex //saves the index as it is when the for loop reaches this cone
         
         //coneBtn.setAttribute("object", "empty")
         
         coneBtn.addEventListener("click", (event) => {
             const parent = fillCone.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
 
-            if (parent.id == "teleop-scoring") {console.log("hi")}
-
             if (btnImg.src.indexOf("cone.svg") > -1) { //filled image, make it empty
                 coneBtn.setAttribute("object", "empty")
 
                 btnImg.src = "../static/images/transparent.png"
+
+                if (parent.id == "auto-scoring") { //if its in auto, remove the gray cone under teleop scoring
+                    const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
+                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
+                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
+                    coneBtn.setAttribute("object", "empty") //set attribute
+
+                    //make it clickable
+                    correspondingBtn.removeAttribute("disabled")
+                }
             }
             else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
                 coneBtn.setAttribute("object", "cone")
+
+                if (parent.id == "auto-scoring") { //if its in auto, add a gray cone under teleop scoring
+                    const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
+                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
+                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
+                    coneBtn.setAttribute("object", "empty") //set attribute
+
+                    //make it not clickable
+                    correspondingBtn.setAttribute("disabled", "disabled")
+                }
             }
         })
+
+        coneButtonIndex++
     }
 
     //CUBE ONLY BUTTONS
     const cubeTds = document.getElementsByClassName("fill-cube") //table element
+    let cubeButtonIndex = 0
     for (const fillCube of cubeTds) {
         const cubeBtn = fillCube.getElementsByTagName("button")[0]
         const btnImg = cubeBtn.getElementsByTagName("img")[0]
+        let savedIndex = cubeButtonIndex
 
         //cubeBtn.setAttribute("object", "empty")
 
         cubeBtn.addEventListener("click", (event) => {
+            const parent = fillCube.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+
             if (btnImg.src.indexOf("cube.svg") > -1) { //filled image, make it empty
                 cubeBtn.setAttribute("object", "empty")
                 btnImg.src = "../static/images/transparent.png"
+
+                if (parent.id == "auto-scoring") { //if its in auto, remove the gray cube under teleop scoring
+                    const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
+                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
+                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
+                    cubeBtn.setAttribute("object", "empty") //set attribute
+
+                    //make it clickable
+                    correspondingBtn.removeAttribute("disabled")
+                }
             }
-            else { //its empty, make it a cone
+            else { //its empty, make it a cube
                 btnImg.src = "../static/images/cube.svg"
                 cubeBtn.setAttribute("object", "cube")
+
+                if (parent.id == "auto-scoring") { //if its in auto, add a gray cube under teleop scoring
+                    const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
+                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
+                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
+                    cubeBtn.setAttribute("object", "empty") //set attribute
+
+                    //make it not clickable
+                    correspondingBtn.setAttribute("disabled", "disabled")
+                }
             }
         })
+
+        cubeButtonIndex++
     }
 
     //BUTTONS THAT HAVE EITHER A CUBE OR A CONE
     //CLICK ONCE FOR CONE, CLICK AGAIN FOR CUBE, CLICK AGAIN TO EMPTY
     const bothTds = document.getElementsByClassName("fill-both") //table element
+    let bothButtonIndex = 0
+
     for (const fillBoth of bothTds) {
         const bothBtn = fillBoth.getElementsByTagName("button")[0]
         const btnImg = bothBtn.getElementsByTagName("img")[0]
+        let savedIndex = bothButtonIndex
 
         //bothBtn.setAttribute("object", "empty")
 
         bothBtn.addEventListener("click", (event) => {
+            const parent = fillBoth.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+
             if (btnImg.src.indexOf("cone.svg") > -1) { //filled cone, make it a cube
                 btnImg.src = "../static/images/cube.svg"
                 bothBtn.setAttribute("object", "cube")
+
+                if (parent.id == "auto-scoring") { //if its in auto, add a gray cube under teleop scoring
+                    const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
+                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
+                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
+                    bothBtn.setAttribute("object", "empty") //set attribute
+
+                    //make it not clickable
+                    correspondingBtn.setAttribute("disabled", "disabled")
+                }
             }
             else if (btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
                 btnImg.src = "../static/images/transparent.png"
                 bothBtn.setAttribute("object", "empty")
+
+                if (parent.id == "auto-scoring") { //if its in auto, remove the gray cube under teleop scoring
+                    const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
+                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
+                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
+                    bothBtn.setAttribute("object", "empty") //set attribute
+
+                    //make it clickable
+                    correspondingBtn.removeAttribute("disabled")
+                }
             }
             else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
                 bothBtn.setAttribute("object", "cone")
+
+                if (parent.id == "auto-scoring") { //if its in auto, add a gray cone under teleop scoring
+                    const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
+                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
+                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
+                    bothBtn.setAttribute("object", "empty") //set attribute
+
+                    //make it not clickable
+                    correspondingBtn.setAttribute("disabled", "disabled")
+                }
             }
         })
+
+        bothButtonIndex++
     }
 
     const submitButton = document.getElementById("data-submit")
