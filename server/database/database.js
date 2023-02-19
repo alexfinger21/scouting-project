@@ -318,10 +318,10 @@ function getMatchData(gameNumber) {
         gm.gm_alliance, 
         gm.gm_alliance_position, 
         vmtsar.games_played, 
-        vmtsar.api_rank, 
-        vmtsar.api_win,
-        vmtsar.api_loss, 
-        vmtsar.api_tie, 
+        ar.api_rank, 
+        ar.api_win,
+        ar.api_loss, 
+        ar.api_tie, 
         vmtsar.avg_gm_score, 
         vmtsar.avg_nbr_links, 
         vmtsar.avg_auton_chg_station_score, 
@@ -333,12 +333,18 @@ function getMatchData(gameNumber) {
             ON
                 gm.team_master_tm_number = tm.tm_number 
         LEFT JOIN 
-            teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
-        ON
+            teamsixn_scouting_dev.v_match_team_score_avg vmtsar
+            ON
             vmtsar.frc_season_master_sm_year = gm.frc_season_master_sm_year AND
             vmtsar.competition_master_cm_event_code = gm.competition_master_cm_event_code AND
             vmtsar.game_matchup_gm_game_type = gm.gm_game_type AND
             vmtsar.team_master_tm_number = gm.team_master_tm_number
+    LEFT JOIN 
+        teamsixn_scouting_dev.api_rankings ar 
+        ON
+            gm.frc_season_master_sm_year = ar.frc_season_master_sm_year and 
+            gm.competition_master_cm_event_code = ar.competition_master_cm_event_code and 
+            gm.team_master_tm_number = ar.team_master_tm_number 
     WHERE 
         gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
         gm.competition_master_cm_event_code = '${gameConstants.COMP}' AND
