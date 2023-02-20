@@ -42,19 +42,19 @@
                         <%for(let i=0; i < teamStats.length; i++) {%>
                             <tr>
                                 <td>
-                                    <%= teamStats[i].rank %>
+                                    <%= teamStats[i].api_rank %>
                                 </td>
                                 <td>
-                                    <%= teamStats[i].teamNumber%>
+                                    <%= teamStats[i].team_master_tm_number%>
                                 </td>
                                 <td>
-                                    <%= teamStats[i].matchesPlayed%>
+                                    <%= teamStats[i].api_matches_played%>
                                 </td>
                                 <td>
-                                    <%= teamStats[i].wins + "/" + teamStats[i].losses + "/" + teamStats[i].ties%>
+                                    <%= teamStats[i].api_win + "/" + teamStats[i].api_loss + "/" + teamStats[i].api_tie%>
                                 </td>
                                 <td>
-                                    <%= teamStats[i].dq%>
+                                    <%= teamStats[i].api_dq%>
                                 </td>
                             </tr>
                             <% } %>
