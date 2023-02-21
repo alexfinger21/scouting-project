@@ -374,8 +374,6 @@ function main() {
                     const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    coneBtn.setAttribute("object", "empty") //set attribute
-
                     //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
@@ -388,7 +386,7 @@ function main() {
                     const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
-                    coneBtn.setAttribute("object", "empty") //set attribute
+                    correspondingBtn.setAttribute("object", "empty") //set attribute
 
                     //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
@@ -420,8 +418,6 @@ function main() {
                     const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    cubeBtn.setAttribute("object", "empty") //set attribute
-
                     //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
@@ -434,7 +430,7 @@ function main() {
                     const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
-                    cubeBtn.setAttribute("object", "empty") //set attribute
+                    correspondingBtn.setAttribute("object", "empty") //set attribute
 
                     //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
@@ -468,8 +464,6 @@ function main() {
                     const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
-                    bothBtn.setAttribute("object", "empty") //set attribute
-
                     //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
                 }
@@ -482,7 +476,7 @@ function main() {
                     const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    bothBtn.setAttribute("object", "empty") //set attribute
+                    correspondingBtn.setAttribute("object", "empty") //set attribute
 
                     //make it clickable
                     correspondingBtn.removeAttribute("disabled")
