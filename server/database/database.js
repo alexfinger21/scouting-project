@@ -30,7 +30,7 @@ function deleteAPIData() {
 function writeAPIData(teamRankings) {
     let valuesStr = ""
     let counter = 0
-    const time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    const time = new Date()
     console.log(time)
 
     for (const [k, team] of Object.entries(teamRankings)) {
@@ -42,7 +42,7 @@ function writeAPIData(teamRankings) {
         let ties_str = String(team.ties)
         let dq_str = String(team.dq)
         let matches_played_str = String(team.matchesPlayed)
-        let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + ",'" + String(time) + "')"
+        let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + ",'" + String(time) + "','" + String(time) + "')"
         console.log(a)
         a = teamRankings.length != counter ? a + "," : a
         console.log(a)
@@ -59,7 +59,7 @@ function writeAPIData(teamRankings) {
         team_master_tm_number, api_rank, 
         api_win, api_loss, api_tie, api_dq, 
         api_matches_played, 
-        api_ranking_ts) 
+        api_ranking_ts, api_rank_ts) 
         VALUES ${valuesStr}
             ;`
 

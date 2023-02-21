@@ -17,17 +17,14 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
         results.sort((a, b) => a.api_rank - b.api_rank)
 
-        const date = new Date(results[0].api_ranking_ts)
-        const h = addZero(date.getHours())
-        const m = addZero(date.getMinutes())
-        const time = h + ":" + m
+        console.log(results)
 
         res.render("rankings", {
             user: user,
             isAdmin: isAdmin,
             year: results[0].frc_season_master_sm_year,
             eventCode: results[0].competition_master_cm_event_code,
-            timeStamp: time,
+            timeStamp: results[0].api_rank_ts,
             teamStats: results
         })
     })
