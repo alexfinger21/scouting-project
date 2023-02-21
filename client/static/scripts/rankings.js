@@ -12,12 +12,11 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function main() {
-    let timeText = document.querySelector("#rankings-subtitle").innerText.split(" ")
+    let subtitle = document.querySelector("#rankings-subtitle")
+    let timeText = subtitle.innerText.split(" ")
     timeText.length = 4
-    
-    console.log(new Date(document.querySelector("#rankings-subtitle").getAttribute("timestamp").replaceAll("_", " ")).toLocaleString())
 
-    const date = new Date(document.querySelector("#rankings-subtitle").getAttribute("timestamp").replaceAll("_", " ")).toLocaleString()
+    const date = new Date(subtitle.getAttribute("timestamp").replaceAll("_", " ")).toLocaleString()
 
-    timeText.innerText = timeText[0].concat(" ", timeText[1], " ", timeText[2], " ", timeText[3], " ", date)
+    subtitle.innerText = timeText[0].concat(" ", timeText[1], " ", timeText[2], " ", timeText[3], " ", date)
 }
