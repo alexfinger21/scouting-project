@@ -1,4 +1,5 @@
-import * as graphHandler from "./graphHandler.js";
+import * as graphHandler from "./graphHandler.js"
+import {paths} from "./utility.js"
 
 //When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
@@ -14,6 +15,26 @@ const observer = new MutationObserver(function (mutations_list) {
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
+function requestData(url, data) {
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: url,
+            data: JSON.stringify(data),
+            success: function(response) {
+                resolve(JSON.parse(response))
+            },
+    
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                console.log("Error\n" + errorThrown, jqXHR)
+            },
+        })
+    })
+}
+
+
 function main() {
     //create a point array
     let points = []
@@ -23,7 +44,14 @@ function main() {
 
     //write point array to a scatterplot
     const ctx = document.getElementById("teamSummaryChart").getContext("2d")
-    let scatterChart = new Chart(ctx, graphHandler.createGraph(points, "scatter"))
+    let scatterChart = new Chart(ctx, graphHandler.createGraph(points, "scatter", "FRC Rank", "Avg Score"))
+
+    //when the arrows are clicked, draw a new graph
+    const arrowLeft = document.getElementById("arrow-left")
+    arrowLeft.addEventListener("click", () => {
+        scatterChart.data = requestData(paths.teamSummary + "?getData=1")
+        scatterChart.update()
+    })
 
     //when the update button is clicked, redraw the graph
     const updateButton = document.getElementById("update-graph")

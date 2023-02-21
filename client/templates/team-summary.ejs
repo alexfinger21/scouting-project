@@ -9,25 +9,41 @@
     <%- include("../static/partials/header") %>
 
     <div id="page-holder">
-        <div id="legend">
-            <h1>Legend</h1>
-            <div class="line" id="divider">ㅤ</div>
-            <ul>
-                <li>
-                    Page is a work in progress
-                </li>
-            </ul>
-        </div>
+        <!--
+            <div id="legend">
+                <h1>Legend</h1>
+                <div class="line" id="divider">ㅤ</div>
+                <ul>
+                    <li>
+                        Page is a work in progress
+                    </li>
+                </ul>
+            </div>
+        -->
+
+        
+        <h3 id="team-summary-title">
+            Avg Score vs FRC Rank
+        </h3>
 
         <div id="highlight-team-container">
             <label for="highlight-team"> <b>Highlight team: </b> </label>
             <input name="highlight-team" id="highlight-team" type="number">
         </div>
 
-        <div id="graph-holder">
-            <!--Chart.js-->
-            <canvas id="teamSummaryChart" style="width:100%; height: 500px"></canvas>
+        <div id="team-summary-container">
+            <button id="arrow-left">
+                <img src="../static/images/arrow-left.svg">
+            </button>
+            <div id="graph-holder">
+                <!--Chart.js-->
+                <canvas id="teamSummaryChart" style="width:100%; height: 500px"></canvas>
+            </div>
+            <button id="arrow-right">
+                <img src="../static/images/arrow-right.svg">
+            </button>
         </div>
+
 
         <button type="button" id="update-graph" class="big-button">Update</button>
 

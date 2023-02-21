@@ -15,15 +15,6 @@ h1 {
     border-radius: 5px;
 }
 
-#highlight-team-container {
-    display: flex;
-    margin-top: 1vh;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
 #legend ul{
     padding-left: 8vw;
     padding-right: 8vw;
@@ -35,16 +26,87 @@ h1 {
     margin-top: 0.5vh !important;
 }
 
+#team-summary-title {
+    width: 100%;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    text-align: center;
+    font-size: 3vh;
+}
+
+
+#highlight-team-container {
+    display: flex;
+    margin-top: 1vh;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-weight: 200;
+}
+
+#highlight-team-container input {
+    width: 30vw;
+    height: 3vh;
+    margin-left: 1vh;
+    color: #5B6671;
+    text-align: center;
+    font-size: 2.5vh;
+    border: 1px solid #5B6671;
+    border-radius: 4px;
+    padding-bottom: 1%;
+    text-decoration-color: #FBFDFF;
+    transition: text-decoration-color 100ms;
+}
+
+#highlight-team-container input:focus {
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+#team-summary-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    flex-grow: 1;
+}
+
+#arrow-left {
+    background-color: transparent;
+    border: none;
+    width: 10vw;
+}
+
+#arrow-left img {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: auto;
+}
+
+#arrow-right {
+    background-color: transparent;
+    border: none;
+    width: 10vw;
+}
+
+#arrow-right img {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: auto;
+}
+
 #graph-holder {
     margin-top: 1.5vh;
-    margin-bottom: 2vh;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 90%;
-    height: 40vh;
+    height: 50vh;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
@@ -54,6 +116,7 @@ h1 {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 2vh;
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
 }
