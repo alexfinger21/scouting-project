@@ -1,8 +1,8 @@
 const YEAR = 2023;
 const COMP = "test"
 const GAME_TYPE = "Q"
-const gameStart = new Date(2023, 3, 1)
-const gameEnd = new Date(2023, 3, 4)
+const gameStart = new Date("Febuary 28, 2023")
+const gameEnd = new Date("March 5, 2023")
 
 module.exports = {
     YEAR: YEAR,

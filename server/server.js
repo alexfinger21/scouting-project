@@ -15,6 +15,7 @@ require("dotenv").config()
 const database = require("./database/database.js")
 const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
+const { start } = require("repl")
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -58,7 +59,9 @@ const io = new Server(server, {
 async function runAPICall() {
     const startTick = gameStart.getTime()
     const endTick = gameEnd.getTime()
-    const currentTick = Date.now().getTime()
+    const currentTick = Date.now()
+    console.log(currentTick)
+    console.log(startTick) 
     if (startTick <= currentTick && currentTick <=endTick) {
         const apiData = await returnAPIDATA()
         console.log(apiData)
