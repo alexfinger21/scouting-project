@@ -17,7 +17,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
         results.sort((a, b) => a.api_rank - b.api_rank)
 
-        console.log(results)
+        console.log(results[0].api_rank_ts)
 
         res.render("rankings", {
             user: user,

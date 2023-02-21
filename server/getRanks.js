@@ -8,7 +8,7 @@ const database = require("./database/database.js")
 
 const options = {
     'method': 'GET',
-    'url': 'https://frc-api.firstinspires.org/v3.0/2022/rankings/flwp',
+    'url': 'https://frc-api.firstinspires.org/v3.0/2022/rankings/ohcl',
     'headers': {
         'Authorization': 'Basic ' + authbase64,
         'If-Modified-Since': ''
