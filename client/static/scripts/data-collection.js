@@ -476,8 +476,6 @@ function main() {
                     const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    correspondingBtn.setAttribute("object", "empty") //set attribute
-
                     //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
