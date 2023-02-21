@@ -17,7 +17,7 @@ function main() {
     
     console.log(document.querySelector("#rankings-subtitle").getAttribute("timestamp"))
 
-    const date = new Date(document.querySelector("#rankings-subtitle").getAttribute("timestamp")).toLocaleString()
+    const date = new Date(document.querySelector("#rankings-subtitle").getAttribute("timestamp").replace("_", " ")).toLocaleString()
 
     timeText.innerText = timeText[0].concat(" ", timeText[1], " ", timeText[2], " ", timeText[3], " ", date)
 }
