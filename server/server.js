@@ -13,7 +13,9 @@ const server = http.createServer(app)
 const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
-const { socketArray } = require("./sockets.js")
+const {gameStart, gameEnd} = require("./game.js")
+const { returnAPIDATA } = require("./getRanks")
+const { start } = require("repl")
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -41,7 +43,7 @@ const allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-
+    
     next();
 }
 
@@ -53,9 +55,22 @@ const io = new Server(server, {
     }
 })
 
+//FUNCTIONS
+async function runAPICall() {
+    const startTick = gameStart.getTime()
+    const endTick = gameEnd.getTime()
+    const currentTick = Date.now()
+    console.log(currentTick)
+    console.log(startTick) 
+    if (startTick <= currentTick && currentTick <=endTick) {
+        const apiData = await returnAPIDATA()
+        console.log(apiData)
+    }
+}
+
 io.on("connection", (socket) => {
     const index = socketManager.addSocket(socket)
-
+    
     socket.on("disconnect", () => {
         socketManager.removeSocket(index)
         console.log(socketManager.getSockets())
@@ -153,6 +168,7 @@ app.get("/getMatch", function(req, res) {
     })
 })
 
+setInterval(runAPICall, 240000)
 //PORT
 app.listen(3000) //goes to localhost 3000
 
