@@ -16,7 +16,8 @@ function main() {
     let timeText = subtitle.innerText.split(" ")
     timeText.length = 4
 
-    const date = new Date(subtitle.getAttribute("timestamp").replaceAll("_", " ")).toLocaleString()
+    let date = new Date(subtitle.getAttribute("timestamp").replaceAll("_", " ")).toLocaleString().split(",")
+    date = date[1].slice(1)
 
     subtitle.innerText = timeText[0].concat(" ", timeText[1], " ", timeText[2], " ", timeText[3], " ", date)
 }
