@@ -357,6 +357,18 @@ function getMatchData(gameNumber) {
         gm.gm_alliance_position ;`
 }
 
+function getChartData() {
+    return `
+    SELECT *
+    FROM
+        teamsixn_scouting_dev.v_team_summary vts 
+    WHERE
+        vts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
+        vts.competition_master_cm_event_code = '${gameConstants.COMP}' AND
+        ( vts.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' or vts.game_matchup_gm_game_type IS NULL);
+    `
+}
+
 function executeQuery(sql, callback) {
     pool.query(sql, function (error, results, fields) {
         if (error) {
@@ -376,5 +388,6 @@ module.exports = {
     deleteData: deleteData,
     getAssignedTeam: getAssignedTeam,
     writeAPIData: writeAPIData,
-    deleteAPIData: deleteAPIData
+    deleteAPIData: deleteAPIData,
+    getChartData: getChartData
 }

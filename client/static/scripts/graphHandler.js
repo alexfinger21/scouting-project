@@ -44,7 +44,7 @@ function writeData(points) {
 }
 
 //Returns the data to be fed into a chart.js scatterchart given an array containing the points
-function createGraph(points, chartType) {
+function createGraph(points, chartType, xAxisTitle, yAxisTitle) {
     return {
         type: chartType,
         data: writeData(points),
@@ -73,14 +73,14 @@ function createGraph(points, chartType) {
                 xAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Team Ranking",
+                        labelString: xAxisTitle,
                     },
                 }],
     
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: "Average Total Score",
+                        labelString: yAxisTitle,
                     }
                 }],
             },
@@ -90,7 +90,8 @@ function createGraph(points, chartType) {
             layout: {
                 padding: {
                     top: 20,
-                    right: 20
+                    right: 20,
+                    bottom: 0
                 }
             }
         }
