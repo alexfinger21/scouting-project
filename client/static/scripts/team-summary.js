@@ -39,7 +39,13 @@ async function getChart(scatterChart, x, y, color) {
     let points = new Array(Array.from(data).length)
     for (const val of data) {
         points.push({
+            teamNumber: val.team_master_tm_number,
             teamName: val.tm_name,
+            rank: val.api_rank,
+            gameScore: val.avg_gm_score,
+            links: val.avg_nbr_links,
+            autoDocking: val.avg_auton_chg_station_score,
+            endgameDocking: val.avg_endgame_chg_station_score,
             x: val[x],
             y: val[y] ? val[y] : 0,
             color: color
@@ -51,15 +57,11 @@ async function getChart(scatterChart, x, y, color) {
 
 
 function main() {
-    //create a point array
-    let points = []
-    for (let i = 0; i < 10; i++) {
-        points.push(graphHandler.generatePoint())
-    }
-
-    //write point array to a scatterplot
+    //create catterplot
     const ctx = document.getElementById("teamSummaryChart").getContext("2d")
-    let scatterChart = new Chart(ctx, graphHandler.createGraph(points, "scatter", "FRC Rank", "Avg Score"))
+    let scatterChart = new Chart(ctx, graphHandler.createGraph("scatter", "FRC Rank", "Avg Score"))
+    getChart(scatterChart, "api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+
 
     //when the arrows are clicked, draw a new graph
     const arrowLeft = document.getElementById("arrow-left")
