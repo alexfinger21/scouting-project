@@ -1,37 +1,16 @@
 import {selectRandom, getColor} from "./utility.js"
 
-//Point style options
-const letterOptions = [
-    "l",
-    "t"
-]
-
-//Point color options
-const colorOptions = [
-    "red",
-    "green",
-    "yellow"
-]
-
-//Generates a dictionary containing randomized values
-function generatePoint() {
-    const img = new Image()
-
-    let letter = selectRandom(letterOptions)
-    let color = selectRandom(colorOptions)
-
-    img.src = "../static/images/letters/" + letter + "/" + color + ".png"
-    img.height = 15
-    img.width = 12
-
-    let teamName = "Team " +  Math.round(Math.random() * 9999)
-
-    return {teamName, x: Math.round(Math.random() * 50), y: Math.round(Math.random() * 50), shape: img, color: getColor(color) }
-}
-
 function writeData(points) {
     return {
+        teamNumber: points.map(p => p.teamNumber),
         teamName: points.map(p => p.teamName),
+        rank: points.map(p => p.rank),
+        gameScore: points.map(p => p.gameScore),
+        links: points.map(p => p.gameScore),
+        autoDocking: points.map(p => p.autoDocking),
+        endgameDocking: points.map(p => p.endgameDocking),
+
+
         datasets: [{
             label: 'Legend',
             pointRadius: 4,
@@ -44,27 +23,38 @@ function writeData(points) {
 }
 
 //Returns the data to be fed into a chart.js scatterchart given an array containing the points
-function createGraph(points, chartType, xAxisTitle, yAxisTitle) {
+function createGraph(chartType, xAxisTitle, yAxisTitle) {
     return {
         type: chartType,
-        data: writeData(points),
+        //data: writeData(points),
         options: {
             tooltips: {
                 bodyFontStyle: "bold",
                 footerFontStyle: "normal",
                 callbacks: {
-                    label: function (tooltipItem, data) {
-                        let teamName = data.teamName[tooltipItem.index]
-                        let text = [teamName + ": (" + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ")"]
+                    label: function (tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
+                        let teamNumber = data.teamNumber[tooltipItem.index]
+                        let text = ["Team " + teamNumber]
                         return text
                     },
                     //color does not appear before the footer
-                    footer: function (tooltipItems, data) {
+                    footer: function (tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
+                        let index = tooltipItems[0].index
+                        console.log(index)
+                        let teamName = data.teamName[index]
+                        let rank = data.rank[index]
+                        let gameScore = data.gameScore[index]
+                        let links = data.links[index]
+                        let autoDocking = data.autoDocking[index]
+                        let endgameDocking = data.endgameDocking[index]
+
                         return [
-                            "Plays Defense: ✅",
-                            "Avg. Auto Score: 4",
-                            "Avg. Tele-op Score: 2",
-                            "Avg. Endgame Score: 15"
+                            "Name: " + teamName,
+                            "Rank: " + rank,
+                            "Avg Game Score: " + gameScore,
+                            "Avg Links: " + links,
+                            "Avg Auto Chg Dock: " + autoDocking,
+                            "Avg Endgame Chg Dock: " + endgameDocking
                         ]
                     }
                 }
@@ -98,4 +88,4 @@ function createGraph(points, chartType, xAxisTitle, yAxisTitle) {
     }
 }
 
-export {generatePoint, createGraph, writeData}
+export {createGraph, writeData}
