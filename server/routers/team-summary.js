@@ -1,4 +1,4 @@
-const user = require("../user")
+    const user = require("../user")
 const express = require("express")
 const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
@@ -11,7 +11,7 @@ router.get("/",  async function(req, res) { //only gets used if the url == team-
             console.log(err)
             console.log("CHART DATA: ")
             console.log(chartData)
-            res.status(200).send({chartData: chartData})
+            res.status(200).send(JSON.stringify(chartData))
         })
     }
     else {
