@@ -35,7 +35,7 @@ function writeData(points) {
         datasets: [{
             label: 'Legend',
             pointRadius: 4,
-            pointStyle: points.map(p => p.shape),
+            //pointStyle: points.map(p => p.shape),
             borderColor: points.map(p => p.color),
             pointBackgroundColor: points.map(p => p.color),
             data: points
