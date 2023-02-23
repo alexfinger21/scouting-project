@@ -86,7 +86,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                 }
             }
         }
-    }
+    } 
 }
 
 function createBarGraph(points, xAxisTitle, yAxisTitle) {
