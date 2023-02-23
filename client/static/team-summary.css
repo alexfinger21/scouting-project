@@ -26,8 +26,21 @@ h1 {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    justify-content: left;
+    justify-content: space-evenly;
     align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    transition: all 200ms;
+}
+#graph-display-container input {
+    width: 3vh;
+    height: 3vh;
+    border: none;
+}
+
+#graph-display-container input:hover {
+    background-color: #E2F1FF;
 }
 
 #divider {
