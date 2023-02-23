@@ -1,4 +1,4 @@
-import {selectRandom, getColor} from "./utility.js"
+import { selectRandom, getColor } from "./utility.js"
 
 function writeData(points) {
     return {
@@ -23,11 +23,12 @@ function writeData(points) {
 }
 
 //Returns the data to be fed into a chart.js scatterchart given an array containing the points
-function createGraph(chartType, xAxisTitle, yAxisTitle) {
+function createScatterChart(points, xAxisTitle, yAxisTitle) {
     return {
-        type: chartType,
-        //data: writeData(points),
+        type: "scatter",
+        data: writeData(points),
         options: {
+            maintainAspectRatio: false,
             tooltips: {
                 bodyFontStyle: "bold",
                 footerFontStyle: "normal",
@@ -66,7 +67,7 @@ function createGraph(chartType, xAxisTitle, yAxisTitle) {
                         labelString: xAxisTitle,
                     },
                 }],
-    
+
                 yAxes: [{
                     scaleLabel: {
                         display: true,
@@ -88,4 +89,45 @@ function createGraph(chartType, xAxisTitle, yAxisTitle) {
     }
 }
 
-export {createGraph, writeData}
+function createBarGraph(points, xAxisTitle, yAxisTitle) {
+    return {
+        type: 'horizontalBar',
+        data: {
+            labels: points.map(p => p.teamNumber),
+            datasets: [{
+                label: 'Weekly Sales',
+                data: points.map(p => p.api_rank),
+                backgroundColor: [
+                    'rgba(255, 26, 104, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(0, 0, 0, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 26, 104, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(0, 0, 0, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    }
+}
+
+
+export { createScatterChart, createBarGraph, writeData }
