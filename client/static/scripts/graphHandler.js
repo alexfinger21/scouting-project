@@ -121,10 +121,20 @@ function createBarGraph(points, xAxisTitle, yAxisTitle) {
         options: {
             maintainAspectRatio: false,
             scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: xAxisTitle,
+                    },
+                }],
+
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: yAxisTitle,
+                    }
+                }],
+            },
         }
     }
 }

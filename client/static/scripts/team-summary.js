@@ -38,6 +38,7 @@ async function getPoints(x, y, color) {
     const data = await requestData(paths.teamSummary + "?getData=1")
     let points = new Array(Array.from(data).length)
     for (const val of data) {
+        console.log(val.team_master_tm_number)
         points.push({
             teamNumber: val.team_master_tm_number,
             teamName: val.tm_name,
