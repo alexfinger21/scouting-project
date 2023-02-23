@@ -34,7 +34,7 @@ function requestData(url, data) {
 }
 
 
-async function getChart(scatterChart, x, y, color) {
+async function getPoints(x, y, color) {
     const data = await requestData(paths.teamSummary + "?getData=1")
     let points = new Array(Array.from(data).length)
     for (const val of data) {
@@ -51,22 +51,61 @@ async function getChart(scatterChart, x, y, color) {
             color: color
         })
     }
-    scatterChart.data = graphHandler.writeData(points)
-    scatterChart.update()
+    return points
 }
 
 
 function main() {
-    //create catterplot
-    const ctx = document.getElementById("teamSummaryChart").getContext("2d")
-    let scatterChart = new Chart(ctx, graphHandler.createGraph("scatter", "FRC Rank", "Avg Score"))
-    getChart(scatterChart, "api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+    let chart
+    let currentChart = 0 //goes from 0 to 5
+    const ctx = document.getElementById("team-summary-chart").getContext("2d")
+    let points
 
+    async function drawChart(number) {
+        //create chart based off of number
+        switch(number) {
+            case 0:
+                points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+                chart = new Chart(ctx, 
+                    graphHandler.createScatterChart(
+                        points,
+                        "FRC Rank", //x axis title
+                        "Avg Score" //y axis title
+                    )
+                )
+                break;
+            case 1:
+                points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+                chart = new Chart(ctx, 
+                    graphHandler.createBarGraph(
+                        points,
+                        "FRC Rank", //x axis title
+                        "Avg Score" //y axis title
+                    )
+                )
+        }
+    } 
+
+    function incrementChart() {
+        if(currentChart == 5) {
+            currentChart = 0
+            return
+        }
+        currentChart++
+    }
+
+    //variable stores currently selected chart
+    //initialize to scatterchart
+    drawChart(currentChart)
 
     //when the arrows are clicked, draw a new graph
     const arrowLeft = document.getElementById("arrow-left")
     arrowLeft.addEventListener("click", async () => {
-        getChart(scatterChart, "api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+        if(chart) {
+            chart.destroy()
+        }
+        incrementChart()
+        drawChart(currentChart)
     })
 
     //when the update button is clicked, redraw the graph
@@ -78,19 +117,9 @@ function main() {
         updateButton.style.boxShadow = "0 2px #1c3750"
         updateButton.style.transform = "translateY(4px)"
 
-        //create a new point array
-        const data = await requestData(paths.teamSummary + "?getData=1")
-        let points = new Array(Array.from(data).length)
-        for (const val of data) {
-            points.push({
-                teamName: val.tm_name,
-                x: val.api_rank,
-                y: val.avg_gm_score ? val.avg_gm_score : 0,
-                color: "rgb(255,0,0)"
-            })
-        }
-        scatterChart.data = graphHandler.writeData(points)
-        scatterChart.update()
+        //make new graph
+        getChart(scatterChart, "api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+
 
         //animate the button back
         setTimeout(() => {

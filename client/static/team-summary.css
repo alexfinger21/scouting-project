@@ -76,7 +76,7 @@ h1 {
 #arrow-left {
     background-color: transparent;
     border: none;
-    width: 10vw;
+    width: 8vw;
 }
 
 #arrow-left img {
@@ -89,7 +89,7 @@ h1 {
 #arrow-right {
     background-color: transparent;
     border: none;
-    width: 10vw;
+    width: 8vw;
 }
 
 #arrow-right img {
@@ -107,9 +107,15 @@ h1 {
     align-items: center;
     flex-direction: column;
     height: 50vh;
+    width: 84vw;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+}
+
+#team-summary-chart {
+    width: 100%;
+    height: 100%;
 }
 
 #update-graph {
