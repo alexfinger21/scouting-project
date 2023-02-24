@@ -1,12 +1,15 @@
 import * as graphHandler from "./graphHandler.js"
 import { paths } from "./utility.js"
 
+let debounce = false
+
 //When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
             if (removed_node.id == 'page-holder') {
                 main()
+                debounce = false
             }
         })
     })
@@ -62,6 +65,8 @@ function updateMarker(oldval, newval) {
     const container = document.querySelector("#graph-display-container")
     console.log(container)
 
+    if (debounce) {return}
+    
     Array.from(container.children).forEach(e => {
         if (oldval != null && e.name == oldval) {
             e.style.backgroundColor = "#efefef"
@@ -78,12 +83,16 @@ function main() {
     let currentChart = 0 //goes from 0 to 5
     let points
 
+
     const chartAreaWrapper = document.getElementById("chart-area-wrapper")
     const scatterPlotCanvas = document.getElementById("scatterplot-chart")
     const barGraphCanvas = document.getElementById("bar-graph-chart")
     let ctx
 
     async function drawChart(number) {
+        if (debounce) { return }
+
+        debounce = true
         //create chart based off of number
         console.log(number)
         switch (number) {
@@ -177,6 +186,8 @@ function main() {
                 )
                 break
         }
+
+        debounce = false
     }
 
     //variable stores currently selected chart
@@ -186,6 +197,8 @@ function main() {
 
     const arrowLeft = document.getElementById("arrow-left")
     arrowLeft.addEventListener("click", async () => {
+        if (debounce) { return }
+
         if (chart) {
             chart.destroy()
         }
@@ -202,6 +215,8 @@ function main() {
     //when the arrows are clicked, draw a new graph
     const arrowRight = document.getElementById("arrow-right")
     arrowRight.addEventListener("click", async () => {
+        if (debounce) { return }
+
         console.log("click")
         if (chart) {
             chart.destroy()
@@ -220,6 +235,7 @@ function main() {
 
     for (const button of topButtonsContainer.children) {
         button.addEventListener("click", () => {
+            if (debounce) { return }
             if (button.name != currentChart) {
                 if (chart) {
                     chart.destroy()
