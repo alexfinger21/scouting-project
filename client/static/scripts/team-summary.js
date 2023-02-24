@@ -126,7 +126,7 @@ function main() {
                     graphHandler.createBarGraph(
                         points,
                         "links",
-                        2
+                        1
                     )
                 )
                 break
@@ -137,11 +137,12 @@ function main() {
                 ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", "rgb(81, 121, 167)")
                 points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
+                console.log("GARAh")
                 chart = new Chart(ctx,
                     graphHandler.createBarGraph(
                         points,
                         "autoDocking",
-                        10
+                        3
                     )
                 )
                 break
@@ -156,7 +157,7 @@ function main() {
                     graphHandler.createBarGraph(
                         points,
                         "endgameDocking",
-                        10
+                        3
                     )
                 )
                 break
@@ -171,7 +172,7 @@ function main() {
                     graphHandler.createBarGraph(
                         points,
                         "gamesPlayed",
-                        5
+                        3
                     )
                 )
                 break

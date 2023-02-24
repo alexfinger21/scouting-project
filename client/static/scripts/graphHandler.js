@@ -53,7 +53,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                         return [
                             "Name: " + teamName,
                             "Rank: " + rank,
-                            "Games Played" + gamesPlayed,
+                            "Games Played: " + gamesPlayed,
                             "Avg Game Score: " + gameScore,
                             "Avg Links: " + links,
                             "Avg Auto Chg Dock: " + autoDocking,
@@ -92,7 +92,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
 }
 
 function createBarGraph(points, orderBy, stepValue) {
-
+    console.log("STEP VALUE: " + stepValue)
     return {
         type: 'horizontalBar',
         data: {
@@ -123,8 +123,11 @@ function createBarGraph(points, orderBy, stepValue) {
                     position: "top",
                     ticks: {
                         beginAtZero: true,
+                        steps: 10,
                         stepValue: stepValue,
+                        max: stepValue * 10 //max value for the chart is 60
                     },
+                    
                     scaleLabel: {
                         display: false,
                         //labelString: xAxisTitle,
@@ -161,7 +164,7 @@ function createBarGraph(points, orderBy, stepValue) {
                         return [
                             "Name: " + teamName,
                             "Rank: " + rank,
-                            "Games Played" + gamesPlayed,
+                            "Games Played: " + gamesPlayed,
                             "Avg Game Score: " + gameScore,
                             "Avg Links: " + links,
                             "Avg Auto Chg Dock: " + autoDocking,
