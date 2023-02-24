@@ -27,21 +27,23 @@ h1 {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     margin-left: auto;
     margin-right: auto;
-    width: 40%;
+    width: 95%;
+    height: 5vh;
     transition: all 200ms;
 }
 #graph-display-container input {
-    width: 3vh;
-    height: 3vh;
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 15%;
+    height: 5vh;
+    font-size: x-small;
+    white-space: initial;
     border: none;
-}
-
-#graph-display-container input:hover {
-    background-color: #E2F1FF;
+    transition: all 200ms;
 }
 
 #divider {

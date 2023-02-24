@@ -57,6 +57,21 @@ async function getPoints(x, y, color) {
     return points
 }
 
+function updateMarker(oldval, newval) {
+    const container = document.querySelector("#graph-display-container")
+    console.log(container)
+    
+    Array.from(container.children).forEach(e => {
+        if (oldval != null && e.name == oldval) {
+            e.style.backgroundColor = "#efefef"
+            e.style.color = "#212121"
+        } else if (e.name == newval) {
+            e.style.backgroundColor = "#5179a8"
+            e.style.color = "#ffffff"
+        }
+    })
+}
+
 
 function main() {
     let chart
@@ -78,7 +93,6 @@ function main() {
                         "Avg Score" //y axis title
                     )
                 )
-                break;
             case 1:
                 graphHolder.style.height = "80vh"
                 points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
@@ -96,6 +110,7 @@ function main() {
     //variable stores currently selected chart
     //initialize to scatterchart
     drawChart(currentChart)
+    updateMarker(null, currentChart)
 
     //when the arrows are clicked, draw a new graph
     const arrowLeft = document.getElementById("arrow-left")
@@ -103,12 +118,13 @@ function main() {
         if(chart) {
             chart.destroy()
         }
-        //increment currentChart
-        if(currentChart == 5) {
-            currentChart = 0
-            return
-        }
-        currentChart++
+        
+        const old = currentChart
+
+        currentChart = currentChart == 0 ? 5 : currentChart-1
+
+        updateMarker(old, currentChart)
+
         drawChart(currentChart)
     })
 
@@ -119,12 +135,26 @@ function main() {
             chart.destroy()
         }
         //increment currentChart
-        if(currentChart == 5) {
-            currentChart = 0
-            return
-        }
-        currentChart--
+        const old = currentChart
+
+        currentChart = currentChart == 5 ? 0 : currentChart+1
+
+        updateMarker(old, currentChart)
+
         drawChart(currentChart)
     })
+
+    const topButtonsContainer = document.querySelector("#graph-display-container")
+
+    for (const button of topButtonsContainer.children) {
+        button.addEventListener("click", () => {
+            if (button.name != currentChart) {
+                updateMarker(currentChart, button.name)
+                currentChart = Number(button.name)
+                drawChart(currentChart)
+                console.log("top btn clickd")
+            }
+        })
+    }
 }
 
