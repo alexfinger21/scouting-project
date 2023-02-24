@@ -44,6 +44,7 @@ async function getPoints(x, y, color) {
             teamNumber: val.team_master_tm_number,
             teamName: val.tm_name,
             rank: val.api_rank,
+            gamesPlayed: val.games_played,
             gameScore: val.avg_gm_score,
             links: val.avg_nbr_links,
             autoDocking: val.avg_auton_chg_station_score,
@@ -84,48 +85,96 @@ function main() {
 
     async function drawChart(number) {
         //create chart based off of number
-        switch(number) {
+        console.log(number)
+        switch (number) {
             case 0:
                 barGraphCanvas.setAttribute("hidden", "hidden")
                 scatterPlotCanvas.removeAttribute("hidden")
                 ctx = scatterPlotCanvas.getContext("2d")
-                points = await getPoints("team_master_tm_number", "avg_nbr_links", "rgb(81, 121, 167)")
-                chart = new Chart(ctx, 
+                points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+                chart = new Chart(ctx,
                     graphHandler.createScatterChart(
                         points,
                         "FRC Rank", //x axis title
                         "Avg Score" //y axis title
                     )
                 )
-                break;
-            case 1: /*
+                break
+            case 1:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
                 barGraphCanvas.removeAttribute("hidden")
-                
+
                 ctx = barGraphCanvas.getContext("2d")
-                points = await getPoints("avg_gm_score", "team_master_tm_number", "rgb(81, 121, 167)")
-                points.sort(function(a, b) {return b.links - a.links})
-                chart = new Chart(ctx, 
+                points = await getPoints("team_master_tm_number", "avg_gm_score", "rgb(81, 121, 167)")
+                points.sort(function (a, b) { return b.gameScore - a.gameScore })
+                chart = new Chart(ctx,
                     graphHandler.createBarGraph(
                         points,
-                        "Avg Links", //x axis title
-                        "Team Number" //y axis title
+                        "gameScore",
+                        20
                     )
-                ) */
+                )
+                break
             case 2:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
                 barGraphCanvas.removeAttribute("hidden")
-                
+
                 ctx = barGraphCanvas.getContext("2d")
-                points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
-                points.sort(function(a, b) {return b.links - a.links})
-                chart = new Chart(ctx, 
+                points = await getPoints("team_master_tm_number", "avg_gm_score", "rgb(81, 121, 167)")
+                points.sort(function (a, b) { return b.links - a.links })
+                chart = new Chart(ctx,
                     graphHandler.createBarGraph(
                         points,
-                        "Avg Links", //x axis title
-                        "Team Number" //y axis title
+                        "links",
+                        2
                     )
                 )
+                break
+            case 3:
+                scatterPlotCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.removeAttribute("hidden")
+
+                ctx = barGraphCanvas.getContext("2d")
+                points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", "rgb(81, 121, 167)")
+                points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
+                chart = new Chart(ctx,
+                    graphHandler.createBarGraph(
+                        points,
+                        "autoDocking",
+                        10
+                    )
+                )
+                break
+            case 4:
+                scatterPlotCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.removeAttribute("hidden")
+
+                ctx = barGraphCanvas.getContext("2d")
+                points = await getPoints("team_master_tm_number", "avg_endgame_chg_station_score", "rgb(81, 121, 167)")
+                points.sort(function (a, b) { return b.endgameDocking - a.endgameDocking })
+                chart = new Chart(ctx,
+                    graphHandler.createBarGraph(
+                        points,
+                        "endgameDocking",
+                        10
+                    )
+                )
+                break
+            case 5:
+                scatterPlotCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.removeAttribute("hidden")
+
+                ctx = barGraphCanvas.getContext("2d")
+                points = await getPoints("team_master_tm_number", "games_played", "rgb(81, 121, 167)")
+                points.sort(function (a, b) { return b.gamesPlayed - a.gamesPlayed })
+                chart = new Chart(ctx,
+                    graphHandler.createBarGraph(
+                        points,
+                        "gamesPlayed",
+                        5
+                    )
+                )
+                break
         }
     }
 
@@ -136,13 +185,13 @@ function main() {
 
     const arrowLeft = document.getElementById("arrow-left")
     arrowLeft.addEventListener("click", async () => {
-        if(chart) {
+        if (chart) {
             chart.destroy()
         }
 
         const old = currentChart
 
-        currentChart = currentChart == 0 ? 5 : currentChart-1
+        currentChart = currentChart == 0 ? 5 : currentChart - 1
 
         updateMarker(old, currentChart)
 
@@ -152,13 +201,14 @@ function main() {
     //when the arrows are clicked, draw a new graph
     const arrowRight = document.getElementById("arrow-right")
     arrowRight.addEventListener("click", async () => {
-        if(chart) {
+        console.log("click")
+        if (chart) {
             chart.destroy()
         }
         //increment currentChart
         const old = currentChart
 
-        currentChart = currentChart == 5 ? 0 : currentChart+1
+        currentChart = currentChart == 5 ? 0 : currentChart + 1
 
         updateMarker(old, currentChart)
 
@@ -170,7 +220,7 @@ function main() {
     for (const button of topButtonsContainer.children) {
         button.addEventListener("click", () => {
             if (button.name != currentChart) {
-                if(chart) {
+                if (chart) {
                     chart.destroy()
                 }
                 updateMarker(currentChart, button.name)

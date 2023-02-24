@@ -5,6 +5,7 @@ function writeData(points) {
         teamNumber: points.map(p => p.teamNumber),
         teamName: points.map(p => p.teamName),
         rank: points.map(p => p.rank),
+        gamesPlayed: points.map(p => p.gamesPlayed),
         gameScore: points.map(p => p.gameScore),
         links: points.map(p => p.gameScore),
         autoDocking: points.map(p => p.autoDocking),
@@ -28,7 +29,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
         type: "scatter",
         data: writeData(points),
         options: {
-            //maintainAspectRatio: false,
+            maintainAspectRatio: false,
             tooltips: {
                 bodyFontStyle: "bold",
                 footerFontStyle: "normal",
@@ -41,9 +42,9 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                     //color does not appear before the footer
                     footer: function (tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
                         let index = tooltipItems[0].index
-                        console.log(index)
                         let teamName = data.teamName[index]
                         let rank = data.rank[index]
+                        let gamesPlayed = data.gamesPlayed[index]
                         let gameScore = data.gameScore[index]
                         let links = data.links[index]
                         let autoDocking = data.autoDocking[index]
@@ -52,6 +53,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                         return [
                             "Name: " + teamName,
                             "Rank: " + rank,
+                            "Games Played" + gamesPlayed,
                             "Avg Game Score: " + gameScore,
                             "Avg Links: " + links,
                             "Avg Auto Chg Dock: " + autoDocking,
@@ -89,14 +91,23 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
     }
 }
 
-function createBarGraph(points, xAxisTitle, yAxisTitle) {
+function createBarGraph(points, orderBy, stepValue) {
+
     return {
         type: 'horizontalBar',
         data: {
+            teamNumber: points.map(p => p.teamNumber),
+            teamName: points.map(p => p.teamName),
+            rank: points.map(p => p.rank),
+            gamesPlayed: points.map(p => p.gamesPlayed),
+            gameScore: points.map(p => p.gameScore),
+            links: points.map(p => p.gameScore),
+            autoDocking: points.map(p => p.autoDocking),
+            endgameDocking: points.map(p => p.endgameDocking),
             labels: points.map(p => p.teamNumber),
             datasets: [{
                 label: 'Legend',
-                data: points.map(p => p.links),
+                data: points.map(p => p[orderBy]),
                 backgroundColor: points.map(p => p.color),
                 borderColor: points.map(p => p.color),
                 borderWidth: 1
@@ -111,7 +122,8 @@ function createBarGraph(points, xAxisTitle, yAxisTitle) {
                 xAxes: [{
                     position: "top",
                     ticks: {
-                        display: false //this will remove only the label
+                        beginAtZero: true,
+                        stepValue: stepValue,
                     },
                     scaleLabel: {
                         display: false,
@@ -126,30 +138,58 @@ function createBarGraph(points, xAxisTitle, yAxisTitle) {
                     }
                 }],
             },
-
-            //display values next to bars
-            events: false,
             tooltips: {
-                enabled: false
+                bodyFontStyle: "bold",
+                footerFontStyle: "normal",
+                callbacks: {
+                    label: function (tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
+                        let teamNumber = data.teamNumber[tooltipItem.index]
+                        let text = ["Team " + teamNumber]
+                        return text
+                    },
+                    //color does not appear before the footer
+                    footer: function (tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
+                        let index = tooltipItems[0].index
+                        let teamName = data.teamName[index]
+                        let rank = data.rank[index]
+                        let gamesPlayed = data.gamesPlayed[index]
+                        let gameScore = data.gameScore[index]
+                        let links = data.links[index]
+                        let autoDocking = data.autoDocking[index]
+                        let endgameDocking = data.endgameDocking[index]
+
+                        return [
+                            "Name: " + teamName,
+                            "Rank: " + rank,
+                            "Games Played" + gamesPlayed,
+                            "Avg Game Score: " + gameScore,
+                            "Avg Links: " + links,
+                            "Avg Auto Chg Dock: " + autoDocking,
+                            "Avg Endgame Chg Dock: " + endgameDocking
+                        ]
+                    }
+                }
             },
+            //display values next to bars
+            //events: false,
             hover: {
                 animationDuration: 0
             },
             animation: {
                 duration: 1,
                 onComplete: function () {
-                    var chartInstance = this.chart,
+                    let chartInstance = this.chart,
                         ctx = chartInstance.ctx;
                     ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'bottom';
 
                     this.data.datasets.forEach(function (dataset, i) {
-                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        let meta = chartInstance.controller.getDatasetMeta(i);
                         meta.data.forEach(function (bar, index) {
-                            var data = dataset.data[index];
-                            if(data != 0) {
-                                ctx.fillText(data, bar._model.x + 5, bar._model.y + 6);
+                            let data = dataset.data[index];
+                            if (data != null && data != 0) {
+                                ctx.fillText(data, bar._model.x + data.toString().length * 5, bar._model.y + 6);
                             }
                         });
                     });
