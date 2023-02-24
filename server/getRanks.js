@@ -5,10 +5,11 @@ const request = require("request")
 const auth = process.env.FIRST_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 const database = require("./database/database.js")
+const gameConstants = require('./game.js') 
 
 const options = {
     'method': 'GET',
-    'url': 'https://frc-api.firstinspires.org/v3.0/2022/rankings/ohcl',
+    'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
     'headers': {
         'Authorization': 'Basic ' + authbase64,
         'If-Modified-Since': ''
