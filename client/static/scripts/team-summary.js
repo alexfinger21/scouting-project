@@ -98,7 +98,21 @@ function main() {
                     )
                 )
                 break;
-            case 1:
+            case 1: /*
+                scatterPlotCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.removeAttribute("hidden")
+                
+                ctx = barGraphCanvas.getContext("2d")
+                points = await getPoints("avg_gm_score", "team_master_tm_number", "rgb(81, 121, 167)")
+                points.sort(function(a, b) {return b.links - a.links})
+                chart = new Chart(ctx, 
+                    graphHandler.createBarGraph(
+                        points,
+                        "Avg Links", //x axis title
+                        "Team Number" //y axis title
+                    )
+                ) */
+            case 2:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
                 barGraphCanvas.removeAttribute("hidden")
                 
