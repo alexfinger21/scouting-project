@@ -20,40 +20,36 @@
                 </ul>
             </div>
         -->
-        
-        
-        <h3 id="team-summary-title">
-            Avg Score vs FRC Rank
-        </h3>
-        <div id="graph-display-container">
-            <input class="edge-left" type="button" value="1" name="1">
-            <input type="button" value="2" name="2">
-            <input type="button" value="3" name="3">
-            <input type="button" value="4" name="4">
-            <input class="edge-right" type="button" value="5" name="5">
-        </div>
-
         <div id="highlight-team-container">
             <label for="highlight-team"> <b>Highlight team: </b> </label>
             <input name="highlight-team" id="highlight-team" type="number">
         </div>
 
+        
+        <div id="graph-display-container">
+            <input class="edge-left" type="button" value="1" name="Template Name">
+            <input type="button" value="2" name="Template Name">
+            <input type="button" value="3" name="Template Name">
+            <input type="button" value="4" name="Template Name">
+            <input class="edge-right" type="button" value="5" name="Template Name">
+        </div>
+
+
         <div id="team-summary-container">
+
             <button id="arrow-left">
                 <img src="../static/images/arrow-left.svg">
             </button>
             <div id="graph-holder">
+                <div id="canvas-container">
+                    <canvas id="team-summary-chart"></canvas>
+                </div>
                 <!--Chart.js-->
-                <canvas id="team-summary-chart"></canvas>
             </div>
             <button id="arrow-right">
                 <img src="../static/images/arrow-right.svg">
             </button>
         </div>
-
-
-        <button type="button" id="update-graph" class="big-button">Update</button>
-
 
     </div>
 

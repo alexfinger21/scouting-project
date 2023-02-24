@@ -5,6 +5,7 @@
     "buffer": "^6.0.3",
     "chartjs-plugin-annotation": "^2.1.0",
     "chartjs-plugin-datalabels": "^2.2.0",
+    "chartjs-plugin-zoom": "^2.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
