@@ -117,6 +117,7 @@ function main() {
 
     //variable stores currently selected chart
     //initialize to scatterchart
+    updateMarker(null, currentChart)
     drawChart(currentChart)
 
     const arrowLeft = document.getElementById("arrow-left")
