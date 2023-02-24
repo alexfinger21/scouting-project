@@ -103,6 +103,9 @@ function createBarGraph(points, xAxisTitle, yAxisTitle) {
             }]
         },
         options: {
+            legend: {
+                display: false
+            },
             maintainAspectRatio: false,
             scales: {
                 xAxes: [{
