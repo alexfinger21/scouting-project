@@ -69,7 +69,6 @@ function main() {
         //create chart based off of number
         switch(number) {
             case 0:
-                graphHolder.style.height = "50vh"
                 points = await getPoints("team_master_tm_number", "avg_nbr_links", "rgb(81, 121, 167)")
                 chart = new Chart(ctx, 
                     graphHandler.createScatterChart(
@@ -80,7 +79,6 @@ function main() {
                 )
                 break;
             case 1:
-                graphHolder.style.height = "80vh"
                 points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
                 points.sort(function(a, b) {return b.links - a.links})
                 chart = new Chart(ctx, 
