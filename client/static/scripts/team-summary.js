@@ -156,6 +156,9 @@ function main() {
     for (const button of topButtonsContainer.children) {
         button.addEventListener("click", () => {
             if (button.name != currentChart) {
+                if(chart) {
+                    chart.destroy()
+                }
                 updateMarker(currentChart, button.name)
                 currentChart = Number(button.name)
                 drawChart(currentChart)
