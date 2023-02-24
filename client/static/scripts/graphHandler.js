@@ -28,7 +28,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
         type: "scatter",
         data: writeData(points),
         options: {
-            maintainAspectRatio: false,
+            //maintainAspectRatio: false,
             tooltips: {
                 bodyFontStyle: "bold",
                 footerFontStyle: "normal",
@@ -106,7 +106,7 @@ function createBarGraph(points, xAxisTitle, yAxisTitle) {
             legend: {
                 display: false
             },
-            maintainAspectRatio: false,
+                //maintainAspectRatio: false,
             scales: {
                 xAxes: [{
                     position: "top",

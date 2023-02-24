@@ -60,7 +60,7 @@ async function getPoints(x, y, color) {
 function updateMarker(oldval, newval) {
     const container = document.querySelector("#graph-display-container")
     console.log(container)
-    
+
     Array.from(container.children).forEach(e => {
         if (oldval != null && e.name == oldval) {
             e.style.backgroundColor = "#efefef"
@@ -72,18 +72,23 @@ function updateMarker(oldval, newval) {
     })
 }
 
-
 function main() {
     let chart
     let currentChart = 0 //goes from 0 to 5
-    const ctx = document.getElementById("team-summary-chart").getContext("2d")
-    const graphHolder = document.getElementById("graph-holder")
     let points
+
+    const chartAreaWrapper = document.getElementById("chart-area-wrapper")
+    const scatterPlotCanvas = document.getElementById("scatterplot-chart")
+    const barGraphCanvas = document.getElementById("bar-graph-chart")
+    let ctx
 
     async function drawChart(number) {
         //create chart based off of number
         switch(number) {
             case 0:
+                barGraphCanvas.setAttribute("hidden", "hidden")
+                scatterPlotCanvas.removeAttribute("hidden")
+                ctx = scatterPlotCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_nbr_links", "rgb(81, 121, 167)")
                 chart = new Chart(ctx, 
                     graphHandler.createScatterChart(
@@ -92,7 +97,12 @@ function main() {
                         "Avg Score" //y axis title
                     )
                 )
+                break;
             case 1:
+                scatterPlotCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.removeAttribute("hidden")
+                
+                ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
                 points.sort(function(a, b) {return b.links - a.links})
                 chart = new Chart(ctx, 
@@ -108,15 +118,13 @@ function main() {
     //variable stores currently selected chart
     //initialize to scatterchart
     drawChart(currentChart)
-    updateMarker(null, currentChart)
 
-    //when the arrows are clicked, draw a new graph
     const arrowLeft = document.getElementById("arrow-left")
     arrowLeft.addEventListener("click", async () => {
         if(chart) {
             chart.destroy()
         }
-        
+
         const old = currentChart
 
         currentChart = currentChart == 0 ? 5 : currentChart-1
