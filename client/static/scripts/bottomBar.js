@@ -46,6 +46,7 @@ function setSelectedObject(value) {
 }
 
 window.addEventListener("load", () => {
+    requestPage("match-listing")
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
     const hoverButton = document.createElement('div');
@@ -97,7 +98,6 @@ window.addEventListener("load", () => {
     })
     
     resizeObserver.observe(document.body)
-    requestPage("match-listing")
 })
 
 export {moveToPage, setSelectedObject}
