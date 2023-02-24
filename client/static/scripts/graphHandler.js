@@ -110,6 +110,9 @@ function createBarGraph(points, xAxisTitle, yAxisTitle) {
             scales: {
                 xAxes: [{
                     position: "top",
+                    ticks: {
+                        display: false //this will remove only the label
+                    },
                     scaleLabel: {
                         display: false,
                         //labelString: xAxisTitle,
@@ -145,7 +148,9 @@ function createBarGraph(points, xAxisTitle, yAxisTitle) {
                         var meta = chartInstance.controller.getDatasetMeta(i);
                         meta.data.forEach(function (bar, index) {
                             var data = dataset.data[index];
-                            ctx.fillText(data, bar._model.x + 5, bar._model.y + 6);
+                            if(data != 0) {
+                                ctx.fillText(data, bar._model.x + 5, bar._model.y + 6);
+                            }
                         });
                     });
                 }
