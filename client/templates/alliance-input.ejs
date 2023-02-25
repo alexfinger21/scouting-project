@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<body>
+    <div id="page-holder">
+        <div class="small-input-container" id="team-display-selection-container">
+            <label for="team-display-selector"> <b>Select team: </b> </label>
+            <select name="team-display-selector" id="team-display-selector" >
+                <% for(let i = 0; i < teams.length; i++) { %>
+                    <%if(teams[i] == selectedTeam) {%>
+                        <option selected>
+                            <%= teams[i] %>
+                        </option>
+                    <%} else {%>
+                        <option>
+                            <%= teams[i] %>
+                        </option>
+                    <%}%>
+                <% } %>
+            </select>
+        </div>
+
+        <div id="team-display-table-container">
+            <table id="team-display-table">
+                <thead>
+                    <tr>
+                        <th>Match #</th>
+                        <th>Game Score</th>
+                        <th>Nbr Links</th>
+                        <th>Auton Chg Station</th>
+                        <th>Endgame Chg Station</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i = 0; i < teamData.length; i++) {%>
+                        <tr>
+                            <td>
+                                <%= teamData[i].game_matchup_gm_number %>
+                            </td>
+                            <td>
+                                <%= teamData[i].gm_score %>
+                            </td>
+                            <td>
+                                <%= teamData[i].nbr_links %>
+                            </td>
+                            <td>
+                                <%= teamData[i].auton_chg_station %>
+                            </td>
+                            <td>
+                                <%= teamData[i].endgame_chg_station %>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</body>

@@ -31,8 +31,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                     console.log("RESULTS: ")
                     console.log(results)
                     res.render("team-details", {
-                        teams: team_results.map(e => e.team_master_tm_number),
-                        teamData: results,
+                        teams: team_results.map(e => e.team_master_tm_number).slice().sort((a, b) => b - a),
+                        teamData: results.slice().sort((a, b) => b.game_matchup_gm_number - a.game_matchup_gm_number),
                         selectedTeam: team,
                         user: user,
                     })
