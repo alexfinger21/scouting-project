@@ -2,7 +2,8 @@ import * as graphHandler from "./graphHandler.js"
 import { paths } from "./utility.js"
 
 const POINT_COLOR = "rgb(81, 121, 167)"
-const HIGHTLIGHT_COLOR = "rgb(81, 121, 167)"
+const OUR_TEAM_COLOR = "rgb(242, 142, 43)"
+const HIGHTLIGHT_COLOR = "rgb(225, 87, 89)"
 
 let debounce = false
 
@@ -47,9 +48,11 @@ async function getPoints(x, y, color) {
     let ind = 0
     for (const val of data) {
         let color = POINT_COLOR
-        if(val.team_master_tm_number == 695) {
-            console.log("I LOVE 695!!")
+        if(val.team_master_tm_number == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
+        }
+        else if(val.team_master_tm_number == 695) {
+            color = OUR_TEAM_COLOR
         }
         points[ind] = {
             teamNumber: val.team_master_tm_number,
@@ -236,6 +239,16 @@ function main() {
 
         updateMarker(old, currentChart)
 
+        drawChart(currentChart)
+    })
+
+    //update graph when highlight team value changes
+    const highlightTeam = document.getElementById("highlight-team")
+    highlightTeam.addEventListener("change", (event) => {
+        //update
+        if (chart) {
+            chart.destroy()
+        }
         drawChart(currentChart)
     })
 
