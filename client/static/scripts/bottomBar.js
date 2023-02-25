@@ -81,6 +81,12 @@ window.addEventListener("load", () => {
         requestPage("alliance-selector")
         hideHighlight(hoverButton)
     })
+
+    const teamDetailsButton = document.getElementById("team-details-button")
+    teamDetailsButton.addEventListener("click", () =>  {
+        requestPage("team-details")
+        hideHighlight(hoverButton)
+    })
     
     const adminPageButton = document.getElementById("admin-page-button")
     adminPageButton.addEventListener("click", () =>  {

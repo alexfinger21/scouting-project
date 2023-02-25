@@ -36,6 +36,24 @@ function getMatch() {
     })
 }
 
+function requestData(url, data) {
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: url,
+            data: JSON.stringify(data),
+            success: function (response) {
+                resolve(JSON.parse(response))
+            },
+
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Error\n" + errorThrown, jqXHR)
+            },
+        })
+    })
+}
+
 function selectRandom(obj)
 {
     let num =  obj[Math.round(Math.random() * (obj.length - 1))]
@@ -102,4 +120,4 @@ async function requestPage(url, data) {
 }
 
 
-export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch}
+export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData}

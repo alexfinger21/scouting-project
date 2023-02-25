@@ -1,5 +1,5 @@
 import * as graphHandler from "./graphHandler.js"
-import { paths } from "./utility.js"
+import { paths, requestData } from "./utility.js"
 
 const POINT_COLOR = "rgb(81, 121, 167)"
 const OUR_TEAM_COLOR = "rgb(242, 142, 43)"
@@ -21,24 +21,6 @@ const observer = new MutationObserver(function (mutations_list) {
 
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
-
-function requestData(url, data) {
-    return new Promise(resolve => {
-        $.ajax({
-            type: "GET",
-            contentType: "application/json",
-            url: url,
-            data: JSON.stringify(data),
-            success: function (response) {
-                resolve(JSON.parse(response))
-            },
-
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log("Error\n" + errorThrown, jqXHR)
-            },
-        })
-    })
-}
 
 
 async function getPoints(x, y, color) {
