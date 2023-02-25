@@ -1,6 +1,9 @@
 import * as graphHandler from "./graphHandler.js"
 import { paths } from "./utility.js"
 
+const POINT_COLOR = "rgb(81, 121, 167)"
+const HIGHTLIGHT_COLOR = "rgb(81, 121, 167)"
+
 //When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -40,6 +43,11 @@ async function getPoints(x, y, color) {
     let points = new Array(Array.from(data).length)
     let ind = 0
     for (const val of data) {
+        let color = POINT_COLOR
+        if(val.team_master_tm_number == 695) {
+            console.log("I LOVE 695!!")
+            color = HIGHTLIGHT_COLOR
+        }
         points[ind] = {
             teamNumber: val.team_master_tm_number,
             teamName: val.tm_name,
@@ -91,7 +99,7 @@ function main() {
                 barGraphCanvas.setAttribute("hidden", "hidden")
                 scatterPlotCanvas.removeAttribute("hidden")
                 ctx = scatterPlotCanvas.getContext("2d")
-                points = await getPoints("api_rank", "avg_gm_score", "rgb(81, 121, 167)")
+                points = await getPoints("api_rank", "avg_gm_score")
                 chart = new Chart(ctx,
                     graphHandler.createScatterChart(
                         points,
