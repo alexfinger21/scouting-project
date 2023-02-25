@@ -169,9 +169,13 @@ function saveData(data) {
 
     for (let row = 0; row<3; row++) {
         for (let col = 0; col<9; col++) {
-            if (linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col] != 0) {
+            console.log(col)
+            if (col < 7 && linkArray[row * 8 + col] != 0 && linkArray[row * 8 + col + 1] != 0 && linkArray[row * 8 + col + 2] != 0) {
                 linkCount++
-                col+=3
+                console.log("LINK = " + linkCount)
+                console.log("COLUMN = " + col)
+                console.log("ROW = " + row)
+                col+=2
             }
         }
     }

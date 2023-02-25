@@ -39,7 +39,7 @@ router.get("/", async function (req, res) {
                 const m = addZero(date.getMinutes())
                 teams[i].time = h + ":" + m
 
-                console.log(teams[i])
+                //console.log(teams[i])
             }
 
             teams.length = Object.keys(teams).length
