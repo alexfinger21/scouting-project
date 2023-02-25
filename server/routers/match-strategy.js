@@ -3,8 +3,6 @@ const database = require("../database/database.js")
 const express = require("express")
 const router = express.Router()
 
-let selectedMatch = 1
-
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
     const match = req.query.match ? req.query.match : 1
     console.log("SELECTED MATCH: " + match)
@@ -28,7 +26,6 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
 
 router.post("/", function(req, res) {
     const body = req.body
-    selectedMatch = body.matchNumber
 })
 
 module.exports = router
