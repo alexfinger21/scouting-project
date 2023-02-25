@@ -7,7 +7,10 @@ const paths = {
     matchStrategy: "/match-strategy",
     adminPage: "/admin-page",
     rankingPage: "/team-rankings",
-    teamSummary: "/team-summary"
+    teamSummary: "/team-summary",
+    teamDetails: "/team-details",
+    allianceInput: "/alliance-input",
+    allianceDisplay: "/alliance-display"
 }
 
 const socket = io.connect(`${window.location.hostname}:5000`, {

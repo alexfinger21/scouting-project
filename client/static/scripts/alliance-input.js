@@ -14,14 +14,18 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function main() {
-    const teamSelector = document.querySelector("#team-display-selector")
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: paths.allianceInput,
+        data: JSON.stringify(data),
+        success: function(response) {
+            console.log(response)
+        },
 
-    console.log(teamSelector)
-
-    teamSelector.addEventListener("change", async (e) => {
-        console.log("hi")
-        const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value)
-
-        console.log(data)
-    }) 
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            console.log("Error\n" + errorThrown, jqXHR)
+        },
+    })
 }
