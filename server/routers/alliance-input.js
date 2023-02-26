@@ -21,9 +21,13 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
     ORDER BY
         team_master_tm_number;`,
     (err, team_results) => {
-        res.render("alliance-input", {
-            teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b)
-        })
+        if (!req.query.getTeams) {
+            res.render("alliance-input", {
+                teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b)
+            })
+        } else {
+            return res.status(200).send({teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b)})
+        }
     })
 })
 

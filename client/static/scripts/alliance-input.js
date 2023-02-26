@@ -1,4 +1,4 @@
-import { paths, requestData, requestPage } from "./utility.js"
+import { paths, requestData, requestPage} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -12,6 +12,22 @@ const observer = new MutationObserver(function (mutations_list) {
 
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
+
+function sendData(data) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: paths.allianceInput,
+        data: JSON.stringify(data),
+        success: function (response) {
+            
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            
+        },
+    })
+}
 
 function getAllianceInput() {
     let res = Array.from(new Array(8), () => new Array(3))
@@ -27,8 +43,8 @@ function getAllianceInput() {
 function removeValueFromSelectors(value) {
     const selectors = document.getElementsByClassName("alliance-input-selector")
     for (const selector of selectors) {
-        for(const option of selector.children) {
-            if(selector.value != value && option.value == value) {
+         for(const option of selector.children) {
+             if(selector.value != value && option.value == value) {
                 option.remove()
             }
         }
@@ -36,23 +52,57 @@ function removeValueFromSelectors(value) {
 }
 
 function addValueToSelectors(value) {
+    console.log("ADD VALUE")
     const selectors = document.getElementsByClassName("alliance-input-selector")
-    for (const selector of selectors) {
-        for(const option of selector.children) {
-            if(selector.value != value && option.value == value) {
-                const option = document.createElement("option", "value: " + value)
-                
+
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: paths.allianceInput + "?getTeams=true",
+        data: JSON.stringify({}),
+        success: function (response) {
+            console.log("response:\n")
+            console.log(response)
+            const teams = Array.from(response.teams)
+            
+            for (const selector of selectors) {
+                if (selector.getAttribute("old-value") != value) {
+                    //$(selector).insertAfter("<option>" + value + "</option>")
+                    if (teams.indexOf(value) != 0) {
+                        console.log(teams.indexOf(value))
+                        for (const child of selector.children) {
+                            if (child.value == teams[teams.indexOf(value) - 1]) {
+                                child.insertAdjacentElement("afterend", $("<option>" + value + "</option>")[0])
+                                break
+                            }
+                        }
+                    } else {
+                        Array.from(selector.children)[0].insertAdjacentElement("afterend", $("<option>" + value + "</option>")[0])
+                    }
+                    
+                }
             }
-        }
-    }
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            
+        },
+    })
 }
 
 function main() {
     const selectors = document.getElementsByClassName("alliance-input-selector")
     for (const selector of selectors) {
         selector.addEventListener("change", (event) => {
-            console.log(getAllianceInput())
-            removeValueFromSelectors(selector.value)
+            if(selector.value == "") {
+                addValueToSelectors(Number(selector.getAttribute("old-value")))
+                selector.setAttribute("old-value", "")
+            }
+            else {
+                selector.setAttribute("old-value", selector.value)
+                removeValueFromSelectors(selector.value)
+            }
+            sendData(getAllianceInput())
         })
     }
 }
