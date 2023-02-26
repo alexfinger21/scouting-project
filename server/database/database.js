@@ -10,6 +10,22 @@ function getUsers() {
     return returnStr
 }
 
+function insertAllianceSelection(allianceNum, pos, team) {
+    return `INSERT INTO 
+    teamsixn_scouting_dev.alliance_selection 
+    (alliance_number, alliance_position, team_master_tm_number)
+    VALUES
+    (${alliancePos}, ${pos}, ${team});`
+}
+
+function deleteAllianceSelection(allianceNum, pos) {
+    return `DELETE FROM teamsixn_scouting_dev.alliance_selection 
+        WHERE 
+        alliance_number = ${allianceNum} AND 
+        alliance_position = ${pos};`
+}
+
+
 function deleteData(data) {
     return `DELETE FROM teamsixn_scouting_dev.game_details
     WHERE game_details.frc_season_master_sm_year = ${gameConstants.YEAR}
@@ -170,7 +186,7 @@ function saveData(data) {
     for (let row = 0; row<3; row++) {
         for (let col = 0; col<9; col++) {
             console.log(col)
-            if (col < 7 && linkArray[row * 8 + col] != 0 && linkArray[row * 8 + col + 1] != 0 && linkArray[row * 8 + col + 2] != 0) {
+            if (col < 7 && linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col + 1] != 0 && linkArray[row * 9 + col + 2] != 0) {
                 linkCount++
                 console.log("LINK = " + linkCount)
                 console.log("COLUMN = " + col)
@@ -393,5 +409,6 @@ module.exports = {
     getAssignedTeam: getAssignedTeam,
     writeAPIData: writeAPIData,
     deleteAPIData: deleteAPIData,
-    getChartData: getChartData
+    getChartData: getChartData,
+    insertAllianceSelection: insertAllianceSelection
 }
