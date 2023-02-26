@@ -18,7 +18,7 @@ function main() {
         type: "POST",
         contentType: "application/json",
         url: paths.allianceInput,
-        data: JSON.stringify(data),
+        data: JSON.stringify({}),
         success: function(response) {
             console.log(response)
         },

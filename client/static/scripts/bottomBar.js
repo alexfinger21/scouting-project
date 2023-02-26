@@ -93,6 +93,12 @@ window.addEventListener("load", () => {
         requestPage("admin-page")
         hideHighlight(hoverButton)
     })
+
+    const allianceInputButton = document.getElementById("alliance-input-button")
+    allianceInputButton.addEventListener("click", () =>  {
+        requestPage("alliance-input")
+        hideHighlight(hoverButton)
+    })
     
     const resizeObserver = new ResizeObserver((entries) => {
         $(hoverButton).width(footerPageButtons[0].clientWidth)

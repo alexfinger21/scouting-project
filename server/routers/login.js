@@ -63,7 +63,7 @@ router.post("/", async function(req, res) {
 
         console.log("success for " + body.username)
 
-        const sessionId = crypto.randomBytes(32).toString()
+        const sessionId = decodeURI(crypto.randomBytes(32).toString())
 
         res.cookie("user_id", sessionId, {
             maxAge: 24 * 60 * 60 * 1000,
