@@ -3,57 +3,44 @@
 
 <body>
     <div id="page-holder">
-        <div class="small-input-container" id="team-display-selection-container">
-            <label for="team-display-selector"> <b>Select team: </b> </label>
-            <select name="team-display-selector" id="team-display-selector" >
-                <% for(let i = 0; i < teams.length; i++) { %>
-                    <%if(teams[i] == selectedTeam) {%>
-                        <option selected>
-                            <%= teams[i] %>
-                        </option>
-                    <%} else {%>
-                        <option>
-                            <%= teams[i] %>
-                        </option>
-                    <%}%>
-                <% } %>
-            </select>
-        </div>
-
-        <div id="team-display-table-container">
-            <table id="team-display-table">
-                <thead>
+        <h1 id="alliance-input-title">
+            Alliance Input
+        </h1>
+        <table id="selected-team-table">
+            <colgroup>
+                <col span="1" style="width: 15%" >
+            </colgroup>
+            <thead>
+                <th></th>
+                <th>Captain</th>
+                <th>1st</th>
+                <th>2nd</th>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < 8 ; i++) { %>
                     <tr>
-                        <th>Match #</th>
-                        <th>Game Score</th>
-                        <th>Nbr Links</th>
-                        <th>Auton Chg Station</th>
-                        <th>Endgame Chg Station</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for(let i = 0; i < teamData.length; i++) {%>
-                        <tr>
+                        <td>
+                            <%=i+1%>
+                        </td>
+                        <% for(let j = 0; j < 3 ; j++) { %>
                             <td>
-                                <%= teamData[i].game_matchup_gm_number %>
+                                <div alliance-input-selectorclass="alliance-input-selection-container">
+                                    <select name="alliance-input-selector" class="alliance-input-selector" >
+                                        <option selected>
+                                            
+                                        </option>
+                                        <% for(let k = 0; k < teams.length; k++) { %>
+                                            <option>
+                                                <%= teams[k] %>
+                                            </option>
+                                        <% } %>
+                                    </select>
+                                </div>
                             </td>
-                            <td>
-                                <%= teamData[i].gm_score %>
-                            </td>
-                            <td>
-                                <%= teamData[i].nbr_links %>
-                            </td>
-                            <td>
-                                <%= teamData[i].auton_chg_station %>
-                            </td>
-                            <td>
-                                <%= teamData[i].endgame_chg_station %>
-                            </td>
-                        </tr>
-                    <% } %>
-                </tbody>
-            </table>
-            
-        </div>
+                        <% } %>
+                    <tr>
+                <% } %>
+            </tbody>
+        </table>
     </div>
 </body>
