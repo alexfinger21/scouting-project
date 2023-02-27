@@ -29,17 +29,6 @@ function sendData(data) {
     })
 }
 
-function getAllianceInput() {
-    let res = Array.from(new Array(8), () => new Array(3))
-    const selectors = document.getElementsByClassName("alliance-input-selector")
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 3; j++) {
-            res[i][j] = selectors[i * 3 + j].value
-        }
-    }
-    return res
-}
-
 function removeValueFromSelectors(value) {
     const selectors = document.getElementsByClassName("alliance-input-selector")
     for (const selector of selectors) {
@@ -107,8 +96,13 @@ function main() {
                 selector.setAttribute("old-value", selector.value)
                 removeValueFromSelectors(selector.value)
                 selector.setAttribute("old-value", selector.value)
+                sendData({
+                    allianceNum: selector.parentElement.parentElement.cellIndex,
+                    pos: selector.parentElement.parentElement.parentNode.rowIndex,
+                    team: selector.value
+                })
+                console.log("SENT")
             }
-            sendData(getAllianceInput())
         })
     }
 }
