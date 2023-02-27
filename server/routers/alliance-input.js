@@ -33,6 +33,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
 
 router.post("/", function (req, res) {
     const body = req.body
+    console.log(body)
     database.query(database.deleteAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
     if (body.action == "insert") {
         database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
