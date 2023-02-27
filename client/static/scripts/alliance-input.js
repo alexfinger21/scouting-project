@@ -70,7 +70,10 @@ function addValueToSelectors(value) {
             const teams = Array.from(response.teams)
             
             for (const selector of selectors) {
-                if (selector.getAttribute("old-value") != value) {
+                if (selector.getAttribute("old-value") == value) {
+                    selector.setAttribute("old-value", selector.value)
+                }
+                else {
                     //$(selector).insertAfter("<option>" + value + "</option>")
                     if (teams.indexOf(value) != 0) {
                         console.log(teams.indexOf(value))
@@ -83,7 +86,6 @@ function addValueToSelectors(value) {
                     } else {
                         Array.from(selector.children)[0].insertAdjacentElement("afterend", $("<option>" + value + "</option>")[0])
                     }
-                    
                 }
             }
         },
@@ -104,8 +106,8 @@ function main() {
             else {
                 selector.setAttribute("old-value", selector.value)
                 removeValueFromSelectors(selector.value)
+                selector.setAttribute("old-value", selector.value)
             }
-            selector.setAttribute("old-value", selector.value)
             sendData(getAllianceInput())
         })
     }
