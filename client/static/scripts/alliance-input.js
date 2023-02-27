@@ -34,8 +34,6 @@ function removeValueFromSelectors(value) {
     for (const selector of selectors) {
         if(selector.value != value) {
             for(const option of selector.children) {
-                if (selector.value )
-                console.log(option.value + " - " + value)
                 if(option.value == value) {
                    option.remove()
                }
