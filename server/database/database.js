@@ -410,5 +410,6 @@ module.exports = {
     writeAPIData: writeAPIData,
     deleteAPIData: deleteAPIData,
     getChartData: getChartData,
-    insertAllianceSelection: insertAllianceSelection
+    insertAllianceSelection: insertAllianceSelection,
+    deleteAllianceSelection: deleteAllianceSelection
 }
