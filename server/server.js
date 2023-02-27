@@ -15,7 +15,7 @@ require("dotenv").config()
 const database = require("./database/database.js")
 const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
-const { start } = require("repl")
+const favicon = require('serve-favicon')
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -87,7 +87,7 @@ app.use(allowCrossDomain);
 //sets variables to be used later
 app.set("views", "./client/templates")
 app.set("view engine", "ejs")
-
+app.use('/favicon.ico', express.static('images/favicon.ico'))
 //adds json encoders and decoder libraries: middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
