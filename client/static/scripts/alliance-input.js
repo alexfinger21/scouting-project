@@ -43,10 +43,14 @@ function getAllianceInput() {
 function removeValueFromSelectors(value) {
     const selectors = document.getElementsByClassName("alliance-input-selector")
     for (const selector of selectors) {
-         for(const option of selector.children) {
-             if(selector.value != value && option.value == value) {
-                option.remove()
-            }
+        if(selector.value != value) {
+            for(const option of selector.children) {
+                if (selector.value )
+                console.log(option.value + " - " + value)
+                if(option.value == value) {
+                   option.remove()
+               }
+           }
         }
     }
 }
@@ -96,12 +100,12 @@ function main() {
         selector.addEventListener("change", (event) => {
             if(selector.value == "") {
                 addValueToSelectors(Number(selector.getAttribute("old-value")))
-                selector.setAttribute("old-value", "")
             }
             else {
                 selector.setAttribute("old-value", selector.value)
                 removeValueFromSelectors(selector.value)
             }
+            selector.setAttribute("old-value", selector.value)
             sendData(getAllianceInput())
         })
     }
