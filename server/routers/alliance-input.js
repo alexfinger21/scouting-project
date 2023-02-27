@@ -36,9 +36,9 @@ router.post("/", function (req, res) {
     console.log("BODY: ")
     console.log(body)
     console.log(body)
-    database.query(database.deleteAllianceSelection(body.alliancePos, body.pos, body.team), (err, result) => {console.log(result)})
-    if (body.action == "insert") {
-        database.query(database.insertAllianceSelection(body.alliancePos, body.pos, body.team), (err, result) => {console.log(result)})
+    database.query(database.deleteAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
+    if (body.action == "INSERT") {
+        database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
     }
 })
 
