@@ -89,6 +89,12 @@ function main() {
         selector.addEventListener("change", (event) => {
             if(selector.value == "") {
                 addValueToSelectors(Number(selector.getAttribute("old-value")))
+                sendData({
+                    allianceNum: selector.parentElement.parentElement.cellIndex,
+                    pos: selector.parentElement.parentElement.parentNode.rowIndex,
+                    team: selector.value,
+                    action: "REMOVE",
+                })
             }
             else {
                 selector.setAttribute("old-value", selector.value)
@@ -97,7 +103,8 @@ function main() {
                 sendData({
                     allianceNum: selector.parentElement.parentElement.cellIndex,
                     pos: selector.parentElement.parentElement.parentNode.rowIndex,
-                    team: selector.value
+                    team: selector.value,
+                    action: "INSERT",
                 })
                 console.log("SENT")
             }
