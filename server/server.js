@@ -178,6 +178,6 @@ app.get("/getMatch", function(req, res) {
 
 setInterval(runAPICall, 240000)
 //PORT
-app.listen(3000) //goes to localhost 3000
+app.listen(3000) //goes to localhost 3S000
 
-server.listen(5000)
+server.listen(5000, {pingTimeout : 60000, pingInterval : 15000})
