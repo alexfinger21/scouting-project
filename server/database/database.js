@@ -10,7 +10,7 @@ function getUsers() {
     return returnStr
 }
 
-function insertAllianceSelection(allianceNum, pos, team) {
+function insertAllianceSelection(alliancePos, pos, team) {
     return `INSERT INTO 
     teamsixn_scouting_dev.alliance_selection 
     (alliance_number, alliance_position, team_master_tm_number)
