@@ -63,12 +63,17 @@
                         <table class="match-bottom" style="background-color:#FFF5D6">
                     <% } else {%>
                         <table class="match-bottom">
-                    <%}%>                        <% for (let j = 1; j <= 3; j++) { %>
-                            <th class="red"><%= teams[i]["r" + j + "_team_number"] %></th>
-                        <%}%>
-                        <% for (let j = 1; j <= 3; j++) { %>
-                            <th class="blue"><%= teams[i]["b" + j + "_team_number"] %></th>
-                        <%}%>
+                    <%}%>
+                    <% for (let j = 1; j <= 3; j++) { %>
+                        <th <%- `class="red team${teams[i]["r" + j + "_team_number"]}"` %> >
+                            <%= teams[i]["r" + j + "_team_number"] %>
+                        </th>
+                    <%}%>
+                    <% for (let j = 1; j <= 3; j++) { %>
+                        <th <%- `class="blue team${ teams[i]["b" + j + "_team_number"] }"` %> >
+                            <%= teams[i]["b" + j + "_team_number"] %>
+                        </th>
+                    <%}%>
                     </table>
                 </div>
             <% } %>

@@ -13,6 +13,11 @@ const paths = {
     allianceDisplay: "/alliance-display"
 }
 
+const highlightColors = {
+    695: "rgb(255,217,98)",
+    1523: "rgb(186,255,139)"
+}
+
 const socket = io.connect(`${window.location.hostname}:5000`, {
     forceNew: true,
     transports: ["polling"],
@@ -123,4 +128,4 @@ async function requestPage(url, data) {
 }
 
 
-export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData}
+export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

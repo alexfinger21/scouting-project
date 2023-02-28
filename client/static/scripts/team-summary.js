@@ -1,5 +1,5 @@
 import * as graphHandler from "./graphHandler.js"
-import { paths, requestData } from "./utility.js"
+import { paths, requestData, highlightColors} from "./utility.js"
 
 const POINT_COLOR = "rgb(81, 121, 167)"
 const OUR_TEAM_COLOR = "rgb(242, 142, 43)"
@@ -33,8 +33,8 @@ async function getPoints(x, y, color) {
         if(val.team_master_tm_number == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
         }
-        else if(val.team_master_tm_number == 695) {
-            color = OUR_TEAM_COLOR
+        else if(highlightColors[val.team_master_tm_number]) {
+            color = highlightColors[val.team_master_tm_number]
         }
         points[ind] = {
             teamNumber: val.team_master_tm_number,
