@@ -5,13 +5,6 @@ const gameConstants = require("../game.js")
 const game = require("../game.js")
 const router = express.Router()
 
-function rank(arr) {
-    const sorted = arr.slice().sort((a, b) => b - a)
-    const ranks = arr.map((e) => sorted.indexOf(e) + 1)
-    return ranks
-}
-
-
 router.get("/", function (req, res) { //only gets used if the url == team-details
     console.log("recieved")
     database.query(`SELECT
