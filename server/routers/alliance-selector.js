@@ -1,18 +1,30 @@
 const user = require("../user")
+const database = require("../database/database.js")
 const express = require("express")
+const gameConstants = require("../game.js")
 const router = express.Router()
 
-const teams = { //TEST TEAMS
-    
+function rank(arr) {
+    const sorted = arr.slice().sort((a, b) => b - a)
+    const ranks = arr.map((e) => sorted.indexOf(e) + 1)
+    return ranks
 }
 
 router.get("/",  function(req, res) { //only gets used if the url == alliance-selector
-    res.render("alliance-selector", {
-        teams: teams, user: user
+    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, results) => {
+        results = JSON.parse(JSON.stringify(results))
+        console.log("ALLIANCE INPUT: ")
+        console.log(results)
+        res.render("alliance-selector", {
+            user: user,
+            results: results
+        })
     })
 })
 
 router.post("/", function(req, res) {
+    const body = req.body
+
     database.query(`SELECT 
              vmtsar.frc_season_master_sm_year,
               vmtsar.team_master_tm_number, 
@@ -64,7 +76,25 @@ router.post("/", function(req, res) {
             }
         }
 
-        return res.send("req recieved")
+        if (body.sortBy == "best") {
+            const allianceArr = []
+            const sortedRanks = totalRank.slice().sort((a, b) => a - b)
+            
+            for (let rankings = 0; rankings < GSRank.length; rankings++) {
+                const arrIndex = totalRank.find(sortedRanks[rankings])
+
+                allianceArr[rankings] = {
+                    team: results[arrIndex].team_master_tm_number, 
+                    gameScore: results[arrIndex].avg_gm_score, 
+                    chargeStation: results[arrIndex].avg_auton_chg_station_score + results[arrIndex].avg_endgame_chg_station_score,
+                    apiRank: results[arrIndex].api_rank
+                }
+            }
+
+            console.log(allianceArr)
+
+            return res.status(200).send(allianceArr)
+        }
     })
 })
 

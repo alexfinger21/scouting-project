@@ -14,6 +14,7 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function sendData(data) {
+    console.log(data)
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -90,8 +91,8 @@ function main() {
             if(selector.value == "") {
                 addValueToSelectors(Number(selector.getAttribute("old-value")))
                 sendData({
-                    allianceNum: selector.parentElement.parentElement.cellIndex,
-                    pos: selector.parentElement.parentElement.parentNode.rowIndex,
+                    allianceNum: (selector.parentElement.parentElement.parentNode.rowIndex - 1) / 2,
+                    pos: selector.parentElement.parentElement.cellIndex,
                     team: selector.value,
                     action: "REMOVE",
                 })
@@ -101,8 +102,8 @@ function main() {
                 removeValueFromSelectors(selector.value)
                 selector.setAttribute("old-value", selector.value)
                 sendData({
-                    allianceNum: selector.parentElement.parentElement.cellIndex,
-                    pos: selector.parentElement.parentElement.parentNode.rowIndex,
+                    allianceNum: (selector.parentElement.parentElement.parentNode.rowIndex - 1) / 2,
+                    pos: selector.parentElement.parentElement.cellIndex - 1,
                     team: selector.value,
                     action: "INSERT",
                 })
