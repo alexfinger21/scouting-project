@@ -10,7 +10,7 @@ const paths = {
     teamSummary: "/team-summary",
     teamDetails: "/team-details",
     allianceInput: "/alliance-input",
-    allianceDisplay: "/alliance-display"
+    allianceSelector: "/alliance-selector"
 }
 
 const highlightColors = {

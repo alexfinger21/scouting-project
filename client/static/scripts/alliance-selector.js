@@ -1,4 +1,6 @@
 //When alliance selector is loaded, call the main function 
+import { paths } from "./utility.js"
+
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
@@ -14,20 +16,23 @@ window.addEventListener("load", main)
 
 function main() {
     //when a team buton is clicked, make it empty
-    console.log("GRRRR \n \n \n \n")
-    const divs = document.getElementsByClassName("selected-team")
+    const sortBy = document.getElementById("sort-by")
 
-    for (let i = 0; i < divs.length; i++)
-    {
-        const wrapper = divs[i]
-        const button = wrapper.getElementsByTagName("button")[0]
+    sortBy.addEventListener("change", (e) => {
+        let sortValue = sortBy.value
 
-        button.addEventListener("click", () => {
-            //change to empty class
-            wrapper.classList.replace("selected-team", "empty-team")
-            //change text content
-            button.textContent = "Empty"
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: paths.allianceSelector,
+            data: JSON.stringify({sortBy: sortValue}),
+            success: function (response) {
+                console.log(response)
+            },
+
+            error: function (jqXHR, textStatus, errorThrown) {
+
+            },
         })
-    }
-
+    })
 }
