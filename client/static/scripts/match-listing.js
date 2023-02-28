@@ -132,14 +132,14 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function main() {
-    //highlight every th element that has our team
+    /*highlight every th element that has our team
     const thElements = document.querySelectorAll("th")
     thElements.forEach((elm) => {
         if (elm.textContent == "695") {
             //highlight the element
             elm.style.backgroundColor = "#FFD962"
         }
-    })
+    }) */
     //play buttns
     const buttons = document.getElementsByClassName("start-stop-button")
     for (const btn of buttons) {

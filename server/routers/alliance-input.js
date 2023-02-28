@@ -14,76 +14,32 @@ function rank(arr) {
 
 router.get("/", function (req, res) { //only gets used if the url == team-details
     console.log("recieved")
-    database.query(`SELECT 
+    database.query(`SELECT
     DISTINCT team_master_tm_number 
     FROM 
-        teamsixn_scouting_dev.v_match_team_score vmts
-    WHERE
-        vmts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-        vmts.competition_master_cm_event_code = '${gameConstants.COMP}' AND 
-        vmts.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`,
+        teamsixn_scouting_dev.alliance_sel_rank
+    ORDER BY
+        team_master_tm_number;`,
     (err, team_results) => {
-        res.render("alliance-input", {
-            teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b)
-        })
+        if (!req.query.getTeams) {
+            res.render("alliance-input", {
+                teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b)
+            })
+        } else {
+            return res.status(200).send({teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b)})
+        }
     })
 })
 
 router.post("/", function (req, res) {
-
-    database.query(`SELECT 
-             vmtsar.frc_season_master_sm_year,
-              vmtsar.team_master_tm_number, 
-              vmtsar.api_rank, 
-              vmtsar.avg_gm_score,
-              vmtsar.avg_nbr_links, 
-              vmtsar.avg_auton_chg_station_score, 
-              vmtsar.avg_endgame_chg_station_score 
-         FROM 
-             teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar
-         WHERE
-             vmtsar.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-             vmtsar.competition_master_cm_event_code = '${gameConstants.COMP}' AND
-             vmtsar.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`, 
-    (err, results) => {
-        console.log(JSON.parse(JSON.stringify(results)))
-        const GSRank = rank(results.map(e => e.avg_gm_score))
-        const linkRank = rank(results.map(e => e.avg_nbr_links))
-        const autonCSRank = rank(results.map(e => e.avg_auton_chg_station_score))
-        const endGameCSRank = rank(results.map(e => e.avg_endgame_chg_station_score))
-        const apiRank = results.map(e => e.api_rank)
-        const totalRank = new Array(GSRank.length)
-
-        for (let i = 0; i<GSRank.length; i++) {
-            totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
-        }
-
-        console.log(totalRank)
-
-        const best = Math.min(...totalRank)
-
-        console.log(best)
-
-        for ([key, value] of Object.entries(totalRank)) {
-            if (value == best) {
-                console.log(results[key])
-            }
-        }
-
-        for ([key, value] of Object.entries(GSRank)) {
-            if (value == 4) {
-                console.log(results[key])
-            }
-        }
-
-        for ([key, value] of Object.entries(apiRank)) {
-            if (value == 1) {
-                console.log(results[key])
-            }
-        }
-
-        return res.send("req recieved")
-    })
+    const body = req.body
+    console.log("BODY: ")
+    console.log(body)
+    console.log(body)
+    database.query(database.deleteAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
+    if (body.action == "INSERT") {
+        database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
+    }
 })
 
 module.exports = router

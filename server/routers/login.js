@@ -63,7 +63,23 @@ router.post("/", async function(req, res) {
 
         console.log("success for " + body.username)
 
-        const sessionId = decodeURI(crypto.randomBytes(32).toString())
+        //const sessionId = decodeURI(crypto.randomBytes(32).toString())
+        let sessionId
+
+        crypto.randomBytes(32, (err, buf) => {
+            if (err) {
+              // Prints error
+              console.log(err);
+              return;
+            }
+            
+            sessionId = buf.toString("hex")
+            // Prints random bytes of generated data
+            console.log("The random data is: "
+                       + buf.toString('hex'));
+          });
+
+
 
         res.cookie("user_id", sessionId, {
             maxAge: 24 * 60 * 60 * 1000,
