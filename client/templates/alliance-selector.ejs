@@ -4,33 +4,43 @@
 <body>
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <div id="page-holder">
-        <div id="our-team">
-            <p id="our-team-header">
+        <div id="alliance-display">
+            <p id="alliance-display-header">
                 Our Team
             </p>
             <div class="strategy-divider">ㅤ</div>
-            <div id="selected-teams-display">
-                <div class="selected-team">
-                    <button>
-                        695
-                    </button>
-                </div>
-                <div class="selected-team">
-                    <button>
-                        4269
-                    </button>
-                </div>
-                <div class="empty-team">
-                    <button>
-                        Empty
-                    </button>
-                </div>
-                <div class="empty-team">
-                    <button>
-                        Empty
-                    </button>
-                </div>
-            </div>
+            <table id="alliance-display-table">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th>Captain</th>
+                        <th>1st Pick</th>
+                        <th>2nd Pick</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            1
+                        </td>
+                        <td>
+                            695
+                        </td>
+                        <td>
+                            191
+                        </td>
+                        <td>
+                            2010
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>
+        </div>
+        <div id="our-team">
+            <p id="our-team-header">
+                Available Teams
+            </p>
             <div id="our-team-stats">
                 <p>
                     Shooting: 30
@@ -42,11 +52,6 @@
                     Hangar: 20pts
                 </p>
             </div>
-        </div>
-        <div id="our-team">
-            <p id="our-team-header">
-                Available Teams
-            </p>
             <div class="strategy-divider">ㅤ</div>
 
             <div id="sort-by">

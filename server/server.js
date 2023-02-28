@@ -15,7 +15,7 @@ require("dotenv").config()
 const database = require("./database/database.js")
 const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
-const { start } = require("repl")
+const favicon = require('serve-favicon')
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -87,7 +87,7 @@ app.use(allowCrossDomain);
 //sets variables to be used later
 app.set("views", "./client/templates")
 app.set("view engine", "ejs")
-
+app.use('/favicon.ico', express.static('images/favicon.ico'))
 //adds json encoders and decoder libraries: middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -178,6 +178,6 @@ app.get("/getMatch", function(req, res) {
 
 setInterval(runAPICall, 240000)
 //PORT
-app.listen(3000) //goes to localhost 3000
+app.listen(3000) //goes to localhost 3S000
 
-server.listen(5000)
+server.listen(5000, {pingTimeout : 60000, pingInterval : 15000})
