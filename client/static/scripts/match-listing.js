@@ -1,8 +1,8 @@
 import {paths, requestPage, socket } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
+import { YEAR, EVENT_CODE} from "./game.js"
+
 let matchRunning = false
-const YEAR = 2023
-const EVENT_CODE = "test"
 
 //when an admin stops a match
 socket.on("stopMatch", (match_num) => {
