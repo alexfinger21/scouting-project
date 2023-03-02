@@ -6,6 +6,7 @@ const database = require("../database/database")
 const { json } = require("express")
 const router = express.Router()
 const gameConstants = require("../game.js")
+const game = require("../game.js")
 
 function addZero(num) {
     return num < 10 ? "0" + num : num
@@ -17,16 +18,17 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     AND api_rankings.competition_master_cm_event_code = '${gameConstants.COMP} `, (err, results) => {
         results = JSON.parse(JSON.stringify(results))
 
-        results.sort((a, b) => a.api_rank - b.api_rank)
+        if (results) results.sort((a, b) => a.api_rank - b.api_rank)
+        
 
-        console.log(results[0].api_rank_ts)
+        console.log(results)
 
         res.render("rankings", {
             user: user,
             isAdmin: isAdmin,
-            year: results[0].frc_season_master_sm_year,
-            eventCode: results[0].competition_master_cm_event_code,
-            timeStamp: results[0].api_rank_ts,
+            year: results != null ? results[0].frc_season_master_sm_year : gameConstants.YEAR,
+            eventCode: results != null ? results[0].competition_master_cm_event_code: gameConstants.COMP,
+            timeStamp: results != null ? results[0].api_rank_ts : gameConstants.gameStart.toLocaleString,
             teamStats: results
         })
     })

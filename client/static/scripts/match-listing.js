@@ -1,8 +1,6 @@
 import {paths, requestPage, socket } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
-import { YEAR, EVENT_CODE} from "./game.js"
-
-let matchRunning = false
+import { YEAR, COMP} from "./game.js"
 
 //when an admin stops a match
 socket.on("stopMatch", (match_num) => {
@@ -155,7 +153,7 @@ function main() {
 
                     const data = {
                         year: YEAR,
-                        event_code: EVENT_CODE,
+                        event_code: COMP,
                         gm_type: container.getAttribute("game_type"), //P, Q, or E
                         gm_number: container.getAttribute("game_number"),
                         stop_match: false
