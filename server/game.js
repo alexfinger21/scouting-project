@@ -1,5 +1,5 @@
 const YEAR = 2023
-const COMP = "flwp"
+const COMP = "flws"
 const GAME_TYPE = "P"
 const gameStart = new Date("Febuary 28, 2023")
 const gameEnd = new Date("March 5, 2023")
