@@ -5,6 +5,7 @@ const { checkAdmin } = require("../utility")
 const database = require("../database/database")
 const { json } = require("express")
 const router = express.Router()
+const gameConstants = require("../game.js")
 
 function addZero(num) {
     return num < 10 ? "0" + num : num
