@@ -20,6 +20,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
         if (results) results.sort((a, b) => a.api_rank - b.api_rank)
         
+        if (results.length == 0) results = null
 
         console.log(results)
         console.log(gameConstants.gameStart.toLocaleString())
