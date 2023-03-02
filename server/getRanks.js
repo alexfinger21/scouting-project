@@ -16,7 +16,7 @@ const options = {
     }
 }
 
-console.log(auth)
+console.log(options)
 
 function printMessage(title, msg) {
     console.log("------ " + title + " ------")
@@ -69,7 +69,7 @@ function returnAPIDATA() {
                 team_stats.push(a)
             }
 
-            //printMessage('Data', team_stats)
+            printMessage('Data', team_stats)
             console.log(database.deleteAPIData())
             database.query(database.deleteAPIData(), (err, res) => {
                 console.log(err)
@@ -87,9 +87,9 @@ function returnAPIDATA() {
     })
 }
 
-/*
+
 returnAPIDATA().then(res => {
     console.log(res.Rankings.map(e => e.rank))
-}) */
+})
 
 module.exports = {returnAPIDATA}
