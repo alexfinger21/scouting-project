@@ -40,7 +40,8 @@ router.post("/", function(req, res) {
              vmtsar.competition_master_cm_event_code = '${gameConstants.COMP}' AND
              vmtsar.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`, 
     (err, results) => {
-        console.log(JSON.parse(JSON.stringify(results)))
+        results = JSON.parse(JSON.stringify(results))
+
         const GSRank = rank(results.map(e => e.avg_gm_score))
         const linkRank = rank(results.map(e => e.avg_nbr_links))
         const autonCSRank = rank(results.map(e => e.avg_auton_chg_station_score))
@@ -80,10 +81,17 @@ router.post("/", function(req, res) {
             const allianceArr = []
             const sortedRanks = totalRank.slice().sort((a, b) => a - b)
             
+            console.log(sortedRanks)
+
             for (let rankings = 0; rankings < GSRank.length; rankings++) {
-                const arrIndex = totalRank.find(sortedRanks[rankings])
+                const arrIndex = totalRank.indexOf(sortedRanks[rankings])
+
+                console.log("index - " + arrIndex)
+                console.log(results)
+                console.log(results[arrIndex])
 
                 allianceArr[rankings] = {
+                    rank: sortedRanks[rankings],
                     team: results[arrIndex].team_master_tm_number, 
                     gameScore: results[arrIndex].avg_gm_score, 
                     chargeStation: results[arrIndex].avg_auton_chg_station_score + results[arrIndex].avg_endgame_chg_station_score,
