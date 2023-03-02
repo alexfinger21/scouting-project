@@ -16,10 +16,12 @@ window.addEventListener("load", main)
 
 function main() {
     //when a team buton is clicked, make it empty
-    const sortBy = document.getElementById("sort-by")
+    const sortBy = document.getElementById("sorting-options")
 
     sortBy.addEventListener("change", (e) => {
-        let sortValue = sortBy.value
+        const sortValue = sortBy.value
+
+        console.log(sortValue)
 
         $.ajax({
             type: "POST",
