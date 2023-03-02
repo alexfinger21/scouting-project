@@ -28,7 +28,6 @@ router.post("/", function (req, res) {
     const body = req.body
     console.log("BODY: ")
     console.log(body)
-    console.log(body)
     database.query(database.deleteAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
     if (body.action == "INSERT") {
         database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(result)})
