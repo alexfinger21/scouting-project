@@ -26,14 +26,15 @@
                             <td>
                                 <div alliance-input-selectorclass="alliance-input-selection-container">
                                     <select name="alliance-input-selector" class="alliance-input-selector" old-value="">
-                                        <% let selectedTeam = "" %>
-                                        <% if(data[i] != null) {
+                                        <% let selectedTeam = "" 
+                                        let row = data.find((e) => e.alliance_number == i)
+                                        if(row != null) {
                                             if(j == 0) {
-                                                selectedTeam = data[i].alliance_captain
+                                                selectedTeam = row.alliance_captain
                                             } else if(j == 1) {
-                                                selectedTeam = data[i].alliance_first
+                                                selectedTeam = row.alliance_first
                                             } else if(j == 2) {
-                                                selectedTeam = data[i].alliance_second
+                                                selectedTeam = row.alliance_second
                                             } 
                                         } %>
                                         <%if(selectedTeam != null && selectedTeam != "") { %>
