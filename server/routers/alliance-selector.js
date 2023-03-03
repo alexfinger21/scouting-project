@@ -11,13 +11,13 @@ function rank(arr) {
 }
 
 router.get("/",  function(req, res) { //only gets used if the url == alliance-selector
-    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, results) => {
-        results = JSON.parse(JSON.stringify(results))
-        console.log("ALLIANCE INPUT: ")
-        console.log(results)
+    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
+        data = JSON.parse(JSON.stringify(data))
+        console.log("ALLIANCE SELECTOR DATA")
+        console.log(data)
         res.render("alliance-selector", {
             user: user,
-            results: results
+            data: data
         })
     })
 })

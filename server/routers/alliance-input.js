@@ -8,11 +8,14 @@ const router = express.Router()
 router.get("/", function (req, res) { //only gets used if the url == team-details
     console.log("recieved")
     database.query(`SELECT
-    DISTINCT team_master_tm_number 
-    FROM 
-        teamsixn_scouting_dev.alliance_sel_rank
-    ORDER BY
-        team_master_tm_number;`,
+        distinct team_master_tm_number
+    FROM
+        teamsixn_scouting_dev.game_matchup
+    WHERE
+        competition_master_cm_event_code = "${gameConstants.COMP}" AND
+        gm_game_type = "${gameConstants.GAME_TYPE}"
+    ORDER BY 
+        1`,
     (err, team_results) => {
         team_results = JSON.parse(JSON.stringify(team_results))
         if (!req.query.getTeams) {
