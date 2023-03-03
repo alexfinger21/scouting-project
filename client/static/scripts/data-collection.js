@@ -1,8 +1,7 @@
 import { clamp, currentPage, paths, requestPage, socket, getMatch } from "./utility.js"
 import {moveToPage, setSelectedObject} from "./bottomBar.js"
-
-const autonArray = {}
-const teleopArray = {}
+import {YEAR, COMP, GAME_TYPE} from "./game.js"
+import game, { gameStart } from "../../../server/game.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -73,7 +72,7 @@ async function loadData() {
     const data = JSON.parse(localStorage.getItem("data"))[match]
     //console.log(data)
 
-    if (data) {
+    if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
         Array.from(inputContainers).forEach(element => {
             const name = element.children[0].textContent
@@ -169,6 +168,10 @@ async function saveData() {
         const tableScrollers = document.querySelectorAll(".table-scroller")
 
         data.matchNumber = match
+        
+        data.GAME_TYPE = GAME_TYPE
+        data.YEAR = YEAR
+        data.COMP = COMP
 
         //0th child is the title
         //1st child is the number button holder
