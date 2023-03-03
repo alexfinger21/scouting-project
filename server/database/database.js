@@ -11,6 +11,7 @@ function getUsers() {
 }
 
 function insertAllianceSelection(allianceNum, pos, team) {
+    console.log("Alliance num: " + allianceNum + " Pos: " +  pos + " Team #: " + team)
     return `INSERT INTO 
     teamsixn_scouting_dev.alliance_selection 
     (alliance_number, alliance_position, team_master_tm_number)
