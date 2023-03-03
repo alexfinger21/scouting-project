@@ -20,22 +20,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%for (let i=0; i < 8; i++) {%>
+                        <% for(let i = 0; i < 8 ; i++) { %>
                             <tr>
                                 <td>
-                                    <%= i+1 %>
+                                    <%=i+1%>
                                 </td>
-                                <td>
-                                    695
-                                </td>
-                                <td>
-                                    191
-                                </td>
-                                <td>
-                                    2010
-                                </td>
-                            </tr>
-                            <% } %>
+                                <% for(let j = 0; j < 3 ; j++) { %>
+                                    <td>
+                                        <% let selectedTeam = "" 
+                                        let row = data.find((e) => e.alliance_number == i)
+                                        if(row != null) {
+                                            if(j == 0) {
+                                                selectedTeam = row.alliance_captain
+                                            } else if(j == 1) {
+                                                selectedTeam = row.alliance_first
+                                            } else if(j == 2) {
+                                                selectedTeam = row.alliance_second
+                                            } 
+                                        } %>
+                                        <%if(selectedTeam != null && selectedTeam != "") { %>
+                                            <%=selectedTeam.toString()%>
+                                        <%} %>
+                                    </td>
+                                <% } %>
+                            <tr>
+                        <% } %>
                     </tbody>
 
                 </table>
