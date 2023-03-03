@@ -92,7 +92,7 @@ function main() {
                 addValueToSelectors(Number(selector.getAttribute("old-value")))
                 sendData({
                     allianceNum: (selector.parentElement.parentElement.parentNode.rowIndex - 1) / 2,
-                    pos: selector.parentElement.parentElement.cellIndex,
+                    pos: selector.parentElement.parentElement.cellIndex - 1,
                     team: selector.value,
                     action: "REMOVE",
                 })
