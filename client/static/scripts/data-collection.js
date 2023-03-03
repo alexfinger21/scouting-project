@@ -1,7 +1,6 @@
 import { clamp, currentPage, paths, requestPage, socket, getMatch } from "./utility.js"
 import {moveToPage, setSelectedObject} from "./bottomBar.js"
 import {YEAR, COMP, GAME_TYPE} from "./game.js"
-import game, { gameStart } from "../../../server/game.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -168,7 +167,7 @@ async function saveData() {
         const tableScrollers = document.querySelectorAll(".table-scroller")
 
         data.matchNumber = match
-        
+
         data.GAME_TYPE = GAME_TYPE
         data.YEAR = YEAR
         data.COMP = COMP
