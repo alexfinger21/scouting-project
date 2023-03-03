@@ -26,14 +26,33 @@
                             <td>
                                 <div alliance-input-selectorclass="alliance-input-selection-container">
                                     <select name="alliance-input-selector" class="alliance-input-selector" old-value="">
-                                        <option selected>
-                                            
-                                        </option>
-                                        <% for(let k = 0; k < teams.length; k++) { %>
+                                        <% let selectedTeam = "" %>
+                                        <% if(data[i] != null) {
+                                            if(j == 0) {
+                                                selectedTeam = data[i].alliance_captain
+                                            } else if(j == 1) {
+                                                selectedTeam = data[i].alliance_first
+                                            } else if(j == 2) {
+                                                selectedTeam = data[i].alliance_second
+                                            } 
+                                        } %>
+                                        <%if(selectedTeam != null && selectedTeam != "") { %>
                                             <option>
-                                                <%= teams[k] %>
+                                            </option>
+                                            <option selected>
+                                                <%=selectedTeam.toString()%>
+                                            </option>
+                                        <%} else { %>
+                                            <option selected>
                                             </option>
                                         <% } %>
+                                        <% for(let k = 0; k < teams.length; k++) { 
+                                            if(teams[k] != selectedTeam) {%>
+                                                <option>
+                                                    <%= teams[k] %>
+                                                </option>
+                                            <% }
+                                        } %>
                                     </select>
                                 </div>
                             </td>
