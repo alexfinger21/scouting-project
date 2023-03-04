@@ -144,7 +144,7 @@ function main() {
                     graphHandler.createBarGraph(
                         points,
                         "autoDocking",
-                        1.5
+                        1.2
                     )
                 )
                 break
@@ -159,7 +159,7 @@ function main() {
                     graphHandler.createBarGraph(
                         points,
                         "endgameDocking",
-                        1.5
+                        1
                     )
                 )
                 break
