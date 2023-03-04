@@ -135,15 +135,16 @@ router.post("/", function (req, res) {
 
                     let arrIndex = totalRank.indexOf(sortedRanks[rankings]) 
 
-                    if (rankings)
-                    console.log("og index = " + arrIndex)
-                    console.log(totalRank[totalRank.indexOf(totalRank[rankings])])
+                    if (rankings == 5) {
+                        console.log("og index = " + arrIndex)
+                        console.log(totalRank[totalRank.indexOf(totalRank[rankings])])
+                    }
 
                     let copy = totalRank.slice()
 
                     for (let i = 0; i<repeatCount; i++) {
                         copy.splice(arrIndex, 1)
-                        arrIndex = copy.indexOf(totalRank[rankings]) + (i+1)
+                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
                         console.log(totalRank)
                         console.log(copy)
                     }
