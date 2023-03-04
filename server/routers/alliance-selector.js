@@ -74,10 +74,6 @@ router.post("/", function (req, res) {
                 totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
             }
 
-            cconsole.log(results.map(e => e.team_master_tm_number))
-
-            console.log(totalCSRank)
-
             //console.log(totalRank)
 
             const best = Math.min(...totalRank)
