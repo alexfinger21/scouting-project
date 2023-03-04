@@ -198,7 +198,7 @@ router.post("/", function (req, res) {
 
                 console.log(sortedRanks)
                 console.log(totalCSRank)
-
+                
                 for (let rankings = 0; rankings < totalCSRank.length; rankings++) {
                     let repeatCount = 0
 
@@ -209,7 +209,7 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalCSRank[sortedRanks[rankings] + repeatCount]
+                    const arrIndex = totalCSRank[totalCSRank.indexOf(sortedRanks[rankings]) + repeatCount]
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
