@@ -101,7 +101,7 @@ function main() {
             const cell = table.rows[parent.parentNode.rowIndex].cells[1]
             const captainSelector = cell.children[0].children[0]
             console.log("CAPTAIN VALUE: " + captainSelector.value)
-            if(captainSelector.value != "") {
+            if(captainSelector == selector || captainSelector.value != "") {
                 if(selector.value == "") {
                     addValueToSelectors(Number(selector.getAttribute("old-value")))
                     sendData({
