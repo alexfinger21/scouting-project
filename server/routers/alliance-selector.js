@@ -135,7 +135,42 @@ router.post("/", function (req, res) {
 
                 return res.status(200).send(allianceArr)
             } else if (body.sortBy == "scoring") {
+                console.log(results.map(e => e.team_master_tm_number))
+                const allianceArr = []
+                const sortedRanks = GSRank.slice().sort((a, b) => a - b)
 
+                //console.log(sortedRanks)
+
+                for (let rankings = 0; rankings < GSRank.length; rankings++) {
+                    let repeatCount = 0
+
+                    for (let i = 0; i < rankings; i++) {
+                        if (GSRank.indexOf(sortedRanks[rankings]) == GSRank.indexOf(sortedRanks[i])) {
+                            repeatCount++
+                            console.log("REPEAT COUNT: " + repeatCount)
+                        }
+                    }
+
+                    const arrIndex = GSRank.indexOf(sortedRanks[rankings]) + repeatCount
+
+                    console.log("index - " + arrIndex)
+                    //console.log(results)
+                    //console.log(results[arrIndex])
+
+                    allianceArr[rankings] = {
+                        rank: rankings,
+                        team: results[arrIndex].team_master_tm_number,
+                        gameScore: results[arrIndex].avg_gm_score,
+                        links: results[arrIndex].avg_nbr_links,
+                        autonChargeStation: results[arrIndex].avg_auton_chg_station_score,
+                        endgameChargeStation: results[arrIndex].avg_endgame_chg_station_score,
+                        apiRank: results[arrIndex].api_rank
+                    }
+                }
+
+                console.log(allianceArr)
+
+                return res.status(200).send(allianceArr)
             } else {
                 //defense
 
