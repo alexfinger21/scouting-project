@@ -78,7 +78,7 @@ h1 {
     font-size: 2.5vh;
     border: 1px solid #5B6671;
     border-radius: 4px;
-    padding-bottom: 1%;
+    padding-bottom: 0.1vh;
     text-decoration-color: #FBFDFF;
     transition: text-decoration-color 100ms;
 }
