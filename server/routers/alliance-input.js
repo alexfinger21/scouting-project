@@ -1,7 +1,7 @@
 const database = require("../database/database.js")
 const express = require("express")
 const gameConstants = require("../game.js")
-const game = require("../game.js")
+const socketManager = require("../sockets.js")
 const router = express.Router()
 
 router.get("/", function (req, res) { //only gets used if the url == team-details
@@ -74,8 +74,10 @@ router.post("/", function (req, res) {
         console.log(result)
         console.log("REMOVED")
         if (body.action == "INSERT") {
-            database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(err)})
+            database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(err); socketManager.emitAllSockets("yes", "allianceSelection")})
             console.log("INSERTED")
+        } else {
+            socketManager.emitAllSockets("yes", "allianceSelection")
         }
     })
     res.send("req recieved")
