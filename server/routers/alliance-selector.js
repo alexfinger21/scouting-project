@@ -170,7 +170,7 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = GSRank.indexOf(sortedRanks[rankings] + repeatCount)
+                    const arrIndex = GSRank.indexOf(sortedRanks[rankings + repeatCount])
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
