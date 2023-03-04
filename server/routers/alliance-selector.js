@@ -25,7 +25,7 @@ router.get("/",  function(req, res) { //only gets used if the url == alliance-se
 router.post("/", function(req, res) {
     const body = req.body
 
-    database.query(`SELECT 
+    database.query(`SELECT
              vmtsar.frc_season_master_sm_year,
               vmtsar.team_master_tm_number, 
               vmtsar.api_rank, 
@@ -41,6 +41,19 @@ router.post("/", function(req, res) {
              vmtsar.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`, 
     (err, results) => {
         results = JSON.parse(JSON.stringify(results))
+        console.log(results.map(e => e.team_master_tm_number))
+
+        for (let i = 0; i<results.length - 1; i++) {
+            if ((results[i].team_master_tm_number == results[i+1].team_master_tm_number) || results[i].team_master_tm_number == null) {
+                console.log(results[i].team_master_tm_number)
+                console.log(results[i+1].team_master_tm_number)
+
+                console.log("deleted")
+                results.splice(i, 1)
+                i--
+            }
+        }
+        console.log(results.map(e => e.team_master_tm_number))
 
         const GSRank = rank(results.map(e => e.avg_gm_score))
         const linkRank = rank(results.map(e => e.avg_nbr_links))
@@ -78,10 +91,11 @@ router.post("/", function(req, res) {
         }
 
         if (body.sortBy == "best") {
+            console.log(results.map(e => e.team_master_tm_number))
             const allianceArr = []
             const sortedRanks = totalRank.slice().sort((a, b) => a - b)
             
-            console.log(sortedRanks)
+            //console.log(sortedRanks)
 
             for (let rankings = 0; rankings < GSRank.length; rankings++) {
                 let repeatCount = 0
