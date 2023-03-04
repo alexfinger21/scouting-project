@@ -105,6 +105,7 @@ async function requestPage(url, data) {
         url: url,
         data: JSON.stringify(data),
         success: function(response) {
+            currentPage = url.substring(1)
 
             let temp
 
