@@ -105,14 +105,32 @@ function createBarGraph(points, orderBy, stepValue) {
             teamName: points.map(p => p.teamName),
             rank: points.map(p => p.rank),
             gamesPlayed: points.map(p => p.gamesPlayed),
-            gameScore: points.map(p => p.gameScore),
-            links: points.map(p => p.gameScore),
-            autoDocking: points.map(p => p.autoDocking),
-            endgameDocking: points.map(p => p.endgameDocking),
+            gameScore: points.map(p => Math.round( p.gameScore )),
+            links: points.map((p) => { 
+                if(p.links) {
+                    return p.links.toFixed(2)
+                }
+                return "N/A"
+            }),
+            autoDocking: points.map(p => Math.round(p.autoDocking)),
+            endgameDocking: points.map(p => Math.round(p.endgameDocking)),
             labels: points.map(p => p.teamNumber),
             datasets: [{
                 label: 'Legend',
-                data: points.map(p => p[orderBy]),
+                data: points.map(p => {
+                    if(orderBy == "gameScore" || orderBy == "autoDocking" || orderBy == "endgameDocking") {
+                        return Math.round(p[orderBy])
+                    }
+                    else if(orderBy == "links") {
+                        if (p.links) {
+                            return p.links.toFixed(2)
+                        }
+                        return "N/A"
+                    }
+                    else {
+                        return p[orderBy]
+                    }
+                }),
                 backgroundColor: points.map(p => p.color),
                 borderColor: points.map(p => p.color),
                 borderWidth: 1
