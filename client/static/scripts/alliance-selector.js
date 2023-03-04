@@ -46,7 +46,7 @@ function getAvailableTeams(sortValue) {
                     links = "N/A"
                 }
                 const html = "<tr><td>" + team.team + "</td><td>" + team.apiRank + "</td><td>" + Math.round(team.gameScore) + "</td><td>" + links + "</td><td>" 
-                    + Math.round(team.autonChargeStation) + "</td><td>" + Math.round(team.endgameChargeStation) + "</td></tr> "
+                    + team.autonChargeStation.toFixed(2) + "</td><td>" + team.endgameChargeStation.toFixed(2) + "</td></tr> "
                 tbody.insertAdjacentElement("beforeend", $(html)[0])
             }
         },
