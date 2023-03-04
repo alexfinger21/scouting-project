@@ -25,7 +25,14 @@ router.get("/",  function(req, res) { //only gets used if the url == alliance-se
 router.post("/", function(req, res) {
     const body = req.body
 
-    database.query(`SELECT
+    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
+        data = JSON.parse(JSON.stringify(data))
+        let disallowedData = []
+        for (const e of data) {
+            disallowedData.push(e.alliance_captain, e.alliance_first, e.alliance_second)
+        }
+
+        database.query(`SELECT
              vmtsar.frc_season_master_sm_year,
               vmtsar.team_master_tm_number, 
               vmtsar.api_rank, 
@@ -44,7 +51,7 @@ router.post("/", function(req, res) {
         console.log(results.map(e => e.team_master_tm_number))
 
         for (let i = 0; i<results.length - 1; i++) {
-            if ((results[i].team_master_tm_number == results[i+1].team_master_tm_number) || results[i].team_master_tm_number == null) {
+            if ((results[i].team_master_tm_number == results[i+1].team_master_tm_number) || results[i].team_master_tm_number == null || disallowedValues.indexOf(results[i].team_master_tm_number) != -1)  {
                 console.log(results[i].team_master_tm_number)
                 console.log(results[i+1].team_master_tm_number)
 
@@ -134,6 +141,9 @@ router.post("/", function(req, res) {
 
         }
     })
+    })
+
+    
 })
 
 module.exports = router
