@@ -77,7 +77,11 @@ router.post("/", function (req, res) {
             database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(err); socketManager.emitAllSockets("yes", "allianceSelection")})
             console.log("INSERTED")
         } else {
-            socketManager.emitAllSockets("yes", "allianceSelection")
+            if (body.pos == 0) {
+                database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 1), (err, result) => {database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 2), (err, result) => {socketManager.emitAllSockets("yes", "allianceSelection")})})
+            } else {
+                socketManager.emitAllSockets("yes", "allianceSelection")
+            }
         }
     })
     res.send("req recieved")
