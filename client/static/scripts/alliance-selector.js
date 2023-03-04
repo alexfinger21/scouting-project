@@ -2,7 +2,7 @@
 import { paths, requestPage, socket, currentPage } from "./utility.js"
 
 socket.on("allianceSelection", (match_num) => {
-    if (currentPage == paths.allianceSelector.substring(1)) {
+    if (currentPage == paths.allianceSelector) {
         requestPage(paths.allianceSelector)
     }
 })
