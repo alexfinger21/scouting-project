@@ -118,7 +118,8 @@ router.post("/", function(req, res) {
                     team: results[arrIndex].team_master_tm_number, 
                     gameScore: results[arrIndex].avg_gm_score, 
                     links: results[arrIndex].avg_nbr_links,
-                    chargeStation: results[arrIndex].avg_auton_chg_station_score + results[arrIndex].avg_endgame_chg_station_score,
+                    autonChargeStation: results[arrIndex].avg_auton_chg_station_score,
+                    endgameChargeStation: results[arrIndex].avg_endgame_chg_station_score,
                     apiRank: results[arrIndex].api_rank
                 }
             }
