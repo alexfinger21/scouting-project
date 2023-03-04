@@ -72,7 +72,7 @@ router.post("/", function (req, res) {
 
             for (let i = 0; i < GSRank.length; i++) {
                 totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
-                totalCSRank = endGameCSRank[i] + autonCSRank[i]
+                totalCSRank[i] = endGameCSRank[i] + autonCSRank[i]
             }
 
             //console.log(totalRank)
