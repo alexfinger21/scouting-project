@@ -1,4 +1,4 @@
-import {requestPage} from "./utility.js"
+import {requestPage, paths} from "./utility.js"
 
 
 let globalPos = 0;
@@ -46,7 +46,7 @@ function setSelectedObject(value) {
 }
 
 window.addEventListener("load", () => {
-    requestPage("match-listing")
+    requestPage(paths.matchListing)
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
     const hoverButton = document.createElement('div');
@@ -70,7 +70,7 @@ window.addEventListener("load", () => {
         
         btn.addEventListener("click", event => {
             console.log(buttonUrls[btn.children[1].textContent])
-            requestPage(buttonUrls[btn.children[1].textContent], {})
+            requestPage("/" + buttonUrls[btn.children[1].textContent], {})
             moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
             selectedObj = btn
         })
@@ -78,25 +78,25 @@ window.addEventListener("load", () => {
 
     const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {
-        requestPage("alliance-selector")
+        requestPage(paths.allianceSelector)
         hideHighlight(hoverButton)
     })
 
     const teamDetailsButton = document.getElementById("team-details-button")
     teamDetailsButton.addEventListener("click", () =>  {
-        requestPage("team-details")
+        requestPage(paths.teamDetails)
         hideHighlight(hoverButton)
     })
     
     const adminPageButton = document.getElementById("admin-page-button")
     adminPageButton.addEventListener("click", () =>  {
-        requestPage("admin-page")
+        requestPage(paths.adminPage)
         hideHighlight(hoverButton)
     })
 
     const allianceInputButton = document.getElementById("alliance-input-button")
     allianceInputButton.addEventListener("click", () =>  {
-        requestPage("alliance-input")
+        requestPage(paths.allianceInput)
         hideHighlight(hoverButton)
     })
     
