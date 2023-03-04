@@ -66,12 +66,13 @@ router.post("/", function (req, res) {
             const linkRank = rank(results.map(e => e.avg_nbr_links))
             const autonCSRank = rank(results.map(e => e.avg_auton_chg_station_score))
             const endGameCSRank = rank(results.map(e => e.avg_endgame_chg_station_score))
-            const totalCSRank = rank(results.map(e => e.avg_endgame_chg_station_score + e.avg_auton_chg_station_score))
             const apiRank = results.map(e => e.api_rank)
             const totalRank = new Array(GSRank.length)
+            const totalCSRank = new Array(GSRank.length)
 
             for (let i = 0; i < GSRank.length; i++) {
                 totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
+                totalCSRank = endGameCSRank[i] + autonCSRank[i]
             }
 
             //console.log(totalRank)
@@ -173,6 +174,7 @@ router.post("/", function (req, res) {
 
                 return res.status(200).send(allianceArr)
             } else {
+                console.log("here")
                 //defense/charge station
                 const allianceArr = []
                 const sortedRanks = totalCSRank.slice().sort((a, b) => a - b)
