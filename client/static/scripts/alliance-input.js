@@ -1,4 +1,10 @@
-import { paths, requestData, requestPage} from "./utility.js"
+import { socket, paths, requestData, requestPage} from "./utility.js"
+
+socket.on("allianceSelection", (match_num) => {
+    if (currentPage == paths.allianceInput.substring(1)) {
+        requestPage(paths.allianceInput)
+    }
+})
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
