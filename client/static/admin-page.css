@@ -18,21 +18,13 @@
     border: 1px solid #000;
     border-radius: 3px;
     padding: 5px;
-    margin-left: 5vw;
+    margin-left: 2vw;
+    width: 70%
 }
 
 #admin-container select:focus {
     border: 1px solid #3492EA;
     box-shadow: 0 0px 8px 0 rgba(52, 146, 234, 0.2);
-}
-
-#select-user {
-    height: 4vh;
-    background-color: #FFF;
-    color: #2d3236;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 2.2vh;
 }
 
 #user-container {
@@ -43,6 +35,10 @@
     background-color: transparent;
     align-self: flex-start;
     margin-bottom: 3vh;
+}
+
+#user-container label {
+    margin-right: 2vh !important;
 }
 
 #admin-submit {

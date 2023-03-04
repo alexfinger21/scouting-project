@@ -1,4 +1,3 @@
-const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const gameConstants = require("../game.js")
@@ -16,7 +15,6 @@ router.get("/", function (req, res) { //only gets used if the url == alliance-se
         console.log("ALLIANCE SELECTOR DATA")
         console.log(data)
         res.render("alliance-selector", {
-            user: user,
             data: data
         })
     })

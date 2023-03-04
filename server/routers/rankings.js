@@ -1,4 +1,3 @@
-const user = require("../user")
 const { returnAPIDATA } = require("../getRanks")
 const express = require("express")
 const { checkAdmin } = require("../utility")
@@ -26,7 +25,6 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         console.log(gameConstants.gameStart.toLocaleString())
         
         res.render("rankings", {
-            user: user,
             isAdmin: isAdmin,
             year: results != null ? results[0].frc_season_master_sm_year : gameConstants.YEAR,
             eventCode: results != null ? results[0].competition_master_cm_event_code: gameConstants.COMP,
