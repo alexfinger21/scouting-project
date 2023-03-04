@@ -211,6 +211,8 @@ router.post("/", function (req, res) {
 
                     const arrIndex = totalCSRank[totalCSRank.indexOf(sortedRanks[rankings]) + repeatCount]
 
+                    console.log(repeatCount)
+
                     console.log("index - " + arrIndex)
                     //console.log(results)
                     //console.log(results[arrIndex])
