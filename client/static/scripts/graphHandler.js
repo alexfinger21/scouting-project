@@ -6,10 +6,15 @@ function writeData(points) {
         teamName: points.map(p => p.teamName),
         rank: points.map(p => p.rank),
         gamesPlayed: points.map(p => p.gamesPlayed),
-        gameScore: points.map(p => p.gameScore),
-        links: points.map(p => p.gameScore),
-        autoDocking: points.map(p => p.autoDocking),
-        endgameDocking: points.map(p => p.endgameDocking),
+        gameScore: points.map(p => Math.round(p.gameScore) ),
+        links: points.map((p) => {
+            if(p.links) {
+                return p.links.toFixed(2)
+            }
+            return "N/A"
+        }),
+        autoDocking: points.map(p => Math.round(p.autoDocking)),
+        endgameDocking: points.map(p => Math.round(p.endgameDocking)),
 
 
         datasets: [{
