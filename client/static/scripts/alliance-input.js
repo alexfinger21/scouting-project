@@ -96,26 +96,36 @@ function main() {
     const selectors = document.getElementsByClassName("alliance-input-selector")
     for (const selector of selectors) {
         selector.addEventListener("change", (event) => {
-            if(selector.value == "") {
-                addValueToSelectors(Number(selector.getAttribute("old-value")))
-                sendData({
-                    allianceNum: (selector.parentElement.parentElement.parentNode.rowIndex - 1) / 2,
-                    pos: selector.parentElement.parentElement.cellIndex - 1,
-                    team: selector.value,
-                    action: "REMOVE",
-                })
+            const table = document.getElementById("selected-team-table")
+            const parent = selector.parentElement.parentElement
+            const cell = table.rows[parent.parentNode.rowIndex].cells[1]
+            const captainSelector = cell.children[0].children[0]
+            console.log("CAPTAIN VALUE: " + captainSelector.value)
+            if(captainSelector.value != "") {
+                if(selector.value == "") {
+                    addValueToSelectors(Number(selector.getAttribute("old-value")))
+                    sendData({
+                        allianceNum: (parent.parentNode.rowIndex - 1) / 2,
+                        pos: parent.cellIndex - 1,
+                        team: selector.value,
+                        action: "REMOVE",
+                    })
+                }
+                else {
+                    selector.setAttribute("old-value", selector.value)
+                    removeValueFromSelectors(selector.value)
+                    selector.setAttribute("old-value", selector.value)
+                    sendData({
+                        allianceNum: (parent.parentNode.rowIndex - 1) / 2,
+                        pos: parent.cellIndex - 1,
+                        team: selector.value,
+                        action: "INSERT",
+                    })
+                    console.log("SENT")
+                }
             }
-            else {
-                selector.setAttribute("old-value", selector.value)
-                removeValueFromSelectors(selector.value)
-                selector.setAttribute("old-value", selector.value)
-                sendData({
-                    allianceNum: (selector.parentElement.parentElement.parentNode.rowIndex - 1) / 2,
-                    pos: selector.parentElement.parentElement.cellIndex - 1,
-                    team: selector.value,
-                    action: "INSERT",
-                })
-                console.log("SENT")
+            else { //no captain, dont let them change it
+                selector.value = selector.getAttribute("old-value")
             }
         })
     }
