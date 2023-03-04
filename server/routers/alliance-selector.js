@@ -53,7 +53,7 @@ router.post("/", function(req, res) {
                 i--
             }
         }
-        console.log(results.map(e => e.team_master_tm_number))
+        console.log(results)
 
         const GSRank = rank(results.map(e => e.avg_gm_score))
         const linkRank = rank(results.map(e => e.avg_nbr_links))
@@ -117,6 +117,7 @@ router.post("/", function(req, res) {
                     rank: rankings,
                     team: results[arrIndex].team_master_tm_number, 
                     gameScore: results[arrIndex].avg_gm_score, 
+                    links: results[arrIndex].avg_nbr_links,
                     chargeStation: results[arrIndex].avg_auton_chg_station_score + results[arrIndex].avg_endgame_chg_station_score,
                     apiRank: results[arrIndex].api_rank
                 }
