@@ -30,6 +30,16 @@ function main() {
             data: JSON.stringify({sortBy: sortValue}),
             success: function (response) {
                 console.log(response)
+
+                const table = document.getElementById("available-teams-table")
+                const tbody = table.getElementsByTagName("tbody")[0]
+
+                console.log(tbody)
+
+                for(const team of response) {
+                    const html = "<tr> <td> " + team.team + " </td> <td> " + team.gameScore + "</td> " + " </tr> " 
+                    tbody.insertAdjacentElement("afterend", $(html)[0])
+                }
             },
 
             error: function (jqXHR, textStatus, errorThrown) {

@@ -53,7 +53,7 @@ router.post("/", function(req, res) {
             totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
         }
 
-        console.log(totalRank)
+        //console.log(totalRank)
 
         const best = Math.min(...totalRank)
 
@@ -84,14 +84,23 @@ router.post("/", function(req, res) {
             console.log(sortedRanks)
 
             for (let rankings = 0; rankings < GSRank.length; rankings++) {
-                const arrIndex = totalRank.indexOf(sortedRanks[rankings])
+                let repeatCount = 0
+
+                for (let i = 0; i < rankings; i++) {
+                    if (totalRank.indexOf(sortedRanks[rankings]) == totalRank.indexOf(sortedRanks[i])) {
+                        repeatCount++
+                        console.log("REPEAT COUNT: " + repeatCount)
+                    }
+                }
+
+                const arrIndex = totalRank.indexOf(sortedRanks[rankings]) + repeatCount
 
                 console.log("index - " + arrIndex)
-                console.log(results)
-                console.log(results[arrIndex])
+                //console.log(results)
+                //console.log(results[arrIndex])
 
                 allianceArr[rankings] = {
-                    rank: totalRank.indexOf(sortedRanks[rankings]),
+                    rank: rankings,
                     team: results[arrIndex].team_master_tm_number, 
                     gameScore: results[arrIndex].avg_gm_score, 
                     chargeStation: results[arrIndex].avg_auton_chg_station_score + results[arrIndex].avg_endgame_chg_station_score,
@@ -102,6 +111,11 @@ router.post("/", function(req, res) {
             console.log(allianceArr)
 
             return res.status(200).send(allianceArr)
+        } else if (body.sortBy == "scoring") {
+            
+        } else {
+            //defense
+
         }
     })
 })
