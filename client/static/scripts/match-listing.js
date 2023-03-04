@@ -183,7 +183,7 @@ function main() {
         console.log("hs")
         button.addEventListener("click", () => {
             const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
-            requestPage("match-strategy?match=" + container.getAttribute("game_number"))
+            requestPage(paths.matchStrategy+ "?match=" + container.getAttribute("game_number"))
             const hoverButton = document.getElementById("hover-button")
             const matchStrategyButton = document.getElementById("match-strategy-button")
             moveToPage(hoverButton.getBoundingClientRect().left, matchStrategyButton.getBoundingClientRect().left, hoverButton)
