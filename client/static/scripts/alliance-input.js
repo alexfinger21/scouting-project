@@ -2,6 +2,7 @@ import { socket, paths, requestData, requestPage, currentPage} from "./utility.j
 
 socket.on("allianceSelection", (match_num) => {
     console.log("nice")
+    console.log(currentPage)
     if (currentPage == paths.allianceInput.substring(1)) {
         requestPage(paths.allianceInput)
     }
