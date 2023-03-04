@@ -68,9 +68,14 @@ router.post("/", function (req, res) {
             const endGameCSRank = rank(results.map(e => e.avg_endgame_chg_station_score))
             const apiRank = results.map(e => e.api_rank)
             const totalRank = new Array(GSRank.length)
+            const totalCSRank = new Array(GSRank.length)
 
             for (let i = 0; i < GSRank.length; i++) {
                 totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
+            }
+
+            for (let i = 0; i < GSRank.length; i++) {
+                totalCSRank[i] = autonCSRank[i] + endGameCSRank[i]
             }
 
             //console.log(totalRank)
@@ -172,8 +177,42 @@ router.post("/", function (req, res) {
 
                 return res.status(200).send(allianceArr)
             } else {
-                //defense
+                //defense/charge station
+                const allianceArr = []
+                const sortedRanks = totalCSRank.slice().sort((a, b) => a - b)
 
+                //console.log(sortedRanks)
+
+                for (let rankings = 0; rankings < totalCSRank.length; rankings++) {
+                    let repeatCount = 0
+
+                    for (let i = 0; i < rankings; i++) {
+                        if (totalCSRank.indexOf(sortedRanks[rankings]) == totalCSRank.indexOf(sortedRanks[i])) {
+                            repeatCount++
+                            console.log("REPEAT COUNT: " + repeatCount)
+                        }
+                    }
+
+                    const arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) + repeatCount
+
+                    console.log("index - " + arrIndex)
+                    //console.log(results)
+                    //console.log(results[arrIndex])
+
+                    allianceArr[rankings] = {
+                        rank: rankings,
+                        team: results[arrIndex].team_master_tm_number,
+                        gameScore: results[arrIndex].avg_gm_score,
+                        links: results[arrIndex].avg_nbr_links,
+                        autonChargeStation: results[arrIndex].avg_auton_chg_station_score,
+                        endgameChargeStation: results[arrIndex].avg_endgame_chg_station_score,
+                        apiRank: results[arrIndex].api_rank
+                    }
+                }
+
+                console.log(allianceArr)
+
+                return res.status(200).send(allianceArr)
             }
         })
     })
