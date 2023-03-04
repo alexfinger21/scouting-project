@@ -133,7 +133,20 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalRank.indexOf(sortedRanks[rankings + repeatCount])
+                    let arrIndex = totalRank.indexOf(sortedRanks[rankings]) 
+
+                    if (rankings)
+                    console.log("og index = " + arrIndex)
+                    console.log(totalRank[totalRank.indexOf(totalRank[rankings])])
+
+                    let copy = totalRank.slice()
+
+                    for (let i = 0; i<repeatCount; i++) {
+                        copy.splice(arrIndex, 1)
+                        arrIndex = copy.indexOf(totalRank[rankings]) + (i+1)
+                        console.log(totalRank)
+                        console.log(copy)
+                    }
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
@@ -170,7 +183,19 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = GSRank.indexOf(sortedRanks[rankings + repeatCount])
+                    let arrIndex = GSRank.indexOf(sortedRanks[rankings]) 
+
+                    console.log("og index = " + arrIndex)
+                    console.log(GSRank[GSRank.indexOf(sortedRanks[rankings])])
+
+                    let copy = GSRank.slice()
+
+                    for (let i = 0; i<repeatCount; i++) {
+                        copy.splice(arrIndex, 1)
+                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
+                        console.log(GSRank)
+                        console.log(copy)
+                    }
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
