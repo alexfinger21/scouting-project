@@ -1,5 +1,9 @@
 //When alliance selector is loaded, call the main function 
-import { paths } from "./utility.js"
+import { paths, requestPage, socket } from "./utility.js"
+
+socket.on("allianceSelection", (match_num) => {
+    requestPage(paths.allianceSelector)
+})
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
