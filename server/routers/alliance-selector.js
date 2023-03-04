@@ -211,9 +211,16 @@ router.post("/", function (req, res) {
 
                     let arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) 
 
+                    console.log("og index = " + arrIndex)
+                    console.log(totalCSRank[totalCSRank.indexOf(sortedRanks[rankings])])
+
+                    let copy = totalCSRank.slice()
+
                     for (let i = 0; i<repeatCount; i++) {
-                        totalCSRank.splice(arrIndex, 1)
-                        arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) 
+                        copy.splice(arrIndex, 1)
+                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
+                        console.log(totalCSRank)
+                        console.log(copy)
                     }
 
                     console.log("index - " + arrIndex)
