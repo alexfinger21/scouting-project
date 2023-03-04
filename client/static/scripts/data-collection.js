@@ -17,7 +17,7 @@ window.onunload = saveData
 socket.on("changeMatch", () => {
     console.log(currentPage)
     console.log("SWITCH PAGE to: " + paths.dataCollection.substring(1) + "\n\n\n")
-    if (currentPage == paths.dataCollection.substring(1)) {
+    if (currentPage == paths.dataCollection) {
         requestPage(paths.dataCollection)
     }
 })
