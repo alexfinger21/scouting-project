@@ -4,9 +4,7 @@ const router = express.Router()
 require('dotenv').config()
 const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
-const io = require("../server.js")
 const socketManager = require("../sockets.js")
-const YEAR = 2023
 
 function addZero(num) {
     return num < 10 ? "0" + num : num
