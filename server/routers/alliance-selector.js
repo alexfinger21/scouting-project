@@ -45,11 +45,11 @@ router.post("/", function (req, res) {
              vmtsar.competition_master_cm_event_code = '${gameConstants.COMP}' AND
              vmtsar.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`,
         (err, results) => {
-            results = JSON.parse(JSON.stringify(results))
+            results = Array.from(JSON.parse(JSON.stringify(results)))
             console.log(results.map(e => e.team_master_tm_number))
 
-            for (let i = 0; i < results.length - 1; i++) {
-                if ((results[i].team_master_tm_number == results[i + 1].team_master_tm_number) || results[i].team_master_tm_number == null || disallowedTeams.indexOf(results[i].team_master_tm_number) != -1) {
+            for (let i = 0; i < results.length; i++) {
+                if (results[i].team_master_tm_number == null || disallowedTeams.indexOf(results[i].team_master_tm_number) != -1) {
                     console.log(results[i].team_master_tm_number)
                     console.log(results[i + 1].team_master_tm_number)
 
@@ -58,7 +58,27 @@ router.post("/", function (req, res) {
                     i--
                 }
             }
+
+            console.log(results.map(e => e.team_master_tm_number))
+            //console.log(results)
+
+            console.log(typeof(results))
+
+            //remove dublicates
+            for (let i = 0; i < results.length; i++) {
+                for (let j = i+1; j < results.length; j++) {
+                    if (results[i].team_master_tm_number == results[j].team_master_tm_number) {
+                        results.splice(j, 1)
+                        j--
+                        console.log("deleted dublicate")
+                    }
+                }
+            }
+
             console.log(results)
+
+            console.log(results.map(e => e.team_master_tm_number))
+            console.log(results.length)
 
             const GSRank = rank(results.map(e => e.avg_gm_score))
             const linkRank = rank(results.map(e => e.avg_nbr_links))
@@ -113,7 +133,7 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalRank.indexOf(sortedRanks[rankings]) + repeatCount
+                    const arrIndex = totalRank.indexOf(sortedRanks[rankings] + repeatCount)
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
@@ -150,7 +170,7 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = GSRank.indexOf(sortedRanks[rankings]) + repeatCount
+                    const arrIndex = GSRank.indexOf(sortedRanks[rankings] + repeatCount)
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
@@ -176,7 +196,7 @@ router.post("/", function (req, res) {
                 const allianceArr = []
                 const sortedRanks = totalCSRank.slice().sort((a, b) => a - b)
 
-                //console.log(sortedRanks)
+                console.log(sortedRanks)
 
                 for (let rankings = 0; rankings < totalCSRank.length; rankings++) {
                     let repeatCount = 0
@@ -188,7 +208,7 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) + repeatCount
+                    const arrIndex = totalCSRank.indexOf(sortedRanks[rankings + repeatCount]) 
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
