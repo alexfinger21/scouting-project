@@ -91,7 +91,7 @@ router.post("/", function(req, res) {
                 console.log(results[arrIndex])
 
                 allianceArr[rankings] = {
-                    rank: sortedRanks[rankings],
+                    rank: totalRank.indexOf(sortedRanks[rankings]),
                     team: results[arrIndex].team_master_tm_number, 
                     gameScore: results[arrIndex].avg_gm_score, 
                     chargeStation: results[arrIndex].avg_auton_chg_station_score + results[arrIndex].avg_endgame_chg_station_score,
