@@ -34,7 +34,15 @@ function getAvailableTeams(sortValue) {
             console.log(tbody)
 
             for (const team of response) {
-                const html = "<tr><td>" + team.team + "</td><td>" + team.apiRank + "</td><td>" + Math.round(team.gameScore) + "</td><td><td></td><td>" + Math.round(team.chargeStation) + "</td></tr> "
+                let links = team.links
+                if(links) {
+                    links = links.toFixed(2)
+                }
+                else {
+                    links = "N/A"
+                }
+                const html = "<tr><td>" + team.team + "</td><td>" + team.apiRank + "</td><td>" + Math.round(team.gameScore) + "</td><td>" + links + "</td><td>" 
+                    + Math.round(team.autonChargeStation) + "</td><td>" + Math.round(team.endgameChargeStation) + "</td></tr> "
                 tbody.insertAdjacentElement("beforeend", $(html)[0])
             }
         },
