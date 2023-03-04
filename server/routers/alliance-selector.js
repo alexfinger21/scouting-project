@@ -209,7 +209,12 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) 
+                    let arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) 
+
+                    for (let i = 0; i<repeatCount; i++) {
+                        totalCSRank.splice(arrIndex, 1)
+                        arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) 
+                    }
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
