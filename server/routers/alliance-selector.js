@@ -197,7 +197,8 @@ router.post("/", function (req, res) {
                 const sortedRanks = totalCSRank.slice().sort((a, b) => a - b)
 
                 console.log(sortedRanks)
-
+                console.log(totalCSRank)
+                
                 for (let rankings = 0; rankings < totalCSRank.length; rankings++) {
                     let repeatCount = 0
 
