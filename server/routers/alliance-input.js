@@ -1,4 +1,3 @@
-const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const gameConstants = require("../game.js")

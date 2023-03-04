@@ -1,4 +1,3 @@
-const user = require("../user")
 const express = require("express")
 const router = express.Router()
 require('dotenv').config()
@@ -46,7 +45,6 @@ router.get("/", async function (req, res) {
 
             res.render("match-listing", {
                 teams: teams, 
-                user: user,
                 isAdmin: isAdmin,
                 runningMatch: runningMatch
             })

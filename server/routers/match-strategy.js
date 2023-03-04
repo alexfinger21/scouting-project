@@ -1,4 +1,3 @@
-const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const router = express.Router()
@@ -18,7 +17,6 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
                 match: match,
                 matchup: matchup,
                 gameNumbers: gameNumbers,
-                user: user,
             })
         })
     })

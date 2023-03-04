@@ -1,4 +1,3 @@
-    const user = require("../user")
 const express = require("express")
 const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
@@ -17,7 +16,6 @@ router.get("/",  async function(req, res) { //only gets used if the url == team-
     else {
         const isAdmin = await checkAdmin(req)
         res.render("team-summary", {
-            user: user,
             isAdmin: isAdmin
         })
     }

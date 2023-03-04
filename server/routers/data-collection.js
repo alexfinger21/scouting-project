@@ -1,4 +1,3 @@
-const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const { checkAdmin } = require("../utility")
@@ -33,7 +32,6 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
             }
             res.render("data-collection", {
                 runningMatch,
-                user: user,
                 assignment: assignment,
                 isAdmin: isAdmin
             })

@@ -1,4 +1,3 @@
-const user = require("../user")
 const express = require("express")
 const router = express.Router()
 const crypto = require("crypto")
@@ -41,7 +40,7 @@ router.get("/", function(req, res) {
         
         console.log(login_data)
         
-        res.render("login", {user: user, error: login_data})
+        res.render("login", {error: login_data})
     } else { //if user has logged in before
         res.redirect("/")
     }

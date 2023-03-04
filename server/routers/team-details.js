@@ -1,4 +1,3 @@
-const user = require("../user")
 const database = require("../database/database.js")
 const express = require("express")
 const gameConstants = require("../game.js")
@@ -42,7 +41,6 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
                         teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
                         selectedTeam: team,
-                        user: user,
                     })
                 })
         })
