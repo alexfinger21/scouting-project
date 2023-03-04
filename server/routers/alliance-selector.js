@@ -133,7 +133,7 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalRank.indexOf(sortedRanks[rankings] + repeatCount)
+                    const arrIndex = totalRank.indexOf(sortedRanks[rankings + repeatCount])
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
