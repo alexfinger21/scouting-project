@@ -101,7 +101,7 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].avg_auton_chg_station_score || "N/A"%>
+                            <%= Math.round(matchup[i].avg_auton_chg_station_score) || "N/A"%>
                         </td>
                     <% } %>
                 </tr>
@@ -112,7 +112,11 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].avg_nbr_links || "N/A"%>
+                            <% if(matchup[i].avg_nbr_links) {%> 
+                                <%=matchup[i].avg_nbr_links.toFixed(2)%>
+                            <%} else { %>
+                                N/A
+                            <% } %>
                         </td>
                     <% } %>
                 </tr>
@@ -123,7 +127,7 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=matchup[i].avg_endgame_chg_station_score || "N/A"%>
+                            <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
                         </td>
                     <% } %>
                 </tr>
