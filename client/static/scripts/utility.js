@@ -1,4 +1,4 @@
-let currentPage = "match-listing"
+let currentPage = "/match-listing"
 
 const paths = {
     dataCollection: "/data-collection",
