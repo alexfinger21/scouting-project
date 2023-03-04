@@ -66,17 +66,17 @@ router.post("/", function (req, res) {
             const linkRank = rank(results.map(e => e.avg_nbr_links))
             const autonCSRank = rank(results.map(e => e.avg_auton_chg_station_score))
             const endGameCSRank = rank(results.map(e => e.avg_endgame_chg_station_score))
+            const totalCSRank = rank(results.map(e => e.avg_endgame_chg_station_score + e.avg_auton_chg_station_score))
             const apiRank = results.map(e => e.api_rank)
             const totalRank = new Array(GSRank.length)
-            const totalCSRank = new Array(GSRank.length)
 
             for (let i = 0; i < GSRank.length; i++) {
                 totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
             }
 
-            for (let i = 0; i < GSRank.length; i++) {
-                totalCSRank[i] = autonCSRank[i] + endGameCSRank[i]
-            }
+            cconsole.log(results.map(e => e.team_master_tm_number))
+
+            console.log(totalCSRank)
 
             //console.log(totalRank)
 
