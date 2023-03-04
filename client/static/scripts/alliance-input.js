@@ -1,4 +1,4 @@
-import { socket, paths, requestData, requestPage} from "./utility.js"
+import { socket, paths, requestData, requestPage, currentPage} from "./utility.js"
 
 socket.on("allianceSelection", (match_num) => {
     if (currentPage == paths.allianceInput.substring(1)) {
