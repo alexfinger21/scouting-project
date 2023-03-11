@@ -133,7 +133,21 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalRank.indexOf(sortedRanks[rankings] + repeatCount)
+                    let arrIndex = totalRank.indexOf(sortedRanks[rankings]) 
+
+                    if (rankings == 5) {
+                        console.log("og index = " + arrIndex)
+                        console.log(totalRank[totalRank.indexOf(totalRank[rankings])])
+                    }
+
+                    let copy = totalRank.slice()
+
+                    for (let i = 0; i<repeatCount; i++) {
+                        copy.splice(arrIndex, 1)
+                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
+                        console.log(totalRank)
+                        console.log(copy)
+                    }
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
@@ -170,7 +184,19 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = GSRank.indexOf(sortedRanks[rankings] + repeatCount)
+                    let arrIndex = GSRank.indexOf(sortedRanks[rankings]) 
+
+                    console.log("og index = " + arrIndex)
+                    console.log(GSRank[GSRank.indexOf(sortedRanks[rankings])])
+
+                    let copy = GSRank.slice()
+
+                    for (let i = 0; i<repeatCount; i++) {
+                        copy.splice(arrIndex, 1)
+                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
+                        console.log(GSRank)
+                        console.log(copy)
+                    }
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
@@ -197,7 +223,8 @@ router.post("/", function (req, res) {
                 const sortedRanks = totalCSRank.slice().sort((a, b) => a - b)
 
                 console.log(sortedRanks)
-
+                console.log(totalCSRank)
+                
                 for (let rankings = 0; rankings < totalCSRank.length; rankings++) {
                     let repeatCount = 0
 
@@ -208,7 +235,19 @@ router.post("/", function (req, res) {
                         }
                     }
 
-                    const arrIndex = totalCSRank.indexOf(sortedRanks[rankings + repeatCount]) 
+                    let arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) 
+
+                    console.log("og index = " + arrIndex)
+                    console.log(totalCSRank[totalCSRank.indexOf(sortedRanks[rankings])])
+
+                    let copy = totalCSRank.slice()
+
+                    for (let i = 0; i<repeatCount; i++) {
+                        copy.splice(arrIndex, 1)
+                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
+                        console.log(totalCSRank)
+                        console.log(copy)
+                    }
 
                     console.log("index - " + arrIndex)
                     //console.log(results)
