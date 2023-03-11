@@ -5,6 +5,8 @@ const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
 const socketManager = require("../sockets.js")
 
+let lastPlayedMatch = 1
+
 function addZero(num) {
     return num < 10 ? "0" + num : num
 }
@@ -44,7 +46,8 @@ router.get("/", async function (req, res) {
             res.render("match-listing", {
                 teams: teams, 
                 isAdmin: isAdmin,
-                runningMatch: runningMatch
+                runningMatch: runningMatch,
+                lastPlayedMatch: lastPlayedMatch
             })
         })
 
@@ -72,6 +75,8 @@ router.post("/", function (req, res) {
                 select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
                     console.log(err)
                 })
+
+                lastPlayedMatch = body.gm_number
                 
                 socketManager.emitAllSockets(body.gm_number, "changeMatch")
                 

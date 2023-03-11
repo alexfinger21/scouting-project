@@ -42,13 +42,13 @@ function getAvailableTeams(sortValue) {
             for (const team of response) {
                 let links = team.links
                 if(links) {
-                    links = links.toFixed(2)
+                    links = links.toFixed(1)
                 }
                 else {
                     links = "N/A"
                 }
                 const html = "<tr><td>" + team.team + "</td><td>" + team.apiRank + "</td><td>" + Math.round(team.gameScore) + "</td><td>" + links + "</td><td>" 
-                    + team.autonChargeStation.toFixed(2) + "</td><td>" + team.endgameChargeStation.toFixed(2) + "</td></tr> "
+                    + team.autonChargeStation.toFixed(1) + "</td><td>" + team.endgameChargeStation.toFixed(1) + "</td></tr> "
                 tbody.insertAdjacentElement("beforeend", $(html)[0])
             }
         },

@@ -26,7 +26,7 @@
 <body>
     <div id="page-holder">
         <h1 id="match-listing-title">Matches</h1>
-        <div id="match-scroller">
+        <div id="match-scroller" <%-`scroll-to=${lastPlayedMatch}`%>>
             <% for (let i=0; i < teams.length; i++) { %>
                 <div class="match-container hidden" game_type = <%= teams[i].gm_game_type %> game_number = <%= teams[i].gm_number %>>
                     <%if (runningMatch-1 == i) { %>

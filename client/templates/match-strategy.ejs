@@ -113,7 +113,7 @@
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
                             <% if(matchup[i].avg_nbr_links) {%> 
-                                <%=matchup[i].avg_nbr_links.toFixed(2)%>
+                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
                             <%} else { %>
                                 N/A
                             <% } %>
@@ -222,7 +222,7 @@
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
                             <% if(matchup[i].avg_nbr_links) {%> 
-                                <%=matchup[i].avg_nbr_links.toFixed(2)%>
+                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
                             <%} else { %>
                                 N/A
                             <% } %>

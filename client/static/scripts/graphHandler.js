@@ -9,7 +9,7 @@ function writeData(points) {
         gameScore: points.map(p => Math.round(p.gameScore) ),
         links: points.map((p) => {
             if(p.links) {
-                return p.links.toFixed(2)
+                return p.links.toFixed(1)
             }
             return "N/A"
         }),
@@ -108,7 +108,7 @@ function createBarGraph(points, orderBy, stepValue) {
             gameScore: points.map(p => Math.round( p.gameScore )),
             links: points.map((p) => { 
                 if(p.links) {
-                    return p.links.toFixed(2)
+                    return p.links.toFixed(1)
                 }
                 return "N/A"
             }),
@@ -123,7 +123,7 @@ function createBarGraph(points, orderBy, stepValue) {
                     }
                     else if(orderBy == "links") {
                         if (p.links) {
-                            return p.links.toFixed(2)
+                            return p.links.toFixed(1)
                         }
                         return "N/A"
                     }
