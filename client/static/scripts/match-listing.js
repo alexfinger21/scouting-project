@@ -130,6 +130,13 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function main() {
+    //Scroll to last played match
+    const matchScroller = document.getElementById("match-scroller")
+    const lastPlayed = matchScroller.getAttribute("scroll-to")
+    const matchTable = matchScroller.children[lastPlayed - 1]
+    matchTable.scrollIntoView()
+
+
     /*highlight every th element that has our team
     const thElements = document.querySelectorAll("th")
     thElements.forEach((elm) => {
