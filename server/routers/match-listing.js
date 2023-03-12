@@ -4,6 +4,7 @@ require('dotenv').config()
 const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
 const socketManager = require("../sockets.js")
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 let lastPlayedMatch = 1
 
@@ -34,9 +35,11 @@ router.get("/", async function (req, res) {
                 teams[i] = currentTeam
 
                 const date = new Date(teams[i].gm_timestamp)
+                const month = months[date.getUTCMonth()]
+                const day = date.getDate()
                 const h = addZero(date.getHours())
                 const m = addZero(date.getMinutes())
-                teams[i].time = h + ":" + m
+                teams[i].time = month + " " + day + " " + h + ":" + m
 
                 //console.log(teams[i])
             }
