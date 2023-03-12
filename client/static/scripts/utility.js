@@ -52,6 +52,7 @@ function requestData(url, data) {
             url: url,
             data: JSON.stringify(data),
             success: function (response) {
+                console.log(response)
                 resolve(response)
             },
 
