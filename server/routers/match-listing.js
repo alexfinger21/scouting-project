@@ -39,7 +39,7 @@ router.get("/", async function (req, res) {
                 const day = date.getDate()
                 const h = addZero(date.getHours())
                 const m = addZero(date.getMinutes())
-                teams[i].time = month + " " + day + " " + h + ":" + m
+                teams[i].time = month + " " + day + ", " + h + ":" + m
 
                 //console.log(teams[i])
             }
