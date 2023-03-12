@@ -7,6 +7,8 @@ const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 
 let debounce = false 
 
+let matchTeams = await requestData("/getMatchTeams")
+console.log(matchTeams)
 //When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
