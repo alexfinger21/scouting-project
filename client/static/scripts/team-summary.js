@@ -26,7 +26,10 @@ window.addEventListener("load", main)
 
 
 async function getPoints(x, y, color) {
-    const data = await requestData(paths.teamSummary + "?getData=1")
+    console.log("gotten data")
+    const data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
+    console.log("the data")
+    //console.log(data)
 
     let points = new Array(Array.from(data).length)
     let ind = 0
