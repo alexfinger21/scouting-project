@@ -16,6 +16,7 @@ const database = require("./database/database.js")
 const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
 const favicon = require('serve-favicon')
+const gameConstants = require("./game.js")
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -173,6 +174,14 @@ app.get("/getMatch", function(req, res) {
         } else {
             res.status(200).send({match: 0})
         }
+    })
+})
+
+app.get("/getMatchTeams", function(req, res) {
+    console.log("request recieved!")
+    database.query(database.getTeams(), (err, runningMatchResults) => {
+        console.log(JSON.parse(JSON.stringify(runningMatchResults)))
+        res.status(200).send(JSON.parse(JSON.stringify(runningMatchResults)))
     })
 })
 

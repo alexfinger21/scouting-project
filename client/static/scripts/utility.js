@@ -52,7 +52,7 @@ function requestData(url, data) {
             url: url,
             data: JSON.stringify(data),
             success: function (response) {
-                resolve(JSON.parse(response))
+                resolve(response)
             },
 
             error: function (jqXHR, textStatus, errorThrown) {
