@@ -1,7 +1,7 @@
 import * as graphHandler from "./graphHandler.js"
 import { paths, requestData, highlightColors} from "./utility.js"
 
-const POINT_COLOR = "rgb(81, 121, 167)"
+const POINT_COLOR = "rgb(147, 157, 168)"
 const OUR_TEAM_COLOR = "rgb(242, 142, 43)"
 const HIGHTLIGHT_COLOR = "rgb(225, 87, 89)"
 
@@ -107,7 +107,7 @@ function main() {
                 barGraphCanvas.removeAttribute("hidden")
 
                 ctx = barGraphCanvas.getContext("2d")
-                points = await getPoints("team_master_tm_number", "avg_gm_score", "rgb(81, 121, 167)")
+                points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
                 points.sort(function (a, b) { return b.gameScore - a.gameScore })
                 chart = new Chart(ctx,
                     graphHandler.createBarGraph(
@@ -122,7 +122,7 @@ function main() {
                 barGraphCanvas.removeAttribute("hidden")
 
                 ctx = barGraphCanvas.getContext("2d")
-                points = await getPoints("team_master_tm_number", "avg_gm_score", "rgb(81, 121, 167)")
+                points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
                 points.sort(function (a, b) { return b.links - a.links })
                 chart = new Chart(ctx,
                     graphHandler.createBarGraph(
@@ -137,7 +137,7 @@ function main() {
                 barGraphCanvas.removeAttribute("hidden")
 
                 ctx = barGraphCanvas.getContext("2d")
-                points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", "rgb(81, 121, 167)")
+                points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", POINT_COLOR)
                 points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
                 console.log("GARAh")
                 chart = new Chart(ctx,
@@ -153,7 +153,7 @@ function main() {
                 barGraphCanvas.removeAttribute("hidden")
 
                 ctx = barGraphCanvas.getContext("2d")
-                points = await getPoints("team_master_tm_number", "avg_endgame_chg_station_score", "rgb(81, 121, 167)")
+                points = await getPoints("team_master_tm_number", "avg_endgame_chg_station_score", POINT_COLOR)
                 points.sort(function (a, b) { return b.endgameDocking - a.endgameDocking })
                 chart = new Chart(ctx,
                     graphHandler.createBarGraph(
@@ -168,7 +168,7 @@ function main() {
                 barGraphCanvas.removeAttribute("hidden")
 
                 ctx = barGraphCanvas.getContext("2d")
-                points = await getPoints("team_master_tm_number", "games_played", "rgb(81, 121, 167)")
+                points = await getPoints("team_master_tm_number", "games_played", POINT_COLOR)
                 points.sort(function (a, b) { return b.gamesPlayed - a.gamesPlayed })
                 chart = new Chart(ctx,
                     graphHandler.createBarGraph(
