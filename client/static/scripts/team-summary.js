@@ -2,7 +2,7 @@ import * as graphHandler from "./graphHandler.js"
 import { paths, requestData, highlightColors} from "./utility.js"
 
 const POINT_COLOR = "rgb(147, 157, 168)"
-const OUR_TEAM_COLOR = "rgb(242, 142, 43)"
+const OUR_TEAM_COLOR = "rgb(242, 142, 43)" 
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 
 let debounce = false 
