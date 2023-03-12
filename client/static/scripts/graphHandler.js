@@ -1,7 +1,7 @@
 import { selectRandom, getColor } from "./utility.js"
 
 function writeData(points) {
-    return {
+    return {  
         teamNumber: points.map(p => p.teamNumber),
         teamName: points.map(p => p.teamName),
         rank: points.map(p => p.rank),
