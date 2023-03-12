@@ -15,7 +15,7 @@ const paths = {
 
 const highlightColors = {
     695: "rgb(255,217,98)",
-    1523: "rgb(186,255,139)"
+    2399: "rgb(255,189,241)"
 }
 
 const socket = io.connect(`${window.location.hostname}:5000`, {
