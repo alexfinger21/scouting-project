@@ -198,6 +198,22 @@ function main() {
         })
     }
 
+    const matchContainers = document.getElementsByClassName("match-container")
+    for(const matchContainer of matchContainers) {
+        matchContainer.addEventListener("click", (event) => {
+            const expandables = matchContainer.getElementsByClassName("expandable")
+            for(const expandable of expandables) {
+                if(expandable.getAttribute("hidden")) {
+                    expandable.removeAttribute("hidden")
+                }
+                else {
+                    expandable.setAttribute("hidden", true)
+                }
+            }
+        })
+    }
+
+
     //animate on scroll
     console.log("animate")
     const hiddenElements = document.querySelectorAll(".hidden");
