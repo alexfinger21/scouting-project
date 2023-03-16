@@ -4,10 +4,24 @@ import { paths, requestData, highlightColors} from "./utility.js"
 const POINT_COLOR = "rgb(147, 157, 168)"
 const OUR_TEAM_COLOR = "rgb(242, 142, 43)" 
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
+const RED_COLOR = "rgb(225,87,89)"
+const BLUE_COLOR = "rgb(52,146,234)"
 
 let debounce = false 
 
-let matchTeams = await requestData("/getMatchTeams")
+let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
+    return {
+        gm_number: e.gm_number,
+        r1: e.r1_team_number,
+        r2: e.r2_team_number,
+        r3: e.r1_team_number,
+        b1: e.b1_team_number,
+        b2: e.b2_team_number,
+        b3: e.r1_team_number,
+    }
+})
+
+
 console.log(matchTeams)
 //When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
@@ -37,9 +51,19 @@ async function getPoints(x, y, color) {
     let points = new Array(Array.from(data).length)
     let ind = 0
     for (const val of data) {
+        let teamNumber = val.team_master_tm_number
+        let gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
+        console.log("GAME TEAMS:")
+        console.log(gameTeams)
         let color = POINT_COLOR
-        if(val.team_master_tm_number == document.getElementById("highlight-team").value) {
+        if(teamNumber == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
+        }
+        else if(gameTeams && (gameTeams.r1 == teamNumber || gameTeams.r2 == teamNumber || gameTeams.r3 == teamNumber) ) {
+            color = RED_COLOR
+        }
+        else if(gameTeams && (gameTeams.b1 == teamNumber || gameTeams.b2 == teamNumber || gameTeams.b3 == teamNumber) ) {
+            color = BLUE_COLOR
         }
         else if(highlightColors[val.team_master_tm_number]) {
             color = highlightColors[val.team_master_tm_number]
@@ -235,6 +259,15 @@ function main() {
     //update graph when highlight team value changes
     const highlightTeam = document.getElementById("highlight-team")
     highlightTeam.addEventListener("change", (event) => {
+        //update
+        if (chart) {
+            chart.destroy()
+        }
+        drawChart(currentChart)
+    })
+
+    const highlightMatch = document.getElementById("highlight-match")
+    highlightMatch.addEventListener("change", (event) => {
         //update
         if (chart) {
             chart.destroy()

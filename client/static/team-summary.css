@@ -60,12 +60,8 @@ h1 {
 
 
 #highlight-team-container {
-    display: flex;
+    margin-left: 20vw;
     margin-top: 1vh;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
     font-weight: 200;
 }
 
@@ -83,7 +79,27 @@ h1 {
     transition: text-decoration-color 100ms;
 }
 
-#highlight-team-container input:focus {
+#highlight-match-container {
+    margin-left: 20vw;
+    margin-top: 1vh;
+    font-weight: 200;
+}
+
+#highlight-match-container input {
+    width: 30vw;
+    height: 3vh;
+    margin-left: 1vh;
+    color: #E15759;
+    text-align: center;
+    font-size: 2.5vh;
+    border: 1px solid #3492ea;
+    border-radius: 4px;
+    padding-bottom: 0.1vh;
+    text-decoration-color: #FBFDFF;
+    transition: text-decoration-color 100ms;
+}
+
+#highlight-match-container input:focus {
     box-shadow: 0 0px 8px 0 rgba(158, 225, 872);
 }
 
