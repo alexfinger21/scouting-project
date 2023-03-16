@@ -74,14 +74,20 @@
                             <%= teams[i]["b" + j + "_team_number"] %>
                         </th>
                     <%}%>
+                    </table>
+                    <%if (runningMatch-1 == i) { %>
+                        <table class="match-bottom expandable" hidden="true" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-bottom expandable" hidden="true">
+                    <%}%>
                     <% for (let j = 1; j <= 3; j++) { %>
                         <th <%- `class="red team${teams[i]["r" + j + "_team_number"]}"` %> >
-                            <%= teams[i]["r" + j + "_team_number"] %>
+                            <%="1" %>
                         </th>
                     <%}%>
                     <% for (let j = 1; j <= 3; j++) { %>
                         <th <%- `class="blue team${ teams[i]["b" + j + "_team_number"] }"` %> >
-                            <%= teams[i]["b" + j + "_team_number"] %>
+                            <%= "1" %>
                         </th>
                     <%}%>
                     </table>
