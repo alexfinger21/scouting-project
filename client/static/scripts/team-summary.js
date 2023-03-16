@@ -24,6 +24,9 @@ const observer = new MutationObserver(function (mutations_list) {
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
+function getMatchTeams(matchNum) {
+    return matchTeams[matchNum]
+}
 
 async function getPoints(x, y, color) {
     console.log("gotten data")
