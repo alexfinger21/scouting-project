@@ -198,6 +198,8 @@ function main() {
         })
     }
 
+    /*
+
     const matchContainers = document.getElementsByClassName("match-container")
     for(const matchContainer of matchContainers) {
         matchContainer.addEventListener("click", (event) => {
@@ -212,6 +214,8 @@ function main() {
             }
         })
     }
+
+    */
 
 
     //animate on scroll
