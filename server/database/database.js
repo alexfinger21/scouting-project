@@ -59,7 +59,7 @@ function writeAPIData(teamRankings) {
         let ties_str = String(team.ties)
         let dq_str = String(team.dq)
         let matches_played_str = String(team.matchesPlayed)
-        let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + ",'" + String(time) + "','" + String(time) + "')"
+        let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + ",'" + String(time) + "')"
         console.log(a)
         a = teamRankings.length != counter ? a + "," : a
         console.log(a)
@@ -75,8 +75,7 @@ function writeAPIData(teamRankings) {
         competition_master_cm_event_code, 
         team_master_tm_number, api_rank, 
         api_win, api_loss, api_tie, api_dq, 
-        api_matches_played, 
-        api_ranking_ts, api_rank_ts) 
+        api_matches_played, api_rank_ts) 
         VALUES ${valuesStr}
             ;`
 
