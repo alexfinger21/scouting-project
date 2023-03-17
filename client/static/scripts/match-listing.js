@@ -1,63 +1,68 @@
-import {paths, requestPage, socket } from "./utility.js"
+import { paths, requestPage, socket, currentPage } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
-import { YEAR, COMP} from "./game.js"
+import { YEAR, COMP } from "./game.js"
 
 //when an admin stops a match
 socket.on("stopMatch", (match_num) => {
-    console.log("MATCH NUM: " + match_num)
-    const matchScroller = document.getElementById("match-scroller")
+    if (currentPage == paths.matchListing) {
+        console.log("MATCH NUM: " + match_num)
+        const matchScroller = document.getElementById("match-scroller")
 
-    //DELETE OLD DATA
-    Array.from(matchScroller.children).forEach((container) => {
-        //unhighlight table
-        Array.from(container.children).forEach((table) => {
-            table.style.backgroundColor = "#FFF"
+        //DELETE OLD DATA
+        Array.from(matchScroller.children).forEach((container) => {
+            //unhighlight table
+            Array.from(container.children).forEach((table) => {
+                table.style.backgroundColor = "#FFF"
+            })
         })
-    })
-    //change play button image
-    const buttons = document.getElementsByClassName("start-stop-button")
-    for (const button of buttons) {
-        const img = button.getElementsByTagName("img")[0]
-        if (img) {
-            img.src = "../static/images/play-button.png"
+        //change play button image
+        const buttons = document.getElementsByClassName("start-stop-button")
+        for (const button of buttons) {
+            const img = button.getElementsByTagName("img")[0]
+            if (img) {
+                img.src = "../static/images/play-button.png"
+            }
         }
     }
 })
 
 //when an admin starts a new match
 socket.on("changeMatch", (match_num) => {
-    console.log("MATCH NUM: " + match_num)
-    const matchScroller = document.getElementById("match-scroller")
+    if (currentPage == paths.matchListing) {
+        console.log("MATCH NUM: " + match_num)
 
-    //DELETE OLD DATA
-    Array.from(matchScroller.children).forEach((container) => {
-        //unhighlight table
-        Array.from(container.children).forEach((table) => {
-            table.style.backgroundColor = "#FFF"
+        const matchScroller = document.getElementById("match-scroller")
+
+        //DELETE OLD DATA
+        Array.from(matchScroller.children).forEach((container) => {
+            //unhighlight table
+            Array.from(container.children).forEach((table) => {
+                table.style.backgroundColor = "#FFF"
+            })
         })
-    })
-    //change play button image
-    const buttons = document.getElementsByClassName("start-stop-button")
-    for (const button of buttons) {
-        const img = button.getElementsByTagName("img")[0]
-        if (img) {
-            img.src = "../static/images/play-button.png"
+        //change play button image
+        const buttons = document.getElementsByClassName("start-stop-button")
+        for (const button of buttons) {
+            const img = button.getElementsByTagName("img")[0]
+            if (img) {
+                img.src = "../static/images/play-button.png"
+            }
         }
+        //UPDATE NEW MATCH
+        const container = matchScroller.children[match_num - 1]
+        //highlight table
+        const tables = container.getElementsByTagName("table")
+        console.log(tables)
+        for (const tbl of tables) {
+            tbl.style.backgroundColor = "#FFF5D6"
+        }
+        //change image
+        const imgContainer = container.querySelector(".start-stop-button")
+        if (imgContainer) { //image exists, is an admin
+            imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
+        }
+        console.log("GAR GAR GAR 😈😈")
     }
-    //UPDATE NEW MATCH
-    const container = matchScroller.children[match_num - 1]
-    //highlight table
-    const tables = container.getElementsByTagName("table")
-    console.log(tables)
-    for (const tbl of tables) {
-        tbl.style.backgroundColor = "#FFF5D6"
-    }
-    //change image
-    const imgContainer = container.querySelector(".start-stop-button")
-    if(imgContainer) { //image exists, is an admin
-        imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
-    }
-    console.log("GAR GAR GAR 😈😈")
 })
 
 //scroll animations
@@ -153,34 +158,34 @@ function main() {
         btn.addEventListener("click", async (event) => {
             //get img
             //if (!debounce) {
-                //debounce = true
-                const img = btn.getElementsByTagName("img")[0]
-                if (img.src.indexOf("play-button.png") > -1) { //press play
-                    const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+            //debounce = true
+            const img = btn.getElementsByTagName("img")[0]
+            if (img.src.indexOf("play-button.png") > -1) { //press play
+                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
 
-                    const data = {
-                        year: YEAR,
-                        event_code: COMP,
-                        gm_type: container.getAttribute("game_type"), //P, Q, or E
-                        gm_number: container.getAttribute("game_number"),
-                        stop_match: false
-                    }
-
-                    console.log(data)
-
-                    const [isSuccess, matchNumber] = await startMatch(data)
-                    if (!isSuccess) {
-                        alert("Stop match " + matchNumber + " before starting a new match")
-                        //debounce = false
-                    } else {
-                        //debounce = false
-                    }
+                const data = {
+                    year: YEAR,
+                    event_code: COMP,
+                    gm_type: container.getAttribute("game_type"), //P, Q, or E
+                    gm_number: container.getAttribute("game_number"),
+                    stop_match: false
                 }
-                else { //press stop
-                    //send query
-                    stopMatch()
+
+                console.log(data)
+
+                const [isSuccess, matchNumber] = await startMatch(data)
+                if (!isSuccess) {
+                    alert("Stop match " + matchNumber + " before starting a new match")
+                    //debounce = false
+                } else {
                     //debounce = false
                 }
+            }
+            else { //press stop
+                //send query
+                stopMatch()
+                //debounce = false
+            }
             //}
         })
     }
@@ -190,7 +195,7 @@ function main() {
         console.log("hs")
         button.addEventListener("click", () => {
             const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
-            requestPage(paths.matchStrategy+ "?match=" + container.getAttribute("game_number"))
+            requestPage(paths.matchStrategy + "?match=" + container.getAttribute("game_number"))
             const hoverButton = document.getElementById("hover-button")
             const matchStrategyButton = document.getElementById("match-strategy-button")
             moveToPage(hoverButton.getBoundingClientRect().left, matchStrategyButton.getBoundingClientRect().left, hoverButton)

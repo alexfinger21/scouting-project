@@ -98,6 +98,7 @@ function arrHasDuplicates(arr) {
 }
 
 async function requestPage(url, data) {
+    const oldCurrentPage = url 
     console.log("\nURL: " + url)
     $.ajax({
         type: "GET",
@@ -105,20 +106,22 @@ async function requestPage(url, data) {
         url: url,
         data: JSON.stringify(data),
         success: function(response) {
-            currentPage = url
+            if (oldCurrentPage == currentPage) {
+                currentPage = url
 
-            let temp
+                let temp
 
-            $(response).each(function() {
-               if ($(this).attr('id') == "page-holder") {
-                temp = $(this)
-               }
-            })
-            console.log(temp)
+                $(response).each(function() {
+                if ($(this).attr('id') == "page-holder") {
+                    temp = $(this)
+                }
+                })
+                console.log(temp)
 
-            document.body.removeChild(document.getElementById("page-holder"))
+                document.body.removeChild(document.getElementById("page-holder"))
 
-            $("body").append(temp)
+                $("body").append(temp)
+            }
         },
 
         error: function(jqXHR, textStatus, errorThrown)
