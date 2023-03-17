@@ -7,7 +7,7 @@ const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
 const BLUE_COLOR = "rgb(52,146,234)"
 
-let debounce = false 
+let debounce = false
 
 let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     return {
@@ -115,6 +115,8 @@ function main() {
     let ctx
 
     async function drawChart(number) {
+        const oldCurrentChart = currentChart
+
         if (debounce) { return }
 
         debounce = true
@@ -126,13 +128,16 @@ function main() {
                 scatterPlotCanvas.removeAttribute("hidden")
                 ctx = scatterPlotCanvas.getContext("2d")
                 points = await getPoints("api_rank", "avg_gm_score")
-                chart = new Chart(ctx,
-                    graphHandler.createScatterChart(
-                        points,
-                        "FRC Rank", //x axis title
-                        "Avg Score" //y axis title
+
+                if (oldCurrentChart == currentChart) { 
+                    chart = new Chart(ctx,
+                        graphHandler.createScatterChart(
+                            points,
+                            "FRC Rank", //x axis title
+                            "Avg Score" //y axis title
+                        )
                     )
-                )
+                }
                 break
             case 1:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -140,14 +145,17 @@ function main() {
 
                 ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
-                points.sort(function (a, b) { return b.gameScore - a.gameScore })
-                chart = new Chart(ctx,
-                    graphHandler.createBarGraph(
-                        points,
-                        "gameScore",
-                        15
+
+                if (oldCurrentChart == currentChart) { 
+                    points.sort(function (a, b) { return b.gameScore - a.gameScore })
+                    chart = new Chart(ctx,
+                        graphHandler.createBarGraph(
+                            points,
+                            "gameScore",
+                            15
+                        )
                     )
-                )
+                }
                 break
             case 2:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -155,14 +163,17 @@ function main() {
 
                 ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
-                points.sort(function (a, b) { return b.links - a.links })
-                chart = new Chart(ctx,
-                    graphHandler.createBarGraph(
-                        points,
-                        "links",
-                        1
+
+                if (oldCurrentChart == currentChart) { 
+                    points.sort(function (a, b) { return b.links - a.links })
+                    chart = new Chart(ctx,
+                        graphHandler.createBarGraph(
+                            points,
+                            "links",
+                            1
+                        )
                     )
-                )
+                }
                 break
             case 3:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -170,15 +181,18 @@ function main() {
 
                 ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", POINT_COLOR)
-                points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
-                console.log("GARAh")
-                chart = new Chart(ctx,
-                    graphHandler.createBarGraph(
-                        points,
-                        "autoDocking",
-                        1.2
+
+                if (oldCurrentChart == currentChart) { 
+                    points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
+                    console.log("GARAh")
+                    chart = new Chart(ctx,
+                        graphHandler.createBarGraph(
+                            points,
+                            "autoDocking",
+                            1.2
+                        )
                     )
-                )
+                }
                 break
             case 4:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -186,14 +200,17 @@ function main() {
 
                 ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_endgame_chg_station_score", POINT_COLOR)
-                points.sort(function (a, b) { return b.endgameDocking - a.endgameDocking })
-                chart = new Chart(ctx,
-                    graphHandler.createBarGraph(
-                        points,
-                        "endgameDocking",
-                        1
+
+                if (oldCurrentChart == currentChart) { 
+                    points.sort(function (a, b) { return b.endgameDocking - a.endgameDocking })
+                    chart = new Chart(ctx,
+                        graphHandler.createBarGraph(
+                            points,
+                            "endgameDocking",
+                            1
+                        )
                     )
-                )
+                }
                 break
             case 5:
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -201,14 +218,17 @@ function main() {
 
                 ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "games_played", POINT_COLOR)
-                points.sort(function (a, b) { return b.gamesPlayed - a.gamesPlayed })
-                chart = new Chart(ctx,
-                    graphHandler.createBarGraph(
-                        points,
-                        "gamesPlayed",
-                        3
+                
+                if (oldCurrentChart == currentChart) { 
+                    points.sort(function (a, b) { return b.gamesPlayed - a.gamesPlayed })
+                    chart = new Chart(ctx,
+                        graphHandler.createBarGraph(
+                            points,
+                            "gamesPlayed",
+                            3
+                        )
                     )
-                )
+                }
                 break
         }
 
@@ -227,7 +247,7 @@ function main() {
         if (chart) {
             chart.destroy()
         }
-
+        
         const old = currentChart
 
         currentChart = currentChart == 0 ? 5 : currentChart - 1

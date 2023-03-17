@@ -1,63 +1,68 @@
-import { paths, requestPage, socket } from "./utility.js"
+import {  paths, requestPage, socket, currentPage } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP } from "./game.js"
 
 //when an admin stops a match
 socket.on("stopMatch", (match_num) => {
-    console.log("MATCH NUM: " + match_num)
-    const matchScroller = document.getElementById("match-scroller")
+    if (currentPage == paths.matchListing) {
+        console.log("MATCH NUM: " + match_num)
+        const matchScroller = document.getElementById("match-scroller")
 
-    //DELETE OLD DATA
-    Array.from(matchScroller.children).forEach((container) => {
-        //unhighlight table
-        Array.from(container.children).forEach((table) => {
-            table.style.backgroundColor = "#FFF"
+        //DELETE OLD DATA
+        Array.from(matchScroller.children).forEach((container) => {
+            //unhighlight table
+            Array.from(container.children).forEach((table) => {
+                table.style.backgroundColor = "#FFF"
+            })
         })
-    })
-    //change play button image
-    const buttons = document.getElementsByClassName("start-stop-button")
-    for (const button of buttons) {
-        const img = button.getElementsByTagName("img")[0]
-        if (img) {
-            img.src = "../static/images/play-button.png"
+        //change play button image
+        const buttons = document.getElementsByClassName("start-stop-button")
+        for (const button of buttons) {
+            const img = button.getElementsByTagName("img")[0]
+            if (img) {
+                img.src = "../static/images/play-button.png"
+            }
         }
     }
 })
 
 //when an admin starts a new match
 socket.on("changeMatch", (match_num) => {
-    console.log("MATCH NUM: " + match_num)
-    const matchScroller = document.getElementById("match-scroller")
+    if (currentPage == paths.matchListing) {
+        console.log("MATCH NUM: " + match_num)
 
-    //DELETE OLD DATA
-    Array.from(matchScroller.children).forEach((container) => {
-        //unhighlight table
-        Array.from(container.children).forEach((table) => {
-            table.style.backgroundColor = "#FFF"
+        const matchScroller = document.getElementById("match-scroller")
+
+        //DELETE OLD DATA
+        Array.from(matchScroller.children).forEach((container) => {
+            //unhighlight table
+            Array.from(container.children).forEach((table) => {
+                table.style.backgroundColor = "#FFF"
+            })
         })
-    })
-    //change play button image
-    const buttons = document.getElementsByClassName("start-stop-button")
-    for (const button of buttons) {
-        const img = button.getElementsByTagName("img")[0]
-        if (img) {
-            img.src = "../static/images/play-button.png"
+        //change play button image
+        const buttons = document.getElementsByClassName("start-stop-button")
+        for (const button of buttons) {
+            const img = button.getElementsByTagName("img")[0]
+            if (img) {
+                img.src = "../static/images/play-button.png"
+            }
         }
+        //UPDATE NEW MATCH
+        const container = matchScroller.children[match_num - 1]
+        //highlight table
+        const tables = container.getElementsByTagName("table")
+        console.log(tables)
+        for (const tbl of tables) {
+            tbl.style.backgroundColor = "#FFF5D6"
+        }
+        //change image
+        const imgContainer = container.querySelector(".start-stop-button")
+        if  (imgContainer) { //image exists, is an admin
+            imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
+        }
+        console.log("GAR GAR GAR 😈😈")
     }
-    //UPDATE NEW MATCH
-    const container = matchScroller.children[match_num - 1]
-    //highlight table
-    const tables = container.getElementsByTagName("table")
-    console.log(tables)
-    for (const tbl of tables) {
-        tbl.style.backgroundColor = "#FFF5D6"
-    }
-    //change image
-    const imgContainer = container.querySelector(".start-stop-button")
-    if (imgContainer) { //image exists, is an admin
-        imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
-    }
-    console.log("GAR GAR GAR 😈😈")
 })
 
 //scroll animations
