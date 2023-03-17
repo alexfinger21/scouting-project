@@ -80,6 +80,9 @@
                     <% } else {%>
                         <table class="match-bottom expandable" hidden="true">
                     <%}%>
+                    <colgroup>
+                        <col span="6" style="width: 16.67%">
+                    </colgroup>
                     <% for (let j = 1; j <= 3; j++) { %>
                         <th <%- `class="red team${teams[i]["r" + j + "_team_number"]}"` %> >
                             <%="1" %>

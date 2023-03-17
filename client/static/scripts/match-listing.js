@@ -1,6 +1,6 @@
-import {paths, requestPage, socket } from "./utility.js"
+import { paths, requestPage, socket } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
-import { YEAR, COMP} from "./game.js"
+import { YEAR, COMP } from "./game.js"
 
 //when an admin stops a match
 socket.on("stopMatch", (match_num) => {
@@ -54,7 +54,7 @@ socket.on("changeMatch", (match_num) => {
     }
     //change image
     const imgContainer = container.querySelector(".start-stop-button")
-    if(imgContainer) { //image exists, is an admin
+    if (imgContainer) { //image exists, is an admin
         imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
     }
     console.log("GAR GAR GAR 😈😈")
@@ -153,34 +153,34 @@ function main() {
         btn.addEventListener("click", async (event) => {
             //get img
             //if (!debounce) {
-                //debounce = true
-                const img = btn.getElementsByTagName("img")[0]
-                if (img.src.indexOf("play-button.png") > -1) { //press play
-                    const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
+            //debounce = true
+            const img = btn.getElementsByTagName("img")[0]
+            if (img.src.indexOf("play-button.png") > -1) { //press play
+                const container = img.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
 
-                    const data = {
-                        year: YEAR,
-                        event_code: COMP,
-                        gm_type: container.getAttribute("game_type"), //P, Q, or E
-                        gm_number: container.getAttribute("game_number"),
-                        stop_match: false
-                    }
-
-                    console.log(data)
-
-                    const [isSuccess, matchNumber] = await startMatch(data)
-                    if (!isSuccess) {
-                        alert("Stop match " + matchNumber + " before starting a new match")
-                        //debounce = false
-                    } else {
-                        //debounce = false
-                    }
+                const data = {
+                    year: YEAR,
+                    event_code: COMP,
+                    gm_type: container.getAttribute("game_type"), //P, Q, or E
+                    gm_number: container.getAttribute("game_number"),
+                    stop_match: false
                 }
-                else { //press stop
-                    //send query
-                    stopMatch()
+
+                console.log(data)
+
+                const [isSuccess, matchNumber] = await startMatch(data)
+                if (!isSuccess) {
+                    alert("Stop match " + matchNumber + " before starting a new match")
+                    //debounce = false
+                } else {
                     //debounce = false
                 }
+            }
+            else { //press stop
+                //send query
+                stopMatch()
+                //debounce = false
+            }
             //}
         })
     }
@@ -190,7 +190,7 @@ function main() {
         console.log("hs")
         button.addEventListener("click", () => {
             const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
-            requestPage(paths.matchStrategy+ "?match=" + container.getAttribute("game_number"))
+            requestPage(paths.matchStrategy + "?match=" + container.getAttribute("game_number"))
             const hoverButton = document.getElementById("hover-button")
             const matchStrategyButton = document.getElementById("match-strategy-button")
             moveToPage(hoverButton.getBoundingClientRect().left, matchStrategyButton.getBoundingClientRect().left, hoverButton)
@@ -198,24 +198,46 @@ function main() {
         })
     }
 
-    /*
-
     const matchContainers = document.getElementsByClassName("match-container")
-    for(const matchContainer of matchContainers) {
+    for (const matchContainer of matchContainers) {
         matchContainer.addEventListener("click", (event) => {
-            const expandables = matchContainer.getElementsByClassName("expandable")
-            for(const expandable of expandables) {
-                if(expandable.getAttribute("hidden")) {
-                    expandable.removeAttribute("hidden")
-                }
-                else {
-                    expandable.setAttribute("hidden", true)
-                }
+            if (document.elementFromPoint(event.clientX, event.clientY).tagName != "IMG") { //if not clicking play button
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: paths.matchListing + "?getCollectedData=true&matchNumber=" + matchContainer.getAttribute("game_number"),
+                    success: function (response) {
+                        const expandables = matchContainer.getElementsByClassName("expandable")
+                        for (const expandable of expandables) {
+                            if (expandable.getAttribute("hidden")) {
+                                const ths = expandable.getElementsByTagName("th")
+                                console.log(response)
+                                for(const th of ths) {
+                                    th.innerHTML = "X"
+                                }
+                                for(let i = 0; i < response.length; i++) {
+                                    let pos = response[i].game_matchup_gm_alliance_position - 1
+                                    if(response[i].game_matchup_gm_alliance == "B") {
+                                        pos += 3
+                                    }
+                                    ths[pos].innerHTML = response[i].gd_um_id.substring(0,5)
+                                    console.log(pos + " changed to " + response[i].gd_um_id)
+                                }
+                                expandable.removeAttribute("hidden")
+                            }
+                            else {
+                                expandable.setAttribute("hidden", true)
+                            }
+                        }
+                    },
+
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        
+                    },
+                })
             }
         })
     }
-
-    */
 
 
     //animate on scroll
