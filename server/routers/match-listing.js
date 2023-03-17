@@ -13,50 +13,60 @@ function addZero(num) {
 }
 
 router.get("/", async function (req, res) {
-    database.query(database.getTeams(), async (err, results) => {
-        //get isAdmin
-        console.log(results)
-        console.log(err)
-        const isAdmin = await checkAdmin(req)
-
-        //get running game
-        let runningMatch = -1
-        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-
-            if (runningMatchResults.length > 0) {
-                runningMatch = runningMatchResults[0].cg_gm_number
-            }
-
-
-            //get teams 
-            const teams = {}
-
-            for (let i = 0; i < results.length; i++) {
-                const currentTeam = results[i]
-
-                teams[i] = currentTeam
-
-                const date = new Date(teams[i].gm_timestamp)
-                const month = months[date.getUTCMonth()]
-                const day = date.getDate()
-                const h = addZero(date.getHours())
-                const m = addZero(date.getMinutes())
-                teams[i].time = month + " " + day + ", " + h + ":" + m
-
-                //console.log(teams[i])
-            }
-
-            teams.length = Object.keys(teams).length
-
-            res.render("match-listing", {
-                teams: teams, 
-                isAdmin: isAdmin,
-                runningMatch: runningMatch,
-                lastPlayedMatch: lastPlayedMatch
+    console.log("Get collected data: " + req.query.getCollectedData)
+    if ("" + req.query.getCollectedData == "true") {
+        console.log("nice")
+        database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
+            console.log("RESULTS: ")
+            console.log(results)
+            res.status(200).send(results)
+        })
+    }
+    else {
+        database.query(database.getTeams(), async (err, results) => {
+            //get isAdmin
+            console.log(results)
+            console.log(err)
+            const isAdmin = await checkAdmin(req)
+    
+            //get running game
+            let runningMatch = -1
+            database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
+    
+                if (runningMatchResults.length > 0) {
+                    runningMatch = runningMatchResults[0].cg_gm_number
+                }
+    
+    
+                //get teams 
+                const teams = {}
+    
+                for (let i = 0; i < results.length; i++) {
+                    const currentTeam = results[i]
+    
+                    teams[i] = currentTeam
+    
+                    const date = new Date(teams[i].gm_timestamp)
+                    const month = months[date.getUTCMonth()]
+                    const day = date.getDate()
+                    const h = addZero(date.getHours())
+                    const m = addZero(date.getMinutes())
+                    teams[i].time = month + " " + day + ", " + h + ":" + m
+    
+                    //console.log(teams[i])
+                }
+    
+                teams.length = Object.keys(teams).length
+    
+                res.render("match-listing", {
+                    teams: teams, 
+                    isAdmin: isAdmin,
+                    runningMatch: runningMatch,
+                    lastPlayedMatch: lastPlayedMatch
+                })
             })
         })
-
-    })
+    }
 })
 
 router.post("/", function (req, res) {

@@ -245,6 +245,42 @@ function getTeams() {
     return returnStr
 }
 
+function getCollectedData(match) {
+    return `
+    SELECT 
+        gd.frc_season_master_sm_year, 
+        gd.competition_master_cm_event_code, 
+        gd.game_matchup_gm_game_type,
+        gd.game_matchup_gm_number, 
+        gd.game_matchup_gm_alliance, 
+        gd.game_matchup_gm_alliance_position,
+        gd_um_id, 
+        count(1) as rec_cnt
+    FROM 
+        teamsixn_scouting_dev.game_details gd 
+    WHERE 
+        gd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
+        gd.competition_master_cm_event_code = '${gameConstants.COMP}' AND
+        gd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' AND
+        game_matchup_gm_number = ${match}
+    GROUP BY 
+        gd.frc_season_master_sm_year, 
+        gd.competition_master_cm_event_code, 
+        gd.game_matchup_gm_game_type,
+        gd.game_matchup_gm_number, 
+        gd.game_matchup_gm_alliance, 
+        gd.game_matchup_gm_alliance_position,
+        gd_um_id
+    ORDER BY 
+        gd.frc_season_master_sm_year, 
+        gd.competition_master_cm_event_code, 
+        gd.game_matchup_gm_game_type,
+        gd.game_matchup_gm_number, 
+        gd.game_matchup_gm_alliance, 
+        gd.game_matchup_gm_alliance_position,
+        gd_um_id;`
+}
+
 function getAssignedTeam(username) {
     return `SELECT 
     cg.cg_gm_number, 
@@ -364,6 +400,7 @@ module.exports = {
     getGameNumbers: getGameNumbers,
     query: executeQuery,
     getTeams: getTeams,
+    getCollectedData: getCollectedData,
     saveData: saveData,
     deleteData: deleteData,
     getAssignedTeam: getAssignedTeam,
