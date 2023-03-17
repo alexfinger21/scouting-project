@@ -1,4 +1,4 @@
-import { paths, requestPage, socket, currentPage } from "./utility.js"
+import {  paths, requestPage, socket, currentPage } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP } from "./game.js"
 
@@ -58,7 +58,7 @@ socket.on("changeMatch", (match_num) => {
         }
         //change image
         const imgContainer = container.querySelector(".start-stop-button")
-        if (imgContainer) { //image exists, is an admin
+        if  (imgContainer) { //image exists, is an admin
             imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
         }
         console.log("GAR GAR GAR 😈😈")
@@ -203,24 +203,46 @@ function main() {
         })
     }
 
-    /*
-
     const matchContainers = document.getElementsByClassName("match-container")
-    for(const matchContainer of matchContainers) {
+    for (const matchContainer of matchContainers) {
         matchContainer.addEventListener("click", (event) => {
-            const expandables = matchContainer.getElementsByClassName("expandable")
-            for(const expandable of expandables) {
-                if(expandable.getAttribute("hidden")) {
-                    expandable.removeAttribute("hidden")
-                }
-                else {
-                    expandable.setAttribute("hidden", true)
-                }
+            if (document.elementFromPoint(event.clientX, event.clientY).tagName != "IMG") { //if not clicking play button
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: paths.matchListing + "?getCollectedData=true&matchNumber=" + matchContainer.getAttribute("game_number"),
+                    success: function (response) {
+                        const expandables = matchContainer.getElementsByClassName("expandable")
+                        for (const expandable of expandables) {
+                            if (expandable.getAttribute("hidden")) {
+                                const ths = expandable.getElementsByTagName("th")
+                                console.log(response)
+                                for(const th of ths) {
+                                    th.innerHTML = "X"
+                                }
+                                for(let i = 0; i < response.length; i++) {
+                                    let pos = response[i].game_matchup_gm_alliance_position - 1
+                                    if(response[i].game_matchup_gm_alliance == "B") {
+                                        pos += 3
+                                    }
+                                    ths[pos].innerHTML = response[i].gd_um_id.substring(0,5)
+                                    console.log(pos + " changed to " + response[i].gd_um_id)
+                                }
+                                expandable.removeAttribute("hidden")
+                            }
+                            else {
+                                expandable.setAttribute("hidden", true)
+                            }
+                        }
+                    },
+
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        
+                    },
+                })
             }
         })
     }
-
-    */
 
 
     //animate on scroll
