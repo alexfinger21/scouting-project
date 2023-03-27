@@ -26,7 +26,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             database.query(`SELECT 
                 * 
                 FROM 
-                    teamsixn_scouting_dev.v_match_team_score vmts
+                    teamsixn_scouting_dev.v_match_team_score_cncb_count vmts
                 WHERE
                     vmts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
                     vmts.competition_master_cm_event_code = '${gameConstants.COMP}' AND 
@@ -37,6 +37,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
 
                     console.log("RESULTS: ")
                     console.log(results)
+
                     res.render("team-details", {
                         teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
                         teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
