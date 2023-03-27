@@ -29,6 +29,8 @@
                         <th>Nbr Links</th>
                         <th>Auton Chg Station</th>
                         <th>Endgame Chg Station</th>
+                        <th>Count of Cones<br>L/M/H</th>
+                        <th>Count of Cubes<br>L/M/H</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +50,12 @@
                             </td>
                             <td>
                                 <%= teamData[i].endgame_chg_station %>
+                            </td>
+                            <td>
+                                <%= teamData[i].Cone_Count_L + "/" + teamData[i].Cone_Count_M + "/" + teamData[i].Cone_Count_H %>
+                            </td>
+                            <td>
+                                <%= teamData[i].Cube_Count_L + "/" + teamData[i].Cube_Count_M + "/" + teamData[i].Cube_Count_H %>
                             </td>
                         </tr>
                     <% } %>
