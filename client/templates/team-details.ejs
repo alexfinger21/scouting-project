@@ -52,10 +52,10 @@
                                 <%= teamData[i].endgame_chg_station %>
                             </td>
                             <td>
-                                <%= teamData[i].Cone_Count_L + "/" + teamData[i].Cone_Count_M + "/" + teamData[i].Cone_Count_H %>
+                                <%= `T: ${teamData[i].Cone_Count_L + teamData[i].Cone_Count_M + teamData[i].Cone_Count_H} | ${teamData[i].Cone_Count_L}/${teamData[i].Cone_Count_M}/${teamData[i].Cone_Count_H}` %>
                             </td>
                             <td>
-                                <%= teamData[i].Cube_Count_L + "/" + teamData[i].Cube_Count_M + "/" + teamData[i].Cube_Count_H %>
+                                <%= `T: ${teamData[i].Cube_Count_L + teamData[i].Cube_Count_M + teamData[i].Cube_Count_H} | ${teamData[i].Cube_Count_L}/${teamData[i].Cube_Count_M}/${teamData[i].Cube_Count_H}` %>
                             </td>
                         </tr>
                     <% } %>
