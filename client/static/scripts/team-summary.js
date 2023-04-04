@@ -1,12 +1,12 @@
 import * as graphHandler from "./graphHandler.js"
-import { paths, requestData, highlightColors} from "./utility.js"
+import { paths, requestData, highlightColors, currentPage} from "./utility.js"
 
 const POINT_COLOR = "rgb(147, 157, 168)"
 const OUR_TEAM_COLOR = "rgb(242, 142, 43)" 
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
 const BLUE_COLOR = "rgb(52,146,234)"
-const data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
+let data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
 
 let debounce = false
 
@@ -27,8 +27,9 @@ console.log(matchTeams)
 //When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(function (removed_node) {
-            if (removed_node.id == 'page-holder') {
+        mutation.removedNodes.forEach(async function (removed_node) {
+            if (removed_node.id == 'page-holder' && currentPage == paths.teamSummary) {
+                data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
                 main()
                 debounce = false
             }
