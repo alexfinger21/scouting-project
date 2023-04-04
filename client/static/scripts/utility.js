@@ -6,11 +6,11 @@ const paths = {
     matchListing: "/match-listing",
     matchStrategy: "/match-strategy",
     adminPage: "/admin-page",
-    rankingPage: "/team-rankings",
     teamSummary: "/team-summary",
     teamDetails: "/team-details",
     allianceInput: "/alliance-input",
-    allianceSelector: "/alliance-selector"
+    allianceSelector: "/alliance-selector",
+    rankings: "/rankings",
 }
 
 const highlightColors = {

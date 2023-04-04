@@ -25,6 +25,9 @@ const observer = new MutationObserver(function (mutations_list) {
     })
 })
 
+observer.observe(document.body, { subtree: false, childList: true });
+window.addEventListener("load", main)
+
 let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     return {
         gm_number: e.gm_number,
@@ -37,12 +40,9 @@ let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     }
 })
 
-
 console.log(matchTeams)
 //When teamsummary is loaded, call the main function 
 
-observer.observe(document.body, { subtree: false, childList: true });
-window.addEventListener("load", main)
 
 function getMatchTeams(matchNum) {
     return matchTeams[matchNum]
