@@ -6,9 +6,24 @@ const OUR_TEAM_COLOR = "rgb(242, 142, 43)"
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
 const BLUE_COLOR = "rgb(52,146,234)"
-let data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
+let data = {0: "dummy data"}
 
 let debounce = false
+
+const observer = new MutationObserver(function (mutations_list) {
+    mutations_list.forEach(function (mutation) {
+        mutation.removedNodes.forEach(async function (removed_node) {
+            console.log(currentPage)
+            if (removed_node.id == 'page-holder' && currentPage == paths.teamSummary) {
+                console.log("got here")
+                data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
+                console.log(data)
+                main()
+                debounce = false
+            }
+        })
+    })
+})
 
 let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     return {
@@ -25,20 +40,6 @@ let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
 
 console.log(matchTeams)
 //When teamsummary is loaded, call the main function 
-const observer = new MutationObserver(function (mutations_list) {
-    mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(async function (removed_node) {
-            console.log(currentPage)
-            if (removed_node.id == 'page-holder') {
-                console.log("got here")
-                data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
-                console.log(data)
-                main()
-                debounce = false
-            }
-        })
-    })
-})
 
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
