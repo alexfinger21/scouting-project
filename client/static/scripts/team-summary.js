@@ -6,6 +6,7 @@ const OUR_TEAM_COLOR = "rgb(242, 142, 43)"
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
 const BLUE_COLOR = "rgb(52,146,234)"
+const data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
 
 let debounce = false
 
@@ -44,7 +45,6 @@ function getMatchTeams(matchNum) {
 
 async function getPoints(x, y, color) {
     console.log("gotten data")
-    const data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
     console.log("the data")
     //console.log(data)
 
