@@ -55,7 +55,7 @@ async function getPoints(x, y, color) {
         let teamNumber = val.team_master_tm_number
         let gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
         console.log("GAME TEAMS:")
-        console.log(gameTeams)
+        //console.log(gameTeams)
         let color = POINT_COLOR
         if(teamNumber == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
