@@ -4,7 +4,7 @@ const GAME_TYPE = "Q"
 const gameStart = new Date("March 29, 2023")
 const gameEnd = new Date("April 2, 2023")
 
-export{
+export {
     YEAR,
     COMP,
     GAME_TYPE,

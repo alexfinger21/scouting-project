@@ -5,7 +5,7 @@ import {YEAR, COMP, GAME_TYPE} from "./game.js"
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
-            if (removed_node.id == 'page-holder') {
+            if (removed_node.id == 'page-holder' && currentPage == paths.dataCollection) {
                 main()
             }
         })

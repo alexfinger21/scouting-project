@@ -384,6 +384,19 @@ function getChartData() {
     `
 }
 
+function getTeamPictures(team) {
+    return `
+    select 
+        *
+    from 
+        teamsixn_scouting_dev.pit_scouting ps 
+    WHERE
+        frc_season_master_sm_year = ${gameConstants.YEAR} and 
+        competition_master_cm_event_code = '${gameConstants.COMP}' and 
+        team_master_tm_number = ${team};
+    `
+}
+
 function executeQuery(sql, callback) {
     pool.query(sql, function (error, results, fields) {
         if (error) {
@@ -407,5 +420,6 @@ module.exports = {
     deleteAPIData: deleteAPIData,
     getChartData: getChartData,
     insertAllianceSelection: insertAllianceSelection,
-    deleteAllianceSelection: deleteAllianceSelection
+    deleteAllianceSelection: deleteAllianceSelection,
+    getTeamPictures: getTeamPictures
 }

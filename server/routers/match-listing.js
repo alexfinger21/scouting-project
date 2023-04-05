@@ -17,15 +17,12 @@ router.get("/", async function (req, res) {
     if ("" + req.query.getCollectedData == "true") {
         console.log("nice")
         database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
-            console.log("RESULTS: ")
-            console.log(results)
             res.status(200).send(results)
         })
     }
     else {
         database.query(database.getTeams(), async (err, results) => {
             //get isAdmin
-            console.log(results)
             console.log(err)
             const isAdmin = await checkAdmin(req)
     
