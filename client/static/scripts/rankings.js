@@ -1,4 +1,4 @@
-import {paths} from "./utility.js"
+import {paths, currentPage} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {

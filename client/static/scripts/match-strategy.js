@@ -19,7 +19,7 @@ function main() {
     select.onchange = () => {
         console.log("\n\nSELECT VALUE\n" + select.value)
         console.log("REQUEST PAGE\n\n")
-        requestPage(paths.matchStrategy + "?match=" + select.value)
+        requestPage(paths.matchStrategy + "?match=" + select.value, {}, paths.matchStrategy)
     }
 
 }

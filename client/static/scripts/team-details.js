@@ -1,4 +1,4 @@
-import {paths, requestData, requestPage } from "./utility.js"
+import {paths, requestData, requestPage, currentPage } from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -19,8 +19,7 @@ function main() {
     console.log(teamSelector)
 
     teamSelector.addEventListener("change", async (e) => {
-        console.log("hi")
-        const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value)
+        const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value, {}, paths.teamDetails)
 
         console.log(data)
     }) 

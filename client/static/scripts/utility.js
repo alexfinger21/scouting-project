@@ -97,7 +97,7 @@ function arrHasDuplicates(arr) {
     return false
 }
 
-async function requestPage(url, data) {
+async function requestPage(url, data, pageVal) {
     const oldCurrentPage = currentPage 
     console.log("\nURL: " + url)
     $.ajax({
@@ -107,7 +107,8 @@ async function requestPage(url, data) {
         data: JSON.stringify(data),
         success: function(response) {
             if (oldCurrentPage == currentPage) {
-                currentPage = url
+                console.log(currentPage)
+                currentPage = pageVal ? pageVal : url
 
                 let temp
 
