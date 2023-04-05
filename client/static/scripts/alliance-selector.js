@@ -11,7 +11,7 @@ socket.on("allianceSelection", (match_num) => {
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
-            if (removed_node.id == 'page-holder') {
+            if (removed_node.id == 'page-holder' && currentPage == paths.allianceSelector) {
                 main()
             }
         })

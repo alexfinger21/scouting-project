@@ -1,33 +1,23 @@
 import * as graphHandler from "./graphHandler.js"
-import { paths, requestData, highlightColors} from "./utility.js"
+import { paths, requestData, highlightColors, currentPage} from "./utility.js"
 
 const POINT_COLOR = "rgb(147, 157, 168)"
 const OUR_TEAM_COLOR = "rgb(242, 142, 43)" 
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
 const BLUE_COLOR = "rgb(52,146,234)"
+let data = {0: "dummy data"}
 
 let debounce = false
 
-let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
-    return {
-        gm_number: e.gm_number,
-        r1: e.r1_team_number,
-        r2: e.r2_team_number,
-        r3: e.r1_team_number,
-        b1: e.b1_team_number,
-        b2: e.b2_team_number,
-        b3: e.r1_team_number,
-    }
-})
-
-
-console.log(matchTeams)
-//When teamsummary is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(function (removed_node) {
-            if (removed_node.id == 'page-holder') {
+        mutation.removedNodes.forEach(async function (removed_node) {
+            console.log(currentPage)
+            if (removed_node.id == 'page-holder' && currentPage == paths.teamSummary) {
+                console.log("got here")
+                data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
+                console.log(data)
                 main()
                 debounce = false
             }
@@ -38,13 +28,28 @@ const observer = new MutationObserver(function (mutations_list) {
 observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
+let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
+    return {
+        gm_number: e.gm_number,
+        r1: e.r1_team_number,
+        r2: e.r2_team_number,
+        r3: e.r3_team_number,
+        b1: e.b1_team_number,
+        b2: e.b2_team_number,
+        b3: e.b3_team_number,
+    }
+})
+
+console.log(matchTeams)
+//When teamsummary is loaded, call the main function 
+
+
 function getMatchTeams(matchNum) {
     return matchTeams[matchNum]
 }
 
 async function getPoints(x, y, color) {
     console.log("gotten data")
-    const data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
     console.log("the data")
     //console.log(data)
 
@@ -54,7 +59,7 @@ async function getPoints(x, y, color) {
         let teamNumber = val.team_master_tm_number
         let gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
         console.log("GAME TEAMS:")
-        console.log(gameTeams)
+        //console.log(gameTeams)
         let color = POINT_COLOR
         if(teamNumber == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
