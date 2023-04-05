@@ -1,8 +1,9 @@
-import {paths, requestData, requestPage, currentPage, currentPage} from "./utility.js"
+import {paths, requestData, requestPage, currentPage} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
+            console.log(currentPage)
             if (removed_node.id == 'page-holder' && currentPage == paths.teamDetails) {
                 main()
             }
