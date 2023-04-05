@@ -15,9 +15,9 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             vmts.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`,
         (err, team_results) => {
             let team = req.query.team
-            if(team == null) {
-                if(team_results != null && team_results[0] != null) {
-                    team = team_results[0].team_master_tm_number
+            if (team == null) {
+                if (team_results != null && team_results[1] != null) {
+                    team = team_results[1].team_master_tm_number
                 }
                 else {
                     team = 695
@@ -35,18 +35,21 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                 (err, results) => {
                     results = JSON.parse(JSON.stringify(results))
 
-                    database.query(database.getTeamPictures(2783), (err, pictures) => {
-                        console.log(database.getTeamPictures(2783))
-                        console.log("PICTURES:")
+                    console.log("TEAM: " + team)
+
+                    database.query(database.getTeamPictures(team), (err, pictures) => {
+                        console.log("PICTURES")
                         console.log(pictures)
                         let urls = []
-                        for(let i = 0; i < 5; i++) {
-                            const url = "https://drive.google.com/open?id=1L280dQrlsXQP9ZevCE_Js6D__f3bkwJT"
-                            urls.push("https://drive.google.com/uc?export=view&id=" + url.split("id=").pop())
+                        if(pictures.length > 0) {
+                            for (let i = 0; i < pictures.length; i++) {
+                                const url = pictures[i].ps_picture_full_robot
+                                urls.push("https://drive.google.com/uc?export=view&id=" + url.split("id=").pop())
+                            }
                         }
-    
-    
-                    res.render("team-details", {
+
+
+                        res.render("team-details", {
                             teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
                             teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
                             selectedTeam: team,
@@ -54,6 +57,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         })
                     })
                 })
+                
         })
 })
 
