@@ -20,7 +20,7 @@ function main() {
 
     teamSelector.addEventListener("change", async (e) => {
         console.log("hi")
-        const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value)
+        const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value, {}, paths.teamDetails)
 
         console.log(data)
     }) 
