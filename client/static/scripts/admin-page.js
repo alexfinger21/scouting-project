@@ -1,4 +1,4 @@
-import { arrHasDuplicates, paths } from "./utility.js"
+import { arrHasDuplicates, paths, currentPage} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {

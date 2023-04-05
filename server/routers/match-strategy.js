@@ -1,5 +1,6 @@
 const database = require("../database/database.js")
 const express = require("express")
+const { query } = require("express")
 const router = express.Router()
 
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
@@ -8,10 +9,12 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
     console.log(database.getMatchData(match))
     database.query(database.getGameNumbers(match), (err, gameNumbers) => {
         gameNumbers = JSON.parse(JSON.stringify(gameNumbers)) //convert RowDataPacket to object
+        const queryStart = Date.now()
         database.query(database.getMatchData(match), (err, matchup) => {
-            console.log(matchup)
+            console.log("Time for query: " + Number(Date.now() - queryStart))
+            //console.log("\n\n MATCHUP:")
+            //console.log(matchup)
             matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
-            console.log("\n\n MATCHUP:")
     
             res.render("match-strategy", {
                 match: match,
