@@ -17,6 +17,20 @@
     border-radius: 2px;
 }
 
+#team-pictures-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    height: 30vh;
+    overflow: hidden;
+}
+
+#team-picture {
+    width: 80%;
+    height: fit-content;
+}
+
 #team-display-table-container {
     width: 100%;
     height: 50vh;

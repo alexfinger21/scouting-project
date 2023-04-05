@@ -33,10 +33,10 @@ let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
         gm_number: e.gm_number,
         r1: e.r1_team_number,
         r2: e.r2_team_number,
-        r3: e.r1_team_number,
+        r3: e.r3_team_number,
         b1: e.b1_team_number,
         b2: e.b2_team_number,
-        b3: e.r1_team_number,
+        b3: e.b3_team_number,
     }
 })
 
