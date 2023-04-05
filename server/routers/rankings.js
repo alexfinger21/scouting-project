@@ -28,7 +28,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
             isAdmin: isAdmin,
             year: results != null ? results[0].frc_season_master_sm_year : gameConstants.YEAR,
             eventCode: results != null ? results[0].competition_master_cm_event_code: gameConstants.COMP,
-            timeStamp: results != null ? results[0].api_rank_ts : gameConstants.gameStart.toLocaleString(),
+            timeStamp: results != null ? String(results[0].api_rank_ts).replace(/ /g, '_') : gameConstants.gameStart.toLocaleString(),
             teamStats: results != null ? results : []
         })
     })

@@ -18,6 +18,8 @@ function main() {
     let timeText = subtitle.innerText.split(" ")
     timeText.length = 4
 
+    console.log(subtitle.getAttribute("timestamp"))
+
     let date = new Date(subtitle.getAttribute("timestamp").replaceAll("_", " ")).toLocaleString().split(",")
     date = date[1].slice(1)
 
