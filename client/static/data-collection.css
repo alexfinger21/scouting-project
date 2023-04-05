@@ -291,6 +291,11 @@
     transition: all .1s ease-in-out;
 }
 
+#comments-container textarea {
+    width: 60vw;
+    border-radius: 5%;
+}
+
 #data-fade {
     margin-top: 60vh;
     width: 90%;
