@@ -15,13 +15,18 @@ window.addEventListener("load", main)
 
 function main() {
     const teamSelector = document.querySelector("#team-display-selector")
+    const pictureContainer = document.getElementById("team-pictures-container")
+    const arrowLeft = pictureContainer.getElementById("arrow-left")
+    const arrowRight = pictureContainer.getElementById("arrow-right")
 
-    console.log(teamSelector)
 
     teamSelector.addEventListener("change", async (e) => {
+        
         console.log("hi")
         const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value)
 
+        const picture = document.getElementById("team-picture")
+        
         console.log(data)
     }) 
 }

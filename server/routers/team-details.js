@@ -35,13 +35,23 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                 (err, results) => {
                     results = JSON.parse(JSON.stringify(results))
 
-                    console.log("RESULTS: ")
-                    console.log(results)
-
+                    database.query(database.getTeamPictures(2783), (err, pictures) => {
+                        console.log(database.getTeamPictures(2783))
+                        console.log("PICTURES:")
+                        console.log(pictures)
+                        let urls = []
+                        for(let i = 0; i < 5; i++) {
+                            const url = "https://drive.google.com/open?id=1L280dQrlsXQP9ZevCE_Js6D__f3bkwJT"
+                            urls.push("https://drive.google.com/uc?export=view&id=" + url.split("id=").pop())
+                        }
+    
+    
                     res.render("team-details", {
-                        teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
-                        teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
-                        selectedTeam: team,
+                            teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
+                            teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
+                            selectedTeam: team,
+                            teamPictures: urls
+                        })
                     })
                 })
         })
