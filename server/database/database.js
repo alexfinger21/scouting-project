@@ -408,9 +408,12 @@ function executeQuery(sql, callback) {
     })
 }
 
+function clearMatchStretegyTemp() {
+    return `DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;`
+}
+
 function saveMatchStrategy() {
-    return `DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;
-    CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
+    return `CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
     SELECT
         *
     FROM 
@@ -437,5 +440,6 @@ module.exports = {
     insertAllianceSelection: insertAllianceSelection,
     deleteAllianceSelection: deleteAllianceSelection,
     getTeamPictures: getTeamPictures,
-    saveMatchStrategy: saveMatchStrategy
+    saveMatchStrategy: saveMatchStrategy,
+    clearMatchStretegyTemp: clearMatchStretegyTemp
 }
