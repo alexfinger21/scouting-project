@@ -292,8 +292,11 @@
 }
 
 #comments-container textarea {
-    width: 60vw;
-    border-radius: 5%;
+    width: 77vw;
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 2.2vh;
+    color: #383c40
 }
 
 #data-fade {
