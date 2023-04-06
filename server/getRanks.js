@@ -87,9 +87,10 @@ function returnAPIDATA() {
     })
 }
 
-
+/*
 returnAPIDATA().then(res => {
     console.log(res.Rankings.map(e => e.rank))
 })
+*/
 
 module.exports = {returnAPIDATA}

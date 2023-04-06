@@ -296,7 +296,8 @@
     border-radius: 5px;
     font-family: 'Rubik', sans-serif;
     font-size: 2.2vh;
-    color: #383c40
+    color: #383c40;
+    resize: none;
 }
 
 #data-fade {

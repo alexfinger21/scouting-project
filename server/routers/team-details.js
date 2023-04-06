@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get("/", function (req, res) { //only gets used if the url == team-details
     console.log("recieved")
+    const start = Date.now()
     database.query(`SELECT 
         DISTINCT team_master_tm_number 
         FROM 
@@ -34,9 +35,9 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                     vmts.team_master_tm_number = ${team};`,
                 (err, results) => {
                     results = JSON.parse(JSON.stringify(results))
-
+                    
                     console.log("TEAM: " + team)
-
+                    
                     database.query(database.getTeamPictures(team), (err, pictures) => {
                         console.log("PICTURES")
                         console.log(pictures)
@@ -47,8 +48,9 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                                 urls.push("https://drive.google.com/uc?export=view&id=" + url.split("id=").pop())
                             }
                         }
-
-
+                        
+                        console.log("the request took " + (Date.now() - start)/1000)
+                        
                         res.render("team-details", {
                             teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
                             teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
