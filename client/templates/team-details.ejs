@@ -3,78 +3,80 @@
 
 <body>
     <div id="page-holder">
-        <div class="small-input-container" id="team-display-selection-container">
-            <label for="team-display-selector"> <b>Select team: </b> </label>
-            <select name="team-display-selector" id="team-display-selector" >
-                <% for(let i = 0; i < teams.length; i++) { %>
-                    <%if(teams[i] == selectedTeam) {%>
-                        <option selected>
-                            <%= teams[i] %>
-                        </option>
-                    <%} else {%>
-                        <option>
-                            <%= teams[i] %>
-                        </option>
-                    <%}%>
-                <% } %>
-            </select>
-        </div>
-
-        <div id="team-pictures-container">
-
-            <button id="arrow-left">
-                <img src="../static/images/arrow-left.svg">
-            </button>
-            <img src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
-            <button id="arrow-right">
-                <img src="../static/images/arrow-right.svg">
-            </button>
-        </div>
-
-        
-
-        <div id="team-display-table-container">
-            <table id="team-display-table">
-                <thead>
-                    <tr>
-                        <th>Match #</th>
-                        <th>Game Score</th>
-                        <th>Nbr Links</th>
-                        <th>Auton Chg Station</th>
-                        <th>Endgame Chg Station</th>
-                        <th>Count of Cones<br>L/M/H</th>
-                        <th>Count of Cubes<br>L/M/H</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for(let i = 0; i < teamData.length; i++) {%>
-                        <tr>
-                            <td>
-                                <%= teamData[i].game_matchup_gm_number %>
-                            </td>
-                            <td>
-                                <%= teamData[i].gm_score %>
-                            </td>
-                            <td>
-                                <%= teamData[i].nbr_links %>
-                            </td>
-                            <td>
-                                <%= teamData[i].auton_chg_station %>
-                            </td>
-                            <td>
-                                <%= teamData[i].endgame_chg_station %>
-                            </td>
-                            <td>
-                                <%= `T: ${teamData[i].Cone_Count_L + teamData[i].Cone_Count_M + teamData[i].Cone_Count_H} | ${teamData[i].Cone_Count_L}/${teamData[i].Cone_Count_M}/${teamData[i].Cone_Count_H}` %>
-                            </td>
-                            <td>
-                                <%= `T: ${teamData[i].Cube_Count_L + teamData[i].Cube_Count_M + teamData[i].Cube_Count_H} | ${teamData[i].Cube_Count_L}/${teamData[i].Cube_Count_M}/${teamData[i].Cube_Count_H}` %>
-                            </td>
-                        </tr>
+        <div id="team-details-scroller">
+            <div class="small-input-container" id="team-display-selection-container">
+                <label for="team-display-selector"> <b>Select team: </b> </label>
+                <select name="team-display-selector" id="team-display-selector" >
+                    <% for(let i = 0; i < teams.length; i++) { %>
+                        <%if(teams[i] == selectedTeam) {%>
+                            <option selected>
+                                <%= teams[i] %>
+                            </option>
+                        <%} else {%>
+                            <option>
+                                <%= teams[i] %>
+                            </option>
+                        <%}%>
                     <% } %>
-                </tbody>
-            </table>
+                </select>
+            </div>
+    
+            <div id="team-pictures-container">
+    
+                <button id="arrow-left">
+                    <img src="../static/images/arrow-left.svg">
+                </button>
+                <img src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
+                <button id="arrow-right">
+                    <img src="../static/images/arrow-right.svg">
+                </button>
+            </div>
+    
             
+    
+            <div id="team-display-table-container">
+                <table id="team-display-table">
+                    <thead>
+                        <tr>
+                            <th>Match #</th>
+                            <th>Game Score</th>
+                            <th>Nbr Links</th>
+                            <th>Auton Chg Station</th>
+                            <th>Endgame Chg Station</th>
+                            <th>Count of Cones<br>L/M/H</th>
+                            <th>Count of Cubes<br>L/M/H</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i = 0; i < teamData.length; i++) {%>
+                            <tr>
+                                <td>
+                                    <%= teamData[i].game_matchup_gm_number %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].gm_score %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].nbr_links %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].auton_chg_station %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].endgame_chg_station %>
+                                </td>
+                                <td>
+                                    <%= `T: ${teamData[i].Cone_Count_L + teamData[i].Cone_Count_M + teamData[i].Cone_Count_H} | ${teamData[i].Cone_Count_L}/${teamData[i].Cone_Count_M}/${teamData[i].Cone_Count_H}` %>
+                                </td>
+                                <td>
+                                    <%= `T: ${teamData[i].Cube_Count_L + teamData[i].Cube_Count_M + teamData[i].Cube_Count_H} | ${teamData[i].Cube_Count_L}/${teamData[i].Cube_Count_M}/${teamData[i].Cube_Count_H}` %>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                
+            </div>
         </div>
     </div>
 </body>
