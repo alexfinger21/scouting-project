@@ -11,7 +11,7 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
         gameNumbers = JSON.parse(JSON.stringify(gameNumbers)) //convert RowDataPacket to object
         const queryStart = Date.now()
         database.query(database.getMatchData(match), (err, matchup) => {
-            console.log("Time for query: " + Number(Date.now() - queryStart))
+            console.log("Time for query: " + Number(Date.now() - queryStart)/1000)
             //console.log("\n\n MATCHUP:")
             //console.log(matchup)
             matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
