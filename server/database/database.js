@@ -410,7 +410,6 @@ function executeQuery(sql, callback) {
 
 function saveMatchStrategy() {
     return `DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;
-    and then run
     CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
     SELECT
         *
