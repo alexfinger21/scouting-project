@@ -4,6 +4,7 @@ require('dotenv').config()
 const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
 const socketManager = require("../sockets.js")
+const { data } = require("jquery")
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 let lastPlayedMatch = 1
@@ -74,6 +75,11 @@ router.post("/", function (req, res) {
             console.log(err)
             socketManager.emitAllSockets(body.gm_number, "stopMatch")
             res.send("match stopped")
+        })
+
+        database.query(database.saveMatchStrategy(), (err, results) => {
+            console.log(err)
+            console.log(results)
         })
     }
     else { //attempt to start match
