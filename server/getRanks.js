@@ -2,21 +2,30 @@
 require("dotenv").config()
 
 const request = require("request")
-const auth = process.env.FIRST_AUTH
+const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 const database = require("./database/database.js")
 const gameConstants = require('./game.js') 
 
-const options = {
+const optionsRankings = {
     'method': 'GET',
-    'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
+    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
+    'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
     'headers': {
-        'Authorization': 'Basic ' + authbase64,
+        'X-TBA-Auth-Key': auth,
         'If-Modified-Since': ''
     }
 }
 
-console.log(options)
+const optionsOPRS = {
+    'method': 'GET',
+    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
+    'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/oprs',
+    'headers': {
+        'X-TBA-Auth-Key': auth,
+        'If-Modified-Since': ''
+    }
+}
 
 function printMessage(title, msg) {
     console.log("------ " + title + " ------")
@@ -40,11 +49,19 @@ let showObj = function () {
 
 function returnAPIDATA() {
     return new Promise(resolve => {
-        request(options, function (error, response) {
+        request(optionsOPRS, function (error, response) {
             if (error) throw new Error(error)
             printMessage("Status Code", response.statusCode)
             const teamData = JSON.parse(response.body)
+            
+            for (const [rankings, _] of Object.entries(teamData)) {
+                for (const [i, val] of Object.entries(teamData[rankings])) {
+                    teamData[rankings][i.substring(3, i.length)] = teamData[rankings][i]
+                    teamData[rankings].splice(i, 1)
+                }
+            }
 
+            console.log(teamData)
             //printMessage('Type of Data', typeof teamData)
             // teamData.teams.forEach((team) => {
             //   printMessage('Team Info', team)
@@ -87,10 +104,9 @@ function returnAPIDATA() {
     })
 }
 
-/*
+
 returnAPIDATA().then(res => {
     console.log(res.Rankings.map(e => e.rank))
 })
-*/
 
 module.exports = {returnAPIDATA}
