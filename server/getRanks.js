@@ -10,7 +10,7 @@ const gameConstants = require('./game.js')
 const optionsRankings = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
+    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/rankings',
     'headers': {
         'X-TBA-Auth-Key': auth,
         'If-Modified-Since': ''
@@ -56,10 +56,12 @@ function returnAPIDATA() {
             
             for (const [rankings, _] of Object.entries(teamData)) {
                 for (const [i, val] of Object.entries(teamData[rankings])) {
-                    teamData[rankings][i.substring(3, i.length)] = teamData[rankings][i]
-                    teamData[rankings].splice(i, 1)
+                    teamData[rankings][i.substring(3, i.length)] = teamData[rankings][i] //remove the first 3 chars in front 'frc'
+                    delete teamData[rankings][i]
                 }
             }
+
+            const combinedTeamData = {}
 
             console.log(teamData)
             //printMessage('Type of Data', typeof teamData)
