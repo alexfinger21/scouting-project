@@ -329,31 +329,38 @@ function getGameNumbers(eventCode, gameNumber) {
 function getMatchData(gameNumber) {
     return `
     SELECT 
-        team_master_tm_number,
-        tm_name, 
-        gm_alliance, 
-        gm_alliance_position, 
-        games_played, 
-        api_rank, 
-        api_win,
-        api_loss, 
-        api_tie, 
-        avg_gm_score, 
-        avg_nbr_links, 
-        avg_auton_chg_station_score, 
-        avg_endgame_chg_station_score 
-    FROM 
-        teamsixn_scouting_dev.tmp_match_strategy tms
-    WHERE 
-        frc_season_master_sm_year = ${gameConstants.YEAR} AND
-        competition_master_cm_event_code = '${gameConstants.COMP}' AND
-        gm_game_type  = '${gameConstants.GAME_TYPE}' AND
-        gm_number = ${gameNumber}
-    ORDER BY 
-        frc_season_master_sm_year, 
-        competition_master_cm_event_code, 
-        gm_alliance DESC, 
-        gm_alliance_position ;`
+        gm.team_master_tm_number,
+        tms.tm_name, 
+        gm.gm_alliance, 
+        gm.gm_alliance_position, 
+        tms.games_played, 
+        tms.api_rank, 
+        tms.api_win,
+        tms.api_loss, 
+        tms.api_tie, 
+        tms.avg_gm_score, 
+        tms.avg_nbr_links, 
+        tms.avg_auton_chg_station_score, 
+        tms.avg_endgame_chg_station_score 
+FROM 
+    teamsixn_scouting_dev.game_matchup gm
+    LEFT JOIN
+      teamsixn_scouting_dev.tmp_match_strategy tms
+      ON 
+          gm.frc_season_master_sm_year = tms.frc_season_master_sm_year AND
+            gm.competition_master_cm_event_code = tms.competition_master_cm_event_code AND
+            gm.gm_game_type = tms.game_matchup_gm_game_type AND
+            gm.team_master_tm_number = tms.team_master_tm_number
+WHERE 
+  gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
+  gm.competition_master_cm_event_code = '${gameConstants.COMP}' AND
+  gm.gm_game_type  = '${gameConstants.GAME_TYPE}' AND
+  gm.gm_number = ${gameNumber}
+ORDER BY 
+  gm.frc_season_master_sm_year, 
+  gm.competition_master_cm_event_code, 
+  gm.gm_alliance DESC, 
+  gm.gm_alliance_position ;`
 }
 
 function getChartData() {
