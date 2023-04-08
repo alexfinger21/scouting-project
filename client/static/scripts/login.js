@@ -1,9 +1,9 @@
-import {paths} from "./utility.js"
+import {paths, consoleLog} from "./utility.js"
 
 const SHA256 = CryptoJS.SHA256
 
 window.addEventListener("load", () => {
-    console.log(document.getElementsByClassName("centerform")[0])
+    consoleLog(document.getElementsByClassName("centerform")[0])
     const form = document.getElementsByClassName("centerform")[0]
 
     form.onsubmit = (event) => {
@@ -21,7 +21,7 @@ window.addEventListener("load", () => {
 
         tempChildArr.forEach((child) => {
             data[child.name] = child.value.length <= 30 ? child.value : child.value.substring(0, 30)
-            console.log("original : " + child.value + "\n truncated: " + child.value.substring(0, 30))
+            consoleLog("original : " + child.value + "\n truncated: " + child.value.substring(0, 30))
         })
 
         for (const key in data) {
@@ -34,7 +34,7 @@ window.addEventListener("load", () => {
         
         data.password = SHA256(data.password).toString(CryptoJS.enc.Hex)
         
-        console.log(data)
+        consoleLog(data)
 
         $.ajax({
             type: "POST",
@@ -50,7 +50,7 @@ window.addEventListener("load", () => {
 
             error: function(jqXHR, textStatus, errorThrown)
             {
-                console.log("Error\n" + errorThrown, jqXHR)
+                consoleLog("Error\n" + errorThrown, jqXHR)
             },
         })
         

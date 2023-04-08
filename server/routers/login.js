@@ -3,6 +3,7 @@ const router = express.Router()
 const crypto = require("crypto")
 require('dotenv').config()
 const database = require("../database/database.js")
+const { consoleLog } = require("../utility")
 
 //SQL
 
@@ -12,7 +13,7 @@ function checkUser(body) {
             if (error)
                 throw error;
 
-            //console.log("RESULT: " + result)
+            //consoleLog("RESULT: " + result)
             if (results.length == 1) {
                 const result = results[0]
 
@@ -38,7 +39,7 @@ router.get("/", function(req, res) {
     if (!req.cookies["user_id"]) {//if user hasn't logged in before
         const login_data = req.query.error ? req.query.error : "invisible"
         
-        console.log(login_data)
+        consoleLog(login_data)
         
         res.render("login", {error: login_data})
     } else { //if user has logged in before
@@ -51,16 +52,16 @@ router.post("/", async function(req, res) {
     
 
     const body = req.body
-    console.log(body)
+    consoleLog(body)
 
     const date = new Date()
-    console.log(date)
+    consoleLog(date)
 
     let success = await checkUser(body)
     
     if (success) { //successful login
 
-        console.log("success for " + body.username)
+        consoleLog("success for " + body.username)
 
         //const sessionId = decodeURI(crypto.randomBytes(32).toString())
         let sessionId
@@ -68,13 +69,13 @@ router.post("/", async function(req, res) {
         crypto.randomBytes(32, (err, buf) => {
             if (err) {
               // Prints error
-              console.log(err);
+              consoleLog(err);
               return;
             }
             
             sessionId = buf.toString("hex")
             // Prints random bytes of generated data
-            console.log("The random data is: "
+            consoleLog("The random data is: "
                        + buf.toString('hex'));
           });
 
@@ -101,7 +102,7 @@ router.post("/", async function(req, res) {
     WHERE 
         team_master_tm_number = ` + body.team_number +` and 
         um_id = "` + body.username + `";`, (err, results) => {
-            console.log(results)
+            consoleLog(results)
         })
 
         return res.status(200).send({result: 'redirect', url:'/app'})

@@ -2,10 +2,11 @@ const database = require("../database/database.js")
 const express = require("express")
 const gameConstants = require("../game.js")
 const socketManager = require("../sockets.js")
+const { consoleLog } = require("../utility")
 const router = express.Router()
 
 router.get("/", function (req, res) { //only gets used if the url == team-details
-    console.log("recieved")
+    consoleLog("recieved")
     database.query(`SELECT
         distinct team_master_tm_number
     FROM
@@ -20,8 +21,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
         if (!req.query.getTeams) {
             database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
                 data = JSON.parse(JSON.stringify(data))
-                console.log("DATA:")
-                console.log(data)
+                consoleLog("DATA:")
+                consoleLog(data)
 
                 let selectedTeams = []
                 for(let i = 0; i < data.length; i++) {
@@ -37,8 +38,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         }
                     }
                 }
-                console.log("SELECTED TEAMS")
-                console.log(selectedTeams)
+                consoleLog("SELECTED TEAMS")
+                consoleLog(selectedTeams)
                 let availableTeams = []
                 for(team of team_results) {
                     let found = false
@@ -51,8 +52,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         availableTeams.push(team.team_master_tm_number)
                     }
                 }
-                console.log("AVAILABLE TEAMS")
-                console.log(availableTeams)
+                consoleLog("AVAILABLE TEAMS")
+                consoleLog(availableTeams)
 
                 res.render("alliance-input", {
                     teams: availableTeams,
@@ -67,15 +68,15 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
 
 router.post("/", function (req, res) {
     const body = req.body
-    console.log("BODY: ")
-    console.log(body)
+    consoleLog("BODY: ")
+    consoleLog(body)
     database.query(database.deleteAllianceSelection(body.allianceNum, body.pos), (err, result) => {
-        console.log(err)
-        console.log(result)
-        console.log("REMOVED")
+        consoleLog(err)
+        consoleLog(result)
+        consoleLog("REMOVED")
         if (body.action == "INSERT") {
-            database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {console.log(err); socketManager.emitAllSockets("yes", "allianceSelection")})
-            console.log("INSERTED")
+            database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {consoleLog(err); socketManager.emitAllSockets("yes", "allianceSelection")})
+            consoleLog("INSERTED")
         } else {
             if (body.pos == 0) {
                 database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 1), (err, result) => {database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 2), (err, result) => {socketManager.emitAllSockets("yes", "allianceSelection")})})

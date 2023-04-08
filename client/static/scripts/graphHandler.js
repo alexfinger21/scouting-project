@@ -1,4 +1,4 @@
-import { selectRandom, getColor } from "./utility.js"
+import { selectRandom, getColor, consoleLog} from "./utility.js"
 
 function writeData(points) {
     return {  
@@ -97,7 +97,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
 }
 
 function createBarGraph(points, orderBy, stepValue) {
-    console.log("STEP VALUE: " + stepValue)
+    consoleLog("STEP VALUE: " + stepValue)
     return {
         type: 'horizontalBar',
         data: {

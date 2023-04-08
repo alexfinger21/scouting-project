@@ -1,6 +1,7 @@
 const express = require("express")
 const database = require("../database/database")
 const router = express.Router()
+const { consoleLog } = require("../utility")
 
 router.get("/", async function (req, res) {
     database.query(`select 
@@ -9,8 +10,8 @@ router.get("/", async function (req, res) {
     from 
     teamsixn_scouting_dev.user_master um`, async (err, teamMembers) => { //get all team members
         teamMembers = JSON.parse(JSON.stringify(teamMembers)) //convert rowDataPacket to object
-        console.log(err)
-        console.log(teamMembers)
+        consoleLog(err)
+        consoleLog(teamMembers)
 
         database.query(`select 
         cgua_alliance, 
@@ -26,12 +27,12 @@ router.get("/", async function (req, res) {
     order by 
         cgua_alliance DESC, 
         cgua_alliance_position ;`, async (err, assignedUsers) => { //get currently assigned users
-            console.log(err)
-            console.log("assigned users::")
-            console.log(assignedUsers)
+            consoleLog(err)
+            consoleLog("assigned users::")
+            consoleLog(assignedUsers)
             assignedUsers = JSON.parse(JSON.stringify(assignedUsers)) //turn rowDataPacket into an object
 
-            console.log(assignedUsers)
+            consoleLog(assignedUsers)
 
             res.render("admin-page", {
                 team: teamMembers,
@@ -43,14 +44,14 @@ router.get("/", async function (req, res) {
 
 router.post("/", function (req, res) { //admin presses save button
     const body = req.body //users and their assigned team\
-    console.log("body:")
-    console.log(body)
+    consoleLog("body:")
+    consoleLog(body)
 
     //delete previous data
     database.query(`delete from teamsixn_scouting_dev.current_game_user_assignment;`, (err, results) => {
-        console.log(err)
+        consoleLog(err)
         //set new data
-        console.log(`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
+        consoleLog(`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
         (
                 cgua_alliance, 
                 cgua_alliance_position, 
@@ -76,7 +77,7 @@ router.post("/", function (req, res) { //admin presses save button
                 ('B', 1, '` + body[3].id + `'),
                 ('B', 2, '` + body[4].id + `'),
                 ('B', 3, '` + body[5].id + `');`, (err, results) => {
-                    console.log(err)
+                    consoleLog(err)
         })
 
         res.send("assigned users")

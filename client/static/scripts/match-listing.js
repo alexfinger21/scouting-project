@@ -1,11 +1,11 @@
-import {  paths, requestPage, socket, currentPage } from "./utility.js"
+import {  paths, requestPage, socket, currentPage, consoleLog} from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP } from "./game.js"
 
 //when an admin stops a match
 socket.on("stopMatch", (match_num) => {
     if (currentPage == paths.matchListing) {
-        console.log("MATCH NUM: " + match_num)
+        consoleLog("MATCH NUM: " + match_num)
         const matchScroller = document.getElementById("match-scroller")
 
         //DELETE OLD DATA
@@ -29,7 +29,7 @@ socket.on("stopMatch", (match_num) => {
 //when an admin starts a new match
 socket.on("changeMatch", (match_num) => {
     if (currentPage == paths.matchListing) {
-        console.log("MATCH NUM: " + match_num)
+        consoleLog("MATCH NUM: " + match_num)
 
         const matchScroller = document.getElementById("match-scroller")
 
@@ -52,7 +52,7 @@ socket.on("changeMatch", (match_num) => {
         const container = matchScroller.children[match_num - 1]
         //highlight table
         const tables = container.getElementsByTagName("table")
-        console.log(tables)
+        consoleLog(tables)
         for (const tbl of tables) {
             tbl.style.backgroundColor = "#FFF5D6"
         }
@@ -61,7 +61,7 @@ socket.on("changeMatch", (match_num) => {
         if  (imgContainer) { //image exists, is an admin
             imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
         }
-        console.log("GAR GAR GAR 😈😈")
+        consoleLog("GAR GAR GAR 😈😈")
     }
 })
 
@@ -126,7 +126,7 @@ function stopMatch() {
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
-            //console.log("Error\n" + errorThrown, jqXHR)
+            //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
 }
@@ -171,7 +171,7 @@ function main() {
                     stop_match: false
                 }
 
-                console.log(data)
+                consoleLog(data)
 
                 const [isSuccess, matchNumber] = await startMatch(data)
                 if (!isSuccess) {
@@ -192,7 +192,7 @@ function main() {
     //match strat buttons
     const matchStrat = document.getElementsByClassName("match-strat-button")
     for (const button of matchStrat) {
-        console.log("hs")
+        consoleLog("hs")
         button.addEventListener("click", () => {
             const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
             requestPage(paths.matchStrategy + "?match=" + container.getAttribute("game_number"))
@@ -216,7 +216,7 @@ function main() {
                         for (const expandable of expandables) {
                             if (expandable.getAttribute("hidden")) {
                                 const ths = expandable.getElementsByTagName("th")
-                                console.log(response)
+                                consoleLog(response)
                                 for(const th of ths) {
                                     th.innerHTML = "X"
                                 }
@@ -226,7 +226,7 @@ function main() {
                                         pos += 3
                                     }
                                     ths[pos].innerHTML = response[i].gd_um_id.substring(0,5)
-                                    console.log(pos + " changed to " + response[i].gd_um_id)
+                                    consoleLog(pos + " changed to " + response[i].gd_um_id)
                                 }
                                 expandable.removeAttribute("hidden")
                             }
@@ -246,10 +246,10 @@ function main() {
 
 
     //animate on scroll
-    console.log("animate")
+    consoleLog("animate")
     const hiddenElements = document.querySelectorAll(".hidden");
     hiddenElements.forEach((elm) => {
         scrollObserver.observe(elm);
-        console.log("gerr")
+        consoleLog("gerr")
     })
 }

@@ -1,4 +1,4 @@
-import {paths, currentPage} from "./utility.js"
+import {paths, currentPage, consoleLog} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -18,7 +18,7 @@ function main() {
     let timeText = subtitle.innerText.split(" ")
     timeText.length = 4
 
-    console.log(subtitle.getAttribute("timestamp"))
+    consoleLog(subtitle.getAttribute("timestamp"))
 
     let date = new Date(subtitle.getAttribute("timestamp").replaceAll("_", " ")).toLocaleString().split(",")
     date = date[1].slice(1)

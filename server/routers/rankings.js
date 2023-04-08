@@ -1,6 +1,6 @@
 const { returnAPIDATA } = require("../getRanks")
 const express = require("express")
-const { checkAdmin } = require("../utility")
+const { checkAdmin, consoleLog } = require("../utility")
 const database = require("../database/database")
 const { json } = require("express")
 const router = express.Router()
@@ -21,8 +21,8 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         
         if (results.length == 0) results = null
 
-        console.log(results)
-        console.log(gameConstants.gameStart.toLocaleString())
+        consoleLog(results)
+        consoleLog(gameConstants.gameStart.toLocaleString())
         
         res.render("rankings", {
             isAdmin: isAdmin,
@@ -38,7 +38,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
 router.post("/", function (req, res) {
     const body = req.body
-    console.log(body)
+    consoleLog(body)
 })
 
 module.exports = router

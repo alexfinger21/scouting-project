@@ -1,8 +1,8 @@
-import { socket, paths, requestData, requestPage, currentPage} from "./utility.js"
+import { socket, paths, requestData, requestPage, currentPage, consoleLog} from "./utility.js"
 
 socket.on("allianceSelection", (match_num) => {
-    console.log("nice")
-    console.log(currentPage)
+    consoleLog("nice")
+    consoleLog(currentPage)
     if (currentPage == paths.allianceInput) {
         requestPage(paths.allianceInput)
     }
@@ -22,7 +22,7 @@ observer.observe(document.body, { subtree: false, childList: true });
 window.addEventListener("load", main)
 
 function sendData(data) {
-    console.log(data)
+    consoleLog(data)
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -52,7 +52,7 @@ function removeValueFromSelectors(value) {
 }
 
 function addValueToSelectors(value) {
-    console.log("ADD VALUE")
+    consoleLog("ADD VALUE")
     const selectors = document.getElementsByClassName("alliance-input-selector")
 
     $.ajax({
@@ -61,8 +61,8 @@ function addValueToSelectors(value) {
         url: paths.allianceInput + "?getTeams=true",
         data: JSON.stringify({}),
         success: function (response) {
-            console.log("response:\n")
-            console.log(response)
+            consoleLog("response:\n")
+            consoleLog(response)
             const teams = Array.from(response.teams)
             
             for (const selector of selectors) {
@@ -72,7 +72,7 @@ function addValueToSelectors(value) {
                 else {
                     //$(selector).insertAfter("<option>" + value + "</option>")
                     if (teams.indexOf(value) != 0) {
-                        console.log(teams.indexOf(value))
+                        consoleLog(teams.indexOf(value))
                         for (const child of selector.children) {
                             if (child.value == teams[teams.indexOf(value) - 1]) {
                                 child.insertAdjacentElement("afterend", $("<option>" + value + "</option>")[0])
@@ -100,7 +100,7 @@ function main() {
             const parent = selector.parentElement.parentElement
             const cell = table.rows[parent.parentNode.rowIndex].cells[1]
             const captainSelector = cell.children[0].children[0]
-            console.log("CAPTAIN VALUE: " + captainSelector.value)
+            consoleLog("CAPTAIN VALUE: " + captainSelector.value)
             if(captainSelector == selector || captainSelector.value != "") {
                 if(selector.value == "") {
                     addValueToSelectors(Number(selector.getAttribute("old-value")))
@@ -121,7 +121,7 @@ function main() {
                         team: selector.value,
                         action: "INSERT",
                     })
-                    console.log("SENT")
+                    consoleLog("SENT")
                 }
             }
             else { //no captain, dont let them change it

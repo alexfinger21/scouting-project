@@ -1,3 +1,5 @@
+const { consoleLog } = require("./utility")
+
 let sockets = {
     socketArray: [],
     addSocket: function(socket) {

@@ -1,4 +1,4 @@
-import { arrHasDuplicates, paths, currentPage} from "./utility.js"
+import { arrHasDuplicates, paths, currentPage, consoleLog} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -55,7 +55,7 @@ function main() {
             }
         }
 
-        console.log(data.map( (obj) => {
+        consoleLog(data.map( (obj) => {
             return obj.id
         }))
 

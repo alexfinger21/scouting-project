@@ -1,4 +1,4 @@
-import {requestPage, paths} from "./utility.js"
+import {requestPage, paths, consoleLog} from "./utility.js"
 
 
 let globalPos = 0;
@@ -21,14 +21,14 @@ function moveToPage(ogPos, pos, btn) {
     globalPos = pos
 
     return new Promise((res, rej) => {    
-        //console.log(speed/Math.abs(pos-ogPos))
+        //consoleLog(speed/Math.abs(pos-ogPos))
         for (let i = 0; i <= 1; i+=speed/Math.abs(pos-ogPos)) {
             if (pos != globalPos) {
                 rej("already clicked")
                 return
             }
 
-            //console.log(btn.style.left)
+            //consoleLog(btn.style.left)
 
             setTimeout(() => {btn.style.left = ogPos + (pos-ogPos) * i + "px"}, 100*i)
 
@@ -69,7 +69,7 @@ window.addEventListener("load", () => {
         buttonUrls[btn.children[1].textContent] = btn.children[1].textContent.replaceAll(" ", "-").toLowerCase()
         
         btn.addEventListener("click", event => {
-            console.log(buttonUrls[btn.children[1].textContent])
+            consoleLog(buttonUrls[btn.children[1].textContent])
             requestPage("/" + buttonUrls[btn.children[1].textContent], {})
             moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
             selectedObj = btn
@@ -104,7 +104,7 @@ window.addEventListener("load", () => {
         $(hoverButton).width(footerPageButtons[0].clientWidth)
         $(hoverButton).height(footerPageButtons[0].clientHeight)
         
-        console.log(selectedObj.getBoundingClientRect().left)
+        consoleLog(selectedObj.getBoundingClientRect().left)
         
         hoverButton.style.left = selectedObj.getBoundingClientRect().left + "px"
     })

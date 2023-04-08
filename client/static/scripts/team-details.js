@@ -1,9 +1,9 @@
-import {paths, requestData, requestPage, currentPage} from "./utility.js"
+import {paths, requestData, requestPage, currentPage, consoleLog} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
-            console.log(currentPage)
+            consoleLog(currentPage)
             if (removed_node.id == 'page-holder' && currentPage == paths.teamDetails) {
                 main()
             }
@@ -22,9 +22,9 @@ function main() {
 
 
     teamSelector.addEventListener("change", async (e) => {
-        console.log("hi")
+        consoleLog("hi")
         const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value, {}, paths.teamDetails)
 
-        console.log(data)
+        consoleLog(data)
     }) 
 }
