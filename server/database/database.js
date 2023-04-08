@@ -369,7 +369,7 @@ function getChartData() {
     return `
     SELECT *
     FROM
-        teamsixn_scouting_dev.v_team_summary vts 
+        teamsixn_scouting_dev.tmp_match_strategy vts 
     WHERE
         vts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
         vts.competition_master_cm_event_code = '${gameConstants.COMP}' AND
