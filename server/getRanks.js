@@ -55,6 +55,8 @@ function returnAPIDATA() {
             printMessage("Status Code", response.statusCode)
             const oprData = JSON.parse(response.body)
             
+            //console.log(oprData)
+
             for (const [rankings, _] of Object.entries(oprData)) {
                 for (const [i, val] of Object.entries(oprData[rankings])) {
                     oprData[rankings][i.substring(3)] = oprData[rankings][i] //remove the first 3 chars in front 'frc'
@@ -65,7 +67,8 @@ function returnAPIDATA() {
 
             request(optionsRankings, function(error, response) {
                 const rankingsData = JSON.parse(response.body).rankings
-                const combinedTeamData = []
+                //console.log(rankingsData)
+                const combinedTeamData = {}
 
                 for (let i = 0; i<rankingsData.length; i++) {
                     combinedTeamData[rankingsData[i].team_key.substring(3)] = rankingsData[i]
@@ -73,27 +76,13 @@ function returnAPIDATA() {
                     combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData["dprs"][rankingsData[i].team_key.substring(3)]
                 }
 
-                console.log(combinedTeamData)
-
-                let team_stats = []
-
-                for (let i = 0; i < teamData.Rankings.length; i++) {
-                    let rank_str = String(teamData.Rankings[i].rank)
-                    let team_num_str = String(teamData.Rankings[i].teamNumber)
-                    let wins_str = String(teamData.Rankings[i].wins)
-                    let losses_str = String(teamData.Rankings[i].losses)
-                    let ties_str = String(teamData.Rankings[i].ties)
-                    let matches_played_str = String(teamData.Rankings[i].matchesPlayed)
-                    let a = "(" + rank_str + "," + team_num_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + matches_played_str + ")"
-                    team_stats.push(a)
-                }
-    
-                printMessage('Data', team_stats)
-                console.log(database.deleteAPIData())
+                console.log(database.writeAPIData(combinedTeamData))
+                //console.log(combinedTeamData)    
+                
                 database.query(database.deleteAPIData(), (err, res) => {
                     console.log(err)
                     console.log(res)
-                    database.query(database.writeAPIData(teamData.Rankings), (err, res) => {
+                    database.query(database.writeAPIData(combinedTeamData), (err, res) => {
                         console.log(err)
                         console.log(res)
                     })
@@ -101,7 +90,7 @@ function returnAPIDATA() {
     
                 
     
-                resolve(teamData)
+                resolve(combinedTeamData)
             })
 
 
@@ -120,7 +109,7 @@ function returnAPIDATA() {
 
 
 returnAPIDATA().then(res => {
-    console.log(res.Rankings.map(e => e.rank))
+    //console.log(res.Rankings.map(e => e.rank))
 })
 
 module.exports = {returnAPIDATA}

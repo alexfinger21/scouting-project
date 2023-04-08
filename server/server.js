@@ -186,7 +186,7 @@ app.get("/getMatchTeams", function(req, res) {
 })
 
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runAPICall, 240000)
+    setInterval(runAPICall, 100000)
 }
 //PORT
 app.listen(3000) //goes to localhost 3S000
