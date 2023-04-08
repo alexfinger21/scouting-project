@@ -1,4 +1,4 @@
-import { clamp, currentPage, paths, requestPage, socket, getMatch } from "./utility.js"
+import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog} from "./utility.js"
 import {moveToPage, setSelectedObject} from "./bottomBar.js"
 import {YEAR, COMP, GAME_TYPE} from "./game.js"
 
@@ -15,8 +15,8 @@ const observer = new MutationObserver(function (mutations_list) {
 window.onunload = saveData
 
 socket.on("changeMatch", () => {
-    console.log(currentPage)
-    console.log("SWITCH PAGE to: " + paths.dataCollection.substring(1) + "\n\n\n")
+    consoleLog(currentPage)
+    consoleLog("SWITCH PAGE to: " + paths.dataCollection.substring(1) + "\n\n\n")
     if (currentPage == paths.dataCollection) {
         requestPage(paths.dataCollection)
     }
@@ -37,8 +37,8 @@ function getCorrespondingTd(id, index) {
 
 async function sendData() {
     const data = await saveData()
-    console.log("-------CLIENT DATA------\n")
-    console.log(data)
+    consoleLog("-------CLIENT DATA------\n")
+    consoleLog(data)
 
     $.ajax({
         type: "POST",
@@ -46,7 +46,7 @@ async function sendData() {
         url: paths.dataCollection,
         data: JSON.stringify(data),
         success: function (response) {
-            console.log(response)
+            consoleLog(response)
             alert("Data saved")
             requestPage(paths.matchListing)
             const hoverButton = document.getElementById("hover-button")
@@ -56,7 +56,7 @@ async function sendData() {
         },
 
         error: function (jqXHR, textStatus, errorThrown) {
-            //console.log("Error\n" + errorThrown, jqXHR)
+            //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
 }
@@ -69,7 +69,7 @@ async function loadData() {
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
     const data = JSON.parse(localStorage.getItem("data"))[match]
-    //console.log(data)
+    //consoleLog(data)
 
     if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
@@ -77,7 +77,7 @@ async function loadData() {
             const name = element.children[0].textContent
             const buttonContainer = element.children[1]
 
-            //console.log(data[name] + " - " + name)
+            //consoleLog(data[name] + " - " + name)
 
             Array.from(inputContainers).forEach(element => {
                 const name = element.children[0].textContent
@@ -88,7 +88,7 @@ async function loadData() {
                     buttonContainer.children[0].parentElement.querySelector("input").value = data[name]
                 } else if ((buttonContainer.children[0].getElementsByTagName("img").length == 1 && buttonContainer.children[0].tagName.toLowerCase() == "button") || (buttonContainer.children[0].textContent == "x" && buttonContainer.children[0].tagName.toLowerCase() == "button")) {
                     //image
-                    //console.log(buttonContainer.children[0])
+                    //consoleLog(buttonContainer.children[0])
                     if (data[name]) {
                         buttonContainer.children[0].style.backgroundColor = "rgb(217, 217, 217)"
                         buttonContainer.children[2].style.backgroundColor = "rgb(52, 146, 234)"
@@ -116,19 +116,19 @@ async function loadData() {
         
         Array.from(tableScrollers).forEach(tableContainer => {
             let tableCounter = 0;
-            //console.log(tableContainer)
+            //consoleLog(tableContainer)
 
             const name = tableContainer.parentElement.parentElement.children[0].textContent
 
             tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
 
-            //console.log(data.tables)
-            //console.log(data.tables[name])
+            //consoleLog(data.tables)
+            //consoleLog(data.tables[name])
 
             if (data.tables[name]) {
                 Array.from(tableContainer).forEach(container => {
-                    //console.log(container)
-                    //console.log(tableCounter)
+                    //consoleLog(container)
+                    //consoleLog(tableCounter)
 
                     for (let y = 0; y < 3; y++) {
                         const row = container.children[y]
@@ -136,7 +136,7 @@ async function loadData() {
                         for (let x = 0; x < 3; x++) {
                             const item = row.children[x].children[0]
                             item.setAttribute("object", data.tables[name][tableCounter][y][x])
-                            //console.log(item)
+                            //consoleLog(item)
                             let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
                             if (itemImage) {
                                 item.children[0].src = itemImage
@@ -225,8 +225,8 @@ async function saveData() {
             tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
 
             Array.from(tableContainer).forEach(container => {
-                //console.log(container)
-                //console.log(tableCounter)
+                //consoleLog(container)
+                //consoleLog(tableCounter)
                 data.tables[name][tableCounter] = {}
 
                 for (let y = 0; y < 3; y++) {
@@ -236,7 +236,7 @@ async function saveData() {
 
                     for (let x = 0; x < 3; x++) {
                         const item = row.children[x].children[0].getAttribute("object")
-                        //console.log(item)
+                        //consoleLog(item)
                         data.tables[name][tableCounter][y][x] = item
                     }
                 }
@@ -250,7 +250,7 @@ async function saveData() {
 
         ogData[match] = data
 
-        //console.log(data)
+        //consoleLog(data)
 
         localStorage.setItem("data", JSON.stringify(ogData))
 
@@ -285,7 +285,7 @@ function main() {
     //close the dropdown content when the user clicks outside of the button
     window.addEventListener("click", (event) => {
         if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) { 
-            //console.log(event.target)
+            //consoleLog(event.target)
             content.style.maxHeight = "0px"
             setTimeout(() => {
                 content.style.visibility = "hidden"
@@ -296,7 +296,7 @@ function main() {
     form.onsubmit = (event) => {
         event.preventDefault()
 
-        console.log("submitted!")
+        consoleLog("submitted!")
 
         sendData()
     }

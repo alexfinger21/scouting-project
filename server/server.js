@@ -7,6 +7,7 @@ const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
+const { consoleLog } = require("./utility")
 const socketManager = require("./sockets.js")
 const { Server } = require("socket.io")
 const server = http.createServer(app)
@@ -63,11 +64,11 @@ async function runAPICall() {
     const startTick = gameStart.getTime()
     const endTick = gameEnd.getTime()
     const currentTick = Date.now()
-    console.log(currentTick)
-    console.log(startTick) 
+    consoleLog(currentTick)
+    consoleLog(startTick) 
     if (startTick <= currentTick && currentTick <=endTick) {
         const apiData = await returnAPIDATA()
-        console.log(apiData)
+        consoleLog(apiData)
     }
 }
 
@@ -76,10 +77,10 @@ io.on("connection", (socket) => {
     
     socket.on("disconnect", () => {
         socketManager.removeSocket(index)
-        console.log(socketManager.getSockets())
+        consoleLog(socketManager.getSockets())
     })
     
-    console.log(socketManager.getSockets())
+    consoleLog(socketManager.getSockets())
 })
 
 app.use("/static", express.static("./client/static"))
@@ -100,27 +101,27 @@ app.use(cookieParser())
 //middleware for anyone on the site, checking whether they're logged in or not
 
 app.use((req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
-    console.log(req.path)
+    consoleLog(req.path)
     if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else if (req.path != "/login") {
-        console.log(req.path)
+        consoleLog(req.path)
         const user_id = req.cookies["user_id"]
         const username = req.cookies["username"]
         database.query("SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = '" + user_id + "' AND um.um_id = '" + username + "' AND um.um_timeout_ts > current_timestamp();", (err, results) => {
-            console.log(err)
+            consoleLog(err)
             if (results) {
                 const result = results[0]
                 next() //goes to the next middleware function (login or data collection)
             } else {
                 res.clearCookie('user_id');
                 res.clearCookie('username');
-                console.log("redirect")
+                consoleLog("redirect")
                 res.redirect("/login")
             }
         })
     } else {
-        console.log("next")
+        consoleLog("next")
         next()
     }
 })
@@ -165,9 +166,9 @@ app.use("/alliance-input", allianceInput)
 
 //GET MATCH
 app.get("/getMatch", function(req, res) {
-    console.log(req.body)
+    consoleLog(req.body)
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        console.log(runningMatchResults)
+        consoleLog(runningMatchResults)
         if(runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
             res.status(200).send({match: runningMatch})
@@ -178,9 +179,9 @@ app.get("/getMatch", function(req, res) {
 })
 
 app.get("/getMatchTeams", function(req, res) {
-    console.log("request recieved!")
+    consoleLog("request recieved!")
     database.query(database.getTeams(), (err, runningMatchResults) => {
-        console.log(JSON.parse(JSON.stringify(runningMatchResults)))
+        consoleLog(JSON.parse(JSON.stringify(runningMatchResults)))
         res.status(200).send(JSON.parse(JSON.stringify(runningMatchResults)))
     })
 })

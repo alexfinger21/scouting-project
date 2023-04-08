@@ -2,6 +2,7 @@ const database = require("../database/database.js")
 const express = require("express")
 const { checkAdmin } = require("../utility")
 const gameConstants = require("../game.js")
+const { consoleLog } = require("../utility")
 
 const router = express.Router()
 
@@ -10,7 +11,7 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
     const username = req.cookies["username"]
     let runningMatch = -1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        console.log(runningMatchResults)
+        consoleLog(runningMatchResults)
         if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
         }
@@ -28,7 +29,7 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
                 let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
                 assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
                     + teamName + " " + assignment.gm_alliance_position
-                console.log(assignment)
+                consoleLog(assignment)
             }
             res.render("data-collection", {
                 runningMatch,
@@ -42,15 +43,15 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 router.post("/", function (req, res) {
     const body = req.body
     body.username = req.cookies["username"]
-    console.log(body)
+    consoleLog(body)
 
     database.query(database.deleteData(body), (err, results) => {
-        console.log(err)
-        console.log(results)
+        consoleLog(err)
+        consoleLog(results)
         
         database.query(database.saveData(body), (err, results) => {
-            console.log(err)
-            console.log(results)
+            consoleLog(err)
+            consoleLog(results)
             
             database.query(`update teamsixn_scouting_dev.game_details gd
             set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
@@ -59,8 +60,8 @@ router.post("/", function (req, res) {
                 gd.competition_master_cm_event_code = '${gameConstants.COMP}' and 
                 gd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
                 gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
-                console.log(err)
-                console.log(results)
+                consoleLog(err)
+                consoleLog(results)
             })
         })
     })

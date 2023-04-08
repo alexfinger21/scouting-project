@@ -1,10 +1,11 @@
 const database = require("../database/database.js")
 const express = require("express")
 const gameConstants = require("../game.js")
+const { consoleLog } = require("../utility")
 const router = express.Router()
 
 router.get("/", function (req, res) { //only gets used if the url == team-details
-    console.log("recieved")
+    consoleLog("recieved")
     const start = Date.now()
     database.query(`SELECT 
         DISTINCT team_master_tm_number 
@@ -36,11 +37,11 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                 (err, results) => {
                     results = JSON.parse(JSON.stringify(results))
                     
-                    console.log("TEAM: " + team)
+                    consoleLog("TEAM: " + team)
                     
                     database.query(database.getTeamPictures(team), (err, pictures) => {
-                        console.log("PICTURES")
-                        console.log(pictures)
+                        consoleLog("PICTURES")
+                        consoleLog(pictures)
                         let urls = []
                         if(pictures.length > 0) {
                             for (let i = 0; i < pictures.length; i++) {
@@ -49,7 +50,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                             }
                         }
                         
-                        console.log("the request took " + (Date.now() - start)/1000)
+                        consoleLog("the request took " + (Date.now() - start)/1000)
                         
                         res.render("team-details", {
                             teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),

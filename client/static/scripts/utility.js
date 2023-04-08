@@ -1,3 +1,4 @@
+const log = false
 let currentPage = "/match-listing"
 
 const paths = {
@@ -11,6 +12,12 @@ const paths = {
     allianceInput: "/alliance-input",
     allianceSelector: "/alliance-selector",
     rankings: "/rankings",
+}
+
+function consoleLog(arg) {
+    if (log) {
+        console.log(arg)
+    }
 }
 
 const highlightColors = {
@@ -33,12 +40,12 @@ function getMatch() {
             contentType: "application/json",
             url: "/getMatch",
             success: function (response) {
-                console.log(response.match)
+                consoleLog(response.match)
                 resolve(response.match)
             },
 
             error: function (jqXHR, textStatus, errorThrown) {
-                //console.log("Error\n" + errorThrown, jqXHR)
+                //consoleLog("Error\n" + errorThrown, jqXHR)
             },
         })
     })
@@ -52,12 +59,12 @@ function requestData(url, data) {
             url: url,
             data: JSON.stringify(data),
             success: function (response) {
-                console.log(response)
+                consoleLog(response)
                 resolve(response)
             },
 
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log("Error\n" + errorThrown, jqXHR)
+                consoleLog("Error\n" + errorThrown, jqXHR)
             },
         })
     })
@@ -99,7 +106,7 @@ function arrHasDuplicates(arr) {
 
 async function requestPage(url, data, pageVal) {
     const oldCurrentPage = currentPage 
-    console.log("\nURL: " + url)
+    consoleLog("\nURL: " + url)
     $.ajax({
         type: "GET",
         contentType: "application/json",
@@ -107,7 +114,7 @@ async function requestPage(url, data, pageVal) {
         data: JSON.stringify(data),
         success: function(response) {
             if (oldCurrentPage == currentPage) {
-                console.log(currentPage)
+                consoleLog(currentPage)
                 currentPage = pageVal ? pageVal : url
 
                 let temp
@@ -117,7 +124,7 @@ async function requestPage(url, data, pageVal) {
                     temp = $(this)
                 }
                 })
-                console.log(temp)
+                consoleLog(temp)
 
                 document.body.removeChild(document.getElementById("page-holder"))
 
@@ -127,10 +134,10 @@ async function requestPage(url, data, pageVal) {
 
         error: function(jqXHR, textStatus, errorThrown)
         {
-            console.log("Error\n" + errorThrown, jqXHR)
+            consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
 }
 
 
-export {socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

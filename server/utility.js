@@ -1,4 +1,5 @@
 const database = require("./database/database.js")
+const log = true
 
 function checkAdmin(req) {
     const username = req.cookies["username"]
@@ -7,7 +8,7 @@ function checkAdmin(req) {
             if (error)
                 throw error;
 
-            console.log(results[0].um_admin_f == true)
+            consoleLog(results[0].um_admin_f == true)
             if (results[0].um_admin_f == 1) { //is admin
                 resolve(true)
             }
@@ -17,4 +18,10 @@ function checkAdmin(req) {
     })
 }
 
-module.exports = {checkAdmin}
+function consoleLog(arg) {
+    if (log) {
+        console.log(arg)
+    }
+}
+
+module.exports = {checkAdmin: checkAdmin, consoleLog: consoleLog}

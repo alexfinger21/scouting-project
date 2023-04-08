@@ -1,9 +1,9 @@
-import {currentPage, paths, requestPage} from "./utility.js"
+import {currentPage, paths, requestPage, consoleLog} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
-            console.log(currentPage)
+            consoleLog(currentPage)
             if (removed_node.id == 'page-holder' && currentPage == paths.matchStrategy) {
                 main()
             }
@@ -17,8 +17,8 @@ window.addEventListener("load", main)
 function main() {
     const select = document.getElementById("available-matches")
     select.onchange = () => {
-        console.log("\n\nSELECT VALUE\n" + select.value)
-        console.log("REQUEST PAGE\n\n")
+        consoleLog("\n\nSELECT VALUE\n" + select.value)
+        consoleLog("REQUEST PAGE\n\n")
         requestPage(paths.matchStrategy + "?match=" + select.value, {}, paths.matchStrategy)
     }
 

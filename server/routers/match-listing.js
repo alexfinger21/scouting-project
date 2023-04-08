@@ -5,6 +5,7 @@ const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
 const socketManager = require("../sockets.js")
 const { data } = require("jquery")
+const { consoleLog } = require("../utility")
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 let lastPlayedMatch = 1
@@ -14,9 +15,9 @@ function addZero(num) {
 }
 
 router.get("/", async function (req, res) {
-    console.log("Get collected data: " + req.query.getCollectedData)
+    consoleLog("Get collected data: " + req.query.getCollectedData)
     if ("" + req.query.getCollectedData == "true") {
-        console.log("nice")
+        consoleLog("nice")
         database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
             res.status(200).send(results)
         })
@@ -24,7 +25,7 @@ router.get("/", async function (req, res) {
     else {
         database.query(database.getTeams(), async (err, results) => {
             //get isAdmin
-            console.log(err)
+            consoleLog(err)
             const isAdmin = await checkAdmin(req)
     
             //get running game
@@ -51,7 +52,7 @@ router.get("/", async function (req, res) {
                     const m = addZero(date.getMinutes())
                     teams[i].time = month + " " + day + ", " + h + ":" + m
     
-                    //console.log(teams[i])
+                    //consoleLog(teams[i])
                 }
     
                 teams.length = Object.keys(teams).length
@@ -72,18 +73,18 @@ router.post("/", function (req, res) {
     if (body.stop_match == true) { //stop match
         database.query(`delete from teamsixn_scouting_dev.current_game 
         where cg_sm_year > 0;`, (err, results) => {
-            console.log(err)
+            consoleLog(err)
             socketManager.emitAllSockets(body.gm_number, "stopMatch")
             res.send("match stopped")
         })
 
         database.query(database.clearMatchStretegyTemp(), (err, results) => {
             database.query(database.saveMatchStrategy(), (err, results) => {
-                console.log(err)
-                console.log(results)
+                consoleLog(err)
+                consoleLog(results)
             })
-            console.log(err)
-            console.log(results)
+            consoleLog(err)
+            consoleLog(results)
         })
     }
     else { //attempt to start match
@@ -95,7 +96,7 @@ router.post("/", function (req, res) {
                 database.query(`insert into teamsixn_scouting_dev.current_game 
                 (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
                 select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
-                    console.log(err)
+                    consoleLog(err)
                 })
 
                 lastPlayedMatch = body.gm_number

@@ -2,7 +2,6 @@ const pool = require('./dbconfig')
 const gameConstants = require('../game.js')
 const game = require('../game.js')
 
-
 function getUsers() {
     const returnStr = `
     SELECT um_id, um_name
@@ -12,7 +11,7 @@ function getUsers() {
 }
 
 function insertAllianceSelection(allianceNum, pos, team) {
-    console.log("Alliance num: " + allianceNum + " Pos: " +  pos + " Team #: " + team)
+    //console.log("Alliance num: " + allianceNum + " Pos: " +  pos + " Team #: " + team)
     return `INSERT INTO 
     teamsixn_scouting_dev.alliance_selection 
     (alliance_number, alliance_position, team_master_tm_number)
@@ -49,8 +48,8 @@ function writeAPIData(teamRankings) {
     let valuesStr = ""
     let counter = 0
     const time = new Date()
-    console.log(time)
-    console.log(teamRankings)
+    //console.log(time)
+    //console.log(teamRankings)
 
     for (const [k, team] of Object.entries(teamRankings)) {
         counter++
@@ -64,14 +63,14 @@ function writeAPIData(teamRankings) {
         const opr_str = String(team.opr)
         const dpr_str = String(team.dpr)
         let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + "," + opr_str + "," + dpr_str + ",'" + String(time) + "')"
-        console.log(a)
+        //console.log(a)
         a = Object.keys(teamRankings).length != counter ? a + "," : a
-        console.log(a)
+        //console.log(a)
 
         valuesStr += a
     }
 
-    console.log(valuesStr)
+    //console.log(valuesStr)
 
     const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_rankings
     (
@@ -83,7 +82,7 @@ function writeAPIData(teamRankings) {
         VALUES ${valuesStr}
             ;`
 
-    console.log(sqlStr)
+    //console.log(sqlStr)
 
     return sqlStr
 }
@@ -119,7 +118,7 @@ function convertToInt(option) {
 }
 
 function saveData(data) {
-    console.log(data)
+    //console.log(data)
     const params =
         `${gameConstants.YEAR}, 
         '${gameConstants.COMP}', 
@@ -185,22 +184,22 @@ function saveData(data) {
         teleopScoringStr += `,(${params}, '2', '${300 + i+1}', ${teleopScoring[i]}) \n`
     }
 
-    console.log(linkArray)
+    //console.log(linkArray)
 
     for (let row = 0; row<3; row++) {
         for (let col = 0; col<9; col++) {
-            console.log(col)
+            //console.log(col)
             if (col < 7 && linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col + 1] != 0 && linkArray[row * 9 + col + 2] != 0) {
                 linkCount++
-                console.log("LINK = " + linkCount)
-                console.log("COLUMN = " + col)
-                console.log("ROW = " + row)
+                //console.log("LINK = " + linkCount)
+                //console.log("COLUMN = " + col)
+                //console.log("ROW = " + row)
                 col+=2
             }
         }
     }
 
-    console.log("LINK COUNT: " + linkCount)
+    //console.log("LINK COUNT: " + linkCount)
 
     const sqlStr = `INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
@@ -229,7 +228,7 @@ function saveData(data) {
         (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])})
         ;`
 
-        console.log(sqlStr)
+        //console.log(sqlStr)
 
     return sqlStr
 }

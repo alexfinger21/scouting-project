@@ -1,8 +1,8 @@
 //When alliance selector is loaded, call the main function 
-import { paths, requestPage, socket, currentPage } from "./utility.js"
+import { paths, requestPage, socket, currentPage, consoleLog} from "./utility.js"
 
 socket.on("allianceSelection", (match_num) => {
-    console.log(currentPage)
+    consoleLog(currentPage)
     if (currentPage == paths.allianceSelector) {
         requestPage(paths.allianceSelector)
     }
@@ -34,11 +34,11 @@ function getAvailableTeams(sortValue) {
         url: paths.allianceSelector,
         data: JSON.stringify({ sortBy: sortValue }),
         success: function (response) {
-            console.log(response)
+            consoleLog(response)
 
 
 
-            console.log(tbody)
+            consoleLog(tbody)
 
             for (const team of response) {
                 let links = team.links

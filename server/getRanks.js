@@ -6,6 +6,7 @@ const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 const database = require("./database/database.js")
 const gameConstants = require('./game.js') 
+const { consoleLog } = require("./utility")
 
 const optionsRankings = {
     'method': 'GET',
@@ -29,22 +30,22 @@ const optionsOPRS = {
 }
 
 function printMessage(title, msg) {
-    console.log("------ " + title + " ------")
-    console.log(msg)
-    console.log("------End Message------")
+    consoleLog("------ " + title + " ------")
+    consoleLog(msg)
+    consoleLog("------End Message------")
 }
 
 printMessage('Base64', authbase64)
 // printMessage('Options', options)
 
 let showObj = function () {
-    console.log("Shape")
-    console.log(teamData.headers)
+    consoleLog("Shape")
+    consoleLog(teamData.headers)
     for (let prop in teamData) {
-        console.log(1)
-        console.log(prop)
-        //   console.log(prop)
-        //   console.log(teamData[prop])
+        consoleLog(1)
+        consoleLog(prop)
+        //   consoleLog(prop)
+        //   consoleLog(teamData[prop])
     }
 }
 
@@ -55,7 +56,7 @@ function returnAPIDATA() {
             printMessage("Status Code", response.statusCode)
             const oprData = JSON.parse(response.body)
             
-            //console.log(oprData)
+            //consoleLog(oprData)
 
             for (const [rankings, _] of Object.entries(oprData)) {
                 for (const [i, val] of Object.entries(oprData[rankings])) {
@@ -67,7 +68,7 @@ function returnAPIDATA() {
 
             request(optionsRankings, function(error, response) {
                 const rankingsData = JSON.parse(response.body).rankings
-                //console.log(rankingsData)
+                //consoleLog(rankingsData)
                 const combinedTeamData = {}
 
                 for (let i = 0; i<rankingsData.length; i++) {
@@ -76,15 +77,15 @@ function returnAPIDATA() {
                     combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData["dprs"][rankingsData[i].team_key.substring(3)]
                 }
 
-                console.log(database.writeAPIData(combinedTeamData))
-                //console.log(combinedTeamData)    
+                consoleLog(database.writeAPIData(combinedTeamData))
+                //consoleLog(combinedTeamData)    
                 
                 database.query(database.deleteAPIData(), (err, res) => {
-                    console.log(err)
-                    console.log(res)
+                    consoleLog(err)
+                    consoleLog(res)
                     database.query(database.writeAPIData(combinedTeamData), (err, res) => {
-                        console.log(err)
-                        console.log(res)
+                        consoleLog(err)
+                        consoleLog(res)
                     })
                 })
     
@@ -94,7 +95,7 @@ function returnAPIDATA() {
             })
 
 
-            //console.log(teamData)
+            //consoleLog(teamData)
             //printMessage('Type of Data', typeof teamData)
             // teamData.teams.forEach((team) => {
             //   printMessage('Team Info', team)
@@ -102,14 +103,14 @@ function returnAPIDATA() {
             // showObj()
             // printMessage('Length of Teams array', team_data.teams.teamNumber)
             //printMessage('Data', teamData)
-            //console.log(teamData.Rankings[0].teamNumber)
+            //consoleLog(teamData.Rankings[0].teamNumber)
         })
     })
 }
 
 
 returnAPIDATA().then(res => {
-    //console.log(res.Rankings.map(e => e.rank))
+    //consoleLog(res.Rankings.map(e => e.rank))
 })
 
 module.exports = {returnAPIDATA}

@@ -1,5 +1,5 @@
 import * as graphHandler from "./graphHandler.js"
-import { paths, requestData, highlightColors, currentPage} from "./utility.js"
+import { paths, requestData, highlightColors, currentPage, consoleLog} from "./utility.js"
 
 const POINT_COLOR = "rgb(147, 157, 168)"
 const OUR_TEAM_COLOR = "rgb(242, 142, 43)" 
@@ -13,11 +13,11 @@ let debounce = false
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(async function (removed_node) {
-            console.log(currentPage)
+            consoleLog(currentPage)
             if (removed_node.id == 'page-holder' && currentPage == paths.teamSummary) {
-                console.log("got here")
+                consoleLog("got here")
                 data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
-                console.log(data)
+                consoleLog(data)
                 main()
                 debounce = false
             }
@@ -40,7 +40,7 @@ let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     }
 })
 
-console.log(matchTeams)
+consoleLog(matchTeams)
 //When teamsummary is loaded, call the main function 
 
 
@@ -49,17 +49,17 @@ function getMatchTeams(matchNum) {
 }
 
 async function getPoints(x, y, color) {
-    console.log("gotten data")
-    console.log("the data")
-    //console.log(data)
+    consoleLog("gotten data")
+    consoleLog("the data")
+    //consoleLog(data)
 
     let points = new Array(Array.from(data).length)
     let ind = 0
     for (const val of data) {
         let teamNumber = val.team_master_tm_number
         let gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
-        console.log("GAME TEAMS:")
-        //console.log(gameTeams)
+        consoleLog("GAME TEAMS:")
+        //consoleLog(gameTeams)
         let color = POINT_COLOR
         if(teamNumber == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
@@ -93,7 +93,7 @@ async function getPoints(x, y, color) {
 
 function updateMarker(oldval, newval) {
     const container = document.querySelector("#graph-display-container")
-    console.log(container)
+    consoleLog(container)
 
     if (debounce) {return}
     
@@ -126,7 +126,7 @@ function main() {
 
         debounce = true
         //create chart based off of number
-        console.log(number)
+        consoleLog(number)
         switch (number) {
             case 0:
                 barGraphCanvas.setAttribute("hidden", "hidden")
@@ -189,7 +189,7 @@ function main() {
 
                 if (oldCurrentChart == currentChart) { 
                     points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
-                    console.log("GARAh")
+                    consoleLog("GARAh")
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
@@ -267,7 +267,7 @@ function main() {
     arrowRight.addEventListener("click", async () => {
         if (debounce) { return }
 
-        console.log("click")
+        consoleLog("click")
         if (chart) {
             chart.destroy()
         }
@@ -312,7 +312,7 @@ function main() {
                 updateMarker(currentChart, button.name)
                 currentChart = Number(button.name)
                 drawChart(currentChart)
-                console.log("top btn clickd")
+                consoleLog("top btn clickd")
             }
         })
     }
