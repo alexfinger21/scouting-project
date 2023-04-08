@@ -10,7 +10,8 @@ const gameConstants = require('./game.js')
 const optionsRankings = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/rankings',
+    //'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/rankings',
+    'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
     'headers': {
         'X-TBA-Auth-Key': auth,
         'If-Modified-Since': ''
@@ -49,21 +50,62 @@ let showObj = function () {
 
 function returnAPIDATA() {
     return new Promise(resolve => {
-        request(optionsOPRS, function (error, response) {
+        request(optionsOPRS, function(error, response) {
             if (error) throw new Error(error)
             printMessage("Status Code", response.statusCode)
-            const teamData = JSON.parse(response.body)
+            const oprData = JSON.parse(response.body)
             
-            for (const [rankings, _] of Object.entries(teamData)) {
-                for (const [i, val] of Object.entries(teamData[rankings])) {
-                    teamData[rankings][i.substring(3, i.length)] = teamData[rankings][i] //remove the first 3 chars in front 'frc'
-                    delete teamData[rankings][i]
+            for (const [rankings, _] of Object.entries(oprData)) {
+                for (const [i, val] of Object.entries(oprData[rankings])) {
+                    oprData[rankings][i.substring(3)] = oprData[rankings][i] //remove the first 3 chars in front 'frc'
+                    delete oprData[rankings][i]
                 }
+
             }
 
-            const combinedTeamData = {}
+            request(optionsRankings, function(error, response) {
+                const rankingsData = JSON.parse(response.body).rankings
+                const combinedTeamData = []
 
-            console.log(teamData)
+                for (let i = 0; i<rankingsData.length; i++) {
+                    combinedTeamData[rankingsData[i].team_key.substring(3)] = rankingsData[i]
+                    combinedTeamData[rankingsData[i].team_key.substring(3)].opr = oprData["oprs"][rankingsData[i].team_key.substring(3)]
+                    combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData["dprs"][rankingsData[i].team_key.substring(3)]
+                }
+
+                console.log(combinedTeamData)
+
+                let team_stats = []
+
+                for (let i = 0; i < teamData.Rankings.length; i++) {
+                    let rank_str = String(teamData.Rankings[i].rank)
+                    let team_num_str = String(teamData.Rankings[i].teamNumber)
+                    let wins_str = String(teamData.Rankings[i].wins)
+                    let losses_str = String(teamData.Rankings[i].losses)
+                    let ties_str = String(teamData.Rankings[i].ties)
+                    let matches_played_str = String(teamData.Rankings[i].matchesPlayed)
+                    let a = "(" + rank_str + "," + team_num_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + matches_played_str + ")"
+                    team_stats.push(a)
+                }
+    
+                printMessage('Data', team_stats)
+                console.log(database.deleteAPIData())
+                database.query(database.deleteAPIData(), (err, res) => {
+                    console.log(err)
+                    console.log(res)
+                    database.query(database.writeAPIData(teamData.Rankings), (err, res) => {
+                        console.log(err)
+                        console.log(res)
+                    })
+                })
+    
+                
+    
+                resolve(teamData)
+            })
+
+
+            //console.log(teamData)
             //printMessage('Type of Data', typeof teamData)
             // teamData.teams.forEach((team) => {
             //   printMessage('Team Info', team)
@@ -72,36 +114,6 @@ function returnAPIDATA() {
             // printMessage('Length of Teams array', team_data.teams.teamNumber)
             //printMessage('Data', teamData)
             //console.log(teamData.Rankings[0].teamNumber)
-
-
-
-            let team_stats = []
-
-            for (let i = 0; i < teamData.Rankings.length; i++) {
-                let rank_str = String(teamData.Rankings[i].rank)
-                let team_num_str = String(teamData.Rankings[i].teamNumber)
-                let wins_str = String(teamData.Rankings[i].wins)
-                let losses_str = String(teamData.Rankings[i].losses)
-                let ties_str = String(teamData.Rankings[i].ties)
-                let matches_played_str = String(teamData.Rankings[i].matchesPlayed)
-                let a = "(" + rank_str + "," + team_num_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + matches_played_str + ")"
-                team_stats.push(a)
-            }
-
-            printMessage('Data', team_stats)
-            console.log(database.deleteAPIData())
-            database.query(database.deleteAPIData(), (err, res) => {
-                console.log(err)
-                console.log(res)
-                database.query(database.writeAPIData(teamData.Rankings), (err, res) => {
-                    console.log(err)
-                    console.log(res)
-                })
-            })
-
-            
-
-            resolve(teamData)
         })
     })
 }
