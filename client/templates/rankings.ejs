@@ -15,11 +15,13 @@
                 <!--HEADINGS-->
                 <table id="headings-table">
                     <colgroup>
-                        <col span="1" style="width: 17%">
-                        <col span="1" style="width: 17%">
-                        <col span="1" style="width: 17%">
-                        <col span="1" style="width: 32%">
-                        <col span="1" style="width: 17%">
+                        <col span="1" style="width: 10%">
+                        <col span="1" style="width: 10%">
+                        <col span="1" style="width: 10%">
+                        <col span="1" style="width: 30%">
+                        <col span="1" style="width: 10%">
+                        <col span="1" style="width: 10%">
+                        <col span="1" style="width: 10%">
                     </colgroup>
                     <tr>
                         <th>Rank</th>
@@ -27,17 +29,21 @@
                         <th>Games</th>
                         <th>Win/Loss/Tie</th>
                         <th>DQ's</th>
+                        <th>OPR</th>
+                        <th>DPR</th>
                     </tr>
                 </table>
                 <!--BODY-->
                 <div id="rankings-scroller">
                     <table id="rankings-table">
                         <colgroup>
-                            <col span="1" style="width: 17%">
-                            <col span="1" style="width: 17%">
-                            <col span="1" style="width: 17%">
-                            <col span="1" style="width: 32%">
-                            <col span="1" style="width: 17%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 30%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
+                            <col span="1" style="width: 10%">
                         </colgroup>
                         <%for(let i=0; i < teamStats.length; i++) {%>
                             <tr>
@@ -55,6 +61,12 @@
                                 </td>
                                 <td>
                                     <%= teamStats[i].api_dq%>
+                                </td>
+                                <td>
+                                    <%= Math.round(teamStats[i].api_opr)%>
+                                </td>
+                                <td>
+                                    <%= Math.round(teamStats[i].api_dpr)%>
                                 </td>
                             </tr>
                             <% } %>
