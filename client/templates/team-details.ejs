@@ -22,20 +22,23 @@
             </div>
             <button id="pit-scouting-button"> Show pit scouting </button>
             <div id="pit-scouting-container">
+                <p>
+                    <%=teamInfo.tm_name%>
+                    <br>
+                    <%="OPR: " + teamInfo.api_opr%>
+                    <%="DPR: " + teamInfo.api_dpr%>
+                    
+                </p>
                 <div id="team-pictures-container">
                     <button id="arrow-left">
                         <img src="../static/images/arrow-left.svg">
                     </button>
-                    <img src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
+                    <img pic0= <%- teamPictures[0] %> pic1= <%- teamPictures[1] %> src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
                     <button id="arrow-right">
                         <img src="../static/images/arrow-right.svg">
                     </button>
                 </div>
             </div>
-    
-            
-    
-            
     
             <div id="team-display-table-container">
                 <table id="team-display-table">

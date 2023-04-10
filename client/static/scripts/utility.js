@@ -1,4 +1,4 @@
-const log = false
+const log = true
 let currentPage = "/match-listing"
 
 const paths = {
