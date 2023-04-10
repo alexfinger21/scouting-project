@@ -20,31 +20,38 @@ function main() {
     const pictureContainer = document.getElementById("team-pictures-container")
     const arrowLeft = document.getElementById("arrow-left")
     const arrowRight = document.getElementById("arrow-right")
-
+    let pic = 0
 
     teamSelector.addEventListener("change", async (e) => {
         consoleLog("hi")
         const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value, {}, paths.teamDetails)
 
-<<<<<<< Updated upstream
         consoleLog(data)
     }) 
-=======
-        console.log(data)
-    })
-
+    
     pitScoutingButton.addEventListener("click", (e) => {
         const pitScoutingContainer = document.getElementById("pit-scouting-container")
-        console.log(pitScoutingContainer.style.display)
-        if(pitScoutingContainer.style.display == "none") {
-            console.log("wow")
-            pitScoutingContainer.style.display == "block"
+        const display = window.getComputedStyle(pitScoutingContainer, null).display;
+        consoleLog(display)
+        if(display == "none") {
+            consoleLog("wow")
+            pitScoutingContainer.style.display = "block"
         }
         else {
-            console.log("not cool")
-            pitScoutingContainer.style.display == "none"
+            consoleLog("not cool")
+            pitScoutingContainer.style.display = "none"
         }
-         
     })
->>>>>>> Stashed changes
+
+    arrowLeft.addEventListener("click", (e) => {
+        pic = pic == 1 ? 0 : 1
+
+        pictureContainer.children[1].src = pictureContainer.children[1].getAttribute("pic" + String(pic))
+    })
+
+    arrowRight.addEventListener("click", (e) => {
+        pic = pic == 1 ? 0 : 1
+
+        pictureContainer.children[1].src = pictureContainer.children[1].getAttribute("pic" + String(pic))
+    })
 }
