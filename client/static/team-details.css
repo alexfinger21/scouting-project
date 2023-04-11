@@ -87,9 +87,13 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: fit-content;
     overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #team-picture {
