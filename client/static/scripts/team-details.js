@@ -1,5 +1,39 @@
 import {paths, requestData, requestPage, currentPage, consoleLog} from "./utility.js"
 
+/*
+
+function moveToPos(ogPos, pos, btn) {
+    if (!isHighlightVisible) {
+        btn.style.opacity = 1
+    }
+
+    if (pos == globalPos) return
+    
+    globalPos = pos
+
+    return new Promise((res, rej) => {    
+        //consoleLog(speed/Math.abs(pos-ogPos))
+        for (let i = 0; i <= 1; i+=speed/Math.abs(pos-ogPos)) {
+            if (pos != globalPos) {
+                rej("already clicked")
+                return
+            }
+
+            //consoleLog(btn.style.left)
+
+            setTimeout(() => {btn.style.left = ogPos + (pos-ogPos) * i + "px"}, 100*i)
+
+            if (i+speed/Math.abs(pos-ogPos) > 1) {
+                i = 1
+            }
+        }
+
+        res("done")
+    })
+}
+
+*/
+
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         mutation.removedNodes.forEach(function (removed_node) {
