@@ -20,6 +20,21 @@ function main() {
     const pictureContainer = document.getElementById("team-pictures-container")
     const arrowLeft = document.getElementById("arrow-left")
     const arrowRight = document.getElementById("arrow-right")
+    const tabs = Array.from(document.getElementsByClassName("team-details-tab"))
+
+    //handle tabs
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", (e) => {
+            if(!tab.classList.contains("selected")) {
+                tabs.forEach((unselectedTab) => {
+                    unselectedTab.classList.remove("selected")
+                })
+                tab.classList.toggle("selected")
+            }
+        })
+    })
+
+    //handle images
     let pic = 0
 
     teamSelector.addEventListener("change", async (e) => {
@@ -43,15 +58,13 @@ function main() {
         }
     })
 
-    arrowLeft.addEventListener("click", (e) => {
+    function arrowAction() {
         pic = pic == 1 ? 0 : 1
 
         pictureContainer.children[1].src = pictureContainer.children[1].getAttribute("pic" + String(pic))
-    })
+    }
 
-    arrowRight.addEventListener("click", (e) => {
-        pic = pic == 1 ? 0 : 1
+    arrowLeft.addEventListener("click", arrowAction)
 
-        pictureContainer.children[1].src = pictureContainer.children[1].getAttribute("pic" + String(pic))
-    })
+    arrowRight.addEventListener("click", arrowAction)
 }

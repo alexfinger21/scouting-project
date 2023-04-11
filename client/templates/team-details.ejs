@@ -3,23 +3,34 @@
 
 <body>
     <div id="page-holder">
+        <div class="small-input-container" id="team-display-selection-container">
+            <label for="team-display-selector"> <b>Select team: </b> </label>
+            <select name="team-display-selector" id="team-display-selector" >
+                <% for(let i = 0; i < teams.length; i++) { %>
+                    <%if(teams[i] == selectedTeam) {%>
+                        <option selected>
+                            <%= teams[i] %>
+                        </option>
+                    <%} else {%>
+                        <option>
+                            <%= teams[i] %>
+                        </option>
+                    <%}%>
+                <% } %>
+            </select>
+        </div>
+        <div id="team-details-tabs">
+            <button class="team-details-tab selected" window="game-data">
+                Game Data
+            </button>
+            <button class="team-details-tab" window="pit-scouting">
+                Pit Data
+            </button>
+            <button class="team-details-tab" window="comments">
+                Comments
+            </button>
+        </div>
         <div id="team-details-scroller">
-            <div class="small-input-container" id="team-display-selection-container">
-                <label for="team-display-selector"> <b>Select team: </b> </label>
-                <select name="team-display-selector" id="team-display-selector" >
-                    <% for(let i = 0; i < teams.length; i++) { %>
-                        <%if(teams[i] == selectedTeam) {%>
-                            <option selected>
-                                <%= teams[i] %>
-                            </option>
-                        <%} else {%>
-                            <option>
-                                <%= teams[i] %>
-                            </option>
-                        <%}%>
-                    <% } %>
-                </select>
-            </div>
             <button id="pit-scouting-button"> Show pit scouting </button>
             <div id="pit-scouting-container">
                 <p>
