@@ -93,7 +93,7 @@
 
 #team-picture {
     width: 80%;
-    height: fit-content;
+    height: auto;
 }
 
 #team-display-table-container {
