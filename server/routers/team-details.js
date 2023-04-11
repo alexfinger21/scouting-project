@@ -65,7 +65,6 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         consoleLog(urls)
                         
                         consoleLog("the request took " + (Date.now() - start)/1000)
-
                         
                         res.render("team-details", {
                             teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
