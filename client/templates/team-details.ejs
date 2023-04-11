@@ -20,37 +20,17 @@
             </select>
         </div>
         <div id="team-details-tabs">
-            <button class="team-details-tab selected" window="game-data">
+            <button class="team-details-tab selected" page="game-data-page">
                 Game Data
             </button>
-            <button class="team-details-tab" window="pit-scouting">
+            <button class="team-details-tab" page="pit-data-page">
                 Pit Data
             </button>
-            <button class="team-details-tab" window="comments">
+            <button class="team-details-tab" page="comments-page">
                 Comments
             </button>
         </div>
-        <div id="team-details-scroller">
-            <button id="pit-scouting-button"> Show pit scouting </button>
-            <div id="pit-scouting-container">
-                <p>
-                    <%=teamInfo.tm_name%>
-                    <br>
-                    <%="OPR: " + teamInfo.api_opr%>
-                    <%="DPR: " + teamInfo.api_dpr%>
-                    
-                </p>
-                <div id="team-pictures-container">
-                    <button id="arrow-left">
-                        <img src="../static/images/arrow-left.svg">
-                    </button>
-                    <img pic0= <%- teamPictures[0] %> pic1= <%- teamPictures[1] %> src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
-                    <button id="arrow-right">
-                        <img src="../static/images/arrow-right.svg">
-                    </button>
-                </div>
-            </div>
-    
+        <div id="game-data-page" class="team-details-scroller">
             <div id="team-display-table-container">
                 <table id="team-display-table">
                     <thead>
@@ -94,6 +74,35 @@
                 </table>
                 
             </div>
+        </div>
+        <div id="pit-data-page" class="team-details-scroller" style="display:none;">
+            <p id="pit-data-title">
+                <%=teamInfo.tm_name + " - Rank " + teamInfo.api_rank%>
+            </p>
+
+            <p class="pit-data-text">
+                <%="OPR: " + teamInfo.api_opr + " - DPR: " + teamInfo.api_dpr%>
+                <br>
+                <%="Drivetrain: " + teamInfo.ps_drive_train%>
+                <br>
+                <%="Wheels used: " + teamInfo.ps_wheel_used%>
+                <br>
+                <%="Weight: " + teamInfo.ps_robot_weight_lbs + "lbs"%>
+                <br>
+                <%="Length: " + teamInfo.ps_robot_length_in + "in    Width: " + teamInfo.ps_robot_width_in + "in    Height: " + teamInfo.ps_robot_height_in + "in"%>
+            </p>
+            <div id="team-pictures-container">
+                <button id="arrow-left">
+                    <img src="../static/images/arrow-left.svg">
+                </button>
+                <img pic0= <%- teamPictures[0] %> pic1= <%- teamPictures[1] %> src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
+                <button id="arrow-right">
+                    <img src="../static/images/arrow-right.svg">
+                </button>
+            </div>
+        </div>
+        <div id="comments-page" class="team-details-scroller" style="display:none;">
+
         </div>
     </div>
 </body>
