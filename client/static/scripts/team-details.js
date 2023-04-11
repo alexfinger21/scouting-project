@@ -27,9 +27,16 @@ function main() {
         tab.addEventListener("click", (e) => {
             if(!tab.classList.contains("selected")) {
                 tabs.forEach((unselectedTab) => {
-                    unselectedTab.classList.remove("selected")
+                    if(unselectedTab.classList.contains("selected")) {
+                        consoleLog(unselectedTab.getAttribute("page"))
+                        const oldPage = document.getElementById(unselectedTab.getAttribute("page"))
+                        oldPage.style.display = "none"
+                        unselectedTab.classList.remove("selected")
+                    }
                 })
                 tab.classList.toggle("selected")
+                const newPage = document.getElementById(tab.getAttribute("page"))
+                newPage.style.display = "block"
             }
         })
     })
@@ -43,20 +50,6 @@ function main() {
 
         consoleLog(data)
     }) 
-    
-    pitScoutingButton.addEventListener("click", (e) => {
-        const pitScoutingContainer = document.getElementById("pit-scouting-container")
-        const display = window.getComputedStyle(pitScoutingContainer, null).display;
-        consoleLog(display)
-        if(display == "none") {
-            consoleLog("wow")
-            pitScoutingContainer.style.display = "block"
-        }
-        else {
-            consoleLog("not cool")
-            pitScoutingContainer.style.display = "none"
-        }
-    })
 
     function arrowAction() {
         pic = pic == 1 ? 0 : 1
