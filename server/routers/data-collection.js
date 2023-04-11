@@ -3,12 +3,14 @@ const express = require("express")
 const { checkAdmin } = require("../utility")
 const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
+const { data, error } = require("jquery")
 
 const router = express.Router()
 
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
     const username = req.cookies["username"]
+
     let runningMatch = -1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
         consoleLog(runningMatchResults)
@@ -43,6 +45,8 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 router.post("/", function (req, res) {
     const body = req.body
     body.username = req.cookies["username"]
+    const user_id = req.cookies["user_id"]
+
     consoleLog(body)
 
     database.query(database.deleteData(body), (err, results) => {
@@ -62,6 +66,10 @@ router.post("/", function (req, res) {
                 gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
                 consoleLog(err)
                 consoleLog(results)
+                database.query(database.saveComment(body.comments, user_id, body.matchNumber, body.alliance, body.position), (err, results) => {
+                    consoleLog(err)
+                    consoleLog(results)
+                })
             })
         })
     })
