@@ -19,6 +19,7 @@
     font-size: 2vh;
     background-color: #FFF;
     border: 0px;
+    transition: all 200ms;
 }
 
 .team-details-tab:nth-child(1) {
