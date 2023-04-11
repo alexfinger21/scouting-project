@@ -439,5 +439,7 @@ module.exports = {
     deleteAllianceSelection: deleteAllianceSelection,
     getTeamPictures: getTeamPictures,
     saveMatchStrategy: saveMatchStrategy,
-    clearMatchStretegyTemp: clearMatchStretegyTemp
+    clearMatchStretegyTemp: clearMatchStretegyTemp,
+    saveComment: saveComment
+
 }

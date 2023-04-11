@@ -1,6 +1,6 @@
-import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog} from "./utility.js"
-import {moveToPage, setSelectedObject} from "./bottomBar.js"
-import {YEAR, COMP, GAME_TYPE} from "./game.js"
+import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog } from "./utility.js"
+import { moveToPage, setSelectedObject } from "./bottomBar.js"
+import { YEAR, COMP, GAME_TYPE } from "./game.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -74,30 +74,35 @@ async function loadData() {
     if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
         Array.from(inputContainers).forEach(element => {
-            const name = element.children[0].textContent
-            const buttonContainer = element.children[1]
-
-            //consoleLog(data[name] + " - " + name)
-
-            Array.from(inputContainers).forEach(element => {
+            const commentsSection = element.querySelector("#comments-container")
+            if (!commentsSection) {
                 const name = element.children[0].textContent
                 const buttonContainer = element.children[1]
 
-                if (buttonContainer.children[0].textContent == "+") {
-                    //input value
-                    buttonContainer.children[0].parentElement.querySelector("input").value = data[name]
-                } else if ((buttonContainer.children[0].getElementsByTagName("img").length == 1 && buttonContainer.children[0].tagName.toLowerCase() == "button") || (buttonContainer.children[0].textContent == "x" && buttonContainer.children[0].tagName.toLowerCase() == "button")) {
-                    //image
-                    //consoleLog(buttonContainer.children[0])
-                    if (data[name]) {
-                        buttonContainer.children[0].style.backgroundColor = "rgb(217, 217, 217)"
-                        buttonContainer.children[2].style.backgroundColor = "rgb(52, 146, 234)"
-                    } else {
-                        buttonContainer.children[2].style.backgroundColor = "rgb(217, 217, 217)"
-                        buttonContainer.children[0].style.backgroundColor = "rgb(52, 146, 234)"
+                //consoleLog(data[name] + " - " + name)
+
+                Array.from(inputContainers).forEach(element => {
+                    const name = element.children[0].textContent
+                    const buttonContainer = element.children[1]
+
+                    if (buttonContainer.children[0].textContent == "+") {
+                        //input value
+                        buttonContainer.children[0].parentElement.querySelector("input").value = data[name]
+                    } else if ((buttonContainer.children[0].getElementsByTagName("img").length == 1 && buttonContainer.children[0].tagName.toLowerCase() == "button") || (buttonContainer.children[0].textContent == "x" && buttonContainer.children[0].tagName.toLowerCase() == "button")) {
+                        //image
+                        //consoleLog(buttonContainer.children[0])
+                        if (data[name]) {
+                            buttonContainer.children[0].style.backgroundColor = "rgb(217, 217, 217)"
+                            buttonContainer.children[2].style.backgroundColor = "rgb(52, 146, 234)"
+                        } else {
+                            buttonContainer.children[2].style.backgroundColor = "rgb(217, 217, 217)"
+                            buttonContainer.children[0].style.backgroundColor = "rgb(52, 146, 234)"
+                        }
                     }
-                }
-            })
+                })
+            } else {
+                commentsSection.children[0].value = data.comments
+            }
         })
 
         Array.from(radioButtonContainers).forEach(container => {
@@ -113,7 +118,7 @@ async function loadData() {
             }
         })
 
-        
+
         Array.from(tableScrollers).forEach(tableContainer => {
             let tableCounter = 0;
             //consoleLog(tableContainer)
@@ -178,16 +183,22 @@ async function saveData() {
         //checkmark and x buttons
 
         Array.from(inputContainers).forEach(element => {
-            const name = element.children[0].textContent
-            const buttonContainer = element.children[1]
+            const commentsSection = element.querySelector("#comments-container")
+            consoleLog(commentsSection)
+            if (!commentsSection) {
+                const name = element.children[0].textContent
+                const buttonContainer = element.children[1]
 
-            if (name != "Robot Auto Scoring" && name != "Robot Teleop Scoring") {
-                if (buttonContainer.children[0].textContent == "+") {
-                    //input value
-                    data[name] = Number(buttonContainer.children[1].value)
-                } else {
-                    data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
+                if (name != "Robot Auto Scoring" && name != "Robot Teleop Scoring") {
+                    if (buttonContainer.children[0].textContent == "+") {
+                        //input value
+                        data[name] = Number(buttonContainer.children[1].value)
+                    } else {
+                        data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
+                    }
                 }
+            } else {
+                data.comments = commentsSection.children[0].value
             }
         })
 
@@ -215,7 +226,7 @@ async function saveData() {
         //none is 0, cube is 1, cone is 2 
 
         data.tables = {}
-        
+
         Array.from(tableScrollers).forEach(tableContainer => {
             let tableCounter = 0;
 
@@ -281,10 +292,10 @@ function main() {
         content.style.display = "block"
         content.style.maxHeight = "30vh"
     })
-    
+
     //close the dropdown content when the user clicks outside of the button
     window.addEventListener("click", (event) => {
-        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) { 
+        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) {
             //consoleLog(event.target)
             content.style.maxHeight = "0px"
             setTimeout(() => {
@@ -292,7 +303,7 @@ function main() {
             }, 200);
         }
     })
-    
+
     form.onsubmit = (event) => {
         event.preventDefault()
 
@@ -361,9 +372,9 @@ function main() {
         const coneBtn = fillCone.getElementsByTagName("button")[0]
         const btnImg = coneBtn.getElementsByTagName("img")[0]
         const savedIndex = coneButtonIndex //saves the index as it is when the for loop reaches this cone
-        
+
         //coneBtn.setAttribute("object", "empty")
-        
+
         coneBtn.addEventListener("click", (event) => {
             const parent = fillCone.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
 

@@ -33,7 +33,7 @@ function moveToPage(ogPos, pos, btn) {
             setTimeout(() => {btn.style.left = ogPos + (pos-ogPos) * i + "px"}, 100*i)
 
             if (i+speed/Math.abs(pos-ogPos) > 1) {
-                i = 1;
+                i = 1
             }
         }
 
