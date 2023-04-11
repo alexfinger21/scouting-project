@@ -29,16 +29,6 @@ const optionsOPRS = {
     }
 }
 
-const optionsTeams = {
-    'method': 'GET',
-    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/teams',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-        'If-Modified-Since': ''
-    }
-}
-
 function printMessage(title, msg) {
     consoleLog("------ " + title + " ------")
     consoleLog(msg)
@@ -118,19 +108,9 @@ function returnAPIDATA() {
     })
 }
 
-function returnTeamImage(team) {
-    return new Promise(resolve => {
-        request(optionsTeams, function(error, response) {
-            const teamData = JSON.parse(response)
-            consoleLog("\n\nTEAM DATA: ")
-            consoleLog(teamData)
-        })
-    })
-}
-
 
 returnAPIDATA().then(res => {
     //consoleLog(res.Rankings.map(e => e.rank))
 })
 
-module.exports = {returnAPIDATA, returnTeamImage}
+module.exports = {returnAPIDATA}
