@@ -400,6 +400,12 @@ function executeQuery(sql, callback) {
     })
 }
 
+function saveComment(comment, user_id, matchNumber, alliance, alliancePosition) {
+    return `INSERT INTO teamsixn_scouting_dev.game_comments
+    (frc_season_master_sm_year, competition_master_cm_event_code, game_matchup_gm_game_type, game_matchup_gm_number, game_matchup_gm_alliance, game_matchup_gm_alliance_position, gc_comment, gc_um_id, gc_ts)
+    VALUES(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${matchNumber}, '${alliance}', ${alliancePosition}, '${comment}', '${user_id}', '${new Date()}');`
+}
+
 function clearMatchStretegyTemp() {
     return `DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;`
 }
@@ -433,5 +439,7 @@ module.exports = {
     deleteAllianceSelection: deleteAllianceSelection,
     getTeamPictures: getTeamPictures,
     saveMatchStrategy: saveMatchStrategy,
-    clearMatchStretegyTemp: clearMatchStretegyTemp
+    clearMatchStretegyTemp: clearMatchStretegyTemp,
+    saveComment: saveComment
+
 }
