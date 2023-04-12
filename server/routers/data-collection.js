@@ -66,10 +66,12 @@ router.post("/", function (req, res) {
                 gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
                 consoleLog(err)
                 consoleLog(results)
-                database.query(database.saveComment(body.comments, user_id, body.matchNumber, body.alliance, body.position), (err, results) => {
-                    consoleLog(err)
-                    consoleLog(results)
-                })
+                if (body.comments) {
+                    database.query(database.saveComment(body.comments, user_id, body.matchNumber, body.alliance, body.position), (err, results) => {
+                        consoleLog(err)
+                        consoleLog(results)
+                    })
+                }
             })
         })
     })
