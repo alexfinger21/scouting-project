@@ -425,6 +425,31 @@ function saveMatchStrategy() {
         team_master_tm_number is not NULL;`
 }
 
+function getMatchComments(team) {
+    return `select 
+        gm.team_master_tm_number, 
+        gc.game_matchup_gm_number, 
+        gc.gc_ts, 
+        gc.gc_um_id, 
+        gc.gc_comment 
+    from 
+        game_comments gc
+        left join
+            game_matchup gm 
+            on    gc.frc_season_master_sm_year = gm.frc_season_master_sm_year and 
+                    gc.competition_master_cm_event_code = gm.competition_master_cm_event_code and 
+                    gc.game_matchup_gm_game_type = gm.gm_game_type and 
+                    gc.game_matchup_gm_alliance  = gm.gm_alliance  and 
+                    gc.game_matchup_gm_alliance_position = gm.gm_alliance_position  and 
+                    gc.game_matchup_gm_number = gm.gm_number 
+    WHERE
+        gc.frc_season_master_sm_year = ${gameConstants.YEAR} and 
+        gc.competition_master_cm_event_code = '${gameConstants.COMP}' and 
+        gc.game_matchup_gm_game_type  = '${gameConstants.GAME_TYPE}' and 
+        gm.team_master_tm_number = ${team} and 
+        trim(gc.gc_comment) <> "" `
+}
+
 module.exports = {
     getMatchData: getMatchData,
     getGameNumbers: getGameNumbers,
@@ -442,6 +467,6 @@ module.exports = {
     getTeamPictures: getTeamPictures,
     saveMatchStrategy: saveMatchStrategy,
     clearMatchStretegyTemp: clearMatchStretegyTemp,
-    saveComment: saveComment
-
+    saveComment: saveComment,
+    getMatchComments: getMatchComments
 }
