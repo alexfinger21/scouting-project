@@ -56,6 +56,13 @@ function main() {
     const arrowRight = document.getElementById("arrow-right")
     const tabs = Array.from(document.getElementsByClassName("team-details-tab"))
 
+    let selectedPage = ""
+    tabs.forEach((tab) => {
+        if(tab.classList.contains("selected")) {
+            selectedPage = tab.getAttribute("page")
+        }
+    })
+    
     //handle tabs
     tabs.forEach((tab) => {
         tab.addEventListener("click", (e) => {
@@ -69,7 +76,8 @@ function main() {
                     }
                 })
                 tab.classList.toggle("selected")
-                const newPage = document.getElementById(tab.getAttribute("page"))
+                selectedPage = tab.getAttribute("page")
+                const newPage = document.getElementById(selectedPage)
                 newPage.style.display = "block"
             }
         })
@@ -79,8 +87,8 @@ function main() {
     let pic = 0
 
     teamSelector.addEventListener("change", async (e) => {
-        consoleLog("hi")
-        const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value, {}, paths.teamDetails)
+        consoleLog("SELECTED PAGE: " + selectedPage)
+        const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value + "&selectedPage=" + selectedPage, {}, paths.teamDetails)
 
         consoleLog(data)
     }) 

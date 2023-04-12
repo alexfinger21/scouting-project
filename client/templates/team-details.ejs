@@ -20,17 +20,22 @@
             </select>
         </div>
         <div id="team-details-tabs">
-            <button class="team-details-tab selected" page="game-data-page">
+            <button <%- `class= "team-details-tab ${(selectedPage == "game-data-page" ? "selected" : "")}"`%> page="game-data-page">
                 Game Data
             </button>
-            <button class="team-details-tab" page="pit-data-page">
+            <button <%- `class= "team-details-tab ${(selectedPage == "pit-data-page" ? "selected" : "")}"`%> page="pit-data-page">
                 Pit Data
             </button>
-            <button class="team-details-tab" page="comments-page">
+            <button <%- `class= "team-details-tab ${(selectedPage == "comments-page" ? "selected" : "")}"`%> page="comments-page">
                 Comments
             </button>
         </div>
-        <div id="game-data-page" class="team-details-scroller">
+        <% if(selectedPage == "game-data-page") {%>
+            <div id="game-data-page" class="team-details-scroller" selected>
+        <% } else {%>
+            <div id="game-data-page" class="team-details-scroller" style="display:none;">
+        <% } %>
+
             <div class="team-display-table-container">
                 <table class="team-display-table">
                     <thead>
@@ -75,7 +80,12 @@
                 
             </div>
         </div>
-        <div id="pit-data-page" class="team-details-scroller" style="display:none;">
+        
+        <% if(selectedPage == "pit-data-page") {%>
+            <div id="pit-data-page" class="team-details-scroller" selected>
+        <% } else {%>
+            <div id="pit-data-page" class="team-details-scroller" style="display:none;">
+        <% } %>
             <p id="pit-data-title">
                 <%=teamInfo.tm_name + " - Rank " + teamInfo.api_rank%>
             </p>
@@ -101,7 +111,12 @@
                 </button>
             </div>
         </div>
-        <div id="comments-page" class="team-details-scroller" style="display:none;">
+
+        <% if(selectedPage == "comments-page") {%>
+            <div id="comments-page" class="team-details-scroller" selected>
+        <% } else {%>
+            <div id="comments-page" class="team-details-scroller" style="display:none;">
+        <% } %>
             <div class="team-display-table-container">
                 <table class="team-display-table">
                     <colgroup>
@@ -114,22 +129,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>robot disabled</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>robot has trouble picking up cones</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>robot is tippy</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>played defense (ok defense)</td>
-                        </tr>
+                        <%for(let i = 0; i < comments.length; i++) { %> 
+                            <tr>
+                                <td>
+                                    <%= comments[i].game_matchup_gm_number %>
+                                </td>
+                                <td>
+                                    <%= comments[i].gc_comment %>
+                                </td>
+                            </tr>
+                        <%}%>
                     </tbody>
                 </table>
             </div>

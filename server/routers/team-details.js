@@ -28,6 +28,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
         (err, team_results) => {
             team_results = JSON.parse(JSON.stringify(team_results))
             const teamNumber = req.query.team || 695
+            const selectedPage = req.query.selectedPage || "game-data-page"
+            consoleLog("SELECTED PAGE: " + selectedPage)
 
             let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
             
@@ -63,18 +65,24 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
 
                         consoleLog("URL: ")
                         consoleLog(urls)
-                        
-                        consoleLog("the request took " + (Date.now() - start)/1000)
-                        
-                        res.render("team-details", {
-                            teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
-                            teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
-                            teamInfo: teamInfo,
-                            selectedTeam: teamNumber,
-                            teamPictures: urls,
 
+                        database.query(database.getMatchComments(teamNumber), (err, comments) => {
+                            comments = JSON.parse(JSON.stringify(comments))
 
-                            
+                            consoleLog("COMMENTS: ")
+                            consoleLog(comments)
+
+                            consoleLog("the request took " + (Date.now() - start)/1000)
+                        
+                            res.render("team-details", {
+                                teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
+                                teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
+                                teamInfo: teamInfo,
+                                selectedTeam: teamNumber,
+                                teamPictures: urls,
+                                comments: comments,
+                                selectedPage: selectedPage
+                            })
                         })
                     })
                 })
