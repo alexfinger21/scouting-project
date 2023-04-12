@@ -220,6 +220,8 @@ function saveData(data) {
         (${params}, '2', '228', ${data["Robot Leaves Community"]}),
         (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])})
         `+ teleopScoringStr + `,
+        (${params}, '3', '328', ${data["Supercharged Cones"]}),
+        (${params}, '3', '329', ${data["Supercharged Cubes"]}),
         (${params}, '4', '401', ${convertToInt(data["Robot Endgame Docking"])}),
         (${params}, '4', '402', ${data["Robot is in Community"]}),
         (${params}, '4', '403', ${linkCount}),
