@@ -1,6 +1,8 @@
 import {paths, requestData, requestPage, currentPage, consoleLog} from "./utility.js"
 
+
 /*
+let globalPos = 
 
 function moveToPos(ogPos, pos, btn) {
     if (!isHighlightVisible) {
