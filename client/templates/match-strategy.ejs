@@ -131,6 +131,28 @@
                         </td>
                     <% } %>
                 </tr>
+                <!--OPR-->
+                <tr>
+                    <td>
+                        OPR (Rank)
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--DPR-->
+                <tr>
+                    <td>
+                        DPR (Rank)
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
+                        </td>
+                    <% } %>
+                </tr>
                 <!--AVG SCORE-->
                 <tr>
                     <td>
@@ -237,6 +259,28 @@
                     <% for(let i = 3; i < 6; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
                             <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--OPR-->
+                <tr>
+                    <td>
+                        OPR (Rank)
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--DPR-->
+                <tr>
+                    <td>
+                        DPR (Rank)
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
                         </td>
                     <% } %>
                 </tr>
