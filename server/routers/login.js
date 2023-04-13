@@ -72,6 +72,8 @@ router.post("/", async function(req, res) {
             sessionId += characters.charAt(Math.floor(Math.random() * characters.length))
         }
 
+        consoleLog(sessionId)
+
         res.cookie("user_id", sessionId, {
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
