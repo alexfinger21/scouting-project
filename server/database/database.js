@@ -415,13 +415,15 @@ function clearMatchStretegyTemp() {
 function saveMatchStrategy() {
     return `CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
     SELECT
-        *
+        *, 
+        rank() OVER (ORDER BY api_opr desc) AS api_opr_rank, 
+        rank() OVER (ORDER BY api_dpr desc) AS api_dpr_rank
     FROM 
         teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
     where 
-        frc_season_master_sm_year = ${gameConstants.YEAR} and 
-        competition_master_cm_event_code = '${gameConstants.COMP}' and 
-        game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
+        frc_season_master_sm_year = 2023 and 
+        competition_master_cm_event_code = 'temp' and 
+        game_matchup_gm_game_type = 'Q' and 
         team_master_tm_number is not NULL;`
 }
 
