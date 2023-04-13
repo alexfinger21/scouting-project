@@ -16,6 +16,8 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
             //consoleLog("\n\n MATCHUP:")
             //consoleLog(matchup)
             matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
+            consoleLog("\nMATCH DATA: ")
+            consoleLog(matchup)
     
             res.render("match-strategy", {
                 match: match,
