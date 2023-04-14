@@ -36,7 +36,7 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
             res.render("data-collection", {
                 runningMatch,
                 assignment: assignment,
-                isAdmin: isAdmin
+                isAdmin: isAdmin,
             })
         })
     })
