@@ -273,7 +273,7 @@ observer.observe(document.body, { subtree: false, childList: true });
 
 window.addEventListener("load", main)
 
-function main() {
+function loadDataCollection() {
     loadData()
 
     const form = document.getElementById("match-number-form")
@@ -526,4 +526,25 @@ function main() {
             submitButton.style.transform = ""
         }, 100); //in milliseconds
     })
+}
+
+function onTabClick() {
+    if (document.getElementsByClassName("selected")[0].getAttribute("page") != this.getAttribute("page")) {
+        document.querySelector(`["page"="scouting-page"]`).classList.toggle("selected")
+        document.querySelector(`["page"="comments-page"]`).classList.toggle("selected")
+    }
+}
+
+function main() {
+    consoleLog("selected page:")
+    consoleLog(document.getElementsByClassName("selected"))
+    if (document.getElementsByClassName("selected")[0].getAttribute("page") == "scouting-page") {
+        loadDataCollection()
+    }
+
+    document.querySelector(`["page"="scouting-page"]`).addEventListener("click", loadDataCollection)
+    document.querySelector(`["page"="scouting-page"]`).addEventListener("click", onTabClick)
+    
+    document.querySelector(`["page"="comments-page"]`).addEventListener("click", onTabClick)
+
 }

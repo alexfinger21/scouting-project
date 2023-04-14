@@ -29,7 +29,6 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             team_results = JSON.parse(JSON.stringify(team_results))
             const teamNumber = req.query.team || 695
             const selectedPage = req.query.selectedPage || "game-data-page"
-            consoleLog("SELECTED PAGE: " + selectedPage)
 
             let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
             

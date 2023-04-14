@@ -39,9 +39,19 @@
     <%- include("../static/partials/header") %>
 
         <div id="page-holder">
+            
             <%if(runningMatch > -1 && assignment != null) {%> <!--Check if user has access-->
-                <form id="match-number-form" action="/data-collection" method="POST" 
-                    alliance=<%=assignment.gm_alliance%> alliance-position=<%=assignment.gm_alliance_position%> >
+                <div id="data-collection-tabs">
+                    <button class="data-collection-tab selected" page="scouting-page">
+                        Scout
+                    </button>
+                    <button class="data-collection-tab" page="comments-page">
+                        Comments
+                    </button>
+                </div>
+                
+                <form id="match-number-form" action="/data-collection" method="POST" page="scouting-page" 
+                    alliance=<%=assignment.gm_alliance%> alliance-position=<%=assignment.gm_alliance_position%> style>
                     <!-- MATCH NUMBER-->
                     <div id="text-container">   
                         <span id="match-number">
@@ -373,14 +383,26 @@
                     <button type="submit" id="data-submit" class="big-button">Save</button>
 
                 </form>
-            <% } else if(runningMatch == -1) {%>
 
-                <h1 id="access-denied">No matches are currently running</h1>
-                <h3 id="access-denied-subheader"> Ask an admin to start a match</h3>
-            <% } else {%>
-                <h1 id="access-denied">You are not currently assigned to a team</h1>
-                <h3 id="access-denied-subheader"> Ask an admin to assign you to a team</h3>
-            <% } %>
+                <div id="comments-page" page="comments-page" style="display: none">
+                
+                <% } else {%>
+                    <div id="data-collection-tabs">
+                        <button class="data-collection-tab" page="scouting-page">
+                            Scout
+                        </button>
+                        <button class="data-collection-tab selected" page="comments-page">
+                            Comments
+                        </button>
+                    </div>
+                    <div id="comments-page" page="comments-page">
+                <% } %>
+
+            <p>
+                2131qasdasdadsasdasdbiggestBIrdasdasda
+            </p>
+            </div>
+
             </div>
 
         <%- include("../static/partials/footer") %>

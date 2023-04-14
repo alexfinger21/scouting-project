@@ -1,3 +1,40 @@
+#data-collection-tabs {
+    margin-top: 1vh;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 4vh;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid #3492ea;
+    border-radius: 1.2vh;
+}
+
+.data-collection-tab {
+    height: 100%;
+    width: 50%;
+    font-size: 2vh;
+    background-color: #FFF;
+    border: 0px;
+    transition: all 200ms;
+}
+
+.data-collection-tab:nth-child(1) {
+    border-right: 2px solid #3492ea;
+    border-radius: 1.2vh 0px 0px 1.2vh;
+}
+.data-collection-tab:nth-child(2) {
+    border-radius: 0px 1.2vh 1.2vh 0px;
+}
+
+.data-collection-tab.selected {
+    background-color: #3492ea;
+    color: #FFF;
+}
+
 #match-number-form {
     margin-left: auto;
     margin-right: auto;
