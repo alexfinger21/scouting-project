@@ -30,7 +30,7 @@ router.get("/", async function (req, res) {
             const isAdmin = await checkAdmin(req)
     
             //get running game
-            let runningMatch = process.env.lastPlayedMatch
+            let runningMatch = -1
             database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
     
                 if (runningMatchResults.length > 0) {
