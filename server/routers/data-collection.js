@@ -49,32 +49,42 @@ router.post("/", function (req, res) {
 
     consoleLog(body)
 
-    database.query(database.deleteData(body), (err, results) => {
-        consoleLog(err)
-        consoleLog(results)
-        
-        database.query(database.saveData(body), (err, results) => {
+    if (body.type == "scouting") {
+        database.query(database.deleteData(body), (err, results) => {
             consoleLog(err)
             consoleLog(results)
+            consoleLog(user_id)
             
-            database.query(`update teamsixn_scouting_dev.game_details gd
-            set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
-            WHERE 
-                gd.frc_season_master_sm_year = ${gameConstants.YEAR} and
-                gd.competition_master_cm_event_code = '${gameConstants.COMP}' and 
-                gd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
-                gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
+            database.query(database.saveData(body), (err, results) => {
                 consoleLog(err)
                 consoleLog(results)
-                if (body.comments) {
-                    database.query(database.saveComment(body.comments, user_id, body.matchNumber, body.alliance, body.position), (err, results) => {
-                        consoleLog(err)
-                        consoleLog(results)
-                    })
-                }
+                
+                database.query(`update teamsixn_scouting_dev.game_details gd
+                set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
+                WHERE 
+                    gd.frc_season_master_sm_year = ${gameConstants.YEAR} and
+                    gd.competition_master_cm_event_code = '${gameConstants.COMP}' and 
+                    gd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
+                    gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
+                    consoleLog(err)
+                    consoleLog(results)
+                    if (body.comments) {
+                        database.query(database.saveComment(body.comments, body.username, body.matchNumber, body.alliance, body.position), (err, results) => {
+                            consoleLog(err)
+                            consoleLog(results)
+                        })
+                    }
+                })
             })
         })
-    })
+    } else if (body.type == "comments") {
+        for (const [team, comment] of Object.entries(data.comments)) {
+            database.query(database.saveComment(comment, body.username, body.matchNumber, body.alliance, body.position), (err, results) => {
+                consoleLog(err)
+                consoleLog(results)
+            })
+        }
+    }
 
     return res.send("req recieved")
 })

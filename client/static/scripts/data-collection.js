@@ -35,6 +35,76 @@ function getCorrespondingTd(id, index) {
     return correspondingTd //return the image in the TD
 }
 
+async function saveComments() {
+    return new Promise(async resolve => {
+        const match = document.getElementById("match-num").textContent
+        const ogData = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments")) : {}
+        const data = {}
+
+        data.matchNumber = match
+        data.GAME_TYPE = GAME_TYPE
+        data.YEAR = YEAR
+        data.COMP = COMP
+        data.type = "comments"
+        data.comments = {}
+
+        Array.from(document.getElementById("comments-placeholder")).forEach(e => {
+            data.comments[e.querySelector(".team").textContent] = {}
+
+            const textArea = e.querySelector(".comments-text")
+            const alliance = e.querySelector(".alliance")
+            const position = e.querySelector(".alliance-pos")
+            data.comments[e.querySelector(".team").textContent].comment = textArea.value
+        })
+
+        ogData[match] = data
+
+        resolve(data)
+    })
+}
+
+
+async function loadCommets() {
+    return new Promise(async resolve => {
+        const data = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments"))[match] : {}
+
+        Array.from(document.getElementById("comments-placeholder")).forEach(e => {
+            const textArea = e.querySelector(".comments-text")
+            const name = e.querySelector(".team").textContent
+            textArea.value = data.comments[name]
+        })
+
+        resolve(true)
+    })
+}
+
+async function sendComments() {
+    const data = await saveComments()
+
+    consoleLog("-------CLIENT DATA------\n")
+    consoleLog(data)
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: paths.dataCollection,
+        data: JSON.stringify(data),
+        success: function (response) {
+            consoleLog(response)
+            alert("Comments saved")
+            requestPage(paths.matchListing)
+            const hoverButton = document.getElementById("hover-button")
+            const matchListingButton = document.getElementById("match-listing-button")
+            moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
+            setSelectedObject(matchListingButton)
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            //consoleLog("Error\n" + errorThrown, jqXHR)
+        },
+    })
+}
+
 async function sendData() {
     const data = await saveData()
     consoleLog("-------CLIENT DATA------\n")
@@ -176,6 +246,7 @@ async function saveData() {
         data.GAME_TYPE = GAME_TYPE
         data.YEAR = YEAR
         data.COMP = COMP
+        data.type = "scouting"
 
         //0th child is the title
         //1st child is the number button holder
