@@ -6,9 +6,10 @@ const { checkAdmin } = require("../utility")
 const socketManager = require("../sockets.js")
 const { data } = require("jquery")
 const { consoleLog } = require("../utility")
+
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-let lastPlayedMatch = 1
+process.env.lastPlayedMatch = 1
 
 function addZero(num) {
     return num < 10 ? "0" + num : num
@@ -29,11 +30,12 @@ router.get("/", async function (req, res) {
             const isAdmin = await checkAdmin(req)
     
             //get running game
-            let runningMatch = -1
+            let runningMatch = process.env.lastPlayedMatch
             database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
     
                 if (runningMatchResults.length > 0) {
                     runningMatch = runningMatchResults[0].cg_gm_number
+                    process.env.lastPlayedMatch = runningMatchResults[0].cg_gm_number
                 }
     
     
@@ -61,7 +63,7 @@ router.get("/", async function (req, res) {
                     teams: teams, 
                     isAdmin: isAdmin,
                     runningMatch: runningMatch,
-                    lastPlayedMatch: lastPlayedMatch
+                    lastPlayedMatch: process.env.lastPlayedMatch
                 })
             })
         })
@@ -99,7 +101,7 @@ router.post("/", function (req, res) {
                     consoleLog(err)
                 })
 
-                lastPlayedMatch = body.gm_number
+                process.env.lastPlayedMatch = body.gm_number
                 
                 socketManager.emitAllSockets(body.gm_number, "changeMatch")
                 

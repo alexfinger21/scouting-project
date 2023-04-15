@@ -48,12 +48,12 @@ async function saveComments() {
         data.type = "comments"
         data.comments = {}
 
-        Array.from(document.getElementById("comments-placeholder")).forEach(e => {
+        Array.from(document.getElementByClassName("comments-placeholder")).forEach(e => {
             data.comments[e.querySelector(".team").textContent] = {}
 
             const textArea = e.querySelector(".comments-text")
-            const alliance = e.querySelector(".alliance")
-            const position = e.querySelector(".alliance-pos")
+            const alliance = e.getAttribute("alliance")
+            const position = e.getAttribute("alliance-pos")
             data.comments[e.querySelector(".team").textContent].comment = textArea.value
         })
 
@@ -600,9 +600,14 @@ function loadDataCollection() {
 }
 
 function onTabClick() {
-    if (document.getElementsByClassName("selected")[0].getAttribute("page") != this.getAttribute("page")) {
-        document.querySelector(`["page"="scouting-page"]`).classList.toggle("selected")
-        document.querySelector(`["page"="comments-page"]`).classList.toggle("selected")
+    const currentPage = document.getElementsByClassName("selected")[0].getAttribute("page")
+    const newPage = this.getAttribute("page")
+    consoleLog(currentPage + " - " + newPage)
+    if (currentPage != newPage) {
+        document.querySelector(`button[page="${currentPage}"]`).classList.toggle("selected")
+        document.querySelector(`form[page="${currentPage}"]`).style.display = "none"
+        document.querySelector(`button[page="${newPage}"]`).classList.toggle("selected")
+        document.querySelector(`form[page="${newPage}"]`).style.display = "flex"
     }
 }
 
@@ -613,9 +618,9 @@ function main() {
         loadDataCollection()
     }
 
-    document.querySelector(`["page"="scouting-page"]`).addEventListener("click", loadDataCollection)
-    document.querySelector(`["page"="scouting-page"]`).addEventListener("click", onTabClick)
+    document.querySelector(`[page="scouting-page"]`).addEventListener("click", loadDataCollection)
+    document.querySelector(`[page="scouting-page"]`).addEventListener("click", onTabClick)
     
-    document.querySelector(`["page"="comments-page"]`).addEventListener("click", onTabClick)
+    document.querySelector(`[page="comments-page"]`).addEventListener("click", onTabClick)
 
 }

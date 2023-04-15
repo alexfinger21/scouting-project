@@ -11,7 +11,7 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
     const isAdmin = await checkAdmin(req)
     const username = req.cookies["username"]
 
-    let runningMatch = -1;
+    let runningMatch = 1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
         consoleLog(runningMatchResults)
         if (runningMatchResults[0]) { //if a match is running
@@ -33,10 +33,22 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
                     + teamName + " " + assignment.gm_alliance_position
                 consoleLog(assignment)
             }
-            res.render("data-collection", {
-                runningMatch,
-                assignment: assignment,
-                isAdmin: isAdmin,
+            
+            database.query(database.getGameNumbers(), (err, results) => {
+                database.query(database.getMatchData(runningMatch), (err, matchup) => {
+                    matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
+                    consoleLog("\nMATCH DATA: ")
+                    consoleLog(matchup)
+            
+                    res.render("data-collection", {
+                        matches: JSON.parse(JSON.stringify(results)),
+                        lastMatch: process.env.lastPlayedMatch,
+                        runningMatch: runningMatch,
+                        assignment: assignment,
+                        isAdmin: isAdmin,
+                        matchup: matchup,
+                    })
+                })
             })
         })
     })
