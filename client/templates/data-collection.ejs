@@ -384,7 +384,7 @@
 
                 </form>
 
-                <div id="comments-page" page="comments-page" style="display: none">
+                <form id="comments-page" page="comments-page" style="display: none">
                 
                 <% } else {%>
                     <div id="data-collection-tabs">
@@ -395,13 +395,57 @@
                             Comments
                         </button>
                     </div>
-                    <div id="comments-page" page="comments-page">
+                    <form id="comments-page" page="comments-page">
                 <% } %>
 
-            <p>
-                2131qasdasdadsasdasdbiggestBIrdasdasda
-            </p>
+                <!--Everything under here is comments page-->
+                <div class="small-input-container" id="select-match">
+                    <label id="match-comment-label" for="select-match"><b>Match:</b></label>
+                    <select id="match-comment-selector" name="select-match">
+                        <% for(let i = 0; i < matches.length; i++) { %>
+                            <%if(matches[i].gm_number == lastMatch) {%>
+                                <option selected>
+                                    <%= matches[i].gm_number %>
+                                </option>
+                            <%} else {%>
+                                <option>
+                                    <%= matches[i].gm_number %>
+                                </option>
+                            <%}%>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div id="comments-scroller">
+                    <% for(let i = 0; i < 3; i++) {%> 
+                        <div class="input-container ">
+                            <div class="comments-info">
+                                <span class="comments-team red">
+                                    <%=matchup[i].team_master_tm_number + " " + matchup[i].tm_name%>
+                                </span>
+                            </div>
+                            <textarea class="comments-text" rows="5" cols="33"></textarea>
+                        </div>
+                    <%}%>
+                    <% for(let i = 3; i < 6; i++) {%> 
+                        <div class="input-container ">
+                            <div class="comments-info">
+                                <span class="comments-team blue">
+                                    <%=matchup[i].team_master_tm_number + " " + matchup[i].tm_name%>
+                                </span>
+                            </div>
+                            <textarea class="comments-text" rows="5" cols="33"></textarea>
+                        </div>
+                    <%}%>
+                </div>
+
+                
+
+                <button id="save-comments" class="big-button">Save</button>
+
             </div>
+
+            <!--Comments page ends-->
 
             </div>
 
