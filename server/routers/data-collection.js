@@ -90,10 +90,13 @@ router.post("/", function (req, res) {
             })
         })
     } else if (body.type == "comments") {
-        for (const [team, comment] of Object.entries(data.comments)) {
+        consoleLog("comments:")
+        consoleLog(body.comments)
+        for (const [team, comment] of Object.entries(body.comments)) {
             database.query(database.saveComment(comment, body.username, body.matchNumber, body.alliance, body.position), (err, results) => {
                 consoleLog(err)
                 consoleLog(results)
+                consoleLog("Success in saving comments")
             })
         }
     }
