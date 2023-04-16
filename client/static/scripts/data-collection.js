@@ -37,7 +37,8 @@ function getCorrespondingTd(id, index) {
 
 async function saveComments() {
     return new Promise(async resolve => {
-        const match = document.getElementById("match-num").textContent
+        const match = document.getElementById("match-comment-selector").value
+        consoleLog("MATCH NUMBER: " + match)
         const ogData = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments")) : {}
         const data = {}
 
@@ -48,30 +49,34 @@ async function saveComments() {
         data.type = "comments"
         data.comments = {}
 
-        Array.from(document.getElementByClassName("comments-placeholder")).forEach(e => {
-            data.comments[e.querySelector(".team").textContent] = {}
-
-            const textArea = e.querySelector(".comments-text")
-            const alliance = e.getAttribute("alliance")
-            const position = e.getAttribute("alliance-pos")
-            data.comments[e.querySelector(".team").textContent].comment = textArea.value
+        Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
+            let title = e.querySelector(".comments-team").innerText
+            let team = title.split(" ")[0]
+            let text = e.querySelector("textarea").value
+            data.comments[team] = text
         })
 
         ogData[match] = data
+
+        consoleLog("DATA: ")
+        consoleLog(data)
 
         resolve(data)
     })
 }
 
 
-async function loadCommets() {
+async function loadComments() {
     return new Promise(async resolve => {
         const data = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments"))[match] : {}
+        consoleLog("DATA: ")
+        consoleLog(data)
 
-        Array.from(document.getElementById("comments-placeholder")).forEach(e => {
-            const textArea = e.querySelector(".comments-text")
-            const name = e.querySelector(".team").textContent
-            textArea.value = data.comments[name]
+        Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
+            let title = e.querySelector(".comments-team").innerText
+            let team = title.split(" ")[0]
+            consoleLog("TEAM: " + team + "  TEXT: " + data.comments[team])
+            e.querySelector("textarea").value = data.comments[team]
         })
 
         resolve(true)
@@ -607,7 +612,7 @@ function loadCommentsPage() {
 
         consoleLog("comments saved!")
 
-        saveComments()
+        sendComments()
     }
 }
 
@@ -641,6 +646,7 @@ function main() {
 
     if (document.getElementsByClassName("selected")[0].getAttribute("page") == "comments-page") {
         loadCommentsPage()
+        loadComments()
     }
 
     document.querySelector(`[page="scouting-page"]`).addEventListener("click", loadDataCollection)
@@ -648,5 +654,20 @@ function main() {
 
     document.querySelector(`[page="scouting-page"]`).addEventListener("click", onTabClick)
     document.querySelector(`[page="comments-page"]`).addEventListener("click", onTabClick)
+
+    const saveCommentsButton = document.getElementById("save-comments")
+    saveCommentsButton.addEventListener("click", () => {
+        //animate the button click effect
+        saveCommentsButton.style.backgroundColor = "#3b86cc"
+        saveCommentsButton.style.boxShadow = "0 2px #1c3750"
+        saveCommentsButton.style.transform = "translateY(4px)"
+
+        //animate the button back
+        setTimeout(() => {
+            saveCommentsButton.style.backgroundColor = "#3492EA"
+            saveCommentsButton.style.boxShadow = "0 6px #3077b9"
+            saveCommentsButton.style.transform = ""
+        }, 100); //in milliseconds
+    })
 
 }
