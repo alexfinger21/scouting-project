@@ -599,15 +599,36 @@ function loadDataCollection() {
     })
 }
 
+function loadCommentsPage() {
+    const form = document.getElementById("comments-page")
+
+    form.onsubmit = (e) => {
+        e.preventDefault()
+
+        consoleLog("comments saved!")
+
+        saveComments()
+    }
+}
+
 function onTabClick() {
     const currentPage = document.getElementsByClassName("selected")[0].getAttribute("page")
     const newPage = this.getAttribute("page")
     consoleLog(currentPage + " - " + newPage)
+    consoleLog(document.querySelectorAll(`[page="${newPage}"]`)[1])
+    consoleLog(document.querySelectorAll(`[page="${currentPage}"]`)[1])
+
     if (currentPage != newPage) {
-        document.querySelector(`button[page="${currentPage}"]`).classList.toggle("selected")
-        document.querySelector(`form[page="${currentPage}"]`).style.display = "none"
-        document.querySelector(`button[page="${newPage}"]`).classList.toggle("selected")
-        document.querySelector(`form[page="${newPage}"]`).style.display = "flex"
+        document.querySelectorAll(`[page="${currentPage}"]`)[0].classList.remove("selected")
+        document.querySelectorAll(`[page="${newPage}"]`)[0].classList.add("selected")
+        
+        if (document.querySelectorAll(`[page="${currentPage}"]`)[1]) {
+            document.querySelectorAll(`[page="${currentPage}"]`)[1].style.display = "none"
+        }
+        
+        if (document.querySelectorAll(`[page="${newPage}"]`)[1]) {
+            document.querySelectorAll(`[page="${newPage}"]`)[1].style.display = "flex"
+        }
     }
 }
 
@@ -618,9 +639,14 @@ function main() {
         loadDataCollection()
     }
 
+    if (document.getElementsByClassName("selected")[0].getAttribute("page") == "comments-page") {
+        loadCommentsPage()
+    }
+
     document.querySelector(`[page="scouting-page"]`).addEventListener("click", loadDataCollection)
+    document.querySelector(`[page="comments-page"]`).addEventListener("click", loadCommentsPage)
+
     document.querySelector(`[page="scouting-page"]`).addEventListener("click", onTabClick)
-    
     document.querySelector(`[page="comments-page"]`).addEventListener("click", onTabClick)
 
 }
