@@ -645,8 +645,7 @@ function onTabClick() {
 function main() {
     consoleLog("selected page:")
     consoleLog(document.getElementsByClassName("selected"))
-    if (document.querySelector(`form[page="scouting-page"]`)) {
-        consoleLog("LOADING DATA COLLECTION")
+    if (document.getElementById("match-number-form")) {
         loadDataCollection()
     }
 

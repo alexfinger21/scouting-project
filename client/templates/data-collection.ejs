@@ -42,7 +42,7 @@
             
             
 
-            <%if(runningMatch > -1 && assignment != null) {%> <!--Check if user has access-->
+            <%if(assignment != null) {%> <!--Check if user has access-->
                 <div id="data-collection-tabs">
                     <button <%- `class= "data-collection-tab ${(selectedPage == "scouting-page" ? "selected" : "")}"`%> page="scouting-page">
                         Scout
@@ -390,7 +390,7 @@
 
         </form>
 
-                <% if(selectedPage == "comments-page") {%> 
+                <% if(selectedPage == "comments-page") {%>
                     <form id="comments-page" page="comments-page">
                 <% }else {%>
                     <form id="comments-page" page="comments-page" style="display: none">
@@ -406,6 +406,10 @@
                             Comments
                         </button>
                     </div>
+
+                    <form page="scouting-page" style="display:none">
+                        <p id="access-denied">A match isn't running or you aren't assigned to scout</p>
+                    </form>
 
                     <form id="comments-page" page="comments-page">
                 <% } %>
