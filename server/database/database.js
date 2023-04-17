@@ -1,6 +1,7 @@
 const pool = require('./dbconfig')
 const gameConstants = require('../game.js')
 const game = require('../game.js')
+const { consoleLog } = require('../utility')
 
 function getUsers() {
     const returnStr = `
