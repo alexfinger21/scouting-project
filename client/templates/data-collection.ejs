@@ -422,7 +422,7 @@
                     <% for(let i = 0; i < 3; i++) {%> 
                         <div class="input-container ">
                             <div class="comments-info">
-                                <span class="comments-team red">
+                                <span class="comments-team red" <%- `alliance=${matchup[i].gm_alliance} pos=${matchup[i].gm_alliance_position}`%>>
                                     <%=matchup[i].team_master_tm_number + " " + matchup[i].tm_name%>
                                 </span>
                             </div>
@@ -432,7 +432,7 @@
                     <% for(let i = 3; i < 6; i++) {%> 
                         <div class="input-container ">
                             <div class="comments-info">
-                                <span class="comments-team blue">
+                                <span class="comments-team blue" <%- `alliance=${matchup[i].gm_alliance} pos=${matchup[i].gm_alliance_position}`%>>
                                     <%=matchup[i].team_master_tm_number + " " + matchup[i].tm_name%>
                                 </span>
                             </div>

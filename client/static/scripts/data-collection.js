@@ -50,10 +50,15 @@ async function saveComments() {
         data.comments = {}
 
         Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
-            let title = e.querySelector(".comments-team").innerText
+            let info = e.querySelector(".comments-team")
+            let title = info.innerText
             let team = title.split(" ")[0]
             let text = e.querySelector("textarea").value
-            data.comments[team] = text
+            data.comments[team] = {
+                text: text,
+                alliance: info.getAttribute("alliance"),
+                position: info.getAttribute("pos")
+            }
         })
 
         ogData[match] = data
@@ -75,7 +80,6 @@ async function loadComments() {
         Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
             let title = e.querySelector(".comments-team").innerText
             let team = title.split(" ")[0]
-            consoleLog("TEAM: " + team + "  TEXT: " + data.comments[team])
             e.querySelector("textarea").value = data.comments[team]
         })
 

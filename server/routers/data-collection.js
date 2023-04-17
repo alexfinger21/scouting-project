@@ -93,7 +93,7 @@ router.post("/", function (req, res) {
         consoleLog("comments:")
         consoleLog(body.comments)
         for (const [team, comment] of Object.entries(body.comments)) {
-            database.query(database.saveComment(comment, body.username, body.matchNumber, body.alliance, body.position), (err, results) => {
+            database.query(database.saveComment(comment.text, body.username, body.matchNumber, comment.alliance, comment.position), (err, results) => {
                 consoleLog(err)
                 consoleLog(results)
                 consoleLog("Success in saving comments")
