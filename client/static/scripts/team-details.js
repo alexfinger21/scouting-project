@@ -1,5 +1,6 @@
 import {paths, requestData, requestPage, currentPage, consoleLog} from "./utility.js"
 
+//template url: https://www.thebluealliance.com/team/6964/2023
 
 /*
 let globalPos = 
@@ -83,6 +84,21 @@ function main() {
                 newPage.style.display = "block"
             }
         })
+    })
+
+    $.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: `https://www.thebluealliance.com/team/6964/2023`,
+        data: null,
+        success: function (response) {
+            consoleLog("response from bluealliance")
+            consoleLog(response)
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            consoleLog("Error\n" + errorThrown, jqXHR)
+        },
     })
 
     //handle images
