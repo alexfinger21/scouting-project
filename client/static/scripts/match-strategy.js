@@ -19,7 +19,7 @@ function main() {
     select.onchange = () => {
         consoleLog("\n\nSELECT VALUE\n" + select.value)
         consoleLog("REQUEST PAGE\n\n")
-        requestPage(paths.matchStrategy + "?match=" + select.value, {}, paths.matchStrategy)
+        requestPage(paths.matchStrategy + "?match=" + select.value + "&selectedPage=comments-page", {}, paths.matchStrategy)
     }
 
 }
