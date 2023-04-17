@@ -44,16 +44,20 @@
 
             <%if(runningMatch > -1 && assignment != null) {%> <!--Check if user has access-->
                 <div id="data-collection-tabs">
-                    <button class="data-collection-tab selected" page="scouting-page">
+                    <button <%- `class= "data-collection-tab ${(selectedPage == "scouting-page" ? "selected" : "")}"`%> page="scouting-page">
                         Scout
                     </button>
-                    <button class="data-collection-tab" page="comments-page">
+                    <button <%- `class= "data-collection-tab ${(selectedPage == "comments-page" ? "selected" : "")}"`%> page="comments-page">
                         Comments
                     </button>
                 </div>
+            
+                <% if(selectedPage == "scouting-page") {%> 
+                    <form id="match-number-form" action="/data-collection" method="POST" page="scouting-page" alliance=<%=assignment.gm_alliance%> alliance-position=<%=assignment.gm_alliance_position%>>
+                <% }else {%>
+                    <form id="match-number-form" action="/data-collection" method="POST" page="scouting-page" alliance=<%=assignment.gm_alliance%> alliance-position=<%=assignment.gm_alliance_position%> style="display:none">
+                <%}%>
                 
-                <form id="match-number-form" action="/data-collection" method="POST" page="scouting-page" 
-            alliance=<%=ssignment.gm_alliance%> alliance-position=<%=assignment.gm_alliance_position%> style>
             <!-- MATCH NUMBER-->
             <div id="text-container">   
                 <span id="match-number">
@@ -386,7 +390,11 @@
 
         </form>
 
-                <form id="comments-page" page="comments-page" style="display: none">
+                <% if(selectedPage == "comments-page") {%> 
+                    <form id="comments-page" page="comments-page">
+                <% }else {%>
+                    <form id="comments-page" page="comments-page" style="display: none">
+                <%}%> 
                 
                 <% } else {%>
                     <div id="data-collection-tabs">

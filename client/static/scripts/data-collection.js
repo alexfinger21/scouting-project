@@ -80,7 +80,7 @@ async function loadComments() {
         Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
             let title = e.querySelector(".comments-team").innerText
             let team = title.split(" ")[0]
-            e.querySelector("textarea").value = data.comments[team]
+            //e.querySelector("textarea").value = data.comments[team]
         })
 
         resolve(true)
@@ -368,6 +368,7 @@ function loadDataCollection() {
 
     //when the button is clicked, changes the max visible height
     dropdown.addEventListener("click", () => {
+        consoleLog("CLICKEDD")
         content.style.visibility = "visible"
         content.style.display = "block"
         content.style.maxHeight = "30vh"
@@ -644,7 +645,8 @@ function onTabClick() {
 function main() {
     consoleLog("selected page:")
     consoleLog(document.getElementsByClassName("selected"))
-    if (document.getElementsByClassName("selected")[0].getAttribute("page") == "scouting-page") {
+    if (document.querySelector(`form[page="scouting-page"]`)) {
+        consoleLog("LOADING DATA COLLECTION")
         loadDataCollection()
     }
 
@@ -652,6 +654,12 @@ function main() {
         loadCommentsPage()
         loadComments()
     }
+
+    const matchSelector = document.getElementById("match-comment-selector")
+
+    matchSelector.addEventListener("change", e => {
+        requestPage(paths.dataCollection + "?match=" + matchSelector.value + "&selectedPage=comments-page", {}, paths.dataCollection)
+    })
 
     document.querySelector(`[page="scouting-page"]`).addEventListener("click", loadDataCollection)
     document.querySelector(`[page="comments-page"]`).addEventListener("click", loadCommentsPage)

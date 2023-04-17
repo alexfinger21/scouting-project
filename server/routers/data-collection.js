@@ -10,6 +10,9 @@ const router = express.Router()
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
     const username = req.cookies["username"]
+    consoleLog("SELECTED PAGE " + req.query.selectedPage)
+    const selectedPage = req.query.selectedPage || "scouting-page"
+    const match = req.query.match ? req.query.match : process.env.lastPlayedMatch
 
     let runningMatch = 1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
@@ -35,18 +38,19 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
             }
             
             database.query(database.getGameNumbers(), (err, results) => {
-                database.query(database.getMatchData(runningMatch), (err, matchup) => {
+                database.query(database.getMatchData(match), (err, matchup) => {
                     matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
                     consoleLog("\nMATCH DATA: ")
                     consoleLog(matchup)
-            
+
                     res.render("data-collection", {
                         matches: JSON.parse(JSON.stringify(results)),
-                        lastMatch: process.env.lastPlayedMatch,
+                        lastMatch: match,
                         runningMatch: runningMatch,
                         assignment: assignment,
                         isAdmin: isAdmin,
                         matchup: matchup,
+                        selectedPage: selectedPage
                     })
                 })
             })
