@@ -29,13 +29,13 @@ function getImageData(filter = "image", team) {
 
             if (!body.Error) {
                 for (const [key, img] of Object.entries(body)) {
-                    if (Object.keys(img.details).length > 0) {
+                    if (Object.keys(img.details).length > 0 || img.type != "imgur") {
                         delete body[key]
                     } else if (img.type == "youtube" && filter == "image") {
                         delete body[key]
                     } else if (img.type == "imgur" && filter == "video") {
                         delete body[key]
-                    }
+                    } e
                 }
             } else {
                 resolve({})
