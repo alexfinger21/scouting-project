@@ -2,7 +2,7 @@ require("dotenv").config()
 
 const request = require("request")
 const auth = process.env.TBA_AUTH
-const gameConstants = require('./game.js') 
+const gameConstants = require('./game.js')
 const { consoleLog } = require("./utility")
 
 consoleLog(auth)
@@ -20,14 +20,28 @@ function imageRequest(team) {
 
 consoleLog(imageRequest(695))
 
-request(imageRequest(695), (err, response) => {
-    let body = JSON.parse(response.body)
+function getImageData(filter = "image", team) {
+    return new Promise(resolve => {
+        request(imageRequest(team), (err, response) => {
+            let body = JSON.parse(response.body)
 
-    for (const [key, img] of Object.entries(body)) {
-        if (img.type == "youtube") {
-            delete body[key]
-        }
-    }
-    
-    consoleLog(body)
-})
+            for (const [key, img] of Object.entries(body)) {
+                if (Object.keys(img.details).length > 0) {
+                    delete body[key]
+                } else if (img.type == "youtube" && filter == "image") {
+                    delete body[key]
+                } else if (img.type == "imgur" && filter == "video") {
+                    delete body[key]
+                }
+            }
+
+            consoleLog(body.map(e => e.direct_url))
+
+            resolve(body.map(e => e.direct_url))
+        })
+    })
+}
+
+getImageData().then()
+
+module.exports = {getImageData}
