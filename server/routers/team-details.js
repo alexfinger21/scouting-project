@@ -3,6 +3,7 @@ const express = require("express")
 const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
+const { getImageData } = require("../getImages.js")
 
 function mergeDicts(dict1, dict2) {
     if (dict1 && dict2) {
@@ -46,13 +47,16 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                     
                     consoleLog("TEAM: " + teamNumber)
                     
-                    database.query(database.getTeamPictures(teamNumber), (err, pictures) => {
+                    database.query(database.getTeamPictures(teamNumber), async (err, pictures) => {
                         consoleLog("PICTURES")
                         consoleLog(pictures)
 
                         pictures = JSON.parse(JSON.stringify(pictures))
                         consoleLog("PICTURES: ")
                         consoleLog(pictures[0])
+
+                        const websiteURLs = await getImageData("image", teamNumber)
+
                         let urls = []
                         if(pictures.length > 0) {
                             teamInfo = mergeDicts(teamInfo, pictures[0])
@@ -61,6 +65,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                             urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_full_robot.split("id=").pop())
                             urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_drivetrain.split("id=").pop())
                         }
+
+                        urls = [...websiteURLs, ...urls]
 
                         consoleLog("URL: ")
                         consoleLog(urls)
