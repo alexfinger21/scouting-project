@@ -25,7 +25,8 @@ function getImageData(filter = "image", team) {
         request(imageRequest(team), (err, response) => {
             let body = JSON.parse(response.body)
             consoleLog(body)
-
+            consoleLog(!body.Error)
+            
             if (!body.Error) {
                 for (const [key, img] of Object.entries(body)) {
                     if (Object.keys(img.details).length > 0) {
