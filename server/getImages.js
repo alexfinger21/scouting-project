@@ -26,14 +26,18 @@ function getImageData(filter = "image", team) {
             let body = JSON.parse(response.body)
             consoleLog(body)
 
-            for (const [key, img] of Object.entries(body)) {
-                if (Object.keys(img.details).length > 0) {
-                    delete body[key]
-                } else if (img.type == "youtube" && filter == "image") {
-                    delete body[key]
-                } else if (img.type == "imgur" && filter == "video") {
-                    delete body[key]
+            if (!body.Error) {
+                for (const [key, img] of Object.entries(body)) {
+                    if (Object.keys(img.details).length > 0) {
+                        delete body[key]
+                    } else if (img.type == "youtube" && filter == "image") {
+                        delete body[key]
+                    } else if (img.type == "imgur" && filter == "video") {
+                        delete body[key]
+                    }
                 }
+            } else {
+                resolve({})
             }
 
             consoleLog(body.map(e => e.direct_url))
