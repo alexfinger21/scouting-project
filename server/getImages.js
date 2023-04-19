@@ -26,7 +26,7 @@ function getImageData(filter = "image", team) {
             let body = JSON.parse(response.body)
             consoleLog(body)
             consoleLog(!body.Error)
-            
+
             if (!body.Error) {
                 for (const [key, img] of Object.entries(body)) {
                     if (Object.keys(img.details).length > 0) {
@@ -39,6 +39,7 @@ function getImageData(filter = "image", team) {
                 }
             } else {
                 resolve({})
+                consoleLog("sotp")
             }
 
             consoleLog(body.map(e => e.direct_url))
