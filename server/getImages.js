@@ -4,6 +4,7 @@ const request = require("request")
 const auth = process.env.TBA_AUTH
 const gameConstants = require('./game.js')
 const { consoleLog } = require("./utility")
+const { map } = require("jquery")
 
 consoleLog(auth)
 
@@ -41,9 +42,16 @@ function getImageData(filter = "image", team) {
                 return
             }
 
-            consoleLog(body.map(e => e.direct_url))
+            let mapResult = body.map(e => e.direct_url)
+            
+            let index = mapResult.indexOf(undefined)
 
-            resolve(body.map(e => e.direct_url))
+            while (index > -1) {
+                mapResult.splice(index, 1)
+                index = mapResult.indexOf(undefined)
+            }
+            
+            resolve(mapResult)
         })
     })
 }
