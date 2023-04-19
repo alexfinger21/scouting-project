@@ -86,21 +86,6 @@ function main() {
         })
     })
 
-    $.ajax({
-        type: "GET",
-        contentType: "application/json",
-        url: `https://www.thebluealliance.com/team/6964/2023`,
-        data: null,
-        success: function (response) {
-            consoleLog("response from bluealliance")
-            consoleLog(response)
-        },
-
-        error: function (jqXHR, textStatus, errorThrown) {
-            consoleLog("Error\n" + errorThrown, jqXHR)
-        },
-    })
-
     //handle images
     let pic = 0
 
@@ -111,13 +96,19 @@ function main() {
         consoleLog(data)
     }) 
 
-    function arrowAction() {
-        pic = pic == 1 ? 0 : 1
-
-        pictureContainer.children[1].src = pictureContainer.children[1].getAttribute("pic" + String(pic))
+    function switchImage() {
+        const container = pictureContainer.children[1]
+        consoleLog("pic" + String(pic % container.getAttribute("num-pictures")))
+        container.src = container.getAttribute("pic" + String(pic % container.getAttribute("num-pictures")))
     }
 
-    arrowLeft.addEventListener("click", arrowAction)
+    arrowLeft.addEventListener("click", (e) => {
+        pic -= 1
+        switchImage()
+    })
 
-    arrowRight.addEventListener("click", arrowAction)
+    arrowRight.addEventListener("click", (e) => {
+        pic += 1
+        switchImage()
+    })
 }

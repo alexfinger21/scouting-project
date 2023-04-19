@@ -109,7 +109,12 @@
                 <button id="arrow-left">
                     <img src="../static/images/arrow-left.svg">
                 </button>
-                <img pic0= <%- teamPictures[0] %> pic1= <%- teamPictures[1] %> src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
+                <% let attributes = " "
+                    for(let i = 0; i < teamPictures.length; i++) {
+                        attributes += "pic" + i + "=" + teamPictures[i] + " "
+                    }
+                 %>
+                <img <%-attributes%> num-pictures=<%-teamPictures.length%> src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
                 <button id="arrow-right">
                     <img src="../static/images/arrow-right.svg">
                 </button>
