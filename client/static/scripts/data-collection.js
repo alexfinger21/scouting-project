@@ -142,11 +142,11 @@ async function sendData() {
 
 async function loadData() {
     const match = await getMatch()
-    const buttonContainers = document.getElementsByClassName("NumberButtonContainer")
+    const buttonContainers = document.getElementById("match-number-form").querySelectorAll(".NumberButtonContainer")
     const matchNumber = document.getElementById("match-number")
-    const inputContainers = document.getElementsByClassName("input-container")
-    const radioButtonContainers = document.getElementsByClassName("radio-button-container")
-    const tableScrollers = document.querySelectorAll(".table-scroller")
+    const inputContainers = document.getElementById("match-number-form").querySelectorAll(".input-container")
+    const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
+    const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
     const data = JSON.parse(localStorage.getItem("data"))[match]
     //consoleLog(data)
 
@@ -244,11 +244,11 @@ async function saveData() {
         const ogData = JSON.parse(localStorage.getItem("data")) != null ? JSON.parse(localStorage.getItem("data")) : {}
         const data = {}
 
-        const buttonContainers = document.getElementsByClassName("NumberButtonContainer")
-        const matchNumber = document.getElementById("match-number")
-        const inputContainers = document.getElementsByClassName("input-container")
-        const radioButtonContainers = document.getElementsByClassName("radio-button-container")
-        const tableScrollers = document.querySelectorAll(".table-scroller")
+        const buttonContainers = document.getElementById("match-number-form").querySelectorAll(".NumberButtonContainer")
+        const matchNumber = document.getElementById("match-number-form").querySelector("match-number")
+        const inputContainers = document.getElementById("match-number-form").querySelectorAll(".input-container")
+        const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
+        const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
 
         data.matchNumber = match
 

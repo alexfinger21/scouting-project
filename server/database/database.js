@@ -220,6 +220,7 @@ function saveData(data) {
         ` + autoScoringStr + `,
         (${params}, '2', '228', ${data["Robot Leaves Community"]}),
         (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])})
+        (${params}, '2', '230', ${data["Game pieces picked up in Auton"]})
         `+ teleopScoringStr + `,
         (${params}, '3', '328', ${data["Supercharged Cones"]}),
         (${params}, '3', '329', ${data["Supercharged Cubes"]}),
