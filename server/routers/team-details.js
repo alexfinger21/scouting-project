@@ -7,11 +7,11 @@ const { getImageData } = require("../getImages.js")
 
 function mergeDicts(dict1, dict2) {
     if (dict1 && dict2) {
-        for(const [key, value] of Object.entries(dict2)) {
+        for (const [key, value] of Object.entries(dict2)) {
             dict1[key] = value
         }
     }
-    
+
     return dict1
 }
 
@@ -32,7 +32,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             const selectedPage = req.query.selectedPage || "game-data-page"
 
             let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
-            
+
             database.query(`SELECT 
                 * 
                 FROM 
@@ -44,9 +44,9 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                     vmts.team_master_tm_number = ${teamNumber};`,
                 (err, results) => {
                     results = JSON.parse(JSON.stringify(results))
-                    
+
                     consoleLog("TEAM: " + teamNumber)
-                    
+
                     database.query(database.getTeamPictures(teamNumber), async (err, pictures) => {
                         consoleLog("PICTURES")
                         consoleLog(pictures)
@@ -58,15 +58,25 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         const websiteURLs = await getImageData("image", teamNumber)
 
                         let urls = []
-                        if(pictures.length > 0) {
+                        if (pictures.length > 0) {
                             teamInfo = mergeDicts(teamInfo, pictures[0])
                             consoleLog("MERGED: ")
                             consoleLog(teamInfo)
-                            urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_full_robot.split("id=").pop())
+                            if(teamInfo.ps_picture_full_robot != null && teamInfo.ps_picture_full_robot.length > 0) {
+                                urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_full_robot.split("id=").pop())
+                            }
+                            if(teamInfo.ps_picture_drivetrain != null && teamInfo.ps_picture_drivetrain.length > 0)
                             urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_drivetrain.split("id=").pop())
                         }
 
                         urls = [...websiteURLs, ...urls]
+
+                        let index = urls.indexOf(undefined)
+
+                        while (index > -1) {
+                            urls.splice(index, 1)
+                            index = urls.indexOf(undefined)
+                        }
 
                         consoleLog("URL: ")
                         consoleLog(urls)
@@ -77,8 +87,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                             consoleLog("COMMENTS: ")
                             consoleLog(comments)
 
-                            consoleLog("the request took " + (Date.now() - start)/1000)
-                        
+                            consoleLog("the request took " + (Date.now() - start) / 1000)
+
                             res.render("team-details", {
                                 teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
                                 teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
@@ -91,7 +101,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         })
                     })
                 })
-                
+
         })
 })
 

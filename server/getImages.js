@@ -35,21 +35,14 @@ function getImageData(filter = "image", team) {
                         delete body[key]
                     } else if (img.type == "imgur" && filter == "video") {
                         delete body[key]
-                    } e
+                    }
                 }
             } else {
                 resolve({})
                 return
             }
 
-            let mapResult = body.map(e => e.direct_url)
-            
-            let index = mapResult.indexOf(undefined)
-
-            while (index > -1) {
-                mapResult.splice(index, 1)
-                index = mapResult.indexOf(undefined)
-            }
+            const mapResult = body.map(e => e.direct_url)
             
             resolve(mapResult)
         })
