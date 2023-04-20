@@ -21,12 +21,15 @@ const optionsRankings = {
 const optionsOPRS = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/oprs',
+    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/oprs',
     'headers': {
         'X-TBA-Auth-Key': auth,
         'If-Modified-Since': ''
     }
 }
+
+consoleLog(optionsOPRS)
+consoleLog(optionsRankings)
 
 function printMessage(title, msg) {
     consoleLog("------ " + title + " ------")
@@ -89,7 +92,7 @@ function returnAPIDATA() {
                 })
     
                 
-    
+                consoleLog(combinedTeamData)
                 resolve(combinedTeamData)
             })
 
