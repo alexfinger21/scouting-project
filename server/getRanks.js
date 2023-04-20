@@ -10,8 +10,8 @@ const { consoleLog } = require("./utility")
 const optionsRankings = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    //'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/rankings',
-    'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
+    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/rankings',
+    //'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
     'headers': {
         'X-TBA-Auth-Key': auth,
         'If-Modified-Since': ''
