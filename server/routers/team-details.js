@@ -31,7 +31,13 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             const teamNumber = req.query.team || 695
             const selectedPage = req.query.selectedPage || "game-data-page"
 
+            consoleLog("TEAM RESULTS")
+            consoleLog(team_results)
+
             let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
+
+            consoleLog("TEAM INFO")
+            consoleLog(teamInfo)
 
             database.query(`SELECT 
                 * 
@@ -65,8 +71,9 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                             if(teamInfo.ps_picture_full_robot != null && teamInfo.ps_picture_full_robot.length > 0) {
                                 urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_full_robot.split("id=").pop())
                             }
-                            if(teamInfo.ps_picture_drivetrain != null && teamInfo.ps_picture_drivetrain.length > 0)
-                            urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_drivetrain.split("id=").pop())
+                            if(teamInfo.ps_picture_drivetrain != null && teamInfo.ps_picture_drivetrain.length > 0) {
+                                urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_drivetrain.split("id=").pop())
+                            }
                         }
 
                         urls = [...websiteURLs, ...urls]
