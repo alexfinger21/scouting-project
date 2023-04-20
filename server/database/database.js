@@ -428,8 +428,8 @@ function saveMatchStrategy() {
         teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
     where 
         frc_season_master_sm_year = 2023 and 
-        competition_master_cm_event_code = 'temp' and 
-        game_matchup_gm_game_type = 'Q' and 
+        competition_master_cm_event_code = '${gameConstants.COMP}' and 
+        game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
         team_master_tm_number is not NULL;`
 }
 
