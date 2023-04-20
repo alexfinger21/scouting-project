@@ -367,23 +367,6 @@ function loadDataCollection() {
     const content = document.getElementById("dropdown-content")
 
     //when the button is clicked, changes the max visible height
-    dropdown.addEventListener("click", () => {
-        consoleLog("CLICKEDD")
-        content.style.visibility = "visible"
-        content.style.display = "block"
-        content.style.maxHeight = "30vh"
-    })
-
-    //close the dropdown content when the user clicks outside of the button
-    window.addEventListener("click", (event) => {
-        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) {
-            //consoleLog(event.target)
-            content.style.maxHeight = "0px"
-            setTimeout(() => {
-                content.style.visibility = "hidden"
-            }, 200);
-        }
-    })
 
     form.onsubmit = (event) => {
         event.preventDefault()
@@ -643,6 +626,23 @@ function onTabClick() {
 }
 
 function main() {
+    dropdown.addEventListener("click", () => {
+        content.style.visibility = "visible"
+        content.style.display = "block"
+        content.style.maxHeight = "30vh"
+    })
+
+    //close the dropdown content when the user clicks outside of the button
+    window.addEventListener("click", (event) => {
+        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) {
+            //consoleLog(event.target)
+            content.style.maxHeight = "0px"
+            setTimeout(() => {
+                content.style.visibility = "hidden"
+            }, 200);
+        }
+    })
+
     consoleLog("selected page:")
     consoleLog(document.getElementsByClassName("selected"))
     if (document.getElementById("match-number-form")) {
