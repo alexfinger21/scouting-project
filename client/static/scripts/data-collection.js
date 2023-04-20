@@ -363,9 +363,6 @@ function loadDataCollection() {
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
 
-    //Header Code
-    const content = document.getElementById("dropdown-content")
-
     //when the button is clicked, changes the max visible height
 
     form.onsubmit = (event) => {
@@ -626,6 +623,9 @@ function onTabClick() {
 }
 
 function main() {
+    //Header Code
+    const content = document.getElementById("dropdown-content")
+    
     dropdown.addEventListener("click", () => {
         content.style.visibility = "visible"
         content.style.display = "block"
