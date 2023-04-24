@@ -5,6 +5,7 @@ let globalPos = 0;
 const speed = 10;
 let isHighlightVisible = false
 let selectedObj = document.getElementById("match-listing-btn")
+let bottomBarDebounce = false
 
 function hideHighlight(btn) {
     btn.style.opacity = 0
@@ -69,10 +70,15 @@ window.addEventListener("load", () => {
         buttonUrls[btn.children[1].textContent] = btn.children[1].textContent.replaceAll(" ", "-").toLowerCase()
         
         btn.addEventListener("click", event => {
-            consoleLog(buttonUrls[btn.children[1].textContent])
-            requestPage("/" + buttonUrls[btn.children[1].textContent], {})
-            moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
-            selectedObj = btn
+            if (!bottomBarDebounce) {
+                bottomBarDebounce = true
+                consoleLog(buttonUrls[btn.children[1].textContent])
+                requestPage("/" + buttonUrls[btn.children[1].textContent], {})
+                moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
+                selectedObj = btn
+
+            setTimeout(() => {bottomBarDebounce = false}, 200)
+            }
         })
     })
 
