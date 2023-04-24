@@ -77,7 +77,7 @@ window.addEventListener("load", () => {
                 moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
                 selectedObj = btn
 
-            setTimeout(() => {bottomBarDebounce = false}, 400)
+            setTimeout(() => {bottomBarDebounce = false}, 300)
             }
         })
     })
