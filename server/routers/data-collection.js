@@ -40,6 +40,8 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
             database.query(database.getGameNumbers(), (err, results) => {
                 database.query(database.getMatchData(match), (err, matchup) => {
                     matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
+                    consoleLog("MATCH:")
+                    consoleLog(match)
                     consoleLog("\nMATCH DATA: ")
                     consoleLog(matchup)
 
