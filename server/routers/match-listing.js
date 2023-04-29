@@ -12,7 +12,7 @@ const months = ["January", "February", "March", "April", "May", "June", "July", 
 process.env.lastPlayedMatch = 1
 
 function addZero(num) {
-    return num < 10 ? "0" + num : num
+    return num < 10 ? "0" + String(num) : String(num)
 }
 
 router.get("/", async function (req, res) {
