@@ -79,20 +79,20 @@ function returnAPIDATA() {
                     combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData["dprs"][rankingsData[i].team_key.substring(3)]
                 }
 
-                consoleLog(database.writeAPIData(combinedTeamData))
+                //consoleLog(database.writeAPIData(combinedTeamData))
                 //consoleLog(combinedTeamData)    
                 
                 database.query(database.deleteAPIData(), (err, res) => {
                     consoleLog(err)
-                    consoleLog(res)
+                    //consoleLog(res)
                     database.query(database.writeAPIData(combinedTeamData), (err, res) => {
                         consoleLog(err)
-                        consoleLog(res)
+                        //consoleLog(res)
                     })
                 })
     
                 
-                consoleLog(combinedTeamData)
+                //consoleLog(combinedTeamData)
                 resolve(combinedTeamData)
             })
 
@@ -110,9 +110,25 @@ function returnAPIDATA() {
     })
 }
 
+/*
+function bigLoop() {
+    return Promise.resolve().then(() => {
+        for (let i = 0; i<1000000000; i++) {
+        
+        }
 
-returnAPIDATA().then(res => {
-    //consoleLog(res.Rankings.map(e => e.rank))
-})
+        console.log("GRR")
+
+    })
+}
+
+const t = Date.now()
+
+bigLoop()
+
+console.log("Function took " + (Date.now() - t) + " ms")
+*/
+
+returnAPIDATA()
 
 module.exports = {returnAPIDATA}
