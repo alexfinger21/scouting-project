@@ -49,6 +49,4 @@ function getImageData(filter = "image", team) {
     })
 }
 
-getImageData().then()
-
 module.exports = {getImageData}

@@ -1,8 +1,6 @@
-const { returnAPIDATA } = require("../getRanks")
 const express = require("express")
 const { checkAdmin, consoleLog } = require("../utility")
 const database = require("../database/database")
-const { json } = require("express")
 const router = express.Router()
 const gameConstants = require("../game.js")
 const game = require("../game.js")
