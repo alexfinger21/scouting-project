@@ -58,7 +58,7 @@ function returnAPIDATA() {
             printMessage("Status Code", response.statusCode)
             const oprData = JSON.parse(response.body)
             
-            //consoleLog(oprData)
+            consoleLog(oprData)
 
             for (const [rankings, _] of Object.entries(oprData)) {
                 for (const [i, val] of Object.entries(oprData[rankings])) {

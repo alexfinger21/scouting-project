@@ -1,6 +1,12 @@
 const database = require("./database/database.js")
 const log = true
 
+function consoleLog(arg) {
+    if (log) {
+        console.log(arg)
+    }
+}
+
 function checkAdmin(req) {
     const username = req.cookies["username"]
     return new Promise((resolve) => {
@@ -18,10 +24,5 @@ function checkAdmin(req) {
     })
 }
 
-function consoleLog(arg) {
-    if (log) {
-        console.log(arg)
-    }
-}
 
 module.exports = {checkAdmin: checkAdmin, consoleLog: consoleLog}
