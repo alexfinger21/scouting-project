@@ -52,7 +52,10 @@ let showObj = function () {
 }
 
 function returnAPIDATA() {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
+        if (gameConstants.COMP == "test") {
+            resolve({})
+        }
         request(optionsOPRS, function(error, response) {
             if (error) throw new Error(error)
             printMessage("Status Code", response.statusCode)
