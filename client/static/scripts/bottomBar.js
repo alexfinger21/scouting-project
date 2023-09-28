@@ -47,7 +47,7 @@ function moveToPage(ogPos, pos, btn) {
             btn.style.left = lerp(ogPos, pos, i) + "px"
             
             if (pos != globalPos) {
-                rej("position was overriden")
+                res("position was overriden")
                 return
             }
 
