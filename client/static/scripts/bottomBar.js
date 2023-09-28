@@ -70,7 +70,7 @@ function setSelectedObject(value) {
 }
 
 window.addEventListener("load", () => {
-    requestPage(paths.matchListing, {"h": true})
+    requestPage(paths.matchListing)
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
     const hoverButton = document.createElement('div');
