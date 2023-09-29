@@ -134,7 +134,7 @@ async function requestPage(url, data, pageVal) {
 
         error: function(jqXHR, textStatus, errorThrown)
         {
-            consoleLog("Error\n" + errorThrown, jqXHR)
+            consoleLog("Error loading page\n" + errorThrown, jqXHR)
         },
     })
 }
