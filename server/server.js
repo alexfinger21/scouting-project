@@ -8,9 +8,7 @@ const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
 const { consoleLog } = require("./utility")
-const socketManager = require("./sockets.js")
-const { Server } = require("socket.io")
-const server = https.createServer(app)
+const fs = require("fs")
 const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
@@ -18,6 +16,16 @@ const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
 const favicon = require('serve-favicon')
 const gameConstants = require("./game.js")
+
+const socketManager = require("./sockets.js")
+const { Server } = require("socket.io")
+const credentials = {
+    key: fs.readFileSync("./certs/server.key"),
+    cert: fs.readFileSync("./certs/server.crt"),
+    cacert: fs.readFileSync("./certs/ca.crt")
+}
+
+const server = https.createServer(credentials, app)
 
 //DIRECTORIES
 const serverDirectory = "./server"
