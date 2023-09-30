@@ -22,7 +22,6 @@ const { Server } = require("socket.io")
 const credentials = {
     key: fs.readFileSync("./certs/server.key"),
     cert: fs.readFileSync("./certs/server.crt"),
-    cacert: fs.readFileSync("./certs/ca.crt")
 }
 
 const server = https.createServer(credentials, app)
