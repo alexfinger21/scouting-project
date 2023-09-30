@@ -19,8 +19,8 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         
         if (results.length == 0) results = null
 
-        consoleLog(results)
-        consoleLog(gameConstants.gameStart.toLocaleString())
+        //consoleLog(results)
+        //consoleLog(gameConstants.gameStart.toLocaleString())
         
         res.render("rankings", {
             isAdmin: isAdmin,

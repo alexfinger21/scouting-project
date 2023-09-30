@@ -168,7 +168,6 @@ app.use("/alliance-input", allianceInput)
 app.get("/getMatch", function(req, res) {
     consoleLog(req.body)
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        consoleLog(runningMatchResults)
         if(runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
             res.status(200).send({match: runningMatch})
