@@ -91,19 +91,22 @@
             <div id="pit-data-page" class="team-details-scroller" style="display:none;">
         <% } %>
             <p id="pit-data-title">
-                <%=teamInfo.tm_name + " - Rank " + teamInfo.api_rank%>
+                <%=teamInfo.tm_name + " - Rank " + (teamInfo.api_rank != null ? teamInfo.api_rank : "None")%>
             </p>
 
             <p class="pit-data-text">
-                <%="OPR: " + teamInfo.api_opr.toFixed(1) + " - DPR: " + teamInfo.api_dpr.toFixed(1)%>
+                <%="OPR: " + (teamInfo.api_opr != null ? teamInfo.api_opr.toFixed(1) : "None") + " - DPR: "
+                 + (teamInfo.api_dpr != null ? teamInfo.api_dpr.toFixed(1) : "None")%>
                 <br>
-                <%="Drivetrain: " + teamInfo.ps_drive_train%>
+                <%="Drivetrain: " + (teamInfo.ps_drive_train != null ? teamInfo.ps_drive_train : "Unknown")%>
                 <br>
-                <%="Wheels used: " + teamInfo.ps_wheel_used%>
+                <%="Wheels used: " + (teamInfo.ps_wheel_used != null ? teamInfo.ps_wheel_used : "Unknown") %>
                 <br>
-                <%="Weight: " + teamInfo.ps_robot_weight_lbs + "lbs"%>
+                <%="Weight: " + (teamInfo.ps_robot_weight_lbs != null ? teamInfo.ps_robot_weight_lbs : "Unknown ") + "lbs"%>
                 <br>
-                <%="Length: " + teamInfo.ps_robot_length_in + "in    Width: " + teamInfo.ps_robot_width_in + "in    Height: " + teamInfo.ps_robot_height_in + "in"%>
+                <%="Length: " + (teamInfo.ps_robot_length_in != null ? teamInfo.ps_robot_length_in : "Unkown ") 
+                + "in    Width: " + (teamInfo.ps_robot_width_in != null ? teamInfo.ps_robot_width_in : "Unknown ")
+                + "in    Height: " + (teamInfo.ps_robot_height_in != null ? teamInfo.ps_robot_height_in : "Unknown ") + "in"%>
             </p>
             <div id="team-pictures-container">
                 <button id="arrow-left">
