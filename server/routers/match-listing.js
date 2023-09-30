@@ -21,7 +21,7 @@ router.get("/", async function (req, res) {
     if ("" + req.query.getCollectedData == "true") {
         consoleLog("nice")
         database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
-            res.status(200).send(results)
+            res.status(200).send(JSON.stringify(results))
         })
     }
     else {
