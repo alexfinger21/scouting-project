@@ -20,8 +20,8 @@ const gameConstants = require("./game.js")
 const socketManager = require("./sockets.js")
 const { Server } = require("socket.io")
 const credentials = {
-    key: fs.readFileSync("./certs/privkey.pem"),
-    cert: fs.readFileSync("./certs/fullchain.pem"),
+    key: fs.readFileSync("./server/certs/privkey.pem"),
+    cert: fs.readFileSync("./server/certs/fullchain.pem"),
 }
 
 const server = https.createServer(credentials, app)
