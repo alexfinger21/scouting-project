@@ -51,7 +51,7 @@ function moveToPage(ogPos, pos, btn) {
                 return
             }
 
-            if (i >= 0.99) {
+            if (i >= 0.999) {
                 btn.style.left = pos + "px"
                 res("achieved position")
                 return
