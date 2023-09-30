@@ -207,11 +207,15 @@ function main() {
     for (const matchContainer of matchContainers) {
         matchContainer.addEventListener("click", (event) => {
             if (document.elementFromPoint(event.clientX, event.clientY).tagName != "IMG") { //if not clicking play button
+                consoleLog("Game number: " + matchContainer.getAttribute("game_number"))
                 $.ajax({
                     type: "GET",
                     contentType: "application/json",
                     url: paths.matchListing + "?getCollectedData=true&matchNumber=" + matchContainer.getAttribute("game_number"),
                     success: function (response) {
+                        response = JSON.parse(response)
+                        consoleLog("Response: " + response)
+                        consoleLog("Response length: " + response.length)
                         const expandables = matchContainer.getElementsByClassName("expandable")
                         for (const expandable of expandables) {
                             if (expandable.getAttribute("hidden")) {
@@ -225,7 +229,9 @@ function main() {
                                     if(response[i].game_matchup_gm_alliance == "B") {
                                         pos += 3
                                     }
-                                    ths[pos].innerHTML = response[i].gd_um_id.substring(0,5)
+                                    if(response[i].gd_um_id != undefined) {
+                                        ths[pos].innerHTML = response[i].gd_um_id.substring(0,5)
+                                    }
                                     consoleLog(pos + " changed to " + response[i].gd_um_id)
                                 }
                                 expandable.removeAttribute("hidden")
