@@ -1,10 +1,11 @@
 import {requestPage, paths, consoleLog} from "./utility.js"
 
-
-let globalPos = 0;
-const speed = 10;
-let isHighlightVisible = false
+let globalPos = 0
 let selectedObj = document.getElementById("match-listing-btn")
+
+const SLIDER_EXPONENT_FACTOR = 0.8
+
+let isHighlightVisible = false
 let bottomBarDebounce = false
 
 function hideHighlight(btn) {
@@ -12,7 +13,13 @@ function hideHighlight(btn) {
     isHighlightVisible = false
 }
 
+function lerp(start, goal, percent) {
+    return (goal-start)*percent + start
+}
+
+
 function moveToPage(ogPos, pos, btn) {
+
     if (!isHighlightVisible) {
         btn.style.opacity = 1
     }
@@ -23,22 +30,38 @@ function moveToPage(ogPos, pos, btn) {
 
     return new Promise((res, rej) => {    
         //consoleLog(speed/Math.abs(pos-ogPos))
-        for (let i = 0; i <= 1; i+=speed/Math.abs(pos-ogPos)) {
+        let i = 0.01
+        let start = undefined
+
+        function animateBottom(ts) {
+            if (!start) {
+                start = ts
+            }
+
+            i = Math.pow(i, SLIDER_EXPONENT_FACTOR)
+           // consoleLog("TIMESTAMP - START")
+            //consoleLog(ts-start)
+
+            //consoleLog("i = " + i)
+
+            btn.style.left = lerp(ogPos, pos, i) + "px"
+            
             if (pos != globalPos) {
-                rej("already clicked")
+                res("position was overriden")
                 return
             }
 
-            //consoleLog(btn.style.left)
-
-            setTimeout(() => {btn.style.left = ogPos + (pos-ogPos) * i + "px"}, 100*i)
-
-            if (i+speed/Math.abs(pos-ogPos) > 1) {
-                i = 1
+            if (i >= 0.999) {
+                btn.style.left = pos + "px"
+                res("achieved position")
+                return
             }
+
+            window.requestAnimationFrame(animateBottom)
         }
 
-        res("done")
+        window.requestAnimationFrame(animateBottom)
+
     })
 }
 

@@ -16,6 +16,8 @@
     "express-rate-limit": "^6.7.0",
     "favicon": "^0.0.2",
     "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "https-server": "^0.1.2",
     "jquery": "^3.6.1",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.20",

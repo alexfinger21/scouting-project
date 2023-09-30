@@ -16,11 +16,12 @@ function addZero(num) {
 }
 
 router.get("/", async function (req, res) {
+    consoleLog("GET request for match listing")
     consoleLog("Get collected data: " + req.query.getCollectedData)
     if ("" + req.query.getCollectedData == "true") {
         consoleLog("nice")
         database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
-            res.status(200).send(results)
+            res.status(200).send(JSON.stringify(results))
         })
     }
     else {
@@ -58,6 +59,8 @@ router.get("/", async function (req, res) {
                 }
     
                 teams.length = Object.keys(teams).length
+
+                consoleLog("Rendering match listing")
     
                 res.render("match-listing", {
                     teams: teams, 
