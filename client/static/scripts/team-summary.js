@@ -40,7 +40,7 @@ let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     }
 })
 
-consoleLog(matchTeams)
+//consoleLog(matchTeams)
 //When teamsummary is loaded, call the main function 
 
 
