@@ -16,7 +16,6 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 
     let runningMatch = 1;
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        consoleLog(runningMatchResults)
         if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
         }
@@ -42,8 +41,8 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
                     matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
                     consoleLog("MATCH:")
                     consoleLog(match)
-                    consoleLog("\nMATCH DATA: ")
-                    consoleLog(matchup)
+                    //consoleLog("\nMATCH DATA: ")
+                    //consoleLog(matchup)
 
                     res.render("data-collection", {
                         matches: JSON.parse(JSON.stringify(results)),

@@ -52,7 +52,7 @@ socket.on("changeMatch", (match_num) => {
         const container = matchScroller.children[match_num - 1]
         //highlight table
         const tables = container.getElementsByTagName("table")
-        consoleLog(tables)
+        //consoleLog(tables)
         for (const tbl of tables) {
             tbl.style.backgroundColor = "#FFF5D6"
         }
@@ -61,7 +61,7 @@ socket.on("changeMatch", (match_num) => {
         if  (imgContainer) { //image exists, is an admin
             imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
         }
-        consoleLog("GAR GAR GAR 😈😈")
+        //consoleLog("GAR GAR GAR 😈😈")
     }
 })
 
@@ -216,7 +216,7 @@ function main() {
                         for (const expandable of expandables) {
                             if (expandable.getAttribute("hidden")) {
                                 const ths = expandable.getElementsByTagName("th")
-                                consoleLog(response)
+                                //consoleLog(response)
                                 for(const th of ths) {
                                     th.innerHTML = "X"
                                 }

@@ -1,5 +1,5 @@
 //MODULES
-const http = require("http")
+const https = require("https")
 const express = require("express")
 const path = require("path")
 const app = express()
@@ -8,9 +8,7 @@ const cookieParser = require('cookie-parser')
 const cors = require("cors")
 const mysql = require("mysql")
 const { consoleLog } = require("./utility")
-const socketManager = require("./sockets.js")
-const { Server } = require("socket.io")
-const server = http.createServer(app)
+const fs = require("fs")
 const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
@@ -18,6 +16,15 @@ const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
 const favicon = require('serve-favicon')
 const gameConstants = require("./game.js")
+
+const socketManager = require("./sockets.js")
+const { Server } = require("socket.io")
+const credentials = {
+    key: fs.readFileSync("./server/certs/privkey.pem"),
+    cert: fs.readFileSync("./server/certs/fullchain.pem"),
+}
+
+const server = https.createServer(credentials, app)
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -168,7 +175,6 @@ app.use("/alliance-input", allianceInput)
 app.get("/getMatch", function(req, res) {
     consoleLog(req.body)
     database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        consoleLog(runningMatchResults)
         if(runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
             res.status(200).send({match: runningMatch})
@@ -190,6 +196,6 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
     setInterval(runAPICall, 100000)
 }
 //PORT
-app.listen(3000) //goes to localhost 3S000
+app.listen(3000) //goes to localhost 3000
 
 server.listen(5000, {pingTimeout : 60000, pingInterval : 15000})
