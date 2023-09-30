@@ -2,6 +2,11 @@ const database = require("./database/database.js")
 const log = true
 
 function consoleLog(arg) {
+    if (toString(arg).indexOf("frc_season_master_sm_year") != -1) {
+        console.log("\nFOUND THE MASSIVE PRINT STATEMENT: ")
+        console.trace()
+        return
+    }
     if (log) {
         console.log(arg)
     }
@@ -18,11 +23,11 @@ function checkAdmin(req) {
             if (results[0].um_admin_f == 1) { //is admin
                 resolve(true)
             }
-            
+
             resolve(false)
         })
     })
 }
 
 
-module.exports = {checkAdmin: checkAdmin, consoleLog: consoleLog}
+module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog }

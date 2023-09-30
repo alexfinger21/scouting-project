@@ -16,6 +16,7 @@ function addZero(num) {
 }
 
 router.get("/", async function (req, res) {
+    consoleLog("GET request for match listing")
     consoleLog("Get collected data: " + req.query.getCollectedData)
     if ("" + req.query.getCollectedData == "true") {
         consoleLog("nice")
