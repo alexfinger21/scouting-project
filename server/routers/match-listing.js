@@ -20,8 +20,8 @@ router.get("/", async function (req, res) {
     consoleLog("Get collected data: " + req.query.getCollectedData)
     if ("" + req.query.getCollectedData == "true") {
         database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
-            consoleLog("COLLECTED DATA RESULTS")
-            consoleLog(results)
+            //consoleLog("COLLECTED DATA RESULTS")
+            //consoleLog(results)
             res.status(200).send(JSON.stringify(results))
         })
     }
@@ -87,10 +87,10 @@ router.post("/", function (req, res) {
         database.query(database.clearMatchStretegyTemp(), (err, results) => {
             database.query(database.saveMatchStrategy(), (err, results) => {
                 consoleLog(err)
-                consoleLog(results)
+                //consoleLog(results)
             })
             consoleLog(err)
-            consoleLog(results)
+            //consoleLog(results)
         })
     }
     else { //attempt to start match
