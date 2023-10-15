@@ -4,6 +4,7 @@ const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
 
+//returns an array where the team is substituted for the rank
 function rank(arr) {
     const sorted = arr.slice().sort((a, b) => b - a)
     const ranks = arr.map((e) => sorted.indexOf(e) + 1)
@@ -14,7 +15,7 @@ router.get("/", function (req, res) { //only gets used if the url == alliance-se
     database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
         data = JSON.parse(JSON.stringify(data))
         consoleLog("ALLIANCE SELECTOR DATA")
-        consoleLog(data)
+        //consoleLog(data)
         res.render("alliance-selector", {
             data: data
         })
@@ -49,6 +50,7 @@ router.post("/", function (req, res) {
             results = Array.from(JSON.parse(JSON.stringify(results)))
             consoleLog(results.map(e => e.team_master_tm_number))
 
+            //remove disallowed teams
             for (let i = 0; i < results.length; i++) {
                 if (results[i].team_master_tm_number == null || disallowedTeams.indexOf(results[i].team_master_tm_number) != -1) {
                     consoleLog(results[i].team_master_tm_number)
@@ -65,18 +67,18 @@ router.post("/", function (req, res) {
 
             consoleLog(typeof(results))
 
-            //remove dublicates
+            //remove duplicates
             for (let i = 0; i < results.length; i++) {
                 for (let j = i+1; j < results.length; j++) {
                     if (results[i].team_master_tm_number == results[j].team_master_tm_number) {
                         results.splice(j, 1)
                         j--
-                        consoleLog("deleted dublicate")
+                        consoleLog("deleted duplicate")
                     }
                 }
             }
 
-            consoleLog(results)
+            //consoleLog(results)
 
             consoleLog(results.map(e => e.team_master_tm_number))
             consoleLog(results.length)
@@ -92,6 +94,8 @@ router.post("/", function (req, res) {
             for (let i = 0; i < GSRank.length; i++) {
                 totalRank[i] = GSRank[i] + linkRank[i] + autonCSRank[i] + endGameCSRank[i] + apiRank[i]
             }
+
+            consoleLog(GSRank)
 
             //consoleLog(totalRank)
 
@@ -130,25 +134,27 @@ router.post("/", function (req, res) {
                     for (let i = 0; i < rankings; i++) {
                         if (totalRank.indexOf(sortedRanks[rankings]) == totalRank.indexOf(sortedRanks[i])) {
                             repeatCount++
-                            consoleLog("REPEAT COUNT: " + repeatCount)
+                            //consoleLog("REPEAT COUNT: " + repeatCount)
                         }
                     }
 
                     let arrIndex = totalRank.indexOf(sortedRanks[rankings]) 
 
                     if (rankings == 5) {
-                        consoleLog("og index = " + arrIndex)
-                        consoleLog(totalRank[totalRank.indexOf(totalRank[rankings])])
+                        //consoleLog("og index = " + arrIndex)
+                        //consoleLog(totalRank[totalRank.indexOf(totalRank[rankings])])
                     }
 
                     let copy = totalRank.slice()
 
-                    for (let i = 0; i<repeatCount; i++) {
+                    for (let i = 1; i<=repeatCount; i++) {
                         copy.splice(arrIndex, 1)
-                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
-                        consoleLog(totalRank)
-                        consoleLog(copy)
+                        arrIndex = copy.indexOf(sortedRanks[rankings])
+                        //consoleLog(totalCSRank)
+                        //consoleLog(copy)
                     }
+
+                    arrIndex += repeatCount
 
                     consoleLog("index - " + arrIndex)
                     //consoleLog(results)
@@ -165,7 +171,7 @@ router.post("/", function (req, res) {
                     }
                 }
 
-                consoleLog(allianceArr)
+                //consoleLog(allianceArr)
 
                 return res.status(200).send(allianceArr)
             } else if (body.sortBy == "scoring") {
@@ -192,12 +198,14 @@ router.post("/", function (req, res) {
 
                     let copy = GSRank.slice()
 
-                    for (let i = 0; i<repeatCount; i++) {
+                    for (let i = 1; i<=repeatCount; i++) {
                         copy.splice(arrIndex, 1)
-                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
-                        consoleLog(GSRank)
-                        consoleLog(copy)
+                        arrIndex = copy.indexOf(sortedRanks[rankings])
+                        //consoleLog(totalCSRank)
+                        //consoleLog(copy)
                     }
+
+                    arrIndex += repeatCount
 
                     consoleLog("index - " + arrIndex)
                     //consoleLog(results)
@@ -218,8 +226,8 @@ router.post("/", function (req, res) {
 
                 return res.status(200).send(allianceArr)
             } else {
-                consoleLog("here")
                 //defense/charge station
+                consoleLog("here")
                 const allianceArr = []
                 const sortedRanks = totalCSRank.slice().sort((a, b) => a - b)
 
@@ -232,28 +240,33 @@ router.post("/", function (req, res) {
                     for (let i = 0; i < rankings; i++) {
                         if (totalCSRank.indexOf(sortedRanks[rankings]) == totalCSRank.indexOf(sortedRanks[i])) {
                             repeatCount++
-                            consoleLog("REPEAT COUNT: " + repeatCount)
                         }
                     }
+
+                    consoleLog("REPEAT COUNT: " + repeatCount)
 
                     let arrIndex = totalCSRank.indexOf(sortedRanks[rankings]) 
 
                     consoleLog("og index = " + arrIndex)
                     consoleLog(totalCSRank[totalCSRank.indexOf(sortedRanks[rankings])])
 
-                    let copy = totalCSRank.slice()
+                    copy = totalCSRank.slice()
 
-                    for (let i = 0; i<repeatCount; i++) {
+                    for (let i = 1; i<=repeatCount; i++) {
                         copy.splice(arrIndex, 1)
-                        arrIndex = copy.indexOf(sortedRanks[rankings]) + (i+1)
-                        consoleLog(totalCSRank)
-                        consoleLog(copy)
+                        arrIndex = copy.indexOf(sortedRanks[rankings])
+                        //consoleLog(totalCSRank)
+                        //consoleLog(copy)
                     }
+
+                    arrIndex += repeatCount
+
+                    consoleLog(`AFTER REMOVING DUBLICATES vs ORIGINAL INDEX: ${arrIndex} vs ${totalCSRank.indexOf(sortedRanks[rankings])}`)
 
                     consoleLog("index - " + arrIndex)
                     //consoleLog(results)
                     //consoleLog(results[arrIndex])
-
+                    
                     allianceArr[rankings] = {
                         rank: rankings,
                         team: results[arrIndex].team_master_tm_number,
@@ -265,7 +278,7 @@ router.post("/", function (req, res) {
                     }
                 }
 
-                consoleLog(allianceArr)
+                //consoleLog(allianceArr)
 
                 return res.status(200).send(allianceArr)
             }

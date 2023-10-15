@@ -187,7 +187,7 @@ app.get("/getMatch", function(req, res) {
 app.get("/getMatchTeams", function(req, res) {
     consoleLog("request recieved!")
     database.query(database.getTeams(), (err, runningMatchResults) => {
-        consoleLog(JSON.parse(JSON.stringify(runningMatchResults)))
+        //consoleLog(JSON.parse(JSON.stringify(runningMatchResults)))
         res.status(200).send(JSON.parse(JSON.stringify(runningMatchResults)))
     })
 })
