@@ -14,7 +14,6 @@ require("dotenv").config()
 const database = require("./database/database.js")
 const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
-const favicon = require('serve-favicon')
 const gameConstants = require("./game.js")
 
 const socketManager = require("./sockets.js")
