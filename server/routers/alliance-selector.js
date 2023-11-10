@@ -164,7 +164,7 @@ router.post("/", function (req, res) {
                         //Priority order: Game score is most important, then links, then charge station
 
                         if (data[i].avg_gm_score >= data[dublicateIndex]) {
-                            //if order doesn't match up, swap the values
+                            //if order doesn't match up, swap the values    
                             const dataCP = data[i].slice()
                             data[i] = data[dublicateIndex]
                             data[dublicateIndex] = dataCP
