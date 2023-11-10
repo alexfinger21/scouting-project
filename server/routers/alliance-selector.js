@@ -143,20 +143,35 @@ router.post("/", function (req, res) {
 
                 if (body.sortBy == "best") {
                     //Weights are even
-                    for (let i = 0; i < GSRank.length; i++) {
+                    for (let i = 0; i < GSRank.length; ++i) {
                         totalRank[i] = GSRank[i] + linkRank[i] + totalCSRank[i] + apiRank[i]
                     }
                 } else if (body.sortBy == "scoring") {
                     //Only weigh game score
-                    for (let i = 0; i < GSRank.length; i++) {
+                    for (let i = 0; i < GSRank.length; ++i) {
                         totalRank[i] = GSRank[i]
                     }
                 } else {
                     //Weigh charging station score
-                    for (let i = 0; i < GSRank.length; i++) {
+                    for (let i = 0; i < GSRank.length; ++i) {
                         totalRank[i] = totalCSRank[i]
                     }
                 }
+
+                for (let i = 0; i<totalRank.length-1; ++i) {
+                    const dublicateIndex = totalRank.indexOf(totalCSRank[i], i+1)
+                    if (dublicateIndex != -1) {
+                        //Priority order: Game score is most important, then links, then charge station
+
+                        if (data[i].avg_gm_score >= data[dublicateIndex]) {
+                            //if order doesn't match up, swap the values
+                            const dataCP = data[i].slice()
+                            data[i] = data[dublicateIndex]
+                            data[dublicateIndex] = dataCP
+                        }
+                    }
+                }
+
                 return res.status(200).send(sortBy(data, totalRank))
             })
     })

@@ -151,6 +151,8 @@ function main() {
                 ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
 
+                consoleLog(points)
+
                 if (oldCurrentChart == currentChart) { 
                     points.sort(function (a, b) { return b.gameScore - a.gameScore })
                     chart = new Chart(ctx,
