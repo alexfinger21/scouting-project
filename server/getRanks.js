@@ -133,6 +133,6 @@ bigLoop()
 console.log("Function took " + (Date.now() - t) + " ms")
 */
 
-returnAPIDATA()
+//returnAPIDATA()
 
 module.exports = {returnAPIDATA}
