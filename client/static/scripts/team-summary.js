@@ -51,7 +51,7 @@ function getMatchTeams(matchNum) {
 async function getPoints(x, y, color) {
     consoleLog("gotten data")
     consoleLog("the data")
-    //consoleLog(data)
+    consoleLog(data)
 
     let points = new Array(Array.from(data).length)
     let ind = 0
