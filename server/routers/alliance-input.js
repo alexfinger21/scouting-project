@@ -4,10 +4,11 @@ const gameConstants = require("../game.js")
 const socketManager = require("../sockets.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
+const SQL = require('sql-template-strings')
 
 router.get("/", function (req, res) { //only gets used if the url == team-details
     consoleLog("recieved")
-    database.query(`SELECT
+    database.query(SQL`SELECT
         distinct team_master_tm_number
     FROM
         teamsixn_scouting_dev.game_matchup
@@ -19,7 +20,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
     (err, team_results) => {
         team_results = JSON.parse(JSON.stringify(team_results))
         if (!req.query.getTeams) {
-            database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
+            database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
                 data = JSON.parse(JSON.stringify(data))
                 consoleLog("DATA:")
                 consoleLog(data)

@@ -4,12 +4,12 @@ const crypto = require("crypto")
 require('dotenv').config()
 const database = require("../database/database.js")
 const { consoleLog } = require("../utility")
-
+const SQL = require('sql-template-strings')
 //SQL
 
 function checkUser(body) {
     return new Promise(resolve => {
-        database.query("SELECT * FROM user_master um WHERE um.um_id = '" + body.username + "' AND team_master_tm_number = " + body.team_number + ";", function (error, results) {
+        database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${body.username} AND team_master_tm_number = ${body.team_number};`, function (error, results) {
             if (error)
                 throw error;
 
@@ -86,7 +86,7 @@ router.post("/", async function(req, res) {
             httpOnly: true,
         })
 
-        database.query(`UPDATE 
+        database.query(SQL`UPDATE 
         teamsixn_scouting_dev.user_master
     SET 
         um_session_id = "`+ sessionId + `",

@@ -4,6 +4,7 @@ const { checkAdmin } = require("../utility")
 const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const { data, error } = require("jquery")
+const SQL = require('sql-template-strings')
 
 const router = express.Router()
 
@@ -15,7 +16,7 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
     const match = req.query.match ? req.query.match : process.env.lastPlayedMatch
 
     let runningMatch = 1;
-    database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
+    database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
         if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
         }
@@ -76,12 +77,12 @@ router.post("/", function (req, res) {
                 consoleLog(err)
                 consoleLog(results)
                 
-                database.query(`update teamsixn_scouting_dev.game_details gd
+                database.query(SQL`update teamsixn_scouting_dev.game_details gd
                 set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
                 WHERE 
                     gd.frc_season_master_sm_year = ${gameConstants.YEAR} and
-                    gd.competition_master_cm_event_code = '${gameConstants.COMP}' and 
-                    gd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
+                    gd.competition_master_cm_event_code = ${gameConstants.COMP} and 
+                    gd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
                     gd.game_matchup_gm_number = ${body.matchNumber};`, (err, results) => {
                     consoleLog(err)
                     consoleLog(results)

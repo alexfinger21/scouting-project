@@ -15,9 +15,11 @@ const database = require("./database/database.js")
 const {gameStart, gameEnd} = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
 const gameConstants = require("./game.js")
-
 const socketManager = require("./sockets.js")
+const SQL = require('sql-template-strings')
+
 const { Server } = require("socket.io")
+
 const credentials = {
     key: fs.readFileSync("./server/certs/privkey.pem"),
     cert: fs.readFileSync("./server/certs/fullchain.pem"),
@@ -114,7 +116,7 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
         consoleLog(req.path)
         const user_id = req.cookies["user_id"]
         const username = req.cookies["username"]
-        database.query("SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = '" + user_id + "' AND um.um_id = '" + username + "' AND um.um_timeout_ts > current_timestamp();", (err, results) => {
+        database.query(SQL`SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = ${user_id} AND um.um_id = ${username} AND um.um_timeout_ts > current_timestamp();`, (err, results) => {
             consoleLog(err)
             if (results) {
                 const result = results[0]
@@ -173,7 +175,7 @@ app.use("/alliance-input", allianceInput)
 //GET MATCH
 app.get("/getMatch", function(req, res) {
     consoleLog(req.body)
-    database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
+    database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
         if(runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
             res.status(200).send({match: runningMatch})
