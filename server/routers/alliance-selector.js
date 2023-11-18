@@ -3,6 +3,7 @@ const express = require("express")
 const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
+const SQL = require('sql-template-strings')
 
 //returns an array where the team is substituted for the rank
 function rank(arr) {
@@ -85,7 +86,7 @@ function sortBy(data, totalRank) {
 }
 
 router.get("/", function (req, res) { //only gets used if the url == alliance-selector
-    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
+    database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
         data = JSON.parse(JSON.stringify(data))
         consoleLog("ALLIANCE SELECTOR DATA")
         //consoleLog(data)
@@ -98,14 +99,14 @@ router.get("/", function (req, res) { //only gets used if the url == alliance-se
 router.post("/", function (req, res) {
     const body = req.body
 
-    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
+    database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
         data = JSON.parse(JSON.stringify(data))
         let disallowedTeams = []
         for (const e of data) {
             disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
         }
 
-        database.query(`SELECT
+        database.query(SQL`SELECT
              vmtsar.frc_season_master_sm_year,
               vmtsar.team_master_tm_number, 
               vmtsar.api_rank, 
@@ -117,8 +118,8 @@ router.post("/", function (req, res) {
              teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar
          WHERE
              vmtsar.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-             vmtsar.competition_master_cm_event_code = '${gameConstants.COMP}' AND
-             vmtsar.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`,
+             vmtsar.competition_master_cm_event_code = ${gameConstants.COMP} AND
+             vmtsar.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`,
             (err, data) => {
                 data = Array.from(JSON.parse(JSON.stringify(data)))
 

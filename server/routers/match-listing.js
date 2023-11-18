@@ -6,6 +6,7 @@ const { checkAdmin } = require("../utility")
 const socketManager = require("../sockets.js")
 const { data } = require("jquery")
 const { consoleLog } = require("../utility")
+const SQL = require('sql-template-strings')
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -33,7 +34,7 @@ router.get("/", async function (req, res) {
     
             //get running game
             let runningMatch = -1
-            database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
+            database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
     
                 if (runningMatchResults.length > 0) {
                     runningMatch = runningMatchResults[0].cg_gm_number
@@ -77,7 +78,7 @@ router.get("/", async function (req, res) {
 router.post("/", function (req, res) {
     const body = req.body
     if (body.stop_match == true) { //stop match
-        database.query(`delete from teamsixn_scouting_dev.current_game 
+        database.query(SQL`delete from teamsixn_scouting_dev.current_game 
         where cg_sm_year > 0;`, (err, results) => {
             consoleLog(err)
             socketManager.emitAllSockets(body.gm_number, "stopMatch")
@@ -94,14 +95,14 @@ router.post("/", function (req, res) {
         })
     }
     else { //attempt to start match
-        database.query(`select * from teamsixn_scouting_dev.current_game;`, (err, results) => { //match is already running
+        database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, results) => { //match is already running
             if (results.length > 0) {
                 res.status(200).send({ response: false, matchNumber: results[0].cg_gm_number })
             }
             else { //start new match
-                database.query(`insert into teamsixn_scouting_dev.current_game 
+                database.query(SQL`insert into teamsixn_scouting_dev.current_game 
                 (cg_sm_year, cg_cm_event_code, cg_gm_game_type, cg_gm_number)
-                select ` + body.year + ",'" + body.event_code + "','" + body.gm_type + "'," + body.gm_number + `;`, (err, results) => {
+                select ` + SQL`${body.year}` + ",'" + SQL`${body.event_code}` + "','" + SQL`${body.gm_type}` + "'," + SQL`${body.gm_number}` + `;`, (err, results) => {
                     consoleLog(err)
                 })
 
