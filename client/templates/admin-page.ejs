@@ -39,6 +39,20 @@
                     </select>
                 </div>
             <% } %>
+            <div class="small-input-container" id="user-container">
+                <label for="seventh-scouter" class="blue">
+                    <%= "Snitch" %> 
+                </label>
+                <select name="seventh-scouter" class="select-user">
+                    <%for(let j = 0; j < team.length; j++) { %>
+                        <% if(assignedUsers[6].cgua_user_id == team[j].um_id) {%>
+                            <option value= <%=team[j].um_id%> selected> <%=team[j].admin_display%> </option>
+                        <% } else { %>
+                            <option value= <%=team[j].um_id%> > <%=team[j].admin_display%> </option>
+                        <%}%>
+                    <% }%>
+                </select>
+            </div>
             <button type="submit" id="admin-submit" class="big-button">Save</button>
         </div>
     </div>

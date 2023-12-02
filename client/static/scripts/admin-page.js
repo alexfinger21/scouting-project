@@ -1,4 +1,4 @@
-import { arrHasDuplicates, paths, currentPage, consoleLog} from "./utility.js"
+import { arrHasDuplicates, paths, currentPage, consoleLog } from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -36,7 +36,7 @@ function assignUsers(data) {
 }
 
 function main() {
-    var selections  = Array.from(document.getElementsByClassName("select-user"))
+    var selections = Array.from(document.getElementsByClassName("select-user"))
     const submitButton = document.getElementById("admin-submit")
 
     submitButton.addEventListener("click", () => {
@@ -47,19 +47,26 @@ function main() {
 
         //get all the data
         const data = new Array(selections.length)
-        for(let i = 0; i < selections.length; i++) {
-            data[i] = {
-                alliance: (i < 3 && "B") || "R",
-                position: i % 3 + 1,
-                id: selections[i].value,
+        for (let i = 0; i < selections.length; i++) {
+            if (selections[i].getAttribute("name") != "seventh-scouter") { //seventh scouter should be last
+                data[i] = {
+                    alliance: (i < 3 && "B") || "R",
+                    position: i % 3 + 1,
+                    id: selections[i].value,
+                }
             }
         }
+        data[6] = {
+            alliance: "X",
+            position: 0,
+            id: selections[6].value,
+        }
 
-        consoleLog(data.map( (obj) => {
+        consoleLog(data.map((obj) => {
             return obj.id
         }))
 
-        if(arrHasDuplicates(data.map( (obj) => {
+        if (arrHasDuplicates(data.map((obj) => {
             return obj.id
         }))) { //can't have duplicates
             alert("You assigned a user more than once")

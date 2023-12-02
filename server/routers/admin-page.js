@@ -16,7 +16,8 @@ router.get("/", async function (req, res) {
 
         database.query(SQL`select 
         cgua_alliance, 
-        cgua_alliance_position ,
+        cgua_alliance_position,
+        cgua_scouter_number,
         cgua.cgua_user_id,
         concat(um.um_name," - ", cgua.cgua_user_id) as admin_display
     from 
@@ -32,7 +33,9 @@ router.get("/", async function (req, res) {
             consoleLog("assigned users::")
             consoleLog(assignedUsers)
             assignedUsers = JSON.parse(JSON.stringify(assignedUsers)) //turn rowDataPacket into an object
-
+            assignedUsers = assignedUsers.sort( (a, b) => { //sort by alliance position, order is important for 7th scouter
+                return a.cgua_scouter_number - b.cgua_scouter_number
+            } )
             consoleLog(assignedUsers)
 
             res.render("admin-page", {
@@ -59,25 +62,27 @@ router.post("/", function (req, res) { //admin presses save button
                 cgua_user_id
         )
         VALUES 
-                ('R', 1, ${body[0].id}),
-                ('R', 2, ${body[1].id}),
-                ('R', 3, ${body[2].id}),
-                ('B', 1, ${body[3].id}),
-                ('B', 2, ${body[4].id}),
-                ('B', 3, ${body[5].id}`)
-        database.query(SQL`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
+            ('R', 1, '` + body[0].id + `'),
+            ('R', 2, '` + body[1].id + `'),
+            ('R', 3, '` + body[2].id + `'),
+            ('B', 1, '` + body[3].id + `'),
+            ('B', 2, '` + body[4].id + `'),
+            ('B', 3, '` + body[5].id + `'),
+            ('X', 0, '` + body[6].id + `');`)
+        database.query(`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
         (
                 cgua_alliance, 
                 cgua_alliance_position, 
                 cgua_user_id
         )
         VALUES 
-                ('R', 1, ${body[0].id}),
-                ('R', 2, ${body[1].id}),
-                ('R', 3, ${body[2].id}),
-                ('B', 1, ${body[3].id}),
-                ('B', 2, ${body[4].id}),
-                ('B', 3, ${body[5].id});`, (err, results) => {
+                ('R', 1, '` + body[0].id + `'),
+                ('R', 2, '` + body[1].id + `'),
+                ('R', 3, '` + body[2].id + `'),
+                ('B', 1, '` + body[3].id + `'),
+                ('B', 2, '` + body[4].id + `'),
+                ('B', 3, '` + body[5].id + `'),
+                ('X', 0, '` + body[6].id + `');`, (err, results) => {
                     consoleLog(err)
         })
 
