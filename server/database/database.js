@@ -288,6 +288,36 @@ function getCollectedData(match) {
         gd_um_id;`
 }
 
+function getRandomTeam(username, matchNumber) {//for the seventh scouter
+    //assigns a pseudo-random team to the seventh scouter using match number
+    //so its reproducable
+    let gm_alliance = matchNumber % 2 == 0 ? "B" : "R"
+    let gm_alliance_position = matchNumber % 3 + 1
+
+    return `SELECT 
+        cg.cg_gm_number, 
+        gm.gm_game_type, 
+        gm.gm_alliance , 
+        gm.gm_alliance_position , 
+        gm.team_master_tm_number, 
+        cgua.cgua_user_id, 
+        concat(tm_number ," - ", tm_name) as team_display
+    FROM 
+        teamsixn_scouting_dev.current_game cg 
+        LEFT JOIN
+            teamsixn_scouting_dev.game_matchup gm 
+            ON    cg.cg_sm_year  = gm.frc_season_master_sm_year and 
+                    cg.cg_cm_event_code  = gm.competition_master_cm_event_code and 
+                    cg.cg_gm_game_type = gm.gm_game_type and 
+                    cg.cg_gm_number  = gm.gm_number 
+        LEFT JOIN 
+            teamsixn_scouting_dev.team_master tm 
+            ON
+                tm.tm_number = gm.team_master_tm_number 
+        WHERE
+            gm.gm_alliance = '${gm_alliance}'
+            gm.gm_alliance_position = '${gm_alliance_position}'`
+}
 function getAssignedTeam(username) {
     return SQL`SELECT 
     cg.cg_gm_number, 
@@ -316,6 +346,11 @@ FROM
             tm.tm_number = gm.team_master_tm_number 
     WHERE
         cgua.cgua_user_id = ${username}`
+}
+
+function isSeventhScouter() {
+    return `SELECT * FROM teamsixn_scouting_dev.current_game_user_assignment cgua 
+    WHERE cgua.cgua_user_id = '${username}`
 }
 
 function getGameNumbers(eventCode, gameNumber) {
