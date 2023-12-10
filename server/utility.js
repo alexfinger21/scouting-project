@@ -13,9 +13,9 @@ function arrAvg(...args) {
     return args.reduce((total, val) => total+val)/args.length
 }
 
-function consoleLog(arg) {
+function consoleLog(...args) {
     if (log) {
-        console.log(arg)
+        console.log(...args)
     }
 }
 
