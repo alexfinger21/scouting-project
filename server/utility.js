@@ -2,13 +2,6 @@ const database = require("./database/database.js")
 const log = true
 const SQL = require('sql-template-strings')
 
-function rank(arr) {
-    const arraySorted = arr.slice().sort((a, b) => b - a)
-    return arr.map(v => {
-        return arraySorted.indexOf(v)
-    })
-}
-
 function arrAvg(...args) {
     return args.reduce((total, val) => total+val)/args.length
 }
