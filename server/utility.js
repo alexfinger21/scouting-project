@@ -44,5 +44,9 @@ function suggestTeam(currentAlliance, otherAlliances) {
     */
 }
 
+/*convert rowDataPAcket to array*/
+function parseData(info) {
+    return JSON.parse(JSON.stringify(info))
+}
 
-module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam}
+module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData}
