@@ -43,7 +43,7 @@ function deleteAPIData() {
     return SQL`DELETE FROM teamsixn_scouting_dev.api_rankings
     WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
         AND api_rankings.competition_master_cm_event_code = '${gameConstants.COMP}';`
-        
+
 }
 
 function writeAPIData(teamRankings) {
@@ -132,7 +132,7 @@ function saveData(data) {
 
     let autoScoring = []
     let teleopScoring = []
-    
+
     let linkCount = 0
     let autoScoringStr = ""
     let teleopScoringStr = ""
@@ -148,7 +148,7 @@ function saveData(data) {
                     autoScoring[count] = 1
                     linkArray[count] = 1
                 } else if (data.tables["Robot Auto Scoring"][j][i][x] == "cube") {
-                    autoScoring[count] = 2 
+                    autoScoring[count] = 2
                     linkArray[count] = 2
                 } else {
                     autoScoring[count] = 0
@@ -160,18 +160,18 @@ function saveData(data) {
         }
     }
 
-    for (let i = 0; i<count; i++) {
-        autoScoringStr += `,(${params}, '2', '${200 + i+1}', ${autoScoring[i]}) \n`
+    for (let i = 0; i < count; i++) {
+        autoScoringStr += `,(${params}, '2', '${200 + i + 1}', ${autoScoring[i]}) \n`
     }
 
-    for (let i = 0; i<3; i++) {//row
-        for (let j = 0; j<3; j++) {//grid
-            for (let x = 0; x<3; x++) {//column
+    for (let i = 0; i < 3; i++) {//row
+        for (let j = 0; j < 3; j++) {//grid
+            for (let x = 0; x < 3; x++) {//column
                 if (data.tables["Robot Teleop Scoring"][j][i][x] == "cone") {
                     teleopScoring[count1] = 1
                     linkArray[count1] = 1
                 } else if (data.tables["Robot Teleop Scoring"][j][i][x] == "cube") {
-                    teleopScoring[count1] = 2 
+                    teleopScoring[count1] = 2
                     linkArray[count1] = 2
                 } else {
                     teleopScoring[count1] = 0
@@ -182,21 +182,21 @@ function saveData(data) {
         }
     }
 
-    for (let i = 0; i<count1; i++) {
-        teleopScoringStr += `,(${params}, '2', '${300 + i+1}', ${teleopScoring[i]}) \n`
+    for (let i = 0; i < count1; i++) {
+        teleopScoringStr += `,(${params}, '2', '${300 + i + 1}', ${teleopScoring[i]}) \n`
     }
 
     //console.log(linkArray)
 
-    for (let row = 0; row<3; row++) {
-        for (let col = 0; col<9; col++) {
+    for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 9; col++) {
             //console.log(col)
             if (col < 7 && linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col + 1] != 0 && linkArray[row * 9 + col + 2] != 0) {
                 linkCount++
                 //console.log("LINK = " + linkCount)
                 //console.log("COLUMN = " + col)
                 //console.log("ROW = " + row)
-                col+=2
+                col += 2
             }
         }
     }
@@ -233,7 +233,7 @@ function saveData(data) {
         (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])})
         ;`
 
-        //console.log(sqlStr)
+    //console.log(sqlStr)
 
     return sqlStr
 }
@@ -295,28 +295,28 @@ function getRandomTeam(username, matchNumber) {//for the seventh scouter
     let gm_alliance_position = matchNumber % 3 + 1
 
     return `SELECT 
-        cg.cg_gm_number, 
-        gm.gm_game_type, 
-        gm.gm_alliance , 
-        gm.gm_alliance_position , 
-        gm.team_master_tm_number, 
-        cgua.cgua_user_id, 
+        cg.cg_gm_number,
+        gm.gm_game_type,
+        gm.gm_alliance ,
+        gm.gm_alliance_position ,
+        gm.team_master_tm_number,
         concat(tm_number ," - ", tm_name) as team_display
-    FROM 
-        teamsixn_scouting_dev.current_game cg 
+    FROM
+        teamsixn_scouting_dev.current_game cg
         LEFT JOIN
-            teamsixn_scouting_dev.game_matchup gm 
-            ON    cg.cg_sm_year  = gm.frc_season_master_sm_year and 
-                    cg.cg_cm_event_code  = gm.competition_master_cm_event_code and 
-                    cg.cg_gm_game_type = gm.gm_game_type and 
-                    cg.cg_gm_number  = gm.gm_number 
-        LEFT JOIN 
-            teamsixn_scouting_dev.team_master tm 
+            teamsixn_scouting_dev.game_matchup gm     
+            ON    cg.cg_sm_year  = gm.frc_season_master_sm_year and
+                    cg.cg_cm_event_code  = gm.competition_master_cm_event_code and
+                    cg.cg_gm_game_type = gm.gm_game_type and
+                    cg.cg_gm_number  = gm.gm_number
+        LEFT JOIN
+            teamsixn_scouting_dev.team_master tm      
             ON
-                tm.tm_number = gm.team_master_tm_number 
+                tm.tm_number = gm.team_master_tm_number
         WHERE
-            gm.gm_alliance = '${gm_alliance}'
+            gm.gm_alliance = '${gm_alliance}' and
             gm.gm_alliance_position = '${gm_alliance_position}'`
+
 }
 function getAssignedTeam(username) {
     return SQL`SELECT 
@@ -348,9 +348,10 @@ FROM
         cgua.cgua_user_id = ${username}`
 }
 
-function isSeventhScouter() {
-    return `SELECT * FROM teamsixn_scouting_dev.current_game_user_assignment cgua 
-    WHERE cgua.cgua_user_id = '${username}`
+function getSeventhScouter() {
+    return SQL`SELECT * FROM teamsixn_scouting_dev.current_game_user_assignment
+    ORDER BY cgua_scouter_number DESC
+    LIMIT 1;`
 }
 
 function getGameNumbers(eventCode, gameNumber) {
@@ -514,5 +515,7 @@ module.exports = {
     saveMatchStrategy: saveMatchStrategy,
     clearMatchStretegyTemp: clearMatchStretegyTemp,
     saveComment: saveComment,
-    getMatchComments: getMatchComments
+    getMatchComments: getMatchComments,
+    getSeventhScouter: getSeventhScouter,
+    getRandomTeam: getRandomTeam,
 }
