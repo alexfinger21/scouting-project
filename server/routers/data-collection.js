@@ -20,43 +20,89 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
         if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
         }
-        database.query(database.getAssignedTeam(username), (err, assignment) => {
-            assignment = JSON.parse(JSON.stringify(assignment))[0] //convert rowDataPacket to object
-            if (assignment != undefined) { //user is assigned a team
-                //add team color
-                if (assignment.gm_alliance == "B") {
-                    assignment.team_color = "blue"
-                }
-                else {
-                    assignment.team_color = "red"
-                }
-                //add match display
-                let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
-                assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
-                    + teamName + " " + assignment.gm_alliance_position
-                consoleLog(assignment)
-            }
-            
-            database.query(database.getGameNumbers(), (err, results) => {
-                database.query(database.getMatchData(match), (err, matchup) => {
-                    matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
-                    consoleLog("MATCH:")
-                    consoleLog(match)
-                    //consoleLog("\nMATCH DATA: ")
-                    //consoleLog(matchup)
-
-                    res.render("data-collection", {
-                        matches: JSON.parse(JSON.stringify(results)),
-                        lastMatch: match,
-                        runningMatch: runningMatch,
-                        assignment: assignment,
-                        isAdmin: isAdmin,
-                        matchup: matchup,
-                        selectedPage: selectedPage
+        database.query(database.getSeventhScouter(username), (err, seventhScouterRes) => {
+            seventhScouterRes = JSON.parse(JSON.stringify(seventhScouterRes))
+            isSeventhScouter = seventhScouterRes[0].cgua_user_id == username
+            if(isSeventhScouter) { //assign blud a random team
+                database.query(database.getRandomTeam(username, runningMatch), (err, assignment) => {
+                    assignment = JSON.parse(JSON.stringify(assignment))[0] //convert rowDataPacket to object
+                    if (assignment != undefined) { //user is assigned a team
+                        //add team color
+                        if (assignment.gm_alliance == "B") {
+                            assignment.team_color = "blue"
+                        }
+                        else {
+                            assignment.team_color = "red"
+                        }
+                        //add match display
+                        let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
+                        assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
+                            + teamName + " " + assignment.gm_alliance_position
+                        consoleLog(assignment)
+                    }
+        
+                    database.query(database.getGameNumbers(), (err, results) => {
+                        database.query(database.getMatchData(match), (err, matchup) => {
+                            matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
+                            consoleLog("MATCH:")
+                            consoleLog(match)
+                            //consoleLog("\nMATCH DATA: ")
+                            //consoleLog(matchup)
+        
+                            res.render("data-collection", {
+                                matches: JSON.parse(JSON.stringify(results)),
+                                lastMatch: match,
+                                runningMatch: runningMatch,
+                                assignment: assignment,
+                                isAdmin: isAdmin,
+                                matchup: matchup,
+                                selectedPage: selectedPage
+                            })
+                        })
                     })
                 })
-            })
+            }
+            else { //not a seventh scouter
+                database.query(database.getAssignedTeam(username), (err, assignment) => {
+                    assignment = JSON.parse(JSON.stringify(assignment))[0] //convert rowDataPacket to object
+                    if (assignment != undefined) { //user is assigned a team
+                        //add team color
+                        if (assignment.gm_alliance == "B") {
+                            assignment.team_color = "blue"
+                        }
+                        else {
+                            assignment.team_color = "red"
+                        }
+                        //add match display
+                        let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
+                        assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
+                            + teamName + " " + assignment.gm_alliance_position
+                        consoleLog(assignment)
+                    }
+        
+                    database.query(database.getGameNumbers(), (err, results) => {
+                        database.query(database.getMatchData(match), (err, matchup) => {
+                            matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
+                            consoleLog("MATCH:")
+                            consoleLog(match)
+                            //consoleLog("\nMATCH DATA: ")
+                            //consoleLog(matchup)
+        
+                            res.render("data-collection", {
+                                matches: JSON.parse(JSON.stringify(results)),
+                                lastMatch: match,
+                                runningMatch: runningMatch,
+                                assignment: assignment,
+                                isAdmin: isAdmin,
+                                matchup: matchup,
+                                selectedPage: selectedPage
+                            })
+                        })
+                    })
+                })
+            }
         })
+        
     })
 })
 
@@ -68,15 +114,16 @@ router.post("/", function (req, res) {
     consoleLog(body)
 
     if (body.type == "scouting") {
+        
         database.query(database.deleteData(body), (err, results) => {
             consoleLog(err)
             consoleLog(results)
             consoleLog(user_id)
-            
+
             database.query(database.saveData(body), (err, results) => {
                 consoleLog(err)
                 consoleLog(results)
-                
+
                 database.query(SQL`update teamsixn_scouting_dev.game_details gd
                 set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
                 WHERE 
