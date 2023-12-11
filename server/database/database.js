@@ -119,7 +119,7 @@ function convertToInt(option) {
     }
 }
 
-function saveData(data) {
+function saveData(data, is7thScouter=false) {
     //console.log(data)
     const params =
         `${gameConstants.YEAR}, 
@@ -203,7 +203,7 @@ function saveData(data) {
 
     //console.log("LINK COUNT: " + linkCount)
 
-    const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.game_details (
+    const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.${is7thScouter ? "7th_scouter_details": "game_details"} (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
         game_matchup_gm_game_type,
@@ -435,13 +435,24 @@ function getTeamPictures(team) {
     `
 }
 
-function executeQuery(sql, callback) {
+function executeQuery(sql, callback=false) {
     return new Promise((res, rej) => {
         pool.query(sql, function (error, results, fields) {
             if (error) {
-                rej(callback(error, null))
+                if(callback) {
+                    rej(callback(error, null))
+                }
+                else {
+                    rej([error, null])
+                }
+                console.log("ERROR: " + String(error))
             } else {
-                res(callback(null, results))
+                if(callback) {
+                    res(callback(null, results))
+                }
+                else {
+                    res([null, results])
+                }
             }
         })
     })
