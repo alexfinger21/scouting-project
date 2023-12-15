@@ -7,29 +7,23 @@ const { consoleLog } = require("../utility")
 const SQL = require('sql-template-strings')
 //SQL
 
-function checkUser(body) {
-    return new Promise(resolve => {
-        database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${body.username} AND team_master_tm_number = ${body.team_number};`, function (error, results) {
-            if (error)
-                throw error;
+async function checkUser(body) {
+    const [err, dbRes] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${body.username} AND team_master_tm_number = ${body.team_number};`)
+    if (err)
+        throw error;
 
-            //consoleLog("RESULT: " + result)
-            if (results.length == 1) {
-                const result = results[0]
+    //consoleLog("RESULT: " + result)
+    if (dbRes.length == 1) {
+        const result = dbRes[0]
 
-                if (result.um_password == body.password) {
-                    
-                    resolve(true)
+        if (result.um_password == body.password) {
+            
+            return true
+        }
 
-                    return
-                }
+    }
 
-
-            }
-
-            resolve(false)
-        })
-    })
+    return false;
 }
 
 
@@ -57,14 +51,14 @@ router.post("/", async function(req, res) {
     const date = new Date()
     consoleLog(date)
 
-    let success = await checkUser(body)
+    const success = await checkUser(body)
     
     
     if (success) { //successful login
         
         consoleLog("success for " + body.username)    
         //const sessionId = decodeURI(crypto.randomBytes(32).toString())
-        let sessionId
+        let sessionId = ""
         
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
@@ -86,17 +80,15 @@ router.post("/", async function(req, res) {
             httpOnly: true,
         })
 
-        database.query(SQL`UPDATE 
+        const [err, dbRes] = await database.query(SQL`UPDATE 
         teamsixn_scouting_dev.user_master
     SET 
-        um_session_id = "`+ sessionId + `",
+        um_session_id = "${sessionId}",
         um_timeout_ts = timestampadd(DAY, 2, current_timestamp())
 
     WHERE 
-        team_master_tm_number = ` + body.team_number +` and 
-        um_id = "` + body.username + `";`, (err, results) => {
-            consoleLog(results)
-        })
+        team_master_tm_number = ${body.team_number} and 
+        um_id = "${body.username}";`)
 
         return res.status(200).send({result: 'redirect', url:'/app'})
     }
