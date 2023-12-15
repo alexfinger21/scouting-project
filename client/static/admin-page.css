@@ -1,5 +1,6 @@
 #admin-container {
     width: 90%;
+    height: 95%;
     margin-top: 1vh;
     margin-bottom: 2vh;
     margin-left: auto;
@@ -13,13 +14,17 @@
 }
 
 #admin-container select {
+    display: block;
+    margin-left: auto;
     outline: none;
     background-color: #FFF;
     border: 1px solid #000;
     border-radius: 3px;
     padding: 5px;
     margin-left: 2vw;
-    width: 70%
+    width: 70%;
+    height: 5%;
+    font-size: 1.8vh;
 }
 
 #admin-container select:focus {
@@ -30,18 +35,29 @@
 #user-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    width: 85%;
+    margin-right: auto;
+    margin-left: auto;
     border: none;
     background-color: transparent;
     align-self: flex-start;
-    margin-bottom: 3vh;
+    margin-bottom: 1.5vh;
 }
 
 #user-container label {
-    margin-right: 2vh !important;
+    margin-right: auto;
+    font-size: 2vh;
 }
 
 #admin-submit {
+    margin-top: 2vh;
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
+}
+
+#download-report {
+    margin-top: 2vh;
+    box-shadow: 0 6px #3077b9;
+    transition: all .1s ease-in-out;
+    margin-left: 1.5vh;
 }
