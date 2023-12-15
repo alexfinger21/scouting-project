@@ -12,7 +12,7 @@ const fs = require("fs")
 const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
-const {gameStart, gameEnd} = require("./game.js")
+const { gameStart, gameEnd } = require("./game.js")
 const { returnAPIDATA } = require("./getRanks")
 const gameConstants = require("./game.js")
 const socketManager = require("./sockets.js")
@@ -48,14 +48,14 @@ const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "all
 
 const corsOptions = {
     origin: '*',
-    credentials: true 
+    credentials: true
 }
 
-const allowCrossDomain = function(req, res, next) {
+const allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    
+
     next();
 }
 
@@ -73,8 +73,8 @@ async function runAPICall() {
     const endTick = gameEnd.getTime()
     const currentTick = Date.now()
     consoleLog(currentTick)
-    consoleLog(startTick) 
-    if (startTick <= currentTick && currentTick <=endTick) {
+    consoleLog(startTick)
+    if (startTick <= currentTick && currentTick <= endTick) {
         const apiData = await returnAPIDATA()
         consoleLog(apiData)
     }
@@ -82,12 +82,12 @@ async function runAPICall() {
 
 io.on("connection", (socket) => {
     const index = socketManager.addSocket(socket)
-    
+
     socket.on("disconnect", () => {
         socketManager.removeSocket(index)
         consoleLog(socketManager.getSockets())
     })
-    
+
     consoleLog(socketManager.getSockets())
 })
 
@@ -108,26 +108,31 @@ app.use(cookieParser())
 
 //middleware for anyone on the site, checking whether they're logged in or not
 
-app.use((req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
+app.use(async (req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
     consoleLog(req.path)
     if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else if (req.path != "/login") {
         consoleLog(req.path)
-        const user_id = req.cookies["user_id"]
         const username = req.cookies["username"]
-        database.query(SQL`SELECT um.um_timeout_ts FROM user_master um WHERE um.um_session_id = ${user_id} AND um.um_id = ${username} AND um.um_timeout_ts > current_timestamp();`, (err, results) => {
-            consoleLog(err)
-            if (results) {
-                const result = results[0]
-                next() //goes to the next middleware function (login or data collection)
-            } else {
-                res.clearCookie('user_id');
-                res.clearCookie('username');
-                consoleLog("redirect")
-                res.redirect("/login")
-            }
-        })
+        const [err, results] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${username} AND um.um_timeout_ts > current_timestamp();`)
+        
+        if (err) {
+            consoleLog("LOGIN ERROR: " + err)
+        }
+        const result = JSON.parse(JSON.stringify(results))[0]
+        let splitResult = result.um_session_id.split(",")
+        if (splitResult.length == 0) {
+            splitResult = [result.um_session_id]
+        }
+        if (splitResult.indexOf(req.cookies["user_id"]) != -1) {
+            next() //goes to the next middleware function (login or data collection)
+        } else {
+            res.clearCookie('user_id');
+            res.clearCookie('username');
+            consoleLog("redirect")
+            res.redirect("/login")
+        }
     } else {
         consoleLog("next")
         next()
@@ -135,8 +140,8 @@ app.use((req, res, next) => { //if you don't provide a path, app.use will run be
 })
 
 //DEFAULT PATH
-app.get("/", function(req, res) { //only gets used if the url == /
-   res.redirect("app")
+app.get("/", function (req, res) { //only gets used if the url == /
+    res.redirect("app")
 })
 
 //MAIN
@@ -173,19 +178,19 @@ app.use("/team-details", teamDetails)
 app.use("/alliance-input", allianceInput)
 
 //GET MATCH
-app.get("/getMatch", function(req, res) {
+app.get("/getMatch", function (req, res) {
     consoleLog(req.body)
     database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        if(runningMatchResults[0]) { //if a match is running
+        if (runningMatchResults[0]) { //if a match is running
             runningMatch = runningMatchResults[0].cg_gm_number
-            res.status(200).send({match: runningMatch})
+            res.status(200).send({ match: runningMatch })
         } else {
-            res.status(200).send({match: 0})
+            res.status(200).send({ match: 0 })
         }
     })
 })
 
-app.get("/getMatchTeams", function(req, res) {
+app.get("/getMatchTeams", function (req, res) {
     consoleLog("request recieved!")
     database.query(database.getTeams(), (err, runningMatchResults) => {
         //consoleLog(JSON.parse(JSON.stringify(runningMatchResults)))
@@ -199,4 +204,4 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
 //PORT
 app.listen(3000) //goes to localhost 3000
 
-server.listen(5000, {pingTimeout : 60000, pingInterval : 15000})
+server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
