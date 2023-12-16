@@ -26,7 +26,16 @@ async function checkUser(body) {
     return false;
 }
 
+function strongRandomString(chars, maxLen) {
+    const randomBytes = crypto.randomBytes(chars.length)
+    let res = ""
 
+    for (let i = 0; i<maxLen; ++i) {
+        res += chars[randomBytes[i] % chars.length]
+    }
+
+    return res
+}
 
 //connection.end();
 router.get("/", function (req, res) {
@@ -63,13 +72,10 @@ router.post("/", async function (req, res) {
 
         consoleLog("success for " + body.username)
         //const sessionId = decodeURI(crypto.randomBytes(32).toString())
-        let sessionId = ""
-
+        
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~./'
 
-        for (let i = 0; i < 32; i++) {
-            sessionId += characters.charAt(Math.floor(Math.random() * characters.length))
-        }
+        const sessionId = strongRandomString(characters, 32)
 
         sessionResult.splice(0, 0, sessionId)
 
