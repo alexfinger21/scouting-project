@@ -105,7 +105,6 @@ app.use(cors(corsOptions))
 
 app.use(cookieParser())
 
-
 //middleware for anyone on the site, checking whether they're logged in or not
 
 app.use(async (req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
