@@ -120,6 +120,7 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
         if (err) {
             consoleLog("LOGIN ERROR: " + err)
         }
+        
         const result = JSON.parse(JSON.stringify(results))[0]
         let splitResult = result.um_session_id.split(",")
         if (splitResult.length == 0) {
