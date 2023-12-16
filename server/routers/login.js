@@ -58,9 +58,9 @@ router.post("/", async function (req, res) {
         let [err, sessionResult] = await database.query(SQL`SELECT * from teamsixn_scouting_dev.user_master WHERE team_master_tm_number = ${body.team_number} and 
         um_id = ${body.username};`)
 
-        consoleLog(sessionResult[0])
+        consoleLog(sessionResult[0].um_session_id.indexOf(','))
 
-        sessionResult = sessionResult[0].um_session_id.indexOf(',') != -1 ? sessionResult[0].um_session_id.split(",") : [sessionResult[0].um_session_id]
+        sessionResult = sessionResult[0].um_session_id.indexOf(',') != -1 ? sessionResult[0].um_session_id.split(',') : [sessionResult[0].um_session_id]
 
         consoleLog("success for " + body.username)
         //const sessionId = decodeURI(crypto.randomBytes(32).toString())
@@ -72,13 +72,15 @@ router.post("/", async function (req, res) {
             sessionId += characters.charAt(Math.floor(Math.random() * characters.length))
         }
 
-        consoleLog(sessionId)
+        consoleLog(sessionResult)
 
-        if (sessionId.length >= 3) {
+        if (sessionResult.length >= 3) {
             sessionResult[sessionResult.length - 1] = sessionId
         } else {
             sessionResult.splice(0, 0, sessionId)
         }
+
+        consoleLog(sessionResult)
 
         res.cookie("user_id", sessionId, {
             maxAge: 24 * 60 * 60 * 1000,
