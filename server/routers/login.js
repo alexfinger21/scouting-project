@@ -58,7 +58,6 @@ router.post("/", async function (req, res) {
         let [err, sessionResult] = await database.query(SQL`SELECT * from teamsixn_scouting_dev.user_master WHERE team_master_tm_number = ${body.team_number} and 
         um_id = ${body.username};`)
 
-        consoleLog(sessionResult[0].um_session_id.indexOf(','))
 
         sessionResult = sessionResult[0].um_session_id.indexOf(',') != -1 ? sessionResult[0].um_session_id.split(',') : [sessionResult[0].um_session_id]
 
@@ -72,13 +71,9 @@ router.post("/", async function (req, res) {
             sessionId += characters.charAt(Math.floor(Math.random() * characters.length))
         }
 
-        consoleLog(sessionResult)
+        sessionResult.splice(0, 0, sessionId)
 
-        if (sessionResult.length >= 3) {
-            sessionResult[sessionResult.length - 1] = sessionId
-        } else {
-            sessionResult.splice(0, 0, sessionId)
-        }
+        sessionResult.length = 3
 
         consoleLog(sessionResult)
 
@@ -93,10 +88,6 @@ router.post("/", async function (req, res) {
             // expires works the same as the maxAge
             httpOnly: true,
         })
-
-        consoleLog("look here dum")
-
-        consoleLog(sessionResult.join(","))
 
         const result = await database.query(SQL`UPDATE 
         teamsixn_scouting_dev.user_master
