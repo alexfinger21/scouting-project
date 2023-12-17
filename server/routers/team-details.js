@@ -4,6 +4,7 @@ const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
 const { getImageData } = require("../getImages.js")
+const SQL = require('sql-template-strings')
 
 function mergeDicts(dict1, dict2) {
     if (dict1 && dict2) {
@@ -18,14 +19,14 @@ function mergeDicts(dict1, dict2) {
 router.get("/", function (req, res) { //only gets used if the url == team-details
     consoleLog("recieved")
     const start = Date.now()
-    database.query(`SELECT 
+    database.query(SQL`SELECT 
         *
         FROM 
             teamsixn_scouting_dev.tmp_match_strategy
         WHERE
             frc_season_master_sm_year = ${gameConstants.YEAR} AND
-            competition_master_cm_event_code = '${gameConstants.COMP}' AND 
-            game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`,
+            competition_master_cm_event_code = ${gameConstants.COMP} AND 
+            game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`,
         (err, team_results) => {
             team_results = JSON.parse(JSON.stringify(team_results))
             const teamNumber = req.query.team || 695
@@ -39,14 +40,14 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             consoleLog("TEAM INFO")
             consoleLog(teamInfo)
 
-            database.query(`SELECT 
+            database.query(SQL`SELECT 
                 * 
                 FROM 
                     teamsixn_scouting_dev.v_match_team_score_cncb_count vmts
                 WHERE
                     vmts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-                    vmts.competition_master_cm_event_code = '${gameConstants.COMP}' AND 
-                    vmts.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' AND
+                    vmts.competition_master_cm_event_code = ${gameConstants.COMP} AND 
+                    vmts.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
                     vmts.team_master_tm_number = ${teamNumber};`,
                 (err, results) => {
                     results = JSON.parse(JSON.stringify(results))

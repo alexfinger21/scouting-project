@@ -2,8 +2,10 @@ const pool = require('./dbconfig')
 const gameConstants = require('../game.js')
 const game = require('../game.js')
 
+const SQL = require('sql-template-strings')
+
 function getUsers() {
-    const returnStr = `
+    const returnStr = SQL`
     SELECT um_id, um_name
     FROM teamsixn_scouting_dev.userMaster
     `
@@ -12,7 +14,7 @@ function getUsers() {
 
 function insertAllianceSelection(allianceNum, pos, team) {
     //console.log("Alliance num: " + allianceNum + " Pos: " +  pos + " Team #: " + team)
-    return `INSERT INTO 
+    return SQL`INSERT INTO 
     teamsixn_scouting_dev.alliance_selection 
     (alliance_number, alliance_position, team_master_tm_number)
     VALUES
@@ -20,7 +22,7 @@ function insertAllianceSelection(allianceNum, pos, team) {
 }
 
 function deleteAllianceSelection(allianceNum, pos) {
-    return `DELETE FROM teamsixn_scouting_dev.alliance_selection 
+    return SQL`DELETE FROM teamsixn_scouting_dev.alliance_selection 
         WHERE 
         alliance_number = ${allianceNum} AND 
         alliance_position = ${pos};`
@@ -28,7 +30,7 @@ function deleteAllianceSelection(allianceNum, pos) {
 
 
 function deleteData(data) {
-    return `DELETE FROM teamsixn_scouting_dev.game_details
+    return SQL`DELETE FROM teamsixn_scouting_dev.game_details
     WHERE game_details.frc_season_master_sm_year = ${gameConstants.YEAR}
         AND game_details.competition_master_cm_event_code = '${gameConstants.COMP}'
         AND game_details.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}'
@@ -38,10 +40,10 @@ function deleteData(data) {
 }
 
 function deleteAPIData() {
-    return `DELETE FROM teamsixn_scouting_dev.api_rankings
+    return SQL`DELETE FROM teamsixn_scouting_dev.api_rankings
     WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
         AND api_rankings.competition_master_cm_event_code = '${gameConstants.COMP}';`
-        
+
 }
 
 function writeAPIData(teamRankings) {
@@ -72,7 +74,7 @@ function writeAPIData(teamRankings) {
 
     //console.log(valuesStr)
 
-    const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_rankings
+    const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.api_rankings
     (
         frc_season_master_sm_year, 
         competition_master_cm_event_code, 
@@ -117,7 +119,7 @@ function convertToInt(option) {
     }
 }
 
-function saveData(data) {
+function saveData(data, is7thScouter=false) {
     //console.log(data)
     const params =
         `${gameConstants.YEAR}, 
@@ -130,7 +132,7 @@ function saveData(data) {
 
     let autoScoring = []
     let teleopScoring = []
-    
+
     let linkCount = 0
     let autoScoringStr = ""
     let teleopScoringStr = ""
@@ -146,7 +148,7 @@ function saveData(data) {
                     autoScoring[count] = 1
                     linkArray[count] = 1
                 } else if (data.tables["Robot Auto Scoring"][j][i][x] == "cube") {
-                    autoScoring[count] = 2 
+                    autoScoring[count] = 2
                     linkArray[count] = 2
                 } else {
                     autoScoring[count] = 0
@@ -158,18 +160,18 @@ function saveData(data) {
         }
     }
 
-    for (let i = 0; i<count; i++) {
-        autoScoringStr += `,(${params}, '2', '${200 + i+1}', ${autoScoring[i]}) \n`
+    for (let i = 0; i < count; i++) {
+        autoScoringStr += `,(${params}, '2', '${200 + i + 1}', ${autoScoring[i]}) \n`
     }
 
-    for (let i = 0; i<3; i++) {//row
-        for (let j = 0; j<3; j++) {//grid
-            for (let x = 0; x<3; x++) {//column
+    for (let i = 0; i < 3; i++) {//row
+        for (let j = 0; j < 3; j++) {//grid
+            for (let x = 0; x < 3; x++) {//column
                 if (data.tables["Robot Teleop Scoring"][j][i][x] == "cone") {
                     teleopScoring[count1] = 1
                     linkArray[count1] = 1
                 } else if (data.tables["Robot Teleop Scoring"][j][i][x] == "cube") {
-                    teleopScoring[count1] = 2 
+                    teleopScoring[count1] = 2
                     linkArray[count1] = 2
                 } else {
                     teleopScoring[count1] = 0
@@ -180,28 +182,28 @@ function saveData(data) {
         }
     }
 
-    for (let i = 0; i<count1; i++) {
-        teleopScoringStr += `,(${params}, '2', '${300 + i+1}', ${teleopScoring[i]}) \n`
+    for (let i = 0; i < count1; i++) {
+        teleopScoringStr += `,(${params}, '2', '${300 + i + 1}', ${teleopScoring[i]}) \n`
     }
 
     //console.log(linkArray)
 
-    for (let row = 0; row<3; row++) {
-        for (let col = 0; col<9; col++) {
+    for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 9; col++) {
             //console.log(col)
             if (col < 7 && linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col + 1] != 0 && linkArray[row * 9 + col + 2] != 0) {
                 linkCount++
                 //console.log("LINK = " + linkCount)
                 //console.log("COLUMN = " + col)
                 //console.log("ROW = " + row)
-                col+=2
+                col += 2
             }
         }
     }
 
     //console.log("LINK COUNT: " + linkCount)
 
-    const sqlStr = `INSERT INTO teamsixn_scouting_dev.game_details (
+    const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.${is7thScouter ? "7th_scouter_details": "game_details"} (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
         game_matchup_gm_game_type,
@@ -231,27 +233,27 @@ function saveData(data) {
         (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])})
         ;`
 
-        //console.log(sqlStr)
+    //console.log(sqlStr)
 
     return sqlStr
 }
 
 function getTeams() {
-    const returnStr = `
+    const returnStr = SQL`
     SELECT 
         *
     FROM
         teamsixn_scouting_dev.v_match_listing_display
     where 
     frc_season_master_sm_year = ${gameConstants.YEAR} and 
-    competition_master_cm_event_code = '${gameConstants.COMP}' and
-    gm_game_type = '${gameConstants.GAME_TYPE}';`
+    competition_master_cm_event_code = ${gameConstants.COMP} and
+    gm_game_type = ${gameConstants.GAME_TYPE};`
 
     return returnStr
 }
 
 function getCollectedData(match) {
-    return `
+    return SQL`
     SELECT 
         gd.frc_season_master_sm_year, 
         gd.competition_master_cm_event_code, 
@@ -265,8 +267,8 @@ function getCollectedData(match) {
         teamsixn_scouting_dev.game_details gd 
     WHERE 
         gd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
-        gd.competition_master_cm_event_code = '${gameConstants.COMP}' AND
-        gd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' AND
+        gd.competition_master_cm_event_code = ${gameConstants.COMP} AND
+        gd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
         game_matchup_gm_number = ${match}
     GROUP BY 
         gd.frc_season_master_sm_year, 
@@ -286,8 +288,38 @@ function getCollectedData(match) {
         gd_um_id;`
 }
 
-function getAssignedTeam(username) {
+function getRandomTeam(username, matchNumber) {//for the seventh scouter
+    //assigns a pseudo-random team to the seventh scouter using match number
+    //so its reproducable
+    let gm_alliance = matchNumber % 2 == 0 ? "B" : "R"
+    let gm_alliance_position = matchNumber % 3 + 1
+
     return `SELECT 
+        cg.cg_gm_number,
+        gm.gm_game_type,
+        gm.gm_alliance ,
+        gm.gm_alliance_position ,
+        gm.team_master_tm_number,
+        concat(tm_number ," - ", tm_name) as team_display
+    FROM
+        teamsixn_scouting_dev.current_game cg
+        LEFT JOIN
+            teamsixn_scouting_dev.game_matchup gm     
+            ON    cg.cg_sm_year  = gm.frc_season_master_sm_year and
+                    cg.cg_cm_event_code  = gm.competition_master_cm_event_code and
+                    cg.cg_gm_game_type = gm.gm_game_type and
+                    cg.cg_gm_number  = gm.gm_number
+        LEFT JOIN
+            teamsixn_scouting_dev.team_master tm      
+            ON
+                tm.tm_number = gm.team_master_tm_number
+        WHERE
+            gm.gm_alliance = '${gm_alliance}' and
+            gm.gm_alliance_position = '${gm_alliance_position}'`
+
+}
+function getAssignedTeam(username) {
+    return SQL`SELECT 
     cg.cg_gm_number, 
     gm.gm_game_type, 
     gm.gm_alliance , 
@@ -313,26 +345,32 @@ FROM
         ON
             tm.tm_number = gm.team_master_tm_number 
     WHERE
-        cgua.cgua_user_id = '${username}'`
+        cgua.cgua_user_id = ${username}`
+}
+
+function getSeventhScouter() {
+    return SQL`SELECT * FROM teamsixn_scouting_dev.current_game_user_assignment
+    ORDER BY cgua_scouter_number DESC
+    LIMIT 1;`
 }
 
 function getGameNumbers(eventCode, gameNumber) {
-    return `
+    return SQL`
     SELECT 
         distinct gm.gm_number 
     FROM 
         teamsixn_scouting_dev.game_matchup gm 
     WHERE
     gm.frc_season_master_sm_year = ${gameConstants.YEAR} and 
-        gm.competition_master_cm_event_code = '${gameConstants.COMP}' and 
-        gm.gm_game_type  = '${gameConstants.GAME_TYPE}'
+        gm.competition_master_cm_event_code = ${gameConstants.COMP} and 
+        gm.gm_game_type  = ${gameConstants.GAME_TYPE}
     ORDER BY 
         1;
     `
 }
 
 function getMatchData(gameNumber) {
-    return `
+    return SQL`
     SELECT 
         gm.team_master_tm_number,
         tms.tm_name, 
@@ -362,8 +400,8 @@ FROM
             gm.team_master_tm_number = tms.team_master_tm_number
 WHERE 
   gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-  gm.competition_master_cm_event_code = '${gameConstants.COMP}' AND
-  gm.gm_game_type  = '${gameConstants.GAME_TYPE}' AND
+  gm.competition_master_cm_event_code = ${gameConstants.COMP} AND
+  gm.gm_game_type  = ${gameConstants.GAME_TYPE} AND
   gm.gm_number = ${gameNumber}
 ORDER BY 
   gm.frc_season_master_sm_year, 
@@ -373,67 +411,80 @@ ORDER BY
 }
 
 function getChartData() {
-    return `
+    return SQL`
     SELECT *
     FROM
         teamsixn_scouting_dev.tmp_match_strategy vts 
     WHERE
         vts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-        vts.competition_master_cm_event_code = '${gameConstants.COMP}' AND
-        ( vts.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' or vts.game_matchup_gm_game_type IS NULL);
+        vts.competition_master_cm_event_code = ${gameConstants.COMP} AND
+        ( vts.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} or vts.game_matchup_gm_game_type IS NULL);
     `
 }
 
 function getTeamPictures(team) {
-    return `
+    return SQL`
     select 
         *
     from 
         teamsixn_scouting_dev.pit_scouting ps 
     WHERE
         frc_season_master_sm_year = ${gameConstants.YEAR} and 
-        competition_master_cm_event_code = '${gameConstants.COMP}' and 
+        competition_master_cm_event_code = ${gameConstants.COMP} and 
         team_master_tm_number = ${team};
     `
 }
 
-function executeQuery(sql, callback) {
-    pool.query(sql, function (error, results, fields) {
-        if (error) {
-            return callback(error, null)
-        } else {
-            return callback(null, results)
-        }
+function executeQuery(sql, callback=false) {
+    return new Promise((res, rej) => {
+        pool.query(sql, function (error, results, fields) {
+            if (error) {
+                if(callback) {
+                    rej(callback(error, null))
+                }
+                else {
+                    rej([error, null])
+                }
+                console.log("ERROR: " + String(error))
+            } else {
+                if(callback) {
+                    res(callback(null, results))
+                }
+                else {
+                    res([null, results])
+                }
+            }
+        })
     })
 }
 
 function saveComment(comment, user_id, matchNumber, alliance, alliancePosition) {
-    return `INSERT INTO teamsixn_scouting_dev.game_comments
+    return SQL`INSERT INTO teamsixn_scouting_dev.game_comments
     (frc_season_master_sm_year, competition_master_cm_event_code, game_matchup_gm_game_type, game_matchup_gm_number, game_matchup_gm_alliance, game_matchup_gm_alliance_position, gc_comment, gc_um_id, gc_ts)
-    VALUES(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${matchNumber}, '${alliance}', ${alliancePosition}, '${comment}', '${user_id}', '${new Date()}');`
+    VALUES(${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${matchNumber}, ${alliance}, ${alliancePosition}, ${comment}, ${user_id}, ${new Date()});`
 }
 
 function clearMatchStretegyTemp() {
-    return `DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;`
+    return SQL`DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;`
 }
 
 function saveMatchStrategy() {
-    return `CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
+    return SQL`CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
     SELECT
         *, 
         rank() OVER (ORDER BY api_opr desc) AS api_opr_rank, 
         rank() OVER (ORDER BY api_dpr desc) AS api_dpr_rank
     FROM 
-        teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
+        teamsixn_scouting_dev.  _team_score_avg_rankings vmtsar 
     where 
         frc_season_master_sm_year = 2023 and 
-        competition_master_cm_event_code = '${gameConstants.COMP}' and 
-        game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}' and 
+        competition_master_cm_event_code = ${gameConstants.COMP} and 
+        game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
         team_master_tm_number is not NULL;`
 }
 
 function getMatchComments(team) {
-    return `select 
+    return SQL`select 
         gm.team_master_tm_number, 
         gc.game_matchup_gm_number, 
         gc.gc_ts, 
@@ -451,8 +502,8 @@ function getMatchComments(team) {
                     gc.game_matchup_gm_number = gm.gm_number 
     WHERE
         gc.frc_season_master_sm_year = ${gameConstants.YEAR} and 
-        gc.competition_master_cm_event_code = '${gameConstants.COMP}' and 
-        gc.game_matchup_gm_game_type  = '${gameConstants.GAME_TYPE}' and 
+        gc.competition_master_cm_event_code = ${gameConstants.COMP} and 
+        gc.game_matchup_gm_game_type  = ${gameConstants.GAME_TYPE} and 
         gm.team_master_tm_number = ${team} and 
         trim(gc.gc_comment) <> "" `
 }
@@ -475,5 +526,7 @@ module.exports = {
     saveMatchStrategy: saveMatchStrategy,
     clearMatchStretegyTemp: clearMatchStretegyTemp,
     saveComment: saveComment,
-    getMatchComments: getMatchComments
+    getMatchComments: getMatchComments,
+    getSeventhScouter: getSeventhScouter,
+    getRandomTeam: getRandomTeam,
 }
