@@ -446,12 +446,14 @@ function executeQuery(sql, callback=false) {
                     rej([error, null])
                 }
                 console.log("ERROR: " + String(error))
+                const err = new Error()
+                err.stack()
             } else {
                 if(callback) {
                     res(callback(null, results))
                 }
                 else {
-                    res([null, results])
+                    console.log(res([null, results]))
                 }
             }
         })
@@ -475,7 +477,7 @@ function saveMatchStrategy() {
         rank() OVER (ORDER BY api_opr desc) AS api_opr_rank, 
         rank() OVER (ORDER BY api_dpr desc) AS api_dpr_rank
     FROM 
-        teamsixn_scouting_dev.  _team_score_avg_rankings vmtsar 
+        teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
     where 
         frc_season_master_sm_year = 2023 and 
         competition_master_cm_event_code = ${gameConstants.COMP} and 
