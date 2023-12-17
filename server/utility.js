@@ -1,32 +1,21 @@
 const database = require("./database/database.js")
 const log = true
-
-function rank(arr) {
-    const arraySorted = arr.slice().sort((a, b) => b - a)
-    return arr.map(v => {
-        return arraySorted.indexOf(v)
-    })
-}
+const SQL = require('sql-template-strings')
 
 function arrAvg(...args) {
     return args.reduce((total, val) => total+val)/args.length
 }
 
-function consoleLog(arg) {
-    if (toString(arg).indexOf("frc_season_master_sm_year") != -1) {
-        console.log("\nFOUND THE MASSIVE PRINT STATEMENT: ")
-        console.trace()
-        return
-    }
+function consoleLog(...args) {
     if (log) {
-        console.log(arg)
+        console.log(...args)
     }
 }
 
 function checkAdmin(req) {
     const username = req.cookies["username"]
     return new Promise((resolve) => {
-        database.query("SELECT um.um_admin_f FROM user_master um WHERE um.um_id = '" + username + "';", function (error, results) {
+        database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`, function (error, results) {
             if (error)
                 throw error;
 
@@ -55,5 +44,9 @@ function suggestTeam(currentAlliance, otherAlliances) {
     */
 }
 
+/*convert rowDataPAcket to array*/
+function parseData(info) {
+    return JSON.parse(JSON.stringify(info))
+}
 
-module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam}
+module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData}

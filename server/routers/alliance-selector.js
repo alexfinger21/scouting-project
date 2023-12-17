@@ -3,6 +3,7 @@ const express = require("express")
 const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
+const SQL = require('sql-template-strings')
 
 //returns an array where the team is substituted for the rank
 function rank(arr) {
@@ -27,9 +28,9 @@ function removeDuplicates(data) {
 function removeTeams(data, disallowedTeams) {
     for (let i = 0; i < data.length; i++) {
         if (data[i].team_master_tm_number == null || disallowedTeams.indexOf(data[i].team_master_tm_number) != -1) {
-            consoleLog(data[i].team_master_tm_number)
-            consoleLog(data[i + 1].team_master_tm_number)
-            consoleLog("deleted")
+            //consoleLog(data[i].team_master_tm_number)
+            //consoleLog(data[i + 1].team_master_tm_number)
+            //consoleLog("deleted")
             data.splice(i, 1)
             i--
         }
@@ -66,7 +67,7 @@ function sortBy(data, totalRank) {
 
         arrIndex += repeatCount
 
-        consoleLog("index - " + arrIndex)
+        //consoleLog("index - " + arrIndex)
         //consoleLog(data)
         //consoleLog(data[arrIndex])
 
@@ -85,9 +86,9 @@ function sortBy(data, totalRank) {
 }
 
 router.get("/", function (req, res) { //only gets used if the url == alliance-selector
-    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
+    database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
         data = JSON.parse(JSON.stringify(data))
-        consoleLog("ALLIANCE SELECTOR DATA")
+        //consoleLog("ALLIANCE SELECTOR DATA")
         //consoleLog(data)
         res.render("alliance-selector", {
             data: data
@@ -98,14 +99,14 @@ router.get("/", function (req, res) { //only gets used if the url == alliance-se
 router.post("/", function (req, res) {
     const body = req.body
 
-    database.query(`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
+    database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
         data = JSON.parse(JSON.stringify(data))
         let disallowedTeams = []
         for (const e of data) {
             disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
         }
 
-        database.query(`SELECT
+        database.query(SQL`SELECT
              vmtsar.frc_season_master_sm_year,
               vmtsar.team_master_tm_number, 
               vmtsar.api_rank, 
@@ -117,13 +118,13 @@ router.post("/", function (req, res) {
              teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar
          WHERE
              vmtsar.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-             vmtsar.competition_master_cm_event_code = '${gameConstants.COMP}' AND
-             vmtsar.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';`,
+             vmtsar.competition_master_cm_event_code = ${gameConstants.COMP} AND
+             vmtsar.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`,
             (err, data) => {
                 data = Array.from(JSON.parse(JSON.stringify(data)))
 
-                consoleLog("Alliance Selector Input: ")
-                consoleLog(data)
+                //consoleLog("Alliance Selector Input: ")
+                //consoleLog(data)
 
                 //remove do not pick list from the data
                 removeTeams(data, disallowedTeams)
@@ -158,17 +159,61 @@ router.post("/", function (req, res) {
                     }
                 }
 
-                for (let i = 0; i<totalRank.length-1; ++i) {
-                    const dublicateIndex = totalRank.indexOf(totalCSRank[i], i+1)
+                const ogData = data.slice()
+                //consoleLog(ogData)
+                for (let i = 0; i < totalRank.length - 1; ++i) {
+                    const dublicateIndex = totalRank.indexOf(totalRank[i], i + 1)
                     if (dublicateIndex != -1) {
                         //Priority order: Game score is most important, then links, then charge station
-
-                        if (data[i].avg_gm_score >= data[dublicateIndex]) {
+                        if (data[i].avg_gm_score < data[dublicateIndex].avg_gm_score) {
                             //if order doesn't match up, swap the values    
-                            const dataCP = data[i].slice()
+                            const dataCP = {}
+                            Object.assign(dataCP, data[i])
                             data[i] = data[dublicateIndex]
                             data[dublicateIndex] = dataCP
+                            continue
+                        } else if (data[i].avg_gm_score != data[dublicateIndex].avg_gm_score) {
+                            continue
                         }
+                        if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
+                            //if order doesn't match up, swap the values    
+                            const dataCP = {}
+                            Object.assign(dataCP, data[i])
+                            data[i] = data[dublicateIndex]
+                            data[dublicateIndex] = dataCP
+                            continue
+                        } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
+                            continue
+                        }
+
+                        if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
+                            //if order doesn't match up, swap the values    
+                            const dataCP = {}
+                            Object.assign(dataCP, data[i])
+                            data[i] = data[dublicateIndex]
+                            data[dublicateIndex] = dataCP
+                            continue
+                        } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
+                            continue
+                        }
+
+                        if (totalCSRank[i] < totalCSRank[dublicateIndex]) {
+                            //if order doesn't match up, swap the values    
+                            const dataCP = {}
+                            Object.assign(dataCP, data[i])
+                            data[i] = data[dublicateIndex]
+                            data[dublicateIndex] = dataCP
+                            continue
+                        }
+                    }
+                }
+
+                let dublicateCount = 0
+                for (const [i, v] of Object.entries(ogData)) {
+                    if (data[i] != v) {
+                        ++dublicateCount
+                        consoleLog("found word - " + dublicateCount)
+                        consoleLog(data[i], v)
                     }
                 }
 

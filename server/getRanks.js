@@ -121,8 +121,6 @@ function bigLoop() {
         
         }
 
-        console.log("GRR")
-
     })
 }
 
