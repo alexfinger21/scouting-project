@@ -68,7 +68,7 @@ router.post("/", async function (req, res) {
         um_id = ${body.username};`)
 
 
-        sessionResult = sessionResult[0].um_session_id.indexOf(',') != -1 ? sessionResult[0].um_session_id.split(',') : [sessionResult[0].um_session_id]
+        sessionResult = sessionResult[0].um_session_id ? (sessionResult[0].um_session_id.indexOf(',') != -1 ? sessionResult[0].um_session_id.split(',') : [sessionResult[0].um_session_id]) : []
 
         consoleLog("success for " + body.username)
         //const sessionId = decodeURI(crypto.randomBytes(32).toString())
