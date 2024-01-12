@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strategy Charts</title>
+</head>
+<style>
+    body {
+        overflow: hidden;
+    }
+
+    h1 {
+        width: 100%;
+        text-align: center;
+    }
+    div {
+        display: inline-block
+    }
+
+    canvas {
+        max-width: 40vw
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    details {
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        padding: 0.5em 0.5em 0;
+    }
+
+    summary {
+        font-weight: bold;
+        margin: -0.5em -0.5em 0;
+        padding: 0.5em;
+    }
+
+    details[open] {
+        padding: 0.5em;
+    }
+
+    details[open] summary {
+        border-bottom: 1px solid #aaa;
+        margin-bottom: 0.5em;
+    }
+
+    #split-view-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100vw;
+        height: 80vh;
+        overflow: hidden;
+        overflow-x:hidden;
+    }
+
+    #split-view-divider {
+        width: 2px;
+        height: 100%;
+        background-color: #aaa;
+        margin-left: 2vw;
+        margin-right: 2vw;
+    }
+
+    .split-view {
+        width: 47%;
+        height: 80%;
+    }
+
+    .scroller {
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    td {border: 1px solid black;}
+    td:first-child {background-color: yellow;}
+</style>
+
+<body>
+    <h1>Charts</h1>
+    
+
+    <div id="split-view-container">
+        <div class="split-view">
+            <h3>Strategy Comparison</h1>
+            <details>
+                <summary>Key:</summary>
+                <ul>
+                    <pre>
+                        <li><mark style="background-color:rgb(0,255,0);">  </mark> : 2 RNKPNT (not tracking this every year)</li>
+                        <li><mark style="background-color:rgb(255, 255, 0);">  </mark> : 1 RNKPNT</li>
+                        <li><mark style="background-color:rgb(255,0,0);">  </mark> : 0 RNKPNT</li>
+                    </pre>
+                </ul>
+            </details>
+            <div class="scroller">
+                    <div style="display:block;">
+                        <canvas id="psChart"></canvas>
+                        <canvas id="piecesscoredchart"></canvas> <!--Total Score-Scenario Chart-->
+                        <p>Note that the color indicator for this graph is inaccurate b/c the points overlap.
+                        <canvas id="scenarioChart"></canvas> <!--Pieces vs Total Score-->
+                        <p id="shiftkey"></p>
+                        <canvas id="rnkpntChart"></canvas> <!--Ranking points vs Scenario id-->
+                    </div>
+            </div>
+        </div>
+        <div id="split-view-divider"></div>
+        <div class="split-view">
+            <h3>Selected Scenario</h3>
+            <div class="scroller">
+                <p id="tooltip"></p>
+                <div style="display:block">
+                    <canvas id="psotchart"></canvas>
+                    <canvas id="myChart"></canvas>
+                    <table id="table_id">
+                        <tr id="tr0"><td>Elapsed Time</td></tr>
+                        <tr id="tr1"><td>Time Left</td></tr>
+                        <tr id="tr2"><td>Event</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>-->
+    <script>
+        //even w/out counting stealing (if the opponent robots don't have ground intake), heavy defense will occur during scoring and will be able to drop the number of points scored in the amp to be at max two only when the opponents give a 5-second pin assuming we manage to score a piece each 2.5 seconds
+        
+        //add score into table
+        
+        //qual version w/ traps, balance, atain co-op, and includes amplifications
+        //non-qual version (if made) will prioritize traps over amp speaker things and won't have co-op
+
+        //program lacks the fact that there will be game pieces in the center of the field that are closer at the begginging of teleop
+
+        //If you want to add in another time estimation array look at lines 172-194, and all the uses of the following functions: balance, scorepiece, plus all the uses of scenarioaction and scenariotimes.
+        //Also, will need to look up all the tooltip functions for the strategy comparison charts.
+        
+        //whenever everything is zero rnkpoints, for some reason, the rnkpoint chart doesn't display
+        
+        //to get rnkpoint for 10 onstage points, must get one note in trap and balance
+        
+        //might need to add in seperate times for the different scoring locations
+
+        //when to go for amp and when not to?
+        //If one piece can be scored in the 10 seconds (automatic b/c you only have to press the button when you're ready), the robot will be able to score 2 amps and a speaker in the time it takes to score three speakers (assumption w/out proof). This turns out to be seven points versus six points, and could be more b/c the alliance members also have to score. This means it is worth it to score the two amps and then the speaker assuming there is enough time
+        //if amp count is 0 and don't have enough time for  3 amps, go for speaker
+
+        //may need to change the auton move part of cycle into two different types
+        
+        //piecesscored doesn't count the trap piece as that doesn't contribute to a rnkpoint
+
+        //will need to not score for amps and stuff closer to endgame
+
+        const dolinkshappeninthisgame = false;
+        const linkthresholdprogression = [];//leave this empty unless the links[1] is changing (links[1] is in the for-loop and represents how many pieces makes a link) like in the game steamworks
+        //for the steamship game, const linkthresholdprogression=[1,2,3,4,5];
+        //for any of the following time arrays and the grabamount array, the first index must have the smallest value, and the last index must have the largest value
+        //points array are order as [points for auton, points for teleop]
+        //time arrays
+        const balancingtime = [5,6,7,8];
+        const pointsforbalancing = [0, 3];
+        const placetime = [ 1.5, 2,2.5,3];
+        const pointsforbestscorer = [5, 2];//speaker
+        const pointsforokscorer = [2, 1];//amp
+        const pickuptime = [1];
+        const autonmovepartofcycle = [2,3,4];//of closer pieces (not the ones on the centerline since the robot won't be that fast anyways)
+        const movepartofcycle = [7.5, 10,11, 12];//if the game is pick & place and the goals take different times to travel to, estimate the average travel time
+        const autonPieceLimit = 1;
+        const pointsformobility = 2;
+        const grabamount = [1];//for games where you can grab more than one piece, this is the estimated average pieces grabbed. this must be a whole number
+        const holdPieceLimit = 1;
+        const piecesscoredforrnkpnt = [15, 0];//assuming coop; must set this to 0 or Infinity in games where this doesn't exist
+        const fractionofmovementtorestock = [1/2];
+        const pointsfortrap = [5,5];
+        //for charts
+        const scenariospoints = [];//looks like this: [{x:time,y:points},...] & this contains multiple coordinate pairs for each scenario
+        const piecesscoredovertime = [];//like the scenariospoints array except the y-values track the pieces scored instead
+        const rnkValues = [];//looks like this: [{x:1stScenarioInTheScenarioTree,y: #ofRnkPnts from links},...{x:lastScenarioInTheScenarioTree,y: #ofRnkPnts from links}] 
+        const piecesoverscenarios = [];//like rnkValues except the y-properties show pieces scored
+        const totalscores = [];//like rnkValues except the y-properties show the totalscores
+        const allinclusivescenariodata = [];//like rnkValues except the y-properties are pieces scored and the x-properties show the totalscores
+        const color = [];//looks like this: ["rgb(color for 1stScenarioInTheScenarioTree)",..."rgb(color for lastScenarioInTheScenarioTree)"] 
+        const xyValues = [];//this is for a single scenario & looks like this: [{x:score,y:time},...]
+        const psotValues = [];//looks like xyValues except x-property is pieces scored
+        const scenarioaction = [];
+        const scenariotimes = [];
+        const pointsclicked = [];
+        const zeroindicespointsclicked = [];
+        //make a scenario to be represented by two data types, a string and integer
+        //this needs to be done b/c the chart can't use a string for numbers on an axis & the human has no idea what the number is
+        //define some scenario related variables
+        const allthelengthsbesidesbalance = placetime.length * pickuptime.length * autonmovepartofcycle.length * movepartofcycle.length * grabamount.length* fractionofmovementtorestock.length;
+        const allthelengthsbesidesbalanceandplace = pickuptime.length * autonmovepartofcycle.length * movepartofcycle.length * grabamount.length* fractionofmovementtorestock.length;
+        const allthelengthsbesidesbalanceandplaceandpickup = autonmovepartofcycle.length * movepartofcycle.length * grabamount.length* fractionofmovementtorestock.length;
+        const lengthsofmovepartofcycleandgrabamountandtraps = movepartofcycle.length * grabamount.length * fractionofmovementtorestock.length;
+        const lengthsofmovepartofcycleandgrabamount = movepartofcycle.length * grabamount.length;
+        //turn a string that represents the indices in the scenario tree below into a number
+        const encodescenario = (a) =>
+            a.charAt(0) * allthelengthsbesidesbalance +
+            a.charAt(1) * allthelengthsbesidesbalanceandplace +
+            a.charAt(2) * allthelengthsbesidesbalanceandplaceandpickup +
+            a.charAt(3) * lengthsofmovepartofcycleandgrabamountandtraps +
+            a.charAt(4) * lengthsofmovepartofcycleandgrabamount +
+            a.charAt(5) * grabamount.length +
+            a.charAt(6) * 1//the multiplication by one switches the type from string to number so that the a.charAt(4) is added instead of concatenated
+        ;
+        //the following function undoes the encodescenario function by converting a scenario from the number format into the string format
+        const decodescenario = (a) =>
+            "" +
+            Math.floor(a / allthelengthsbesidesbalance) +
+            Math.floor(a % allthelengthsbesidesbalance / allthelengthsbesidesbalanceandplace) +
+            Math.floor(a % allthelengthsbesidesbalance % allthelengthsbesidesbalanceandplace / allthelengthsbesidesbalanceandplaceandpickup) +
+            Math.floor(a % allthelengthsbesidesbalance % allthelengthsbesidesbalanceandplace % allthelengthsbesidesbalanceandplaceandpickup / lengthsofmovepartofcycleandgrabamountandtraps) +
+            Math.floor(a % allthelengthsbesidesbalance % allthelengthsbesidesbalanceandplace % allthelengthsbesidesbalanceandplaceandpickup % lengthsofmovepartofcycleandgrabamountandtraps / lengthsofmovepartofcycleandgrabamount) +
+            Math.floor(a % allthelengthsbesidesbalance % allthelengthsbesidesbalanceandplace % allthelengthsbesidesbalanceandplaceandpickup % lengthsofmovepartofcycleandgrabamountandtraps % lengthsofmovepartofcycleandgrabamount / grabamount.length) +
+            a % allthelengthsbesidesbalance % allthelengthsbesidesbalanceandplace % allthelengthsbesidesbalanceandplaceandpickup % lengthsofmovepartofcycleandgrabamountandtraps % lengthsofmovepartofcycleandgrabamount % grabamount.length
+        ;
+
+        
+        //create a scenario tree, but start by defining variables to use during the iterations
+        const scenario = { text:"speaker", points: 0, time: 150, piecesscoredinamps: -1, mode: "enough",z:0 };
+            let piecesscored = [], holdingpiece = [], links = [];
+            for (let i in balancingtime) {
+                for (let j in placetime) {
+                    for (let k in pickuptime) {
+                        for (let l in autonmovepartofcycle) {
+                            for (let o in fractionofmovementtorestock) {      
+                                for (let m in movepartofcycle) {
+                                    for (let n in grabamount) {
+                                    //initialize the variables
+                                    links = [dolinkshappeninthisgame, 4, 4, 4, 0];//first value is to see if links exist, the second value is how many pieces one needs for a link, and the 3rd value is the points for getting a link during auton and the 4th value is the points during teleop; for the steamship game, the gears should should be the bestscoring method that makes 0 points, but this array will be [true,1,60,40], and whenever we get the threshold the game, we will have to update the second value
+                                    //links has a fith value set to 0 to keep track of what threshold the bot is up to
+                                    piecesscored[0] = 0;
+                                    holdingpiece[0] = 1;//start w/ holding one piece
+                                    //holdingpiece[0]=1;//for a 2nd game piece
+                                    scenario.time = 150; //seconds left in the game
+                                    scenario.points = pointsformobility;//will always strive to make a robot that can get the mobility points
+                                    scenario.mode = "enough";
+                                    scenario.mode = "speaker";
+                                    scenario.z = 3;
+                                    piecesscored[0] = 3;
+                                    //auton
+                                    
+                                    //if there's time to balance and score...
+                                    if (scenario.time - placetime[j] - balancingtime[i] * (pointsforbalancing[0] > 0) >= 135) {
+                                        //place pieces during auton
+                                        while (scenario.time - placetime[j] - balancingtime[i] * (pointsforbalancing[0] > 0) >= 135 && piecesscored[0] < autonPieceLimit) {
+                                            scorepiece(0, i, j, k, l, m, n,o);
+                                            if (scenario.time - autonmovepartofcycle[l] / 2 - pickuptime[k] >= 135) {//the autonmovepartofcycle[l] is divided by two b/c the bot only travels to pick up game pices, not also back 
+                                                scenario.time -= autonmovepartofcycle[l] / 2 + pickuptime[k];
+                                                holdingpiece[0] += grabamount[n];
+                                                if (piecesscored[0] + holdingpiece[0] > autonPieceLimit) { holdingpiece[0] = autonPieceLimit - piecesscored[0] }//prevents holding more pieces than allowed given the autonPieceLimit and the pieces already scored: this is needed in a game where you can pick up more than one piece at a time
+                                                if (scenario.time - autonmovepartofcycle[l] / 2 - placetime[j] - balancingtime[i] * (pointsforbalancing[0] > 0) >= 135) { scenario.time -= autonmovepartofcycle[l] / 2; }
+                                                else if (pointsforbalancing[0] > 0) {//balance if auton-balance is allowed
+                                                    scenario.time = 135 + balancingtime[i] * (pointsforbalancing[0] > 0);
+                                                    balance(0, i,j,k,l,m,n,o);
+                                                }
+                                                else { scenario.time = 135; }
+                                            }
+                                        }
+                                    }
+                                    else if (pointsforbalancing[0] > 0) { balance(0, i,j,k,l,m,n,o); }//balance if auton-balance is allowed
+                                    //teleop
+                                    scenario.text="amp";
+                                    scenario.time = 135;
+                                    scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + "start of teleop;";
+                                    scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] = (scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + "135;";
+                                    // if holding pieces at beginning of teleop
+                                    if (holdingpiece[0] > 0) { scorepiece(1,i, j, k,l, m,n,o, 1); ++scenario.piecesscoredinamps;}//this doesn't count the time it takes to go from the charge station into the grid, which is bad for games when the place where mobility points are awarded is far away from a goal
+                                    //subtract time to go to centerfield
+                                    scenario.time-=movepartofcycle[m]*(1-fractionofmovementtorestock[o])/2;
+                                    //subtract pickup & shoot and move/2 when gather a piece
+                                    //when score a piece, subtract pickup & shoot besides the first piece which is already held and
+                                    //when scoring pieces, time it will take is move/4 + pickup*(z-1)+place*z
+                                    //time it will take to score z+1 pieces is move/2 + pickup*(z)+place*(z+1)+gather time
+                                    //that equals move/2 + pickup*(z+1)+place*(z+1) + & shoot and move/2
+                                    //either neglected move or place
+                                    while (scenario.time - movepartofcycle[m]*(1-fractionofmovementtorestock[o])/2-movepartofcycle[m]*fractionofmovementtorestock[o] - (scenario.z+1)*(placetime[j]+pickuptime[k]) - balancingtime[i]>=movepartofcycle[m]*(fractionofmovementtorestock[o])/2) {//if we want the program to see how much slower we can be w/out worsening score changing the 0 in ">=0" to some other number is a start.
+                                        ++scenario.piecesscoredinamps;
+                                        holdingpiece[0] += grabamount[n];
+                                        scorepiece(1,i, j, k,l, m,n,o);
+                                    }
+                                    //endgame
+                                    //remove trap
+                                    //if coop, need to remove the coop note
+                                    scenario.z-=1;
+                                    
+                                    
+                                    //already holding one and need to move back
+                                    scenario.time+=pickuptime[k]-movepartofcycle[m]*(1-fractionofmovementtorestock[o])/2;
+                                    //piecesscored wrongly includes the trap piece
+                                    //doesn't score coop yet
+                                    
+                                    while (scenario.z >= 3) {
+                                        for(let d=0;d<2;d++){
+                                            scenario.points+=1;
+                                            scenario.time-=pickuptime[k]+placetime[j];
+                                            scenario.z-=1;
+                                            scenariospoints.push({ x: 150 - scenario.time, y: scenario.points });
+                                            piecesscoredovertime.push({ x: 150 - scenario.time, y: piecesscored[0] });
+                                            scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + "scored amp;";
+                                            scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] = (scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + scenario.time+";";
+                                        }
+                                        for(let d=0;d<Math.floor(10/(pickuptime[k]+placetime[j]));d++){
+                                            if(scenario.z){
+                                                scenario.points+=5;
+                                                scenario.time-=pickuptime[k]+placetime[j];
+                                                --scenario.z;
+                                                scenariospoints.push({ x: 150 - scenario.time, y: scenario.points });
+                                                piecesscoredovertime.push({ x: 150 - scenario.time, y: piecesscored[0] });
+                                                scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + "scored speaker;";
+                                                scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] = (scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + scenario.time+";";         
+                                            }
+                                        }
+                                    }
+                                    while(scenario.z>0){
+                                        --scenario.z;
+                                        scenario.points+=pointsforbestscorer[1];
+                                        scenario.time-=pickuptime[k]+placetime[j];
+                                        scenariospoints.push({ x: 150 - scenario.time, y: scenario.points });
+                                        piecesscoredovertime.push({ x: 150 - scenario.time, y: piecesscored[0] });
+                                        scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + "scored speaker;";
+                                        scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] = (scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + scenario.time+";";
+                                    }
+
+                                    balance(1, i,j,k,l,m,n,o);
+                                    scenario.time-=placetime[j]+pickuptime[k];
+                                    scenario.points+=pointsfortrap[1];
+                                    scenariospoints.push({ x: 150 - scenario.time, y: scenario.points });
+                                    scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + "scoredtrap;";
+                                    scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] = (scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + scenario.time+";";
+
+                                    //push chart values that have scenarios as a dimension
+                                    const x = encodescenario("" + i + j + k + l + o + m + n);
+                                    if (piecesscored[0] >= piecesscoredforrnkpnt[0] && piecesscoredforrnkpnt[0] && piecesscored[1] >= piecesscoredforrnkpnt[1] && piecesscoredforrnkpnt[1]) {
+                                        rnkValues.push({ x: x, y: 2 });
+                                        color.push("rgb(0,255,0)");
+                                    }
+                                    else if ((piecesscored[0] >= piecesscoredforrnkpnt[0] && piecesscoredforrnkpnt[0]) || (piecesscored[1] >= piecesscoredforrnkpnt[1] && piecesscoredforrnkpnt[1])) {
+                                        rnkValues.push({ x: x, y: 1 });
+                                        color.push("rgb(255,255,0)");
+                                    }
+                                    else {
+                                        rnkValues.push({ x: x, y: 0 });
+                                        color.push("rgb(255,0,0)");
+                                    }
+                                    
+                                    totalscores.push({ x: x, y: scenario.points });
+                                    piecesoverscenarios.push({ x: x, y: piecesscored[0] });
+                                    allinclusivescenariodata.push({ x: scenario.points, y: piecesscored[0], scenario: x })
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        //Figure out which scenario each set of scatter points belongs to by defining the endpoints of each scenaraio i.e. where one scenario stops and a new one starts.
+        //To define where the endpoints will appear, loop through each value in the scenariospoints, which holds coordinate points for everytime the bot scores points for each scenario.
+        //When the points-value (aka y-property) of one coordinate pair is less than the points of another coordinate pair, there must be a new scenario.
+        const endpoints = [-1];//its -1 b/c it's the ending-point in a scenario where nothing happens: it was done like this so the next scenario starts w/ zero (-1+1=0). I added one b/c the endpoint of one scenario is 1 plus the startpoint of another scenario.
+        for (let i = 0; i < scenariospoints.length - 1; i++) {
+            if (scenariospoints[i].x > scenariospoints[i + 1].x) { endpoints.push(i); }
+        }
+        endpoints.push(scenariospoints.length);
+        //do the same for the pieces scored-time chart
+        const endpointsofpsotValues = [-1];
+        for (let i = 0; i < piecesscoredovertime.length - 1; i++) {
+            if (piecesscoredovertime[i].x > piecesscoredovertime[i + 1].x) { endpointsofpsotValues.push(i); }
+        }
+        endpointsofpsotValues.push(piecesscoredovertime.length);
+
+
+        //create data arrays that will be used for the all inclusive chart's tooltip
+        const groupsofpoints = [];
+        const coordinatesofgroups = [];
+        for (let i in allinclusivescenariodata) {
+            const coordinates = allinclusivescenariodata[i].x + ";" + allinclusivescenariodata[i].y;
+            //If the coordinates already exists in coordinatesofgroups, then just need to add these coordinates to the list. Otherwise, need to create the said array before pushing it into the array.
+            if (coordinatesofgroups.includes(coordinates)) { groupsofpoints[coordinatesofgroups.indexOf(coordinates)].push(decodescenario(i)); }
+            else {
+                groupsofpoints.push([decodescenario(i)]);
+                coordinatesofgroups.push(coordinates);
+            }
+        }
+        const zeroindices = [];
+        const maxs = [];
+        const mins = [];
+
+        for (let i of groupsofpoints) {
+            zeroindices.push(i[0]);
+            const min = [Infinity, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity];
+            const max = [-Infinity, -Infinity, -Infinity, -Infinity, -Infinity, -Infinity, -Infinity];
+            
+            for (let j of i) {
+                for (let scenarioattribute = 0; scenarioattribute < 6; ++scenarioattribute) {
+                    if (j[scenarioattribute] < min[scenarioattribute]) {
+                        min[scenarioattribute] = j[scenarioattribute];
+                    }
+                    if (j[scenarioattribute] > max[scenarioattribute]) {
+                        max[scenarioattribute] = j[scenarioattribute];
+                    }
+                }
+            }
+            maxs.push(max);
+            mins.push(min);
+        }
+//document.write(maxs);
+
+
+        //load charts
+        updatedata(0);
+        window.addEventListener("load", function (e) { //only initialize chart once window loads completely to avoid context issues
+            const scenariochart = new Chart("scenarioChart", {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        pointRadius: 4,
+                        pointBackgroundColor: color,
+                        data: allinclusivescenariodata
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Pieces Scored - Total Score'
+                    },
+                    tooltips: {
+                        bodyFontStyle: "bold",
+                        footerFontStyle: "normal",
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                //if this is the first point in a group, than activate all the details for that group
+                                const scenario = decodescenario(tooltipItem.index);
+                                if (zeroindices.includes(scenario)) {
+                                    document.getElementById("tooltip").innerHTML = "";
+                                    for (let i of groupsofpoints[zeroindices.indexOf(scenario)]) {
+                                        const detail = document.createElement("details");
+                                        document.getElementById("tooltip").appendChild(detail);
+                                        detail.innerHTML = "<summary>" + i + "</summary>" +
+                                            "Balance (s): " + balancingtime[i.charAt(0)] + "<br>" +
+                                            "Place (s): " + placetime[i.charAt(1)] + "<br>" +
+                                            "Pickup (s): " + pickuptime[i.charAt(2)] + "<br>" +
+                                            "Autonmovepartofcycle (s): " + autonmovepartofcycle[i.charAt(3)] + "<br>" +
+                                            "fractionofmovementtorestock (s) " + fractionofmovementtorestock[i.charAt(4)] + "<br>" +                                            
+                                            "Movepartofcycle (s): " + movepartofcycle[i.charAt(5)] + "<br>" +
+                                            "Grabamount (pieces on average): " + grabamount[i.charAt(6)]
+                                            ;
+                                    }
+                                }
+                            },
+                            //When points overlap, can only have one footer, but multiple labels.
+                            footer: function (tooltipItems, data) {
+                                return [
+                                    "Total Score: " + allinclusivescenariodata[tooltipItems[0].index].x,
+                                    "Pieces Scored: " + allinclusivescenariodata[tooltipItems[0].index].y,
+                                    "Scenarios that exist: " + groupsofpoints[zeroindices.indexOf(decodescenario(tooltipItems[0].index))].length 
+                                ];
+                            }
+                        }
+                    },
+                    onClick: function (evt) {
+                        if (event.shiftKey) {
+                            
+                            /*const element = scenariochart.getElementAtEvent(evt);
+                            if (element.length > 0) {
+                                const ind = element[0]._index;
+                                if(!zeroindicespointsclicked.includes(ind)){//if not already included
+                                    zeroindicespointsclicked.push(ind);
+                                    //somehow maybe highlight it?
+                                    
+                                    pointsclicked.push([]);
+                                    for(let i of groupsofpoints[ind]){
+                                       pointsclicked[pointsclicked.length-1].push(i);
+                                    }
+                                    document.getElementById("shiftkey").innerHTML=pointsclicked;
+                                }
+                                else{
+                                    pointsclicked.splice(zeroindicespointsclicked.indexOf(ind));
+                                    zeroindicespointsclicked.splice(zeroindicespointsclicked.indexOf(ind));
+                                    document.getElementById("shiftkey").innerHTML=pointsclicked;
+                                }
+                            }*/
+                        }
+                        else {
+                            zeroindicespointsclicked.splice(0,zeroindicespointsclicked.length);
+                            pointsclicked.splice(0,pointsclicked.length);
+                            document.getElementById("shiftkey").innerHTML="";
+                            const element = scenariochart.getElementAtEvent(evt);
+                            if (element.length > 0) {
+                                const ind = element[0]._index;
+                                if (confirm('Do you want to see this scenario?')) {
+                                    updatedata(ind);
+                                    psotchart.update();
+                                    scoretimechart.update();
+                                }
+                            }
+                        }
+                        
+                    },
+                    legend: { display: false },
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Total Score",
+                            },
+                            ticks: {
+                                min: allinclusivescenariodata[allinclusivescenariodata.length - 1].x,
+                                max: allinclusivescenariodata[0].x,
+                            }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Pieces Scored",
+                            },
+                            ticks: {
+                                min: allinclusivescenariodata[allinclusivescenariodata.length - 1].y,
+                                max: allinclusivescenariodata[0].y,
+                            }
+                        }],
+                    }
+                }
+            });
+            const rnkpntchart = new Chart("rnkpntChart", {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        pointRadius: 4,
+                        pointBackgroundColor: color,
+                        data: rnkValues
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'RANK POINTS FROM PIECESSCORED - SCENARIO'
+                    },
+                    tooltips: {
+                        bodyFontStyle: "bold",
+                        footerFontStyle: "normal",
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                if (rnkValues[tooltipItem.index].y === 0) { return "0"; }//there was a bug where if it was 0, then nothing it wouldn't show this
+                                return rnkValues[tooltipItem.index].y;
+                            },
+                            //color does not appear before the footer
+                            footer: function (tooltipItems, data) {
+                                return [
+                                    "Balance (s): " + balancingtime[decodescenario(tooltipItems[0].index).charAt(0)],
+                                    "Place (s): " + placetime[decodescenario(tooltipItems[0].index).charAt(1)],
+                                    "Pickup (s): " + pickuptime[decodescenario(tooltipItems[0].index).charAt(2)],
+                                    "Autonmovepartofcycle (s): " + autonmovepartofcycle[decodescenario(tooltipItems[0].index).charAt(3)],
+                                    "fractionofmovementtorestock (s) " + fractionofmovementtorestock[decodescenario(tooltipItems[0].index).charAt(4)],
+                                    "Movepartofcycle (s): " + movepartofcycle[decodescenario(tooltipItems[0].index).charAt(5)],
+                                    "Grabamount (pieces on average): " + grabamount[decodescenario(tooltipItems[0].index).charAt(6)]
+                                ];
+                            }
+                        }
+                    },
+                    onClick: function (evt) {
+                        var element = rnkpntchart.getElementAtEvent(evt);
+                        if (element.length > 0) {
+                            var ind = element[0]._index;
+                            if (confirm('Do you want to see this scenario?')) {
+                                updatedata(ind);
+                                psotchart.update();
+                                scoretimechart.update();
+                            }
+                        }
+                    },
+                    legend: { display: false },
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Scenarios Encoded",
+                            },
+                            ticks: { min: 0, max: balancingtime.length * allthelengthsbesidesbalance - 1 }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Rank Points From Links",
+                            },
+                            ticks: { min: 0, max: rnkValues[0].y, stepSize: 1 }
+                        }],
+                    }
+                }
+            });
+            const pschart = new Chart("psChart", {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        pointRadius: 4,
+                        pointBackgroundColor: color,
+                        data: totalscores
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'TOTAL SCORE - SCENARIO'
+                    },
+                    tooltips: {
+                        bodyFontStyle: "bold",
+                        footerFontStyle: "normal",
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return totalscores[tooltipItem.index].y;
+                            },
+                            //color does not appear before the footer
+                            footer: function (tooltipItems, data) {
+                                return [
+                                    "Balance (s): " + balancingtime[decodescenario(tooltipItems[0].index).charAt(0)],
+                                    "Place (s): " + placetime[decodescenario(tooltipItems[0].index).charAt(1)],
+                                    "Pickup (s): " + pickuptime[decodescenario(tooltipItems[0].index).charAt(2)],
+                                    "Autonmovepartofcycle (s): " + autonmovepartofcycle[decodescenario(tooltipItems[0].index).charAt(3)],
+                                    "fractionofmovementtorestock (s) " + fractionofmovementtorestock[decodescenario(tooltipItems[0].index).charAt(4)],
+                                    "Movepartofcycle (s): " + movepartofcycle[decodescenario(tooltipItems[0].index).charAt(5)],
+                                    "Grabamount (pieces on average): " + grabamount[decodescenario(tooltipItems[0].index).charAt(6)]
+                                ];
+                            }
+
+                        }
+                    },
+                    onClick: function (evt) {
+                        var element = pschart.getElementAtEvent(evt);
+                        if (element.length > 0) {
+                            var ind = element[0]._index;
+                            if (confirm('Do you want to see this scenario?')) {
+                                updatedata(ind);
+                                psotchart.update();
+                                scoretimechart.update();
+                            }
+                        }
+                    },
+                    legend: { display: false },
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Scenarios Encoded",
+                            },
+                            ticks: { min: 0, max: balancingtime.length * allthelengthsbesidesbalance - 1 }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Total Score",
+                            },
+                            ticks: { min: totalscores[totalscores.length - 1].y, max: totalscores[0].y }
+                        }],
+                    }
+                }
+            });
+            const piecesschart = new Chart("piecesscoredchart", {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        pointRadius: 4,
+                        pointBackgroundColor: color,
+                        data: piecesoverscenarios
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'PIECES SCORED - SCENARIO'
+                    },
+                    tooltips: {
+                        bodyFontStyle: "bold",
+                        footerFontStyle: "normal",
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return piecesoverscenarios[tooltipItem.index].y;
+                            },
+                            //color does not appear before the footer
+                            footer: function (tooltipItems, data) {
+                                return [
+                                    "Balance (s): " + balancingtime[decodescenario(tooltipItems[0].index).charAt(0)],
+                                    "Place (s): " + placetime[decodescenario(tooltipItems[0].index).charAt(1)],
+                                    "Pickup (s): " + pickuptime[decodescenario(tooltipItems[0].index).charAt(2)],
+                                    "Autonmovepartofcycle (s): " + autonmovepartofcycle[decodescenario(tooltipItems[0].index).charAt(3)],
+                                    "fractionofmovementtorestock (s) " + fractionofmovementtorestock[decodescenario(tooltipItems[0].index).charAt(4)],
+                                    "Movepartofcycle (s): " + movepartofcycle[decodescenario(tooltipItems[0].index).charAt(5)],
+                                    "Grabamount (pieces on average): " + grabamount[decodescenario(tooltipItems[0].index).charAt(6)]
+                                ];
+                            }
+
+                        }
+                    },
+                    onClick: function (evt) {
+                        var element = piecesschart.getElementAtEvent(evt);
+                        if (element.length > 0) {
+                            var ind = element[0]._index;
+                            if (confirm('Do you want to see this scenario?')) {
+                                updatedata(ind);
+                                psotchart.update();
+                                scoretimechart.update();
+                            }
+                        }
+                    },
+                    legend: { display: false },
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Scenarios Encoded",
+                            },
+                            ticks: { min: 0, max: balancingtime.length * allthelengthsbesidesbalance - 1 }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Pieces Scored",
+                            },
+                            ticks: { min: piecesoverscenarios[piecesoverscenarios.length - 1].y, max: piecesoverscenarios[0].y }
+                        }],
+                    }
+                }
+            });
+
+            const psotchart = new Chart("psotchart", {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        pointRadius: 4,
+                        pointBackgroundColor: "rgb(0,0,255)",
+                        data: psotValues
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'PIECES SCORED - TIME'
+                    },
+                    legend: { display: false },
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Time",
+                            },
+                            ticks: { min: 0, max: 150 }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Pieces Scored",
+                            },
+                            ticks: { min: 0, max: piecesoverscenarios[0].y },
+                        }],
+                    }
+                }
+            });
+            const scoretimechart = new Chart("myChart", {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        pointRadius: 4,
+                        pointBackgroundColor: "rgb(0,0,255)",
+                        data: xyValues
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'SCORE - TIME'
+                    },
+                    legend: { display: false },
+                    scales: {
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Time",
+                            },
+                            ticks: { min: 0, max: 150 }
+                        }],
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: "Score",
+                            },
+                            ticks: { min: 0, max: totalscores[0].y }
+                        }],
+                    }
+                }
+            });
+        });
+        function updatedata(scenario) {
+            for(let i in scenariotimes){
+                if(scenariotimes[i].includes("-")){
+                    document.write("problem: a scenario takes longer than 2:30");
+                }
+            }
+            let scenarioencoded = scenario;
+            if (typeof (scenario) === "string") { scenarioencoded = encodescenario(scenario); }//this will allow the "arg: scenario" to be entered in string format or integer format
+            const startpoint = endpoints[scenarioencoded] + 1;//an accessor
+            const endpoint = endpoints[scenarioencoded + 1];
+            const startpointofpsotValues = endpointsofpsotValues[scenarioencoded] + 1;//an accessor
+            const endpointofpsotValues = endpointsofpsotValues[scenarioencoded + 1];
+            //empty out the data arrays
+            xyValues.splice(0, xyValues.length);
+            psotValues.splice(0, psotValues.length);
+            //for each point in the given range, push a point to the xyValues array
+            for (let i = startpoint; i < endpoint + 1; i++) { xyValues.push(scenariospoints[i]); }
+            for (let i = startpointofpsotValues; i < endpointofpsotValues + 1; i++) { psotValues.push(piecesscoredovertime[i]); }
+            let string_copy ="";
+            
+            //delete the td's besides the first td
+            let table = document.getElementById("table_id");
+            for (let i = 0; i < table.rows.length; i++) {
+                for (let j = table.rows[i].cells.length - 1; j > 0; j--) {
+                    table.rows[i].deleteCell(j);
+                }
+            }
+
+            for(let i in scenarioaction[scenarioencoded]){string_copy+=scenarioaction[scenarioencoded][i];}
+            let loopcount=0;
+            while(string_copy.length>0){
+                if(loopcount===0){
+                    ++loopcount;
+                    let i = string_copy.indexOf(";");
+                    string_copy = string_copy.substring(i + 1);
+                }
+                else{
+                    const td = document.createElement("td");
+                    let i = string_copy.indexOf(";");
+                    td.innerText = string_copy.substring(0, i);
+                    string_copy = string_copy.substring(i + 1);
+                    document.getElementById("tr2").appendChild(td);
+                }
+            }
+            string_copy ="";
+            for(let i in scenariotimes[scenarioencoded]){string_copy+=scenariotimes[scenarioencoded][i];}
+            while(string_copy.length>0){
+                const td0 = document.createElement("td");
+                let i = string_copy.indexOf(";");
+                td0.innerText = string_copy.substring(0, i);
+                string_copy = string_copy.substring(i + 1);
+                document.getElementById("tr0").appendChild(td0);
+                
+                const td1 = document.createElement("td");
+                td1.innerText = 150 - td0.innerText;
+                document.getElementById("tr1").appendChild(td1);
+            }
+        }
+        function scorepiece(ifauton0ifteleop1,i, j, k,l, m,n,o, holdingpiecesatbeginningofteleop) {
+            piecesscored[0] += holdingpiece[0];
+            if(!ifauton0ifteleop1){
+                scenario.time -= placetime[j];
+                scenario.points += pointsforbestscorer[0] * holdingpiece[0]; 
+                holdingpiece[0] = 0;
+                scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "scored speaker;") + `scored speaker;`;
+            }
+            else{
+                if (holdingpiecesatbeginningofteleop === 1) { scenario.time -= placetime[j]; }
+                else { scenario.time -= placetime[j] + movepartofcycle[m]*fractionofmovementtorestock[o] + pickuptime[k]; ++scenario.z;}
+                holdingpiece[0] = 0;
+                scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + `collected piece;`;
+            }
+            scenariospoints.push({ x: 150 - scenario.time, y: scenario.points });
+            piecesscoredovertime.push({ x: 150 - scenario.time, y: piecesscored[0] });
+            scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] = (scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + scenario.time+";";
+        }
+        function balance(ifauton0ifteleop1, i,j,k,l,m,n,o) {
+            scenario.points += pointsforbalancing[ifauton0ifteleop1];
+            scenario.time -= balancingtime[i];
+            scenariospoints.push({ x: 150 - scenario.time, y: scenario.points });
+            scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] = (scenarioaction[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + "balance;"
+            scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] = (scenariotimes[encodescenario("" + i + j + k + l + o + m + n)] ?? "") + scenario.time+";";
+        }
+        //for next year, add a gamelogic var that tells what to score in what order e.g. [[methodone,limit],...] where the limit can be triggered upon teleop begin or piecesscored[0] or piecesscored[1]
+    </script>
+
+</body>
+
+</html>
