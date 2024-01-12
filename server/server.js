@@ -43,7 +43,7 @@ const adminPage = require(path.resolve(serverDirectory, routeDirectory, "admin-p
 const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "rankings.js"))
 const teamDetails = require(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
 const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
-
+const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
 //CONSTANTS
 
 const corsOptions = {
@@ -121,7 +121,7 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
         }
         
         const result = JSON.parse(JSON.stringify(results))[0]
-        let splitResult = result.um_session_id.split(",")
+        let splitResult = result ? result.um_session_id.split(",") : new Array()
         if (splitResult.length == 0) {
             splitResult = [result.um_session_id]
         }
@@ -176,6 +176,8 @@ app.use("/team-details", teamDetails)
 
 //ALLIANCE INPUT
 app.use("/alliance-input", allianceInput)
+
+app.use("/game-strategy", gameStrategy)
 
 //GET MATCH
 app.get("/getMatch", function (req, res) {
