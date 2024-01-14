@@ -1,0 +1,103 @@
+*{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+#match-listing-title {
+    width: 100%;
+    text-align: center;
+}
+
+#match-scroller
+{
+    display: block;
+    height: 60vh;
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: scroll;
+    scroll-behavior: smooth;
+}
+
+.no-padding {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.match-top {
+    width: 90vw;
+    margin-top: 2vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFF;
+    text-align: center;
+    border-spacing: 0;
+    overflow: hidden;
+    border-top: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-radius: 6px 6px 0 0;
+}
+
+.match-top th {
+    padding: 5px 6px;
+    text-align: center;
+}
+
+.match-bottom {
+    width:90vw;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFF;
+    text-align: center;
+    border-spacing: 0;
+    overflow: hidden;
+    border-bottom: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+    border-radius: 0 0 6px 6px;
+}
+
+.match-bottom th {
+    padding: 5px 6px;
+}
+
+.start-stop-button {
+    font-size: 2.5vh;
+    height: 3vh;
+    color: #000;
+    background-color: transparent;
+    border: 0;
+}
+
+.start-stop-button img {
+    margin-top: 4%;
+    height: 80%;
+    width: auto;
+}
+
+.match-strat-button {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border:none
+}
+
+.match-strat-button img {
+    margin-top: 4%;
+    height: 3.1vh;
+    width: auto;
+}
+
+/*for scrolling animations */
+.hidden {
+    opacity: 0;
+    transform: translateX(-10%);
+    transition: all 0.3s ease-in-out;
+}
+
+.show {
+    opacity: 1;
+    transform: translateX(0);
+}

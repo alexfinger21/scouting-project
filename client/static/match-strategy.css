@@ -1,51 +1,71 @@
-#page-holder {
-    color: #5B6671;
-}
-
 #select-match {
-    margin-top: 2vh;
+    margin-left: 8vw;
 }
 
-#stats {
-    margin-top: 2vh;
-    width: 95%;
+#available-matches {
     background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 0.5vh;
+    text-align: center;
+    font-size: 2.5vh;
+    width: 20vw;
+    border: 2px solid #5B6671;
+    border-radius: 2px;
+}
+
+#available-matches option {
     font-size: 1.8vh;
 }
 
-td, th {
+#scoring {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+    table-layout: fixed;
+    background-color: transparent;
+    border: none !important;
+    padding: 2px;
+    font-size: 2vh;
+    text-align: center;
+}
+
+#match-strategy-container {
+    width: 99.5%;
+    height: 58vh;
+    overflow: scroll;
+}
+
+.stats {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2vh;
+    width: 95%;
+    table-layout: fixed;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 1.8vh;
+}
+
+.stats td, th {
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     font-weight: normal;
+    word-wrap:break-word;
+    text-align: center;
+}
+
+.preferred-game-piece {
+    width: 5vw;
+    height: auto;
 }
 
 tr:nth-child(even) { /* copied from w3schools lol*/
     background-color: #dddddd;
 }
-
-#scoring {
-    width: 100%;
-    margin-top: 1vh;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    flex-direction: row;
-}
-
-#scoring h2 {
-    font-size: 3vh;
-    font-weight: normal;
-}
-
-#scoring h4 {
-    font-size: 2vh;
-    font-weight: normal;
-}
-
 #red-score {
     padding: 2vh;
     color:#FF2A2A;
@@ -62,28 +82,21 @@ tr:nth-child(even) { /* copied from w3schools lol*/
     font-size: 2vh;
 }
 
-.blue {
-    color: #3492EA;
-}
-
-.red {
-    color: #FF2A2A;
-}
-
 .strategy-display {
     width: 95%;
-    margin-top: 1vh;
     margin-bottom: 2vh;
+    margin-left: auto;
+    margin-right: auto;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    padding: 1.5vh;
+    padding: 1vh;
     font-size: 1.8vh;
 }
 
 .strategy-display p {
     font-size: 2vh;
-    margin-bottom: 1vh;
+    margin-bottom: 0.5vh;
 }
 
 .strategy-display p  b {

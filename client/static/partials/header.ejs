@@ -6,7 +6,12 @@
       <img id="dropdownImg" src="../static/images/dropdown.png">
     </button>
     <div id="dropdown-content">
-      <button id="match-listing">Match Listing</button>
+      <%if(isAdmin) {%>
+        <button id="admin-page-button">Admin Page</button>
+        <button id="alliance-input-button">Alliance Input</button>
+      <%}%>
+      <button id="alliance-selector-button">Alliance Selector</button>
+      <button id="team-details-button">Team Details</button>
       <a target="_blank" rel="noopener noreferrer" href="https://www.thebluealliance.com/team/695">Team Page</a>
       <a target="_blank" rel="noopener noreferrer" href="https://frc-events.firstinspires.org/team/695">Team Stats</a>
     </div>

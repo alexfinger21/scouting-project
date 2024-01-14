@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+
+    <%- include("../static/partials/header") %>
+
+        <div id="page-holder">
+            <h1 id="rankings-title">Team Rankings</h1>
+            <h3 id="rankings-subtitle" timestamp = <%=timeStamp%>>
+                <%=year%> - <%=eventCode%> - <%=timeStamp%>
+            </h3>
+            <div id="rankings-container">
+                <!--HEADINGS-->
+                <table id="headings-table">
+                    <colgroup>
+                        <col span="1" style="width: 11%">
+                        <col span="1" style="width: 11%">
+                        <col span="1" style="width: 11%">
+                        <col span="1" style="width: 34%">
+                        <col span="1" style="width: 11%">
+                        <col span="1" style="width: 11%">
+                        <col span="1" style="width: 11%">
+                    </colgroup>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team</th>
+                        <th>Games</th>
+                        <th>Win/Loss/Tie</th>
+                        <th>DQ's</th>
+                        <th>OPR</th>
+                        <th>DPR</th>
+                    </tr>
+                </table>
+                <!--BODY-->
+                <div id="rankings-scroller">
+                    <table id="rankings-table">
+                        <colgroup>
+                            <col span="1" style="width: 11%">
+                            <col span="1" style="width: 11%">
+                            <col span="1" style="width: 11%">
+                            <col span="1" style="width: 34%">
+                            <col span="1" style="width: 11%">
+                            <col span="1" style="width: 11%">
+                            <col span="1" style="width: 11%">
+                        </colgroup>
+                        <%for(let i=0; i < teamStats.length; i++) {%>
+                            <tr>
+                                <td>
+                                    <%= teamStats[i].api_rank %>
+                                </td>
+                                <td <%- `class=team${teamStats[i].team_master_tm_number}`%>>
+                                    <%= teamStats[i].team_master_tm_number%>
+                                </td>
+                                <td>
+                                    <%= teamStats[i].api_matches_played%>
+                                </td>
+                                <td>
+                                    <%= teamStats[i].api_win + "/" + teamStats[i].api_loss + "/" + teamStats[i].api_tie%>
+                                </td>
+                                <td>
+                                    <%= teamStats[i].api_dq%>
+                                </td>
+                                <td>
+                                    <%= Math.round(teamStats[i].api_opr)%>
+                                </td>
+                                <td>
+                                    <%= Math.round(teamStats[i].api_dpr)%>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </table>
+                </div>
+            </div>
+        </div>
+    <%- include("../static/partials/footer") %>
+</body>
+
+</html>

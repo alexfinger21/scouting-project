@@ -1,8 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Scouting</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+    <link rel="stylesheet" href="../static/universal.css">
+    <link rel="stylesheet" href="../static/data-collection.css">
+    <link rel="stylesheet" href="../static/team-summary.css">
+    <link rel="stylesheet" href="../static/match-strategy.css">
+    <link rel="stylesheet" href="../static/alliance-selector.css">
+    <link rel="stylesheet" href="../static/match-listing.css">
+    <link rel="stylesheet" href="../static/admin-page.css">
 
-<body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script>
+    <script type="module" src="../static/scripts/team-summary.js" defer></script>
+    <script type="module" src="../static/scripts/data-collection.js" defer></script>
+    <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
+    <script type="module" src="../static/scripts/match-listing.js" defer></script>
+</head>
+<body>
     <div id="page-holder">
+        <h1 id="match-listing-title">Matches</h1>
+        <div id="match-scroller" <%-`scroll-to=${lastPlayedMatch}`%>>
+            <% for (let i=0; i < teams.length; i++) { %>
+                <div class="match-container hidden" game_type = <%= teams[i].gm_game_type %> game_number = <%= teams[i].gm_number %>>
+                    <%if (runningMatch-1 == i) { %>
+                        <table class="match-top" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-top">
+                    <%}%>
+                        <th>
+                            <%= "Match " + (i + 1) %>
+                        </th>
+                        <th>
+                            <%= teams[i].time %>
+                        </th>
+                        <th class="no-padding">
+                            <button class="match-strat-button">
+                                <img src="../static/images/lightbulb.svg">
+                            </button>
+                        </th>
+                        <th>
+                            <%if(isAdmin) { %>
+                                <%if(runningMatch-1 == i) { %>
+                                    <div class="start-stop-button">
+                                        <img src="../static/images/stop-button.png">
+                                    </div>
+                                <% } else {%>
+                                    <div class="start-stop-button">
+                                        <img src="../static/images/play-button.png">
+                                    </div>
+                                <%}%>
+                            <% } %>
+                        </th>
+                    </table>
+                    <%if (runningMatch-1 == i) { %>
+                        <table class="match-bottom" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-bottom">
+                    <%}%>
+                    <% for (let j = 1; j <= 3; j++) { %>
+                        <th <%- `class="red team${teams[i]["r" + j + "_team_number"]}"` %> >
+                            <%= teams[i]["r" + j + "_team_number"] %>
+                        </th>
+                    <%}%>
+                    <% for (let j = 1; j <= 3; j++) { %>
+                        <th <%- `class="blue team${ teams[i]["b" + j + "_team_number"] }"` %> >
+                            <%= teams[i]["b" + j + "_team_number"] %>
+                        </th>
+                    <%}%>
+                    </table>
+                    <%if (runningMatch-1 == i) { %>
+                        <table class="match-bottom expandable" hidden="true" style="background-color:#FFF5D6">
+                    <% } else {%>
+                        <table class="match-bottom expandable" hidden="true">
+                    <%}%>
+                    <colgroup>
+                        <col span="6" style="width: 16.67%">
+                    </colgroup>
+                    <% for (let j = 1; j <= 3; j++) { %>
+                        <th <%- `class="red team${teams[i]["r" + j + "_team_number"]}"` %> >
+                            <%="1" %>
+                        </th>
+                    <%}%>
+                    <% for (let j = 1; j <= 3; j++) { %>
+                        <th <%- `class="blue team${ teams[i]["b" + j + "_team_number"] }"` %> >
+                            <%= "1" %>
+                        </th>
+                    <%}%>
+                    </table>
+                </div>
+            <% } %>
+        </div>
     </div>
 </body>

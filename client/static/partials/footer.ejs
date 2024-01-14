@@ -1,38 +1,35 @@
 <div id="footer">
     <div id="footer-wrapper">
         <div class="button-wrapper">
-            <button type="button" class="footer-page-button">
+            <button type="button" class="footer-page-button" id="match-listing-button">
+                <img class="footer-icon" src="../static/images/match-listing.png">
+                <p class="footer-subtext">Match Listing</p>
+            </button>
+        </div>
+        <div class="button-wrapper">
+            <button type="button" class="footer-page-button" id="data-collection-btn">
                 <img class="footer-icon" src="../static/images/data-collection.png">
                 <p class="footer-subtext">Data Collection</p>
             </button>
         </div>
         <div class="button-wrapper">
-            <button type="button" class="footer-page-button">
+            <button type="button" class="footer-page-button" id="match-strategy-button">
                 <img class="footer-icon" src="../static/images/match-strategy.png">
                 <p class="footer-subtext">Match Strategy</p>
             </button>
         </div>
         <div class="button-wrapper">
-            <button type="button" class="footer-page-button">
+            <button type="button" class="footer-page-button" id="team-summary-button">
                 <img class="footer-icon" src="../static/images/team-summary.png">
                 <p class="footer-subtext">Team Summary</p>
             </button>
         </div>
-        
-        <div class="button-wrapper">
-            <button type="button" class="footer-page-button">
-                <img class="footer-icon" src="../static/images/alliance-selector.png">
-                <p class="footer-subtext">Alliance Selector</p>
-            </button>
-        </div>
-        <% if (user.admin) { %>
-        <div class="button-wrapper">
-            <button type="button" class="footer-page-button">
-                <img class="footer-icon" src="../static/images/alliance-selector.png">
-                <p class="footer-subtext">Admin Page</p>
-            </button>
-        </div>
 
-        <%}%>
+        <div class="button-wrapper">
+            <button type="button" class="footer-page-button" id="team-rankings-button">
+                <img class="footer-icon" src="../static/images/rankings.svg">
+                <p class="footer-subtext">Rankings</p>
+            </button>
+        </div>
     </div>
 </div>

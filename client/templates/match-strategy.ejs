@@ -5,117 +5,333 @@
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <div id="page-holder">
         <div class="small-input-container" id="select-match">
-            <label for="select-match"><b>Select Match:</b></label>
-            <input id="available-matches" type="number" name="select-match" list="games">
-            
-            <datalist id="games">
-                <% for(let i = 0; i < matches.length; i++) { %>
-                    <option>
-                        <%= matches[i] %>
-                    </option>
+            <label id="select-match" for="select-match"><b>Select Match:</b></label>
+            <select id="available-matches" name="select-match">
+                <% for(let i = 0; i < gameNumbers.length; i++) { %>
+                    <%if(gameNumbers[i].gm_number == match) {%>
+                        <option selected>
+                            <%= gameNumbers[i].gm_number %>
+                        </option>
+                    <%} else {%>
+                        <option>
+                            <%= gameNumbers[i].gm_number %>
+                        </option>
+                    <%}%>
                 <% } %>
-            </datalist>
+            </select>
         </div>
-
-        <table id="stats">
+        
+        <table id="scoring">
+            <colgroup>
+                <col span="1" style="width:60%">
+            </colgroup>
             <tr>
-                <th>
-                      
-                </th>
-                <% for(let y = 0; y < info.teamData.length; y++) { %>
-                    <th class= <%= info.teamData[y][1] %> >
-                        <%= info.teamData[y][0] %>
-                    </th>
-                <% } %>
+                <td>Predicted Score:</td>
+                <td class="R">
+                    <%= Math.round(matchup[0].avg_gm_score + matchup[1].avg_gm_score + matchup[2].avg_gm_score) %>
+                </td>
+                <td class="B">
+                    <%= Math.round(matchup[3].avg_gm_score + matchup[4].avg_gm_score + matchup[5].avg_gm_score) %>
+                </td>
             </tr>
-            <% for(let x = 2; x < info.teamData[1].length; x++) { %>
+        </table>
+
+        <div id="match-strategy-container">
+            <!--RED TEAM TABLE-->
+            <table class="stats">
+                <colgroup>
+                    <col span="1" style="width:33%">
+                <!--HEADINGS-->
+                <tr>
+                    <th></th>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <th <%- `class="${matchup[i].gm_alliance} team${matchup[i].team_master_tm_number}"` %> >
+                            <%= matchup[i].team_master_tm_number %>
+                        </th>
+                    <% } %>
+                </tr>
+                <!--NAME-->
                 <tr>
                     <td>
-                        <% if(info.undecided) { %>
-                            <%=undecidedTableLabels[x-2]%>
-                        <% } else { %>
-                            <%= decidedTableLabels[x-2] %>
-                        <% } %>
+                        Name
                     </td>
-                    <% for(let y = 0; y < info.teamData.length; y++) { %>
-                        <td>
-                            <%=info.teamData[y][x]%>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= matchup[i].tm_name %>
+                        </th>
+                    <% } %>
+                </tr>
+                <!--RANK-->
+                <tr>
+                    <td>
+                        Rank
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%=matchup[i].api_rank%>
                         </td>
                     <% } %>
                 </tr>
-            <% } %>
-        </table>
+                <!--Win/Loss/Tie-->
+                <tr>
+                    <td>
+                        Win/Loss/Tie
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%=(matchup[i].api_win || 0) + "/" + (matchup[i].api_loss || 0) + "/" + (matchup[i].api_tie || 0)%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--GAMES PLAYED-->
+                <tr>
+                    <td>
+                        Games
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%=matchup[i].games_played || "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--AUTON CHARGE STATION-->
+                <tr>
+                    <td>
+                        Avg Auton<br>Chg Station
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].avg_auton_chg_station_score) || "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--AVG LINKS-->
+                <tr>
+                    <td>
+                        Avg Links
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <% if(matchup[i].avg_nbr_links) {%> 
+                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
+                            <%} else { %>
+                                N/A
+                            <% } %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--ENDGAME CHARGE STATION-->
+                <tr>
+                    <td>
+                        Avg Endgame<br>Chg Station
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--OPR-->
+                <tr>
+                    <td>
+                        OPR (Rank)
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--DPR-->
+                <tr>
+                    <td>
+                        DPR (Rank)
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--AVG SCORE-->
+                <tr>
+                    <td>
+                        Avg Score
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].avg_gm_score) %>
+                        </td>
+                    <% } %>
+                </tr>
+            </table>
 
-        <div id="scoring">
-            <div id="red-score">
-                <% if(info.undecided) {%>
-                    <h4>
-                        Red Team Predicted Score
-                    </h4>
-                    <h2>
-                        <%= info.redPredictedScore %>
-                    </h2>
-                <% } else { %>
-                    <h4>
-                        Red Team  Score
-                    </h4>
-                    <h2>
-                        <%= info.redScore %>
-                    </h2>
-                <% } %>
-            </div>
-    
-            <div id="blue-score">
-                <% if(info.undecided) {%>
-                    <h4>
-                        Blue Team Predicted Score
-                    </h4>
-                    <h2>
-                        <%= info.bluePredictedScore %>
-                    </h2>
-                <% } else { %>
-                    <h4>
-                        Blue Team  Score
-                    </h4>
-                    <h2">
-                        <%= info.blueScore %>
-                    </h2>
-                <% } %>
-            </div>
+            <!-------------------------------------------------------------------------------------->
+
+            <!--BLUE TEAM TABLE-->
+            <table class="stats">
+                <colgroup>
+                    <col span="1" style="width:33%">
+                <!--HEADINGS-->
+                <ktr>
+                    <th></th>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <th <%- `class="${matchup[i].gm_alliance} team${matchup[i].team_master_tm_number}"` %> >
+                            <%= matchup[i].team_master_tm_number %>
+                        </th>
+                    <% } %>
+                </tr>
+                <!--NAME-->
+                <tr>
+                    <td>
+                        Name
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%= matchup[i].tm_name %>
+                        </th>
+                    <% } %>
+                </tr>
+                <!--RANK-->
+                <tr>
+                    <td>
+                        Rank
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%=matchup[i].api_rank%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--Win/Loss/Tie-->
+                <tr>
+                    <td>
+                        Win/Loss/Tie
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%=(matchup[i].api_win || 0) + "/" + (matchup[i].api_loss || 0) + "/" + (matchup[i].api_tie || 0)%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--GAMES PLAYED-->
+                <tr>
+                    <td>
+                        Games
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%=matchup[i].games_played || "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--AUTON CHARGE STATION-->
+                <tr>
+                    <td>
+                        Avg Auton<br>Chg Station
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%=Math.round(matchup[i].avg_auton_chg_station_score) || "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--AVG LINKS-->
+                <tr>
+                    <td>
+                        Avg Links
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <% if(matchup[i].avg_nbr_links) {%> 
+                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
+                            <%} else { %>
+                                N/A
+                            <% } %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--ENDGAME CHARGE STATION-->
+                <tr>
+                    <td>
+                        Avg Endgame<br>Chg Station
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--OPR-->
+                <tr>
+                    <td>
+                        OPR (Rank)
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--DPR-->
+                <tr>
+                    <td>
+                        DPR (Rank)
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--AVG SCORE-->
+                <tr>
+                    <td>
+                        Avg Score
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].avg_gm_score) %>
+                        </td>
+                    <% } %>
+                </tr>
+            </table>
         </div>
-
+        
+        <!--
         <div class="strategy-display">
-             <!--<em> is for red text and <b> is for blue text-->
+             <!--<em> is for red text and <b> is for blue text
             <p class="strategy-header">
                 Suggested Strategy for <b>Blue Team</b>
             </p>
             <div class="strategy-divider">ㅤ</div>
             <p>
-                <%- info.blueStrategy[0] %>
+                <%#- info.blueStrategy[0] %>
             </p>
             <p>
-                <%- info.blueStrategy[1] %>
+                <%#- info.blueStrategy[1] %>
             </p>
             <p>
-                <%- info.blueStrategy[2] %>
+                <%#- info.blueStrategy[2] %>
             </p>
         </div>
 
         <div class="strategy-display">
-            <!--<em> is for red text and <b> is for blue text-->
+            <!--<em> is for red text and <b> is for blue text
            <p class="strategy-header">
                Suggested Strategy for <em>Red Team</em>
            </p>
            <div class="strategy-divider">ㅤ</div>
            <p>
-               <%- info.redStrategy[0] %>
+               <%#- info.redStrategy[0] %>
            </p>
            <p>
-               <%- info.redStrategy[1] %>
+               <%#- info.redStrategy[1] %>
            </p>
            <p>
-               <%- info.redStrategy[2] %>
+               <%#- info.redStrategy[2] %>
            </p>
        </div>
+    -->
     </div>
 </body>

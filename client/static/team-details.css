@@ -1,0 +1,134 @@
+
+#team-details-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 4vh;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid #3492ea;
+    border-radius: 1.2vh;
+}
+
+.team-details-tab {
+    flex-grow: 1;
+    height: 100%;
+    font-size: 2vh;
+    background-color: #FFF;
+    border: 0px;
+    transition: all 200ms;
+}
+
+.team-details-tab:nth-child(1) {
+    border-right: 1px solid #3492ea;
+    border-radius: 1.2vh 0px 0px 1.2vh;
+}
+.team-details-tab:nth-child(2) {
+    border-right:  1px solid #3492ea;
+}
+.team-details-tab:nth-child(3) {
+    border-radius: 0px 1.2vh 1.2vh 0px;
+}
+
+
+.team-details-tab.selected {
+    background-color: #3492ea;
+    color: #FFF;
+}
+
+.team-details-scroller {
+    margin-top: 1vh;
+    width: 95%;
+    height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#pit-data-title {
+    font-size: 2.5vh;
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.pit-data-text {
+    font-size: 2vh;
+    margin-left: 8%;
+    margin-right: 8%;
+    line-height: 3vh;
+    margin-bottom: 1vh;
+}
+
+#team-display-selection-container {
+    display: flex;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#team-display-selector {
+    background-color: #FFF;
+    text-align: center;
+    font-size: 2.5vh;
+    width: 20vw;
+    border: 2px solid #5B6671;
+    border-radius: 2px;
+}
+
+#team-pictures-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#team-picture {
+    width: 80%;
+    height: auto;
+}
+
+.team-display-table-container {
+    width: 100%;
+}
+
+.team-display-table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    width: 95%;
+    table-layout: fixed;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 1.8vh;
+}
+
+#team-display-table td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: normal;
+    word-wrap:break-word;
+    text-align: center;
+}
+
+#team-display-table thead th {
+    background-color: white;
+}
