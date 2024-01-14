@@ -130,7 +130,7 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
     //consoleLog("\nMATCH DATA: ")
     //consoleLog(matchup)
 
-    res.render("data-collection", {
+    return res.render("data-collection", {
         matches: gameNumbers,
         lastMatch: match,
         runningMatch: runningMatch,
