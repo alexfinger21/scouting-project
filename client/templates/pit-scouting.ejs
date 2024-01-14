@@ -5,7 +5,7 @@
 </head>
 <body>
 <div id="app">
-  <form action=""> 
+  <form action="/pit-scouting"> 
     <div v-for="x in inputs" :key="x.type">
       <div v-if="x.type ==='textarea'">
         <label>{{ x.question }}</label>
@@ -24,7 +24,7 @@
       <div v-if="x.type ==='file'">
       	<label>Select Files:</label>
         <br>
-        <input :type="x.type" multiple>
+        <input :type="x.type">
         <br>
       </div>
       <div v-if="x.type === 'text'||x.type === 'number'">
@@ -52,20 +52,25 @@
     data() {
       return {
         inputs: [
-          { question: '7tp97', type: 'textarea' },
-          { question: 'uoyg', type: 'number' },
-          { question: 'iugpi', type: 'text' },
-          { question: 'yogn', type: 'file' },
-          { question: 'Select an option', type: 'radio', options: ['Option 1', 'Option 2', 'Option 3'] },
-          { question: 'Select an option', type: 'checkbox', options: ['Option 1', 'Option 2', 'Option 3'] },
-          { question: ';vgyvfluyfv', type: 'select',options: ['Option 1', 'Option 2', 'Option 3'] },
+          { question: 'Team number', type: 'number' },
+          { question: 'Type of drive train', type: 'radio', options: ['Tank Drive ("skid steer", plates on both sides of wheels)', 'West Coast Drive (wheels mounted off one side of tube)', 'Swerve Drive','Other']  },
+          { question: 'Type of wheels used', type: 'checkbox', options: ["Traction","Mecanum (rollers at 45° angle)","Omni (rollers at 90° angle)","Other"] },
+          { question: 'Robot Weight', type: 'number' },//wnat to add max of 125
+          { question: 'Robot Dimension (Length in Inches) without bumpers - front to back', type: 'number' },//might need to be text
+          { question: 'Robot Dimension (Width in Inches) without bumpers - left to right', type: 'number' },//might need to be text
+          { question: 'Robot Dimension (Height in Inches) from floor to highest point on robot at the start of the match', type: 'number' },//might need to be text
+          { question: 'Drive Team Members', type: 'checkbox', options: ["One person driving and operating the robot during a match","Other"] },
+          { question: 'Hours/Weeks of Practice', type: 'text' },
+          { question: 'Picture - Full Robot', type: 'file' },
+          { question: 'Picture - Drive Train', type: 'file' },
+          { question: 'Additional Comments', type: 'textarea' },
         ]
       }
     }
   })
   app.mount('#app');
   
-//to do: questions w/ preselected values & w/ required inputs
+//to do: questions w/ preselected values & w/ required inputs, and give the "other" text
 </script>
 </body>
 </html>
