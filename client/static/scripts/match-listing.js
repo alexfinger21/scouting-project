@@ -61,7 +61,6 @@ socket.on("changeMatch", (match_num) => {
         if  (imgContainer) { //image exists, is an admin
             imgContainer.getElementsByTagName("img")[0].src = "../static/images/stop-button.png"
         }
-        //consoleLog("GAR GAR GAR 😈😈")
     }
 })
 
@@ -80,11 +79,12 @@ const scrollObserver = new IntersectionObserver((entries) => { //runs whenever t
 //When match listing is loaded, call the main function 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(function (removed_node) {
+        for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && currentPage == paths.matchListing) {
                 main()
+                break
             }
-        })
+        }
     })
 })
 

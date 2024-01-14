@@ -44,6 +44,7 @@ const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "rank
 const teamDetails = require(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
 const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
 const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
+const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
 //CONSTANTS
 
 const corsOptions = {
@@ -145,7 +146,7 @@ app.get("/", function (req, res) { //only gets used if the url == /
 })
 
 //MAIN
-app.use("/app", dataCollection)
+app.use("/app", template)
 
 //LOGIN
 app.use("/login", login) //it makes the app use the login router's get and post methods. its a replacement for get and post for the specific path
