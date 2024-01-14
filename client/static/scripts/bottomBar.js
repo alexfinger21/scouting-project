@@ -71,6 +71,7 @@ function setSelectedObject(value) {
 
 window.addEventListener("load", () => {
     requestPage(paths.matchListing)
+    
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
     const hoverButton = document.createElement('div');
@@ -80,6 +81,7 @@ window.addEventListener("load", () => {
     hoverButton.style.zIndex = 1
 
     //hoverButton.style.top = String(footerPageButtons[0].getBoundingClientRect().left) + "px"
+    
     hoverButton.style.left = String(footerPageButtons[0].getBoundingClientRect().left) + "px"
     
     $(hoverButton).width(footerPageButtons[0].clientWidth)
