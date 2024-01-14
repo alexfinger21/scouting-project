@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<body>
+    <div id="page-holder">
+        <div class="small-input-container" id="team-display-selection-container">
+            <label for="team-display-selector"> <b>Select team: </b> </label>
+            <select name="team-display-selector" id="team-display-selector" >
+                <% for(let i = 0; i < teams.length; i++) { %>
+                    <%if(teams[i] == selectedTeam) {%>
+                        <option selected>
+                            <%= teams[i] %>
+                        </option>
+                    <%} else {%>
+                        <option>
+                            <%= teams[i] %>
+                        </option>
+                    <%}%>
+                <% } %>
+            </select>
+        </div>
+        <div id="team-details-tabs">
+            <button <%- `class= "team-details-tab ${(selectedPage == "game-data-page" ? "selected" : "")}"`%> page="game-data-page">
+                Game Data
+            </button>
+            <button <%- `class= "team-details-tab ${(selectedPage == "pit-data-page" ? "selected" : "")}"`%> page="pit-data-page">
+                Pit Data
+            </button>
+            <button <%- `class= "team-details-tab ${(selectedPage == "comments-display-page" ? "selected" : "")}"`%> page="comments-display-page">
+                Comments
+            </button>
+        </div>
+        <% if(selectedPage == "game-data-page") {%>
+            <div id="game-data-page" class="team-details-scroller" selected>
+        <% } else {%>
+            <div id="game-data-page" class="team-details-scroller" style="display:none;">
+        <% } %>
+
+            <div class="team-display-table-container">
+                <table class="team-display-table">
+                    <thead>
+                        <tr>
+                            <th>Match #</th>
+                            <th>Game Score</th>
+                            <th>Links</th>
+                            <th>Auton Chg Stn</th>
+                            <th>End Chg Stn</th>
+                            <th>Cones<br>L/M/H</th>
+                            <th>Cubes<br>L/M/H</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i = 0; i < teamData.length; i++) {%>
+                            <tr>
+                                <td>
+                                    <%= teamData[i].game_matchup_gm_number %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].gm_score %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].nbr_links %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].auton_chg_station %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].endgame_chg_station %>
+                                </td>
+                                <td>
+                                    <%= `T: ${teamData[i].Cone_Count_L + teamData[i].Cone_Count_M + teamData[i].Cone_Count_H}`%>
+                                    <br>
+                                    <%= `${teamData[i].Cone_Count_L}/${teamData[i].Cone_Count_M}/${teamData[i].Cone_Count_H}` %>
+                                </td>
+                                <td>
+                                    <%= `T: ${teamData[i].Cube_Count_L + teamData[i].Cube_Count_M + teamData[i].Cube_Count_H}`%>
+                                    <br>
+                                    <%= `${teamData[i].Cube_Count_L}/${teamData[i].Cube_Count_M}/${teamData[i].Cube_Count_H}` %>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+        
+        <% if(selectedPage == "pit-data-page") {%>
+            <div id="pit-data-page" class="team-details-scroller" selected>
+        <% } else {%>
+            <div id="pit-data-page" class="team-details-scroller" style="display:none;">
+        <% } %>
+            <p id="pit-data-title">
+                <%=teamInfo.tm_name + " - Rank " + (teamInfo.api_rank != null ? teamInfo.api_rank : "None")%>
+            </p>
+
+            <p class="pit-data-text">
+                <%="OPR: " + (teamInfo.api_opr != null ? teamInfo.api_opr.toFixed(1) : "None") + " - DPR: "
+                 + (teamInfo.api_dpr != null ? teamInfo.api_dpr.toFixed(1) : "None")%>
+                <br>
+                <%="Drivetrain: " + (teamInfo.ps_drive_train != null ? teamInfo.ps_drive_train : "Unknown")%>
+                <br>
+                <%="Wheels used: " + (teamInfo.ps_wheel_used != null ? teamInfo.ps_wheel_used : "Unknown") %>
+                <br>
+                <%="Weight: " + (teamInfo.ps_robot_weight_lbs != null ? teamInfo.ps_robot_weight_lbs : "Unknown ") + "lbs"%>
+                <br>
+                <%="Length: " + (teamInfo.ps_robot_length_in != null ? teamInfo.ps_robot_length_in : "Unkown ") 
+                + "in    Width: " + (teamInfo.ps_robot_width_in != null ? teamInfo.ps_robot_width_in : "Unknown ")
+                + "in    Height: " + (teamInfo.ps_robot_height_in != null ? teamInfo.ps_robot_height_in : "Unknown ") + "in"%>
+            </p>
+            <div id="team-pictures-container">
+                <button id="arrow-left">
+                    <img src="../static/images/arrow-left.svg">
+                </button>
+                <% let attributes = " "
+                    for(let i = 0; i < teamPictures.length; i++) {
+                        attributes += "pic" + i + "=" + teamPictures[i] + " "
+                    }
+                 %>
+                <img <%-attributes%> num-pictures=<%-teamPictures.length%> src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
+                <button id="arrow-right">
+                    <img src="../static/images/arrow-right.svg">
+                </button>
+            </div>
+        </div>
+
+        <% if(selectedPage == "comments-display-page") {%>
+            <div id="comments-display-page" class="team-details-scroller" selected>
+        <% } else {%>
+            <div id="comments-display-page" class="team-details-scroller" style="display:none;">
+        <% } %>
+            <div class="team-display-table-container">
+                <table class="team-display-table">
+                    <colgroup>
+                        <col span="1" style="width: 25%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Match</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%for(let i = 0; i < comments.length; i++) { %> 
+                            <tr>
+                                <td>
+                                    <%= comments[i].game_matchup_gm_number %>
+                                </td>
+                                <td>
+                                    <%= comments[i].gc_comment %>
+                                </td>
+                            </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>

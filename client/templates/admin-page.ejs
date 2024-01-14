@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <div id="page-holder">
+        <div id="admin-container">
+            <h1>Assign Users</h1>
+            <br>
+
+            <%for(let i = 0; i < 3; i++) { %>
+                <div class="small-input-container" id="user-container">
+                    <label for=<%= "R" + (i+1) %> class="red" >
+                        <%= "Red " + (i + 1) %> </b>
+                    </label>
+                    <select name= <%= "R" + (i+1) %> class="select-user">
+                        <%for(let j = 0; j < team.length; j++) { %>
+                            <% if(assignedUsers[i].cgua_user_id == team[j].um_id) {%>
+                                <option value= <%=team[j].um_id%> selected> <%=team[j].admin_display%> </option>
+                            <% } else { %>
+                                <option value= <%=team[j].um_id%> > <%=team[j].admin_display%> </option>
+                            <%}%>
+                        <% }%>
+                    </select>
+                </div>
+            <% } %>
+            <%for(let i = 0; i < 3; i++) { %>
+                <div class="small-input-container" id="user-container">
+                    <label for=<%= "B" + (i+1) %> class="blue">
+                        <%= "Blue " + (i + 1) %> 
+                    </label>
+                    <select name=<%= "B" + (i+1) %> class="select-user">
+                        <%for(let j = 0; j < team.length; j++) { %>
+                            <% if(assignedUsers[i+3].cgua_user_id == team[j].um_id) {%>
+                                <option value= <%=team[j].um_id%> selected> <%=team[j].admin_display%> </option>
+                            <% } else { %>
+                                <option value= <%=team[j].um_id%> > <%=team[j].admin_display%> </option>
+                            <%}%>
+                        <% }%>
+                    </select>
+                </div>
+            <% } %>
+            <div class="small-input-container" id="user-container">
+                <label for="seventh-scouter" class="blue">
+                    <%= "7th" %> 
+                </label>
+                <select name="seventh-scouter" class="select-user">
+                    <%for(let j = 0; j < team.length; j++) { %>
+                        <% if(assignedUsers[6].cgua_user_id == team[j].um_id) {%>
+                            <option value= <%=team[j].um_id%> selected> <%=team[j].admin_display%> </option>
+                        <% } else { %>
+                            <option value= <%=team[j].um_id%> > <%=team[j].admin_display%> </option>
+                        <%}%>
+                    <% }%>
+                </select>
+            </div>
+            <button type="submit" id="admin-submit" class="big-button">Save</button>
+            <button type="submit" id="download-report" class="big-button">Download Report</button>
+
+        </div>
+    </div>
+</body>

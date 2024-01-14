@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<body>
+    <div id="page-holder">
+        <h1 id="alliance-input-title">
+            Alliance Input
+        </h1>
+        <table id="selected-team-table">
+            <colgroup>
+                <col span="1" style="width: 15%" >
+            </colgroup>
+            <thead>
+                <th></th>
+                <th>Captain</th>
+                <th>1st</th>
+                <th>2nd</th>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < 8 ; i++) { %>
+                    <tr>
+                        <td>
+                            <%=i+1%>
+                        </td>
+                        <% for(let j = 0; j < 3 ; j++) { %>
+                            <td>
+                                <div alliance-input-selectorclass="alliance-input-selection-container">
+                                    <select name="alliance-input-selector" class="alliance-input-selector" old-value="">
+                                        <% let selectedTeam = "" 
+                                        let row = data.find((e) => e.alliance_number == i)
+                                        if(row != null) {
+                                            if(j == 0) {
+                                                selectedTeam = row.alliance_captain
+                                            } else if(j == 1) {
+                                                selectedTeam = row.alliance_first
+                                            } else if(j == 2) {
+                                                selectedTeam = row.alliance_second
+                                            } 
+                                        } %>
+                                        <%if(selectedTeam != null && selectedTeam != "") { %>
+                                            <option>
+                                            </option>
+                                            <option selected>
+                                                <%=selectedTeam.toString()%>
+                                            </option>
+                                        <%} else { %>
+                                            <option selected>
+                                            </option>
+                                        <% } %>
+                                        <% for(let k = 0; k < teams.length; k++) { 
+                                            if(teams[k] != selectedTeam) {%>
+                                                <option>
+                                                    <%= teams[k] %>
+                                                </option>
+                                            <% }
+                                        } %>
+                                    </select>
+                                </div>
+                            </td>
+                        <% } %>
+                    <tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>

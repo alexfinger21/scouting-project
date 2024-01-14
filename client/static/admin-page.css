@@ -1,0 +1,63 @@
+#admin-container {
+    width: 90%;
+    height: 95%;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 1.5vh;
+    font-size: 1.8vh;
+    text-align: center;
+}
+
+#admin-container select {
+    display: block;
+    margin-left: auto;
+    outline: none;
+    background-color: #FFF;
+    border: 1px solid #000;
+    border-radius: 3px;
+    padding: 5px;
+    margin-left: 2vw;
+    width: 70%;
+    height: 5%;
+    font-size: 1.8vh;
+}
+
+#admin-container select:focus {
+    border: 1px solid #3492EA;
+    box-shadow: 0 0px 8px 0 rgba(52, 146, 234, 0.2);
+}
+
+#user-container {
+    display: flex;
+    flex-direction: row;
+    width: 85%;
+    margin-right: auto;
+    margin-left: auto;
+    border: none;
+    background-color: transparent;
+    align-self: flex-start;
+    margin-bottom: 1.5vh;
+}
+
+#user-container label {
+    margin-right: auto;
+    font-size: 2vh;
+}
+
+#admin-submit {
+    margin-top: 2vh;
+    box-shadow: 0 6px #3077b9;
+    transition: all .1s ease-in-out;
+}
+
+#download-report {
+    margin-top: 2vh;
+    box-shadow: 0 6px #3077b9;
+    transition: all .1s ease-in-out;
+    margin-left: 1.5vh;
+}

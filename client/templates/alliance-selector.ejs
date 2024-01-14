@@ -4,67 +4,114 @@
 <body>
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <div id="page-holder">
-        <div id="our-team">
-            <p id="our-team-header">
-                Our Team
-            </p>
-            <div class="strategy-divider">ㅤ</div>
-            <div id="selected-teams-display">
-                <div class="selected-team">
-                    <button>
-                        695
-                    </button>
-                </div>
-                <div class="selected-team">
-                    <button>
-                        4269
-                    </button>
-                </div>
-                <div class="empty-team">
-                    <button>
-                        Empty
-                    </button>
-                </div>
-                <div class="empty-team">
-                    <button>
-                        Empty
-                    </button>
+        <div id="alliance-selector-scroller">
+            <div id="alliance-display">
+                <p class="alliance-selector-header">
+                    Current Alliance Picks
+                </p>
+                <div class="strategy-divider">ㅤ</div>
+                <div id="alliance-table-holder">
+                    <table id="alliance-display-table">
+                        <colgroup>
+                            <col span="1" style="width: 18%">
+                            <col span="1" style="width: 11%">
+                            <col span="1" style="width: 11%">
+                            <col span="1" style="width: 11%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Alliance</th>
+                                <th>Cap</th>
+                                <th>1st</th>
+                                <th>2nd</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < 8 ; i++) { %>
+                                <tr>
+                                    <td>
+                                        <%=i+1%>
+                                    </td>
+                                    <% for(let j = 0; j < 3 ; j++) { %>
+                                        <td>
+                                            <% let selectedTeam = "" 
+                                            let row = data.find((e) => e.alliance_number == i)
+                                            if(row != null) {
+                                                if(j == 0) {
+                                                    selectedTeam = row.alliance_captain
+                                                } else if(j == 1) {
+                                                    selectedTeam = row.alliance_first
+                                                } else if(j == 2) {
+                                                    selectedTeam = row.alliance_second
+                                                } 
+                                            } %>
+                                            <%if(selectedTeam != null && selectedTeam != "") { %>
+                                                <%=selectedTeam.toString()%>
+                                            <%} %>
+                                        </td>
+                                    <% } %>
+                                <tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+    
+                    <table id="alliance-suggestions">
+                        <colgroup>
+                            <col span="1" style="width: 9%">
+                            <col span="1" style="width: 15%">
+                            <col span="1" style="width: 20%">
+                        </colgroup>
+    
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>Name</th>
+                                <th>Suggestion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>695</td>
+                                <td>Bison Robotics</td>
+                                <td>"It's the best"</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div id="our-team-stats">
-                <p>
-                    Shooting: 30
-                </p>
-                <p>
-                    Def: N/A
-                </p>
-                <p>
-                    Hangar: 20pts
-                </p>
-            </div>
-        </div>
-        <div id="our-team">
-            <p id="our-team-header">
+
+            <p class="alliance-selector-header">
                 Available Teams
             </p>
             <div class="strategy-divider">ㅤ</div>
 
-            <div id="sort-by">
-                <label for="sort-by"> <b>Sort By: </b> </label>
-                <select name="options" id="options">
-                    <option value="Shooting">Shooting</option>
-                    <option value="Defense">Defense</option>
-                    <option value="Auto">Auto</option>
+            <div class="small-input-container" id="sort-by">
+                <label for="sorting-options"> <b>Sort By: </b> </label>
+                <select name="sorting-options" id="sorting-options">
+                    <option value="best">Overall Best</option>
+                    <option value="scoring">Game Score</option>
+                    <option value="chargeStation">Charge Station Score</option>
                 </select>
             </div>
 
-            <table id = available-teams>
-                <th>Rank</th>
-                <th>Team</th>
-                <th></th>
-                <th></th>
-                <th></th>
-
+            <table id="available-teams-table">
+                <colgroup>
+                    <col span="1" style="width: 14%">
+                    <col span="1" style="width: 14%">
+                    <col span="1" style="width: 15%">
+                    <col span="1" style="width: 14%">
+                </colgroup>
+                <thead>
+                    <th>Team</th>
+                    <th>Api Rank</th>
+                    <th>Game Score</th>
+                    <th>Links</th>
+                    <th>Auton Chg Station</th>
+                    <th>Endgame Chg Station</th>
+                </thead>
+                <tbody>
+                    
+                </tbody>
             </table>
         </div>
     </div>

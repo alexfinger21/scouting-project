@@ -1,0 +1,69 @@
+#rankings-title {
+    text-align: center;
+}
+
+#rankings-subtitle {
+    text-align: center;
+    font-weight: normal;
+}
+
+#rankings-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vh;
+    width: 90vw;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+}
+
+
+#rankings-scroller {
+    width: 99%;
+    overflow: scroll;
+    height: 51vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#headings-table {
+    width: 96%;
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+    padding: 2px;
+    font-size: 1.8vh;
+}
+
+#headings-table td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: normal;
+    word-wrap:break-word;
+    text-align: center;
+}
+
+#rankings-table {
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+    table-layout: fixed;
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 1.8vh;
+}
+
+
+#rankings-table td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: normal;
+    word-wrap:break-word;
+    text-align: center;
+}
