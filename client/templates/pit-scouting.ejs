@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pit Scouting</title>
+</head>
+<body>
+<div id="app">
+  <form action=""> 
+    <div v-for="x in inputs" :key="x.type">
+      <div v-if="x.type ==='textarea'">
+        <label>{{ x.question }}</label>
+        <br>
+        <textarea></textarea>
+        <br>
+      </div>
+      <div v-if="x.type === 'select'">
+        <label>{{ x.question }}</label>
+        <br>
+        <select>
+        <option v-for="(option, index) in x.options" :key="index">{{ option }}</option>
+        </select>
+        <br>
+      </div>
+      <div v-if="x.type ==='file'">
+      	<label>Select Files:</label>
+        <br>
+        <input :type="x.type" multiple>
+        <br>
+      </div>
+      <div v-if="x.type === 'text'||x.type === 'number'">
+      	<label>{{ x.question }}</label>
+      	<br>
+      	<input :type="x.type" min="0" required>
+      	<br>
+      </div>
+      <div v-if="x.type === 'radio'||x.type === 'checkbox'">
+      	<label>{{ x.question }}</label>
+      	<br>
+        <div v-for="(option, index) in x.options" :key="index">
+      		<input :type="x.type" :name="x"  :required="x.type === 'radio'">{{ option }}
+      		<br>
+        </div>
+      </div>
+    </div>
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+  </form>
+</div>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+  const app = Vue.createApp({
+    data() {
+      return {
+        inputs: [
+          { question: '7tp97', type: 'textarea' },
+          { question: 'uoyg', type: 'number' },
+          { question: 'iugpi', type: 'text' },
+          { question: 'yogn', type: 'file' },
+          { question: 'Select an option', type: 'radio', options: ['Option 1', 'Option 2', 'Option 3'] },
+          { question: 'Select an option', type: 'checkbox', options: ['Option 1', 'Option 2', 'Option 3'] },
+          { question: ';vgyvfluyfv', type: 'select',options: ['Option 1', 'Option 2', 'Option 3'] },
+        ]
+      }
+    }
+  })
+  app.mount('#app');
+  
+//to do: questions w/ preselected values & w/ required inputs
+</script>
+</body>
+</html>
