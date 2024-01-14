@@ -8,48 +8,59 @@
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
   <link rel="stylesheet" href="./static/universal.css">
   <link rel="stylesheet" href="./static/login-page.css">
+  <link rel="icon" href="../static/images/bison-robotics.png" type="image/png">
 
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+  <script type="module" src="../static/scripts/login.js" defer></script>
 </head>
 
 <body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
-  <script type="module" src="../static/scripts/login.js" defer></script>
 
-  <%- include("../static/partials/header") %>
+  <!--Custom login header (functionality disabled)-->
+  <div id=disabled-header>
+    <div id="disabled-container">
+      <img src="../static/images/bison-robotics.png">
+      <p><b>Bison Robotics <br> Team 695</b></p>
+    </div>
+  </div>
 
-  <div class="page-holder">
-    <img id="login-form-icon" src="../static/images/PersonIcon.png">
+  <div id="page-holder">
+    <div id="login-form-icon">
+      <img src="../static/images/PersonIcon.png">
+    </div>
 
     <div id="login-form">
       <form class="centerform" action="/login" method="POST">
         <div id="form-container">
 
-          <div class="input-container">
+          <div class="login-input-container">
             <img src="../static/images/hashtag.png">
-            <input type="number" name="team_number" placeholder="Team Number">
+            <input type="number" name="team_number" placeholder="Team Number" class="login-input">
           </div>
 
-          <div class="input-container">
+          <div class="login-input-container">
             <img src="../static/images/atSymbol.png">
-            <input type="text" name="username" placeholder="Username">
+            <input type="text" name="username" placeholder="Username" class="login-input">
           </div>
 
-          <div class="input-container">
+          <div class="login-input-container">
             <img src="../static/images/lock.png">
-            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="Password" class="login-input">
           </div>
 
           <!--So if the info they submitted doesn't work we display a message-->
-          
-          <% if (error == "visible") { %>
-          <div id="error-container">
-            <span>Team number, username, and password do not match</span>
-          </div>
-          <% } %>
 
-          <input id="sign-in-btn" type="submit" value="Sign In">
-          <div class="line" id="or"></div>
-          <input id="sign-up-btn" type="button" value="Sign Up">
+          <% if (error=="visible" ) { %>
+            <div id="error-container">
+              <span>Team number, username, and password do not match</span>
+            </div>
+            <% } %>
+
+              <input id="sign-in-btn" type="submit" value="Sign In">
+              <div class="line" id="or"></div>
+              <input id="sign-up-btn" type="button" value="Sign Up">
         </div>
       </form>
     </div>

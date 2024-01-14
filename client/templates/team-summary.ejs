@@ -9,26 +9,53 @@
     <%- include("../static/partials/header") %>
 
     <div id="page-holder">
-        <div id="legend">
-            <h1>Legend</h1>
-            <div class="line" id="divider">ㅤ</div>
-            <ul>
-                <li>
-                    The climb letter is represented by the letter on the graph
-                </li>
-                <li>
-                    The shooting ability is represented by the color of the letter
-                </li>
-            </ul>
+        <!--
+            <div id="legend">
+                <h1>Legend</h1>
+                <div class="line" id="divider">ㅤ</div>
+                <ul>
+                    <li>
+                        Page is a work in progress
+                    </li>
+                </ul>
+            </div>
+        -->
+        <div id="highlight-team-container">
+            <label for="highlight-team"> <b>Highlight team: </b> </label>
+            <input name="highlight-team" id="highlight-team" type="number">
         </div>
 
-        <div id="graph-holder">
-            <!--Chart.js-->
-            <canvas id="teamSummaryChart" style="width:100%; height: 500px"></canvas>
+        <div id="highlight-match-container">
+            <label for="highlight-match"> <b>Highlight match: </b> </label>
+            <input name="highlight-match" id="highlight-match" type="number">
+        </div>
+        
+        <div id="graph-display-container">
+            <input class="edge-left" type="button" value="FRC Rank" name="0">
+            <input type="button" value="Game Score" name="1">
+            <input type="button" value="Links" name="2">
+            <input type="button" value="Auton Charge Station" name="3">
+            <input class="edge-right" type="button" value="Endgame Charge Station" name="4">
+            <input class="edge-right" type="button" value="Num. Games Played" name="5">
         </div>
 
-        <button type="button" id="update-graph" class="big-button">Update</button>
 
+        <div id="team-summary-container">
+
+            <button id="arrow-left">
+                <img src="../static/images/arrow-left.svg">
+            </button>
+            <div id="graph-holder">
+                <div id="chart-area-wrapper">
+                    <canvas id="scatterplot-chart" display="true"></canvas>
+                    <canvas id="bar-graph-chart" width="100%" height="300%" display="false"></canvas>
+                </div>
+                <!--Chart.js-->
+            </div>
+            <button id="arrow-right">
+                <img src="../static/images/arrow-right.svg">
+            </button>
+        </div>
 
     </div>
 

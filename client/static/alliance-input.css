@@ -1,0 +1,51 @@
+#alliance-input-title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2vh;
+}
+
+#selected-team-table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2vh;
+    width: 95%;
+    table-layout: fixed;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 1.8vh;
+}
+
+#selected-team-table th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: normal;
+    word-wrap:break-word;
+    text-align: center;
+}
+
+.alliance-input-selection-container {
+    display: flex;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.alliance-input-selector {
+    background-color: #FFF;
+    text-align: center;
+    font-size: 2vh;
+    width: 18vw;
+    border: 2px solid #5B6671;
+    border-radius: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: .5vh;
+    margin-bottom: .5vh;
+}

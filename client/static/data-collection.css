@@ -1,24 +1,101 @@
-#page-holder {
-    transform: translate(0, 7.5vh);
+#data-collection-tabs {
+    margin-top: 1vh;
     display: flex;
-    align-items: center;
     flex-wrap: nowrap;
-    flex-direction: column;
-    width: 100%;
-    border-bottom: 5px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 4vh;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid #3492ea;
+    border-radius: 1.2vh;
+}
+
+.data-collection-tab {
+    height: 100%;
+    width: 50%;
+    font-size: 2vh;
+    background-color: #FFF;
+    border: 0px;
+    transition: all 200ms;
+}
+
+.data-collection-tab:nth-child(1) {
+    border-right: 2px solid #3492ea;
+    border-radius: 1.2vh 0px 0px 1.2vh;
+}
+.data-collection-tab:nth-child(2) {
+    border-radius: 0px 1.2vh 1.2vh 0px;
+}
+
+.data-collection-tab.selected {
+    background-color: #3492ea;
+    color: #FFF;
 }
 
 #match-number-form {
-    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4%;
+    padding-top: 1vh;
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 90%;
-    height: 76vh;
+    height: 92%;
     overflow: scroll;
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+}
+
+#comments-page {
+    display: flex;
+    flex-direction: column;
+}
+
+#comments-scroller {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 55vh;
+    overflow: auto;
+    margin-top: 1vh;
+}
+
+.comments-info {
+    width: 100%;
+}
+
+.comments-team {
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+}
+
+.comments-text {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    width: 77vw;
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 2.2vh;
+    color: #383c40;
+    resize: none;
+}
+
+#access-denied {
+    text-align: center;
+    font-size: 2.5vh;
+    margin-bottom: 2vh;
+}
+
+#access-denied-subheader {
+    text-align: center;
+    font-size: 3vh;
 }
 
 #assigned-team {
@@ -26,15 +103,16 @@
 }
 
 #input-scroller {
-    margin-top: 1vh;
+    margin-top: 0;
     margin-bottom: 2vh;
     width: 100%;
-    height: 57vh;
-    overflow: scroll;
+    height: 46vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
     align-items: center;
     flex-direction: column;
-    scroll-behavior: smooth; 
+    scroll-behavior: smooth;
 }
 
 #match-number-form span {
@@ -70,10 +148,12 @@
 }
 
 .input-container span {
-    margin-left: 28% !important;    
+    display: inline-block;
+    width: 100%;
+    text-align: center;
 }
 
-.input-container input {
+.input-container input:not([type="radio"]) {
     -moz-appearance: textfield;
     /* removes the arrows/spinners */
     color: #5B6671;
@@ -87,12 +167,119 @@
     transition: text-decoration-color 100ms;
 }
 
-.input-container input:focus {
+.input-container input:not([type=radio]):focus {
     outline: none;
     text-decoration: underline;
     text-decoration-thickness: 0.3vh;
     text-decoration-color: #3492EA;
     text-underline-offset: 0.5vh;
+}
+
+.radio-button-container {
+    display: inline-block;
+    width: 80vw;
+    margin-left: 6vw;
+    margin-top: 1vh;
+}
+
+.radio-button-container input {
+    font-size: 2vh;
+    margin-bottom: 1vh;
+
+}
+
+.radio-button-container input:checked {
+    accent-color: #3492EA;
+}
+
+.radio-button-container label {
+    font-size: 2vh;
+}
+
+.scoring-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: 90vw;
+    margin-top: 1vh;
+}
+
+.table-labels {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 8vh;
+    padding-top: 1.5vh;
+    height: 16vh;
+}
+
+.table-labels p {
+    margin-bottom: 2.5vh;
+}
+
+.table-scroller {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    min-height: 17vh;
+    background-color: transparent;
+    width: 70%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+}
+
+.table-wrapper {
+    display: inline-block;
+    margin-right: 2vh;
+    margin-bottom: 1vh;
+}
+
+.table-wrapper p {
+    width: 100%;
+    text-align: center;
+    font-size: 2vh;
+}
+
+.table-wrapper table {
+    font-family: arial, sans-serif;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0;
+    font-size: 1.8vh;
+    width: 100%;
+}
+
+.table-wrapper table td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: normal;
+    word-wrap:break-word;
+    text-align: center;
+}
+
+.table-wrapper td {
+    min-width: 4.5vh;
+    padding: 0 !important;
+}
+
+.scoring-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 4.2vh;
+    background-color: transparent;
+    border: none;
+}
+
+.scoring-button img {
+    height: auto;
+    width: 2.8vh;
 }
 
 #button-checkmark {
@@ -169,19 +356,47 @@
 
 .NumberButtonContainer {
     margin-top: 0.8vh;
-}
-
-.red {
-    color: #FF2B2B !important;
-    /* overrides the default color */
+    margin-left: 1vw;
 }
 
 #data-submit {
-    margin-top: 69vh;
-    position: fixed;
-    
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
+}
+
+#match-comment-label {
+    margin-left: 8vw;
+    margin-right: 5vw;
+}
+
+#match-comment-selector {
+    background-color: #FFF;
+    text-align: center;
+    font-size: 2.5vh;
+    width: 25vw;
+    border: 2px solid #5B6671;
+    border-radius: 2px;
+}
+
+#match-comment-selector option {
+    font-size: 1.8vh;
+}
+
+#save-comments {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 6px #3077b9;
+    transition: all .1s ease-in-out;
+}
+
+#comments-container textarea {
+    width: 77vw;
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 2.2vh;
+    color: #383c40;
+    resize: none;
 }
 
 #data-fade {
