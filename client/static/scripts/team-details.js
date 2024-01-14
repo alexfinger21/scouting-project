@@ -39,17 +39,16 @@ function moveToPos(ogPos, pos, btn) {
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(function (removed_node) {
-            consoleLog(currentPage)
+        for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && currentPage == paths.teamDetails) {
                 main()
+                break
             }
-        })
+        }
     })
 })
 
 observer.observe(document.body, { subtree: false, childList: true });
-window.addEventListener("load", main)
 
 function main() {
     const teamSelector = document.querySelector("#team-display-selector")
