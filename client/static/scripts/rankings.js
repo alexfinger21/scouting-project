@@ -2,16 +2,16 @@ import {paths, currentPage, consoleLog} from "./utility.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(function (removed_node) {
+        for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && currentPage == paths.rankings) {
                 main()
+                break
             }
-        })
+        }
     })
 })
 
 observer.observe(document.body, { subtree: false, childList: true });
-window.addEventListener("load", main)
 
 function main() {
     let subtitle = document.querySelector("#rankings-subtitle")
