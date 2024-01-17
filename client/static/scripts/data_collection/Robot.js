@@ -1,9 +1,9 @@
 class Robot extends DrawableObject {
+
     /* 
     Ctx: canvas.getcontext2dallianceColor: "red" or "blue", x: pixels from left
     y: pixels from top
     */
-   
     constructor(x, y, ctx) {
         let img = new Image()
         if(allianceColor == blue) {
@@ -13,6 +13,6 @@ class Robot extends DrawableObject {
             img.src = "../../../images/data-collection/red-robot.png"
         }
 
-        super(ctx, this.img, x, y, 200, 200);
+        super(ctx, this.img, x, y, 255, 255);
     }
 }
