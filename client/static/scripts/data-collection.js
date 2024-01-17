@@ -1,6 +1,7 @@
 import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
+import Auton from "./data_collection/Auton.js"
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -29,6 +30,11 @@ const playPiecesDict = {
     empty: "../static/images/transparent.png",
 }
 
+function renderAuton(AutonObject) {
+    const autonCanvas = document.getElementById("auton-canvas")
+
+    AutonObject.draw()
+}
 //given a TD's id and index in the auton-scoring table, it returns the corresponding TD in the teleop-scoring table
 function getCorrespondingTd(id, index) {
     const teleopConeButtons = document.getElementById("teleop-scoring").getElementsByClassName(id) //get all cone buttons in teleop
@@ -353,6 +359,7 @@ async function saveData() {
 observer.observe(document.body, { subtree: false, childList: true });
 
 function loadDataCollection() {
+    
     loadData()
 
     const form = document.getElementById("match-number-form")
@@ -361,6 +368,7 @@ function loadDataCollection() {
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
+    const AutonObject = new Auton() 
 
     form.onsubmit = (event) => {
         event.preventDefault()
@@ -626,7 +634,6 @@ function main() {
 
     //when the button is clicked, changes the max visible height
     dropdown.addEventListener("click", () => {
-        consoleLog("CLICKEDD")
         content.style.visibility = "visible"
         content.style.display = "block"
         content.style.maxHeight = "30vh"
