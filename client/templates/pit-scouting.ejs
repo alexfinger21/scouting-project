@@ -7,37 +7,34 @@
 <div id="app">
   <form action="/pit-scouting"> 
     <div v-for="x in inputs" :key="x.type">
+      <label>{{ x.question }}</label>
+      <br>
       <div v-if="x.type ==='textarea'">
-        <label>{{ x.question }}</label>
-        <br>
         <textarea></textarea>
         <br>
       </div>
       <div v-if="x.type === 'select'">
-        <label>{{ x.question }}</label>
-        <br>
         <select>
         <option v-for="(option, index) in x.options" :key="index">{{ option }}</option>
         </select>
         <br>
       </div>
       <div v-if="x.type ==='file'">
-      	<label>Select Files:</label>
-        <br>
         <input :type="x.type">
         <br>
       </div>
-      <div v-if="x.type === 'text'||x.type === 'number'">
-      	<label>{{ x.question }}</label>
+      <div v-if="x.type === 'text'">
+      	<input :type="x.type" required>
       	<br>
-      	<input :type="x.type" min="0" required>
+      </div>
+      <div v-if="x.type === 'number'">
+<input type="text" pattern="^\d+(\s\d+\/\d+)?(\.\d+)?$|^\d+\/\d+$" title="Valid forms: _ , _._ , n/d , _ n/d" required>
+
       	<br>
       </div>
       <div v-if="x.type === 'radio'||x.type === 'checkbox'">
-      	<label>{{ x.question }}</label>
-      	<br>
         <div v-for="(option, index) in x.options" :key="index">
-      		<input :type="x.type" :name="x"  :required="x.type === 'radio'">{{ option }}
+      		<input :type="x.type" :name="x.question"  :required="x.type === 'radio'">{{ option }}<input type="text" v-if="option==='Other: '" required>
       		<br>
         </div>
       </div>
@@ -52,14 +49,17 @@
     data() {
       return {
         inputs: [
+          { question: 'Event', type: 'text' },
           { question: 'Team number', type: 'number' },
-          { question: 'Type of drive train', type: 'radio', options: ['Tank Drive ("skid steer", plates on both sides of wheels)', 'West Coast Drive (wheels mounted off one side of tube)', 'Swerve Drive','Other']  },
-          { question: 'Type of wheels used', type: 'checkbox', options: ["Traction","Mecanum (rollers at 45° angle)","Omni (rollers at 90° angle)","Other"] },
-          { question: 'Robot Weight', type: 'number' },//wnat to add max of 125
+          { question: 'Type of drive train', type: 'radio', options: ['Tank Drive ("skid steer", plates on both sides of wheels)', 'West Coast Drive (wheels mounted off one side of tube)', 'Swerve Drive','Other: ']  },
+          { question: 'Type of wheels used', type: 'radio', options: ["Traction","Mecanum (rollers at 45° angle)","Omni (rollers at 90° angle)","Other: "] },
+          { question: 'Intake Use:', type: 'radio', options: ["Ground","Station","Other: "] },
+          { question: 'Scoring Locations:', type: 'checkbox', options: ["Amp","Speaker","Trap","Balance"] },
+          { question: 'Robot Weight', type: 'number' },
           { question: 'Robot Dimension (Length in Inches) without bumpers - front to back', type: 'number' },//might need to be text
           { question: 'Robot Dimension (Width in Inches) without bumpers - left to right', type: 'number' },//might need to be text
           { question: 'Robot Dimension (Height in Inches) from floor to highest point on robot at the start of the match', type: 'number' },//might need to be text
-          { question: 'Drive Team Members', type: 'checkbox', options: ["One person driving and operating the robot during a match","Other"] },
+          { question: 'Drive Team Members', type: 'radio', options: ["One person driving and operating the robot during a match","Other: "] },
           { question: 'Hours/Weeks of Practice', type: 'text' },
           { question: 'Picture - Full Robot', type: 'file' },
           { question: 'Picture - Drive Train', type: 'file' },
@@ -70,7 +70,9 @@
   })
   app.mount('#app');
   
-//to do: questions w/ preselected values & w/ required inputs, and give the "other" text
+//to do: questions w/ preselected values & w/ required inputs
+//might want to add auton questions
+//will need to track users and dates and years
 </script>
 </body>
 </html>
