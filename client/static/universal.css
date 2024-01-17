@@ -224,3 +224,21 @@ input::-webkit-inner-spin-button {
   margin-bottom: 2vh;
   background-color: #D9D9D9;
 }
+
+/*----------------utils----------------*/
+
+.one-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.one-line span {
+  width: auto !important;
+  white-space: break-spaces;
+}
