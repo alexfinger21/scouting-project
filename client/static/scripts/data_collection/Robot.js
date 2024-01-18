@@ -1,14 +1,14 @@
-import DrawableObject from "./DrawableObject";
+import DrawableObject from "./DrawableObject.js"
 
 export default class Robot extends DrawableObject {
     /* 
-    Ctx: canvas.getcontext2dallianceColor: "red" or "blue", x: pixels from left
+    Ctx: canvas.getcontext2dallianceColor: "R" or "B", x: pixels from left
     y: pixels from top
     */
    
-    constructor({x, y, ctx}) {
-        let img = new Image()
-        if(allianceColor == blue) {
+    constructor({x, y, allianceColor, ctx}) {
+        const img = new Image()
+        if(allianceColor == "B") {
             img.src = "../../../images/data-collection/blue-robot.png"
         }
         else {
