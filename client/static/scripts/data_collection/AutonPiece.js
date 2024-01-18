@@ -1,13 +1,10 @@
-export default class extends DrawableObject {
-    constructor(x, y) {
-        let img = new Image()
-        if(allianceColor == blue) {
-            img.src = "../../../images/data-collection/orange-note.png"
-        }
-        else {
-            img.src = "../../../images/data-collection/orange-note.png"
-        }
+import DrawableObject from "./DrawableObject";
 
-        super(ctx, this.img, x, y, 200, 200);
+export default class extends DrawableObject {
+    constructor({x, y, ctx}) {
+        let img = new Image()
+        img.src = "../../../images/data-collection/orange-note.png"
+
+        super({ctx, img, x, y, sX: 200, sY: 200});
     }
 }
