@@ -9,10 +9,10 @@ export default class Robot extends DrawableObject {
     constructor({x, y, allianceColor, ctx}) {
         const img = new Image()
         if(allianceColor == "B") {
-            img.src = "../../../images/data-collection/blue-robot.png"
+            //img.src = "../../../images/data-collection/blue-robot.png"
         }
         else {
-            img.src = "../../../images/data-collection/red-robot.png"
+            //img.src = "../../../images/data-collection/red-robot.png"
         }
 
         super({ctx, img, x, y, sX: 200, sY: 200});
