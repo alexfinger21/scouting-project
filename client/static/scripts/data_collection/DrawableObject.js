@@ -1,5 +1,5 @@
-export default class {
-    constructor(x, y, sX, sY, img, ctx, visible = true) {
+export default class DrawableObject {
+    constructor({ctx, x, y, sX, sY, img, visible = true}) {
         this.x = x        
         this.y = y
 
