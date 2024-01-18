@@ -7,9 +7,9 @@ export default class AutonMap extends DrawableObject {
         const img = new Image()
 
         if (allianceColor == "B") {
-            img.src = "../../../images/data-collection/game-map-blue.png"
+           // img.src = "../../../images/data-collection/game-map-blue.png"
         } else {
-            img.src = "../../../images/data-collection/game-map-blue.png"
+           // img.src = "../../../images/data-collection/game-map-blue.png"
         }
         
         super({ctx, img, x, y, sX: 600, sY: 200})

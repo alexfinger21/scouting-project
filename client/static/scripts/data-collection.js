@@ -357,14 +357,17 @@ async function waitUntilImagesLoaded(imgs) {
     const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
     const imgMap = new Map()
 
-    imgs.forEach(e => {
-        e.onload = () => {imgMap.set(e, true)}
-        imgMap.set(e, false)
+    imgs.forEach((e, i) => {
+        e.onload = () => {
+            imgMap.set(i, true)
+            consoleLog("LOADED MATE")
+        }
+        imgMap.set(i, false)
     })
     
     function checkIfTrue() {
-        for (x of imgMap) {
-            if (!x) {
+        for (const [k, v] of imgMap) {
+            if (!v) {
                 return false
             }
         }
@@ -373,8 +376,12 @@ async function waitUntilImagesLoaded(imgs) {
     }
 
     while (!checkIfTrue()) {
-        await timer(10)
+        consoleLog("LOADING...")
+        consoleLog(imgMap)
+        await timer(2000)
     }
+
+    consoleLog("LOADED IMAGES")
 }
 
 function loadDataCollection() {
@@ -389,19 +396,17 @@ function loadDataCollection() {
     const tableScrollers = document.querySelectorAll(".table-scroller")
     const autonCanvas = document.getElementById("auton-canvas")
     const autonCanvasCTX = autonCanvas.getContext("2d")
-    const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
     const allianceColor = form.getAttribute("alliance")
 
     const gamePieceImage = new Image()
-    gamePieceImage.src =  "../../../images/data-collection/orange-note.png"
+    gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
     const AutonMapImage = new Image()
-    gamePieceImage.src = `../../../images/data-collection/game-map-${allianceColor == 'B' ? "blue" : "red"}.png`
+    AutonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "red" : "red"}.jpg`
     const RobotImage = new Image()
-    RobotImage.src =  `../../../images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-
-    const images = {gamePieceImage, AutonMapImage, RobotImage}
-
-    waitUntilImagesLoaded(images)
+    RobotImage.src =  `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+    const images = {gamePieceImage, RobotImage, AutonMapImage}
+    
+    waitUntilImagesLoaded(Object.values(images))
 
     const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor: allianceColor, images})
     AutonObject.draw()
