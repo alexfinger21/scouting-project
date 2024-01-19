@@ -3,16 +3,9 @@ import DrawableObject from "./DrawableObject.js"
 import gamePiece from "./gamePiece.js"
 
 export default class AutonMap extends DrawableObject {
-    constructor({x, y, ctx, allianceColor}) {
-        const img = new Image()
-
-        if (allianceColor == "B") {
-           // img.src = "../../../images/data-collection/game-map-blue.png"
-        } else {
-           // img.src = "../../../images/data-collection/game-map-blue.png"
-        }
+    constructor({ctx, img}) {
         
-        super({ctx, img, x, y, sX: 600, sY: 200})
+        super({ctx, img, x: 0, y: 0, sX: 600, sY: 200})
 
     }
 
