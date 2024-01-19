@@ -378,7 +378,7 @@ async function waitUntilImagesLoaded(imgs) {
     while (!checkIfTrue()) {
         consoleLog("LOADING...")
         consoleLog(imgMap)
-        await timer(2000)
+        await timer(10)
     }
 
     consoleLog("LOADED IMAGES")
@@ -401,7 +401,7 @@ function loadDataCollection() {
     const gamePieceImage = new Image()
     gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
     const AutonMapImage = new Image()
-    AutonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "red" : "red"}.jpg`
+    AutonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
     const RobotImage = new Image()
     RobotImage.src =  `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
     const images = {gamePieceImage, RobotImage, AutonMapImage}
