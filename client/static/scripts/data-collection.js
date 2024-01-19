@@ -400,15 +400,15 @@ function loadDataCollection() {
 
     const gamePieceImage = new Image()
     gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
-    const AutonMapImage = new Image()
-    AutonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
-    const RobotImage = new Image()
-    RobotImage.src =  `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-    const images = {gamePieceImage, RobotImage, AutonMapImage}
+    const autonMapImage = new Image()
+    autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
+    const robotImage = new Image()
+    robotImage.src =  `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+    const images = {gamePieceImage, robotImage, autonMapImage}
     
     waitUntilImagesLoaded(Object.values(images))
 
-    const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor: allianceColor, images})
+    const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images})
     AutonObject.draw()
 
     form.onsubmit = (event) => {

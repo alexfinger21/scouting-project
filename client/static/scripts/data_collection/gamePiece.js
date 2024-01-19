@@ -1,6 +1,6 @@
 import DrawableObject from "./DrawableObject.js"
 
-export default class extends DrawableObject {
+export default class GamePiece extends DrawableObject {
     constructor({x, y, ctx}) {
         const img = new Image()
         //img.src = "../../../images/data-collection/orange-note.png"
