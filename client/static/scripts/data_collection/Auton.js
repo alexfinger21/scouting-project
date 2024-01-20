@@ -22,6 +22,7 @@ export default class {
 
         this.map.draw()
         this.robot.draw()
+        this.pieces.draw()
 
         //this.ctx.restore()
     }
