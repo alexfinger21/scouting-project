@@ -3,8 +3,8 @@ import GamePiece from "./GamePiece.js"
 
 export default class PiecesMap extends DrawableObject {
     constructor({ctx, allianceColor, img}) {
-        this.pieces = new Array(gamePieces ?? 5).fill(new gamePiece({x: 10, y: 10, ctx, img}))
-        super(ctx, x, y, allianceColor)
+        super({ctx, img, x: 0, y: 0, sX: 200, sY: 200})
+        this.pieces = new Array(5).fill(new GamePiece({x: 10, y: 10, ctx, img}))
     }
 
     draw() {
