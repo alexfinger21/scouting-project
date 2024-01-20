@@ -10,6 +10,7 @@ export default class AutonMap extends DrawableObject {
     }
 
     draw() {
+        consoleLog("right here")
         super.draw()
     }
 }
