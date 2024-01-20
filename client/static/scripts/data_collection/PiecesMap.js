@@ -1,5 +1,5 @@
-import DrawableObject from "./DrawableObject";
-import GamePiece from "./GamePiece";
+import DrawableObject from "./DrawableObject.js"
+import GamePiece from "./GamePiece.js"
 
 export default class PiecesMap extends DrawableObject {
     constructor({ctx, allianceColor, img}) {
