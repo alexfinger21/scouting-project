@@ -3,9 +3,9 @@ import DrawableObject from "./DrawableObject.js"
 import gamePiece from "./GamePiece.js"
 
 export default class AutonMap extends DrawableObject {
-    constructor({ctx, img}) {
+    constructor({ctx, img, canvasSize}) {
         
-        super({ctx, img, x: 0, y: 0, sX: 600, sY: 600})
+        super({ctx, img, x: 0, y: 0, sX: Math.min(canvasSize.x, canvasSize.y), sY: Math.min(canvasSize.x, canvasSize.y)})
 
     }
 }
