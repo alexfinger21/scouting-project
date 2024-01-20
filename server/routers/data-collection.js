@@ -127,8 +127,8 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 
     const gameNumbers = await getGameNumbers()
     const matchup = await getMatchup(match)
-    //consoleLog("\nMATCH DATA: ")
-    //consoleLog(matchup)
+    consoleLog("\nMATCH DATA: ")
+    consoleLog(matchup)
 
     return res.render("data-collection", {
         matches: gameNumbers,

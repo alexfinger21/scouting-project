@@ -63,7 +63,8 @@ router.get("/", async function (req, res) {
                 teams.length = Object.keys(teams).length
 
                 consoleLog("Rendering match listing")
-    
+                //consoleLog(teams)
+
                 res.render("match-listing", {
                     teams: teams, 
                     isAdmin: isAdmin,
