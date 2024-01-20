@@ -404,9 +404,10 @@ async function loadDataCollection() {
     const autonCanvas = document.getElementById("auton-canvas")
     const autonCanvasCTX = autonCanvas.getContext("2d")
     const allianceColor = form.getAttribute("alliance")
-
-    autonCanvas.height = autonCanvasContainer.offsetHeight
-    autonCanvas.width = autonCanvasContainer.offsetWidth
+    consoleLog("Height: ", window.innerHeight)
+    const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth) 
+    autonCanvas.height = autonCanvasSize
+    autonCanvas.width = autonCanvasSize
 
     const gamePieceImage = new Image()
     gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
