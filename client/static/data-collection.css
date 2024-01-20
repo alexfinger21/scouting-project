@@ -35,8 +35,9 @@
     color: #FFF;
 }
 
-#auton-canvas {
-    width: 80%;
+#auton-container {
+    width: 30%;
+    aspect-ratio: 1;
 }
 
 #match-number-form {
