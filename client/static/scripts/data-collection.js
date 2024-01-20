@@ -399,7 +399,7 @@ function loadDataCollection() {
     const allianceColor = form.getAttribute("alliance")
 
     const gamePieceImage = new Image()
-    gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
+    gamePieceImage.src =  "../static/images/data-collection/orange-note.png"
     const autonMapImage = new Image()
     autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
     const robotImage = new Image()
