@@ -17,21 +17,6 @@
     <link rel="stylesheet" href="../static/team-details.css">
     <link rel="stylesheet" href="../static/alliance-input.css">
     <link rel="icon" href="../static/images/bison-robotics.png" type="image/png">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!--Chart.js CDN-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script>
-    <script type="module" src="../static/scripts/team-summary.js" defer></script>
-    <script type="module" src="../static/scripts/data-collection.js" defer></script>
-    <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
-    <script type="module" src="../static/scripts/bottomBar.js" defer></script>
-    <script type="module" src="../static/scripts/match-listing.js" defer></script>
-    <script type="module" src="../static/scripts/admin-page.js" defer></script>
-    <script type="module" src="../static/scripts/match-strategy.js" defer></script>
-    <script type="module" src="../static/scripts/rankings.js" defer></script>
-    <script type="module" src="../static/scripts/team-details.js" defer></script>
-    <script type="module" src="../static/scripts/alliance-input.js" defer></script>
-    <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
 </head>
 
 <body>
@@ -40,9 +25,6 @@
 
         <div id="page-holder">
             
-            <div id="auton-container">
-                <canvas id="auton-canvas"></canvas>
-            </div>            
 
             <%if(assignment != null) {%> <!--Check if user has access-->
                 <div id="data-collection-tabs">
@@ -72,6 +54,10 @@
                 <span class=<%=assignment.team_color %> > <%= assignment.team_display %> </span>
             </div>
 
+            <div id="auton-container">
+                <canvas id="auton-canvas"></canvas>
+            </div>            
+          
             <div id="input-scroller">
                 <!--PREGAME-->
                 <div class="line" id="pre-game">ㅤ</div>

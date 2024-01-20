@@ -406,9 +406,7 @@ async function loadDataCollection() {
     robotImage.src =  `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
     const images = {gamePieceImage, robotImage, autonMapImage}
    
-    consoleLog("fr") 
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
-    consoleLog("fr2") 
     
     const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images})
     AutonObject.draw()
