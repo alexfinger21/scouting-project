@@ -360,7 +360,6 @@ async function waitUntilImagesLoaded(imgs) {
     imgs.forEach((e, i) => {
         e.onload = () => {
             imgMap.set(i, true)
-            consoleLog("LOADED MATE")
         }
         imgMap.set(i, false)
     })
@@ -370,21 +369,22 @@ async function waitUntilImagesLoaded(imgs) {
             if (!v) {
                 return false
             }
+
         }
 
         return true
     }
 
     while (!checkIfTrue()) {
-        consoleLog("LOADING...")
         consoleLog(imgMap)
         await timer(10)
     }
 
+    return true
     consoleLog("LOADED IMAGES")
 }
 
-function loadDataCollection() {
+async function loadDataCollection() {
     
     loadData()
 
@@ -399,15 +399,17 @@ function loadDataCollection() {
     const allianceColor = form.getAttribute("alliance")
 
     const gamePieceImage = new Image()
-    gamePieceImage.src =  "../static/images/data-collection/orange-note.png"
+    gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
     const autonMapImage = new Image()
     autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
     const robotImage = new Image()
     robotImage.src =  `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
     const images = {gamePieceImage, robotImage, autonMapImage}
+   
+    consoleLog("fr") 
+    const renderedImage = await waitUntilImagesLoaded(Object.values(images))
+    consoleLog("fr2") 
     
-    waitUntilImagesLoaded(Object.values(images))
-
     const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images})
     AutonObject.draw()
 
