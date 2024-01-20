@@ -1,4 +1,4 @@
-import { consoleLog } from "../utility"
+import { consoleLog } from "../utility.js"
 
 export default class DrawableObject {
     constructor({ctx, x, y, sX, sY, img, visible = true}) {
@@ -15,14 +15,13 @@ export default class DrawableObject {
     }
 
     draw() {
-        consoleLog("Drawing...")
-        this.ctx.save()
         if (this.visible) {
         //drawImage(image, dx, dy, dWidth, dHeight)
         //drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
             this.ctx.drawImage(this.img, this.x, this.y, this.sX, this.sY)
         }
-        this.ctx.restore()
+        this.ctx.save()
+        //this.ctx.restore()
     }
 
     

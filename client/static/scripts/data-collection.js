@@ -3,6 +3,8 @@ import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
 
+console.log("SHALOM DATA COLLECTION")
+
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
         for (const removed_node of mutation.removedNodes) {
@@ -149,8 +151,12 @@ async function loadData() {
     const inputContainers = document.getElementById("match-number-form").querySelectorAll(".input-container")
     const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
     const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
-    const data = JSON.parse(localStorage.getItem("data"))[match]
-    //consoleLog(data)
+    const localData = JSON.parse(localStorage.getItem("data"))
+    if(!localData) {
+        return
+    }
+    const data = localData[match]
+    //consoleLog("Data is: " + data)
 
     if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
