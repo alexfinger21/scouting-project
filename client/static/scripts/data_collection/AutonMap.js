@@ -1,6 +1,6 @@
 import { consoleLog } from "../utility.js"
 import DrawableObject from "./DrawableObject.js"
-import gamePiece from "./gamePiece.js"
+import gamePiece from "./GamePiece.js"
 
 export default class AutonMap extends DrawableObject {
     constructor({ctx, img}) {
