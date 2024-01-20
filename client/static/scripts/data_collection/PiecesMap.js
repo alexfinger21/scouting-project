@@ -1,13 +1,18 @@
 import DrawableObject from "./DrawableObject.js"
 import GamePiece from "./GamePiece.js"
 
-export default class PiecesMap extends DrawableObject {
+export default class PiecesMap {
     constructor({ctx, allianceColor, img}) {
-        super({ctx, img, x: 0, y: 0, sX: 200, sY: 200})
+        console.log("Create pieces")
         this.pieces = new Array(5).fill(new GamePiece({x: 10, y: 10, ctx, img}))
+        console.log(this.pieces)
     }
 
     draw() {
-        super.draw()
+        console.log("Draw piecesMap")
+        for(piece in this.pieces) {
+            console.log("Drawing piece")
+            piece.draw()
+        }
     }
-}
+ }
