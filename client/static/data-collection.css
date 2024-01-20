@@ -36,8 +36,14 @@
 }
 
 #auton-container {
-    width: 75%;
     aspect-ratio: 1;
+    width: 85%;
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 }
 
 #match-number-form {

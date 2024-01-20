@@ -2,14 +2,17 @@ import DrawableObject from "./DrawableObject.js"
 import GamePiece from "./GamePiece.js"
 
 export default class PiecesMap {
-    constructor({ctx, allianceColor, img}) {
+    constructor({ctx, allianceColor, img, canvasSize}) {
         console.log("Create pieces")
-        
-        this.pieces = [
-            new GamePiece({x: 10, y: 10, ctx, img, ge_key: 202}), //Pickup Wing Note 1
-            new GamePiece({x: 10, y: 30, ctx, img, ge_key: 203}), //Pickup Wing Note 2
-            new GamePiece({x: 10, y: 50, ctx, img, ge_key: 204}), //Pickup Wing Note 3
-        ]
+        console.log(canvasSize)
+        this.pieces = new Array(8)
+        //Add Pickup Wing Notes ge_key 202-204
+        for(let i = 0; i < 3; i++) {
+            this.pieces[i] = new GamePiece({x: Math.floor(canvasSize.x*0.25), y: canvasSize.y*0.1 + Math.floor(canvasSize.y*0.18*i), ctx, img, ge_key: 202+i, canvasSize})
+        }
+        for(let i = 0; i < 5; i++) {
+            this.pieces[3+i] = new GamePiece({x: Math.floor(canvasSize.x*0.8), y: canvasSize.y*0.1+Math.floor(canvasSize.y*0.18*i), ctx, img, ge_key: 205+i, canvasSize})
+        }
         console.log(this.pieces)
     }
 

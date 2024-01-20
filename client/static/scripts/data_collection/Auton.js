@@ -11,9 +11,9 @@ export default class {
         consoleLog(images)
         const canvasSize = {x: cX, y: cY}
         this.ctx = ctx
-        this.map = new AutonMap({ctx, allianceColor, img: images.autonMapImage, canvasSize: canvasSize})
-        this.robot = new Robot({ctx, allianceColor, img: images.robotImage})
-        this.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage})
+        this.map = new AutonMap({ctx, allianceColor, img: images.autonMapImage, canvasSize})
+        this.robot = new Robot({ctx, allianceColor, img: images.robotImage, canvasSize})
+        this.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, canvasSize})
 
     }
 
