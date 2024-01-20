@@ -394,9 +394,13 @@ async function loadDataCollection() {
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
+    const autonCanvasContainer = document.getElementById("auton-container")
     const autonCanvas = document.getElementById("auton-canvas")
     const autonCanvasCTX = autonCanvas.getContext("2d")
     const allianceColor = form.getAttribute("alliance")
+
+    autonCanvas.height = autonCanvasContainer.offsetHeight
+    autonCanvas.width = autonCanvasContainer.offsetWidth
 
     const gamePieceImage = new Image()
     gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
@@ -408,7 +412,7 @@ async function loadDataCollection() {
    
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
     
-    const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images})
+    const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height})
     AutonObject.draw()
 
     form.onsubmit = (event) => {
