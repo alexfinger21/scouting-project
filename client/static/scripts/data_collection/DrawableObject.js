@@ -14,6 +14,14 @@ export default class DrawableObject {
         this.visible = visible
     }
 
+    /*Return true if x, y position is in object*/
+    inBoundingBox({x, y}) {
+        consoleLog(x, y)
+        if ((y > this.y) && (y < this.y + this.sY) && (x > this.x) && (x < this.x + this.sX)) {
+            return true
+        }
+    }
+
     draw() {
         if (this.visible) {
         //drawImage(image, dx, dy, dWidth, dHeight)
