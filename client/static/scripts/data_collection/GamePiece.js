@@ -68,7 +68,6 @@ export default class GamePiece extends DrawableObject {
     }
 
     draw() {
-        consoleLog(this.color)
         this.color = lerpColor(this.color, this.isSelected ? selectedColor : unselectedColor, Date.now() - this.lastTick)
         this.lastTick = Date.now()
         this.drawMask()
