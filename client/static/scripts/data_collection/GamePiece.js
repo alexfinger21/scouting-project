@@ -18,7 +18,7 @@ export default class GamePiece extends DrawableObject {
         this.mask.height = this.size
 
         this.maskCtx = this.mask.getContext("2d")
-        this.opacity = 0.1
+        this.opacity = 0.2
 
         this.ge_key = ge_key
     }
