@@ -153,6 +153,7 @@ async function loadData() {
     const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
     const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
     const localData = JSON.parse(localStorage.getItem("data"))
+
     if (!localData) {
         return
     }
@@ -258,7 +259,7 @@ async function saveData() {
         const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
         const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
 
-        const autonData = AutonObject ? AutonObject.sendData() : {}
+        data.autonPiecesData = AutonObject ? AutonObject.sendData() : {}
 
         data.matchNumber = match
 
@@ -309,41 +310,6 @@ async function saveData() {
 
                 data[containerName] = selected
             }
-        })
-
-        //areas and the cones/cubes within them
-
-        //none is 0, cube is 1, cone is 2 
-
-        data.tables = {}
-
-        Array.from(tableScrollers).forEach(tableContainer => {
-            let tableCounter = 0;
-
-            const name = tableContainer.parentElement.parentElement.children[0].textContent
-            data.tables[name] = {}
-
-            tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
-
-            Array.from(tableContainer).forEach(container => {
-                //consoleLog(container)
-                //consoleLog(tableCounter)
-                data.tables[name][tableCounter] = {}
-
-                for (let y = 0; y < 3; y++) {
-                    const row = container.children[y]
-
-                    data.tables[name][tableCounter][y] = {}
-
-                    for (let x = 0; x < 3; x++) {
-                        const item = row.children[x].children[0].getAttribute("object")
-                            //consoleLog(item)
-                        data.tables[name][tableCounter][y][x] = item
-                    }
-                }
-
-                tableCounter++
-            })
         })
 
         data.alliance = document.getElementById("match-number-form").getAttribute("alliance")
