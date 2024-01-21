@@ -4,6 +4,7 @@ import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
+let AutonObject
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -257,6 +258,8 @@ async function saveData() {
         const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
         const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
 
+        const autonData = AutonObject ? AutonObject.sendData() : {}
+
         data.matchNumber = match
 
         data.GAME_TYPE = GAME_TYPE
@@ -418,11 +421,13 @@ async function loadDataCollection() {
 
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
 
-    const AutonObject = new Auton({ ctx: autonCanvasCTX, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+    AutonObject = new Auton({ ctx: autonCanvasCTX, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
 
     autonCanvas.addEventListener("click", (event) => {
         AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
     })
+
+    console.log(JSON.parse(JSON.stringify(AutonObject.sendData())))
 
     function animateAuton() {
         if (currentPage == paths.dataCollection) {
