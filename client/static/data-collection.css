@@ -35,6 +35,16 @@
     color: #FFF;
 }
 
+#auton-container {
+    width: 85%;
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
 #match-number-form {
     margin-left: auto;
     margin-right: auto;
@@ -266,7 +276,7 @@
     padding: 0 !important;
 }
 
-.scoring-button {
+.scoring-button {   
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -403,4 +413,13 @@
     margin-top: 60vh;
     width: 90%;
     position: fixed;
+}
+
+input[type=checkbox]
+{
+  -ms-transform: scale(.5) translate(20px); /* IE */
+  -moz-transform: scale(.5) translate(20px); /* FF */
+  -webkit-transform: scale(.5) translate(20px); /* Safari and Chrome */
+  -o-transform: scale(.5) translate(20px); /* Opera */
+  transform: scale(.5) translateY(50%);
 }
