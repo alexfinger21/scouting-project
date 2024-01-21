@@ -422,10 +422,7 @@ async function loadDataCollection() {
     const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height})
     AutonObject.draw()
     autonCanvas.addEventListener("click", (event) => {
-        const leftOffset = autonCanvas.offsetLeft + autonCanvas.clientLeft
-        const topOffset = autonCanvas.offsetTop + autonCanvas.clientTop
-        const scrollOffset = document.getElementById("input-scroller").scrollTop
-        AutonObject.onClick({event, leftOffset, topOffset, scrollOffset})
+        AutonObject.onClick({event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY})
     })
 
     form.onsubmit = (event) => {

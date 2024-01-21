@@ -5,6 +5,7 @@ export default class GamePiece extends DrawableObject {
     constructor({x, y, ctx, img, canvasSize, ge_key}) {
         consoleLog(x, y)
         const size = canvasSize.x * 0.13
+        consoleLog("Size note: ", size)
         super({ctx, img, x, y, sX: size, sY: size});
         this.ge_key = ge_key
     }
