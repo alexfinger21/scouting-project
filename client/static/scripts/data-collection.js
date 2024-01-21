@@ -402,6 +402,7 @@ async function loadDataCollection() {
     const autonCanvas = document.getElementById("auton-canvas")
     const autonCanvasCTX = autonCanvas.getContext("2d")
     const allianceColor = form.getAttribute("alliance")
+    const alliancePosition = form.getAttribute("alliance-position")
     consoleLog("Height: ", window.innerHeight)
     const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
     autonCanvas.height = autonCanvasSize
@@ -417,7 +418,7 @@ async function loadDataCollection() {
 
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
 
-    const AutonObject = new Auton({ ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height })
+    const AutonObject = new Auton({ ctx: autonCanvasCTX, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
 
     autonCanvas.addEventListener("click", (event) => {
         AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
