@@ -24,6 +24,16 @@ export default class PiecesMap {
         })
     }
 
+    sendData() {
+        const data = new Map()
+
+        for (const x of this.pieces) {
+            data.set(x.ge_key, x.isSelected)
+        }
+
+        return data
+    }
+
     draw() {
         this.pieces.forEach(function(piece) {
             piece.draw()
