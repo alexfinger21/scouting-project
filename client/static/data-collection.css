@@ -45,6 +45,10 @@
     margin: auto;
 }
 
+.text-container {
+    width: 85%;
+}
+
 #match-number-form {
     margin-left: auto;
     margin-right: auto;

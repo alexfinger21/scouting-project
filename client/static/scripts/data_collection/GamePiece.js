@@ -22,7 +22,7 @@ function lerpColor(current, goal, tickDiff) {
     const l2 = Math.min(1, Math.abs((changePerMS*tickDiff)/(g2 - c2)))
     const l3 = Math.min(1, Math.abs((changePerMS*tickDiff)/(g3 - c3)))
 
-    return `rgb(${lerp(c1, g1, l1 == NaN ? 0 : l1)}, ${lerp(c2, g2, l2 == NaN ? 0 : l2)}, ${lerp(c3, g3, l3 == NaN ? 0 : l3)})`
+    return `rgb(${lerp(c1, g1, isNaN(l1) ? 0 : l1)}, ${lerp(c2, g2, isNaN(l2) ? 0 : l2)}, ${lerp(c3, g3, isNaN(l3) ? 0 : l3)})`
 }
 
 export default class GamePiece extends DrawableObject {
@@ -68,6 +68,7 @@ export default class GamePiece extends DrawableObject {
     }
 
     draw() {
+        consoleLog(this.color)
         this.color = lerpColor(this.color, this.isSelected ? selectedColor : unselectedColor, Date.now() - this.lastTick)
         this.lastTick = Date.now()
         this.drawMask()
