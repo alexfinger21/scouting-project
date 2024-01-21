@@ -1,14 +1,18 @@
 import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
+import Auton from "./data_collection/Auton.js"
 
-const observer = new MutationObserver(function (mutations_list) {
-    mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(function (removed_node) {
+const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
+
+const observer = new MutationObserver(function(mutations_list) {
+    mutations_list.forEach(function(mutation) {
+        for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && currentPage == paths.dataCollection) {
                 main()
+                break
             }
-        })
+        }
     })
 })
 
@@ -31,7 +35,7 @@ const playPiecesDict = {
 //given a TD's id and index in the auton-scoring table, it returns the corresponding TD in the teleop-scoring table
 function getCorrespondingTd(id, index) {
     const teleopConeButtons = document.getElementById("teleop-scoring").getElementsByClassName(id) //get all cone buttons in teleop
-    const correspondingTd = teleopConeButtons.item(index)//the corresponding TD under teleop-scoring
+    const correspondingTd = teleopConeButtons.item(index) //the corresponding TD under teleop-scoring
     return correspondingTd //return the image in the TD
 }
 
@@ -80,7 +84,7 @@ async function loadComments() {
         Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
             let title = e.querySelector(".comments-team").innerText
             let team = title.split(" ")[0]
-            //e.querySelector("textarea").value = data.comments[team]
+                //e.querySelector("textarea").value = data.comments[team]
         })
 
         resolve(true)
@@ -98,17 +102,17 @@ async function sendComments() {
         contentType: "application/json",
         url: paths.dataCollection,
         data: JSON.stringify(data),
-        success: function (response) {
+        success: function(response) {
             consoleLog(response)
             alert("Comments saved")
             requestPage(paths.matchListing)
             const hoverButton = document.getElementById("hover-button")
-            const matchListingButton = document.getElementById("match-listing-button")
+            const matchListingButton = document.getElementById("match-listing-btn")
             moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
             setSelectedObject(matchListingButton)
         },
 
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function(jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
@@ -124,17 +128,17 @@ async function sendData() {
         contentType: "application/json",
         url: paths.dataCollection,
         data: JSON.stringify(data),
-        success: function (response) {
+        success: function(response) {
             consoleLog(response)
             alert("Data saved")
             requestPage(paths.matchListing)
             const hoverButton = document.getElementById("hover-button")
-            const matchListingButton = document.getElementById("match-listing-button")
+            const matchListingButton = document.getElementById("match-listing-btn")
             moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
             setSelectedObject(matchListingButton)
         },
 
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function(jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
@@ -147,8 +151,12 @@ async function loadData() {
     const inputContainers = document.getElementById("match-number-form").querySelectorAll(".input-container")
     const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
     const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
-    const data = JSON.parse(localStorage.getItem("data"))[match]
-    //consoleLog(data)
+    const localData = JSON.parse(localStorage.getItem("data"))
+    if (!localData) {
+        return
+    }
+    const data = localData[match]
+        //consoleLog("Data is: " + data)
 
     if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
@@ -220,12 +228,11 @@ async function loadData() {
                         for (let x = 0; x < 3; x++) {
                             const item = row.children[x].children[0]
                             item.setAttribute("object", data.tables[name][tableCounter][y][x])
-                            //consoleLog(item)
+                                //consoleLog(item)
                             let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
                             if (itemImage) {
                                 item.children[0].src = itemImage
-                            }
-                            else {
+                            } else {
                                 item.children[0].src = playPiecesDict["empty"]
                             }
                         }
@@ -241,7 +248,7 @@ async function loadData() {
 async function saveData() {
     return new Promise(async resolve => {
         const match = await getMatch()
-        const ogData = JSON.parse(localStorage.getItem("data")) != null ? JSON.parse(localStorage.getItem("data")) : {}
+        const ogData = JSON.parse(localStorage.getItem("data")) ?? {}
         const data = {}
 
         const buttonContainers = document.getElementById("match-number-form").querySelectorAll(".NumberButtonContainer")
@@ -327,7 +334,7 @@ async function saveData() {
 
                     for (let x = 0; x < 3; x++) {
                         const item = row.children[x].children[0].getAttribute("object")
-                        //consoleLog(item)
+                            //consoleLog(item)
                         data.tables[name][tableCounter][y][x] = item
                     }
                 }
@@ -351,9 +358,38 @@ async function saveData() {
 
 observer.observe(document.body, { subtree: false, childList: true });
 
-window.addEventListener("load", main)
+async function waitUntilImagesLoaded(imgs) {
+    const imgMap = new Map()
 
-function loadDataCollection() {
+    imgs.forEach((e, i) => {
+        e.onload = () => {
+            imgMap.set(i, true)
+        }
+        imgMap.set(i, false)
+    })
+
+    function checkIfTrue() {
+        for (const [k, v] of imgMap) {
+            if (!v) {
+                return false
+            }
+
+        }
+
+        return true
+    }
+
+    while (!checkIfTrue()) {
+        consoleLog(imgMap)
+        await timer(10)
+    }
+
+    return true
+    consoleLog("LOADED IMAGES")
+}
+
+async function loadDataCollection() {
+
     loadData()
 
     const form = document.getElementById("match-number-form")
@@ -362,16 +398,49 @@ function loadDataCollection() {
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
+    const autonCanvasContainer = document.getElementById("auton-container")
+    const autonCanvas = document.getElementById("auton-canvas")
+    const autonCanvasCTX = autonCanvas.getContext("2d")
+    const allianceColor = form.getAttribute("alliance")
+    consoleLog("Height: ", window.innerHeight)
+    const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+    autonCanvas.height = autonCanvasSize
+    autonCanvas.width = autonCanvasSize
 
-    form.onsubmit = (event) => {
-        event.preventDefault()
+    const gamePieceImage = new Image()
+    gamePieceImage.src = "./static/images/data-collection/orange-note.png"
+    const autonMapImage = new Image()
+    autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
+    const robotImage = new Image()
+    robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+    const images = { gamePieceImage, robotImage, autonMapImage }
 
-        consoleLog("submitted!")
+    const renderedImage = await waitUntilImagesLoaded(Object.values(images))
 
-        sendData()
+    const AutonObject = new Auton({ ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height })
+
+    autonCanvas.addEventListener("click", (event) => {
+        AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+    })
+
+    function animateAuton() {
+        if (currentPage == paths.dataCollection) {
+            AutonObject.draw()
+
+            window.requestAnimationFrame(animateAuton)
+        }
     }
 
-    //load checkmark and number buttons
+    animateAuton()
+
+    form.onsubmit = (event) => {
+            event.preventDefault()
+
+            consoleLog("submitted!")
+
+            sendData()
+        }
+        //load checkmark and number buttons
     for (const container of buttonContainers) {
         for (const child of container.children) {
             if (child.tagName.toLowerCase() == "input") {
@@ -446,11 +515,10 @@ function loadDataCollection() {
                     const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    //make it clickable
+                        //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
-            }
-            else { //its empty, make it a cone
+            } else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
                 coneBtn.setAttribute("object", "cone")
 
@@ -490,11 +558,10 @@ function loadDataCollection() {
                     const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    //make it clickable
+                        //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
-            }
-            else { //its empty, make it a cube
+            } else { //its empty, make it a cube
                 btnImg.src = "../static/images/cube.svg"
                 cubeBtn.setAttribute("object", "cube")
 
@@ -537,11 +604,10 @@ function loadDataCollection() {
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
                     correspondingBtn.setAttribute("object", "empty")
-                    //make it not clickable
+                        //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
                 }
-            }
-            else if (btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
+            } else if (btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
                 btnImg.src = "../static/images/transparent.png"
                 bothBtn.setAttribute("object", "empty")
 
@@ -549,11 +615,10 @@ function loadDataCollection() {
                     const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    //make it clickable
+                        //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
-            }
-            else { //its empty, make it a cone
+            } else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
                 bothBtn.setAttribute("object", "cone")
 
@@ -562,7 +627,7 @@ function loadDataCollection() {
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
                     correspondingBtn.setAttribute("object", "empty") //set attribute
-                    //make it not clickable
+                        //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
                 }
             }
@@ -609,11 +674,11 @@ function onTabClick() {
     if (currentPage != newPage) {
         document.querySelectorAll(`[page="${currentPage}"]`)[0].classList.remove("selected")
         document.querySelectorAll(`[page="${newPage}"]`)[0].classList.add("selected")
-        
+
         if (document.querySelectorAll(`[page="${currentPage}"]`)[1]) {
             document.querySelectorAll(`[page="${currentPage}"]`)[1].style.display = "none"
         }
-        
+
         if (document.querySelectorAll(`[page="${newPage}"]`)[1]) {
             document.querySelectorAll(`[page="${newPage}"]`)[1].style.display = "flex"
         }
@@ -621,29 +686,6 @@ function onTabClick() {
 }
 
 function main() {
-    //Header Code
-    const dropdown = document.getElementById("dropdown")
-    const content = document.getElementById("dropdown-content")
-
-    //when the button is clicked, changes the max visible height
-    dropdown.addEventListener("click", () => {
-        consoleLog("CLICKEDD")
-        content.style.visibility = "visible"
-        content.style.display = "block"
-        content.style.maxHeight = "30vh"
-    })
-
-    //close the dropdown content when the user clicks outside of the button
-    window.addEventListener("click", (event) => {
-        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) {
-            //consoleLog(event.target)
-            content.style.maxHeight = "0px"
-            setTimeout(() => {
-                content.style.visibility = "hidden"
-            }, 200);
-        }
-    })
-    
     consoleLog("selected page:")
     consoleLog(document.getElementsByClassName("selected"))
     if (document.getElementById("match-number-form")) {

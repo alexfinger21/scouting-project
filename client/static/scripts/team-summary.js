@@ -2,7 +2,6 @@ import * as graphHandler from "./graphHandler.js"
 import { paths, requestData, highlightColors, currentPage, consoleLog} from "./utility.js"
 
 const POINT_COLOR = "rgb(147, 157, 168)"
-const OUR_TEAM_COLOR = "rgb(242, 142, 43)" 
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
 const BLUE_COLOR = "rgb(52,146,234)"
@@ -11,22 +10,20 @@ let data = {0: "dummy data"}
 let debounce = false
 
 const observer = new MutationObserver(function (mutations_list) {
-    mutations_list.forEach(function (mutation) {
-        mutation.removedNodes.forEach(async function (removed_node) {
-            consoleLog(currentPage)
-            if (removed_node.id == 'page-holder' && currentPage == paths.teamSummary) {
-                consoleLog("got here")
+    mutations_list.forEach(async function (mutation) {
+        for (const removed_node of mutation.removedNodes) {
+            if (removed_node.id == 'page-holder' && currentPage == paths.rankings) {
                 data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
                 consoleLog(data)
                 main()
                 debounce = false
+                break
             }
-        })
+        }
     })
 })
 
 observer.observe(document.body, { subtree: false, childList: true });
-window.addEventListener("load", main)
 
 let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     return {
