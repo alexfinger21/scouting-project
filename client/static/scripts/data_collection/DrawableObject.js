@@ -16,7 +16,7 @@ export default class DrawableObject {
 
     /*Return true if x, y position is in object*/
     inBoundingBox({x, y}) {
-        consoleLog("pos: ", x, y)
+        //consoleLog("pos: ", x, y)
         if ((y > this.y) && (y < this.y + this.sY) && (x > this.x) && (x < this.x + this.sX)) {
             return true
         }

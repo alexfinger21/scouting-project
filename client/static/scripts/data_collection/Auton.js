@@ -25,7 +25,6 @@ export default class {
         // Collision detection between clicked offset and element.
         Object.values(this.clickable).forEach(function(element) {
             if(element.onClick) {
-                consoleLog(element)
                 element.onClick({x, y})
             }
         })
