@@ -24,12 +24,13 @@ export default class DrawableObject {
 
     draw() {
         if (this.visible) {
+            this.ctx.save()
+            this.ctx.globalAlpha = this.opacity ?? 1
         //drawImage(image, dx, dy, dWidth, dHeight)
         //drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
             this.ctx.drawImage(this.img, this.x, this.y, this.sX, this.sY)
+            this.ctx.restore()
         }
-        this.ctx.save()
-        //this.ctx.restore()
     }
 
     
