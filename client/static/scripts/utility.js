@@ -20,6 +20,10 @@ function consoleLog(...args) {
     }
 }
 
+function lerp(a, b, c) {
+    return a + (b-a) * c
+}
+
 const highlightColors = {
     695: "rgb(255,217,98)",
     2399: "rgb(255,189,241)"
@@ -142,4 +146,4 @@ async function requestPage(url, data, pageVal) {
 }
 
 
-export {consoleLog, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
