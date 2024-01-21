@@ -30,6 +30,10 @@ export default class {
         })
     }
 
+    sendData() {
+        return this.clickable.pieces.sendData()
+    }
+
     draw() {
         //this.ctx.save()
 
