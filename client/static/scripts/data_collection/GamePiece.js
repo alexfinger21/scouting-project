@@ -18,7 +18,6 @@ export default class GamePiece extends DrawableObject {
         this.mask.height = this.size
 
         this.maskCtx = this.mask.getContext("2d")
-        this.maskCtx.globalCompositeOperation = "destination-atop"
         this.opacity = 0.1
 
         this.ge_key = ge_key
@@ -27,10 +26,10 @@ export default class GamePiece extends DrawableObject {
     /*changes color of note to match this.isSelected */
     drawMask() {
         this.maskCtx.save()
-        consoleLog(this.isSelected)
         this.maskCtx.fillStyle = this.isSelected ? selectedColor : unselectedColor
         this.maskCtx.rect(0, 0, this.size, this.size)
         this.maskCtx.fill()
+        this.maskCtx.globalCompositeOperation = "destination-atop"
         this.maskCtx.drawImage(this.img, 0, 0, this.size, this.size)
         this.maskCtx.restore()
     }
