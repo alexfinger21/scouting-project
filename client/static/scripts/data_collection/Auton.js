@@ -12,17 +12,31 @@ export default class {
         const canvasSize = {x: cX, y: cY}
         this.ctx = ctx
         this.map = new AutonMap({ctx, allianceColor, img: images.autonMapImage, canvasSize})
-        this.robot = new Robot({ctx, allianceColor, img: images.robotImage, canvasSize})
-        this.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, canvasSize})
+        this.clickable = {}
+        this.clickable.robot = new Robot({ctx, allianceColor, img: images.robotImage, canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, canvasSize})
 
+    }
+
+    onClick({event, leftOffset, topOffset}) {
+        const x = event.pageX - leftOffset
+        const y = event.pageY - topOffset
+
+        // Collision detection between clicked offset and element.
+        Object.values(this.clickable).forEach(function(element) {
+            if(element.onClick) {
+                consoleLog(element)
+                element.onClick({x, y})
+            }
+        })
     }
 
     draw() {
         //this.ctx.save()
 
         this.map.draw()
-        this.robot.draw()
-        this.pieces.draw()
+        this.clickable.robot.draw()
+        this.clickable.pieces.draw()
 
         //this.ctx.restore()
     }

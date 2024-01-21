@@ -16,6 +16,12 @@ export default class PiecesMap {
         console.log(this.pieces)
     }
 
+    onClick({x, y}) {
+        this.pieces.forEach(function(piece) {
+            piece.onClick({x, y})
+        })
+    }
+
     draw() {
         console.log("Draw piecesMap")
         this.pieces.forEach(function(piece) {

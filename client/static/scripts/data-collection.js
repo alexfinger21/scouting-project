@@ -421,6 +421,11 @@ async function loadDataCollection() {
     
     const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height})
     AutonObject.draw()
+    autonCanvas.addEventListener("click", (event) => {
+        const leftOffset = autonCanvas.offsetLeft + autonCanvas.clientLeft
+        const topOffset = autonCanvas.offsetTop + autonCanvas.clientTop
+        AutonObject.onClick({event, leftOffset, topOffset})
+    })
 
     form.onsubmit = (event) => {
         event.preventDefault()
