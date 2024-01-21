@@ -23,10 +23,7 @@ export default class PiecesMap {
     }
 
     draw() {
-        console.log("Draw piecesMap")
         this.pieces.forEach(function(piece) {
-            console.log("Drawing piece")
-            console.log(piece)
             piece.draw()
         }) 
     }

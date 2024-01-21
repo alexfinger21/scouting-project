@@ -5,8 +5,8 @@ import Auton from "./data_collection/Auton.js"
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 
-const observer = new MutationObserver(function (mutations_list) {
-    mutations_list.forEach(function (mutation) {
+const observer = new MutationObserver(function(mutations_list) {
+    mutations_list.forEach(function(mutation) {
         for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && currentPage == paths.dataCollection) {
                 main()
@@ -35,7 +35,7 @@ const playPiecesDict = {
 //given a TD's id and index in the auton-scoring table, it returns the corresponding TD in the teleop-scoring table
 function getCorrespondingTd(id, index) {
     const teleopConeButtons = document.getElementById("teleop-scoring").getElementsByClassName(id) //get all cone buttons in teleop
-    const correspondingTd = teleopConeButtons.item(index)//the corresponding TD under teleop-scoring
+    const correspondingTd = teleopConeButtons.item(index) //the corresponding TD under teleop-scoring
     return correspondingTd //return the image in the TD
 }
 
@@ -84,7 +84,7 @@ async function loadComments() {
         Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
             let title = e.querySelector(".comments-team").innerText
             let team = title.split(" ")[0]
-            //e.querySelector("textarea").value = data.comments[team]
+                //e.querySelector("textarea").value = data.comments[team]
         })
 
         resolve(true)
@@ -102,7 +102,7 @@ async function sendComments() {
         contentType: "application/json",
         url: paths.dataCollection,
         data: JSON.stringify(data),
-        success: function (response) {
+        success: function(response) {
             consoleLog(response)
             alert("Comments saved")
             requestPage(paths.matchListing)
@@ -112,7 +112,7 @@ async function sendComments() {
             setSelectedObject(matchListingButton)
         },
 
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function(jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
@@ -128,7 +128,7 @@ async function sendData() {
         contentType: "application/json",
         url: paths.dataCollection,
         data: JSON.stringify(data),
-        success: function (response) {
+        success: function(response) {
             consoleLog(response)
             alert("Data saved")
             requestPage(paths.matchListing)
@@ -138,7 +138,7 @@ async function sendData() {
             setSelectedObject(matchListingButton)
         },
 
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function(jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
@@ -152,11 +152,11 @@ async function loadData() {
     const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
     const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
     const localData = JSON.parse(localStorage.getItem("data"))
-    if(!localData) {
+    if (!localData) {
         return
     }
     const data = localData[match]
-    //consoleLog("Data is: " + data)
+        //consoleLog("Data is: " + data)
 
     if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
@@ -228,12 +228,11 @@ async function loadData() {
                         for (let x = 0; x < 3; x++) {
                             const item = row.children[x].children[0]
                             item.setAttribute("object", data.tables[name][tableCounter][y][x])
-                            //consoleLog(item)
+                                //consoleLog(item)
                             let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
                             if (itemImage) {
                                 item.children[0].src = itemImage
-                            }
-                            else {
+                            } else {
                                 item.children[0].src = playPiecesDict["empty"]
                             }
                         }
@@ -335,7 +334,7 @@ async function saveData() {
 
                     for (let x = 0; x < 3; x++) {
                         const item = row.children[x].children[0].getAttribute("object")
-                        //consoleLog(item)
+                            //consoleLog(item)
                         data.tables[name][tableCounter][y][x] = item
                     }
                 }
@@ -368,7 +367,7 @@ async function waitUntilImagesLoaded(imgs) {
         }
         imgMap.set(i, false)
     })
-    
+
     function checkIfTrue() {
         for (const [k, v] of imgMap) {
             if (!v) {
@@ -390,7 +389,7 @@ async function waitUntilImagesLoaded(imgs) {
 }
 
 async function loadDataCollection() {
-    
+
     loadData()
 
     const form = document.getElementById("match-number-form")
@@ -404,77 +403,79 @@ async function loadDataCollection() {
     const autonCanvasCTX = autonCanvas.getContext("2d")
     const allianceColor = form.getAttribute("alliance")
     consoleLog("Height: ", window.innerHeight)
-    const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth) 
+    const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
     autonCanvas.height = autonCanvasSize
     autonCanvas.width = autonCanvasSize
 
     const gamePieceImage = new Image()
-    gamePieceImage.src =  "./static/images/data-collection/orange-note.png"
+    gamePieceImage.src = "./static/images/data-collection/orange-note.png"
     const autonMapImage = new Image()
     autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
     const robotImage = new Image()
-    robotImage.src =  `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-    const images = {gamePieceImage, robotImage, autonMapImage}
-   
+    robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+    const images = { gamePieceImage, robotImage, autonMapImage }
+
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
+
+    const AutonObject = new Auton({ ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height })
+
+    autonCanvas.addEventListener("click", (event) => {
+        AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+    })
 
     function animateAuton() {
         if (currentPage == paths.dataCollection) {
-            const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height})
-            autonCanvas.addEventListener("click", (event) => {
-                AutonObject.onClick({event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY})
-            })
             AutonObject.draw()
 
             window.requestAnimationFrame(animateAuton)
         }
-    } 
-    
+    }
+
     animateAuton()
 
     form.onsubmit = (event) => {
-        event.preventDefault()
+            event.preventDefault()
 
-        consoleLog("submitted!")
+            consoleLog("submitted!")
 
-        sendData()
-    }
-    //load checkmark and number buttons
+            sendData()
+        }
+        //load checkmark and number buttons
     for (const container of buttonContainers) {
         for (const child of container.children) {
             if (child.tagName.toLowerCase() == "input") {
                 //numerical value
                 const parent = child.parentElement
                 let input = parent.getElementsByTagName("input")[0]
-                
+
                 if (input.type == "number") {
                     const plusButton = parent.getElementsByTagName("button")[0]
                     const subtractButton = parent.getElementsByTagName("button")[1]
-                    
+
                     const inputMin = Number(input.min)
                     const inputMax = Number(input.max)
-                    
+
                     plusButton.addEventListener("click", (event) => {
                         input.value = clamp(Number(input.value) + 1, inputMin, inputMax)
                     })
-                    
+
                     subtractButton.addEventListener("click", (event) => {
                         input.value = clamp(Number(input.value) - 1, inputMin, inputMax)
                     })
                 }
             } else if (child.getElementsByTagName("img").length == 1 && child.tagName.toLowerCase() == "button") {
                 //img
-                
+
                 const parent = child.parentElement
-                
+
                 const xButton = parent.getElementsByTagName("button")[0]
                 const checkButton = parent.getElementsByTagName("button")[1]
-                
+
                 //initialize ( we do init in loadData)
-                
+
                 //xButton.style.backgroundColor = "#D9D9D9"
                 //checkButton.style.backgroundColor = "#D9D9D9"
-                
+
                 xButton.addEventListener("click", (event) => {
                     xButton.style.backgroundColor = "#3492EA"
                     checkButton.style.backgroundColor = "#D9D9D9"
@@ -487,11 +488,11 @@ async function loadDataCollection() {
             }
         }
     }
-    
+
     //load radio buttons
-    
+
     //ANIMATE SCORING GRIDS
-    
+
     //CONE ONLY BUTTONS
     const coneTds = document.getElementsByClassName("fill-cone") //table element
     let coneButtonIndex = 0
@@ -499,44 +500,43 @@ async function loadDataCollection() {
         const coneBtn = fillCone.getElementsByTagName("button")[0]
         const btnImg = coneBtn.getElementsByTagName("img")[0]
         const savedIndex = coneButtonIndex //saves the index as it is when the for loop reaches this cone
-        
+
         //coneBtn.setAttribute("object", "empty")
-        
+
         coneBtn.addEventListener("click", (event) => {
             const parent = fillCone.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-            
+
             if (btnImg.src.indexOf("cone.svg") > -1) { //filled image, make it empty
                 coneBtn.setAttribute("object", "empty")
-                
+
                 btnImg.src = "../static/images/transparent.png"
-                
+
                 if (parent.id == "auto-scoring") { //if its in auto, remove the gray cone under teleop scoring
                     const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    //make it clickable
+                        //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
-            }
-            else { //its empty, make it a cone
+            } else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
                 coneBtn.setAttribute("object", "cone")
-                
+
                 if (parent.id == "auto-scoring") { //if its in auto, add a gray cone under teleop scoring
                     const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
                     correspondingBtn.setAttribute("object", "empty") //set attribute
-                    
+
                     //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
                 }
             }
         })
-        
+
         coneButtonIndex++
     }
-    
+
     //CUBE ONLY BUTTONS
     const cubeTds = document.getElementsByClassName("fill-cube") //table element
     let cubeButtonIndex = 0
@@ -544,108 +544,105 @@ async function loadDataCollection() {
         const cubeBtn = fillCube.getElementsByTagName("button")[0]
         const btnImg = cubeBtn.getElementsByTagName("img")[0]
         let savedIndex = cubeButtonIndex
-        
+
         //cubeBtn.setAttribute("object", "empty")
-        
+
         cubeBtn.addEventListener("click", (event) => {
             const parent = fillCube.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-            
+
             if (btnImg.src.indexOf("cube.svg") > -1) { //filled image, make it empty
                 cubeBtn.setAttribute("object", "empty")
                 btnImg.src = "../static/images/transparent.png"
-                
+
                 if (parent.id == "auto-scoring") { //if its in auto, remove the gray cube under teleop scoring
                     const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    //make it clickable
+                        //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
-            }
-            else { //its empty, make it a cube
+            } else { //its empty, make it a cube
                 btnImg.src = "../static/images/cube.svg"
                 cubeBtn.setAttribute("object", "cube")
-                
+
                 if (parent.id == "auto-scoring") { //if its in auto, add a gray cube under teleop scoring
                     const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
                     correspondingBtn.setAttribute("object", "empty") //set attribute
-                    
+
                     //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
                 }
             }
         })
-        
+
         cubeButtonIndex++
     }
-    
+
     //BUTTONS THAT HAVE EITHER A CUBE OR A CONE
     //CLICK ONCE FOR CONE, CLICK AGAIN FOR CUBE, CLICK AGAIN TO EMPTY
     const bothTds = document.getElementsByClassName("fill-both") //table element
     let bothButtonIndex = 0
-    
+
     for (const fillBoth of bothTds) {
         const bothBtn = fillBoth.getElementsByTagName("button")[0]
         const btnImg = bothBtn.getElementsByTagName("img")[0]
         let savedIndex = bothButtonIndex
-        
+
         //bothBtn.setAttribute("object", "empty")
-        
+
         bothBtn.addEventListener("click", (event) => {
             const parent = fillBoth.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-            
+
             if (btnImg.src.indexOf("cone.svg") > -1) { //filled cone, make it a cube
                 btnImg.src = "../static/images/cube.svg"
                 bothBtn.setAttribute("object", "cube")
-                
+
                 if (parent.id == "auto-scoring") { //if its in auto, add a gray cube under teleop scoring
                     const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
                     correspondingBtn.setAttribute("object", "empty")
-                    //make it not clickable
+                        //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
                 }
-            }
-            else if (btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
+            } else if (btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
                 btnImg.src = "../static/images/transparent.png"
                 bothBtn.setAttribute("object", "empty")
-                
+
                 if (parent.id == "auto-scoring") { //if its in auto, remove the gray cube under teleop scoring
                     const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                    //make it clickable
+                        //make it clickable
                     correspondingBtn.removeAttribute("disabled")
                 }
-            }
-            else { //its empty, make it a cone
+            } else { //its empty, make it a cone
                 btnImg.src = "../static/images/cone.svg"
                 bothBtn.setAttribute("object", "cone")
-                
+
                 if (parent.id == "auto-scoring") { //if its in auto, add a gray cone under teleop scoring
                     const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
                     const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
                     correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
                     correspondingBtn.setAttribute("object", "empty") //set attribute
-                    //make it not clickable
+                        //make it not clickable
                     correspondingBtn.setAttribute("disabled", "disabled")
                 }
             }
         })
-        
+
         bothButtonIndex++
     }
-    
+
     const submitButton = document.getElementById("data-submit")
     submitButton.addEventListener("click", () => {
         //animate the button click effect
         submitButton.style.backgroundColor = "#3b86cc"
         submitButton.style.boxShadow = "0 2px #1c3750"
         submitButton.style.transform = "translateY(4px)"
-        
+
         //animate the button back
         setTimeout(() => {
             submitButton.style.backgroundColor = "#3492EA"
@@ -657,12 +654,12 @@ async function loadDataCollection() {
 
 function loadCommentsPage() {
     const form = document.getElementById("comments-page")
-    
+
     form.onsubmit = (e) => {
         e.preventDefault()
-        
+
         consoleLog("comments saved!")
-        
+
         sendComments()
     }
 }
@@ -677,18 +674,18 @@ function onTabClick() {
     if (currentPage != newPage) {
         document.querySelectorAll(`[page="${currentPage}"]`)[0].classList.remove("selected")
         document.querySelectorAll(`[page="${newPage}"]`)[0].classList.add("selected")
-        
+
         if (document.querySelectorAll(`[page="${currentPage}"]`)[1]) {
             document.querySelectorAll(`[page="${currentPage}"]`)[1].style.display = "none"
         }
-        
+
         if (document.querySelectorAll(`[page="${newPage}"]`)[1]) {
             document.querySelectorAll(`[page="${newPage}"]`)[1].style.display = "flex"
         }
     }
 }
 
-function main() { 
+function main() {
     consoleLog("selected page:")
     consoleLog(document.getElementsByClassName("selected"))
     if (document.getElementById("match-number-form")) {
