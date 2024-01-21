@@ -66,12 +66,15 @@ function moveToPage(ogPos, pos, btn) {
 }
 
 function setSelectedObject(value) {
+    consoleLog("SET SelectedObj", value)
     selectedObj = value
 }
 
 window.addEventListener("load", () => {
     requestPage(paths.matchListing)
-    
+   
+    selectedObj = document.getElementById("match-listing-btn")
+
     const footerPageButtons = Array.from(document.getElementsByClassName("footer-page-button"))
 
     const hoverButton = document.createElement('div');
@@ -96,6 +99,8 @@ window.addEventListener("load", () => {
         
         btn.addEventListener("click", event => {
             if (!bottomBarDebounce) {
+
+                consoleLog("SET SelectedObj", btn)
                 bottomBarDebounce = true
                 consoleLog(buttonUrls[btn.children[1].textContent])
                 requestPage("/" + buttonUrls[btn.children[1].textContent], {})
