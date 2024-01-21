@@ -36,7 +36,6 @@
 }
 
 #auton-container {
-    aspect-ratio: 1;
     width: 85%;
     display: flex;
     height: auto;
