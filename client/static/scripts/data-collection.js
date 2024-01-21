@@ -424,7 +424,8 @@ async function loadDataCollection() {
     autonCanvas.addEventListener("click", (event) => {
         const leftOffset = autonCanvas.offsetLeft + autonCanvas.clientLeft
         const topOffset = autonCanvas.offsetTop + autonCanvas.clientTop
-        AutonObject.onClick({event, leftOffset, topOffset})
+        const scrollOffset = document.getElementById("input-scroller").scrollTop
+        AutonObject.onClick({event, leftOffset, topOffset, scrollOffset})
     })
 
     form.onsubmit = (event) => {
