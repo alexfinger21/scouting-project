@@ -132,7 +132,6 @@ function stopMatch() {
 }
 
 observer.observe(document.body, { subtree: false, childList: true });
-window.addEventListener("load", main)
 
 function main() {
     //Scroll to last played match
