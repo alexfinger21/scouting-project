@@ -3,7 +3,7 @@ import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
 
-console.log("SHALOM DATA COLLECTION")
+const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -360,7 +360,6 @@ async function saveData() {
 observer.observe(document.body, { subtree: false, childList: true });
 
 async function waitUntilImagesLoaded(imgs) {
-    const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
     const imgMap = new Map()
 
     imgs.forEach((e, i) => {
@@ -418,21 +417,28 @@ async function loadDataCollection() {
     const images = {gamePieceImage, robotImage, autonMapImage}
    
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
+
+    function animateAuton() {
+        if (currentPage == paths.dataCollection) {
+            const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height})
+            autonCanvas.addEventListener("click", (event) => {
+                AutonObject.onClick({event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY})
+            })
+            AutonObject.draw()
+
+            window.requestAnimationFrame(animateAuton)
+        }
+    } 
     
-    const AutonObject = new Auton({ctx: autonCanvasCTX, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height})
-    AutonObject.draw()
-    autonCanvas.addEventListener("click", (event) => {
-        AutonObject.onClick({event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY})
-    })
+    animateAuton()
 
     form.onsubmit = (event) => {
         event.preventDefault()
-        
+
         consoleLog("submitted!")
-        
+
         sendData()
     }
-    
     //load checkmark and number buttons
     for (const container of buttonContainers) {
         for (const child of container.children) {
