@@ -107,7 +107,7 @@ async function sendComments() {
             alert("Comments saved")
             requestPage(paths.matchListing)
             const hoverButton = document.getElementById("hover-button")
-            const matchListingButton = document.getElementById("match-listing-button")
+            const matchListingButton = document.getElementById("match-listing-btn")
             moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
             setSelectedObject(matchListingButton)
         },
@@ -133,7 +133,7 @@ async function sendData() {
             alert("Data saved")
             requestPage(paths.matchListing)
             const hoverButton = document.getElementById("hover-button")
-            const matchListingButton = document.getElementById("match-listing-button")
+            const matchListingButton = document.getElementById("match-listing-btn")
             moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
             setSelectedObject(matchListingButton)
         },
@@ -685,29 +685,7 @@ function onTabClick() {
     }
 }
 
-function main() {
-    //Header Code
-    const dropdown = document.getElementById("dropdown")
-    const content = document.getElementById("dropdown-content")
-
-    //when the button is clicked, changes the max visible height
-    dropdown.addEventListener("click", () => {
-        content.style.visibility = "visible"
-        content.style.display = "block"
-        content.style.maxHeight = "30vh"
-    })
-
-    //close the dropdown content when the user clicks outside of the button
-    window.addEventListener("click", (event) => {
-        if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) {
-            //consoleLog(event.target)
-            content.style.maxHeight = "0px"
-            setTimeout(() => {
-                content.style.visibility = "hidden"
-            }, 200);
-        }
-    })
-    
+function main() { 
     consoleLog("selected page:")
     consoleLog(document.getElementsByClassName("selected"))
     if (document.getElementById("match-number-form")) {
