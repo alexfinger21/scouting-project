@@ -18,9 +18,9 @@ export default class {
 
     }
 
-    onClick({event, leftOffset, topOffset, scrollOffset}) {
+    onClick({event, leftOffset, topOffset}) {
         const x = event.pageX - leftOffset
-        const y = event.pageY - topOffset + scrollOffset
+        const y = event.pageY - topOffset
 
         // Collision detection between clicked offset and element.
         Object.values(this.clickable).forEach(function(element) {
