@@ -14,9 +14,9 @@ const paths = {
     rankings: "/rankings",
 }
 
-function consoleLog(arg) {
+function consoleLog(...args) {
     if (log) {
-        console.log(arg)
+        console.log(...args)
     }
 }
 
