@@ -28,8 +28,7 @@ export default class PiecesMap {
         const data = {}
 
         for (const x of this.pieces) {
-            data[x.ge_key] =  x.isSelected
-
+            data[x.ge_key] = x.isSelected
         }
 
         return data
