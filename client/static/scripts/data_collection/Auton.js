@@ -6,15 +6,14 @@ import Robot from "./Robot.js"
 export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, alliancePosition, images, cX, cY}) {
-        consoleLog("IMAGES: ")
+    constructor({ctx, allianceColor, autonPieceData, alliancePosition, images, cX, cY}) {
         consoleLog(images)
         const canvasSize = {x: cX, y: cY}
         this.ctx = ctx
         this.map = new AutonMap({ctx, allianceColor, img: images.autonMapImage, canvasSize})
         this.clickable = {}
         this.clickable.robot = new Robot({ctx, allianceColor, img: images.robotImage, canvasSize, alliancePosition})
-        this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, autonPieceData, canvasSize})
 
     }
 
