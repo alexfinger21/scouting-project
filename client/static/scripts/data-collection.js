@@ -5,6 +5,7 @@ import Auton from "./data_collection/Auton.js"
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
+let EndgameObject
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -379,11 +380,11 @@ async function loadDataCollection() {
 
     const gamePieceImage = new Image()
     gamePieceImage.src = "./static/images/data-collection/orange-note.png"
-    const autonMapImage = new Image()
-    autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
+    const mapImage = new Image()
+    mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
     const robotImage = new Image()
     robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-    const images = { gamePieceImage, robotImage, autonMapImage }
+    const images = { gamePieceImage, robotImage, mapImage }
 
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
 
@@ -395,15 +396,17 @@ async function loadDataCollection() {
 
     console.log(JSON.parse(JSON.stringify(AutonObject.sendData())))
 
-    function animateAuton() {
+
+
+    function animateCanvas() {
         if (currentPage == paths.dataCollection) {
             AutonObject.draw()
 
-            window.requestAnimationFrame(animateAuton)
+            window.requestAnimationFrame(animateCanvas)
         }
     }
 
-    animateAuton()
+    animateCanvas()
 
     form.onsubmit = (event) => {
             event.preventDefault()

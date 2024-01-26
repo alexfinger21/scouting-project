@@ -42,11 +42,12 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: auto;
+    margin-bottom: 5%;
 }
 
 .text-container {
     width: 85%;
+    text-align: center;
 }
 
 #match-number-form {
