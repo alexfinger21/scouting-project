@@ -7,15 +7,12 @@ export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
     constructor({ctx, allianceColor, alliancePosition, images, cX, cY}) {
-        consoleLog("IMAGES: ")
-        consoleLog(images)
         const canvasSize = {x: cX, y: cY}
         this.ctx = ctx
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
         this.clickable = {}
-        this.clickable.robot = new Robot({ctx, allianceColor, img: images.robotImage, canvasSize, alliancePosition})
+        this.clickable.robot = new Robot({ctx, clickable: true, allianceColor, img: images.robotImage, canvasSize, alliancePosition})
         this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, canvasSize})
-
     }
 
     onClick({event, leftOffset, topOffset}) {

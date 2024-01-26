@@ -78,11 +78,7 @@
                 </div>
                 
                 <div class="line" id="autonomous">ㅤ</div>
-                
-                <div id="auton-container">
-                    <canvas id="auton-canvas"></canvas>
-                </div>            
-                
+
                 <div class="input-container">
                     <span>Leaves Starting Zone</span>
                     <div class="NumberButtonContainer">
@@ -93,24 +89,33 @@
                         </button>
                     </div>
                 </div>
-
-                <!--AUTON SCORING GRID-->
+                
+                <div class="text-container">
+                    <span>Notes Picked up in Auton</span>
+                </div>
+                <div id="auton-container">
+                    <canvas id="auton-canvas"></canvas>
+                </div>
+                
                 <div class="input-container">
-                    <span>Notes scored in Auton</span>
+                    <span>Auton- Scored in Speaker</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="game-pieces-picked-up-auton" min="0" max="5" value="0">
+                        <input type="number" name="auton-normal-speaker" min="0" max="5" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
                 <div class="input-container">
-                    <span>Robot Auto Scoring</span>
-                    <div class="scoring-container" id="auto-scoring">
-                        
+                    <span>Auton- Scored in Amplifier</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="auton-amplifier" min="0" max="5" value="0">
+                        <button type="button" class="big-button">-</button>
                     </div>
                 </div>
+
                 <div class="input-container">
-                    <span>Robot drew tech foul in Auton</span>
+                    <span>Auton- Drew Tech Foul</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">x</button>
                         <input name="auton-tech-foul">
@@ -124,7 +129,7 @@
                 <div class="line" id="tele-op">ㅤ</div>
 
                 <div class="input-container">
-                    <span>Scored in Normal Speaker</span>
+                    <span>Auton- Speaker</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="teleop-normal-speaker" min="0" max="5" value="0">
@@ -132,7 +137,7 @@
                     </div>
                 </div>
                 <div class="input-container">
-                    <span>Scored in Amplifier</span>
+                    <span>Auton- Amplifier</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="teleop-amplifier" min="0" max="5" value="0">
@@ -140,7 +145,7 @@
                     </div>
                 </div>
                 <div class="input-container">
-                    <div class="one-line"><span>Scored in </span> <span style="color: #EEC800">Amplified </span> <span>Speaker</span></div>
+                    <div class="one-line"><span>Auton- </span> <span style="color: #EEC800">Amplified </span> <span>Speaker</span></div>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="teleop-amplified-speaker" min="0" max="5" value="0">
@@ -159,6 +164,8 @@
                         </button>
                     </div>
                 </div>
+
+                        
 
                 <!--ENDGAME-->
                 <div class="line" id="endgame">ㅤ</div>

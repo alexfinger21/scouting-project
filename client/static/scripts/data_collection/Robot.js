@@ -6,7 +6,7 @@ export default class Robot extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, img, allianceColor, canvasSize, alliancePosition}) {
+    constructor({ctx, clickable, img, allianceColor, canvasSize, alliancePosition}) {
         let x = 0
         let y = 0
         if(allianceColor == "B") {
@@ -27,5 +27,17 @@ export default class Robot extends DrawableObject {
                 break
         }
         super({ctx, img, x, y, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)});
+        this.clickable = clickable ? clickable : false 
+        this.isSelected = clickable ? false : true
+    }
+
+    onClick({ x, y }) {
+        if (this.clickable && super.inBoundingBox({ x, y })) {
+            this.isSelected = !this.isSelected
+        }
+    }
+
+    draw() {
+
     }
 }
