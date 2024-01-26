@@ -12,7 +12,7 @@ export default class {
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
         this.clickable = {}
         this.clickable.robot = new Robot({ctx, clickable: true, allianceColor, img: images.robotImage, canvasSize, alliancePosition})
-        this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, canvasSize})
+        //this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, canvasSize})
     }
 
     onClick({event, leftOffset, topOffset}) {
@@ -36,7 +36,7 @@ export default class {
 
         this.map.draw()
         this.clickable.robot.draw()
-        this.clickable.pieces.draw()
+        //this.clickable.pieces.draw()
 
         //this.ctx.restore()
     }
