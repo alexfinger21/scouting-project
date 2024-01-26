@@ -2,6 +2,8 @@ import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog } 
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
+//import Endgame from "./data_collection/Endgame.js"
+
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
@@ -187,8 +189,8 @@ function loadData() {
         const localData = JSON.parse(localStorage.getItem("data"))
         const allianceColor = form.getAttribute("alliance")
         const alliancePosition = form.getAttribute("alliance-position")
-        const autonCanvasContainer = document.getElementById("auton-container")
         const autonCanvas = document.getElementById("auton-canvas")
+        const autonCanvasContainer = autonCanvas.parentElement
         const autonCanvasCTX = autonCanvas.getContext("2d") 
 
         if (!localData) {
