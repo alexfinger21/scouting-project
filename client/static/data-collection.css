@@ -35,7 +35,7 @@
     color: #FFF;
 }
 
-#auton-container {
+.canvas-container {
     width: 85%;
     display: flex;
     height: auto;
