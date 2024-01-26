@@ -178,7 +178,6 @@ async function waitUntilImagesLoaded(imgs) {
 
 function loadData() {
     return new Promise(async (res, rej) => {
-        
         const match = await getMatch()
         const form = document.getElementById("match-number-form")
         const buttonContainers = form.querySelectorAll(".NumberButtonContainer")
@@ -194,6 +193,38 @@ function loadData() {
         const autonCanvasCTX = autonCanvas.getContext("2d") 
 
         if (!localData) {
+
+            const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+            autonCanvas.height = autonCanvasSize
+            autonCanvas.width = autonCanvasSize
+
+            const gamePieceImage = new Image()
+            gamePieceImage.src = "./static/images/data-collection/orange-note.png"
+            const mapImage = new Image()
+            mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
+            const robotImage = new Image()
+            robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+            const images = { gamePieceImage, robotImage, mapImage }
+          
+            const autonPieceData = {
+                '202': false,
+                '203': false,
+                '204': false,
+                '205': false,
+                '206': false,
+                '207': false,
+                '208': false,
+                '209': false
+            }
+            
+            await waitUntilImagesLoaded(Object.values(images))
+
+            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+
+            autonCanvas.addEventListener("click", (event) => {
+                AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            })
+           
             return rej()
         }
 
@@ -407,9 +438,12 @@ async function loadDataCollection() {
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller") 
-    
-    await loadData()
-
+   
+    try {
+        await loadData()
+    }  catch(e) {
+        consoleLog(e)
+    }
     function animateAuton() {
         if (currentPage == paths.dataCollection) {
             AutonObject.draw()
