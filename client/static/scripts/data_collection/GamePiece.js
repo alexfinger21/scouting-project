@@ -26,12 +26,12 @@ function lerpColor(current, goal, tickDiff) {
 }
 
 export default class GamePiece extends DrawableObject {
-    constructor({ x, y, ctx, img, canvasSize, isSelected, ge_key }) {
+    constructor({ x, y, ctx, img, canvasSize, ge_key }) {
         super({ ctx, img, x, y, sX: canvasSize.x * 0.13, sY: canvasSize.x * 0.13 })
 
         this.size = canvasSize.x * 0.13
 
-        this.isSelected = isSelected
+        this.isSelected = false
 
         this.mask = document.createElement("canvas")
         this.mask.width = this.size
@@ -61,8 +61,6 @@ export default class GamePiece extends DrawableObject {
     onClick({ x, y }) {
         if (super.inBoundingBox({ x, y })) {
             this.isSelected = !this.isSelected
-            this.drawMask()
-            this.draw()
             //alert("Selected Note " + this.ge_key)
         }
     }
@@ -80,3 +78,4 @@ export default class GamePiece extends DrawableObject {
         super.draw()
     }
 }
+
