@@ -146,106 +146,176 @@ async function sendData() {
     })
 }
 
-async function loadData() {
-    const match = await getMatch()
-    const buttonContainers = document.getElementById("match-number-form").querySelectorAll(".NumberButtonContainer")
-    const matchNumber = document.getElementById("match-number")
-    const inputContainers = document.getElementById("match-number-form").querySelectorAll(".input-container")
-    const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
-    const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
-    const localData = JSON.parse(localStorage.getItem("data"))
+async function waitUntilImagesLoaded(imgs) {
+    const imgMap = new Map()
 
-    if (!localData) {
-        return
+    imgs.forEach((e, i) => {
+        e.onload = () => {
+            imgMap.set(i, true)
+        }
+        imgMap.set(i, false)
+    })
+
+    function checkIfTrue() {
+        for (const [k, v] of imgMap) {
+            if (!v) {
+                return false
+            }
+
+        }
+
+        return true
     }
-    const data = localData[match]
-        //consoleLog("Data is: " + data)
 
-    if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
+    while (!checkIfTrue()) {
+        consoleLog(imgMap)
+        await timer(10)
+    }
 
-        Array.from(inputContainers).forEach(element => {
-            const commentsSection = element.querySelector("#comments-container")
-            if (!commentsSection) {
-                const name = element.children[0].textContent
-                const buttonContainer = element.children[1]
+    return true
+}
 
-                //consoleLog(data[name] + " - " + name)
+function loadData() {
+    return new Promise(async (res, rej) => {
+        
+        const match = await getMatch()
+        const form = document.getElementById("match-number-form")
+        const buttonContainers = form.querySelectorAll(".NumberButtonContainer")
+        const matchNumber = document.getElementById("match-number")
+        const inputContainers = form.querySelectorAll(".input-container")
+        const radioButtonContainers = form.querySelectorAll(".radio-button-container")
+        const tableScrollers = form.querySelectorAll(".table-scroller")
+        const localData = JSON.parse(localStorage.getItem("data"))
+        const allianceColor = form.getAttribute("alliance")
+        const alliancePosition = form.getAttribute("alliance-position")
+        const autonCanvasContainer = document.getElementById("auton-container")
+        const autonCanvas = document.getElementById("auton-canvas")
+        const autonCanvasCTX = autonCanvas.getContext("2d") 
 
-                Array.from(inputContainers).forEach(element => {
+        if (!localData) {
+            return rej()
+        }
+        const data = localData[match]
+            //consoleLog("Data is: " + data)
+
+        if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
+        
+            const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+            autonCanvas.height = autonCanvasSize
+            autonCanvas.width = autonCanvasSize
+
+            const gamePieceImage = new Image()
+            gamePieceImage.src = "./static/images/data-collection/orange-note.png"
+            const autonMapImage = new Image()
+            autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
+            const robotImage = new Image()
+            robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+            const images = { gamePieceImage, robotImage, autonMapImage }
+          
+            const autonPieceData = {
+                '202': true,
+                '203': false,
+                '204': false,
+                '205': false,
+                '206': false,
+                '207': false,
+                '208': false,
+                '209': false
+            }
+            
+            await waitUntilImagesLoaded(Object.values(images))
+
+            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+
+            autonCanvas.addEventListener("click", (event) => {
+                AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            })
+
+            Array.from(inputContainers).forEach(element => {
+                const commentsSection = element.querySelector("#comments-container")
+                if (!commentsSection) {
                     const name = element.children[0].textContent
                     const buttonContainer = element.children[1]
 
-                    if (buttonContainer.children[0].textContent == "+") {
-                        //input value
-                        buttonContainer.children[0].parentElement.querySelector("input").value = data[name]
-                    } else if ((buttonContainer.children[0].getElementsByTagName("img").length == 1 && buttonContainer.children[0].tagName.toLowerCase() == "button") || (buttonContainer.children[0].textContent == "x" && buttonContainer.children[0].tagName.toLowerCase() == "button")) {
-                        //image
-                        //consoleLog(buttonContainer.children[0])
-                        if (data[name]) {
-                            buttonContainer.children[0].style.backgroundColor = "rgb(217, 217, 217)"
-                            buttonContainer.children[2].style.backgroundColor = "rgb(52, 146, 234)"
-                        } else {
-                            buttonContainer.children[2].style.backgroundColor = "rgb(217, 217, 217)"
-                            buttonContainer.children[0].style.backgroundColor = "rgb(52, 146, 234)"
-                        }
-                    }
-                })
-            } else {
-                commentsSection.children[0].value = data.comments
-            }
-        })
+                    //consoleLog(data[name] + " - " + name)
 
-        Array.from(radioButtonContainers).forEach(container => {
-            let containerName = container.parentElement.children[0].textContent
-            let selected = data[containerName]
+                    Array.from(inputContainers).forEach(element => {
+                        const name = element.children[0].textContent
 
-            if (selected) {
-                Array.from(container.children).forEach(element => {
-                    if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.value == selected) {
-                        element.checked = true
-                    }
-                })
-            }
-        })
-
-
-        Array.from(tableScrollers).forEach(tableContainer => {
-            let tableCounter = 0;
-            //consoleLog(tableContainer)
-
-            const name = tableContainer.parentElement.parentElement.children[0].textContent
-
-            tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
-
-            //consoleLog(data.tables)
-            //consoleLog(data.tables[name])
-
-            if (data.tables[name]) {
-                Array.from(tableContainer).forEach(container => {
-                    //consoleLog(container)
-                    //consoleLog(tableCounter)
-
-                    for (let y = 0; y < 3; y++) {
-                        const row = container.children[y]
-
-                        for (let x = 0; x < 3; x++) {
-                            const item = row.children[x].children[0]
-                            item.setAttribute("object", data.tables[name][tableCounter][y][x])
-                                //consoleLog(item)
-                            let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
-                            if (itemImage) {
-                                item.children[0].src = itemImage
+                        if (buttonContainer.children[0].textContent == "+") {
+                            //input value
+                            buttonContainer.children[0].parentElement.querySelector("input").value = data[name]
+                        } else if ((buttonContainer.children[0].getElementsByTagName("img").length == 1 && buttonContainer.children[0].tagName.toLowerCase() == "button") || (buttonContainer.children[0].textContent == "x" && buttonContainer.children[0].tagName.toLowerCase() == "button")) {
+                            //image
+                            //consoleLog(buttonContainer.children[0])
+                            if (data[name]) {
+                                buttonContainer.children[0].style.backgroundColor = "rgb(217, 217, 217)"
+                                buttonContainer.children[2].style.backgroundColor = "rgb(52, 146, 234)"
                             } else {
-                                item.children[0].src = playPiecesDict["empty"]
+                                buttonContainer.children[2].style.backgroundColor = "rgb(217, 217, 217)"
+                                buttonContainer.children[0].style.backgroundColor = "rgb(52, 146, 234)"
                             }
                         }
-                    }
+                    })
+                } else {
+                    commentsSection.children[0].value = data.comments
+                }
+            })
 
-                    tableCounter++
-                })
-            }
-        })
-    }
+            Array.from(radioButtonContainers).forEach(container => {
+                let containerName = container.parentElement.children[0].textContent
+                let selected = data[containerName]
+
+                if (selected) {
+                    Array.from(container.children).forEach(element => {
+                        if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.value == selected) {
+                            element.checked = true
+                        }
+                    })
+                }
+            })
+
+
+            Array.from(tableScrollers).forEach(tableContainer => {
+                let tableCounter = 0;
+                //consoleLog(tableContainer)
+
+                const name = tableContainer.parentElement.parentElement.children[0].textContent
+
+                tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
+
+                //consoleLog(data.tables)
+                //consoleLog(data.tables[name])
+
+                if (data.tables[name]) {
+                    Array.from(tableContainer).forEach(container => {
+                        //consoleLog(container)
+                        //consoleLog(tableCounter)
+
+                        for (let y = 0; y < 3; y++) {
+                            const row = container.children[y]
+
+                            for (let x = 0; x < 3; x++) {
+                                const item = row.children[x].children[0]
+                                item.setAttribute("object", data.tables[name][tableCounter][y][x])
+                                    //consoleLog(item)
+                                let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
+                                if (itemImage) {
+                                    item.children[0].src = itemImage
+                                } else {
+                                    item.children[0].src = playPiecesDict["empty"]
+                                }
+                            }
+                        }
+
+                        tableCounter++
+                    })
+                }
+            })
+        }
+
+        return res()
+    })
 }
 
 async function saveData() {
@@ -254,11 +324,9 @@ async function saveData() {
         const ogData = JSON.parse(localStorage.getItem("data")) ?? {}
         const data = {}
 
-        const buttonContainers = document.getElementById("match-number-form").querySelectorAll(".NumberButtonContainer")
-        const matchNumber = document.getElementById("match-number-form").querySelector("match-number")
-        const inputContainers = document.getElementById("match-number-form").querySelectorAll(".input-container")
-        const radioButtonContainers = document.getElementById("match-number-form").querySelectorAll(".radio-button-container")
-        const tableScrollers = document.getElementById("match-number-form").querySelectorAll(".table-scroller")
+        const form = document.getElementById("match-number-form")
+        const inputContainers = form.querySelectorAll(".input-container")
+        const radioButtonContainers = form.querySelectorAll(".radio-button-container")
 
         data.autonPiecesData = AutonObject ? AutonObject.sendData() : {}
 
@@ -328,39 +396,8 @@ async function saveData() {
 
 observer.observe(document.body, { subtree: false, childList: true });
 
-async function waitUntilImagesLoaded(imgs) {
-    const imgMap = new Map()
-
-    imgs.forEach((e, i) => {
-        e.onload = () => {
-            imgMap.set(i, true)
-        }
-        imgMap.set(i, false)
-    })
-
-    function checkIfTrue() {
-        for (const [k, v] of imgMap) {
-            if (!v) {
-                return false
-            }
-
-        }
-
-        return true
-    }
-
-    while (!checkIfTrue()) {
-        consoleLog(imgMap)
-        await timer(10)
-    }
-
-    return true
-    consoleLog("LOADED IMAGES")
-}
 
 async function loadDataCollection() {
-
-    loadData()
 
     const form = document.getElementById("match-number-form")
     const buttonContainers = document.getElementsByClassName("NumberButtonContainer")
@@ -380,11 +417,11 @@ async function loadDataCollection() {
 
     const gamePieceImage = new Image()
     gamePieceImage.src = "./static/images/data-collection/orange-note.png"
-    const mapImage = new Image()
-    mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
+    const autonMapImage = new Image()
+    autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
     const robotImage = new Image()
     robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-    const images = { gamePieceImage, robotImage, mapImage }
+    const images = { gamePieceImage, robotImage, autonMapImage }
 
     const renderedImage = await waitUntilImagesLoaded(Object.values(images))
 
