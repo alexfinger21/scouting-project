@@ -2,11 +2,14 @@ import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog } 
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
+import Endgame from "./data_collection/Endgame.js"
+
 //import Endgame from "./data_collection/Endgame.js"
 
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
+let EndgameObject
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -192,6 +195,10 @@ function loadData() {
         const autonCanvasContainer = autonCanvas.parentElement
         const autonCanvasCTX = autonCanvas.getContext("2d") 
 
+        const endgameCanvas = document.getElementById("endgame-canvas")
+        const endgameCanvasContainer = autonCanvas.parentElement
+        const endgameCanvasCTX = endgameCanvas.getContext("2d") 
+
         if (!localData) {
 
             const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
@@ -236,7 +243,9 @@ function loadData() {
             const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
             autonCanvas.height = autonCanvasSize
             autonCanvas.width = autonCanvasSize
-
+            const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+            endgameCanvas.width = endgameCanvasSize
+            endgameCanvas.height = endgameCanvasSize
             const gamePieceImage = new Image()
             gamePieceImage.src = "./static/images/data-collection/orange-note.png"
             const mapImage = new Image()
@@ -259,9 +268,14 @@ function loadData() {
             await waitUntilImagesLoaded(Object.values(images))
 
             AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
             autonCanvas.addEventListener("click", (event) => {
                 AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            })
+
+            endgameCanvas.addEventListener("click", (event) => {
+                EndgameObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
             })
 
             Array.from(inputContainers).forEach(element => {
@@ -447,6 +461,7 @@ async function loadDataCollection() {
     function animateAuton() {
         if (currentPage == paths.dataCollection) {
             AutonObject.draw()
+            EndgameObject.draw()
 
             window.requestAnimationFrame(animateAuton)
         }
