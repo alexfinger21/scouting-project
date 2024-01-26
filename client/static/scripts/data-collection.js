@@ -204,7 +204,9 @@ function loadData() {
             const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
             autonCanvas.height = autonCanvasSize
             autonCanvas.width = autonCanvasSize
-
+            const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+            endgameCanvas.width = endgameCanvasSize
+            endgameCanvas.height = endgameCanvasSize
             const gamePieceImage = new Image()
             gamePieceImage.src = "./static/images/data-collection/orange-note.png"
             const mapImage = new Image()
@@ -214,7 +216,7 @@ function loadData() {
             const images = { gamePieceImage, robotImage, mapImage }
           
             const autonPieceData = {
-                '202': false,
+                '202': true,
                 '203': false,
                 '204': false,
                 '205': false,
@@ -227,10 +229,16 @@ function loadData() {
             await waitUntilImagesLoaded(Object.values(images))
 
             AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
             autonCanvas.addEventListener("click", (event) => {
                 AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
             })
+
+            endgameCanvas.addEventListener("click", (event) => {
+                EndgameObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            })
+
            
             return rej()
         }
