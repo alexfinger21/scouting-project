@@ -5,7 +5,6 @@ import Auton from "./data_collection/Auton.js"
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
-let EndgameObject
 
 const observer = new MutationObserver(function(mutations_list) {
     mutations_list.forEach(function(mutation) {
@@ -195,6 +194,7 @@ function loadData() {
         if (!localData) {
             return rej()
         }
+
         const data = localData[match]
             //consoleLog("Data is: " + data)
 
@@ -206,11 +206,11 @@ function loadData() {
 
             const gamePieceImage = new Image()
             gamePieceImage.src = "./static/images/data-collection/orange-note.png"
-            const autonMapImage = new Image()
-            autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
+            const mapImage = new Image()
+            mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
             const robotImage = new Image()
             robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-            const images = { gamePieceImage, robotImage, autonMapImage }
+            const images = { gamePieceImage, robotImage, mapImage }
           
             const autonPieceData = {
                 '202': true,
@@ -404,46 +404,19 @@ async function loadDataCollection() {
     const matchNumber = document.getElementById("match-number")
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
-    const tableScrollers = document.querySelectorAll(".table-scroller")
-    const autonCanvasContainer = document.getElementById("auton-container")
-    const autonCanvas = document.getElementById("auton-canvas")
-    const autonCanvasCTX = autonCanvas.getContext("2d")
-    const allianceColor = form.getAttribute("alliance")
-    const alliancePosition = form.getAttribute("alliance-position")
-    consoleLog("Height: ", window.innerHeight)
-    const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-    autonCanvas.height = autonCanvasSize
-    autonCanvas.width = autonCanvasSize
+    const tableScrollers = document.querySelectorAll(".table-scroller") 
+    
+    await loadData()
 
-    const gamePieceImage = new Image()
-    gamePieceImage.src = "./static/images/data-collection/orange-note.png"
-    const autonMapImage = new Image()
-    autonMapImage.src = `./static/images/data-collection/auton${allianceColor == 'B' ? "blue" : "red"}.jpg`
-    const robotImage = new Image()
-    robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-    const images = { gamePieceImage, robotImage, autonMapImage }
-
-    const renderedImage = await waitUntilImagesLoaded(Object.values(images))
-
-    AutonObject = new Auton({ ctx: autonCanvasCTX, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-
-    autonCanvas.addEventListener("click", (event) => {
-        AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
-    })
-
-    console.log(JSON.parse(JSON.stringify(AutonObject.sendData())))
-
-
-
-    function animateCanvas() {
+    function animateAuton() {
         if (currentPage == paths.dataCollection) {
             AutonObject.draw()
 
-            window.requestAnimationFrame(animateCanvas)
+            window.requestAnimationFrame(animateAuton)
         }
     }
 
-    animateCanvas()
+    animateAuton()
 
     form.onsubmit = (event) => {
             event.preventDefault()
