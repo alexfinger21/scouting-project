@@ -6,13 +6,30 @@ import Robot from "./Robot.js"
 export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, alliancePosition, images, cX, cY}) {
+    constructor({ctx, allianceColor, alliancePosition, endgamePieceData, images, cX, cY}) {
         const canvasSize = {x: cX, y: cY}
+        const isBlue = allianceColor == "B"
         this.ctx = ctx
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
         this.clickable = {}
-        this.clickable.robot = new Robot({ctx, clickable: true, allianceColor, img: images.robotImage, canvasSize, alliancePosition})
-        this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, autonPieceData, canvasSize})
+        this.clickable.robots = [ //starting leftmost, go clockwise
+            new Robot({ //leftmost
+                ctx,
+                clickable: true,
+                allianceColor,
+                img: images.robotImage,
+                containerImg: images.robotContainer,
+                canvasSize,
+                alliancePosition,
+                customPos: {
+                    x: isBlue ? canvasSize.x * 0.5 : 0,
+                    y: isBlue ? canvasSize.y * 0.22 : 0,
+                    r: 60,
+                }
+            })
+            
+        ]
+        this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize})
     }
 
     onClick({event, leftOffset, topOffset}) {
@@ -20,11 +37,14 @@ export default class {
         const y = event.pageY - topOffset
 
         // Collision detection between clicked offset and element.
-        Object.values(this.clickable).forEach(function(element) {
-            if(element.onClick) {
-                element.onClick({x, y})
+        this.clickable.robots.forEach(function(robot) {
+            if(robot.onClick) {
+                robot.onClick({x, y})
             }
         })
+
+        this.clickable.pieces.onClick({x, y})
+        
     }
 
     sendData() {
@@ -35,8 +55,10 @@ export default class {
         //this.ctx.save()
 
         this.map.draw()
-        this.clickable.robot.draw()
-        //this.clickable.pieces.draw()
+        this.clickable.robots.forEach((robot) => {
+            robot.draw()
+        })
+        this.clickable.pieces.draw()
 
         //this.ctx.restore()
     }

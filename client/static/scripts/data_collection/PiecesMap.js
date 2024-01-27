@@ -3,28 +3,88 @@ import DrawableObject from "./DrawableObject.js"
 import GamePiece from "./GamePiece.js"
 
 export default class PiecesMap {
-    constructor({ctx, allianceColor, img, autonPieceData, canvasSize}) {
+    constructor({ ctx, allianceColor, img, pieceData, canvasSize }) {
         console.log("Create pieces")
         console.log(canvasSize)
-        this.pieces = new Array(8)
+        this.pieces = []
+        const isBlue = allianceColor == "B" 
         //Add Pickup Wing Notes ge_key 202-204
-        const wingNoteX = allianceColor == "B" ? Math.floor(canvasSize.x*0.25) : Math.floor(canvasSize.x*0.65)
-        const centerNoteX = allianceColor == "B" ? Math.floor(canvasSize.x*0.8) : Math.floor(canvasSize.x*0.05)
+        const wingNoteX = isBlue ? Math.floor(canvasSize.x * 0.25) : Math.floor(canvasSize.x * 0.65)
+        const centerNoteX = isBlue ? Math.floor(canvasSize.x * 0.8) : Math.floor(canvasSize.x * 0.05)
 
-        consoleLog(autonPieceData)
+        //Wing Notes
+        for (let i = 0; i < 3; i++) {
+            const idx = 202 + i
+            if (idx in pieceData) {
+                this.pieces.push(new GamePiece({
+                    x: wingNoteX,
+                    y: canvasSize.y * 0.1 + Math.floor(canvasSize.y * 0.18 * i),
+                    ctx,
+                    img,
+                    isSelected: pieceData[idx],
+                    ge_key: idx, canvasSize
+                }))
+            }
+        }
 
-        for(let i = 0; i < 3; i++) {
-            this.pieces[i] = new GamePiece({x: wingNoteX, y: canvasSize.y*0.1 + Math.floor(canvasSize.y*0.18*i), ctx, img, isSelected: autonPieceData[202+i], ge_key: 202+i, canvasSize})
+        //Center Notes
+        for (let i = 0; i < 5; i++) {
+            const idx = 205 + i
+            if (idx in pieceData) {
+                this.pieces.push(new GamePiece({
+                    x: centerNoteX,
+                    y: canvasSize.y * 0.1 + Math.floor(canvasSize.y * 0.18 * i),
+                    ctx,
+                    img,
+                    isSelected: pieceData[idx],
+                    ge_key: idx,
+                    canvasSize 
+                }))
+            }
         }
-        for(let i = 0; i < 5; i++) {
-            this.pieces[3+i] = new GamePiece({x: centerNoteX, y: canvasSize.y*0.1+Math.floor(canvasSize.y*0.18*i), ctx, img, isSelected: autonPieceData[205+i], ge_key: 205+i, canvasSize})
+
+        //Splotlight notes moving clockwise
+        if ("210" in pieceData) { //leftmost spotlight
+            this.pieces.push(new GamePiece({
+                x: isBlue ? canvasSize.x * 0.48 : canvasSize.x * 0.21,
+                y: isBlue ? canvasSize.y * 0.35 : canvasSize.y * 0.44,
+                ctx,
+                img,
+                isSelected: pieceData["210"],
+                ge_key: 210,
+                canvasSize 
+            }))
         }
-        console.log(this.pieces)
+        if ("211" in pieceData) { //rightmost spotlight
+            this.pieces.push(new GamePiece({
+                x: isBlue ? canvasSize.x * 0.65 : canvasSize.x * 0.38,
+                y: isBlue ?canvasSize.y * 0.44 : canvasSize.y * 0.34,
+                ctx,
+                img,
+                isSelected: pieceData["211"],
+                ge_key: 211,
+                canvasSize 
+            }))
+        }
+        if ("212" in pieceData) { //bottommost spotlight
+            this.pieces.push(new GamePiece({
+                x: isBlue? canvasSize.x * 0.49: canvasSize.x*0.38,
+                y: isBlue? canvasSize.y * 0.53: canvasSize.y*0.53,
+                ctx,
+                img,
+                isSelected: pieceData["212"],
+                ge_key: 212,
+                canvasSize 
+            }))
+        }
+
+
+        //console.log(this.pieces)
     }
 
-    onClick({x, y}) {
-        this.pieces.forEach(function(piece) {
-            piece.onClick({x, y})
+    onClick({ x, y }) {
+        this.pieces.forEach(function (piece) {
+            piece.onClick({ x, y })
         })
     }
 
@@ -39,8 +99,8 @@ export default class PiecesMap {
     }
 
     draw() {
-        this.pieces.forEach(function(piece) {
+        this.pieces.forEach(function (piece) {
             piece.draw()
-        }) 
+        })
     }
- }
+}

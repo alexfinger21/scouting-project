@@ -1,4 +1,5 @@
 const log = true
+const debugLog = false
 let currentPage = "/match-listing"
 
 const paths = {
@@ -17,6 +18,9 @@ const paths = {
 function consoleLog(...args) {
     if (log) {
         console.log(...args)
+        if(debugLog) {
+            console.trace()
+        }
     }
 }
 
