@@ -1,5 +1,6 @@
 const database = require("./database/database.js")
 const log = true
+const debugLog = false
 const SQL = require('sql-template-strings')
 
 function arrAvg(...args) {
@@ -9,6 +10,9 @@ function arrAvg(...args) {
 function consoleLog(...args) {
     if (log) {
         console.log(...args)
+        if(debugLog) {
+            console.trace()
+        }
     }
 }
 
