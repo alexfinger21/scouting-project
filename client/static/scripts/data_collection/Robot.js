@@ -36,7 +36,7 @@ export default class Robot extends DrawableObject {
             }
         }
 
-        super({ctx, img, x, y, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)});
+        super({ctx, img, x, y, r, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)});
         this.clickable = clickable ? clickable : false 
         this.isSelected = clickable ? false : true
         if(this.clickable) {
