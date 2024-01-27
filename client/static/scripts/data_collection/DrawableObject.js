@@ -1,5 +1,9 @@
 import { consoleLog } from "../utility.js"
 
+function rotateAtCenterPivot(angle, x, y) {
+
+}
+
 export default class DrawableObject {
     constructor({ctx, x, y, sX, sY, r, img, visible = true}) {
         this.x = x        
