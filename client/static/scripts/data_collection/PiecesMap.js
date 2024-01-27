@@ -38,7 +38,8 @@ export default class PiecesMap {
                     img,
                     isSelected: pieceData[idx],
                     ge_key: idx,
-                    canvasSize 
+                    canvasSize,
+                    canSpotlight: true,
                 }))
             }
         }
@@ -58,11 +59,12 @@ export default class PiecesMap {
         if ("211" in pieceData) { //rightmost spotlight
             this.pieces.push(new GamePiece({
                 x: isBlue ? canvasSize.x * 0.65 : canvasSize.x * 0.38,
-                y: isBlue ?canvasSize.y * 0.44 : canvasSize.y * 0.34,
+                y: isBlue ? canvasSize.y * 0.44 : canvasSize.y * 0.34,
                 ctx,
                 img,
                 isSelected: pieceData["211"],
                 ge_key: 211,
+                canSpotlight: true,
                 canvasSize 
             }))
         }
@@ -74,6 +76,7 @@ export default class PiecesMap {
                 img,
                 isSelected: pieceData["212"],
                 ge_key: 212,
+                canSpotlight: true,
                 canvasSize 
             }))
         }

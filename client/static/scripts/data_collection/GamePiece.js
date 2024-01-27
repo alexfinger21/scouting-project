@@ -3,6 +3,8 @@ import DrawableObject from "./DrawableObject.js"
 
 const unselectedColor = "rgb(255, 255, 255)"
 const selectedColor = "rgb(248, 169, 15)"
+const spotLightColor = "rgb(104, 19, 240)" //if your own team spotlights a piece
+
 const changePerMS = 2
 
 function getColors(color) {
@@ -26,7 +28,7 @@ function lerpColor(current, goal, tickDiff) {
 }
 
 export default class GamePiece extends DrawableObject {
-    constructor({ x, y, ctx, img, isSelected, canvasSize, ge_key }) {
+    constructor({ x, y, ctx, img, isSelected, canvasSize, ge_key, canSpotlight, spotlightStatus }) {
         super({ ctx, img, x, y, sX: canvasSize.x * 0.13, sY: canvasSize.x * 0.13 })
 
         this.size = canvasSize.x * 0.13
@@ -37,7 +39,11 @@ export default class GamePiece extends DrawableObject {
         this.mask.width = this.size
         this.mask.height = this.size
         this.color = unselectedColor
-
+        
+        if (canSpotlight) {
+            this.splotlightStatus = spotlightStatus ?? false
+        
+        }
         this.maskCtx = this.mask.getContext("2d")
         this.opacity = 0.2
         this.color = this.isSelected ? selectedColor : unselectedColor
@@ -60,13 +66,28 @@ export default class GamePiece extends DrawableObject {
 
     onClick({ x, y }) {
         if (super.inBoundingBox({ x, y })) {
-            this.isSelected = !this.isSelected
-            //alert("Selected Note " + this.ge_key)
+
+            if (!this.splotlightStatus === undefined) {
+                this.isSelected = !this.isSelected
+            } else {
+                if (!this.splotlightStatus) {
+                    if (!this.isSelected) {
+                        this.isSelected = true
+                    } else {
+                        this.splotlightStatus = true
+                    }
+                } else {
+                    this.isSelected = false
+                    this.splotlightStatus = false
+                }
+
+            //alert("Selected Note " + this.ge_key
+            }
         }
     }
 
     draw() {
-        this.color = lerpColor(this.color, this.isSelected ? selectedColor : unselectedColor, Date.now() - this.lastTick)
+        this.color = lerpColor(this.color, this.splotlightStatus ? spotLightColor : (this.isSelected ? selectedColor : unselectedColor) , Date.now() - this.lastTick)
         this.lastTick = Date.now()
         this.drawMask()
 
