@@ -199,25 +199,24 @@ function loadData() {
         const endgameCanvasContainer = autonCanvas.parentElement
         const endgameCanvasCTX = endgameCanvas.getContext("2d") 
 
+        const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+        autonCanvas.height = autonCanvasSize
+        autonCanvas.width = autonCanvasSize
+        const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+        endgameCanvas.width = endgameCanvasSize
+        endgameCanvas.height = endgameCanvasSize
+        const gamePieceImage = new Image()
+        gamePieceImage.src = "./static/images/data-collection/orange-note.png"
+        const mapImage = new Image()
+        mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
+        const robotImage = new Image()
+        robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+        const robotContainer = new Image()
+        robotContainer.src = `./static/images/data-collection/robot-container.png`
+        const images = { gamePieceImage, robotImage, mapImage, robotContainer }
 
         if (!localData) {
 
-            const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-            autonCanvas.height = autonCanvasSize
-            autonCanvas.width = autonCanvasSize
-            const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-            endgameCanvas.width = endgameCanvasSize
-            endgameCanvas.height = endgameCanvasSize
-            const gamePieceImage = new Image()
-            gamePieceImage.src = "./static/images/data-collection/orange-note.png"
-            const mapImage = new Image()
-            mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
-            const robotImage = new Image()
-            robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-            const robotContainer = new Image()
-            robotContainer.src = `./static/images/data-collection/robot-container.png`
-            const images = { gamePieceImage, robotImage, mapImage, robotContainer }
-          
             const autonPieceData = {
                 //Wing Notes
                 '202': true,
@@ -263,23 +262,6 @@ function loadData() {
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
-        
-            const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-            autonCanvas.height = autonCanvasSize
-            autonCanvas.width = autonCanvasSize
-            const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-            endgameCanvas.width = endgameCanvasSize
-            endgameCanvas.height = endgameCanvasSize
-            const gamePieceImage = new Image()
-            gamePieceImage.src = "./static/images/data-collection/orange-note.png"
-            const mapImage = new Image()
-            mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
-            const robotImage = new Image()
-            robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-            const robotContainer = new Image()
-            robotContainer.src = `./static/images/data-collection/robot-container.png`
-            const images = { gamePieceImage, robotImage, mapImage, robotContainer }
-          
             const autonPieceData = {
                 '202': true,
                 '203': false,
