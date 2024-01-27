@@ -199,6 +199,7 @@ function loadData() {
         const endgameCanvasContainer = autonCanvas.parentElement
         const endgameCanvasCTX = endgameCanvas.getContext("2d") 
 
+
         if (!localData) {
 
             const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
@@ -213,30 +214,42 @@ function loadData() {
             mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
             const robotImage = new Image()
             robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-            const images = { gamePieceImage, robotImage, mapImage }
+            const robotContainer = new Image()
+            robotContainer.src = `./static/images/data-collection/robot-container.png`
+            const images = { gamePieceImage, robotImage, mapImage, robotContainer }
           
             const autonPieceData = {
+                //Wing Notes
                 '202': true,
                 '203': false,
                 '204': false,
+                //Center Notes
                 '205': false,
                 '206': false,
                 '207': false,
                 '208': false,
                 '209': false
             }
+
+            const endgamePieceData = {
+                "210": false,
+                "211": false,
+                "212": false,
+            }
+            
+
             
             await waitUntilImagesLoaded(Object.values(images))
 
             AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData, allianceColor, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
             autonCanvas.addEventListener("click", (event) => {
                 AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
             })
 
             endgameCanvas.addEventListener("click", (event) => {
-                EndgameObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+                EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
             })
 
            
@@ -246,7 +259,10 @@ function loadData() {
         const data = localData[match]
             //consoleLog("Data is: " + data)
 
+        consoleLog(data)
+
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
+
         
             const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
             autonCanvas.height = autonCanvasSize
@@ -260,7 +276,9 @@ function loadData() {
             mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
             const robotImage = new Image()
             robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-            const images = { gamePieceImage, robotImage, mapImage }
+            const robotContainer = new Image()
+            robotContainer.src = `./static/images/data-collection/robot-container.png`
+            const images = { gamePieceImage, robotImage, mapImage, robotContainer }
           
             const autonPieceData = {
                 '202': true,
@@ -467,7 +485,7 @@ async function loadDataCollection() {
         consoleLog(e)
     }
     function animateAuton() {
-        if (currentPage == paths.dataCollection) {
+        if (currentPage == paths.dataCollection && AutonObject) {
             AutonObject.draw()
             EndgameObject.draw()
 
