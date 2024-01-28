@@ -67,7 +67,7 @@ export default class GamePiece extends DrawableObject {
     onClick({ x, y }) {
         if (super.inBoundingBox({ x, y })) {
 
-            if (!this.splotlightStatus === undefined) {
+            if (this.splotlightStatus === undefined) {
                 this.isSelected = !this.isSelected
             } else {
                 if (!this.splotlightStatus) {
