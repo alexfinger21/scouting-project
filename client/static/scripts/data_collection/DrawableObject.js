@@ -27,6 +27,10 @@ export default class DrawableObject {
         }
     }
 
+    rotate() {
+        this.ctx.translate(1/2*this.sY*Math.cos(this.r) + 1/2*this.sX*Math.sin(this.r), 1/2*this.sY*Math.sin(this.r) + 1/2*this.sX*Math.cos(this.r))
+    }
+
     draw() {
         if (this.visible) {
             this.ctx.save()
@@ -36,6 +40,7 @@ export default class DrawableObject {
 
             this.ctx.translate(this.x, this.y)//move here, so rotation doesnt affect x and y
             this.ctx.rotate(this.r) //add rotation
+            this.rotate()
             this.ctx.drawImage(this.img, 0, 0, this.sX, this.sY) //do not use x and y here to support rotation
             this.ctx.rotate(-1*this.r) //rotate back
             this.ctx.translate(-1*this.x, -1*this.y)//move back
