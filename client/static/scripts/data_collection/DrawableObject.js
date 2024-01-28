@@ -12,7 +12,7 @@ export default class DrawableObject {
         this.ctx = ctx
 
         this.visible = visible
-        this.r = (r ?? -90) * Math.PI / 180
+        this.r = (r ?? 91) * Math.PI / 180
         this.prevTick = Date.now()
     }
 
@@ -26,12 +26,11 @@ export default class DrawableObject {
 
     rotate() {
         const a = this.r 
-        const x = Math.cos(a + Math.PI/2) * 1/2 * this.sY + Math.cos(Math.PI/2 - a + Math.PI/2) * 1/2 * this.sX
-        const y = Math.sin(a + Math.PI/2) * 1/2 * this.sY - Math.sin(Math.PI/2 - a + Math.PI/2) * 1/2 * this.sX
+        const x = Math.cos(a) * 1/2 * this.sY - Math.cos(Math.PI/2 - a) * 1/2 * this.sX
+        const y = Math.sin(a) * 1/2 * this.sY + Math.sin(Math.PI/2 - a) * 1/2 * this.sX
 
-        this.ctx.translate(-x, -y)
-        this.ctx.rotate(a + Math.PI/2) //add rotation
-        //this.ctx.translate(1/2*this.sY*Math.cos(this.r + Math.PI/2) + 1/2*this.sX*Math.sin(this.r + Math.PI/2), 1/2*this.sY*Math.sin(this.r + Math.PI/2) + 1/2*this.sX*Math.cos(this.r + Math.PI/2))
+        this.ctx.translate(x, -y)
+        this.ctx.rotate(-a + Math.PI/2) //add rotation
     }
 
     draw() {
