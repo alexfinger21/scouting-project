@@ -39,7 +39,6 @@ export default class PiecesMap {
                     isSelected: pieceData[idx],
                     ge_key: idx,
                     canvasSize,
-                    canSpotlight: true,
                 }))
             }
         }
@@ -53,6 +52,7 @@ export default class PiecesMap {
                 img,
                 isSelected: pieceData["210"],
                 ge_key: 210,
+                canSpotlight: true,
                 canvasSize 
             }))
         }
