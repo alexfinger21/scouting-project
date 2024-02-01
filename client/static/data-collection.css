@@ -428,3 +428,13 @@ input[type=checkbox]
   -o-transform: scale(.5) translate(20px); /* Opera */
   transform: scale(.5) translateY(50%);
 }
+
+
+input[type=radio]
+{
+  -ms-transform: scale(1.8) translateY(-30%) translateX(-5px); /* IE */
+  -moz-transform: scale(1.8) translateY(-30%) translateX(-5px); /* FF */
+  -webkit-transform: scale(1.8) translateY(-30%) translateX(-5px); /* Safari and Chrome */
+  -o-transform: scale(1.8) translateY(-30%) translateX(-5px); /* Opera */
+  transform: scale(1.8) translateY(-30%) translateX(-5px);
+}
