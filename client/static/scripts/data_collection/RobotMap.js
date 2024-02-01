@@ -85,7 +85,7 @@ export default class RobotMap {
                     pos: {
                         x: isBlue ? canvasSize.x * 0.45 : canvasSize.x * 0.78,
                         y: canvasSize.y * 0.28,
-                        r: 240,
+                        r: 0// 240,
                     },
                 }))
             }
@@ -100,7 +100,7 @@ export default class RobotMap {
                     pos: {
                         x: isBlue ? canvasSize.x * 0.11 : canvasSize.x * 0.78,
                         y: canvasSize.y * 0.63,
-                        r: 150,
+                        r: 60 //150,
                     },
                 }))
             }
@@ -115,7 +115,7 @@ export default class RobotMap {
                     pos: {
                         x: isBlue ? canvasSize.x * 0.11 : canvasSize.x * 0.78,
                         y: canvasSize.y * 0.63,
-                        r: 240,
+                        r: 60 //240,
                     },
                 }))
             }
@@ -124,11 +124,11 @@ export default class RobotMap {
     }
 
     onClick({ x, y }) {
-        const sp = this.startPositions
-        sp.forEach(function (robot) {
+        const startPositions = this.startPositions
+        startPositions.forEach(function (robot) {
             const clicked = robot.onClick({ x, y })
             if(clicked) { //unselect other startPositions robots
-                sp.forEach(function (otherRobot) {
+                startPositions.forEach(function (otherRobot) {
                     if(otherRobot !== robot) {
                         otherRobot.setIsSelected({value: false})
                     }
@@ -136,13 +136,15 @@ export default class RobotMap {
             }
         })
 
-        this.stagePositions.forEach(function (robot) {
+        const stagePositions = this.stagePositions
+
+        stagePositions.forEach(function (robot) {
             const clicked = robot.onClick({ x, y })
             consoleLog("CLICKED IS: ", clicked)
             if(clicked) { //unselect other startPositions robots
-                this.stagePositions.forEach(function (otherRobots) {
+                stagePositions.forEach(function (otherRobots) {
                     if(otherRobots !== robot) {
-                        robot.setIsSelected({value: false})
+                        //robot.setIsSelected({value: false})
                     }
                 })
             }
