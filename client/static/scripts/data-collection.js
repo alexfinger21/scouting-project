@@ -235,13 +235,25 @@ function loadData() {
                 "211": false,
                 "212": false,
             }
+
+            const startingPositions = {
+                "1": false,
+                "2": false,
+                "3": false,
+                "4": false,
+            }
             
+            const stagePositions = {
+                "1": false,
+                "2": false,
+                "3": false,
+            }
 
             
             await waitUntilImagesLoaded(Object.values(images))
 
-            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData, allianceColor, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
             autonCanvas.addEventListener("click", (event) => {
                 AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })

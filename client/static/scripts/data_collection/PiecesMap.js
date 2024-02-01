@@ -9,7 +9,7 @@ export default class PiecesMap {
         this.pieces = []
         const isBlue = allianceColor == "B" 
         //Add Pickup Wing Notes ge_key 202-204
-        const wingNoteX = isBlue ? Math.floor(canvasSize.x * 0.25) : Math.floor(canvasSize.x * 0.65)
+        const wingNoteX = isBlue ? Math.floor(canvasSize.x * 0.35) : Math.floor(canvasSize.x * 0.52)
         const centerNoteX = isBlue ? Math.floor(canvasSize.x * 0.8) : Math.floor(canvasSize.x * 0.05)
 
         //Wing Notes
