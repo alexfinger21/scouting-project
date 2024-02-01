@@ -17,12 +17,15 @@ export default class DrawableObject {
     }
 
     /*Return true if x, y position is in object*/
-        inBoundingBox({x, y}) {
-            //consoleLog("pos: ", x, y)
-            if ((y > this.y) && (y < this.y + this.sY) && (x > this.x) && (x < this.x + this.sX)) {
-                return true
-            }
+    inBoundingBox({x, y}) {
+        const topBounds = this.y + Math.sin(this.r)*this.sY/2 + Math.tan(this.r) * (this.x - Math.cos(this.r) * this.sY/2)
+        
+        consoleLog("R: ", this.r * 180/Math.PI, " Top bound: ", topBounds, " Click pos: ", y, " Passed: ", y < topBounds)
+        //consoleLog("pos: ", x, y)
+        if ((y > this.y) && (y < this.y + this.sY) && (x > this.x) && (x < this.x + this.sX)) {
+            return true
         }
+    }
 
     rotate() {
         const a = this.r 
