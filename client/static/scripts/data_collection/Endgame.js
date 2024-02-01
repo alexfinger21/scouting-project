@@ -2,33 +2,18 @@ import { consoleLog } from "../utility.js"
 import Map from "./Map.js"
 import PiecesMap from "./PiecesMap.js"
 import Robot from "./Robot.js"
+import RobotMap from "./RobotMap.js"
 
 export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, alliancePosition, endgamePieceData, images, cX, cY}) {
+    constructor({ctx, allianceColor, robotData, endgamePieceData, images, cX, cY}) {
         const canvasSize = {x: cX, y: cY}
         const isBlue = allianceColor == "B"
         this.ctx = ctx
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
         this.clickable = {}
-        this.clickable.robots = [ //starting leftmost, go clockwise
-            new Robot({ //leftmost
-                ctx,
-                clickable: true,
-                allianceColor,
-                img: images.robotImage,
-                containerImg: images.robotContainer,
-                canvasSize,
-                alliancePosition,
-                customPos: {
-                    x: isBlue ? canvasSize.x * 0.5 : 0,
-                    y: isBlue ? canvasSize.y * 0.22 : 0,
-                    r: 60,
-                }
-            })
-            
-        ]
+        this.clickable.robots = new RobotMap({ctx, allianceColor, images, stagePositions: robotData, canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize})
     }
 
@@ -37,11 +22,7 @@ export default class {
         const y = event.pageY - topOffset
 
         // Collision detection between clicked offset and element.
-        this.clickable.robots.forEach(function(robot) {
-            if(robot.onClick) {
-                robot.onClick({x, y})
-            }
-        })
+        this.clickable.robots.onClick({x, y})
 
         this.clickable.pieces.onClick({x, y})
         
@@ -55,9 +36,7 @@ export default class {
         //this.ctx.save()
 
         this.map.draw()
-        this.clickable.robots.forEach((robot) => {
-            robot.draw()
-        })
+        this.clickable.robots.draw()
         this.clickable.pieces.draw()
 
         //this.ctx.restore()

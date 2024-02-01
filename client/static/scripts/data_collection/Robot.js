@@ -7,49 +7,34 @@ export default class Robot extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, clickable, img, containerImg, allianceColor, canvasSize, alliancePosition, customPos}) {
+    constructor({ctx, clickable, img, containerImg, isSelected, canvasSize, pos}) {
         let x = 0
         let y = 0
         let r = 0
-        if(customPos) {
-            x = customPos.x
-            y = customPos.y
-            r = customPos.r
-        }
-        else {
-            if(allianceColor == "B") {
-                x = canvasSize.x * 0.11
-            }
-            else {
-                x = canvasSize.x * 0.78
-            }
-            switch(alliancePosition) {
-                case "1":
-                    y = canvasSize.y * 0.11
-                    break
-                case "2":
-                    y = canvasSize.y * 0.48
-                    break
-                case "3":
-                    y = canvasSize.y * 0.63
-                    break
-            }
+        if(pos) {
+            x = pos.x ?? 0
+            y = pos.y ?? 0
+            r = pos.r ?? 0
         }
 
         super({ctx, img, x, y, r, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)});
         this.clickable = clickable ? clickable : false 
-        this.isSelected = clickable ? false : true
+        this.isSelected = clickable ? (isSelected ?? false) : true
         if(this.clickable) {
             this.mask = new DrawableObject({ctx, img: containerImg, x, y, r, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)})
         }
     }
 
     onClick({ x, y }) {
-        consoleLog('hi11')
         if (this.clickable && super.inBoundingBox({ x, y })) {
-            consoleLog('22')
             this.isSelected = !this.isSelected
+            return true
         }
+        return false
+    }
+
+    setIsSelected({value}) {
+        this.isSelected = value
     }
 
     draw() {
