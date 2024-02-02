@@ -230,57 +230,46 @@ function loadData() {
             "3": false,
         }
         
-        if (!localData) {
 
-            const autonPieceData = {
-                //Wing Notes
-                "202": false,
-                "203": false,
-                "204": false,
-                //Center Notes
-                "205": false,
-                "206": false,
-                "207": false,
-                "208": false,
-                "209": false,
-                "210": false,
-                "211": false,
-                "212": false,
-            }
-
-
-            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: autonPieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
-
-            autonCanvas.addEventListener("click", (event) => {
-                AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
-            })
-
-            endgameCanvas.addEventListener("click", (event) => {
-                EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
-            })
-
-           
-            return rej()
+        const templatePieceData = {
+            //  Wing Notes
+            "202": false,
+            "203": false,
+            "204": false,
+            //  Center Notes
+            "205": false,
+            "206": false,
+            "207": false,
+            "208": false,
+            //  Endgame
+            "209": false,
+            "210": false,
+            "211": false,
+            "212": false,
         }
 
         const data = localData[match]
             //consoleLog("Data is: " + data)
 
+        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data?.pieceData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data?.pieceData ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+
+        autonCanvas.addEventListener("click", (event) => {
+            AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+        })
+
+        endgameCanvas.addEventListener("click", (event) => {
+            EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
+        })
+        
+        if (!localData) {
+            return rej()
+        }
+
         consoleLog(data)
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
-            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data.autonPieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data.autonPieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
-
-            autonCanvas.addEventListener("click", (event) => {
-                AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
-            })
-
-            endgameCanvas.addEventListener("click", (event) => {
-                EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
-            })
             
             Array.from(inputContainers).forEach(element => {
                 const commentsSection = element.querySelector("#comments-container")
@@ -379,7 +368,7 @@ async function saveData() {
         const inputContainers = form.querySelectorAll(".input-container")
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
 
-        data.autonPieceData = AutonObject ? AutonObject.sendData() : {}
+        data.pieceData = AutonObject ? AutonObject.sendData() : {}
 
         data.matchNumber = match
 
