@@ -46,11 +46,11 @@ export default class PiecesMap {
                 }
             }
         }
-        //Splotlight notes moving clockwise
-        if ("210" in pieceData && !isAuton) { //leftmost spotlight
+        //Splotlight notes moving top-down
+        if ("210" in pieceData && !isAuton) { //topmost spotlight
             this.pieces.push(new GamePiece({
-                x: isBlue ? canvasSize.x * 0.48 : canvasSize.x * 0.21,
-                y: isBlue ? canvasSize.y * 0.35 : canvasSize.y * 0.44,
+                x: isBlue ? canvasSize.x * 0.51 : canvasSize.x * 0.25,
+                y: isBlue ? canvasSize.y * 0.37 : canvasSize.y * 0.44,
                 ctx,
                 img,
                 isSelected: pieceData["210"],
@@ -59,10 +59,10 @@ export default class PiecesMap {
                 canvasSize 
             }))
         }
-        if ("211" in pieceData && !isAuton) { //rightmost spotlight
+        if ("211" in pieceData && !isAuton) { //middle spotlight
             this.pieces.push(new GamePiece({
-                x: isBlue ? canvasSize.x * 0.65 : canvasSize.x * 0.38,
-                y: isBlue ? canvasSize.y * 0.44 : canvasSize.y * 0.34,
+                x: isBlue ? canvasSize.x * 0.62 : canvasSize.x * 0.36,
+                y: isBlue ? canvasSize.y * 0.44 : canvasSize.y * 0.36,
                 ctx,
                 img,
                 isSelected: pieceData["211"],
@@ -73,8 +73,8 @@ export default class PiecesMap {
         }
         if ("212" in pieceData && !isAuton) { //bottommost spotlight
             this.pieces.push(new GamePiece({
-                x: isBlue? canvasSize.x * 0.49: canvasSize.x*0.38,
-                y: isBlue? canvasSize.y * 0.53: canvasSize.y*0.53,
+                x: isBlue? canvasSize.x * 0.51: canvasSize.x*0.37,
+                y: isBlue? canvasSize.y * 0.50: canvasSize.y*0.5,
                 ctx,
                 img,
                 isSelected: pieceData["212"],
