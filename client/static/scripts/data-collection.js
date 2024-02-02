@@ -215,45 +215,42 @@ function loadData() {
         robotContainer.src = `./static/images/data-collection/robot-container.png`
         const images = { gamePieceImage, robotImage, mapImage, robotContainer }
 
+        await waitUntilImagesLoaded(Object.values(images))
+        
+        const startingPositions = {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+        }
+
+        const stagePositions = {
+            "1": false,
+            "2": false,
+            "3": false,
+        }
+        
         if (!localData) {
 
             const autonPieceData = {
                 //Wing Notes
-                '202': true,
-                '203': false,
-                '204': false,
+                "202": false,
+                "203": false,
+                "204": false,
                 //Center Notes
-                '205': false,
-                '206': false,
-                '207': false,
-                '208': false,
-                '209': false
-            }
-
-            const endgamePieceData = {
+                "205": false,
+                "206": false,
+                "207": false,
+                "208": false,
+                "209": false,
                 "210": false,
                 "211": false,
                 "212": false,
             }
 
-            const startingPositions = {
-                "1": false,
-                "2": false,
-                "3": false,
-                "4": false,
-            }
-            
-            const stagePositions = {
-                "1": false,
-                "2": false,
-                "3": false,
-            }
-
-            
-            await waitUntilImagesLoaded(Object.values(images))
 
             AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: autonPieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
             autonCanvas.addEventListener("click", (event) => {
                 AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
@@ -274,30 +271,17 @@ function loadData() {
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
-            const autonPieceData = {
-                '202': true,
-                '203': false,
-                '204': false,
-                '205': false,
-                '206': false,
-                '207': false,
-                '208': false,
-                '209': false
-            }
-            
-            await waitUntilImagesLoaded(Object.values(images))
-
-            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, autonPieceData, allianceColor, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+            AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data.autonPieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+            EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data.autonPieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
             autonCanvas.addEventListener("click", (event) => {
                 AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
             })
 
             endgameCanvas.addEventListener("click", (event) => {
-                EndgameObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+                EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
             })
-
+            
             Array.from(inputContainers).forEach(element => {
                 const commentsSection = element.querySelector("#comments-container")
                 if (!commentsSection) {
@@ -395,7 +379,7 @@ async function saveData() {
         const inputContainers = form.querySelectorAll(".input-container")
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
 
-        data.autonPiecesData = AutonObject ? AutonObject.sendData() : {}
+        data.autonPieceData = AutonObject ? AutonObject.sendData() : {}
 
         data.matchNumber = match
 
