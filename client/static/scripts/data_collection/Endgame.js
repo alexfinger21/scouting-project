@@ -14,7 +14,7 @@ export default class {
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
         this.clickable = {}
         this.clickable.robots = new RobotMap({ctx, allianceColor, images, stagePositions: robotData, canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, allianceColor, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, allianceColor, isAuton: false, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize})
     }
 
     onClick({event, leftOffset, topOffset}) {
