@@ -72,8 +72,8 @@ export default class RobotMap {
             }
         }
 
-        //Stage Positions going clockwise
-        if(stagePositions) {
+        //Stage Positions going top-down
+        if(stagePositions) { //topmost
             if("1" in stagePositions) { 
                 this.stagePositions.push(new Robot({
                     ctx,
@@ -83,28 +83,13 @@ export default class RobotMap {
                     containerImg: images.robotContainer,
                     canvasSize,
                     pos: {
-                        x: isBlue ? canvasSize.x * 0.45 : canvasSize.x * 0.78,
-                        y: canvasSize.y * 0.28,
-                        r: 0// 240,
+                        x: isBlue ? canvasSize.x * 0.43 : canvasSize.x * 0.44,
+                        y: canvasSize.y * 0.25,
+                        r: isBlue ? 120 : 60,
                     },
                 }))
             }
-            if("2" in stagePositions) { 
-                this.stagePositions.push(new Robot({
-                    ctx,
-                    clickable: true,
-                    isSelected: stagePositions["2"],
-                    img: images.robotImage,
-                    containerImg: images.robotContainer,
-                    canvasSize,
-                    pos: {
-                        x: isBlue ? canvasSize.x * 0.11 : canvasSize.x * 0.78,
-                        y: canvasSize.y * 0.63,
-                        r: 60 //150,
-                    },
-                }))
-            }
-            if("3" in stagePositions) { 
+            if("2" in stagePositions) {  //middle
                 this.stagePositions.push(new Robot({
                     ctx,
                     clickable: true,
@@ -113,12 +98,28 @@ export default class RobotMap {
                     containerImg: images.robotContainer,
                     canvasSize,
                     pos: {
-                        x: isBlue ? canvasSize.x * 0.11 : canvasSize.x * 0.78,
-                        y: canvasSize.y * 0.63,
-                        r: 60 //240,
+                        x: isBlue ? canvasSize.x * 0.77 : canvasSize.x * 0.1,
+                        y: canvasSize.y * 0.45,
+                        r: isBlue ? 0 : 180 //240,
                     },
                 }))
             }
+            if("3" in stagePositions) { //bottom-most
+                this.stagePositions.push(new Robot({
+                    ctx,
+                    clickable: true,
+                    isSelected: stagePositions["2"],
+                    img: images.robotImage,
+                    containerImg: images.robotContainer,
+                    canvasSize,
+                    pos: {
+                        x: isBlue ? canvasSize.x * 0.43 : canvasSize.x * 0.45,
+                        y: isBlue ? canvasSize.y * 0.63 : canvasSize.y * 0.64,
+                        r: isBlue ? -120 : -60 //150,
+                    },
+                }))
+            }
+
         }
         
     }
@@ -140,11 +141,10 @@ export default class RobotMap {
 
         stagePositions.forEach(function (robot) {
             const clicked = robot.onClick({ x, y })
-            consoleLog("CLICKED IS: ", clicked)
             if(clicked) { //unselect other startPositions robots
-                stagePositions.forEach(function (otherRobots) {
-                    if(otherRobots !== robot) {
-                        //robot.setIsSelected({value: false})
+                stagePositions.forEach(function (otherRobot) {
+                    if(otherRobot !== robot) {
+                        otherRobot.setIsSelected({value: false})
                     }
                 })
             }
