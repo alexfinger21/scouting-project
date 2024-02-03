@@ -90,31 +90,23 @@ function writeAPIData(teamRankings) {
 }
 function convertToInt(option) {
     switch (option) {
-        case "engaged":
-            return 3
-        case "docked":
-            return 2
-        case "attempted":
-            return 1
-        case "unattempted":
+        case "source":
             return 0
-        case "none":
-            return 3
-        case "both":
-            return 2
         case "ground":
             return 1
-        case "substation":
+        case "source-ground":
+            return 2
+        case "nowhere":
             return 0
-        case "often":
-            return 0
-        case "sometimes":
+        case "touching":
             return 1
-        case "rarely":
+        case "anywhere":
             return 2
         case false:
             return -1
         case "n/a":
+            return 0
+        default:
             return 0
     }
 }
@@ -159,19 +151,22 @@ function saveData(data, is7thScouter=false) {
         )
         VALUES 
         (${params}, '1', '101', ${data.gameData["Starting Location"]}), 
-        (${params}, '1', '102', ${data["Robot Preloaded"]}
+        (${params}, '1', '102', ${data["Robot Preloaded"]}),
+        (${params}, '1', '201', ${data["robot-taxies"]})
         ${autonScoringStr},
-        (${params}, '2', '210', ${data["Auton - Scored in Speaker"]}),
-        (${params}, '2', '211', ${data["Auton - Scored in Amplifier"]}),
-        (${params}, '2', '212', ${data["Auton - Tech Fouls"]}),
-        (${params}, '2', '228', ${data["Robot Leaves Community"]}),
-        (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])}),
-        (${params}, '2', '230', ${data["Game pieces picked up in Auton"]})
+        (${params}, '2', '210', ${data["auton-speaker"]}),
+        (${params}, '2', '211', ${data["auton-amplifier"]}),
+        (${params}, '2', '212', ${data["auton-tech-fouls"]}),
+        (${params}, '2', '301', ${data["teleop-speaker"]}),
+        (${params}, '2', '302', ${data["teleop-amplified-speaker"]}),
+        (${params}, '2', '303', ${data["teleop-amplifier"]}),
+        (${params}, '4', '304', 0),
+        (${params}, '2', '305', ${data["coopertition-bonus-activated"]}),
+        (${params}, '4', '401', ${data["harmony"] ? 3 : (data["on-stage"] ? 2 : (data["parked"] ? 1 : 0))}),
+        (${params}, '4', '402', ${data.gameData["Instage Location"]})
         ${endgameScoringStr},
-        (${params}, '4', '402', ${data["Instage Location"]},)
         (${params}, '4', '406', ${data["trap"]}),
         (${params}, '4', '407', ${data["human-player"]}),
-        (${params}, '4', '406', ${data["human-player"]}),
         
 
         ;`
