@@ -16,7 +16,40 @@ function addZero(num) {
     return num < 10 ? "0" + String(num) : String(num)
 }
 
+const auth = process.env.TBA_AUTH
+
+const readTBA = async (url) => {
+    const response = await fetch("https://www.thebluealliance.com/api/v3" + url, {
+        headers: { "X-TBA-Auth-Key": auth },
+    });
+
+    if (response.status === 200) {
+        return response.json();
+    }
+
+    throw new Error("TBA Error: " + response.status);
+};
+
+const getAlliances = async (eventId) => {
+    const rawAlliances = await readTBA(`/event/${eventId}/alliances`);
+    consoleLog("\n\nGET ALLIANCE DATA TEST")
+    consoleLog(JSON.stringify(rawAlliances, null, 2))
+    const alliances = rawAlliances?.map((alliance, i) => {
+        //console.log(alliance)
+        return {
+            rank: i + 1,
+            teams: alliance?.picks?.map((pick) => parseInt(pick?.slice(3))),
+            //record: ${ alliance?.status?.record?.wins } - ${ alliance?.status?.record?.losses } - ${ alliance?.status?.record?.ties },
+            //status: alliance?.status?.status,
+        }
+    });
+
+    return alliances;
+};
+
 router.get("/", async function (req, res) {
+    getAlliances("2023ohcl")
+
     consoleLog("GET request for match listing")
     consoleLog("Get collected data: " + req.query.getCollectedData)
     if ("" + req.query.getCollectedData == "true") {
