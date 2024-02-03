@@ -31,7 +31,7 @@ export default class {
     sendData() {
         return {
             spotlights: this.clickable.pieces.sendData(),
-            parkingPosition: this.clickable.robots.sendData() 
+            "Instage Location": this.clickable.robots.sendData() 
         }
 
     }

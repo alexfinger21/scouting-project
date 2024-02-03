@@ -56,6 +56,20 @@
 
             
             <div id="input-scroller">
+                <!--PREGAME-->
+                <div class="line" id="pre-game">ㅤ</div>
+                <div class="input-container">
+                    <!--<span>Starting Config</span>-->
+                    <div class="radio-button-container">
+                        <input type="checkbox" id="robot-taxies" name="robot-preload" value="true">
+                        <label for="robot-taxies">Preloaded</label>
+                        <br>
+                        <input type="checkbox" id="robot-taxies" name="robot-taxies" value="true">
+                        <label for="robot-taxies">Human Player at Amp Station</label>
+                        <br>
+                    </div>
+                </div>
+
                 <div class="line" id="autonomous">ㅤ</div>
 
                 <!--<div class="input-container">
@@ -71,11 +85,8 @@
                 
 
                 <div class="input-container">
-                    <span>Auton Starting Config</span>
+                    <!--<span>Auton</span>-->
                     <div class="radio-button-container">
-                        <input type="checkbox" id="robot-taxies" name="robot-preload" value="true">
-                        <label for="robot-taxies">Preloaded</label>
-                        <br>
                         <input type="checkbox" id="robot-taxies" name="robot-taxies" value="true">
                         <label for="robot-taxies">Leaves Starting Zone</label>
                         <br>
@@ -111,7 +122,7 @@
                     <span>Auton- Tech Fouls</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="tech-fouls" min="0" max="5" value="0">
+                        <input type="number" name="auton-tech-fouls" min="0" max="5" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
@@ -167,20 +178,17 @@
                 <div class="input-container">
                     <span>Robot Endgame</span>
                     <div class="radio-button-container">
-                        <input type="radio" id="teleop-unattempted" name="teleop-docking" value="unattempted">
-                        <label for="teleop-unattempted">Robot not parked</label>
+                        <input type="checkbox" id="parked" name="endgame" value="true">
+                        <label for="parked">Robot Parked</label>
                         <br>
-                        <input type="radio" id="teleop-attempted" name="teleop-docking" value="attempted">
-                        <label for="teleop-attempted">Robot parked</label>
+                        <input type="checkbox" id="on-stage" name="endgame" value="true">
+                        <label for="on-stage">Robot On Stage (hanging)</label>
                         <br>
-                        <input type="radio" id="teleop-docked" name="teleop-docking" value="docked">
-                        <label for="teleop-docked">Robot hanging</label>
+                        <input type="checkbox" id="harmony" name="endgame" value="true">
+                        <label for="harmony">Robot Harmony</label>
                         <br>
-                        <input type="radio" id="teleop-docked" name="teleop-docking" value="docked">
-                        <label for="teleop-docked">Robot harmony</label>
-                        <br>
-                        <input type="radio" id="teleop-engaged" name="teleop-docking" value="engaged">
-                        <label for="teleop-engaged">Robot hanged + scored trap note</label>
+                        <input type="checkbox" id="trap" name="endgame" value="true">
+                        <label for="trap">Scored in Trap </label>
                     </div>
                 </div>
 
@@ -209,16 +217,16 @@
                 <div class="input-container">
                     <span>Robot Fumbles Notes</span>
                     <div class="radio-button-container">
-                        <input type="checkbox" id="fumbles-rarely" name="fumbles-rarely" value="true">
+                        <input type="checkbox" id="fumbles-rarely" name="fumbling" value="true">
                         <label for="fumbles-rarely">Rarely fumbles notes</label>
                         <br>
-                        <input type="checkbox" id="fumbles-intake" name="fumbles-intake" value="true">
+                        <input type="checkbox" id="fumbles-intake" name="fumbling" value="true">
                         <label for="fumbles-intake">Failed to intake note >3x</label>
                         <br>
-                        <input type="checkbox" id="fumbles-speaker" name="fumbles-speaker" value="true">
+                        <input type="checkbox" id="fumbles-speaker" name="fumbling" value="true">
                         <label for="fumbles-speaker">Misses speaker shot >3x </label>
                         <br>
-                        <input type="checkbox" id="fumbles-cones-" name="fumbles-amplifier" value="true">
+                        <input type="checkbox" id="fumbles-amplifier" name="fumbling" value="true">
                         <label for="fumbles-amplifier">Misses amplifier shot >3x </label>
                     </div>
                 </div>
@@ -238,19 +246,19 @@
                 </div>
 
                 <div class="input-container">
-                    <span>Robot Shooting Position</span>
+                    <span>Speaker Shooting Position</span>
                     <div class="radio-button-container">
-                        <input type="radio" id="fumbles-cones-n/a" name="fumbles-cones" value="n/a">
+                        <input type="radio" id="no-speaker" name="speaker-position" value="n/a">
+                        <label for="fumbles-cones-n/a">Does not score into speaker</label>
+                        <br>
+                        <input type="radio" id="subwoofer-only" name="speaker-position" value="n/a">
                         <label for="fumbles-cones-n/a">Subwoofer only</label>
                         <br>
-                        <input type="radio" id="fumbles-cones-often" name="fumbles-cones" value="often">
+                        <input type="radio" id="subwoofer-only" name="speaker-position" value="n/a">
+                        <label for="fumbles-cones-n/a">Subwoofer only</label>
+                        <br>
+                        <input type="radio" id="any-position" name="speaker-position" value="often">
                         <label for="fumbles-cones-often">Can shoot into speaker from any position</label>
-                        <br>
-                        <input type="radio" id="fumbles-cones-sometimes" name="fumbles-cones" value="sometimes">
-                        <label for="fumbles-cones-sometimes">Missed shot >3x </label>
-                        <br>
-                        <input type="radio" id="fumbles-cones-rarely" name="fumbles-cones" value="rarely">
-                        <label for="fumbles-cones-rarely">Both</label>
                         <br>
                     </div>
                 </div>
