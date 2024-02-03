@@ -90,31 +90,23 @@ function writeAPIData(teamRankings) {
 }
 function convertToInt(option) {
     switch (option) {
-        case "engaged":
-            return 3
-        case "docked":
-            return 2
-        case "attempted":
-            return 1
-        case "unattempted":
+        case "source":
             return 0
-        case "none":
-            return 3
-        case "both":
-            return 2
         case "ground":
             return 1
-        case "substation":
+        case "source-ground":
+            return 2
+        case "nowhere":
             return 0
-        case "often":
-            return 0
-        case "sometimes":
+        case "touching":
             return 1
-        case "rarely":
+        case "anywhere":
             return 2
         case false:
             return -1
         case "n/a":
+            return 0
+        default:
             return 0
     }
 }
@@ -130,77 +122,19 @@ function saveData(data, is7thScouter=false) {
         '${data.position}',
         '${data.username}'`
 
-    let autoScoring = []
-    let teleopScoring = []
+    let autonScoringStr = new String()
+    let endgameScoringStr = new String()
 
-    let linkCount = 0
-    let autoScoringStr = ""
-    let teleopScoringStr = ""
-    let linkArray = []
-
-    let count = 0
-    let count1 = 0
-
-    for (let i = 0; i < 3; i++) {//row
-        for (let j = 0; j < 3; j++) {//grid
-            for (let x = 0; x < 3; x++) {//column
-                if (data.tables["Robot Auto Scoring"][j][i][x] == "cone") {
-                    autoScoring[count] = 1
-                    linkArray[count] = 1
-                } else if (data.tables["Robot Auto Scoring"][j][i][x] == "cube") {
-                    autoScoring[count] = 2
-                    linkArray[count] = 2
-                } else {
-                    autoScoring[count] = 0
-                    linkArray[count] = 0
-                }
-
-                count++
-            }
-        }
+    for (const [i, v] of Object.entries(data.gameData.autonPieceData)) {
+        autonScoringStr += `,(${params}, '2', '${i}', ${v})`  
     }
 
-    for (let i = 0; i < count; i++) {
-        autoScoringStr += `,(${params}, '2', '${200 + i + 1}', ${autoScoring[i]}) \n`
+    for (const [i, v] of Object.entries(data.gameData.endgamePieceData)) {
+        
+        autonScoringStr += `,(${params}, '4', '${i}', ${(v == 2 && i == data.gameData["Instage Location"]) ? 3 : v})`  
     }
-
-    for (let i = 0; i < 3; i++) {//row
-        for (let j = 0; j < 3; j++) {//grid
-            for (let x = 0; x < 3; x++) {//column
-                if (data.tables["Robot Teleop Scoring"][j][i][x] == "cone") {
-                    teleopScoring[count1] = 1
-                    linkArray[count1] = 1
-                } else if (data.tables["Robot Teleop Scoring"][j][i][x] == "cube") {
-                    teleopScoring[count1] = 2
-                    linkArray[count1] = 2
-                } else {
-                    teleopScoring[count1] = 0
-                }
-
-                count1++
-            }
-        }
-    }
-
-    for (let i = 0; i < count1; i++) {
-        teleopScoringStr += `,(${params}, '2', '${300 + i + 1}', ${teleopScoring[i]}) \n`
-    }
-
     //console.log(linkArray)
-
-    for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 9; col++) {
-            //console.log(col)
-            if (col < 7 && linkArray[row * 9 + col] != 0 && linkArray[row * 9 + col + 1] != 0 && linkArray[row * 9 + col + 2] != 0) {
-                linkCount++
-                //console.log("LINK = " + linkCount)
-                //console.log("COLUMN = " + col)
-                //console.log("ROW = " + row)
-                col += 2
-            }
-        }
-    }
-
+    
     //console.log("LINK COUNT: " + linkCount)
 
     const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.${is7thScouter ? "7th_scouter_details": "game_details"} (
@@ -216,21 +150,25 @@ function saveData(data, is7thScouter=false) {
         gd_value
         )
         VALUES 
-        (${params}, '1', '101', ${data["Starting Position"]}), 
-        (${params}, '1', '102', ${data["Robot Preload"]})
-        ` + autoScoringStr + `,
-        (${params}, '2', '228', ${data["Robot Leaves Community"]}),
-        (${params}, '2', '229', ${convertToInt(data["Robot Auto Docking"])}),
-        (${params}, '2', '230', ${data["Game pieces picked up in Auton"]})
-        `+ teleopScoringStr + `,
-        (${params}, '3', '328', ${data["Supercharged Cones"]}),
-        (${params}, '3', '329', ${data["Supercharged Cubes"]}),
-        (${params}, '4', '401', ${convertToInt(data["Robot Endgame Docking"])}),
-        (${params}, '4', '402', ${data["Robot is in Community"]}),
-        (${params}, '4', '403', ${linkCount}),
-        (${params}, '4', '404', ${convertToInt(data["Game Piece Intake From"])}),
-        (${params}, '4', '405', ${convertToInt(data["Robot Fumbles Cones"])}),
-        (${params}, '4', '406', ${convertToInt(data["Robot Fumbles Cubes"])})
+        (${params}, '1', '101', ${data.gameData["Starting Location"]}), 
+        (${params}, '1', '102', ${data["Robot Preloaded"]}),
+        (${params}, '1', '201', ${data["robot-taxies"]})
+        ${autonScoringStr},
+        (${params}, '2', '210', ${data["auton-speaker"]}),
+        (${params}, '2', '211', ${data["auton-amplifier"]}),
+        (${params}, '2', '212', ${data["auton-tech-fouls"]}),
+        (${params}, '2', '301', ${data["teleop-speaker"]}),
+        (${params}, '2', '302', ${data["teleop-amplified-speaker"]}),
+        (${params}, '2', '303', ${data["teleop-amplifier"]}),
+        (${params}, '4', '304', 0),
+        (${params}, '2', '305', ${data["coopertition-bonus-activated"]}),
+        (${params}, '4', '401', ${data["harmony"] ? 3 : (data["on-stage"] ? 2 : (data["parked"] ? 1 : 0))}),
+        (${params}, '4', '402', ${data.gameData["Instage Location"]})
+        ${endgameScoringStr},
+        (${params}, '4', '406', ${data["trap"]}),
+        (${params}, '4', '407', ${data["human-player"]}),
+        
+
         ;`
 
     //console.log(sqlStr)
