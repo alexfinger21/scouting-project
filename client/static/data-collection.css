@@ -200,7 +200,8 @@
 .radio-button-container input {
     font-size: 2vh;
     margin-bottom: 1vh;
-
+    width: 1.5vh;
+    height: 1.5vh;
 }
 
 .radio-button-container input:checked {
@@ -210,10 +211,8 @@
 .radio-button-container label {
     font-size: 2vh;
 }
-input[type=checkbox]
-{
-  width: 20px;
-}
+
+
 
 .scoring-container {
     display: flex;

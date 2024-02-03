@@ -240,18 +240,18 @@ function loadData() {
             "206": false,
             "207": false,
             "208": false,
-            //  Endgame
             "209": false,
-            "210": false,
-            "211": false,
-            "212": false,
+            //  Endgame
+            "403": 0,
+            "404": 0,
+            "405": 0,
         }
 
         const data = localData?.get(match)
             //consoleLog("Data is: " + data)
 
-        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data?.pieceData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-        EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data?.pieceData ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data?.gameData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data?.gameData ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
         autonCanvas.addEventListener("click", (event) => {
             AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
@@ -367,7 +367,8 @@ async function saveData() {
         const inputContainers = form.querySelectorAll(".input-container")
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
 
-        data.pieceData = AutonObject ? AutonObject.sendData() : {}
+
+        data.gameData = {...EndgameObject?.sendData(), ...AutonObject?.sendData()}
 
         data.matchNumber = match
 
@@ -407,17 +408,15 @@ async function saveData() {
             let containerName = container.parentElement.children[0].textContent
             let selected = false
 
-            if (containerName != "Robot Auto Scoring" && containerName != "Robot Teleop Scoring") {
-                Array.from(container.children).forEach(element => {
-                    if (!selected) {
-                        if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.checked) {
-                            selected = element.value
-                        }
+            Array.from(container.children).forEach(element => {
+                if (!selected) {
+                    if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.checked) {
+                        selected = element.value
                     }
-                })
-
-                data[containerName] = selected
-            }
+                }
+            })
+            
+            data[containerName] = selected
         })
 
         data.alliance = document.getElementById("match-number-form").getAttribute("alliance")
