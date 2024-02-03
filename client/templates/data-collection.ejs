@@ -61,7 +61,7 @@
                 <div class="input-container">
                     <!--<span>Starting Config</span>-->
                     <div class="radio-button-container">
-                        <input type="checkbox" id="robot-taxies" name="robot-preload" value="true">
+                        <input type="checkbox" id="human-player" name="pregame" value="true">
                         <label for="robot-taxies">Preloaded</label>
                         <br>
                         <input type="checkbox" id="robot-taxies" name="robot-taxies" value="true">
@@ -101,7 +101,7 @@
                 </div>
                 
                 <div class="input-container">
-                    <span>Auton- Scored in Speaker</span>
+                    <span>Auton - Scored in Speaker</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="auton-speaker" min="0" max="5" value="0">
@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="input-container">
-                    <span>Auton- Scored in Amplifier</span>
+                    <span>Auton - Scored in Amplifier</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="auton-amplifier" min="0" max="5" value="0">
@@ -130,7 +130,7 @@
                 <!--TELEOP-->
                 <div class="line" id="tele-op">ㅤ</div>
                 <div class="input-container">
-                    <span>Teleop- Amplifier</span>
+                    <span>Teleop - Amplifier</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="teleop-amplifier" min="0" max="5" value="0">
@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <div class="input-container">
-                    <span>Teleop- Speaker</span>
+                    <span>Teleop - Speaker</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="teleop-speaker" min="0" max="5" value="0">
@@ -146,7 +146,7 @@
                     </div>
                 </div>
                 <div class="input-container">
-                    <div class="one-line"><span>Teleop- </span> <span style="color: #EEC800">Amplified </span> <span>Speaker</span></div>
+                    <div class="one-line"><span>Teleop - </span> <span style="color: #EEC800">Amplified </span> <span>Speaker</span></div>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="teleop-amplified-speaker" min="0" max="5" value="0">
@@ -186,9 +186,15 @@
                         <br>
                         <input type="checkbox" id="harmony" name="endgame" value="true">
                         <label for="harmony">Robot Harmony</label>
-                        <br>
-                        <input type="checkbox" id="trap" name="endgame" value="true">
-                        <label for="trap">Scored in Trap </label>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <span>Notes in Trap</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="trap-notes" min="0" max="3" value="0">
+                        <button type="button" class="big-button">-</button>
                     </div>
                 </div>
 
@@ -248,17 +254,29 @@
                 <div class="input-container">
                     <span>Speaker Shooting Position</span>
                     <div class="radio-button-container">
-                        <input type="radio" id="no-speaker" name="speaker-position" value="n/a">
-                        <label for="fumbles-cones-n/a">Does not score into speaker</label>
+                        <input type="radio" id="speaker-nowhere" name="speaker-position" value="nowhere">
+                        <label for="speaker-nowhere">Does not score into speaker</label>
                         <br>
-                        <input type="radio" id="subwoofer-only" name="speaker-position" value="n/a">
-                        <label for="fumbles-cones-n/a">Subwoofer only</label>
+                        <input type="radio" id="speaker-touching" name="speaker-position" value="touching">
+                        <label for="speaker-touching">Subwoofer only</label>
                         <br>
-                        <input type="radio" id="subwoofer-only" name="speaker-position" value="n/a">
-                        <label for="fumbles-cones-n/a">Subwoofer only</label>
+                        <input type="radio" id="speaker-anywhere" name="speaker-position" value="anywhere">
+                        <label for="speaker-anywhere">Can shoot into speaker from any position</label>
                         <br>
-                        <input type="radio" id="any-position" name="speaker-position" value="often">
-                        <label for="fumbles-cones-often">Can shoot into speaker from any position</label>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <span>Amp Scoring Position</span>
+                    <div class="radio-button-container">
+                        <input type="radio" id="amp-nowhere" name="amp-position" value="nowhere">
+                        <label for="amp-nowhere">Does not score into amp</label>
+                        <br>
+                        <input type="radio" id="amp-touching" name="amp-position" value="touching">
+                        <label for="amp-touching">Touching the amp</label>
+                        <br>
+                        <input type="radio" id="amp-anywhere" name="amp-position" value="anywhere">
+                        <label for="amp-anywhere">Scores into amp from any position</label>
                         <br>
                     </div>
                 </div>

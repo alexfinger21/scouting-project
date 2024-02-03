@@ -389,13 +389,11 @@ async function saveData() {
                 const name = element.children[0].textContent
                 const buttonContainer = element.children[1]
 
-                if (name != "Robot Auto Scoring" && name != "Robot Teleop Scoring") {
-                    if (buttonContainer.children[0].textContent == "+") {
-                        //input value
-                        data[name] = Number(buttonContainer.children[1].value)
-                    } else {
-                        data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
-                    }
+                if (buttonContainer.children[0].textContent == "+") {
+                    //input value
+                    data[name] = Number(buttonContainer.children[1].value)
+                } else {
+                    data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
                 }
             } else {
                 data.comments = commentsSection.children[0].value
@@ -405,17 +403,19 @@ async function saveData() {
         //radio buttons
 
         Array.from(radioButtonContainers).forEach(container => {
-            let containerName = container.parentElement.children[0].textContent
+            let containerName = container.parentElement.children[0].id
             let selected = false
 
             Array.from(container.children).forEach(element => {
                 if (!selected) {
-                    if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.checked) {
-                        selected = element.value
+                    if (element.tagName.toLowerCase() == "input") {
+                        if(element.type == "radio" && element.checked) {
+                            selected = element.value
+                        }
                     }
                 }
             })
-            
+
             data[containerName] = selected
         })
 
