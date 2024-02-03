@@ -41,7 +41,7 @@ export default class GamePiece extends DrawableObject {
         this.color = unselectedColor
         
         if (canSpotlight) {
-            this.splotlightStatus = spotlightStatus ?? false
+            this.spotlightStatus = spotlightStatus ?? false
         
         }
         this.maskCtx = this.mask.getContext("2d")
@@ -67,18 +67,18 @@ export default class GamePiece extends DrawableObject {
     onClick({ x, y }) {
         if (super.inBoundingBox({ x, y })) {
 
-            if (this.splotlightStatus === undefined) {
+            if (this.spotlightStatus === undefined) {
                 this.isSelected = !this.isSelected
             } else {
-                if (!this.splotlightStatus) {
+                if (!this.spotlightStatus) {
                     if (!this.isSelected) {
                         this.isSelected = true
                     } else {
-                        this.splotlightStatus = true
+                        this.spotlightStatus = true
                     }
                 } else {
                     this.isSelected = false
-                    this.splotlightStatus = false
+                    this.spotlightStatus = false
                 }
 
             //alert("Selected Note " + this.ge_key
@@ -87,7 +87,7 @@ export default class GamePiece extends DrawableObject {
     }
 
     draw() {
-        this.color = lerpColor(this.color, this.splotlightStatus ? spotLightColor : (this.isSelected ? selectedColor : unselectedColor) , Date.now() - this.lastTick)
+        this.color = lerpColor(this.color, this.spotlightStatus ? spotLightColor : (this.isSelected ? selectedColor : unselectedColor) , Date.now() - this.lastTick)
         this.lastTick = Date.now()
         this.drawMask()
 

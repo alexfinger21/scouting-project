@@ -29,7 +29,11 @@ export default class {
     }
 
     sendData() {
-        return this.clickable.pieces.sendData()
+        return {
+            spotlights: this.clickable.pieces.sendData(),
+            parkingPosition: this.clickable.robots.sendData() 
+        }
+
     }
 
     draw() {
