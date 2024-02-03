@@ -174,8 +174,8 @@
     color: #5B6671;
     text-align: center;
     font-size: 2.5vh;
-    width: 7vw;
-    height: 7vw;
+    width: 2vh;
+    height: 2vh;
     border: 0;
     padding-bottom: 1%;
     text-decoration-color: #FBFDFF;
@@ -193,7 +193,7 @@
 .radio-button-container {
     display: inline-block;
     width: 80vw;
-    margin-left: 6vw;
+    margin-left: 7vw;
     margin-top: 1vh;
 }
 
@@ -209,6 +209,10 @@
 
 .radio-button-container label {
     font-size: 2vh;
+}
+input[type=checkbox]
+{
+  width: 20px;
 }
 
 .scoring-container {
@@ -335,7 +339,7 @@
     transform: translate(50%, -50%);
     background-color: #FFF;
     color: #777777;
-    padding: 0 15px;
+    padding: 0 15px;    
 }
 
 #autonomous::before {
@@ -418,23 +422,4 @@
     margin-top: 60vh;
     width: 90%;
     position: fixed;
-}
-
-input[type=checkbox]
-{
-  -ms-transform: scale(.5) translate(20px); /* IE */
-  -moz-transform: scale(.5) translate(20px); /* FF */
-  -webkit-transform: scale(.5) translate(20px); /* Safari and Chrome */
-  -o-transform: scale(.5) translate(20px); /* Opera */
-  transform: scale(.5) translateY(50%);
-}
-
-
-input[type=radio]
-{
-  -ms-transform: scale(1.8) translateY(-30%) translateX(-5px); /* IE */
-  -moz-transform: scale(1.8) translateY(-30%) translateX(-5px); /* FF */
-  -webkit-transform: scale(1.8) translateY(-30%) translateX(-5px); /* Safari and Chrome */
-  -o-transform: scale(1.8) translateY(-30%) translateX(-5px); /* Opera */
-  transform: scale(1.8) translateY(-30%) translateX(-5px);
 }
