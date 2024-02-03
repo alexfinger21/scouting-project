@@ -247,7 +247,7 @@ function loadData() {
             "212": false,
         }
 
-        const data = localData[match]
+        const data = localData?.get(match)
             //consoleLog("Data is: " + data)
 
         AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data?.pieceData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
