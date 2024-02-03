@@ -7,7 +7,7 @@ export default class Robot extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, clickable, img, containerImg, isSelected, canvasSize, pos}) {
+    constructor({ctx, clickable, img, containerImg, value, isSelected, canvasSize, pos}) {
         let x = 0
         let y = 0
         let r = 0
@@ -20,6 +20,7 @@ export default class Robot extends DrawableObject {
         super({ctx, img, x, y, r, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)});
         this.clickable = clickable ? clickable : false 
         this.isSelected = clickable ? (isSelected ?? false) : true
+        this.value = value ?? 0
         if(this.clickable) {
             this.mask = new DrawableObject({ctx, img: containerImg, x, y, r, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)})
         }

@@ -7,13 +7,14 @@ export default class RobotMap {
     constructor({ ctx, allianceColor, images, startPositions, stagePositions, canvasSize }) {
         this.startPositions = []
         this.stagePositions = []
-        const isBlue = allianceColor == "B" 
+        const isBlue = allianceColor == "B"
         //Stage robots
-        if(startPositions) {
-            if("1" in startPositions) { //start position over subwoofer
+        if (startPositions) {
+            if ("1" in startPositions) { //start position over subwoofer
                 this.startPositions.push(new Robot({
                     ctx,
                     clickable: true,
+                    value: 1,
                     isSelected: startPositions["1"],
                     img: images.robotImage,
                     containerImg: images.robotContainer,
@@ -25,10 +26,11 @@ export default class RobotMap {
                     },
                 }))
             }
-            if("2" in startPositions) { //start position ahead of subwoofer
+            if ("2" in startPositions) { //start position ahead of subwoofer
                 this.startPositions.push(new Robot({
                     ctx,
                     clickable: true,
+                    value: 2,
                     isSelected: startPositions["2"],
                     img: images.robotImage,
                     containerImg: images.robotContainer,
@@ -40,10 +42,11 @@ export default class RobotMap {
                     },
                 }))
             }
-            if("3" in startPositions) { //start position under subwoofer
+            if ("3" in startPositions) { //start position under subwoofer
                 this.startPositions.push(new Robot({
                     ctx,
                     clickable: true,
+                    value: 3,
                     isSelected: startPositions["3"],
                     img: images.robotImage,
                     containerImg: images.robotContainer,
@@ -55,10 +58,11 @@ export default class RobotMap {
                     },
                 }))
             }
-            if("4" in startPositions) { //start position bottommost
+            if ("4" in startPositions) { //start position bottommost
                 this.startPositions.push(new Robot({
                     ctx,
                     clickable: true,
+                    value: 4,
                     isSelected: startPositions["4"],
                     img: images.robotImage,
                     containerImg: images.robotContainer,
@@ -73,11 +77,12 @@ export default class RobotMap {
         }
 
         //Stage Positions going top-down
-        if(stagePositions) { //topmost
-            if("1" in stagePositions) { 
+        if (stagePositions) { //topmost
+            if ("1" in stagePositions) {
                 this.stagePositions.push(new Robot({
                     ctx,
                     clickable: true,
+                    value: 1,
                     isSelected: stagePositions["1"],
                     img: images.robotImage,
                     containerImg: images.robotContainer,
@@ -89,10 +94,11 @@ export default class RobotMap {
                     },
                 }))
             }
-            if("2" in stagePositions) {  //middle
+            if ("2" in stagePositions) {  //middle
                 this.stagePositions.push(new Robot({
                     ctx,
                     clickable: true,
+                    value: 2,
                     isSelected: stagePositions["3"],
                     img: images.robotImage,
                     containerImg: images.robotContainer,
@@ -104,10 +110,11 @@ export default class RobotMap {
                     },
                 }))
             }
-            if("3" in stagePositions) { //bottom-most
+            if ("3" in stagePositions) { //bottom-most
                 this.stagePositions.push(new Robot({
                     ctx,
                     clickable: true,
+                    value: 3,
                     isSelected: stagePositions["2"],
                     img: images.robotImage,
                     containerImg: images.robotContainer,
@@ -121,17 +128,17 @@ export default class RobotMap {
             }
 
         }
-        
+
     }
 
     onClick({ x, y }) {
         const startPositions = this.startPositions
         startPositions.forEach(function (robot) {
             const clicked = robot.onClick({ x, y })
-            if(clicked) { //unselect other startPositions robots
+            if (clicked) { //unselect other startPositions robots
                 startPositions.forEach(function (otherRobot) {
-                    if(otherRobot !== robot) {
-                        otherRobot.setIsSelected({value: false})
+                    if (otherRobot !== robot) {
+                        otherRobot.setIsSelected({ value: false })
                     }
                 })
             }
@@ -141,10 +148,10 @@ export default class RobotMap {
 
         stagePositions.forEach(function (robot) {
             const clicked = robot.onClick({ x, y })
-            if(clicked) { //unselect other startPositions robots
+            if (clicked) { //unselect other startPositions robots
                 stagePositions.forEach(function (otherRobot) {
-                    if(otherRobot !== robot) {
-                        otherRobot.setIsSelected({value: false})
+                    if (otherRobot !== robot) {
+                        otherRobot.setIsSelected({ value: false })
                     }
                 })
             }
@@ -152,11 +159,18 @@ export default class RobotMap {
     }
 
     sendData() {
-        const data = {}
+        let data = {}
+        this.startPositions.forEach((robot) => {
+            if(robot.isSelected) {
+                data["Starting Location"] = robot.value
+            }
+        })
 
-        for (const x of this.pieces) {
-            data[x.ge_key] = x.isSelected
-        }
+        this.stagePositions.forEach((robot) => {
+            if(robot.isSelected) {
+                data["Instage Location"] = robot.value
+            }
+        })
 
         return data
     }

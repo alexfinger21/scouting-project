@@ -28,7 +28,10 @@ export default class {
     }
 
     sendData() {
-        return this.clickable.pieces.sendData()
+        return {
+            autonPieceData: this.clickable.pieces.sendData(),
+            "Starting Location": this.clickable.robots.sendData()?.get("Starting Location"),
+        }
     }
 
     draw() {
