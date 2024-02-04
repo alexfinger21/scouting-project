@@ -119,7 +119,7 @@
                 </div>
 
                 <div class="input-container">
-                    <span>Auton- Tech Fouls</span>
+                    <span>Auton - Tech Fouls</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="auton-tech-fouls" min="0" max="5" value="0">
@@ -199,13 +199,20 @@
                 </div>
 
                 <div class="input-container">
-                    <span>Robot has Ground Intake</span>
+                    <span>Teleop + Endgame - Fouls</span>
                     <div class="NumberButtonContainer">
-                        <button type="button" class="big-button">x</button>
-                        <input name="ground-intake">
-                        <button type="button" class="big-button">
-                            <img src="../static/images/checkmark.png" id="button-checkmark">
-                        </button>
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="foul-count" min="0" max="5" value="0">
+                        <button type="button" class="big-button">-</button>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <div class="one-line"><span>Teleop + Endgame - </span> <span style="color: rgb(238, 0, 0)">Tech Fouls</span></div>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="tech-foul-count" min="0" max="5" value="0">
+                        <button type="button" class="big-button">-</button>
                     </div>
                 </div>
 
@@ -252,15 +259,30 @@
                 </div>
 
                 <div class="input-container">
+                    <span>Intake Location</span>
+                    <div class="radio-button-container">
+                        <input type="radio" id="intake-ground" name="intake-location" value="ground">
+                        <label for="intake-ground">From ground</label>
+                        <br>
+                        <input type="radio" id="intake-source" name="intake-location" value="source">
+                        <label for="intake-source">Direct drop-in from source</label>
+                        <br>
+                        <input type="radio" id="intake-ground-source" name="intake-location" value="ground-source">
+                        <label for="intake-ground-source">Can do ground intake & drop-in from source </label>
+                        <br>
+                    </div>
+                </div>
+
+                <div class="input-container">
                     <span>Speaker Shooting Position</span>
                     <div class="radio-button-container">
-                        <input type="radio" id="speaker-nowhere" name="speaker-position" value="nowhere">
+                        <input type="radio" id="speaker-nowhere" name="shot-position" value="nowhere">
                         <label for="speaker-nowhere">Does not score into speaker</label>
                         <br>
-                        <input type="radio" id="speaker-touching" name="speaker-position" value="touching">
+                        <input type="radio" id="speaker-touching" name="shot-position" value="touching">
                         <label for="speaker-touching">Subwoofer only</label>
                         <br>
-                        <input type="radio" id="speaker-anywhere" name="speaker-position" value="anywhere">
+                        <input type="radio" id="speaker-anywhere" name="shot-position" value="anywhere">
                         <label for="speaker-anywhere">Can shoot into speaker from any position</label>
                         <br>
                     </div>
@@ -276,7 +298,7 @@
                         <label for="amp-touching">Touching the amp</label>
                         <br>
                         <input type="radio" id="amp-anywhere" name="amp-position" value="anywhere">
-                        <label for="amp-anywhere">Scores into amp from any position</label>
+                        <label for="amp-anywhere">Can score into the amp from a distance</label>
                         <br>
                     </div>
                 </div>

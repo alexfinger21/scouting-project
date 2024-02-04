@@ -366,7 +366,6 @@ async function saveData() {
         const data = {}
 
         const form = document.getElementById("match-number-form")
-        const inputContainers = form.querySelectorAll(".input-container")
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
 
 
@@ -387,11 +386,9 @@ async function saveData() {
         Array.from(numberButtonContainers).forEach((element) => {
             const input = element.getElementsByTagName("input")[0]
             if(input.type == "number") {
-                consoleLog("NUMBER BUTTON")
                 data[input.name] = Number(input.value)
             }
             else {
-                consoleLog("X BUTTON")
                 data[input.name] = element.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
             }
         })

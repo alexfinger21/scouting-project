@@ -376,6 +376,10 @@
     border-radius: 5px;
 }
 
+.NumberButtonContainer:has(input:not([type="number"])) > .big-button {
+    background-color: #D9D9D9;
+}
+
 .NumberButtonContainer {
     margin-top: 0.8vh;
     margin-left: 1vw;
