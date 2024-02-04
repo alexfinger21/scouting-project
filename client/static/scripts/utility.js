@@ -12,6 +12,7 @@ const paths = {
     allianceInput: "/alliance-input",
     allianceSelector: "/alliance-selector",
     rankings: "/rankings",
+    //eventData: "/event-data"
 }
 
 function consoleLog(...args) {
