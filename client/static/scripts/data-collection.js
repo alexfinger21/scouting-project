@@ -11,8 +11,8 @@ const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
 let EndgameObject
 
-const observer = new MutationObserver(function(mutations_list) {
-    mutations_list.forEach(function(mutation) {
+const observer = new MutationObserver(function (mutations_list) {
+    mutations_list.forEach(function (mutation) {
         for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && currentPage == paths.dataCollection) {
                 main()
@@ -90,7 +90,7 @@ async function loadComments() {
         Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
             let title = e.querySelector(".comments-team").innerText
             let team = title.split(" ")[0]
-                //e.querySelector("textarea").value = data.comments[team]
+            //e.querySelector("textarea").value = data.comments[team]
         })
 
         resolve(true)
@@ -108,7 +108,7 @@ async function sendComments() {
         contentType: "application/json",
         url: paths.dataCollection,
         data: JSON.stringify(data),
-        success: function(response) {
+        success: function (response) {
             consoleLog(response)
             alert("Comments saved")
             requestPage(paths.matchListing)
@@ -118,7 +118,7 @@ async function sendComments() {
             setSelectedObject(matchListingButton)
         },
 
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
@@ -129,14 +129,12 @@ async function sendData() {
     consoleLog("-------CLIENT DATA------\n")
     consoleLog(data)
 
-    return
-
     $.ajax({
         type: "POST",
         contentType: "application/json",
         url: paths.dataCollection,
         data: JSON.stringify(data),
-        success: function(response) {
+        success: function (response) {
             consoleLog(response)
             alert("Data saved")
             requestPage(paths.matchListing)
@@ -146,7 +144,7 @@ async function sendData() {
             setSelectedObject(matchListingButton)
         },
 
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
         },
     })
@@ -195,10 +193,10 @@ function loadData() {
         const alliancePosition = form.getAttribute("alliance-position")
         const autonCanvas = document.getElementById("auton-canvas")
         const autonCanvasContainer = autonCanvas.parentElement
-        const autonCanvasCTX = autonCanvas.getContext("2d") 
+        const autonCanvasCTX = autonCanvas.getContext("2d")
 
         const endgameCanvas = document.getElementById("endgame-canvas")
-        const endgameCanvasCTX = endgameCanvas.getContext("2d") 
+        const endgameCanvasCTX = endgameCanvas.getContext("2d")
 
         const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         autonCanvas.height = autonCanvasSize
@@ -217,7 +215,7 @@ function loadData() {
         const images = { gamePieceImage, robotImage, mapImage, robotContainer }
 
         await waitUntilImagesLoaded(Object.values(images))
-        
+
         const startingPositions = {
             "1": false,
             "2": false,
@@ -230,7 +228,7 @@ function loadData() {
             "2": false,
             "3": false,
         }
-        
+
 
         const templatePieceData = {
             //  Wing Notes
@@ -250,7 +248,7 @@ function loadData() {
         }
 
         const data = localData?.get(match)
-            //consoleLog("Data is: " + data)
+        //consoleLog("Data is: " + data)
 
         AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data?.gameData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
         EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data?.gameData ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
@@ -262,7 +260,7 @@ function loadData() {
         endgameCanvas.addEventListener("click", (event) => {
             EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
         })
-        
+
         if (!localData) {
             return rej()
         }
@@ -271,7 +269,7 @@ function loadData() {
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
-            
+
             Array.from(inputContainers).forEach(element => {
                 const commentsSection = element.querySelector("#comments-container")
                 if (!commentsSection) {
@@ -339,7 +337,7 @@ function loadData() {
                             for (let x = 0; x < 3; x++) {
                                 const item = row.children[x].children[0]
                                 item.setAttribute("object", data.tables[name][tableCounter][y][x])
-                                    //consoleLog(item)
+                                //consoleLog(item)
                                 let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
                                 if (itemImage) {
                                     item.children[0].src = itemImage
@@ -369,7 +367,7 @@ async function saveData() {
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
 
 
-        data.gameData = {...EndgameObject?.sendData(), ...AutonObject?.sendData()}
+        data.gameData = { ...EndgameObject?.sendData(), ...AutonObject?.sendData() }
 
         data.matchNumber = match
 
@@ -385,7 +383,7 @@ async function saveData() {
         const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
         Array.from(numberButtonContainers).forEach((element) => {
             const input = element.getElementsByTagName("input")[0]
-            if(input.type == "number") {
+            if (input.type == "number") {
                 data[input.name] = Number(input.value)
             }
             else {
@@ -397,10 +395,10 @@ async function saveData() {
         Array.from(radioButtonContainers).forEach(container => {
             Array.from(container.children).forEach(element => {
                 if (element.tagName.toLowerCase() == "input") {
-                    if(element.type == "radio" && element.checked) {
+                    if (element.type == "radio" && element.checked) {
                         data[element.name] = element.value
                     }
-                    else if(element.type == "checkbox") {
+                    else if (element.type == "checkbox") {
                         data[element.id] = element.checked
                     }
                 }
@@ -415,11 +413,8 @@ async function saveData() {
         data.position = document.getElementById("match-number-form").getAttribute("alliance-position")
 
         //ogData[match] = data
-        
-        consoleLog("SAVED DATA:")
-        consoleLog(data)
 
-        //localStorage.setItem("data", JSON.stringify(ogData))
+        localStorage.setItem("data", JSON.stringify(ogData))
 
         resolve(data)
     })
@@ -435,11 +430,11 @@ async function loadDataCollection() {
     const matchNumber = document.getElementById("match-number")
     const inputContainers = document.getElementsByClassName("input-container")
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
-    const tableScrollers = document.querySelectorAll(".table-scroller") 
-   
+    const tableScrollers = document.querySelectorAll(".table-scroller")
+
     try {
         await loadData()
-    }  catch(e) {
+    } catch (e) {
         consoleLog(e)
     }
     function animateAuton() {
@@ -454,13 +449,13 @@ async function loadDataCollection() {
     animateAuton()
 
     form.onsubmit = (event) => {
-            event.preventDefault()
+        event.preventDefault()
 
-            consoleLog("submitted!")
+        consoleLog("submitted!")
 
-            sendData()
-        }
-        //load checkmark and number buttons
+        sendData()
+    }
+    //load checkmark and number buttons
     for (const container of buttonContainers) {
         for (const child of container.children) {
             if (child.tagName.toLowerCase() == "input") {
@@ -507,153 +502,6 @@ async function loadDataCollection() {
                 })
             }
         }
-    }
-
-    //load radio buttons
-
-    //ANIMATE SCORING GRIDS
-
-    //CONE ONLY BUTTONS
-    const coneTds = document.getElementsByClassName("fill-cone") //table element
-    let coneButtonIndex = 0
-    for (const fillCone of coneTds) {
-        const coneBtn = fillCone.getElementsByTagName("button")[0]
-        const btnImg = coneBtn.getElementsByTagName("img")[0]
-        const savedIndex = coneButtonIndex //saves the index as it is when the for loop reaches this cone
-
-        //coneBtn.setAttribute("object", "empty")
-
-        coneBtn.addEventListener("click", (event) => {
-            const parent = fillCone.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-
-            if (btnImg.src.indexOf("cone.svg") > -1) { //filled image, make it empty
-                coneBtn.setAttribute("object", "empty")
-
-                btnImg.src = "../static/images/transparent.png"
-
-                if (parent.id == "auto-scoring") { //if its in auto, remove the gray cone under teleop scoring
-                    const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
-                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
-                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                        //make it clickable
-                    correspondingBtn.removeAttribute("disabled")
-                }
-            } else { //its empty, make it a cone
-                btnImg.src = "../static/images/cone.svg"
-                coneBtn.setAttribute("object", "cone")
-
-                if (parent.id == "auto-scoring") { //if its in auto, add a gray cone under teleop scoring
-                    const correspondingTd = getCorrespondingTd("fill-cone", savedIndex)
-                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
-                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
-                    correspondingBtn.setAttribute("object", "empty") //set attribute
-
-                    //make it not clickable
-                    correspondingBtn.setAttribute("disabled", "disabled")
-                }
-            }
-        })
-
-        coneButtonIndex++
-    }
-
-    //CUBE ONLY BUTTONS
-    const cubeTds = document.getElementsByClassName("fill-cube") //table element
-    let cubeButtonIndex = 0
-    for (const fillCube of cubeTds) {
-        const cubeBtn = fillCube.getElementsByTagName("button")[0]
-        const btnImg = cubeBtn.getElementsByTagName("img")[0]
-        let savedIndex = cubeButtonIndex
-
-        //cubeBtn.setAttribute("object", "empty")
-
-        cubeBtn.addEventListener("click", (event) => {
-            const parent = fillCube.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-
-            if (btnImg.src.indexOf("cube.svg") > -1) { //filled image, make it empty
-                cubeBtn.setAttribute("object", "empty")
-                btnImg.src = "../static/images/transparent.png"
-
-                if (parent.id == "auto-scoring") { //if its in auto, remove the gray cube under teleop scoring
-                    const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
-                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
-                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                        //make it clickable
-                    correspondingBtn.removeAttribute("disabled")
-                }
-            } else { //its empty, make it a cube
-                btnImg.src = "../static/images/cube.svg"
-                cubeBtn.setAttribute("object", "cube")
-
-                if (parent.id == "auto-scoring") { //if its in auto, add a gray cube under teleop scoring
-                    const correspondingTd = getCorrespondingTd("fill-cube", savedIndex)
-                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
-                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
-                    correspondingBtn.setAttribute("object", "empty") //set attribute
-
-                    //make it not clickable
-                    correspondingBtn.setAttribute("disabled", "disabled")
-                }
-            }
-        })
-
-        cubeButtonIndex++
-    }
-
-    //BUTTONS THAT HAVE EITHER A CUBE OR A CONE
-    //CLICK ONCE FOR CONE, CLICK AGAIN FOR CUBE, CLICK AGAIN TO EMPTY
-    const bothTds = document.getElementsByClassName("fill-both") //table element
-    let bothButtonIndex = 0
-
-    for (const fillBoth of bothTds) {
-        const bothBtn = fillBoth.getElementsByTagName("button")[0]
-        const btnImg = bothBtn.getElementsByTagName("img")[0]
-        let savedIndex = bothButtonIndex
-
-        //bothBtn.setAttribute("object", "empty")
-
-        bothBtn.addEventListener("click", (event) => {
-            const parent = fillBoth.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement
-
-            if (btnImg.src.indexOf("cone.svg") > -1) { //filled cone, make it a cube
-                btnImg.src = "../static/images/cube.svg"
-                bothBtn.setAttribute("object", "cube")
-
-                if (parent.id == "auto-scoring") { //if its in auto, add a gray cube under teleop scoring
-                    const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
-                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
-                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cube.svg" //add image
-                    correspondingBtn.setAttribute("object", "empty")
-                        //make it not clickable
-                    correspondingBtn.setAttribute("disabled", "disabled")
-                }
-            } else if (btnImg.src.indexOf("cube.svg") > -1) { //filled cube, make it empty
-                btnImg.src = "../static/images/transparent.png"
-                bothBtn.setAttribute("object", "empty")
-
-                if (parent.id == "auto-scoring") { //if its in auto, remove the gray cube under teleop scoring
-                    const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
-                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
-                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/transparent.png" //remove image
-                        //make it clickable
-                    correspondingBtn.removeAttribute("disabled")
-                }
-            } else { //its empty, make it a cone
-                btnImg.src = "../static/images/cone.svg"
-                bothBtn.setAttribute("object", "cone")
-
-                if (parent.id == "auto-scoring") { //if its in auto, add a gray cone under teleop scoring
-                    const correspondingTd = getCorrespondingTd("fill-both", savedIndex)
-                    const correspondingBtn = correspondingTd.getElementsByTagName("button")[0]
-                    correspondingBtn.getElementsByTagName("img")[0].src = "../static/images/gray-cone.svg" //add image
-                    correspondingBtn.setAttribute("object", "empty") //set attribute
-                        //make it not clickable
-                    correspondingBtn.setAttribute("disabled", "disabled")
-                }
-            }
-        })
-
-        bothButtonIndex++
     }
 
     const submitButton = document.getElementById("data-submit")
