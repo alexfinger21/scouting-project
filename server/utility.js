@@ -1,5 +1,5 @@
-const database = require("./database/database.js")
 const log = true
+const debugLog = false
 const SQL = require('sql-template-strings')
 
 function arrAvg(...args) {
@@ -9,10 +9,14 @@ function arrAvg(...args) {
 function consoleLog(...args) {
     if (log) {
         console.log(...args)
+        if(debugLog) {
+            console.trace()
+        }
     }
 }
 
 function checkAdmin(req) {
+    const database = require("./database/database.js")
     const username = req.cookies["username"]
     return new Promise((resolve) => {
         database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`, function (error, results) {

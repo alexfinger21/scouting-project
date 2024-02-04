@@ -7,7 +7,7 @@ const SQL = require('sql-template-strings')
 
 async function getMatchup(match) {
     const [err, matchup] = await database.query(database.getMatchData(match))
-
+    
     return parseData(matchup)
 }
 
@@ -83,6 +83,9 @@ async function updateData(info, isSeventh) {
     if (err) {
         consoleLog("ERROR DELETING DATA: " + err)
     }
+
+    consoleLog("GOT TO SAVING DATA")
+
     const [err2, saved] = await database.query(database.saveData(info))
 
     if (err2) {
@@ -100,7 +103,7 @@ async function updateData(info, isSeventh) {
     }
     
     if (info.comments) {
-        const [err4, comment] = await database.query(database.saveComment(body.comments, body.username, body.matchNumber, body.alliance, body.position))
+        const [err4, comment] = await database.query(database.saveComment(info.comments, info.username, info.matchNumber, info.alliance, info.position))
         if(err4) {
             consoleLog("ERROR SAVING COMMENTS: " + err4)
         }
@@ -144,16 +147,16 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 
 router.post("/", function (req, res) {
     const body = req.body
-    body.username = req.cookies["username"]
     const user_id = req.cookies["user_id"]
 
+    body.username = req.cookies["username"]
     consoleLog(body)
 
     if (body.type == "scouting") {
-        const seventhScouter = getSeventhScouter(username)
-        if(seventhScouter == username) {
-            consoleLog("Save!!")
-            //updateData()
+        const seventhScouter = getSeventhScouter(body.username)
+        if(seventhScouter != body.username) {
+            consoleLog(body)
+            updateData(body)
         }
         else {
             consoleLog("Seventh scouter :joy:")
