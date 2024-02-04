@@ -46,8 +46,6 @@ export default class PiecesMap {
                 }
             }
         }
-        consoleLog("RECEIVED PIECES", pieceData["403"])
-        consoleLog(pieceData)
         //Splotlight notes moving top-down
         if ("403" in pieceData && !isAuton) { //topmost spotlight
             this.pieces.push(new GamePiece({
