@@ -35,8 +35,19 @@
     color: #FFF;
 }
 
-#auton-canvas {
-    width: 100%;
+.canvas-container {
+    width: 85%;
+    display: flex;
+    height: auto;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+}
+
+.text-container {
+    width: 85%;
+    text-align: center;
 }
 
 #match-number-form {
@@ -163,8 +174,8 @@
     color: #5B6671;
     text-align: center;
     font-size: 2.5vh;
-    width: 7vw;
-    height: 7vw;
+    width: 2vh;
+    height: 2vh;
     border: 0;
     padding-bottom: 1%;
     text-decoration-color: #FBFDFF;
@@ -179,17 +190,22 @@
     text-underline-offset: 0.5vh;
 }
 
+.input-container input[type=number] {
+    height: auto !important;
+}
+
 .radio-button-container {
     display: inline-block;
     width: 80vw;
-    margin-left: 6vw;
+    margin-left: 9vw;
     margin-top: 1vh;
 }
 
 .radio-button-container input {
     font-size: 2vh;
     margin-bottom: 1vh;
-
+    width: 1.5vh;
+    height: 1.5vh;
 }
 
 .radio-button-container input:checked {
@@ -199,6 +215,8 @@
 .radio-button-container label {
     font-size: 2vh;
 }
+
+
 
 .scoring-container {
     display: flex;
@@ -324,7 +342,7 @@
     transform: translate(50%, -50%);
     background-color: #FFF;
     color: #777777;
-    padding: 0 15px;
+    padding: 0 15px;    
 }
 
 #autonomous::before {
@@ -356,6 +374,10 @@
     background-color: #3492EA;
     border: 0;
     border-radius: 5px;
+}
+
+.NumberButtonContainer:has(input:not([type="number"])) > .big-button {
+    background-color: #D9D9D9;
 }
 
 .NumberButtonContainer {
@@ -407,13 +429,4 @@
     margin-top: 60vh;
     width: 90%;
     position: fixed;
-}
-
-input[type=checkbox]
-{
-  -ms-transform: scale(.5) translate(20px); /* IE */
-  -moz-transform: scale(.5) translate(20px); /* FF */
-  -webkit-transform: scale(.5) translate(20px); /* Safari and Chrome */
-  -o-transform: scale(.5) translate(20px); /* Opera */
-  transform: scale(.5) translateY(50%);
 }
