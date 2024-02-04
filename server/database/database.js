@@ -102,8 +102,6 @@ function convertToInt(option) {
             return 1
         case "anywhere":
             return 2
-        case false:
-            return -1
         case "n/a":
             return 0
         default:
@@ -129,8 +127,7 @@ function saveData(data, is7thScouter=false) {
         autonScoringStr += `,(${params}, '2', '${i}', ${v})`  
     }
 
-    for (const [i, v] of Object.entries(data.gameData.endgamePieceData)) {
-        
+    for (const [i, v] of Object.entries(data.gameData.spotlights)) {
         autonScoringStr += `,(${params}, '4', '${i}', ${(v == 2 && i == data.gameData["Instage Location"]) ? 3 : v})`  
     }
     //console.log(linkArray)
@@ -151,24 +148,36 @@ function saveData(data, is7thScouter=false) {
         )
         VALUES 
         (${params}, '1', '101', ${data.gameData["Starting Location"]}), 
-        (${params}, '1', '102', ${data["Robot Preloaded"]}),
-        (${params}, '1', '201', ${data["robot-taxies"]})
+        (${params}, '1', '102', ${data["Robot Preloaded"] ?? 0}),
+        (${params}, '1', '201', ${data["robot-taxies"] ?? 0})
         ${autonScoringStr},
-        (${params}, '2', '210', ${data["auton-speaker"]}),
-        (${params}, '2', '211', ${data["auton-amplifier"]}),
-        (${params}, '2', '212', ${data["auton-tech-fouls"]}),
-        (${params}, '2', '301', ${data["teleop-speaker"]}),
-        (${params}, '2', '302', ${data["teleop-amplified-speaker"]}),
-        (${params}, '2', '303', ${data["teleop-amplifier"]}),
+        (${params}, '2', '210', ${data["auton-speaker"] ?? 0}),
+        (${params}, '2', '211', ${data["auton-amplifier"] ?? 0}),
+        (${params}, '2', '212', ${data["auton-tech-fouls"] ?? 0}),
+        (${params}, '2', '301', ${data["teleop-speaker"] ?? 0}),
+        (${params}, '2', '302', ${data["teleop-amplified-speaker"] ?? 0}),
+        (${params}, '2', '303', ${data["teleop-amplifier"] ?? 0}),
         (${params}, '4', '304', 0),
-        (${params}, '2', '305', ${data["coopertition-bonus-activated"]}),
+        (${params}, '2', '305', ${data["coopertition-bonus-activated"] ?? 0}),
         (${params}, '4', '401', ${data["harmony"] ? 3 : (data["on-stage"] ? 2 : (data["parked"] ? 1 : 0))}),
         (${params}, '4', '402', ${data.gameData["Instage Location"]})
         ${endgameScoringStr},
-        (${params}, '4', '406', ${data["trap"]}),
-        (${params}, '4', '407', ${data["human-player"]}),
-        
-
+        (${params}, '4', '406', ${data["trap"] ?? 0}),
+        (${params}, '4', '407', ${data["human-player"] ?? 0}),
+        (${params}, '4', '407', ${data["human-player"] ?? 0}),
+        (${params}, '5', '501', ${convertToInt(data["intake-location"])}),
+        (${params}, '5', '502', ${convertToInt(data["shot-location"])}),
+        (${params}, '5', '503', ${convertToInt(data["speaker-location"])}),
+        (${params}, '5', '504', ${data["fumbles-intake"] ?? 0}),
+        (${params}, '5', '505', ${data["fumbles-amplifier"] ?? 0}),
+        (${params}, '5', '506', ${data["fumbles-speaker"] ?? 0}),
+        (${params}, '5', '507', ${data["robot-tipped"] ?? 0}),
+        (${params}, '5', '508', ${data["robot-broke"] ?? 0}),
+        (${params}, '5', '509', ${data["robot-disabled"] ?? 0}),
+        (${params}, '5', '510', ${data["passed-under-stage"]}),
+        (${params}, '5', '511', ${data["used-a-stop"] ?? 0}),
+        (${params}, '5', '512', ${data["foul-count"]}),
+        (${params}, '5', '513', ${data["tech-foul-count"]}),
         ;`
 
     //console.log(sqlStr)
