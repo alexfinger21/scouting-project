@@ -129,6 +129,8 @@ async function sendData() {
     consoleLog("-------CLIENT DATA------\n")
     consoleLog(data)
 
+    return
+
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -380,53 +382,47 @@ async function saveData() {
         //0th child is the title
         //1st child is the number button holder
 
-        //checkmark and x buttons
-
-        Array.from(inputContainers).forEach(element => {
-            const commentsSection = element.querySelector("#comments-container")
-            consoleLog(commentsSection)
-            if (!commentsSection) {
-                const name = element.children[0].textContent
-                const buttonContainer = element.children[1]
-
-                if (buttonContainer.children[0].textContent == "+") {
-                    //input value
-                    data[name] = Number(buttonContainer.children[1].value)
-                } else {
-                    data[name] = buttonContainer.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
-                }
-            } else {
-                data.comments = commentsSection.children[0].value
+        //number buttons and also checkbox/x buttons
+        const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+        Array.from(numberButtonContainers).forEach((element) => {
+            const input = element.getElementsByTagName("input")[0]
+            if(input.type == "number") {
+                consoleLog("NUMBER BUTTON")
+                data[input.name] = Number(input.value)
+            }
+            else {
+                consoleLog("X BUTTON")
+                data[input.name] = element.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
             }
         })
 
-        //radio buttons
-
+        //radio buttons and checkboxes (new code)
         Array.from(radioButtonContainers).forEach(container => {
-            let containerName = container.parentElement.children[0].id
-            let selected = false
-
             Array.from(container.children).forEach(element => {
-                if (!selected) {
-                    if (element.tagName.toLowerCase() == "input") {
-                        if(element.type == "radio" && element.checked) {
-                            selected = element.value
-                        }
+                if (element.tagName.toLowerCase() == "input") {
+                    if(element.type == "radio" && element.checked) {
+                        data[element.name] = element.value
+                    }
+                    else if(element.type == "checkbox") {
+                        data[element.id] = element.checked
                     }
                 }
             })
-
-            data[containerName] = selected
         })
+
+        //comments
+        const commentsSection = document.getElementById("comments-container")
+        data.comments = commentsSection.getElementsByTagName("textarea")[0].value
 
         data.alliance = document.getElementById("match-number-form").getAttribute("alliance")
         data.position = document.getElementById("match-number-form").getAttribute("alliance-position")
 
-        ogData[match] = data
+        //ogData[match] = data
+        
+        consoleLog("SAVED DATA:")
+        consoleLog(data)
 
-        //consoleLog(data)
-
-        localStorage.setItem("data", JSON.stringify(ogData))
+        //localStorage.setItem("data", JSON.stringify(ogData))
 
         resolve(data)
     })

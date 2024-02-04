@@ -30,7 +30,7 @@ export default class {
     sendData() {
         return {
             autonPieceData: this.clickable.pieces.sendData(),
-            "Starting Location": this.clickable.robots.sendData()?.get("Starting Location"),
+            "Starting Location": this.clickable.robots.sendData()["Starting Location"] ?? 0,
         }
     }
 

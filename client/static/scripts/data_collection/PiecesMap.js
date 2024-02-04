@@ -47,38 +47,38 @@ export default class PiecesMap {
             }
         }
         //Splotlight notes moving top-down
-        if ("210" in pieceData && !isAuton) { //topmost spotlight
+        if ("403" in pieceData && !isAuton) { //topmost spotlight
             this.pieces.push(new GamePiece({
                 x: isBlue ? canvasSize.x * 0.51 : canvasSize.x * 0.25,
                 y: isBlue ? canvasSize.y * 0.37 : canvasSize.y * 0.44,
                 ctx,
                 img,
-                isSelected: pieceData["210"],
-                ge_key: 210,
+                isSelected: pieceData["403"],
+                ge_key: 403,
                 canSpotlight: true,
                 canvasSize 
             }))
         }
-        if ("211" in pieceData && !isAuton) { //middle spotlight
+        if ("404" in pieceData && !isAuton) { //middle spotlight
             this.pieces.push(new GamePiece({
                 x: isBlue ? canvasSize.x * 0.62 : canvasSize.x * 0.36,
                 y: isBlue ? canvasSize.y * 0.44 : canvasSize.y * 0.36,
                 ctx,
                 img,
-                isSelected: pieceData["211"],
-                ge_key: 211,
+                isSelected: pieceData["404"],
+                ge_key: 404,
                 canSpotlight: true,
                 canvasSize 
             }))
         }
-        if ("212" in pieceData && !isAuton) { //bottommost spotlight
+        if ("405" in pieceData && !isAuton) { //bottommost spotlight
             this.pieces.push(new GamePiece({
                 x: isBlue? canvasSize.x * 0.51: canvasSize.x*0.37,
                 y: isBlue? canvasSize.y * 0.50: canvasSize.y*0.5,
                 ctx,
                 img,
-                isSelected: pieceData["212"],
-                ge_key: 212,
+                isSelected: pieceData["405"],
+                ge_key: 405,
                 canSpotlight: true,
                 canvasSize 
             }))
@@ -98,7 +98,7 @@ export default class PiecesMap {
         const data = {}
 
         for (const x of this.pieces) {
-            data[x.ge_key] = x.isSelected
+            data[x.ge_key] = x.spotlightStatus ? 2 : x.isSelected
         }
 
         return data
