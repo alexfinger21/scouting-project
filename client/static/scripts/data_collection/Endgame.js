@@ -8,13 +8,13 @@ export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
     constructor({ctx, allianceColor, robotData, endgamePieceData, images, cX, cY}) {
-        const canvasSize = {x: cX, y: cY}
+        this.canvasSize = {x: cX, y: cY}
         const isBlue = allianceColor == "B"
         this.ctx = ctx
-        this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
+        this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, allianceColor, images, stagePositions: robotData, canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, allianceColor, isAuton: false, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize})
+        this.clickable.robots = new RobotMap({ctx, allianceColor, images, stagePositions: robotData, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, allianceColor, isAuton: false, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize: this.canvasSize})
     }
 
     onClick({event, leftOffset, topOffset}) {
@@ -37,12 +37,15 @@ export default class {
     }
 
     draw() {
-        //this.ctx.save()
+        this.ctx.save()
+
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0); //reset canvas transform just in case
+        this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y);
 
         this.map.draw()
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
 
-        //this.ctx.restore()
+        this.ctx.restore()
     }
 }
