@@ -190,10 +190,14 @@
     text-underline-offset: 0.5vh;
 }
 
+.input-container input[type=number] {
+    height: auto !important;
+}
+
 .radio-button-container {
     display: inline-block;
     width: 80vw;
-    margin-left: 7vw;
+    margin-left: 9vw;
     margin-top: 1vh;
 }
 
