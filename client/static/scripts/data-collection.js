@@ -249,9 +249,10 @@ function loadData() {
 
         consoleLog("LOCALDATA IS")
         consoleLog(localData)
+        const data = localData ? localData[match] : undefined
 
-        const data = localData?.get(match)
-        //consoleLog("Data is: " + data)
+        consoleLog("localdata for match is:")
+        consoleLog(data)
 
         AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data?.gameData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
         EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data?.gameData ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
@@ -268,92 +269,44 @@ function loadData() {
             return rej()
         }
 
+
         consoleLog(data)
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
-
-            Array.from(inputContainers).forEach(element => {
-                const commentsSection = element.querySelector("#comments-container")
-                if (!commentsSection) {
-                    const name = element.children[0].textContent
-                    const buttonContainer = element.children[1]
-
-                    //consoleLog(data[name] + " - " + name)
-
-                    Array.from(inputContainers).forEach(element => {
-                        const name = element.children[0].textContent
-
-                        if (buttonContainer.children[0].textContent == "+") {
-                            //input value
-                            buttonContainer.children[0].parentElement.querySelector("input").value = data[name]
-                        } else if ((buttonContainer.children[0].getElementsByTagName("img").length == 1 && buttonContainer.children[0].tagName.toLowerCase() == "button") || (buttonContainer.children[0].textContent == "x" && buttonContainer.children[0].tagName.toLowerCase() == "button")) {
-                            //image
-                            //consoleLog(buttonContainer.children[0])
-                            if (data[name]) {
-                                buttonContainer.children[0].style.backgroundColor = "rgb(217, 217, 217)"
-                                buttonContainer.children[2].style.backgroundColor = "rgb(52, 146, 234)"
-                            } else {
-                                buttonContainer.children[2].style.backgroundColor = "rgb(217, 217, 217)"
-                                buttonContainer.children[0].style.backgroundColor = "rgb(52, 146, 234)"
-                            }
-                        }
-                    })
-                } else {
-                    commentsSection.children[0].value = data.comments
+            //load number buttons and also checkbox/x buttons
+            const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+            Array.from(numberButtonContainers).forEach((element) => {
+                const input = element.getElementsByTagName("input")[0]
+                if (input.type == "number") {
+                    input.value = data[input.name]
+                }
+                else { //+ - button
+                    if (data[input.name] == true) {
+                        element.children[0].style.backgroundColor = "rgb(217, 217, 217)"
+                        element.children[2].style.backgroundColor = "rgb(52, 146, 234)"
+                    } else {
+                        element.children[2].style.backgroundColor = "rgb(217, 217, 217)"
+                        element.children[0].style.backgroundColor = "rgb(52, 146, 234)"
+                    }
                 }
             })
 
+            //load the radio buttons and checkboxes
             Array.from(radioButtonContainers).forEach(container => {
-                let containerName = container.parentElement.children[0].textContent
-                let selected = data[containerName]
-
-                if (selected) {
-                    Array.from(container.children).forEach(element => {
-                        if (element.tagName.toLowerCase() == "input" && element.type == "radio" && element.value == selected) {
+                Array.from(container.children).forEach(element => {
+                    if (element.tagName.toLowerCase() == "input") {
+                        //selected radio button or selected checkbox
+                        if ( (element.type == "radio" && data[element.name] == element.value) || (element.type == "checkbox" && data[element.id])) {
                             element.checked = true
                         }
-                    })
-                }
+                    }
+                })
             })
 
-
-            Array.from(tableScrollers).forEach(tableContainer => {
-                let tableCounter = 0;
-                //consoleLog(tableContainer)
-
-                const name = tableContainer.parentElement.parentElement.children[0].textContent
-
-                tableContainer = Array.from(tableContainer.children).map(e => e.children[0].children[0])
-
-                //consoleLog(data.tables)
-                //consoleLog(data.tables[name])
-
-                if (data.tables[name]) {
-                    Array.from(tableContainer).forEach(container => {
-                        //consoleLog(container)
-                        //consoleLog(tableCounter)
-
-                        for (let y = 0; y < 3; y++) {
-                            const row = container.children[y]
-
-                            for (let x = 0; x < 3; x++) {
-                                const item = row.children[x].children[0]
-                                item.setAttribute("object", data.tables[name][tableCounter][y][x])
-                                //consoleLog(item)
-                                let itemImage = playPiecesDict[data.tables[name][tableCounter][y][x]]
-                                if (itemImage) {
-                                    item.children[0].src = itemImage
-                                } else {
-                                    item.children[0].src = playPiecesDict["empty"]
-                                }
-                            }
-                        }
-
-                        tableCounter++
-                    })
-                }
-            })
+            //comments
+            const commentsSection = document.getElementById("comments-container")
+            commentsSection.getElementsByTagName("textarea")[0].value = data.comments
         }
 
         return res()
@@ -415,9 +368,8 @@ async function saveData() {
         data.alliance = document.getElementById("match-number-form").getAttribute("alliance")
         data.position = document.getElementById("match-number-form").getAttribute("alliance-position")
 
-        //ogData[match] = data
-
-        localStorage.setItem("data", JSON.stringify(data))
+        ogData[match] = data
+        localStorage.setItem("data", JSON.stringify(ogData))
 
         resolve(data)
     })
