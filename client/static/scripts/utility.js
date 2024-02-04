@@ -1,4 +1,5 @@
 const log = true
+const debugLog = false
 let currentPage = "/match-listing"
 
 const paths = {
@@ -18,7 +19,14 @@ const paths = {
 function consoleLog(...args) {
     if (log) {
         console.log(...args)
+        if(debugLog) {
+            console.trace()
+        }
     }
+}
+
+function lerp(a, b, c) {
+    return a + (b-a) * c
 }
 
 const highlightColors = {
@@ -143,4 +151,4 @@ async function requestPage(url, data, pageVal) {
 }
 
 
-export {consoleLog, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

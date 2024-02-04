@@ -1,4 +1,4 @@
-const { consoleLog } = require("./utility")
+const { consoleLog } = require("./utility.js")
 
 let sockets = {
     socketArray: [],

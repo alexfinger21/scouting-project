@@ -5,7 +5,7 @@ const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 const database = require("./database/database.js")
 const gameConstants = require('./game.js') 
-const { consoleLog } = require("./utility")
+const { consoleLog } = require("./utility.js")
 
 const optionsRankings = {
     'method': 'GET',

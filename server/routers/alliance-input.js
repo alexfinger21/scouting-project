@@ -2,7 +2,7 @@ const database = require("../database/database.js")
 const express = require("express")
 const gameConstants = require("../game.js")
 const socketManager = require("../sockets.js")
-const { consoleLog } = require("../utility")
+const { consoleLog } = require("../utility.js")
 const router = express.Router()
 const SQL = require('sql-template-strings')
 
