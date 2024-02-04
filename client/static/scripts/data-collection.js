@@ -247,6 +247,9 @@ function loadData() {
             "405": 0,
         }
 
+        consoleLog("LOCALDATA IS")
+        consoleLog(localData)
+
         const data = localData?.get(match)
         //consoleLog("Data is: " + data)
 
@@ -414,7 +417,7 @@ async function saveData() {
 
         //ogData[match] = data
 
-        localStorage.setItem("data", JSON.stringify(ogData))
+        localStorage.setItem("data", JSON.stringify(data))
 
         resolve(data)
     })
