@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@json2csv/plainjs": "^7.0.4",
     "@types/crypto-js": "^4.1.1",
     "blueimp-md5": "^2.19.0",
     "buffer": "^6.0.3",
@@ -14,6 +15,7 @@
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-rate-limit": "^6.7.0",
+    "fast-csv": "^5.0.0",
     "favicon": "^0.0.2",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
@@ -21,7 +23,7 @@
     "jquery": "^3.6.1",
     "jspdf": "^2.5.1",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.20",
+    "nodemon": "^3.0.3",
     "request": "^2.88.2",
     "serve-favicon": "^2.5.0",
     "socket.io": "^4.5.4",
