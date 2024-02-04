@@ -83,6 +83,9 @@ async function updateData(info, isSeventh) {
     if (err) {
         consoleLog("ERROR DELETING DATA: " + err)
     }
+
+    consoleLog("GOT TO SAVING DATA")
+
     const [err2, saved] = await database.query(database.saveData(info))
 
     if (err2) {
@@ -151,7 +154,7 @@ router.post("/", function (req, res) {
 
     if (body.type == "scouting") {
         const seventhScouter = getSeventhScouter(body.username)
-        if(seventhScouter == body.username) {
+        if(seventhScouter != body.username) {
             consoleLog(body)
             updateData(body)
         }

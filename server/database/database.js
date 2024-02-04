@@ -3,7 +3,6 @@ const gameConstants = require('../game.js')
 const game = require('../game.js')
 
 const SQL = require('sql-template-strings')
-const { consoleLog } = require('../utility.js')
 
 function getUsers() {
     const returnStr = SQL`
@@ -33,10 +32,10 @@ function deleteAllianceSelection(allianceNum, pos) {
 function deleteData(data) {
     return SQL`DELETE FROM teamsixn_scouting_dev.game_details
     WHERE game_details.frc_season_master_sm_year = ${gameConstants.YEAR}
-        AND game_details.competition_master_cm_event_code = '${gameConstants.COMP}'
-        AND game_details.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}'
+        AND game_details.competition_master_cm_event_code = ${gameConstants.COMP}
+        AND game_details.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}
         AND game_details.game_matchup_gm_number = ${data.matchNumber}
-        AND game_details.game_matchup_gm_alliance = '${data.alliance}'
+        AND game_details.game_matchup_gm_alliance = ${data.alliance}
         AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
@@ -122,28 +121,33 @@ function saveData(data, is7thScouter=false) {
     //console.log(data)
     const params =
         `${gameConstants.YEAR}, 
-        '${gameConstants.COMP}', 
-        '${gameConstants.GAME_TYPE}', 
-        '${data.matchNumber}', 
-        '${data.alliance}',
-        '${data.position}',
-        '${data.username}'`
+        ${gameConstants.COMP}, 
+        ${gameConstants.GAME_TYPE}, 
+        ${data.matchNumber}, 
+        ${data.alliance},
+        ${data.position},
+        ${data.username}`
 
     let autonScoringStr = new String()
     let endgameScoringStr = new String()
 
     for (const [i, v] of Object.entries(data.gameData.autonPieceData)) {
-        autonScoringStr += `,(${params}, '2', '${i}', ${v})`  
+        autonScoringStr += `,(${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.position}, ${data.username}, '2', '${i}', ${v})`  
     }
 
     for (const [i, v] of Object.entries(data.gameData.spotlights)) {
-        autonScoringStr += `,(${params}, '4', '${i}', ${(v == 2 && i == data.gameData["Instage Location"]) ? 3 : v})`  
+        autonScoringStr += `,(${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.position}, ${data.username}, '2', '${i}', ${v}), '4', '${i}', ${(v == 2 && i == data.gameData["Instage Location"]) ? 3 : v})`  
     }
+
+
+    console.log(autonScoringStr, endgameScoringStr, "SCORING STRINGS")
     //console.log(linkArray)
     
     //console.log("LINK COUNT: " + linkCount)
 
-    const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.${is7thScouter ? "7th_scouter_details": "game_details"} (
+    //const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.${is7thScouter ? "7th_scouter_details": "game_details"} (
+    
+        const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
         game_matchup_gm_game_type,
@@ -156,40 +160,39 @@ function saveData(data, is7thScouter=false) {
         gd_value
         )
         VALUES 
-        (${params}, '1', '101', ${data.gameData["Starting Location"]}), 
-        (${params}, '1', '102', ${data["Robot Preloaded"] ?? 0}),
-        (${params}, '1', '201', ${data["robot-taxies"] ?? 0})
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 101, ${data.gameData["Starting Location"]}), 
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 102, ${data["Robot Preloaded"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 201, ${data["robot-taxies"] ?? 0})
         ${autonScoringStr},
-        (${params}, '2', '210', ${data["auton-speaker"] ?? 0}),
-        (${params}, '2', '211', ${data["auton-amplifier"] ?? 0}),
-        (${params}, '2', '212', ${data["auton-tech-fouls"] ?? 0}),
-        (${params}, '2', '301', ${data["teleop-speaker"] ?? 0}),
-        (${params}, '2', '302', ${data["teleop-amplified-speaker"] ?? 0}),
-        (${params}, '2', '303', ${data["teleop-amplifier"] ?? 0}),
-        (${params}, '4', '304', 0),
-        (${params}, '2', '305', ${data["coopertition-bonus-activated"] ?? 0}),
-        (${params}, '4', '401', ${convertToInt(data["robot-in-stage"])}),
-        (${params}, '4', '402', ${data.gameData["Instage Location"]})
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 210, ${data["auton-speaker"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 211, ${data["auton-amplifier"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 212, ${data["auton-tech-fouls"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 301, ${data["teleop-speaker"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 302, ${data["teleop-amplified-speaker"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 303, ${data["teleop-amplifier"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 4, 304, 0),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 305, ${data["coopertition-bonus-activated"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 4, 401, ${convertToInt(data["robot-in-stage"])}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 4, 402, ${data.gameData["Instage Location"]})
         ${endgameScoringStr},
-        (${params}, '4', '406', ${data["trap"] ?? 0}),
-        (${params}, '4', '407', ${data["human-player"] ?? 0}),
-        (${params}, '4', '407', ${data["human-player"] ?? 0}),
-        (${params}, '5', '501', ${convertToInt(data["intake-location"])}),
-        (${params}, '5', '502', ${convertToInt(data["shot-location"])}),
-        (${params}, '5', '503', ${convertToInt(data["speaker-location"])}),
-        (${params}, '5', '504', ${data["fumbles-intake"] ?? 0}),
-        (${params}, '5', '505', ${data["fumbles-amplifier"] ?? 0}),
-        (${params}, '5', '506', ${data["fumbles-speaker"] ?? 0}),
-        (${params}, '5', '507', ${data["robot-tipped"] ?? 0}),
-        (${params}, '5', '508', ${data["robot-broke"] ?? 0}),
-        (${params}, '5', '509', ${data["robot-disabled"] ?? 0}),
-        (${params}, '5', '510', ${data["passed-under-stage"]}),
-        (${params}, '5', '511', ${data["used-a-stop"] ?? 0}),
-        (${params}, '5', '512', ${data["foul-count"]}),
-        (${params}, '5', '513', ${data["tech-foul-count"]}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 4, 406, ${data["trap"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 4, 407, ${data["human-player"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 501, ${convertToInt(data["intake-location"])}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 502, ${convertToInt(data["shot-location"])}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 503, ${convertToInt(data["speaker-location"])}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 504, ${data["fumbles-intake"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 505, ${data["fumbles-amplifier"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 506, ${data["fumbles-speaker"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 507, ${data["robot-tipped"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 508, ${data["robot-broke"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 509, ${data["robot-disabled"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 510, ${data["passed-under-stage"]}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 511, ${data["used-a-stop"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 512, ${data["foul-count"]}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 513, ${data["tech-foul-count"]})
         ;`
 
-    //console.log(sqlStr)
+    console.log(sqlStr)
 
     return sqlStr
 }
