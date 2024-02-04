@@ -223,13 +223,6 @@ function loadData() {
             "4": false,
         }
 
-        const stagePositions = {
-            "1": false,
-            "2": false,
-            "3": false,
-        }
-
-
         const templatePieceData = {
             //  Wing Notes
             "202": false,
@@ -246,16 +239,28 @@ function loadData() {
             "404": 0,
             "405": 0,
         }
-
-        consoleLog("LOCALDATA IS")
-        consoleLog(localData)
         const data = localData ? localData[match] : undefined
+        const gameData = data?.gameData
 
         consoleLog("localdata for match is:")
         consoleLog(data)
+        
+        if(gameData && gameData["Starting Location"]) {
+            startingPositions[gameData["Starting Location"]] = true
+        }
 
-        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: data?.gameData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-        EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: data?.gameData ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+        const stagePositions = {
+            "1": false,
+            "2": false,
+            "3": false,
+        }
+
+        if(gameData && gameData["Instage Location"]) {
+            stagePositions[gameData["Instage Location"]] = true
+        }
+
+        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
         autonCanvas.addEventListener("click", (event) => {
             AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
@@ -304,7 +309,7 @@ function loadData() {
                 })
             })
 
-            //comments
+            //load comments
             const commentsSection = document.getElementById("comments-container")
             commentsSection.getElementsByTagName("textarea")[0].value = data.comments
         }
