@@ -9,12 +9,12 @@ export default class {
     allianceColor: "R", "B" */
     constructor({ctx, allianceColor, autonPieceData, robotData, images, cX, cY}) {
         consoleLog(images)
-        const canvasSize = {x: cX, y: cY}
+        this.canvasSize = {x: cX, y: cY}
         this.ctx = ctx
-        this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
+        this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, allianceColor, images, startPositions: robotData, canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: images.gamePieceImage, pieceData: autonPieceData, canvasSize})
+        this.clickable.robots = new RobotMap({ctx, allianceColor, images, startPositions: robotData, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: images.gamePieceImage, pieceData: autonPieceData, canvasSize: this.canvasSize})
 
     }
 
@@ -35,12 +35,14 @@ export default class {
     }
 
     draw() {
-        //this.ctx.save()
+        this.ctx.save()
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0); //reset canvas transform just in case
+        this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y);
 
         this.map.draw()
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
 
-        //this.ctx.restore()
+        this.ctx.restore()
     }
 }
