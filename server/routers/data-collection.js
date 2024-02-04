@@ -7,7 +7,7 @@ const SQL = require('sql-template-strings')
 
 async function getMatchup(match) {
     const [err, matchup] = await database.query(database.getMatchData(match))
-
+    
     return parseData(matchup)
 }
 
