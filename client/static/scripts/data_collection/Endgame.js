@@ -7,15 +7,14 @@ import RobotMap from "./RobotMap.js"
 export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, autonPieceData, robotData, images, cX, cY}) {
-        consoleLog(images)
+    constructor({ctx, allianceColor, robotData, endgamePieceData, images, cX, cY}) {
         const canvasSize = {x: cX, y: cY}
+        const isBlue = allianceColor == "B"
         this.ctx = ctx
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, allianceColor, images, startPositions: robotData, canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: images.gamePieceImage, pieceData: autonPieceData, canvasSize})
-
+        this.clickable.robots = new RobotMap({ctx, allianceColor, images, stagePositions: robotData, canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, allianceColor, isAuton: false, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize})
     }
 
     onClick({event, leftOffset, topOffset}) {
@@ -23,15 +22,18 @@ export default class {
         const y = event.pageY - topOffset
 
         // Collision detection between clicked offset and element.
-        this.clickable.pieces.onClick({x, y})
         this.clickable.robots.onClick({x, y})
+
+        this.clickable.pieces.onClick({x, y})
+        
     }
 
     sendData() {
         return {
-            autonPieceData: this.clickable.pieces.sendData(),
-            "Starting Location": this.clickable.robots.sendData()["Starting Location"] ?? 0,
+            spotlights: this.clickable.pieces.sendData(),
+            "Instage Location": this.clickable.robots.sendData()["Instage Location"] ?? 1
         }
+
     }
 
     draw() {

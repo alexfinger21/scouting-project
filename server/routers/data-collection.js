@@ -127,8 +127,8 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 
     const gameNumbers = await getGameNumbers()
     const matchup = await getMatchup(match)
-    //consoleLog("\nMATCH DATA: ")
-    //consoleLog(matchup)
+    consoleLog("\nMATCH DATA: ")
+    consoleLog(matchup)
 
     return res.render("data-collection", {
         matches: gameNumbers,
@@ -144,16 +144,16 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 
 router.post("/", function (req, res) {
     const body = req.body
-    body.username = req.cookies["username"]
     const user_id = req.cookies["user_id"]
 
+    body.username = req.cookies["username"]
     consoleLog(body)
 
     if (body.type == "scouting") {
-        const seventhScouter = getSeventhScouter(username)
-        if(seventhScouter == username) {
-            consoleLog("Save!!")
-            //updateData()
+        const seventhScouter = getSeventhScouter(body.username)
+        if(seventhScouter == body.username) {
+            consoleLog(body)
+            updateData(body)
         }
         else {
             consoleLog("Seventh scouter :joy:")
