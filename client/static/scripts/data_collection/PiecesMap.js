@@ -98,7 +98,7 @@ export default class PiecesMap {
         const data = {}
 
         for (const x of this.pieces) {
-            data[x.ge_key] = x.spotlightStatus ? 2 : x.isSelected
+            data[x.ge_key] = x.spotlightStatus ? 2 : (x.isSelected ? 1 : 0)
         }
 
         return data
