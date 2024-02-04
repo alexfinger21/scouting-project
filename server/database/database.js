@@ -3,6 +3,7 @@ const gameConstants = require('../game.js')
 const game = require('../game.js')
 
 const SQL = require('sql-template-strings')
+const { consoleLog } = require('../utility.js')
 
 function getUsers() {
     const returnStr = SQL`
@@ -84,7 +85,7 @@ function writeAPIData(teamRankings) {
         VALUES ${valuesStr}
             ;`
 
-    //console.log(sqlStr)
+    console.log(sqlStr)
 
     return sqlStr
 }
@@ -510,6 +511,59 @@ function getMatchComments(team) {
         trim(gc.gc_comment) <> "" `
 }
 
+function deleteMatchDataX ()
+{
+    const matchTableXSQL = `DELETE FROM teamsixn_scouting_dev.game_matchup_x`
+    return matchTableXSQL
+}
+
+function addMatchData(matchInfo)
+{
+    let valuesStr = ""
+    let counter = 0
+    const time = new Date('2024,03,27')
+    //console.log(time)
+    //console.log(teamRankings)
+
+    for (const [k, match] of Object.entries(matchInfo)) {
+        counter++
+        const match_str = String(k)
+        const inRedAlliance = "R"
+        const inBlueAlliance = "B"
+        const Red = match.red
+        let gametype = ""
+        if (gameConstants.GAME_TYPE == "qm")
+        {
+            gametype = "Q"
+        }
+        for (let i = 0; i < 3; i++)
+        {
+            const team_num_str = String(Red[i])
+            const alliance_position = String(i+1)
+            let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "','" + gametype + "'," + match_str + ",'" + inRedAlliance + "'," + alliance_position + "," + team_num_str + ",0" + ",'" + String(time) + "'),"
+            //a = Object.keys(matchInfo).length != counter ? a + "," : a
+            valuesStr += a
+        }
+        const Blue = match.blue
+        for (let i = 0; i < 3; i++)
+        {
+            const team_num_str = String(Blue[i])
+            const alliance_position = String(i+1)
+            let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "','" + gametype + "'," + match_str + ",'" + inBlueAlliance + "'," + alliance_position + "," + team_num_str + ",0" + ",'" + String(time) + "')"
+            a = (Object.keys(matchInfo).length != counter || i != 2) ? a + "," : a
+            valuesStr += a
+        }
+    }
+    const sqlStr =
+    `INSERT INTO teamsixn_scouting_dev.game_matchup_x
+    (frc_season_master_sm_year, competition_master_cm_event_code, gm_game_type, gm_number, gm_alliance, gm_alliance_position, team_master_tm_number, gm_value, gm_timestamp)
+    VALUES(${valuesStr});`
+    
+    console.log(sqlStr)
+    return sqlStr
+    
+}
+
 module.exports = {
     getMatchData: getMatchData,
     getGameNumbers: getGameNumbers,
@@ -531,4 +585,6 @@ module.exports = {
     getMatchComments: getMatchComments,
     getSeventhScouter: getSeventhScouter,
     getRandomTeam: getRandomTeam,
+    addMatchData: addMatchData,
+    deleteMatchDataX: deleteMatchDataX,
 }
