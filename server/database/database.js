@@ -105,6 +105,14 @@ function convertToInt(option) {
             return 2
         case "n/a":
             return 0
+        case "not-parked":
+            return 0
+        case "parked":
+            return 1
+        case "on-stage":
+            return 2
+        case "harmony":
+            return 3
         default:
             return 0
     }
@@ -160,7 +168,7 @@ function saveData(data, is7thScouter=false) {
         (${params}, '2', '303', ${data["teleop-amplifier"] ?? 0}),
         (${params}, '4', '304', 0),
         (${params}, '2', '305', ${data["coopertition-bonus-activated"] ?? 0}),
-        (${params}, '4', '401', ${data["harmony"] ? 3 : (data["on-stage"] ? 2 : (data["parked"] ? 1 : 0))}),
+        (${params}, '4', '401', ${convertToInt(data["robot-in-stage"])}),
         (${params}, '4', '402', ${data.gameData["Instage Location"]})
         ${endgameScoringStr},
         (${params}, '4', '406', ${data["trap"] ?? 0}),

@@ -65,7 +65,7 @@
                         <label for="preloaded">Preloaded</label>
                         <br>
                         <input type="checkbox" id="human-player" name="pregame" value="true">
-                        <label for="human-player">Human Player at Amp Station</label>
+                        <label for="human-player"><%= assignment.team_display.split(" ")[0] %></label>
                         <br>
                     </div>
                 </div>
@@ -178,14 +178,18 @@
                 <div class="input-container">
                     <span>Robot Endgame</span>
                     <div class="radio-button-container">
-                        <input type="checkbox" id="parked" name="endgame" value="true">
+                        <input type="radio" id="not-parked" name="robot-in-stage" value="not-parked">
+                        <label for="not-parked">Robot Not Parked</label>
+                        <br>
+                        <input type="radio" id="parked" name="robot-in-stage" value="parked">
                         <label for="parked">Robot Parked</label>
                         <br>
-                        <input type="checkbox" id="on-stage" name="endgame" value="true">
-                        <label for="on-stage">Robot On Stage (hanging)</label>
+                        <input type="radio" id="on-stage" name="robot-in-stage" value="on-stage">
+                        <label for="on-stage">Robot On Stage</label>
                         <br>
-                        <input type="checkbox" id="harmony" name="endgame" value="true">
+                        <input type="radio" id="harmony" name="robot-in-stage" value="harmony">
                         <label for="harmony">Robot Harmony</label>
+                        <br>
                     </div>
                 </div>
 
@@ -268,7 +272,7 @@
                         <label for="intake-source">Direct drop-in from source</label>
                         <br>
                         <input type="radio" id="intake-ground-source" name="intake-location" value="ground-source">
-                        <label for="intake-ground-source">Can do ground intake & drop-in from source </label>
+                        <label for="intake-ground-source">Can do ground intake & drop-in</label>
                         <br>
                     </div>
                 </div>
