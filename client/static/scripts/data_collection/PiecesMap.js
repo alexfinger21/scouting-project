@@ -46,6 +46,8 @@ export default class PiecesMap {
                 }
             }
         }
+        consoleLog("RECEIVED PIECES", pieceData["403"])
+        consoleLog(pieceData)
         //Splotlight notes moving top-down
         if ("403" in pieceData && !isAuton) { //topmost spotlight
             this.pieces.push(new GamePiece({
@@ -53,7 +55,8 @@ export default class PiecesMap {
                 y: isBlue ? canvasSize.y * 0.37 : canvasSize.y * 0.44,
                 ctx,
                 img,
-                isSelected: pieceData["403"],
+                isSelected: pieceData["403"] > 0,
+                spotlightStatus: pieceData["403"] == 2,
                 ge_key: 403,
                 canSpotlight: true,
                 canvasSize 
@@ -65,7 +68,8 @@ export default class PiecesMap {
                 y: isBlue ? canvasSize.y * 0.44 : canvasSize.y * 0.36,
                 ctx,
                 img,
-                isSelected: pieceData["404"],
+                isSelected: pieceData["404"] > 0,
+                spotlightStatus: pieceData["404"] == 2,
                 ge_key: 404,
                 canSpotlight: true,
                 canvasSize 
@@ -77,7 +81,8 @@ export default class PiecesMap {
                 y: isBlue? canvasSize.y * 0.50: canvasSize.y*0.5,
                 ctx,
                 img,
-                isSelected: pieceData["405"],
+                isSelected: pieceData["405"] > 0,
+                spotlightStatus: pieceData["405"] == 2,
                 ge_key: 405,
                 canSpotlight: true,
                 canvasSize 
