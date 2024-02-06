@@ -256,9 +256,10 @@ function getRandomTeam(username, matchNumber) {//for the seventh scouter
     return `SELECT 
         cg.cg_gm_number,
         gm.gm_game_type,
-        gm.gm_alliance ,
-        gm.gm_alliance_position ,
+        gm.gm_alliance,
+        gm.gm_alliance_position,
         gm.team_master_tm_number,
+        tm.tm_name,
         concat(tm_number ," - ", tm_name) as team_display
     FROM
         teamsixn_scouting_dev.current_game cg
@@ -285,6 +286,7 @@ function getAssignedTeam(username) {
     gm.gm_alliance_position , 
     gm.team_master_tm_number, 
     cgua.cgua_user_id, 
+    tm.tm_name,
     concat(tm_number ," - ", tm_name) as team_display
 FROM 
     teamsixn_scouting_dev.current_game cg 

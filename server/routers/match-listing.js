@@ -119,9 +119,10 @@ router.post("/", function (req, res) {
             res.send("match stopped")
         })
 
-        database.query(database.clearMatchStretegyTemp(), (err, results) => {
+        database.query(database.clearMatchStrategyTemp(), (err, results) => {
             database.query(database.saveMatchStrategy(), (err, results) => {
                 consoleLog(err)
+                consoleLog("DID it")
                 //consoleLog(results)
             })
             consoleLog(err)
