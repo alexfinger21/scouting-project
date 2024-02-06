@@ -7,6 +7,9 @@ const SQL = require('sql-template-strings')
 
 async function getMatchup(match) {
     const [err, matchup] = await database.query(database.getMatchData(match))
+
+    consoleLog("MATCHUP")
+    consoleLog(matchup)
     
     return parseData(matchup)
 }
@@ -47,6 +50,7 @@ async function getAssignment(username) {
         let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
         assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
             + teamName + " " + assignment.gm_alliance_position
+        consoleLog("ASSIGNMENT: ")
         consoleLog(assignment)
         return assignment
     }
@@ -103,7 +107,7 @@ async function updateData(info, isSeventh) {
     }
     
     if (info.comments) {
-        const [err4, comment] = await database.query(database.saveComment(info.comments, info.username, info.matchNumber, info.alliance, info.position))
+        const [err4, comment] = await database.query(database.saveComment(body.comments, body.username, body.matchNumber, body.alliance, body.position))
         if(err4) {
             consoleLog("ERROR SAVING COMMENTS: " + err4)
         }
