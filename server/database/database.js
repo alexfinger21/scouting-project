@@ -400,17 +400,16 @@ function executeQuery(sql, callback=false) {
     return new Promise((res, rej) => {
         pool.query(sql, function (error, results, fields) {
             if (error) {
-                if(callback) {
+                if (callback) {
                     rej(callback(error, null))
                 }
                 else {
                     rej([error, null])
                 }
                 console.log("ERROR: " + String(error))
-                const err = new Error()
-                err.stack()
+                throw new Error()
             } else {
-                if(callback) {
+                if (callback) {
                     res(callback(null, results))
                 }
                 else {
