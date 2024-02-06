@@ -427,7 +427,7 @@ function saveComment(comment, user_id, matchNumber, alliance, alliancePosition) 
     VALUES(${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${matchNumber}, ${alliance}, ${alliancePosition}, ${comment}, ${user_id}, ${new Date()});`
 }
 
-function clearMatchStretegyTemp() {
+function clearMatchStrategyTemp() {
     return SQL`DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;`
 }
 
@@ -540,7 +540,7 @@ module.exports = {
     deleteAllianceSelection: deleteAllianceSelection,
     getTeamPictures: getTeamPictures,
     saveMatchStrategy: saveMatchStrategy,
-    clearMatchStretegyTemp: clearMatchStretegyTemp,
+    clearMatchStrategyTemp: clearMatchStrategyTemp,
     saveComment: saveComment,
     getMatchComments: getMatchComments,
     getSeventhScouter: getSeventhScouter,

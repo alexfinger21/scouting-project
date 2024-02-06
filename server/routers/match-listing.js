@@ -112,12 +112,15 @@ router.get("/", async function (req, res) {
 router.post("/", function (req, res) {
     const body = req.body
     if (body.stop_match == true) { //stop match
+        consoleLog("Got here ")
         database.query(SQL`delete from teamsixn_scouting_dev.current_game 
         where cg_sm_year > 0;`, (err, results) => {
             consoleLog(err)
             socketManager.emitAllSockets(body.gm_number, "stopMatch")
             res.send("match stopped")
         })
+
+        consoleLog("GOT HERE 2")
 
         database.query(database.clearMatchStrategyTemp(), (err, results) => {
             database.query(database.saveMatchStrategy(), (err, results) => {
