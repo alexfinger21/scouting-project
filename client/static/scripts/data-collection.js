@@ -212,7 +212,10 @@ function loadData() {
         robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
         const robotContainer = new Image()
         robotContainer.src = `./static/images/data-collection/robot-container.png`
-        const images = { gamePieceImage, robotImage, mapImage, robotContainer }
+        const legendButton = new Image()
+        legendButton.src = `./static/images/data-collection/legend-button.png`
+        
+        const images = { gamePieceImage, robotImage, mapImage, robotContainer, legendButton }
 
         await waitUntilImagesLoaded(Object.values(images))
 
@@ -256,7 +259,6 @@ function loadData() {
         }
 
         if(gameData && gameData["Instage Location"]) {
-            consoleLog("INSTAGE: ", gameData["Instage Location"])
             stagePositions[gameData["Instage Location"]] = true
         }
 

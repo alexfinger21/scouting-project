@@ -1,8 +1,11 @@
 import { consoleLog } from "../utility.js"
 import Map from "./Map.js"
 import PiecesMap from "./PiecesMap.js"
-import Robot from "./Robot.js"
 import RobotMap from "./RobotMap.js"
+import Legend from "./Legend.js"
+
+const helpText = `1. Tap square to approx. start pos
+2. Orange note: picked up by robot`
 
 export default class {
     /*ctx: canvas.getContext('2d')
@@ -15,7 +18,7 @@ export default class {
         this.clickable = {}
         this.clickable.robots = new RobotMap({ctx, allianceColor, images, startPositions: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: images.gamePieceImage, pieceData: autonPieceData, canvasSize: this.canvasSize})
-
+        this.legend = new Legend({ctx, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
     }
 
     onClick({event, leftOffset, topOffset}) {
@@ -25,6 +28,7 @@ export default class {
         // Collision detection between clicked offset and element.
         this.clickable.pieces.onClick({x, y})
         this.clickable.robots.onClick({x, y})
+        this.legend.onClick({x, y})
     }
 
     sendData() {
@@ -42,6 +46,7 @@ export default class {
         this.map.draw()
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
+        this.legend.draw()
 
         this.ctx.restore()
     }

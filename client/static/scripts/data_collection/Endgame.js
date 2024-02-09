@@ -1,8 +1,14 @@
 import { consoleLog } from "../utility.js"
+import Legend from "./Legend.js"
 import Map from "./Map.js"
 import PiecesMap from "./PiecesMap.js"
-import Robot from "./Robot.js"
 import RobotMap from "./RobotMap.js"
+
+const helpText = `1. Select stage location
+    a. Only select if robot is in stage
+2. Select high note
+    a. Orange: spotlighted
+    b. Purple: your team spotlighted`
 
 export default class {
     /*ctx: canvas.getContext('2d')
@@ -12,6 +18,7 @@ export default class {
         const isBlue = allianceColor == "B"
         this.ctx = ctx
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
+        this.legend = new Legend({ctx, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.clickable = {}
         this.clickable.robots = new RobotMap({ctx, allianceColor, images, stagePositions: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, allianceColor, isAuton: false, img: images.gamePieceImage, pieceData: endgamePieceData, canvasSize: this.canvasSize})
@@ -23,8 +30,8 @@ export default class {
 
         // Collision detection between clicked offset and element.
         this.clickable.robots.onClick({x, y})
-
         this.clickable.pieces.onClick({x, y})
+        this.legend.onClick({x, y})
         
     }
 
@@ -38,7 +45,7 @@ export default class {
 
     draw() {
         this.ctx.save()
-        
+
         if (document.getElementById("on-stage").checked == false && document.getElementById("harmony").checked == false) {
              for (const x of this.clickable.robots.stagePositions) {
                 if (x.isSelected) {
@@ -68,6 +75,7 @@ export default class {
         this.map.draw()
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
+        this.legend.draw()
 
         this.ctx.restore()
     }
