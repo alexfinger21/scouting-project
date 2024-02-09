@@ -225,6 +225,12 @@ input::-webkit-inner-spin-button {
   background-color: #D9D9D9;
 }
 
+input[type=radio] {
+    border: 0px;
+    width: 1em !important;
+    height: 1em !important;
+}
+
 /*----------------utils----------------*/
 
 .one-line {
