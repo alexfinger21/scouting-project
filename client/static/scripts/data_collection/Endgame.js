@@ -38,7 +38,33 @@ export default class {
 
     draw() {
         this.ctx.save()
+        consoleLog(this.clickable.robots)
 
+        if (document.getElementById("on-stage").checked == false && document.getElementById("harmony").checked == false) {
+             for (const x of this.clickable.robots.stagePositions) {
+                consoleLog(x)
+                if (x.isSelected) {
+                    document.getElementById("on-stage").checked = true
+                    break
+                }
+            }
+        }
+
+
+        if (document.getElementById("on-stage").checked == true ||  document.getElementById("harmony").checked == true) {
+            let selected = false
+            for (const x of this.clickable.robots.stagePositions) {
+                consoleLog(x)
+                if (x.isSelected) {
+                    selected = true
+                    break
+                }
+            }
+            if (!selected) {
+                document.getElementById("on-stage").checked = false
+                document.getElementById("harmony").checked = false
+            }
+        }
         this.ctx.setTransform(1, 0, 0, 1, 0, 0); //reset canvas transform just in case
         this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y)
 
