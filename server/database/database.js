@@ -136,7 +136,7 @@ function saveData(data, is7thScouter=false) {
     }
 
     for (const [i, v] of Object.entries(data.gameData.spotlights)) {
-        autonScoringStr += `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${data.matchNumber}, '${data.alliance}', ${data.position}, '${data.username}', 4,  ${i}, ${(v == 2 && i == 402 + data.gameData["Instage Location"]) ? 3 : v}),`  
+        autonScoringStr += `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${data.matchNumber}, '${data.alliance}', ${data.position}, '${data.username}', 4,  ${i}, ${(v == 2 && i == (402 + data.gameData["Instage Location"])) ? 3 : v}),`  
     }
 
 
