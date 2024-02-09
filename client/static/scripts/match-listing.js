@@ -191,7 +191,6 @@ function main() {
     //match strat buttons
     const matchStrat = document.getElementsByClassName("match-strat-button")
     for (const button of matchStrat) {
-        consoleLog("hs")
         button.addEventListener("click", () => {
             const container = button.parentElement.parentElement.parentElement.parentElement.parentElement
             requestPage(paths.matchStrategy + "?match=" + container.getAttribute("game_number"))
@@ -255,6 +254,5 @@ function main() {
     const hiddenElements = document.querySelectorAll(".hidden");
     hiddenElements.forEach((elm) => {
         scrollObserver.observe(elm);
-        consoleLog("gerr")
     })
 }

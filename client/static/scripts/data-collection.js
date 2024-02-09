@@ -256,6 +256,7 @@ function loadData() {
         }
 
         if(gameData && gameData["Instage Location"]) {
+            consoleLog("INSTAGE: ", gameData["Instage Location"])
             stagePositions[gameData["Instage Location"]] = true
         }
 
