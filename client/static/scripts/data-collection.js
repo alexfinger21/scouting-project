@@ -402,7 +402,6 @@ async function loadDataCollection() {
     function animateAuton() {
         if (currentPage == paths.dataCollection && AutonObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
-                consoleLog("rendered")
                 AutonObject.draw()
                 EndgameObject.draw()
                 lastFrame = Date.now()
