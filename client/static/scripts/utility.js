@@ -1,5 +1,7 @@
 const log = true
 const debugLog = false
+const canvasFPS = 40
+
 let currentPage = "/match-listing"
 
 const paths = {
@@ -151,4 +153,4 @@ async function requestPage(url, data, pageVal) {
 }
 
 
-export {consoleLog, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
