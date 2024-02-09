@@ -1,4 +1,4 @@
-import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog } from "./utility.js"
+import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog, canvasFPS } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
@@ -392,6 +392,8 @@ async function loadDataCollection() {
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
 
+    let lastFrame = 0
+
     try {
         await loadData()
     } catch (e) {
@@ -399,9 +401,12 @@ async function loadDataCollection() {
     }
     function animateAuton() {
         if (currentPage == paths.dataCollection && AutonObject) {
-            AutonObject.draw()
-            EndgameObject.draw()
-
+            if ((Date.now() - lastFrame) > 1000/canvasFPS) {
+                consoleLog("rendered")
+                AutonObject.draw()
+                EndgameObject.draw()
+                lastFrame = Date.now()
+            }
             window.requestAnimationFrame(animateAuton)
         }
     }
@@ -431,6 +436,7 @@ async function loadDataCollection() {
                     const inputMax = Number(input.max)
 
                     plusButton.addEventListener("click", (event) => {
+                        consoleLog("clicked")
                         input.value = clamp(Number(input.value) + 1, inputMin, inputMax)
                     })
 
