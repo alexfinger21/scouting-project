@@ -1,5 +1,5 @@
 const log = true
-const debugLog = false
+const debugLog = false //shows where console logs came from
 const canvasFPS = 40
 
 let currentPage = "/match-listing"

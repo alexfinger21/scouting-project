@@ -31,18 +31,16 @@ export default class {
     sendData() {
         return {
             spotlights: this.clickable.pieces.sendData(),
-            "Instage Location": this.clickable.robots.sendData()["Instage Location"] ?? 1
+            "Instage Location": this.clickable.robots.sendData()["Instage Location"] ?? 0
         }
 
     }
 
     draw() {
         this.ctx.save()
-        consoleLog(this.clickable.robots)
-
+        
         if (document.getElementById("on-stage").checked == false && document.getElementById("harmony").checked == false) {
              for (const x of this.clickable.robots.stagePositions) {
-                consoleLog(x)
                 if (x.isSelected) {
                     document.getElementById("on-stage").checked = true
                     break
@@ -54,7 +52,6 @@ export default class {
         if (document.getElementById("on-stage").checked == true ||  document.getElementById("harmony").checked == true) {
             let selected = false
             for (const x of this.clickable.robots.stagePositions) {
-                consoleLog(x)
                 if (x.isSelected) {
                     selected = true
                     break
