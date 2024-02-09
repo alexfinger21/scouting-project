@@ -36,8 +36,8 @@ export default class {
 
     draw() {
         this.ctx.save()
-        this.ctx.setTransform(1, 0, 0, 1, 0, 0); //reset canvas transform just in case
-        this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y);
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0) //reset canvas transform just in case
+        this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y)
 
         this.map.draw()
         this.clickable.robots.draw()

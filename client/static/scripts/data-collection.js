@@ -411,7 +411,7 @@ async function loadDataCollection() {
         }
     }
 
-    //animateAuton()
+    animateAuton()
 
     form.onsubmit = (event) => {
         event.preventDefault()
