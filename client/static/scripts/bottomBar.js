@@ -110,7 +110,7 @@ window.addEventListener("load", () => {
             setTimeout(() => {bottomBarDebounce = false}, 300)
             }
         })
-    })
+    })  
 
     const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {

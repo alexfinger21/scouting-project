@@ -36,6 +36,9 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             consoleLog(team_results)
 
             let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
+            if(teamInfo == null || teamInfo == undefined) {
+                teamInfo = team_results[0]
+            }
 
             consoleLog("TEAM INFO")
             consoleLog(teamInfo)
