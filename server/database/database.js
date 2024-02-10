@@ -334,7 +334,7 @@ function getMatchData(gameNumber) {
     return SQL`
     SELECT 
         gm.team_master_tm_number,
-        tms.tm_name, 
+        tm.tm_name, 
         gm.gm_alliance, 
         gm.gm_alliance_position, 
         tms.games_played, 
@@ -359,6 +359,10 @@ FROM
             gm.competition_master_cm_event_code = tms.competition_master_cm_event_code AND
             gm.gm_game_type = tms.game_matchup_gm_game_type AND
             gm.team_master_tm_number = tms.team_master_tm_number
+    LEFT JOIN 
+        teamsixn_scouting_dev.team_master tm 
+        ON
+            gm.team_master_tm_number  = tm.tm_number 
 WHERE 
   gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
   gm.competition_master_cm_event_code = ${gameConstants.COMP} AND
@@ -463,9 +467,9 @@ function getMatchComments(team) {
                     gc.game_matchup_gm_alliance_position = gm.gm_alliance_position  and 
                     gc.game_matchup_gm_number = gm.gm_number 
     WHERE
-        gc.frc_season_master_sm_year = ${gameConstants.YEAR} and 
-        gc.competition_master_cm_event_code = ${gameConstants.COMP} and 
-        gc.game_matchup_gm_game_type  = ${gameConstants.GAME_TYPE} and 
+        gc.frc_season_master_sm_year = "${gameConstants.YEAR}" and 
+        gc.competition_master_cm_event_code = "${gameConstants.COMP}" and 
+        gc.game_matchup_gm_game_type  = "${gameConstants.GAME_TYPE}" and 
         gm.team_master_tm_number = ${team} and 
         trim(gc.gc_comment) <> "" `
 }
