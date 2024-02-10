@@ -48,7 +48,7 @@ const getAlliances = async (eventId) => {
 };
 
 router.get("/", async function (req, res) {
-    getAlliances("2023ohcl")
+    //getAlliances("2023ohcl") //include for testing purposes
 
     consoleLog("GET request for match listing")
     consoleLog("Get collected data: " + req.query.getCollectedData)
