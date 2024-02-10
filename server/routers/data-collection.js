@@ -107,7 +107,7 @@ async function updateData(info, isSeventh) {
     }
     
     if (info.comments) {
-        const [err4, comment] = await database.query(database.saveComment(body.comments, body.username, body.matchNumber, body.alliance, body.position))
+        const [err4, comment] = await database.query(database.saveComment(info.comments, info.username, info.matchNumber, info.alliance, info.position))
         if(err4) {
             consoleLog("ERROR SAVING COMMENTS: " + err4)
         }
