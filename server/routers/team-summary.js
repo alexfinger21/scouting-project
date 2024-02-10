@@ -9,8 +9,8 @@ router.get("/",  async function(req, res) { //only gets used if the url == team-
         consoleLog("GET data")
         database.query(database.getChartData(), (err, chartData) => {
             consoleLog(err)
-            //consoleLog("CHART DATA: ")
-            //consoleLog(chartData)
+            consoleLog("CHART DATA: ")
+            consoleLog(chartData)
             res.status(200).send(JSON.stringify(chartData))
         })
     }
