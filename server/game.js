@@ -13,11 +13,6 @@ module.exports = {
     COMP: COMP,
     GAME_TYPE: GAME_TYPE,
     gameStart: gameStart,
-<<<<<<< Updated upstream
-    gameEnd: gameEnd
-}
-=======
     gameEnd: gameEnd,
     sch_constants: sch_constants
 }
->>>>>>> Stashed changes
