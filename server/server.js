@@ -140,11 +140,6 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
     }
 })
 
-//DEFAULT PATH
-app.get("/", function (req, res) { //only gets used if the url == /
-    res.redirect("app")
-})
-
 //MAIN
 app.use("/app", template)
 
@@ -204,6 +199,14 @@ app.get("/getMatchTeams", function (req, res) {
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
     setInterval(runAPICall, 100000)
 }
+
+//DEFAULT PATH
+app.use((req, res) => {
+    res.status(404)
+
+    res.redirect("/app")
+})
+
 //PORT
 app.listen(3000) //goes to localhost 3000
 
