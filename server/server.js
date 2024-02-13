@@ -201,7 +201,13 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
 }
 
 //DEFAULT PATH
-app.use((req, res) => {
+app.use((req, res, next) => {
+
+    if (req.path.match(/(pit-scouting)+/) != null) {
+        console.log("here")
+        return next()
+    }
+
     res.status(404)
 
     res.redirect("/app")
