@@ -202,8 +202,8 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
 
 //DEFAULT PATH
 app.use((req, res, next) => {
-
-    if (req.path.match(/(pit-scouting)+/) != null) {
+    //pit-scouting
+    if (req.path.match(/(pit-scouting|index)+/) != null) {
         console.log("here")
         return next()
     }
