@@ -203,7 +203,7 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
 //DEFAULT PATH
 app.use((req, res, next) => {
     //pit-scouting
-    if (req.path.match(/\b(pit-scouting|index.html)\b/) != null) {
+    if (req.path.match(/(pit-scouting|index.html|css|js)+/) != null) {
         console.log("here")
         return next()
     }
@@ -214,6 +214,3 @@ app.use((req, res, next) => {
 })
 
 //PORT
-app.listen(3000) //goes to localhost 3000
-
-server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
