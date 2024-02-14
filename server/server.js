@@ -214,3 +214,6 @@ app.use((req, res, next) => {
 })
 
 //PORT
+app.listen(3000) //goes to localhost 3000
+
+server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
