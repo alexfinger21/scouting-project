@@ -201,7 +201,6 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
 }
 
 //DEFAULT PATH
-/*
 app.use((req, res, next) => {
     //pit-scouting
     if (req.path.match(/\b(pit-scouting|index.html)\b/) != null) {
@@ -213,7 +212,7 @@ app.use((req, res, next) => {
 
     res.redirect("/app")
 })
-*/
+
 //PORT
 app.listen(3000) //goes to localhost 3000
 
