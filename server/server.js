@@ -44,9 +44,10 @@ const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "rank
 const teamDetails = require(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
 const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
 const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
+const pitScouting = require(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
 const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
-//CONSTANTS
 
+//CONSTANTS
 const corsOptions = {
     origin: '*',
     credentials: true
@@ -174,6 +175,9 @@ app.use("/team-details", teamDetails)
 app.use("/alliance-input", allianceInput)
 
 app.use("/game-strategy", gameStrategy)
+
+//PIT SCOUTING PAGE
+app.use("/pit-scout", pitScouting)
 
 //GET MATCH
 app.get("/getMatch", function (req, res) {
