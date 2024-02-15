@@ -15,6 +15,7 @@ const paths = {
     allianceInput: "/alliance-input",
     allianceSelector: "/alliance-selector",
     rankings: "/rankings",
+    pitScouting: "/pit-scout",
     //eventData: "/event-data"
 }
 
