@@ -1,0 +1,8 @@
+#pit-scouting-iframe {
+    width: 100%;
+}
+
+#pit-scouting-iframe > iframe {
+    width: 100%;
+    border: none;
+}
