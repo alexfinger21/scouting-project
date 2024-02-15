@@ -1,9 +1,11 @@
 #pit-scouting-iframe-holder {
     height: 100%;
     width: 100%;
+    display: flex;
 }
 
-#pit-scouting-iframe > iframe {
+#pit-scouting-iframe-holder > iframe {
     width: 100%;
+    height: 100%;
     border: none;
 }
