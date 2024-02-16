@@ -15,7 +15,7 @@ function main() {
             debounce = true
             content.style.visibility = "visible"
             content.style.display = "block"
-            content.style.maxHeight = "30vh"
+            content.style.maxHeight = "100vh"
 
             setTimeout(() => {
                 debounce = false
