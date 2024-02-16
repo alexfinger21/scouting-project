@@ -10,7 +10,7 @@ const SQL = require('sql-template-strings')
 async function checkUser(body) {
     const [err, dbRes] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${body.username} AND team_master_tm_number = ${body.team_number};`)
     if (err)
-        throw error;
+        throw err;
 
     //consoleLog("RESULT: " + result)
     if (dbRes.length == 1) {
