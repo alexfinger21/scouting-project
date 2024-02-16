@@ -109,7 +109,8 @@ input::-webkit-inner-spin-button {
   top: 5vh;
   right: 0vw;
   background-color: rgb(255, 255, 255);
-  width: 21vw;
+  width: 15vh;
+  height: 32vh;
   padding: 0.5vh;
   transform: translate(-1.5vw, 1.5vh);
   text-align: left;
