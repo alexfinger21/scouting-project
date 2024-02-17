@@ -1,6 +1,76 @@
 import { selectRandom, getColor, consoleLog} from "./utility.js"
 
+const data1 = {
+    labels: [
+      'Eating',
+      'Drinking',
+      'Sleeping',
+      'Designing',
+      'Coding',
+      'Cycling',
+      'Running'
+    ],
+    datasets: [{
+      label: 'My First Dataset',
+      data: [65, 59, 90, 81, 56, 55, 40],
+      fill: true,
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgb(255, 99, 132)',
+      pointBackgroundColor: 'rgb(255, 99, 132)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(255, 99, 132)'
+    }, {
+      label: 'My Second Dataset',
+      data: [28, 48, 40, 19, 96, 27, 100],
+      fill: true,
+      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+      borderColor: 'rgb(54, 162, 235)',
+      pointBackgroundColor: 'rgb(54, 162, 235)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(54, 162, 235)'
+    }]
+  };
+
+function getRGB(color) {
+    color = parseInt(color.substring(1), 16);
+    r = color >> 16;
+    g = (color - (r<<16)) >> 8;
+    b = color - (r<<16) - (g<<8);
+    return [r, g, b];
+}
+function isSimilar([r1, g1, b1], [r2, g2, b2]) {
+    return Math.abs(r1-r2)+Math.abs(g1-g2)+Math.abs(b1-b2) < 50;
+}
+
+function teamToHsl() {
+    let hash = 0;
+    if (this.length === 0) return hash;
+    for (let i = 0; i < this.length; i++) {
+        hash = this.charCodeAt(i) + ((hash << 5) - hash);
+        hash = hash & hash;
+    }
+	return hash % 360;
+}
+
+async function getTeamColor(existingColors) {
+    return fetch("https://api.frc-colors.com/v1/team/695")
+        .then(response => response.json())
+        .then((data) => {
+            return data.primaryKey
+        })
+        .catch((error) => { //team not found
+            
+        })
+    
+    return "rgba(255, 99, 132, 0.2)"
+}
+
 function writeData(points) {
+    consoleLog("From write data:")
+    consoleLog("Points are")
+    consoleLog(points)
     return {  
         teamNumber: points.map(p => p.teamNumber),
         teamName: points.map(p => p.teamName),
@@ -18,6 +88,32 @@ function writeData(points) {
             borderColor: points.map(p => p.color),
             pointBackgroundColor: points.map(p => p.color),
             data: points
+        }]
+    }
+}
+
+function writeSpiderData(points) {
+    consoleLog("hello from spider chart. points:")
+    consoleLog(points)
+
+    let datasets = []
+
+    for(let i = 0; i < points.length; i++) {
+        const team = points[i]
+        
+        let set = {
+            label: team.tm_master_team_number,
+            data: Object.values(team),
+            fill: true,
+            backgroundColor: 
+        }
+    }
+
+    return {
+        labels: Object.keys(points[0]),
+        datasets: [{
+            label: "My First Dataset",
+            data: []
         }]
     }
 }
@@ -229,5 +325,62 @@ function createBarGraph(points, orderBy, stepValue) {
     }
 }
 
+function createSpiderChart(points) {
+    return {
+        type: "radar",
+        data: writeSpiderData(points),  
+        options: {
+            maintainAspectRatio: false,
+            elements: {
+                line: {
+                    borderWidth: 3,
+                }
+            },
+            tooltips: {
+                bodyFontStyle: "bold",
+                footerFontStyle: "normal",
+                callbacks: {
+                    label: function (tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
+                        let teamNumber = data.teamNumber[tooltipItem.index]
+                        let text = ["Team " + teamNumber]
+                        return text
+                    },
+                    //color does not appear before the footer
+                    footer: function (tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
+                        let index = tooltipItems[0].index
+                        let teamName = data.teamName[index]
+                        let rank = data.rank[index]
+                        let gamesPlayed = data.gamesPlayed[index]
+                        let gameScore = data.gameScore[index]
+                        let links = data.links[index]
+                        let autoDocking = data.autoDocking[index]
+                        let endgameDocking = data.endgameDocking[index]
 
-export { createScatterChart, createBarGraph, writeData }
+                        return [
+                            "Name: " + teamName,
+                            "Rank: " + rank,
+                            "Games Played: " + gamesPlayed,
+                            "Avg Game Score: " + gameScore,
+                            "Avg Links: " + links,
+                            "Avg Auto Chg Dock: " + autoDocking,
+                            "Avg Endgame Chg Dock: " + endgameDocking
+                        ]
+                    }
+                }
+            },
+            legend: {
+                display: false
+            },
+            layout: {
+                padding: {
+                    top: 20,
+                    right: 20,
+                    bottom: 0
+                }
+            }
+        }
+    }
+}
+
+
+export { createScatterChart, createBarGraph, createSpiderChart, writeData }
