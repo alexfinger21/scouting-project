@@ -92,7 +92,7 @@ async function getPoints(x, y, color) {
 }
 
 function updateMarker(oldval, newval) {
-    const container = document.querySelector("#graph-display-container")
+    const container = document.getElementById("graph-display-container")
     consoleLog(container)
 
     if (debounce) {return}
@@ -117,7 +117,29 @@ function main() {
     const chartAreaWrapper = document.getElementById("chart-area-wrapper")
     const scatterPlotCanvas = document.getElementById("scatterplot-chart")
     const barGraphCanvas = document.getElementById("bar-graph-chart")
+    const spiderCanvas = document.getElementById("spider-chart")
     let ctx
+
+    function switchChart(chart) {
+        switch(chart) {
+            case "scatter":
+                scatterPlotCanvas.removeAttribute("hidden")
+                barGraphCanvas.setAttribute("hidden", "hidden")
+                spiderCanvas.setAttribute("hidden", "hidden")
+                ctx = scatterPlotCanvas.getContext("2d")
+            case "bar":
+                scatterPlotCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.removeAttribute("hidden")
+                spiderCanvas.setAttribute("hidden", "hidden")
+                ctx = barGraphCanvas.getContext("2d")
+            case "spider":
+                scatterPlotCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.setAttribute("hidden", "hidden")
+                spiderCanvas.removeAttribute("hidden")
+                ctx = spiderCanvas.getContext("2d")
+        }
+    }
+
 
     async function drawChart(number) {
         const oldCurrentChart = currentChart
@@ -129,8 +151,7 @@ function main() {
         consoleLog(number)
         switch (number) {
             case 0:
-                barGraphCanvas.setAttribute("hidden", "hidden")
-                scatterPlotCanvas.removeAttribute("hidden")
+                switchChart("scatter")
                 ctx = scatterPlotCanvas.getContext("2d")
                 points = await getPoints("api_rank", "avg_gm_score")
 
@@ -145,10 +166,9 @@ function main() {
                 }
                 break
             case 1:
+                switchChart("bar")
 
-                ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
-                barGraphCanvas.height = points.length * 10 + "%"
 
                 consoleLog(points)
 
@@ -162,14 +182,28 @@ function main() {
                         )
                     )
                 }
-                scatterPlotCanvas.setAttribute("hidden", "hidden")
-                barGraphCanvas.removeAttribute("hidden")
                 break
             case 2:
+                switchChart("spider")
 
-                ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
-                barGraphCanvas.height = points.length * 10 + "%"
+
+                consoleLog(points)
+
+                if (oldCurrentChart == currentChart) { 
+                    points.sort(function (a, b) { return b.gameScore - a.gameScore })
+                    chart = new Chart(ctx,
+                        graphHandler.createSpiderChart(
+                            points,
+                            "gameScore",
+                            15
+                        )
+                    )
+                }
+            case 3:
+                switchChart("bar")
+
+                points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart) { 
                     points.sort(function (a, b) { return b.links - a.links })
@@ -181,15 +215,11 @@ function main() {
                         )
                     )
                 }
-
-                scatterPlotCanvas.setAttribute("hidden", "hidden")
-                barGraphCanvas.removeAttribute("hidden")
                 break
-            case 3:
+            case 4:
+                switchChart("bar")
 
-                ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", POINT_COLOR)
-                barGraphCanvas.height = points.length * 10 + "%"
 
                 if (oldCurrentChart == currentChart) { 
                     points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
@@ -202,14 +232,11 @@ function main() {
                         )
                     )
                 }
-
-                scatterPlotCanvas.setAttribute("hidden", "hidden")
-                barGraphCanvas.removeAttribute("hidden")
                 break
-            case 4:
-                ctx = barGraphCanvas.getContext("2d")
+            case 5:
+                switchChart("bar")
+
                 points = await getPoints("team_master_tm_number", "avg_endgame_chg_station_score", POINT_COLOR)
-                barGraphCanvas.height = points.length * 10 + "%"
 
                 if (oldCurrentChart == currentChart) { 
                     points.sort(function (a, b) { return b.endgameDocking - a.endgameDocking })
@@ -221,17 +248,12 @@ function main() {
                         )
                     )
                 }
-
-                scatterPlotCanvas.setAttribute("hidden", "hidden")
-                barGraphCanvas.removeAttribute("hidden")
-
                 break
-            case 5:
+            case 6:
+                switchChart("bar")
 
-                ctx = barGraphCanvas.getContext("2d")
                 points = await getPoints("team_master_tm_number", "games_played", POINT_COLOR)
-                barGraphCanvas.height = points.length * 10 + "%"
-
+                
                 if (oldCurrentChart == currentChart) { 
                     points.sort(function (a, b) { return b.gamesPlayed - a.gamesPlayed })
                     chart = new Chart(ctx,
@@ -242,9 +264,6 @@ function main() {
                         )
                     )
                 }
-
-                scatterPlotCanvas.setAttribute("hidden", "hidden")
-                barGraphCanvas.removeAttribute("hidden")
                 break
         }
 
