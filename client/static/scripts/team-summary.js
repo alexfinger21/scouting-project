@@ -77,11 +77,15 @@ async function getPoints(x, y, color) {
             teamNumber: val.team_master_tm_number,
             teamName: val.tm_name,
             rank: val.api_rank,
-            gamesPlayed: val.games_played,
-            gameScore: val.avg_gm_score,
-            links: val.avg_nbr_links,
-            autoDocking: val.avg_auton_chg_station_score,
-            endgameDocking: val.avg_endgame_chg_station_score,
+            gamesPlayed: val.nbr_games,
+            gameScore: val.total_game_score_avg,
+            autonPickup: val.auton_notes_pickup_avg,
+            autonSpeaker: val.auton_notes_speaker_avg,
+            autonAmp: val.auton_notes_amp_avg,
+            autonNotes: val.auton_notes_amp_avg + val.auton_notes_speaker_avg,
+            teleopScore: val.teleop_total_score_avg,
+            rank: val.api_rank,
+            opr: val.api_opr,
             x: val[x],
             y: val[y] ? val[y] : 0,
             color: color
@@ -184,22 +188,26 @@ function main() {
                 }
                 break
             case 2:
-                switchChart("spider")
-
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
-
+                setTimeout(() => {
+                    switchChart("spider")
+                }, 100)
                 consoleLog(points)
 
                 if (oldCurrentChart == currentChart) { 
                     points.sort(function (a, b) { return b.gameScore - a.gameScore })
+                    const config = await graphHandler.createSpiderChart(
+                        points,
+                        "gameScore",
+                        15
+                    )
+                    consoleLog("CONF:")
+                    consoleLog(config)
                     chart = new Chart(ctx,
-                        graphHandler.createSpiderChart(
-                            points,
-                            "gameScore",
-                            15
-                        )
+                        config
                     )
                 }
+
             case 3:
                 switchChart("bar")
 
