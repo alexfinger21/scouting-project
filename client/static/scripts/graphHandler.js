@@ -1,85 +1,56 @@
-import { selectRandom, getColor, consoleLog} from "./utility.js"
+import { selectRandom, getColor, consoleLog } from "./utility.js"
+import { getTeamColor } from "./teamColor.js"
 
 const data1 = {
     labels: [
-      'Eating',
-      'Drinking',
-      'Sleeping',
-      'Designing',
-      'Coding',
-      'Cycling',
-      'Running'
+        'Eating',
+        'Drinking',
+        'Sleeping',
+        'Designing',
+        'Coding',
+        'Cycling',
+        'Running'
     ],
     datasets: [{
-      label: 'My First Dataset',
-      data: [65, 59, 90, 81, 56, 55, 40],
-      fill: true,
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgb(255, 99, 132)',
-      pointBackgroundColor: 'rgb(255, 99, 132)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgb(255, 99, 132)'
+        label: 'My First Dataset',
+        data: [65, 59, 90, 81, 56, 55, 40],
+        fill: true,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        pointBackgroundColor: 'rgb(255, 99, 132)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(255, 99, 132)'
     }, {
-      label: 'My Second Dataset',
-      data: [28, 48, 40, 19, 96, 27, 100],
-      fill: true,
-      backgroundColor: 'rgba(54, 162, 235, 0.2)',
-      borderColor: 'rgb(54, 162, 235)',
-      pointBackgroundColor: 'rgb(54, 162, 235)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgb(54, 162, 235)'
+        label: 'My Second Dataset',
+        data: [28, 48, 40, 19, 96, 27, 100],
+        fill: true,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgb(54, 162, 235)',
+        pointBackgroundColor: 'rgb(54, 162, 235)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(54, 162, 235)'
     }]
-  };
-
-function getRGB(color) {
-    color = parseInt(color.substring(1), 16);
-    r = color >> 16;
-    g = (color - (r<<16)) >> 8;
-    b = color - (r<<16) - (g<<8);
-    return [r, g, b];
-}
-function isSimilar([r1, g1, b1], [r2, g2, b2]) {
-    return Math.abs(r1-r2)+Math.abs(g1-g2)+Math.abs(b1-b2) < 50;
-}
-
-function teamToHsl() {
-    let hash = 0;
-    if (this.length === 0) return hash;
-    for (let i = 0; i < this.length; i++) {
-        hash = this.charCodeAt(i) + ((hash << 5) - hash);
-        hash = hash & hash;
-    }
-	return hash % 360;
-}
-
-async function getTeamColor(existingColors) {
-    return fetch("https://api.frc-colors.com/v1/team/695")
-        .then(response => response.json())
-        .then((data) => {
-            return data.primaryKey
-        })
-        .catch((error) => { //team not found
-            
-        })
-    
-    return "rgba(255, 99, 132, 0.2)"
 }
 
 function writeData(points) {
     consoleLog("From write data:")
     consoleLog("Points are")
     consoleLog(points)
-    return {  
+    return {
         teamNumber: points.map(p => p.teamNumber),
         teamName: points.map(p => p.teamName),
         rank: points.map(p => p.rank),
         gamesPlayed: points.map(p => p.gamesPlayed),
-        gameScore: points.map(p => Math.round(p.total_game_score_avg) ),
-        autonSpeaker: points.map(p => Math.round(p.auton_notes_speaker_avg)),
-        autonAmp: points.map(p => Math.round(p.auton_notes_amp_avg)),
-        teleopScore: points.map(p => Math.round(p.endgameDocking)),
+        gameScore: points.map(p => Math.round(p.ganeScore)),
+        autonSpeaker: points.map(p => Math.round(p.autonSpeaker)),
+        autonAmp: points.map(p => Math.round(p.autonAmp)),
+        autonPickup: points.map(p => Math.round(p.autonPickup)),
+        autonScored: points.map(p => Math.round(p.autonSpeaker + p.autonAmp)),
+        teleopScore: points.map(p => Math.round(p.teleopScore)),
+        rank: points.map(p => Math.round(p.rank)),
+        opr: points.map(p => Math.round(p.opr)),
 
         datasets: [{
             label: 'Legend',
@@ -92,30 +63,76 @@ function writeData(points) {
     }
 }
 
-function writeSpiderData(points) {
+async function getTeamData(team, records, existingColors) {
+    return new Promise((resolve, reject) => {
+        getTeamColor(team.teamNumber.toString(), existingColors).then((color) => {
+            existingColors.push(color)
+            return resolve({
+                label: team.teamNumber,
+                data: [
+                    1 - team.rank / records.rank,
+                    team.opr / records.opr,
+                    team.gamesPlayed / records.gamesPlayed,
+                    team.gameScore / records.gameScore,
+                    team.teleopScore / records.teleopScore,
+                    team.autonNotes / records.autonNotes
+                ],
+                fill: true,
+                backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
+                borderColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+            })
+        })
+    })
+}
+
+async function writeSpiderData(points) {
     consoleLog("hello from spider chart. points:")
     consoleLog(points)
 
-    let datasets = []
+    let data = []
+    let existingColors = []
+    const records = {
+        gamesPlayed: Math.max(...points.map(p => p.gamesPlayed)),
+        gameScore: Math.max(...points.map(p => Math.round(p.gameScore))),
+        autonNotes: Math.max(...points.map(p => Math.round(p.autonSpeaker + p.autonAmp))),
+        teleopScore: Math.max(...points.map(p => Math.round(p.teleopScore))),
+        rank: Math.max(...points.map(p => Math.round(p.rank))),
+        opr: Math.max(...points.map(p => Math.round(p.opr))),
+    }
 
-    for(let i = 0; i < points.length; i++) {
+    consoleLog("RECORDS ARE")
+    consoleLog(records)
+
+
+
+    for (let i = 0; i < points.length; i++) {
         const team = points[i]
-        
-        let set = {
-            label: team.tm_master_team_number,
-            data: Object.values(team),
-            fill: true,
-            backgroundColor: 
-        }
+
+        data.push(getTeamData(team, records, existingColors))
     }
 
-    return {
-        labels: Object.keys(points[0]),
-        datasets: [{
-            label: "My First Dataset",
-            data: []
-        }]
+    const res = {
+        teamNumber: points.map(p => p.teamNumber),
+        teamName: points.map(p => p.teamName),
+        gamesPlayed: points.map(p => p.gamesPlayed),
+        gameScore: points.map(p => Math.round(p.gameScore)),
+        autonSpeaker: points.map(p => Math.round(p.autonSpeaker)),
+        autonAmp: points.map(p => Math.round(p.autonAmp)),
+        autonPickup: points.map(p => Math.round(p.autonPickup)),
+        autonNotes: points.map(p => Math.round(p.autonSpeaker + p.autonAmp)),
+        teleopScore: points.map(p => Math.round(p.teleopScore)),
+        rank: points.map(p => Math.round(p.rank)),
+        opr: points.map(p => Math.round(p.opr)),
+        labels: [
+            "Rank", "OPR", "Games Played", "Game Score", "Teleop Score", "Auton Notes"
+        ],
+        datasets: await Promise.all(data)
     }
+    consoleLog("RES: ", res)
+    return res
 }
 
 //Returns the data to be fed into a chart.js scatterchart given an array containing the points
@@ -195,9 +212,9 @@ function createBarGraph(points, orderBy, stepValue) {
             teamName: points.map(p => p.teamName),
             rank: points.map(p => p.rank),
             gamesPlayed: points.map(p => p.gamesPlayed),
-            gameScore: points.map(p => Math.round( p.gameScore )),
-            links: points.map((p) => { 
-                if(p.links) {
+            gameScore: points.map(p => Math.round(p.gameScore)),
+            links: points.map((p) => {
+                if (p.links) {
                     return p.links.toFixed(1)
                 }
                 return "N/A"
@@ -208,10 +225,10 @@ function createBarGraph(points, orderBy, stepValue) {
             datasets: [{
                 label: 'Legend',
                 data: points.map(p => {
-                    if(orderBy == "gameScore" || orderBy == "autoDocking" || orderBy == "endgameDocking") {
+                    if (orderBy == "gameScore" || orderBy == "autoDocking" || orderBy == "endgameDocking") {
                         return Math.round(p[orderBy])
                     }
-                    else if(orderBy == "links") {
+                    else if (orderBy == "links") {
                         if (p.links) {
                             return p.links.toFixed(1)
                         }
@@ -240,7 +257,7 @@ function createBarGraph(points, orderBy, stepValue) {
                         stepValue: stepValue,
                         max: stepValue * 10 //max value for the chart is 60
                     },
-                    
+
                     scaleLabel: {
                         display: false,
                         //labelString: xAxisTitle,
@@ -325,10 +342,10 @@ function createBarGraph(points, orderBy, stepValue) {
     }
 }
 
-function createSpiderChart(points) {
+async function createSpiderChart(points) {
     return {
         type: "radar",
-        data: writeSpiderData(points),  
+        data: await writeSpiderData(points),
         options: {
             maintainAspectRatio: false,
             elements: {
@@ -370,6 +387,24 @@ function createSpiderChart(points) {
             },
             legend: {
                 display: false
+            },
+            scales: {
+                r: {
+                    display: false,
+                    angleLines: {
+                        display: false
+                    },
+                    ticks: {
+                        display: false
+                    },
+                    yAxes: [{
+                        gridLines: { tickMarkLength: 0 },
+                        ticks: {
+                            gridLines: { tickMarkLength: 0 },
+                            display: false
+                        }
+                    }]
+                }
             },
             layout: {
                 padding: {
