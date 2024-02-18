@@ -96,130 +96,117 @@ router.get("/", function (req, res) { //only gets used if the url == alliance-se
     })
 })
 
-router.post("/", function (req, res) {
+router.post("/", async function (req, res) {
     const body = req.body
 
-    database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
-        data = JSON.parse(JSON.stringify(data))
-        let disallowedTeams = []
-        for (const e of data) {
-            disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
+    let [err1, dbRes] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
+    
+    dbRes = JSON.parse(JSON.stringify(dbRes))
+    let disallowedTeams = []
+    
+    for (const e of data) {
+        disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
+    }
+
+    let [err2, data] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api
+        vmd WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} and vmd.competition_master_cm_event_code = ${gameConstants.COMP}`)
+    data = Array.from(JSON.parse(JSON.stringify(data)))
+
+    //consoleLog("Alliance Selector Input: ")
+    //consoleLog(data)
+
+    //remove do not pick list from the data
+    removeTeams(data, disallowedTeams)
+
+    //remove duplicates (to do make them red)
+    //removeDuplicates(data)
+
+    //consoleLog(data)
+
+    const GSRank = rank(data.map(e => e.avg_gm_score))
+    const linkRank = rank(data.map(e => e.avg_nbr_links))
+    const autonCSRank = rank(data.map(e => e.avg_auton_chg_station_score))
+    const endGameCSRank = rank(data.map(e => e.avg_endgame_chg_station_score))
+    const apiRank = data.map(e => e.api_rank)
+    const totalRank = new Array(GSRank.length)
+    const totalCSRank = rank(data.map(e => e.avg_endgame_chg_station_score + e.avg_auton_chg_station_score))
+
+    if (body.sortBy == "best") {
+        //Weights are even
+        for (let i = 0; i < GSRank.length; ++i) {
+            totalRank[i] = GSRank[i] + linkRank[i] + totalCSRank[i] + apiRank[i]
         }
+    } else if (body.sortBy == "scoring") {
+        //Only weigh game score
+        for (let i = 0; i < GSRank.length; ++i) {
+            totalRank[i] = GSRank[i]
+        }
+    } else {
+        //Weigh charging station score
+        for (let i = 0; i < GSRank.length; ++i) {
+            totalRank[i] = totalCSRank[i]
+        }
+    }
 
-        database.query(SQL`SELECT
-             vmtsar.frc_season_master_sm_year,
-              vmtsar.team_master_tm_number, 
-              vmtsar.api_rank, 
-              vmtsar.avg_gm_score,
-              vmtsar.avg_nbr_links, 
-              vmtsar.avg_auton_chg_station_score, 
-              vmtsar.avg_endgame_chg_station_score 
-         FROM 
-             teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar
-         WHERE
-             vmtsar.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-             vmtsar.competition_master_cm_event_code = ${gameConstants.COMP} AND
-             vmtsar.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`,
-            (err, data) => {
-                data = Array.from(JSON.parse(JSON.stringify(data)))
+    const ogData = data.slice()
+    //consoleLog(ogData)
+    for (let i = 0; i < totalRank.length - 1; ++i) {
+        const dublicateIndex = totalRank.indexOf(totalRank[i], i + 1)
+        if (dublicateIndex != -1) {
+            //Priority order: Game score is most important, then links, then charge station
+            if (data[i].avg_gm_score < data[dublicateIndex].avg_gm_score) {
+                //if order doesn't match up, swap the values    
+                const dataCP = {}
+                Object.assign(dataCP, data[i])
+                data[i] = data[dublicateIndex]
+                data[dublicateIndex] = dataCP
+                continue
+            } else if (data[i].avg_gm_score != data[dublicateIndex].avg_gm_score) {
+                continue
+            }
+            if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
+                //if order doesn't match up, swap the values    
+                const dataCP = {}
+                Object.assign(dataCP, data[i])
+                data[i] = data[dublicateIndex]
+                data[dublicateIndex] = dataCP
+                continue
+            } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
+                continue
+            }
 
-                //consoleLog("Alliance Selector Input: ")
-                //consoleLog(data)
+            if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
+                //if order doesn't match up, swap the values    
+                const dataCP = {}
+                Object.assign(dataCP, data[i])
+                data[i] = data[dublicateIndex]
+                data[dublicateIndex] = dataCP
+                continue
+            } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
+                continue
+            }
 
-                //remove do not pick list from the data
-                removeTeams(data, disallowedTeams)
+            if (totalCSRank[i] < totalCSRank[dublicateIndex]) {
+                //if order doesn't match up, swap the values    
+                const dataCP = {}
+                Object.assign(dataCP, data[i])
+                data[i] = data[dublicateIndex]
+                data[dublicateIndex] = dataCP
+                continue
+            }
+        }
+    }
 
-                //remove duplicates (to do make them red)
-                //removeDuplicates(data)
+    let dublicateCount = 0
+    for (const [i, v] of Object.entries(ogData)) {
+        if (data[i] != v) {
+            ++dublicateCount
+            consoleLog("found word - " + dublicateCount)
+            consoleLog(data[i], v)
+        }
+    }
 
-                //consoleLog(data)
-
-                const GSRank = rank(data.map(e => e.avg_gm_score))
-                const linkRank = rank(data.map(e => e.avg_nbr_links))
-                const autonCSRank = rank(data.map(e => e.avg_auton_chg_station_score))
-                const endGameCSRank = rank(data.map(e => e.avg_endgame_chg_station_score))
-                const apiRank = data.map(e => e.api_rank)
-                const totalRank = new Array(GSRank.length)
-                const totalCSRank = rank(data.map(e => e.avg_endgame_chg_station_score + e.avg_auton_chg_station_score))
-
-                if (body.sortBy == "best") {
-                    //Weights are even
-                    for (let i = 0; i < GSRank.length; ++i) {
-                        totalRank[i] = GSRank[i] + linkRank[i] + totalCSRank[i] + apiRank[i]
-                    }
-                } else if (body.sortBy == "scoring") {
-                    //Only weigh game score
-                    for (let i = 0; i < GSRank.length; ++i) {
-                        totalRank[i] = GSRank[i]
-                    }
-                } else {
-                    //Weigh charging station score
-                    for (let i = 0; i < GSRank.length; ++i) {
-                        totalRank[i] = totalCSRank[i]
-                    }
-                }
-
-                const ogData = data.slice()
-                //consoleLog(ogData)
-                for (let i = 0; i < totalRank.length - 1; ++i) {
-                    const dublicateIndex = totalRank.indexOf(totalRank[i], i + 1)
-                    if (dublicateIndex != -1) {
-                        //Priority order: Game score is most important, then links, then charge station
-                        if (data[i].avg_gm_score < data[dublicateIndex].avg_gm_score) {
-                            //if order doesn't match up, swap the values    
-                            const dataCP = {}
-                            Object.assign(dataCP, data[i])
-                            data[i] = data[dublicateIndex]
-                            data[dublicateIndex] = dataCP
-                            continue
-                        } else if (data[i].avg_gm_score != data[dublicateIndex].avg_gm_score) {
-                            continue
-                        }
-                        if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
-                            //if order doesn't match up, swap the values    
-                            const dataCP = {}
-                            Object.assign(dataCP, data[i])
-                            data[i] = data[dublicateIndex]
-                            data[dublicateIndex] = dataCP
-                            continue
-                        } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
-                            continue
-                        }
-
-                        if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
-                            //if order doesn't match up, swap the values    
-                            const dataCP = {}
-                            Object.assign(dataCP, data[i])
-                            data[i] = data[dublicateIndex]
-                            data[dublicateIndex] = dataCP
-                            continue
-                        } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
-                            continue
-                        }
-
-                        if (totalCSRank[i] < totalCSRank[dublicateIndex]) {
-                            //if order doesn't match up, swap the values    
-                            const dataCP = {}
-                            Object.assign(dataCP, data[i])
-                            data[i] = data[dublicateIndex]
-                            data[dublicateIndex] = dataCP
-                            continue
-                        }
-                    }
-                }
-
-                let dublicateCount = 0
-                for (const [i, v] of Object.entries(ogData)) {
-                    if (data[i] != v) {
-                        ++dublicateCount
-                        consoleLog("found word - " + dublicateCount)
-                        consoleLog(data[i], v)
-                    }
-                }
-
-                return res.status(200).send(sortBy(data, totalRank))
-            })
-    })
+    return res.status(200).send(sortBy(data, totalRank))
 })
 
 module.exports = router
