@@ -160,10 +160,16 @@ function saveData(data, is7thScouter=false) {
 
     let autonScoringStr = new String()
     let endgameScoringStr = new String()
+    let autonPickedUp = data["preloaded"] ? 1 : 0
 
     for (const [i, v] of Object.entries(data.gameData.autonPieceData)) {
         autonScoringStr += `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${data.matchNumber}, '${data.alliance}', ${data.position}, '${data.username}', 2, ${i}, ${v}),`  
+        if(v > 0) {
+            autonPickedUp++
+        }
     }
+
+    console.log("AUTON PICKED UP:", autonPickedUp)
 
     for (const [i, v] of Object.entries(data.gameData.spotlights)) {
         autonScoringStr += `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${data.matchNumber}, '${data.alliance}', ${data.position}, '${data.username}', 4,  ${i}, ${(v == 2 && i == (402 + data.gameData["Instage Location"])) ? 3 : v}),`  
@@ -191,12 +197,14 @@ function saveData(data, is7thScouter=false) {
         )
         VALUES 
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 101, ${data.gameData["Starting Location"]}), 
-        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 102, ${data["Robot Preloaded"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 102, ${data["preloaded"] ?? 0}),
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 201, ${data["robot-taxies"] ?? 0}),
         `.append(autonScoringStr).append(SQL`
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 210, ${data["auton-speaker"] ?? 0}),
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 211, ${data["auton-amplifier"] ?? 0}),
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 212, ${data["auton-tech-fouls"] ?? 0}),
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 213, ${autonPickedUp ?? 0}), 
+
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 301, ${data["teleop-speaker"] ?? 0}),
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 302, ${data["teleop-amplified-speaker"] ?? 0}),
         (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 303, ${data["teleop-amplifier"] ?? 0}),
@@ -440,11 +448,11 @@ async function getChartData() {
     return SQL`
     SELECT *
     FROM
-        teamsixn_scouting_dev.tmp_match_strategy vts 
+        teamsixn_scouting_dev.v_match_summary_api vmsa
     WHERE
-        vts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-        vts.competition_master_cm_event_code = ${gameConstants.COMP} AND
-        ( vts.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} or vts.game_matchup_gm_game_type IS NULL);
+        vmsa.frc_season_master_sm_year = ${gameConstants.YEAR} AND
+        vmsa.competition_master_cm_event_code = ${gameConstants.COMP} AND
+        ( vmsa.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} or vmsa.game_matchup_gm_game_type IS NULL);
     `
 
 }
