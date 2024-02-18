@@ -84,7 +84,7 @@ function writeAPIData(teamRankings) {
         VALUES ${valuesStr}
             ;`
 
-    console.log(sqlStr)
+    //console.log(sqlStr)
 
     return sqlStr
 }
@@ -115,6 +115,36 @@ function convertToInt(option) {
         default:
             return 0
     }
+}
+
+function executeQuery(sql, callback=false) {
+    return new Promise(async (res, rej) => {
+
+        if (sql.then) {
+            sql = await sql
+        }
+
+        pool.query(sql, function (error, results, fields) {
+            if (error) {
+                console.log(sql)
+                if (callback) {
+                    rej(callback(error, null))
+                }
+                else {
+                    rej([error, null])
+                }
+                console.log("ERROR: " + String(error))
+                throw new Error()
+            } else {
+                if (callback) {
+                    res(callback(null, results))
+                }
+                else {
+                    console.log(res([null, results]))
+                }
+            }
+        })
+    })
 }
 
 function saveData(data, is7thScouter=false) {
@@ -309,6 +339,21 @@ FROM
         cgua.cgua_user_id = ${username}`
 }
 
+function saveMatchStrategy() {
+    return SQL`CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
+    SELECT
+        *, 
+        rank() OVER (ORDER BY api_opr desc) AS api_opr_rank, 
+        rank() OVER (ORDER BY api_dpr desc) AS api_dpr_rank
+    FROM 
+    teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
+    where 
+    frc_season_master_sm_year = ${gameConstants.YEAR} and 
+    competition_master_cm_event_code = ${gameConstants.COMP} and 
+    game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
+    team_master_tm_number is not NULL;`
+}
+
 function getSeventhScouter() {
     return SQL`SELECT * FROM teamsixn_scouting_dev.current_game_user_assignment
     ORDER BY cgua_scouter_number DESC
@@ -330,52 +375,68 @@ function getGameNumbers(eventCode, gameNumber) {
     `
 }
 
-function getMatchData(gameNumber) {
-    return SQL`
-    SELECT 
-        gm.team_master_tm_number,
-        tm.tm_name, 
-        gm.gm_alliance, 
-        gm.gm_alliance_position, 
-        tms.games_played, 
-        tms.api_rank, 
-        tms.api_win,
-        tms.api_loss, 
-        tms.api_tie, 
-        tms.api_opr,
-        tms.api_opr_rank,
-        tms.api_dpr,
-        tms.api_dpr_rank,
-        tms.avg_gm_score, 
-        tms.avg_nbr_links, 
-        tms.avg_auton_chg_station_score, 
-        tms.avg_endgame_chg_station_score 
-FROM 
-    teamsixn_scouting_dev.game_matchup gm
-    LEFT JOIN
-      teamsixn_scouting_dev.tmp_match_strategy tms
-      ON 
-          gm.frc_season_master_sm_year = tms.frc_season_master_sm_year AND
-            gm.competition_master_cm_event_code = tms.competition_master_cm_event_code AND
-            gm.gm_game_type = tms.game_matchup_gm_game_type AND
-            gm.team_master_tm_number = tms.team_master_tm_number
-    LEFT JOIN 
-        teamsixn_scouting_dev.team_master tm 
-        ON
-            gm.team_master_tm_number  = tm.tm_number 
-WHERE 
-  gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-  gm.competition_master_cm_event_code = ${gameConstants.COMP} AND
-  gm.gm_game_type  = ${gameConstants.GAME_TYPE} AND
-  gm.gm_number = ${gameNumber}
-ORDER BY 
-  gm.frc_season_master_sm_year, 
-  gm.competition_master_cm_event_code, 
-  gm.gm_alliance DESC, 
-  gm.gm_alliance_position ;`
+function checkTempMatchStrategy() {
+    return new Promise(async (res, rej) => {
+        let [err1, checkCreated] = await executeQuery(SQL`SHOW TABLES LIKE 'tmp_match_strategy'`)
+        
+        if (checkCreated?.length < 1) {
+            await executeQuery(saveMatchStrategy())
+        }
+
+        return res(true)
+    })
 }
 
-function getChartData() {
+async function getMatchData(gameNumber) {
+
+    await checkTempMatchStrategy()
+    return SQL`
+        SELECT 
+        gm.team_master_tm_number,
+            tm.tm_name, 
+            gm.gm_alliance, 
+            gm.gm_alliance_position, 
+            tms.games_played, 
+            tms.api_rank, 
+            tms.api_win,
+            tms.api_loss, 
+            tms.api_tie, 
+            tms.api_opr,
+            tms.api_opr_rank,
+            tms.api_dpr,
+            tms.api_dpr_rank,
+            tms.avg_gm_score, 
+            tms.avg_nbr_links, 
+            tms.avg_auton_chg_station_score, 
+            tms.avg_endgame_chg_station_score 
+        FROM 
+        teamsixn_scouting_dev.game_matchup gm
+        LEFT JOIN
+        teamsixn_scouting_dev.tmp_match_strategy tms
+        ON 
+        gm.frc_season_master_sm_year = tms.frc_season_master_sm_year AND
+        gm.competition_master_cm_event_code = tms.competition_master_cm_event_code AND
+        gm.gm_game_type = tms.game_matchup_gm_game_type AND
+        gm.team_master_tm_number = tms.team_master_tm_number
+        LEFT JOIN 
+        teamsixn_scouting_dev.team_master tm 
+        ON
+        gm.team_master_tm_number  = tm.tm_number 
+        WHERE 
+        gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
+        gm.competition_master_cm_event_code = ${gameConstants.COMP} AND
+        gm.gm_game_type  = ${gameConstants.GAME_TYPE} AND
+        gm.gm_number = ${gameNumber}
+        ORDER BY 
+        gm.frc_season_master_sm_year, 
+            gm.competition_master_cm_event_code, 
+            gm.gm_alliance DESC, 
+            gm.gm_alliance_position ;`
+}
+
+async function getChartData() {
+    await checkTempMatchStrategy()
+
     return SQL`
     SELECT *
     FROM
@@ -385,6 +446,7 @@ function getChartData() {
         vts.competition_master_cm_event_code = ${gameConstants.COMP} AND
         ( vts.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} or vts.game_matchup_gm_game_type IS NULL);
     `
+
 }
 
 function getTeamPictures(team) {
@@ -400,29 +462,6 @@ function getTeamPictures(team) {
     `
 }
 
-function executeQuery(sql, callback=false) {
-    return new Promise((res, rej) => {
-        pool.query(sql, function (error, results, fields) {
-            if (error) {
-                if (callback) {
-                    rej(callback(error, null))
-                }
-                else {
-                    rej([error, null])
-                }
-                console.log("ERROR: " + String(error))
-                throw new Error()
-            } else {
-                if (callback) {
-                    res(callback(null, results))
-                }
-                else {
-                    console.log(res([null, results]))
-                }
-            }
-        })
-    })
-}
 
 function saveComment(comment, user_id, matchNumber, alliance, alliancePosition) {
     return SQL`INSERT INTO teamsixn_scouting_dev.game_comments
@@ -434,20 +473,6 @@ function clearMatchStrategyTemp() {
     return SQL`DROP TABLE IF EXISTS teamsixn_scouting_dev.tmp_match_strategy;`
 }
 
-function saveMatchStrategy() {
-    return SQL`CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
-    SELECT
-        *, 
-        rank() OVER (ORDER BY api_opr desc) AS api_opr_rank, 
-        rank() OVER (ORDER BY api_dpr desc) AS api_dpr_rank
-    FROM 
-        teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
-    where 
-        frc_season_master_sm_year = ${gameConstants.YEAR} and 
-        competition_master_cm_event_code = ${gameConstants.COMP} and 
-        game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
-        team_master_tm_number is not NULL;`
-}
 
 function getMatchComments(team) {
     return SQL`select 
