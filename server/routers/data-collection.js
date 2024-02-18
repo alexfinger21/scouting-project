@@ -159,6 +159,7 @@ router.post("/", function (req, res) {
     if (body.type == "scouting") {
         const seventhScouter = getSeventhScouter(body.username)
         if(seventhScouter != body.username) {
+            consoleLog("Received:")
             consoleLog(body)
             updateData(body)
         }
