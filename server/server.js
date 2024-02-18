@@ -39,6 +39,7 @@ const teamSummary = require(path.resolve(serverDirectory, routeDirectory, "team-
 const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
 const allianceSelector = require(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
 const matchListing = require(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
+const matchVerify = require(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))
 const adminPage = require(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
 const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "rankings.js"))
 const teamDetails = require(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
@@ -161,6 +162,9 @@ app.use("/alliance-selector", allianceSelector)
 
 //MATCH LISTING
 app.use("/match-listing", matchListing)
+
+//MATCH VERIFY
+app.use("/match-verify", matchVerify)
 
 //ADMIN PAGE
 app.use("/admin-page", adminPage)
