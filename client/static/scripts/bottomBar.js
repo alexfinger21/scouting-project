@@ -135,6 +135,12 @@ window.addEventListener("load", () => {
         hideHighlight(hoverButton)
     })
 
+    const matchVerifyButton = document.getElementById("match-verify-button")
+    matchVerifyButton.addEventListener("click", () =>  {
+        requestPage(paths.matchVerify)
+        hideHighlight(hoverButton)
+    })
+
     const allianceInputButton = document.getElementById("alliance-input-button")
     allianceInputButton.addEventListener("click", () =>  {
         requestPage(paths.allianceInput)

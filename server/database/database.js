@@ -249,6 +249,21 @@ function getTeams() {
     return returnStr
 }
 
+
+function getMatchVerify() { //temporary unverified matchup
+    const returnStr = SQL`
+    SELECT 
+        *
+    FROM
+        teamsixn_scouting_dev.v_match_listing_display_x`
+
+    return returnStr
+}
+
+function addMatchup() { //add from get match verify
+    return ``
+}
+
 function getCollectedData(match) {
     return SQL`
     SELECT 
@@ -559,6 +574,8 @@ module.exports = {
     getGameNumbers: getGameNumbers,
     query: executeQuery,
     getTeams: getTeams,
+    getMatchVerify: getMatchVerify,
+    addMatchup: addMatchup,
     getCollectedData: getCollectedData,
     saveData: saveData,
     deleteData: deleteData,

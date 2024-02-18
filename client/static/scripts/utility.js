@@ -10,6 +10,7 @@ const paths = {
     matchListing: "/match-listing",
     matchStrategy: "/match-strategy",
     adminPage: "/admin-page",
+    matchVerify: "/match-verify",
     teamSummary: "/team-summary",
     teamDetails: "/team-details",
     allianceInput: "/alliance-input",
