@@ -6,16 +6,10 @@ function writeData(points) {
         teamName: points.map(p => p.teamName),
         rank: points.map(p => p.rank),
         gamesPlayed: points.map(p => p.gamesPlayed),
-        gameScore: points.map(p => Math.round(p.gameScore) ),
-        links: points.map((p) => {
-            if(p.links) {
-                return p.links.toFixed(1)
-            }
-            return "N/A"
-        }),
-        autoDocking: points.map(p => Math.round(p.autoDocking)),
-        endgameDocking: points.map(p => Math.round(p.endgameDocking)),
-
+        gameScore: points.map(p => Math.round(p.total_game_score_avg) ),
+        autonSpeaker: points.map(p => Math.round(p.auton_notes_speaker_avg)),
+        autonAmp: points.map(p => Math.round(p.auton_notes_amp_avg)),
+        teleopScore: points.map(p => Math.round(p.endgameDocking)),
 
         datasets: [{
             label: 'Legend',
