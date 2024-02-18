@@ -20,6 +20,27 @@
     scroll-behavior: smooth;
 }
 
+#match-scroller-small
+{
+    display: block;
+    height: 50vh;
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: scroll;
+    scroll-behavior: smooth;
+}
+
+
+#match-verify-submit {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vh;
+    box-shadow: 0 6px #3077b9;
+    transition: all .1s ease-in-out;
+}
+
 .no-padding {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
