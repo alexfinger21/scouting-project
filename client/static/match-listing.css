@@ -36,7 +36,7 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 1vh;
+    margin-top: 2vh;
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
 }

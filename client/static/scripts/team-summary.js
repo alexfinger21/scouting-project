@@ -189,9 +189,6 @@ function main() {
                 break
             case 2:
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
-                setTimeout(() => {
-                    switchChart("spider")
-                }, 100)
                 consoleLog(points)
 
                 if (oldCurrentChart == currentChart) { 
@@ -207,6 +204,9 @@ function main() {
                         config
                     )
                 }
+                setTimeout(() => {
+                    switchChart("spider")
+                }, 100)
 
             case 3:
                 switchChart("bar")

@@ -260,8 +260,31 @@ function getMatchVerify() { //temporary unverified matchup
     return returnStr
 }
 
+function removeMatchup() {
+    return SQL`
+    DELETE 
+        gm
+    FROM 
+        teamsixn_scouting_dev.game_matchup gm
+    JOIN
+        (SELECT frc_season_master_sm_year, competition_master_cm_event_code, gm_game_type FROM teamsixn_scouting_dev.game_matchup_x LIMIT 1) f
+         on    gm.frc_season_master_sm_year = f.frc_season_master_sm_year and 
+         gm.competition_master_cm_event_code = f.competition_master_cm_event_code and
+         gm.gm_game_type = f.gm_game_type;`
+}
+
 function addMatchup() { //add from get match verify
-    return ``
+    return `
+    INSERT INTO teamsixn_scouting_dev.game_matchup 
+    SELECT 
+        gmx.*, 
+        '' as cm_event_code 
+    from 
+        teamsixn_scouting_dev.game_matchup_x gmx 
+    WHERE 
+        gmx.frc_season_master_sm_year = ${gameConstants.YEAR} and 
+        gmx.competition_master_cm_event_code = ${gameConstants.COMP} and
+        gmx.gm_game_type = ${gameConstants.GAME_TYPE};`
 }
 
 function getCollectedData(match) {
@@ -576,6 +599,7 @@ module.exports = {
     getTeams: getTeams,
     getMatchVerify: getMatchVerify,
     addMatchup: addMatchup,
+    removeMatchup: removeMatchup,
     getCollectedData: getCollectedData,
     saveData: saveData,
     deleteData: deleteData,
