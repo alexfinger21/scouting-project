@@ -274,7 +274,7 @@ function removeMatchup() {
 }
 
 function addMatchup() { //add from get match verify
-    return `
+    return SQL`
     INSERT INTO teamsixn_scouting_dev.game_matchup 
     SELECT 
         gmx.*, 
