@@ -46,9 +46,12 @@ function getAvailableTeams(sortValue) {
                     + team.speakerScore.toFixed(1)
                     + "</td><td>" 
                     + team.ampScore.toFixed(1) 
-                    + "</td></tr> "
+                    + "</td><td>" 
                     + team.stageScore.toFixed(1) 
+                    + "</td><td>" 
+                    + team.trapScore.toFixed(1) 
                     + "</td></tr> "
+                
                 tbody.insertAdjacentElement("beforeend", $(html)[0])
             }
         },
