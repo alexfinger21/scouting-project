@@ -390,20 +390,25 @@ async function createSpiderChart(points) {
             },
             scales: {
                 r: {
-                    display: false,
                     angleLines: {
                         display: false
                     },
                     ticks: {
-                        display: false
+                        display: false,
+                        fontSize: 80,
                     },
-                    yAxes: [{
-                        gridLines: { tickMarkLength: 0 },
-                        ticks: {
-                            gridLines: { tickMarkLength: 0 },
-                            display: false
+                    pointLabels: {
+                        font: {
+                            size: 30,
                         }
-                    }]
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 12,
+                        }
+                    },
                 }
             },
             layout: {
