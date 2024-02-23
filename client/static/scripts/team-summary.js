@@ -1,11 +1,11 @@
 import * as graphHandler from "./graphHandler.js"
-import { paths, requestData, highlightColors, currentPage, consoleLog} from "./utility.js"
+import { paths, requestData, highlightColors, currentPage, consoleLog } from "./utility.js"
 
 const POINT_COLOR = "rgb(147, 157, 168)"
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
 const BLUE_COLOR = "rgb(52,146,234)"
-let data = {0: "dummy data"}
+let data = { 0: "dummy data" }
 
 let debounce = false
 
@@ -58,19 +58,19 @@ async function getPoints(x, y, color) {
     for (const val of data) {
         let teamNumber = val.team_master_tm_number
         let gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
-        consoleLog("GAME TEAMS:")
+        //consoleLog("GAME TEAMS:")
         //consoleLog(gameTeams)
         let color = POINT_COLOR
-        if(teamNumber == document.getElementById("highlight-team").value) {
+        if (teamNumber == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
         }
-        else if(gameTeams && (gameTeams.r1 == teamNumber || gameTeams.r2 == teamNumber || gameTeams.r3 == teamNumber) ) {
+        else if (gameTeams && (gameTeams.r1 == teamNumber || gameTeams.r2 == teamNumber || gameTeams.r3 == teamNumber)) {
             color = RED_COLOR
         }
-        else if(gameTeams && (gameTeams.b1 == teamNumber || gameTeams.b2 == teamNumber || gameTeams.b3 == teamNumber) ) {
+        else if (gameTeams && (gameTeams.b1 == teamNumber || gameTeams.b2 == teamNumber || gameTeams.b3 == teamNumber)) {
             color = BLUE_COLOR
         }
-        else if(highlightColors[val.team_master_tm_number]) {
+        else if (highlightColors[val.team_master_tm_number]) {
             color = highlightColors[val.team_master_tm_number]
         }
         points[ind] = {
@@ -99,8 +99,8 @@ function updateMarker(oldval, newval) {
     const container = document.getElementById("graph-display-container")
     consoleLog(container)
 
-    if (debounce) {return}
-    
+    if (debounce) { return }
+
     Array.from(container.children).forEach(e => {
         if (oldval != null && e.name == oldval) {
             e.style.backgroundColor = "#efefef"
@@ -124,22 +124,35 @@ function main() {
     const spiderCanvas = document.getElementById("spider-chart")
     let ctx
 
-    function switchChart(chart) {
-        switch(chart) {
+    function switchChart(newChart) {
+        consoleLog("Switch to", newChart)
+        if (chart) {
+            chart.destroy()
+        }
+        switch (newChart) {
             case "scatter":
                 scatterPlotCanvas.removeAttribute("hidden")
+                scatterPlotCanvas.removeAttribute("style")
                 barGraphCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.setAttribute("style", "display: hidden !important")
                 spiderCanvas.setAttribute("hidden", "hidden")
+                spiderCanvas.setAttribute("style", "display: hidden !important")
                 ctx = scatterPlotCanvas.getContext("2d")
             case "bar":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
+                scatterPlotCanvas.setAttribute("style", "display: hidden !important")
                 barGraphCanvas.removeAttribute("hidden")
+                barGraphCanvas.removeAttribute("style")
                 spiderCanvas.setAttribute("hidden", "hidden")
+                spiderCanvas.setAttribute("style", "display: hidden !important")
                 ctx = barGraphCanvas.getContext("2d")
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
+                scatterPlotCanvas.setAttribute("style", "display: hidden !important")
                 barGraphCanvas.setAttribute("hidden", "hidden")
+                barGraphCanvas.setAttribute("style", "display: hidden !important")
                 spiderCanvas.removeAttribute("hidden")
+                spiderCanvas.removeAttribute("style")
                 ctx = spiderCanvas.getContext("2d")
         }
     }
@@ -159,7 +172,7 @@ function main() {
                 ctx = scatterPlotCanvas.getContext("2d")
                 points = await getPoints("api_rank", "avg_gm_score")
 
-                if (oldCurrentChart == currentChart) { 
+                if (oldCurrentChart == currentChart) {
                     chart = new Chart(ctx,
                         graphHandler.createScatterChart(
                             points,
@@ -176,7 +189,7 @@ function main() {
 
                 consoleLog(points)
 
-                if (oldCurrentChart == currentChart) { 
+                if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.gameScore - a.gameScore })
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
@@ -188,10 +201,13 @@ function main() {
                 }
                 break
             case 2:
+                consoleLog("Current chart is: ")
+                switchChart("spider")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
                 consoleLog(points)
+                //Chart.defaults.font.size = 40
 
-                if (oldCurrentChart == currentChart) { 
+                if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.gameScore - a.gameScore })
                     const config = await graphHandler.createSpiderChart(
                         points,
@@ -200,20 +216,22 @@ function main() {
                     )
                     consoleLog("CONF:")
                     consoleLog(config)
+                    consoleLog("Hi!")
                     chart = new Chart(ctx,
                         config
                     )
+                    consoleLog("def1",Chart.defaults.global)
+                    consoleLog("radar", Chart.defaults.radar)
+                    Chart.defaults.global.defaultFontSize = 50
                 }
-                setTimeout(() => {
-                    switchChart("spider")
-                }, 100)
+                break
 
             case 3:
                 switchChart("bar")
 
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
 
-                if (oldCurrentChart == currentChart) { 
+                if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.links - a.links })
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
@@ -229,9 +247,8 @@ function main() {
 
                 points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", POINT_COLOR)
 
-                if (oldCurrentChart == currentChart) { 
+                if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
-                    consoleLog("GARAh")
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
@@ -246,7 +263,7 @@ function main() {
 
                 points = await getPoints("team_master_tm_number", "avg_endgame_chg_station_score", POINT_COLOR)
 
-                if (oldCurrentChart == currentChart) { 
+                if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.endgameDocking - a.endgameDocking })
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
@@ -261,8 +278,8 @@ function main() {
                 switchChart("bar")
 
                 points = await getPoints("team_master_tm_number", "games_played", POINT_COLOR)
-                
-                if (oldCurrentChart == currentChart) { 
+
+                if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.gamesPlayed - a.gamesPlayed })
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
@@ -281,6 +298,7 @@ function main() {
     //variable stores currently selected chart
     //initialize to scatterchart
     updateMarker(null, currentChart)
+    consoleLog("HIHIHIHI")
     drawChart(currentChart)
 
     const arrowLeft = document.getElementById("arrow-left")
@@ -290,7 +308,7 @@ function main() {
         if (chart) {
             chart.destroy()
         }
-        
+
         const old = currentChart
 
         currentChart = currentChart == 0 ? 5 : currentChart - 1
@@ -342,12 +360,14 @@ function main() {
 
     for (const button of topButtonsContainer.children) {
         button.addEventListener("click", () => {
+            consoleLog("WOWOWOWOWOW", button)
             if (debounce) { return }
             if (button.name != currentChart) {
                 if (chart) {
                     chart.destroy()
                 }
                 updateMarker(currentChart, button.name)
+                consoleLog("NUMBER: ", Number(button.name))
                 currentChart = Number(button.name)
                 drawChart(currentChart)
                 consoleLog("top btn clickd")
