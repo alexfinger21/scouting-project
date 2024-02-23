@@ -69,30 +69,31 @@ function sortBy(data, totalRank) {
 
         //consoleLog("index - " + arrIndex)
         //consoleLog(data)
-        //consoleLog(data[arrIndex])
 
         res[rankings] = {
             rank: rankings,
             team: data[arrIndex].team_master_tm_number,
-            gameScore: data[arrIndex].avg_gm_score,
-            links: data[arrIndex].avg_nbr_links,
-            autonChargeStation: data[arrIndex].avg_auton_chg_station_score,
-            endgameChargeStation: data[arrIndex].avg_endgame_chg_station_score,
-            apiRank: data[arrIndex].api_rank
+            gameScore: data[arrIndex].total_game_score_avg,
+            auton: data[arrIndex].auton_total_score_avg,
+            speakerScore: data[arrIndex].auton_notes_speaker_avg + data[arrIndex].teleop_notes_speaker_amped_avg + data[arrIndex].teleop_notes_speaker_not_amped_avg,
+            ampScore: data[arrIndex].auton_notes_amp_avg + data[arrIndex].teleop_notes_amp_avg,
+            stageScore: data[arrIndex].endgame_onstage_points_avg + data[arrIndex].endgame_notes_trap_avg,
+            apiRank: data[arrIndex].api_rank,
+            trapScore: data[arrIndex].endgame_notes_trap_avg
         }
+        consoleLog(res[rankings])
     }
 
     return res
 }
 
-router.get("/", function (req, res) { //only gets used if the url == alliance-selector
-    database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
-        data = JSON.parse(JSON.stringify(data))
-        //consoleLog("ALLIANCE SELECTOR DATA")
-        //consoleLog(data)
-        res.render("alliance-selector", {
-            data: data
-        })
+router.get("/", async function (req, res) { //only gets used if the url == alliance-selector
+    let [err, data] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
+    data = JSON.parse(JSON.stringify(data))
+    //consoleLog("ALLIANCE SELECTOR DATA")
+    //consoleLog(data)
+    res.render("alliance-selector", {
+        data: data
     })
 })
 
@@ -102,15 +103,21 @@ router.post("/", async function (req, res) {
     let [err1, dbRes] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
     
     dbRes = JSON.parse(JSON.stringify(dbRes))
-    let disallowedTeams = []
+    
+    //consoleLog("DATABASE RESULT:", dbRes)
+
+    const disallowedTeams = []
+   
+    let [err2, data] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api
+        vmd WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} and vmd.competition_master_cm_event_code = ${gameConstants.COMP}`)
+   
+    data = Array.from(JSON.parse(JSON.stringify(data)))
+
+    //consoleLog("SUMMARY API RESULT:", data)
     
     for (const e of data) {
         disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
     }
-
-    let [err2, data] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api
-        vmd WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} and vmd.competition_master_cm_event_code = ${gameConstants.COMP}`)
-    data = Array.from(JSON.parse(JSON.stringify(data)))
 
     //consoleLog("Alliance Selector Input: ")
     //consoleLog(data)
@@ -123,30 +130,61 @@ router.post("/", async function (req, res) {
 
     //consoleLog(data)
 
-    const GSRank = rank(data.map(e => e.avg_gm_score))
-    const linkRank = rank(data.map(e => e.avg_nbr_links))
-    const autonCSRank = rank(data.map(e => e.avg_auton_chg_station_score))
-    const endGameCSRank = rank(data.map(e => e.avg_endgame_chg_station_score))
-    const apiRank = data.map(e => e.api_rank)
+    const GSRank = rank(data.map(e => e.total_game_score_avg))
+    const autonRank = rank(data.map(e => e.auton_total_score_avg))
+    const ampRank = rank(data.map(e => e.auton_notes_amp_avg + e.teleop_notes_amp_avg))
+    const speakerRank = rank(data.map(e => e.auton_notes_speaker_avg + e.teleop_notes_speaker_amped_avg + e.teleop_notes_speaker_not_amped_avg))
+    const ampedSpeakerRank = rank(data.map(e => e.teleop_notes_amped_speaker_avg))
+    const stageRank = rank(data.map(e => e.endgame_notes_trap_avg + e.endgame_onstage_points_avg))
+    const trapRank = rank(data.map(e => e.endgame_notes_trap_avg))
+    const apiRank = rank(data.map(e => e.api_rank))
+
     const totalRank = new Array(GSRank.length)
-    const totalCSRank = rank(data.map(e => e.avg_endgame_chg_station_score + e.avg_auton_chg_station_score))
 
     if (body.sortBy == "best") {
         //Weights are even
         for (let i = 0; i < GSRank.length; ++i) {
-            totalRank[i] = GSRank[i] + linkRank[i] + totalCSRank[i] + apiRank[i]
+            totalRank[i] = GSRank[i] 
+                + autonRank[i] 
+                + ampRank[i]
+                + speakerRank[i]
+                + ampedSpeakerRank[i]
+                + stageRank[i]
+                + trapRank[i]
+                + apiRank[i]
         }
     } else if (body.sortBy == "scoring") {
         //Only weigh game score
         for (let i = 0; i < GSRank.length; ++i) {
             totalRank[i] = GSRank[i]
         }
-    } else {
-        //Weigh charging station score
+    } else if (body.sortBy == "auton") {
+        //Weigh auton score
         for (let i = 0; i < GSRank.length; ++i) {
-            totalRank[i] = totalCSRank[i]
+            totalRank[i] = autonRank[i]
         }
+    } else if (body.sortBy == "speaker") {
+        //Weigh speaker score
+         for (let i = 0; i < GSRank.length; ++i) {
+            totalRank[i] = speakerRank[i]
+         } 
+    } else if (body.sortBy == "amp") {
+        //Weigh amp score
+         for (let i = 0; i < GSRank.length; ++i) {
+            totalRank[i] = ampRank[i]
+         }
+    } else if (body.sortBy == "stage") {
+        //Weigh stage score
+         for (let i = 0; i < GSRank.length; ++i) {
+            totalRank[i] = stageRank[i]
+         }
+    } else {//trap
+        //Weigh trap score
+         for (let i = 0; i < GSRank.length; ++i) {
+            totalRank[i] = trapRank[i]
+         }
     }
+
 
     const ogData = data.slice()
     //consoleLog(ogData)
@@ -154,39 +192,39 @@ router.post("/", async function (req, res) {
         const dublicateIndex = totalRank.indexOf(totalRank[i], i + 1)
         if (dublicateIndex != -1) {
             //Priority order: Game score is most important, then links, then charge station
-            if (data[i].avg_gm_score < data[dublicateIndex].avg_gm_score) {
+            if (GSRank[i] > GSRank[dublicateIndex]) {
                 //if order doesn't match up, swap the values    
                 const dataCP = {}
                 Object.assign(dataCP, data[i])
                 data[i] = data[dublicateIndex]
                 data[dublicateIndex] = dataCP
                 continue
-            } else if (data[i].avg_gm_score != data[dublicateIndex].avg_gm_score) {
+            } else if (GSRank[i] != GSRank[dublicateIndex]) {
                 continue
             }
-            if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
+            if (autonRank[i] > autonRank[dublicateIndex]) {
                 //if order doesn't match up, swap the values    
                 const dataCP = {}
                 Object.assign(dataCP, data[i])
                 data[i] = data[dublicateIndex]
                 data[dublicateIndex] = dataCP
                 continue
-            } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
-                continue
-            }
-
-            if (data[i].avg_nbr_links < data[dublicateIndex].avg_nbr_links) {
-                //if order doesn't match up, swap the values    
-                const dataCP = {}
-                Object.assign(dataCP, data[i])
-                data[i] = data[dublicateIndex]
-                data[dublicateIndex] = dataCP
-                continue
-            } else if (data[i].avg_nbr_links != data[dublicateIndex].avg_nbr_links) {
+            } else if (autonRank[i] != autonRank[dublicateIndex]) {
                 continue
             }
 
-            if (totalCSRank[i] < totalCSRank[dublicateIndex]) {
+            if (stageRank[i] > stageRank[dublicateIndex]) {
+                //if order doesn't match up, swap the values    
+                const dataCP = {}
+                Object.assign(dataCP, data[i])
+                data[i] = data[dublicateIndex]
+                data[dublicateIndex] = dataCP
+                continue
+            } else if (stageRank[i] != stageRank[dublicateIndex]) {
+                continue
+            }
+
+            if (trapRank[i] > trapRank[dublicateIndex]) {
                 //if order doesn't match up, swap the values    
                 const dataCP = {}
                 Object.assign(dataCP, data[i])
@@ -202,9 +240,11 @@ router.post("/", async function (req, res) {
         if (data[i] != v) {
             ++dublicateCount
             consoleLog("found word - " + dublicateCount)
-            consoleLog(data[i], v)
+            //consoleLog(data[i], v)
         }
     }
+
+    consoleLog("THIS IS THE DATA", data)
 
     return res.status(200).send(sortBy(data, totalRank))
 })

@@ -42,15 +42,15 @@
                         <tr>
                             <th>Match #</th>
                             <th>Game Score</th>
-                            <th>Links</th>
-                            <th>Auton Chg Stn</th>
-                            <th>End Chg Stn</th>
+                            <th>Auton</th>
+                            <th>Speaker Score</th>
+                            <th>Amp Score</th>
                             <th>Cones<br>L/M/H</th>
                             <th>Cubes<br>L/M/H</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for(let i = 0; i < teamData.length; i++) {%>
+                        <% for(let i = 0; i < teamData.length; ++i) {%>
                             <tr>
                                 <td>
                                     <%= teamData[i].game_matchup_gm_number %>
