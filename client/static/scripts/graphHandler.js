@@ -65,10 +65,12 @@ function writeData(points) {
 
 async function getTeamData(team, records, existingColors) {
     return new Promise((resolve, reject) => {
-        getTeamColor(team.teamNumber.toString(), existingColors).then((color) => {
+        getTeamColor(team.teamNumber.toString(), team.teamName, existingColors).then((color) => {
+            consoleLog(team.teamNumber, "-", color)
             existingColors.push(color)
             return resolve({
                 label: team.teamNumber,
+                hidden: team.hidden,  
                 data: [
                     1 - team.rank / records.rank,
                     team.opr / records.opr,
@@ -78,8 +80,8 @@ async function getTeamData(team, records, existingColors) {
                     team.autonNotes / records.autonNotes
                 ],
                 fill: true,
-                backgroundColor: `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
-                borderColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                backgroundColor: team.hidden == false ? team.color.substring(0, team.color.length - 1) + ", 0.2)" : `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
+                borderColor: team.hidden == false ? team.color : `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
                 pointHoverBorderColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
@@ -385,6 +387,7 @@ async function createSpiderChart(points) {
                     }
                 }
             },
+            
             scales: {
                 r: {
                     angleLines: {
@@ -396,11 +399,14 @@ async function createSpiderChart(points) {
                     },
                     pointLabels: {
                         font: {
-                            size: 30,
+                            size: .35 * Math.sqrt(screen.height),
                         }
                     }
                 },
                 x: {
+                    grid: {
+                        display: false,
+                    },
                     ticks: {
                         display: false,
                     },
@@ -414,15 +420,38 @@ async function createSpiderChart(points) {
                 }
             },
             plugins: {
-                plugins: {
-                    legend: {
-                        labels: {
-                            // This more specific font property overrides the global property
-                            font: {
-                                size: 40
-                            }
+                legend: {
+                    position: "top",
+                    labels: {
+                        boxWidth: 8,
+                        boxHeight: 8,
+                        font: {
+                            size: 10    
+                        },
+                        /*generateLabels: chart => {
+                            return chart.data.datasets.map((set, i) => {
+                                consoleLog(i)
+                                return {
+                                    datasetIndex: i,
+                                    text: set.label,
+                                    fillStyle: set.backgroundColor,
+                                    strokeStyle: set.backgroundColor,
+                                    hidden: true //chart.getDatasetMeta(i).hidden 
+                                }
+                            })
+                        },*/
+                    },
+                    /*onClick: function(e, legendItem, legend) {
+                        const index = legendItem.datasetIndex;
+                        const ci = legend.chart;
+                        if (ci.isDatasetVisible(index)) {
+                            ci.hide(index);
+                            legendItem.hidden = true;
+                        } else {
+                            ci.show(index);
+                            legendItem.hidden = false;
                         }
-                    }
+                    }   */                 
                 }
             }
         }

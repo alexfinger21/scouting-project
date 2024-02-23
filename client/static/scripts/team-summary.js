@@ -61,20 +61,26 @@ async function getPoints(x, y, color) {
         //consoleLog("GAME TEAMS:")
         //consoleLog(gameTeams)
         let color = POINT_COLOR
+        let hidden = true
         if (teamNumber == document.getElementById("highlight-team").value) {
             color = HIGHTLIGHT_COLOR
+            hidden = false
         }
         else if (gameTeams && (gameTeams.r1 == teamNumber || gameTeams.r2 == teamNumber || gameTeams.r3 == teamNumber)) {
             color = RED_COLOR
+            hidden = false
         }
         else if (gameTeams && (gameTeams.b1 == teamNumber || gameTeams.b2 == teamNumber || gameTeams.b3 == teamNumber)) {
             color = BLUE_COLOR
+            hidden = false
         }
         else if (highlightColors[val.team_master_tm_number]) {
             color = highlightColors[val.team_master_tm_number]
+            hidden = false
         }
         points[ind] = {
             teamNumber: val.team_master_tm_number,
+            hidden: hidden,
             teamName: val.tm_name,
             rank: val.api_rank,
             gamesPlayed: val.nbr_games,
