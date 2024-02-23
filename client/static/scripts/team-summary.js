@@ -205,7 +205,6 @@ function main() {
                 switchChart("spider")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
                 consoleLog(points)
-                //Chart.defaults.font.size = 40
 
                 if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.gameScore - a.gameScore })
@@ -220,9 +219,6 @@ function main() {
                     chart = new Chart(ctx,
                         config
                     )
-                    consoleLog("def1",Chart.defaults.global)
-                    consoleLog("radar", Chart.defaults.radar)
-                    Chart.defaults.global.defaultFontSize = 50
                 }
                 break
 
