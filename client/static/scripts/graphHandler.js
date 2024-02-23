@@ -385,9 +385,6 @@ async function createSpiderChart(points) {
                     }
                 }
             },
-            legend: {
-                display: false
-            },
             scales: {
                 r: {
                     angleLines: {
@@ -405,17 +402,27 @@ async function createSpiderChart(points) {
                 },
                 x: {
                     ticks: {
-                        font: {
-                            size: 12,
-                        }
+                        display: false,
                     },
-                }
+                },
             },
             layout: {
                 padding: {
                     top: 20,
                     right: 20,
                     bottom: 0
+                }
+            },
+            plugins: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 40
+                            }
+                        }
+                    }
                 }
             }
         }
