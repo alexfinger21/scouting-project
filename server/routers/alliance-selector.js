@@ -78,7 +78,8 @@ function sortBy(data, totalRank) {
             speakerScore: data[arrIndex].auton_notes_speaker_avg + data[arrIndex].teleop_notes_speaker_amped_avg + data[arrIndex].teleop_notes_speaker_not_amped_avg,
             ampScore: data[arrIndex].auton_notes_amp_avg + data[arrIndex].teleop_notes_amp_avg,
             stageScore: data[arrIndex].endgame_onstage_points_avg + data[arrIndex].endgame_notes_trap_avg,
-            apiRank: data[arrIndex].api_rank
+            apiRank: data[arrIndex].api_rank,
+            trapScore: data[arrIndex].endgame_notes_trap_avg
         }
         consoleLog(res[rankings])
     }
@@ -134,7 +135,7 @@ router.post("/", async function (req, res) {
     const ampRank = rank(data.map(e => e.auton_notes_amp_avg + e.teleop_notes_amp_avg))
     const speakerRank = rank(data.map(e => e.auton_notes_speaker_avg + e.teleop_notes_speaker_amped_avg + e.teleop_notes_speaker_not_amped_avg))
     const ampedSpeakerRank = rank(data.map(e => e.teleop_notes_amped_speaker_avg))
-    const stageRank = rank(data.map(e => e.endgame_onstage_points_avg))
+    const stageRank = rank(data.map(e => e.endgame_notes_trap_avg + e.endgame_onstage_points_avg))
     const trapRank = rank(data.map(e => e.endgame_notes_trap_avg))
     const apiRank = rank(data.map(e => e.api_rank))
 

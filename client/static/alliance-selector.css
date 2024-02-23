@@ -57,6 +57,9 @@
     font-size: 1.8vh;
 }
 
+th.alliance-selector {
+    font-size: min(2vh, 3vw);
+}
 
 #alliance-suggestions td, th {
     border: 1px solid #dddddd;
