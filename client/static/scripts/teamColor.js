@@ -13,12 +13,13 @@ function stringToRGB(color) {
     return [arr[0], arr[1], arr[2]]
 }
 
-function hexToRGB(color) {
-    color = parseInt(color.substring(1), 16);
-    r = color >> 16;
-    g = (color - (r << 16)) >> 8;
-    b = color - (r << 16) - (g << 8);
-    return [r, g, b];
+function hexToRGB(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? [
+        parseInt(result[1], 16),
+        parseInt(result[2], 16),
+        parseInt(result[3], 16)
+    ] : null;
 }
 
 function isSimilar([r1, g1, b1], [r2, g2, b2]) {
@@ -35,35 +36,41 @@ function hasColor(color, arr) {
 }
 
 function teamToHSL(team) {
-    let hash = 0;
-    if (team.length === 0) return hash;
+    let hash = 0
+    if (team.length === 0) return hash
     for (let i = 0; i < team.length; i++) {
-        hash = team.charCodeAt(i) + ((hash << 5) - hash);
-        hash = hash & hash;
+        hash = team.charCodeAt(i) + ((hash << 5) - hash)
+        hash = hash & hash
     }
-    return hash % 360;
+    //console.log(team, "hue:", Math.abs(hash % 360))
+    return Math.abs(hash % 360)
 }
 
-async function getTeamColor(team, existingColors) {
+async function getTeamColor(team, teamName, existingColors) {
     return fetch(`https://api.frc-colors.com/v1/team/${team}`)
         .then(response => response.json())
         .then((data) => {
             if (data?.statusCode == 404) {
-                throw new Error("Team not found")
+                throw new Error(`Team ${team} not found`)
             }
+            //console.log("COLOR for", team, ":", data)
             if (!hasColor(hexToRGB(data.primaryHex), existingColors)) {
                 return hexToRGB(data.primaryHex)
             }
-            else if (!hasColor(hexToRGB(data.secondaryHex), existingColors)) {
+            else if (hasColor(hexToRGB(data.secondaryHex), existingColors)) {
                 return hexToRGB(data.secondaryHex)
             }
             else {
-                throw new Error("Colors are all used")
+                throw new Error(`Colors are all used for team ${team}`)
             }
         })
         .catch((error) => { //team not found
-            //console.log(error)
-            return HSLToRGB(teamToHSL(team), 0.8, 0.7)
+            const hue = teamToHSL(teamName)
+            if(!hasColor(HSLToRGB(hue, 0.8, 0.7), existingColors)) {
+                return HSLToRGB(hue, 0.8, 0.7)
+            }
+            console.log("IT WORKED with team", team)
+            return HSLToRGB((hue + 37), 0.8, 0.7)
         })
 }
 
