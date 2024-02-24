@@ -108,8 +108,10 @@ router.post("/", async function (req, res) {
 
     const disallowedTeams = []
    
-    let [err2, data] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api
-        vmd WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} and vmd.competition_master_cm_event_code = ${gameConstants.COMP}`)
+    let [err2, data] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api vmd 
+        WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
+        vmd.competition_master_cm_event_code = ${gameConstants.COMP} AND 
+            vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}`)
    
     data = Array.from(JSON.parse(JSON.stringify(data)))
 
