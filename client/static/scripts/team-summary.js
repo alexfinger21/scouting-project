@@ -144,6 +144,7 @@ function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: hidden !important")
                 ctx = scatterPlotCanvas.getContext("2d")
+                break
             case "bar":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
                 scatterPlotCanvas.setAttribute("style", "display: hidden !important")
@@ -152,6 +153,7 @@ function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: hidden !important")
                 ctx = barGraphCanvas.getContext("2d")
+                break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
                 scatterPlotCanvas.setAttribute("style", "display: hidden !important")
@@ -159,12 +161,15 @@ function main() {
                 barGraphCanvas.setAttribute("style", "display: hidden !important")
                 spiderCanvas.removeAttribute("hidden")
                 spiderCanvas.removeAttribute("style")
+                console.trace()
                 ctx = spiderCanvas.getContext("2d")
+                break
         }
     }
 
 
     async function drawChart(number) {
+        consoleLog("DRAW CHART:", number)
         const oldCurrentChart = currentChart
 
         if (debounce) { return }
@@ -176,7 +181,7 @@ function main() {
             case 0:
                 switchChart("scatter")
                 ctx = scatterPlotCanvas.getContext("2d")
-                points = await getPoints("api_rank", "avg_gm_score")
+                points = await getPoints("api_rank", "total_game_score_avg")
 
                 if (oldCurrentChart == currentChart) {
                     chart = new Chart(ctx,
@@ -207,7 +212,7 @@ function main() {
                 }
                 break
             case 2:
-                consoleLog("Current chart is: ")
+                consoleLog("hahaha")
                 switchChart("spider")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
                 consoleLog(points)
