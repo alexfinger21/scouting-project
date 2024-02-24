@@ -160,6 +160,19 @@ h1 {
     overflow: auto;
 }
 
+#tooltip {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #FFF;
+}
+
+#tooltip th{
+    font-weight: bold;
+}
+
+#tooltip tr {
+    background: transparent !important;
+}
+
 #chart-area-wrapper {
     height: 50vh;
     width: 100%;

@@ -1,37 +1,83 @@
 import { selectRandom, getColor, consoleLog } from "./utility.js"
 import { getTeamColor } from "./teamColor.js"
 
-const data1 = {
-    labels: [
-        'Eating',
-        'Drinking',
-        'Sleeping',
-        'Designing',
-        'Coding',
-        'Cycling',
-        'Running'
-    ],
-    datasets: [{
-        label: 'My First Dataset',
-        data: [65, 59, 90, 81, 56, 55, 40],
-        fill: true,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgb(255, 99, 132)',
-        pointBackgroundColor: 'rgb(255, 99, 132)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgb(255, 99, 132)'
-    }, {
-        label: 'My Second Dataset',
-        data: [28, 48, 40, 19, 96, 27, 100],
-        fill: true,
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgb(54, 162, 235)',
-        pointBackgroundColor: 'rgb(54, 162, 235)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgb(54, 162, 235)'
-    }]
+function createTooltip(context) {
+    consoleLog("context", context)
+    // Tooltip Element
+    let tooltipEl = document.getElementById('tooltip')
+
+    // Create element on first render
+    if (!tooltipEl) {
+        tooltipEl = document.createElement('div')
+        tooltipEl.id = 'tooltip'
+        tooltipEl.innerHTML = '<table></table>'
+        document.body.appendChild(tooltipEl)
+    }
+
+    // Hide if no tooltip
+    const tooltipModel = context.tooltip
+    const data = tooltipModel.dataPoints[0].raw
+    if (tooltipModel.opacity === 0) {
+        tooltipEl.style.opacity = 0
+        return
+    }
+
+    // Set caret Position
+    tooltipEl.classList.remove('above', 'below', 'no-transform')
+    if (tooltipModel.yAlign) {
+        tooltipEl.classList.add(tooltipModel.yAlign)
+    } else {
+        tooltipEl.classList.add('no-transform')
+    }
+
+    function getBody(bodyItem) {
+        return bodyItem.lines
+    }
+
+    // Set Text
+    if (tooltipModel.body) {
+        let titleLines = tooltipModel.title || []
+        let bodyLines = {
+            "Game Score": data.gameScore,
+            "Rank": data.rank,
+            "OPR": data.opr,
+            "Teleop Score": data.teleopScore,
+            "Auton Notes": data.autonNotes,
+            "Games Played": data.gamesPlayed,
+        }
+
+        let innerHtml = '<thead>'
+
+        //title
+        if(data.teamNumber) {
+            innerHtml += `<tr><th>${data.teamNumber} - ${data.teamName}</th></tr>`
+        }
+
+        innerHtml += '</thead><tbody>'
+
+        for (const [k, v] of Object.entries(bodyLines)) {
+            const span = `<span>${k}: ${v}</span>`
+            innerHtml += '<tr><td>' + span + '</td></tr>'
+        }
+
+        innerHtml += '</tbody>'
+
+        let tableRoot = tooltipEl.querySelector('table')
+        tableRoot.innerHTML = innerHtml
+    }
+
+    let position = context.chart.canvas.getBoundingClientRect()
+    let bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont)
+
+    // Display, position, and set styles for font
+    tooltipEl.style.opacity = 1
+    tooltipEl.style.position = 'absolute'
+    tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px'
+    tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px'
+    tooltipEl.style.font = bodyFont.string
+    tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px'
+    tooltipEl.style.pointerEvents = 'none'
+
 }
 
 function writeData(points) {
@@ -70,7 +116,7 @@ async function getTeamData(team, records, existingColors) {
             existingColors.push(color)
             return resolve({
                 label: team.teamNumber,
-                hidden: team.hidden,  
+                hidden: team.hidden,
                 data: [
                     1 - team.rank / records.rank,
                     team.opr / records.opr,
@@ -144,55 +190,22 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
         data: writeData(points),
         options: {
             maintainAspectRatio: false,
-            tooltips: {
-                bodyFontStyle: "bold",
-                footerFontStyle: "normal",
-                callbacks: {
-                    label: function (tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
-                        let teamNumber = data.teamNumber[tooltipItem.index]
-                        let text = ["Team " + teamNumber]
-                        return text
-                    },
-                    //color does not appear before the footer
-                    footer: function (tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
-                        let index = tooltipItems[0].index
-                        let teamName = data.teamName[index]
-                        let rank = data.rank[index]
-                        let gamesPlayed = data.gamesPlayed[index]
-                        let gameScore = data.gameScore[index]
-                        let links = data.links[index]
-                        let autoDocking = data.autoDocking[index]
-                        let endgameDocking = data.endgameDocking[index]
-
-                        return [
-                            "Name: " + teamName,
-                            "Rank: " + rank,
-                            "Games Played: " + gamesPlayed,
-                            "Avg Game Score: " + gameScore,
-                            "Avg Links: " + links,
-                            "Avg Auto Chg Dock: " + autoDocking,
-                            "Avg Endgame Chg Dock: " + endgameDocking
-                        ]
-                    }
-                }
-            },
             scales: {
-                xAxes: [{
-                    scaleLabel: {
+                x: {
+                    title: {
                         display: true,
-                        labelString: xAxisTitle,
+                        text: xAxisTitle,
                     },
-                }],
-
-                yAxes: [{
-                    scaleLabel: {
+                    position: 'bottom',
+                },
+                y: {
+                    title: {
                         display: true,
-                        labelString: yAxisTitle,
-                    }
-                }],
-            },
-            legend: {
-                display: false
+                        text: yAxisTitle,
+                    },
+                    position: 'left',
+                },
+                
             },
             layout: {
                 padding: {
@@ -200,15 +213,53 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                     right: 20,
                     bottom: 0
                 }
+            },
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    enabled: false,
+                    external: createTooltip
+                    /*callbacks: {
+                        label: function(tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
+                            consoleLog("Hi!!")
+                            let teamNumber = data.teamNumber[tooltipItem.index]
+                            let text = ["Team " + teamNumber]
+                            return text
+                        },
+                        //color does not appear before the footer
+                        footer: function(tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
+                            let index = tooltipItems[0].index
+                            let teamName = data.teamName[index]
+                            let rank = data.rank[index]
+                            let gamesPlayed = data.gamesPlayed[index]
+                            let gameScore = data.gameScore[index]
+                            let links = data.links[index]
+                            let autoDocking = data.autoDocking[index]
+                            let endgameDocking = data.endgameDocking[index]
+    
+                            return [
+                                "Name: " + teamName,
+                                "Rank: " + rank,
+                                "Games Played: " + gamesPlayed,
+                                "Avg Game Score: " + gameScore,
+                                "Avg Links: " + links,
+                                "Avg Auto Chg Dock: " + autoDocking,
+                                "Avg Endgame Chg Dock: " + endgameDocking
+                            ]
+                        }
+                    }*/
+                },
             }
-        }
+        },
     }
 }
 
 function createBarGraph(points, orderBy, stepValue) {
     consoleLog("STEP VALUE: " + stepValue)
     return {
-        type: 'horizontalBar',
+        type: 'bar',
         data: {
             teamNumber: points.map(p => p.teamNumber),
             teamName: points.map(p => p.teamName),
@@ -229,14 +280,12 @@ function createBarGraph(points, orderBy, stepValue) {
                 data: points.map(p => {
                     if (orderBy == "gameScore" || orderBy == "autoDocking" || orderBy == "endgameDocking") {
                         return Math.round(p[orderBy])
-                    }
-                    else if (orderBy == "links") {
+                    } else if (orderBy == "links") {
                         if (p.links) {
                             return p.links.toFixed(1)
                         }
                         return "N/A"
-                    }
-                    else {
+                    } else {
                         return p[orderBy]
                     }
                 }),
@@ -246,10 +295,8 @@ function createBarGraph(points, orderBy, stepValue) {
             }]
         },
         options: {
-            legend: {
-                display: false
-            },
             //maintainAspectRatio: false,
+            indexAxis: "y",
             scales: {
                 xAxes: [{
                     position: "top",
@@ -273,44 +320,12 @@ function createBarGraph(points, orderBy, stepValue) {
                     }
                 }],
             },
-            tooltips: {
-                bodyFontStyle: "bold",
-                footerFontStyle: "normal",
-                callbacks: {
-                    label: function (tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
-                        let teamNumber = data.teamNumber[tooltipItem.index]
-                        let text = ["Team " + teamNumber]
-                        return text
-                    },
-                    //color does not appear before the footer
-                    footer: function (tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
-                        let index = tooltipItems[0].index
-                        let teamName = data.teamName[index]
-                        let rank = data.rank[index]
-                        let gamesPlayed = data.gamesPlayed[index]
-                        let gameScore = data.gameScore[index]
-                        let links = data.links[index]
-                        let autoDocking = data.autoDocking[index]
-                        let endgameDocking = data.endgameDocking[index]
-
-                        return [
-                            "Name: " + teamName,
-                            "Rank: " + rank,
-                            "Games Played: " + gamesPlayed,
-                            "Avg Game Score: " + gameScore,
-                            "Avg Links: " + links,
-                            "Avg Auto Chg Dock: " + autoDocking,
-                            "Avg Endgame Chg Dock: " + endgameDocking
-                        ]
-                    }
-                }
-            },
             //display values next to bars
             //events: false,
             hover: {
                 animationDuration: 0
             },
-            animation: {
+            /*animation: {
                 duration: 1,
                 onComplete: function () {
                     let chartInstance = this.chart,
@@ -329,18 +344,55 @@ function createBarGraph(points, orderBy, stepValue) {
                         });
                     });
                 }
-            }
-        },
-        plugins: {
-            zoom: {
-                pan: {
-                    enabled: true
+            },*/
+            plugins: {
+                legend: {
+                    display: false
                 },
                 zoom: {
-                    enabled: true
-                }
+                    pan: {
+                        enabled: true
+                    },
+                    zoom: {
+                        enabled: true
+                    }
+                },
+                tooltip: {
+                    enabled: false,
+                    external: createTooltip
+                    /*  
+                    callbacks: {
+                        label: function(tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
+                            let teamNumber = data.teamNumber[tooltipItem.index]
+                            let text = ["Team " + teamNumber]
+                            return text
+                        },
+                        //color does not appear before the footer
+                        footer: function(tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
+                            let index = tooltipItems[0].index
+                            let teamName = data.teamName[index]
+                            let rank = data.rank[index]
+                            let gamesPlayed = data.gamesPlayed[index]
+                            let gameScore = data.gameScore[index]
+                            let links = data.links[index]
+                            let autoDocking = data.autoDocking[index]
+                            let endgameDocking = data.endgameDocking[index]
+    
+                            return [
+                                "Name: " + teamName,
+                                "Rank: " + rank,
+                                "Games Played: " + gamesPlayed,
+                                "Avg Game Score: " + gameScore,
+                                "Avg Links: " + links,
+                                "Avg Auto Chg Dock: " + autoDocking,
+                                "Avg Endgame Chg Dock: " + endgameDocking
+                            ]
+                        }
+                    }*/
+                },
             }
-        }
+        },
+
     }
 }
 
@@ -349,6 +401,7 @@ async function createSpiderChart(points) {
         type: "radar",
         data: await writeSpiderData(points),
         options: {
+
             maintainAspectRatio: false,
             elements: {
                 line: {
@@ -356,16 +409,16 @@ async function createSpiderChart(points) {
                 }
             },
             tooltips: {
-                bodyFontStyle: "bold",
-                footerFontStyle: "normal",
-                callbacks: {
-                    label: function (tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
+                enabled: false,
+                external: createTooltip,
+                /*callbacks: {
+                    label: function(tooltipItem, data) { //tooltipitem is the tooltip item object (not an array)
                         let teamNumber = data.teamNumber[tooltipItem.index]
                         let text = ["Team " + teamNumber]
                         return text
                     },
                     //color does not appear before the footer
-                    footer: function (tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
+                    footer: function(tooltipItems, data) { //tooltipitems is an array, where the zeroth index is the selected tooltip
                         let index = tooltipItems[0].index
                         let teamName = data.teamName[index]
                         let rank = data.rank[index]
@@ -385,9 +438,9 @@ async function createSpiderChart(points) {
                             "Avg Endgame Chg Dock: " + endgameDocking
                         ]
                     }
-                }
+                }*/
             },
-            
+
             scales: {
                 r: {
                     angleLines: {
@@ -426,7 +479,7 @@ async function createSpiderChart(points) {
                         boxWidth: 8,
                         boxHeight: 8,
                         font: {
-                            size: 10    
+                            size: 10
                         },
                         /*generateLabels: chart => {
                             return chart.data.datasets.map((set, i) => {
@@ -451,7 +504,7 @@ async function createSpiderChart(points) {
                             ci.show(index);
                             legendItem.hidden = false;
                         }
-                    }   */                 
+                    }   */
                 }
             }
         }
