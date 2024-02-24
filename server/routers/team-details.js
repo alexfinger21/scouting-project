@@ -25,6 +25,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
             frc_season_master_sm_year = ${gameConstants.YEAR} AND
             competition_master_cm_event_code = ${gameConstants.COMP} AND 
             game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`)
+
     team_results = JSON.parse(JSON.stringify(team_results))
     const teamNumber = req.query.team || 695
     const selectedPage = req.query.selectedPage || "game-data-page"
@@ -43,12 +44,12 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     let [err2, results] = await database.query(SQL`SELECT 
         * 
         FROM 
-            teamsixn_scouting_dev.v_match_team_score_cncb_count vmts
+            teamsixn_scouting_dev.v_match_detail vmd
         WHERE
-            vmts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-            vmts.competition_master_cm_event_code = ${gameConstants.COMP} AND 
-            vmts.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
-            vmts.team_master_tm_number = ${teamNumber};`)
+            vmd.frc_season_master_sm_year = ${gameConstants.YEAR} AND
+            vmd.competition_master_cm_event_code = ${gameConstants.COMP} AND 
+            vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
+            vmd.team_master_tm_number = ${teamNumber};`)
 
     results = JSON.parse(JSON.stringify(results))
 
