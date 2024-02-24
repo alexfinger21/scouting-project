@@ -1,5 +1,7 @@
-import { selectRandom, getColor, consoleLog, requestPage, paths } from "./utility.js"
+import { selectRandom, getColor, consoleLog, requestPage, paths, deepMerge } from "./utility.js"
 import { getTeamColor } from "./teamColor.js"
+
+const CHART_SIZE_CONST = Math.max(screen.height/screen.width * 1.3, 1.2)
 
 function createTooltip(context) {
     consoleLog("context", context)
@@ -126,7 +128,7 @@ function writeData(points) {
 
         datasets: [{
             label: 'Legend',
-            pointRadius: 4,
+            pointRadius: 5 * CHART_SIZE_CONST,
             //pointStyle: points.map(p => p.shape),
             borderColor: points.map(p => p.color),
             pointBackgroundColor: points.map(p => p.color),
@@ -203,7 +205,7 @@ async function writeSpiderData(points) {
         labels: [
             "Rank", "OPR", "Games Played", "Game Score", "Teleop Score", "Auton Notes"
         ],
-        datasets: await Promise.all(data)
+        datasets: (await Promise.all(data)).sort((a, b) => a.label - b.label)
     }
     consoleLog("RES: ", res)
     return res
@@ -219,16 +221,33 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
             maintainAspectRatio: false,
             scales: {
                 x: {
+                    ticks: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST,
+                        }
+                    },
+
                     title: {
                         display: true,
                         text: xAxisTitle,
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
                     },
                     position: 'bottom',
                 },
                 y: {
+                    ticks: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST,
+                        }
+                    },
                     title: {
                         display: true,
                         text: yAxisTitle,
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
                     },
                     position: 'left',
                 },
@@ -244,6 +263,12 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
             plugins: {
                 legend: {
                     display: false,
+                    labels: {
+                        usePointStyle: true,
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
+                    }
                 },
                 tooltip: {
                     enabled: false,
@@ -286,6 +311,10 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
 function createBarGraph(points, orderBy, stepValue) {
     consoleLog("STEP VALUE: " + stepValue)
     consoleLog("PTS:", points)
+
+    consoleLog("CHART_SIZE: ", 10 * screen.height/CHART_SIZE_CONST)
+
+
     return {
         type: 'bar',
         data: {
@@ -314,34 +343,29 @@ function createBarGraph(points, orderBy, stepValue) {
                 }),
                 backgroundColor: points.map(p => p.color),
                 borderColor: points.map(p => p.color),
-                borderWidth: 1
+                borderWidth: 1,
+                pointRadius: 26 * CHART_SIZE_CONST 
             }]
         },
         options: {
             //maintainAspectRatio: false,
             indexAxis: "y",
             scales: {
-                xAxes: [{
+                x: {
                     position: "top",
                     ticks: {
-                        beginAtZero: true,
-                        steps: 10,
-                        stepValue: stepValue,
-                        max: stepValue * 10 //max value for the chart is 60
-                    },
-
-                    scaleLabel: {
-                        display: false,
-                        //labelString: xAxisTitle,
-                    },
-                }],
-
-                yAxes: [{
-                    scaleLabel: {
-                        display: false,
-                        //labelString: yAxisTitle,
+                        font: {
+                            size: 9 * CHART_SIZE_CONST
+                        }
                     }
-                }],
+                },
+                y: {
+                    ticks: {
+                        font: {
+                            size: 9 * CHART_SIZE_CONST
+                        }
+                    } 
+                }
             },
             //display values next to bars
             //events: false,
@@ -370,7 +394,10 @@ function createBarGraph(points, orderBy, stepValue) {
             },*/
             plugins: {
                 legend: {
-                    display: false
+                    display: false,
+                    labels: {
+                        usePointStyle: true
+                    }
                 },
                 zoom: {
                     pan: {
@@ -471,11 +498,11 @@ async function createSpiderChart(points) {
                     },
                     ticks: {
                         display: false,
-                        fontSize: 80,
+                        fontSize: 10 * CHART_SIZE_CONST,
                     },
                     pointLabels: {
                         font: {
-                            size: .35 * Math.sqrt(screen.height),
+                            size: 10 * CHART_SIZE_CONST,
                         }
                     }
                 },
@@ -502,7 +529,7 @@ async function createSpiderChart(points) {
                         boxWidth: 8,
                         boxHeight: 8,
                         font: {
-                            size: 10
+                            size: 10 * CHART_SIZE_CONST
                         },
                         /*generateLabels: chart => {
                             return chart.data.datasets.map((set, i) => {
