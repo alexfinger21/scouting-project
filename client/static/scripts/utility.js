@@ -157,5 +157,35 @@ async function requestPage(url, data, pageVal) {
     })
 }
 
+function isObject(o) {
+    return o && typeof(o) == "object" && !Array.isArray(o)
+}
 
-export {consoleLog, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+function deepMerge(target, ...sources) {
+    for (const s of sources) {
+        if (isObject(s)) {
+            for (const k of Object.keys(s)) {
+                if (isObject(s[k])) {
+                    if (isObject(target[k])) {
+                        deepMerge(target[k], s[k])
+                    } else {
+                        target[k] = Object.assign({}, s[k])
+                    }
+                }
+                else {
+                    if (isObject(target[k])) {
+                        Object.assign(target[k], {[k]: s[k]})
+                    } else {
+                        target[k] = s[k]
+                    }
+                }
+            }
+        }
+    }
+
+    return target
+}
+
+//console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
+
+export {consoleLog, isObject, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
