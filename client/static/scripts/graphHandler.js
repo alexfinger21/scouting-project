@@ -354,6 +354,11 @@ function createBarGraph(points, orderBy, stepValue) {
                         font: {
                             size: 9 * CHART_SIZE_CONST
                         }
+                    },
+                    title: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
                     }
                 },
                 y: {
@@ -361,7 +366,12 @@ function createBarGraph(points, orderBy, stepValue) {
                         font: {
                             size: 9 * CHART_SIZE_CONST
                         }
-                    } 
+                    }, 
+                    title: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
+                    }
                 }
             },
             //display values next to bars
@@ -482,6 +492,16 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                         display: false,
                         //labelString: xAxisTitle,
                     },
+                    ticks: {
+                        font: {
+                            size: 9 * CHART_SIZE_CONST
+                        }
+                    },
+                    title: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
+                    }
                 },
 
                 y: {
@@ -490,7 +510,17 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                         display: false,
                         //labelString: yAxisTitle,
                     },
-                },
+                    ticks: {
+                        font: {
+                            size: 12 * CHART_SIZE_CONST
+                        }
+                    },
+                    title: {
+                        font: {
+                            size: 11 * CHART_SIZE_CONST
+                        }
+                    }
+                }
             },
             //display values next to bars
             //events: false,
@@ -499,7 +529,12 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
             },
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
+                    labels: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
+                    }
                 },
                 zoom: {
                     pan: {
@@ -517,6 +552,17 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                     color: "#36A2EB",
                     anchor: "end",
                     align: "end",
+
+                    labels: {
+                        title: {
+                            font: {
+                                size: 16 * CHART_SIZE_CONST
+                            }
+                        }
+                    },
+                    padding: {
+                        left: 10,
+                    },
                     formatter: function(value, context) {
                         if(context.datasetIndex == 2) {
                             consoleLog(scoring, "in", context.chart.data)
@@ -524,9 +570,6 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                         }
                         return ''
                     },
-                    padding: {
-                        left: 10,
-                    }
                 }
             },
         },
