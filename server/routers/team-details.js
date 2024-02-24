@@ -8,112 +8,102 @@ const SQL = require('sql-template-strings')
 
 function mergeDicts(dict1, dict2) {
     if (dict1 && dict2) {
-        for (const [key, value] of Object.entries(dict2)) {
-            dict1[key] = value
-        }
+        dict1 = Object.assign(dict1, dict2)   
     }
 
     return dict1
 }
 
-router.get("/", function (req, res) { //only gets used if the url == team-details
+router.get("/", async function (req, res) { //only gets used if the url == team-details
     consoleLog("recieved")
     const start = Date.now()
-    database.query(SQL`SELECT 
+    let [err1, team_results] = await database.query(SQL`SELECT 
         *
         FROM 
             teamsixn_scouting_dev.tmp_match_strategy
         WHERE
             frc_season_master_sm_year = ${gameConstants.YEAR} AND
             competition_master_cm_event_code = ${gameConstants.COMP} AND 
-            game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`,
-        (err, team_results) => {
-            team_results = JSON.parse(JSON.stringify(team_results))
-            const teamNumber = req.query.team || 695
-            const selectedPage = req.query.selectedPage || "game-data-page"
+            game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`)
+    team_results = JSON.parse(JSON.stringify(team_results))
+    const teamNumber = req.query.team || 695
+    const selectedPage = req.query.selectedPage || "game-data-page"
 
-            consoleLog("TEAM RESULTS")
-            consoleLog(team_results)
+    consoleLog("TEAM RESULTS")
+    consoleLog(team_results)
 
-            let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
-            if(teamInfo == null || teamInfo == undefined) {
-                teamInfo = team_results[0]
-            }
+    let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
+    if(teamInfo == null || teamInfo == undefined) {
+        teamInfo = team_results[0]
+    }
 
-            consoleLog("TEAM INFO")
-            consoleLog(teamInfo)
+    consoleLog("TEAM INFO")
+    consoleLog(teamInfo)
 
-            database.query(SQL`SELECT 
-                * 
-                FROM 
-                    teamsixn_scouting_dev.v_match_team_score_cncb_count vmts
-                WHERE
-                    vmts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-                    vmts.competition_master_cm_event_code = ${gameConstants.COMP} AND 
-                    vmts.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
-                    vmts.team_master_tm_number = ${teamNumber};`,
-                (err, results) => {
-                    results = JSON.parse(JSON.stringify(results))
+    let [err2, results] = await database.query(SQL`SELECT 
+        * 
+        FROM 
+            teamsixn_scouting_dev.v_match_team_score_cncb_count vmts
+        WHERE
+            vmts.frc_season_master_sm_year = ${gameConstants.YEAR} AND
+            vmts.competition_master_cm_event_code = ${gameConstants.COMP} AND 
+            vmts.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
+            vmts.team_master_tm_number = ${teamNumber};`)
 
-                    consoleLog("TEAM: " + teamNumber)
+    results = JSON.parse(JSON.stringify(results))
 
-                    database.query(database.getTeamPictures(teamNumber), async (err, pictures) => {
-                        consoleLog("PICTURES")
-                        consoleLog(pictures)
+    consoleLog("TEAM: " + teamNumber, results)
 
-                        pictures = JSON.parse(JSON.stringify(pictures))
-                        consoleLog("PICTURES: ")
-                        consoleLog(pictures[0])
+    let [err3, pictures] = await database.query(database.getTeamPictures(teamNumber))
 
-                        const websiteURLs = await getImageData("image", teamNumber)
+    pictures = JSON.parse(JSON.stringify(pictures))
+    consoleLog("PICTURES: ")
+    consoleLog(pictures)
 
-                        let urls = []
-                        if (pictures.length > 0) {
-                            teamInfo = mergeDicts(teamInfo, pictures[0])
-                            consoleLog("MERGED: ")
-                            consoleLog(teamInfo)
-                            if(teamInfo.ps_picture_full_robot != null && teamInfo.ps_picture_full_robot.length > 0) {
-                                urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_full_robot.split("id=").pop())
-                            }
-                            if(teamInfo.ps_picture_drivetrain != null && teamInfo.ps_picture_drivetrain.length > 0) {
-                                urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_drivetrain.split("id=").pop())
-                            }
-                        }
+    const websiteURLs = await getImageData("image", teamNumber)
 
-                        urls = [...websiteURLs, ...urls]
+    let urls = []
+    if (pictures.length > 0) {
+        teamInfo = mergeDicts(teamInfo, pictures[0])
+        consoleLog("MERGED: ")
+        consoleLog(teamInfo)
+        if(teamInfo.ps_picture_full_robot != null && teamInfo.ps_picture_full_robot.length > 0) {
+            urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_full_robot.split("id=").pop())
+        }
+        if(teamInfo.ps_picture_drivetrain != null && teamInfo.ps_picture_drivetrain.length > 0) {
+            urls.push("https://drive.google.com/uc?export=view&id=" + teamInfo.ps_picture_drivetrain.split("id=").pop())
+        }
+    }
 
-                        let index = urls.indexOf(undefined)
+    urls = [...websiteURLs, ...urls]
 
-                        while (index > -1) {
-                            urls.splice(index, 1)
-                            index = urls.indexOf(undefined)
-                        }
+    let index = urls.indexOf(undefined)
 
-                        consoleLog("URL: ")
-                        consoleLog(urls)
+    while (index > -1) {
+        urls.splice(index, 1)
+        index = urls.indexOf(undefined)
+    }
 
-                        database.query(database.getMatchComments(teamNumber), (err, comments) => {
-                            comments = JSON.parse(JSON.stringify(comments))
+    consoleLog("URL: ")
+    consoleLog(urls)
 
-                            consoleLog("COMMENTS: ")
-                            consoleLog(comments)
+    let [err4, comments] = await database.query(database.getMatchComments(teamNumber))
+    comments = JSON.parse(JSON.stringify(comments))
 
-                            consoleLog("the request took " + (Date.now() - start) / 1000)
+    consoleLog("COMMENTS: ")
+    consoleLog(comments)
 
-                            res.render("team-details", {
-                                teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
-                                teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
-                                teamInfo: teamInfo,
-                                selectedTeam: teamNumber,
-                                teamPictures: urls,
-                                comments: comments,
-                                selectedPage: selectedPage
-                            })
-                        })
-                    })
-                })
+    consoleLog("the request took " + (Date.now() - start) / 1000)
 
-        })
+    res.render("team-details", {
+        teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
+        teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
+        teamInfo: teamInfo,
+        selectedTeam: teamNumber,
+        teamPictures: urls,
+        comments: comments,
+        selectedPage: selectedPage
+    })
 })
 
 router.post("/", function (req, res) {
