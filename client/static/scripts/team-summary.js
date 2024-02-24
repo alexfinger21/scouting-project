@@ -89,7 +89,12 @@ async function getPoints(x, y, color) {
             autonSpeaker: val.auton_notes_speaker_avg,
             autonAmp: val.auton_notes_amp_avg,
             autonNotes: val.auton_notes_amp_avg + val.auton_notes_speaker_avg,
+            autonUnused: Math.max(val.auton_notes_pickup_avg - val.auton_notes_amp_avg - val.auton_notes_speaker_avg, 0),
+            autonScore: val.auton_notes_amp_avg * 2 + val.auton_notes_speaker_avg * 5,
             teleopScore: val.teleop_total_score_avg,
+            teleopSpeakerAmped: val.teleop_notes_speaker_amped_avg,
+            teleopSpeaker: val.teleop_notes_speaker_not_amped_avg,
+            teleopAmp: val.teleop_notes_amp_avg,
             rank: val.api_rank,
             opr: val.api_opr,
             x: val[x],
@@ -212,7 +217,6 @@ function main() {
                 }
                 break
             case 2:
-                consoleLog("hahaha")
                 switchChart("spider")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
                 consoleLog(points)
@@ -226,7 +230,6 @@ function main() {
                     )
                     consoleLog("CONF:")
                     consoleLog(config)
-                    consoleLog("Hi!")
                     chart = new Chart(ctx,
                         config
                     )
@@ -241,10 +244,11 @@ function main() {
                 if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.links - a.links })
                     chart = new Chart(ctx,
-                        graphHandler.createBarGraph(
+                        graphHandler.createStackedBarGraph(
                             points,
-                            "links",
-                            1
+                            ["autonUnused", "autonAmp", "autonSpeaker"],
+                            1,
+                            "autonScore",
                         )
                     )
                 }
@@ -257,10 +261,11 @@ function main() {
                 if (oldCurrentChart == currentChart) {
                     points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
                     chart = new Chart(ctx,
-                        graphHandler.createBarGraph(
+                        graphHandler.createStackedBarGraph(
                             points,
-                            "autoDocking",
-                            1.2
+                            ["teleopAmp", "teleopSpeaker"],
+                            1,
+                            "teleopScore",
                         )
                     )
                 }

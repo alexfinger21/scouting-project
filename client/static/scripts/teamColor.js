@@ -13,6 +13,10 @@ function stringToRGB(color) {
     return [arr[0], arr[1], arr[2]]
 }
 
+function RGBToString([r, g, b]) {
+    return `rgb(${r},${g},${b})`
+}
+
 function hexToRGB(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? [
@@ -74,6 +78,14 @@ async function getTeamColor(team, teamName, existingColors) {
         })
 }
 
+function darkenRGB([r, g, b], level) {
+    return [Math.round(r / level), Math.round(g / level), Math.round(b / level)]
+}
+
+function darkenRGBString(str, level) {
+    return RGBToString(darkenRGB(stringToRGB(str), level))
+}
+
 /*test code
 
 const existingColors = []
@@ -86,4 +98,4 @@ for (const team of teams) {
     })
 } */
 
-export {getTeamColor}
+export {getTeamColor, darkenRGBString}
