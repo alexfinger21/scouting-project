@@ -1,4 +1,4 @@
-import { selectRandom, getColor, consoleLog } from "./utility.js"
+import { selectRandom, getColor, consoleLog, requestPage, paths } from "./utility.js"
 import { getTeamColor } from "./teamColor.js"
 
 function createTooltip(context) {
@@ -16,11 +16,18 @@ function createTooltip(context) {
 
     // Hide if no tooltip
     const tooltipModel = context.tooltip
-    const data = tooltipModel.dataPoints[0].raw
-    if (tooltipModel.opacity === 0) {
-        tooltipEl.style.opacity = 0
-        return
+    let data
+    if(typeof(tooltipModel.dataPoints[0].raw) == "object") {
+        data = tooltipModel.dataPoints[0].raw
     }
+    else {
+        data = {}
+        for(const [k, v] of Object.entries(context.chart.config._config.data)) {
+            data[k] = v[tooltipModel.dataPoints[0].datasetIndex]
+        }
+    }
+
+    consoleLog("newdata", data)
 
     // Set caret Position
     tooltipEl.classList.remove('above', 'below', 'no-transform')
@@ -60,10 +67,15 @@ function createTooltip(context) {
             innerHtml += '<tr><td>' + span + '</td></tr>'
         }
 
+        //button
+        innerHtml += `<tr><td><button id="tooltip-button" style="pointer-events: auto" >Details</button><tr><td>`
+
+
         innerHtml += '</tbody>'
 
-        let tableRoot = tooltipEl.querySelector('table')
+        const tableRoot = tooltipEl.querySelector('table')
         tableRoot.innerHTML = innerHtml
+
     }
 
     let position = context.chart.canvas.getBoundingClientRect()
@@ -71,12 +83,26 @@ function createTooltip(context) {
 
     // Display, position, and set styles for font
     tooltipEl.style.opacity = 1
+    tooltipEl.style.zIndex = 10
     tooltipEl.style.position = 'absolute'
     tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px'
     tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px'
     tooltipEl.style.font = bodyFont.string
-    tooltipEl.style.padding = tooltipModel.padding + 'px ' + tooltipModel.padding + 'px'
     tooltipEl.style.pointerEvents = 'none'
+    
+    const btn = document.getElementById("tooltip-button")
+    if(btn) {
+        btn.onclick = () => {
+            consoleLog("Clicked")
+            requestPage(paths.teamDetails + "?team=" + data.teamNumber, {}, paths.teamDetails )
+            const hoverButton = document.getElementById("hover-button")
+            if(hoverButton) {
+                hoverButton.style.opacity = 0
+            }
+            //hide tooltip
+            tooltipEl.style.opacity = 0
+        }
+    }
 
 }
 
@@ -189,6 +215,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
         type: "scatter",
         data: writeData(points),
         options: {
+            events: ["click"],
             maintainAspectRatio: false,
             scales: {
                 x: {
@@ -258,6 +285,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
 
 function createBarGraph(points, orderBy, stepValue) {
     consoleLog("STEP VALUE: " + stepValue)
+    consoleLog("PTS:", points)
     return {
         type: 'bar',
         data: {
@@ -266,14 +294,9 @@ function createBarGraph(points, orderBy, stepValue) {
             rank: points.map(p => p.rank),
             gamesPlayed: points.map(p => p.gamesPlayed),
             gameScore: points.map(p => Math.round(p.gameScore)),
-            links: points.map((p) => {
-                if (p.links) {
-                    return p.links.toFixed(1)
-                }
-                return "N/A"
-            }),
-            autoDocking: points.map(p => Math.round(p.autoDocking)),
-            endgameDocking: points.map(p => Math.round(p.endgameDocking)),
+            opr: points.map(p => Math.round(p.opr)),
+            teleopScore: points.map(p => Math.round(p.teleopScore)),
+            autonNotes: points.map(p => Math.round(p.autonNotes)),
             labels: points.map(p => p.teamNumber),
             datasets: [{
                 label: 'Legend',
