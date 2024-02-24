@@ -95,6 +95,7 @@ async function getPoints(x, y, color) {
             teleopSpeakerAmped: val.teleop_notes_speaker_amped_avg,
             teleopSpeaker: val.teleop_notes_speaker_not_amped_avg,
             teleopAmp: val.teleop_notes_amp_avg,
+            onstage: val.endgame_onstage_points_avg,
             rank: val.api_rank,
             opr: val.api_opr,
             x: val[x],
@@ -132,6 +133,7 @@ function main() {
     const chartAreaWrapper = document.getElementById("chart-area-wrapper")
     const scatterPlotCanvas = document.getElementById("scatterplot-chart")
     const barGraphCanvas = document.getElementById("bar-graph-chart")
+    //barGraphCanvas.style.height = "200% !important"
     const spiderCanvas = document.getElementById("spider-chart")
     let ctx
 
@@ -247,7 +249,6 @@ function main() {
                         graphHandler.createStackedBarGraph(
                             points,
                             ["autonUnused", "autonAmp", "autonSpeaker"],
-                            1,
                             "autonScore",
                         )
                     )
@@ -264,7 +265,6 @@ function main() {
                         graphHandler.createStackedBarGraph(
                             points,
                             ["teleopAmp", "teleopSpeaker"],
-                            1,
                             "teleopScore",
                         )
                     )
@@ -280,8 +280,7 @@ function main() {
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
-                            "endgameDocking",
-                            1
+                            "onstage"
                         )
                     )
                 }
@@ -296,8 +295,7 @@ function main() {
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
-                            "gamesPlayed",
-                            3
+                            "gamesPlayed"
                         )
                     )
                 }

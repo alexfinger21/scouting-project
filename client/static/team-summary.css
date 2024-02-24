@@ -171,6 +171,14 @@ h1 {
     font-weight: bold;
 }
 
+#tooltip td {
+    font-size: 1.5vh;
+}
+
+#tooltip th {
+    font-size: 1.8vh;
+}
+
 #tooltip tr {
     background: transparent !important;
 }
