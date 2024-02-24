@@ -89,8 +89,8 @@ function createTooltip(context) {
     tooltipEl.style.opacity = 1
     tooltipEl.style.zIndex = 10
     tooltipEl.style.position = 'absolute'
-    tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px'
-    tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px'
+    tooltipEl.style.left = Math.min( screen.width - tooltipEl.clientWidth, position.left + window.scrollX + tooltipModel.caretX) + 'px'
+    tooltipEl.style.top = position.top + window.scrollY + tooltipModel.caretY + 'px'
     tooltipEl.style.font = bodyFont.string
     tooltipEl.style.pointerEvents = 'none'
     
@@ -128,6 +128,7 @@ function writeDataLists(points) {
         teleopSpeakerAmped: points.map(p => p.teleopSpeakerAmped.toFixed(1)),
         teleopSpeaker: points.map(p => p.teleopSpeaker.toFixed(1)),
         teleopAmp: points.map(p => p.teleopAmp.toFixed(1)),
+        onstage: points.map(p => p.onstage.toFixed(1)),
     }
 }
 
@@ -304,25 +305,28 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
     }
 }
 
-function createBarGraph(points, orderBy, stepValue) {
-    consoleLog("STEP VALUE: " + stepValue)
+function createBarGraph(points, orderBy) {
+    points = points.sort( (a, b) => b[orderBy] - a[orderBy])
     consoleLog("PTS:", points)
 
-    consoleLog("CHART_SIZE: ", 10 * screen.height/CHART_SIZE_CONST)
+    consoleLog("TYPE A", {teamNumber: points.map(p => p.teamNumber),
+        teamName: points.map(p => p.teamName),
+        rank: points.map(p => p.rank),
+        gamesPlayed: points.map(p => p.gamesPlayed),
+        gameScore: points.map(p => Math.round(p.gameScore)),
+        opr: points.map(p => Math.round(p.opr)),
+        teleopScore: points.map(p => Math.round(p.teleopScore)),
+        autonNotes: points.map(p => Math.round(p.autonNotes)),
+        labels: points.map(p => p.teamNumber),})
+    consoleLog("TYPE B", writeDataLists(points))
 
+    //consoleLog("CHART_SIZE: ", 10 * screen.height/CHART_SIZE_CONST)
 
     return {
         type: 'bar',
         events: ["click"],
         data: {
-            teamNumber: points.map(p => p.teamNumber),
-            teamName: points.map(p => p.teamName),
-            rank: points.map(p => p.rank),
-            gamesPlayed: points.map(p => p.gamesPlayed),
-            gameScore: points.map(p => Math.round(p.gameScore)),
-            opr: points.map(p => Math.round(p.opr)),
-            teleopScore: points.map(p => Math.round(p.teleopScore)),
-            autonNotes: points.map(p => Math.round(p.autonNotes)),
+            ...writeDataLists(points),
             labels: points.map(p => p.teamNumber),
             datasets: [{
                 label: 'Legend',
@@ -349,15 +353,11 @@ function createBarGraph(points, orderBy, stepValue) {
             indexAxis: "y",
             scales: {
                 x: {
+                    max: points[0][orderBy] * 1.1,
                     position: "top",
                     ticks: {
                         font: {
                             size: 9 * CHART_SIZE_CONST
-                        }
-                    },
-                    title: {
-                        font: {
-                            size: 10 * CHART_SIZE_CONST
                         }
                     }
                 },
@@ -366,12 +366,7 @@ function createBarGraph(points, orderBy, stepValue) {
                         font: {
                             size: 9 * CHART_SIZE_CONST
                         }
-                    }, 
-                    title: {
-                        font: {
-                            size: 10 * CHART_SIZE_CONST
-                        }
-                    }
+                    } 
                 }
             },
             //display values next to bars
@@ -453,10 +448,7 @@ function createBarGraph(points, orderBy, stepValue) {
     }
 }
 
-function createStackedBarGraph(points, orderBy, stepValue, scoring) {
-    consoleLog("STEP VALUE: " + stepValue)
-    consoleLog("SCORING:", points[0][scoring])
-    consoleLog("PTS:", points)
+function createStackedBarGraph(points, orderBy, scoring) {
     points = points.sort( (a, b) => b[scoring] - a[scoring])
     let max = Math.max(...points.map((p) => {
         let sum = 0
@@ -492,16 +484,6 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                         display: false,
                         //labelString: xAxisTitle,
                     },
-                    ticks: {
-                        font: {
-                            size: 9 * CHART_SIZE_CONST
-                        }
-                    },
-                    title: {
-                        font: {
-                            size: 10 * CHART_SIZE_CONST
-                        }
-                    }
                 },
 
                 y: {
@@ -510,17 +492,7 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                         display: false,
                         //labelString: yAxisTitle,
                     },
-                    ticks: {
-                        font: {
-                            size: 12 * CHART_SIZE_CONST
-                        }
-                    },
-                    title: {
-                        font: {
-                            size: 11 * CHART_SIZE_CONST
-                        }
-                    }
-                }
+                },
             },
             //display values next to bars
             //events: false,
@@ -529,12 +501,7 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
             },
             plugins: {
                 legend: {
-                    display: true,
-                    labels: {
-                        font: {
-                            size: 10 * CHART_SIZE_CONST
-                        }
-                    }
+                    display: true
                 },
                 zoom: {
                     pan: {
@@ -552,17 +519,6 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                     color: "#36A2EB",
                     anchor: "end",
                     align: "end",
-
-                    labels: {
-                        title: {
-                            font: {
-                                size: 16 * CHART_SIZE_CONST
-                            }
-                        }
-                    },
-                    padding: {
-                        left: 10,
-                    },
                     formatter: function(value, context) {
                         if(context.datasetIndex == 2) {
                             consoleLog(scoring, "in", context.chart.data)
@@ -570,6 +526,9 @@ function createStackedBarGraph(points, orderBy, stepValue, scoring) {
                         }
                         return ''
                     },
+                    padding: {
+                        left: 10,
+                    }
                 }
             },
         },
