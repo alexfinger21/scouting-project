@@ -1,5 +1,5 @@
 import { selectRandom, getColor, consoleLog, requestPage, paths, deepMerge } from "./utility.js"
-import { getTeamColor } from "./teamColor.js"
+import { darkenRGBString, getTeamColor } from "./teamColor.js"
 
 const CHART_SIZE_CONST = Math.max(screen.height/screen.width * 1.3, 1.2)
 
@@ -18,15 +18,17 @@ function createTooltip(context) {
 
     // Hide if no tooltip
     const tooltipModel = context.tooltip
+    const config = context.chart.config._config
     let data
-    if(typeof(tooltipModel.dataPoints[0].raw) == "object") {
-        data = tooltipModel.dataPoints[0].raw
+    if(config.type == "bar") {
+        data = {}
+        const idx = tooltipModel.dataPoints[0].dataIndex
+        for(const [k, v] of Object.entries(config.data)) {
+            data[k] = v[idx]
+        }
     }
     else {
-        data = {}
-        for(const [k, v] of Object.entries(context.chart.config._config.data)) {
-            data[k] = v[tooltipModel.dataPoints[0].datasetIndex]
-        }
+        data = tooltipModel.dataPoints[0].raw
     }
 
     consoleLog("newdata", data)
@@ -39,10 +41,6 @@ function createTooltip(context) {
         tooltipEl.classList.add('no-transform')
     }
 
-    function getBody(bodyItem) {
-        return bodyItem.lines
-    }
-
     // Set Text
     if (tooltipModel.body) {
         let titleLines = tooltipModel.title || []
@@ -53,6 +51,10 @@ function createTooltip(context) {
             "Teleop Score": data.teleopScore,
             "Auton Notes": data.autonNotes,
             "Games Played": data.gamesPlayed,
+            "Auton Scored": data.autonNotes,
+            "Auton Amp": data.autonAmp,
+            "Auton Speaker": data.autonSpeaker,
+            "Auton Pickup": data.autonPickup,
         }
 
         let innerHtml = '<thead>'
@@ -108,24 +110,33 @@ function createTooltip(context) {
 
 }
 
-function writeData(points) {
-    consoleLog("From write data:")
-    consoleLog("Points are")
-    consoleLog(points)
+function writeDataLists(points) {
     return {
         teamNumber: points.map(p => p.teamNumber),
         teamName: points.map(p => p.teamName),
         rank: points.map(p => p.rank),
         gamesPlayed: points.map(p => p.gamesPlayed),
-        gameScore: points.map(p => Math.round(p.ganeScore)),
-        autonSpeaker: points.map(p => Math.round(p.autonSpeaker)),
-        autonAmp: points.map(p => Math.round(p.autonAmp)),
-        autonPickup: points.map(p => Math.round(p.autonPickup)),
-        autonScored: points.map(p => Math.round(p.autonSpeaker + p.autonAmp)),
-        teleopScore: points.map(p => Math.round(p.teleopScore)),
-        rank: points.map(p => Math.round(p.rank)),
-        opr: points.map(p => Math.round(p.opr)),
+        gameScore: points.map(p => p.gameScore.toFixed(1)),
+        opr: points.map(p => p.opr.toFixed(1)),
+        teleopScore: points.map(p => p.teleopScore.toFixed(1)),
+        autonNotes: points.map(p => p.autonNotes.toFixed(1)),
+        autonAmp: points.map(p => p.autonAmp.toFixed(1)),
+        autonSpeaker: points.map(p => p.autonSpeaker.toFixed(1)),
+        autonPickup: points.map(p => p.autonPickup.toFixed(1)),
+        autonUnused: points.map(p => p.autonUnused.toFixed(1)),
+        autonScore: points.map(p => p.autonScore.toFixed(1)),
+        teleopSpeakerAmped: points.map(p => p.teleopSpeakerAmped.toFixed(1)),
+        teleopSpeaker: points.map(p => p.teleopSpeaker.toFixed(1)),
+        teleopAmp: points.map(p => p.teleopAmp.toFixed(1)),
+    }
+}
 
+function writeData(points) {
+    consoleLog("From write data:")
+    consoleLog("Points are")
+    consoleLog(points)
+    return {
+        ...writeDataLists(points),
         datasets: [{
             label: 'Legend',
             pointRadius: 5 * CHART_SIZE_CONST,
@@ -178,12 +189,7 @@ async function writeSpiderData(points) {
         rank: Math.max(...points.map(p => Math.round(p.rank))),
         opr: Math.max(...points.map(p => Math.round(p.opr))),
     }
-
-    consoleLog("RECORDS ARE")
-    consoleLog(records)
-
-
-
+    
     for (let i = 0; i < points.length; i++) {
         const team = points[i]
 
@@ -191,17 +197,7 @@ async function writeSpiderData(points) {
     }
 
     const res = {
-        teamNumber: points.map(p => p.teamNumber),
-        teamName: points.map(p => p.teamName),
-        gamesPlayed: points.map(p => p.gamesPlayed),
-        gameScore: points.map(p => Math.round(p.gameScore)),
-        autonSpeaker: points.map(p => Math.round(p.autonSpeaker)),
-        autonAmp: points.map(p => Math.round(p.autonAmp)),
-        autonPickup: points.map(p => Math.round(p.autonPickup)),
-        autonNotes: points.map(p => Math.round(p.autonSpeaker + p.autonAmp)),
-        teleopScore: points.map(p => Math.round(p.teleopScore)),
-        rank: points.map(p => Math.round(p.rank)),
-        opr: points.map(p => Math.round(p.opr)),
+        ...writeDataLists(points),
         labels: [
             "Rank", "OPR", "Games Played", "Game Score", "Teleop Score", "Auton Notes"
         ],
@@ -317,6 +313,7 @@ function createBarGraph(points, orderBy, stepValue) {
 
     return {
         type: 'bar',
+        events: ["click"],
         data: {
             teamNumber: points.map(p => p.teamNumber),
             teamName: points.map(p => p.teamName),
@@ -446,12 +443,103 @@ function createBarGraph(points, orderBy, stepValue) {
     }
 }
 
+function createStackedBarGraph(points, orderBy, stepValue, scoring) {
+    consoleLog("STEP VALUE: " + stepValue)
+    consoleLog("SCORING:", points[0][scoring])
+    consoleLog("PTS:", points)
+    points = points.sort( (a, b) => b[scoring] - a[scoring])
+    let max = Math.max(...points.map((p) => {
+        let sum = 0
+        for(const category of orderBy) {
+            sum += p[category]
+        }
+        return sum
+    }))
+    const dataLists = writeDataLists(points)
+    return {
+        type: 'bar',
+        events: ["click"],
+        data: {
+            ...dataLists,
+            labels: points.map(p => p.teamNumber),
+            datasets: orderBy.map((category, index) => ({
+                label: category,
+                data: points.map(p => p[category] ? p[category].toFixed(2) : 0),
+                backgroundColor: ["rgb(75,192,192)", "rgb(255,99,132)", "rgb(54,162,235)"][index],
+                borderColor: points.map(p => p.color),
+                borderWidth: 5
+            })),
+        },
+        options: {
+            //maintainAspectRatio: false,
+            indexAxis: "y",
+            scales: {
+                x: {
+                    position: "top",
+                    stacked: true,
+                    max: max + 2,
+                    scaleLabel: {
+                        display: false,
+                        //labelString: xAxisTitle,
+                    },
+                },
+
+                y: {
+                    stacked: true,
+                    scaleLabel: {
+                        display: false,
+                        //labelString: yAxisTitle,
+                    },
+                },
+            },
+            //display values next to bars
+            //events: false,
+            hover: {
+                animationDuration: 0
+            },
+            plugins: {
+                legend: {
+                    display: true
+                },
+                zoom: {
+                    pan: {
+                        enabled: true
+                    },
+                    zoom: {
+                        enabled: true
+                    }
+                },
+                tooltip: {
+                    enabled: false,
+                    external: createTooltip
+                },
+                datalabels: {
+                    color: "#36A2EB",
+                    anchor: "end",
+                    align: "end",
+                    formatter: function(value, context) {
+                        if(context.datasetIndex == 2) {
+                            consoleLog(scoring, "in", context.chart.data)
+                            return context.chart.data[scoring][context.dataIndex];
+                        }
+                        return ''
+                    },
+                    padding: {
+                        left: 10,
+                    }
+                }
+            },
+        },
+        plugins: [ChartDataLabels]
+
+    }
+}
+
 async function createSpiderChart(points) {
     return {
         type: "radar",
         data: await writeSpiderData(points),
         options: {
-
             maintainAspectRatio: false,
             elements: {
                 line: {
@@ -562,4 +650,4 @@ async function createSpiderChart(points) {
 }
 
 
-export { createScatterChart, createBarGraph, createSpiderChart, writeData }
+export { createScatterChart, createStackedBarGraph, createBarGraph, createSpiderChart, writeData }
