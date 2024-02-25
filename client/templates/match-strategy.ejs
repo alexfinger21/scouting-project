@@ -94,36 +94,32 @@
                         </td>
                     <% } %>
                 </tr>
-                <!--AUTON CHARGE STATION-->
+                <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Avg Auton<br>Chg Station
+                        Teleop Pts Avg
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].avg_auton_chg_station_score) || "N/A"%>
+                            <%=matchup[i].teleop_total_score_avg ? matchup[i].teleop_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--AVG LINKS-->
+                <!--AUTON AVG PTS-->
                 <tr>
                     <td>
-                        Avg Links
+                        Auton Pts Avg
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <% if(matchup[i].avg_nbr_links) {%> 
-                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
-                            <%} else { %>
-                                N/A
-                            <% } %>
+                            <%=matchup[i].auton_total_score_avg ? matchup[i].auton_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--ENDGAME CHARGE STATION-->
+                <!--ENDGAME AVG PTS-->
                 <tr>
                     <td>
-                        Avg Endgame<br>Chg Station
+                        Endgame Pts Avg
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
@@ -160,7 +156,7 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].avg_gm_score) %>
+                            <%= Math.round(matchup[i].total_game_score_avg) %>
                         </td>
                     <% } %>
                 </tr>
@@ -221,44 +217,39 @@
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <%=matchup[i].games_played || "N/A"%>
+                            <%=matchup[i].nbr_games || "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--AUTON CHARGE STATION-->
+                <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Avg Auton<br>Chg Station
+                        Teleop Pts Avg
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <%=Math.round(matchup[i].avg_auton_chg_station_score) || "N/A"%>
+                            <%=matchup[i].teleop_total_score_avg ? matchup[i].teleop_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--AVG LINKS-->
+                <!--AUTON AVG PTS-->
                 <tr>
                     <td>
-                        Avg Links
+                        Auton Pts Avg
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <% if(matchup[i].avg_nbr_links) {%> 
-                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
-                            <%} else { %>
-                                N/A
-                            <% } %>
+                            <%=matchup[i].auton_total_score_avg ? matchup[i].auton_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--ENDGAME CHARGE STATION-->
+                <!--ENDGAME AVG PTS-->
                 <tr>
                     <td>
-                        Avg Endgame<br>Chg Station
+                        Endgame Pts Avg
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
                         </td>
                     <% } %>
                 </tr>
@@ -291,7 +282,7 @@
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].avg_gm_score) %>
+                            <%= Math.round(matchup[i].total_game_score_avg) %>
                         </td>
                     <% } %>
                 </tr>
