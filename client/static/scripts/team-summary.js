@@ -370,7 +370,6 @@ function main() {
 
     for (const button of topButtonsContainer.children) {
         button.addEventListener("click", () => {
-            consoleLog("WOWOWOWOWOW", button)
             if (debounce) { return }
             if (button.name != currentChart) {
                 if (chart) {
@@ -392,6 +391,7 @@ function main() {
             if(!(event.clientX > box.left && event.clientX < box.right && event.clientY < box.bottom && event.clientY > box.top)) {
                 consoleLog("Clicked outside tooltip")
                 tooltip.style.opacity = 0
+                tooltip.style.width = 0
             }
         }
     })
