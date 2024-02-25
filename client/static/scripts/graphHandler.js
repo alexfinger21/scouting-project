@@ -19,6 +19,10 @@ function createTooltip(context) {
     // Hide if no tooltip
     const tooltipModel = context.tooltip
     const config = context.chart.config._config
+    if(tooltipModel.opacity === 0) {
+        tooltipEl.style.opacity = 0
+        return
+    }
     let data
     if(config.type == "bar") {
         data = {}
