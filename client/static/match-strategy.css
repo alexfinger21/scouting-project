@@ -48,7 +48,7 @@
     font-size: 1.8vh;
 }
 
-.stats td, th {
+.stats td, .stats th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;
