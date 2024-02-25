@@ -274,7 +274,7 @@
     width: 100%;
 }
 
-.table-wrapper table td, th {
+.table-wrapper table .table-wrapper td, .table-wrapper th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;

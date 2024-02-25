@@ -88,16 +88,18 @@ function createTooltip(context) {
 
     let position = context.chart.canvas.getBoundingClientRect()
     let bodyFont = Chart.helpers.toFont(tooltipModel.options.bodyFont)
+    
+    const bottomBar = $("#footer")
 
     // Display, position, and set styles for font
     tooltipEl.style.opacity = 1
     tooltipEl.style.zIndex = 10
     tooltipEl.style.position = 'absolute'
-    tooltipEl.style.left = Math.min( screen.width - tooltipEl.clientWidth, position.left + window.scrollX + tooltipModel.caretX) + 'px'
-    tooltipEl.style.top = position.top + window.scrollY + tooltipModel.caretY + 'px'
+    tooltipEl.style.left = Math.min(window.innerWidth - tooltipEl.clientWidth, position.left + window.scrollX + tooltipModel.caretX) + 'px'
+    tooltipEl.style.top = Math.min(window.innerHeight - bottomBar.outerHeight() - $("#tooltip").outerHeight(), position.top + window.scrollY + tooltipModel.caretY) + 'px'
     tooltipEl.style.font = bodyFont.string
     tooltipEl.style.pointerEvents = 'none'
-    
+   
     const btn = document.getElementById("tooltip-button")
     if(btn) {
         btn.onclick = () => {

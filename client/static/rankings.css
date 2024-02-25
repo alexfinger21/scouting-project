@@ -37,7 +37,7 @@
     font-size: 1.8vh;
 }
 
-#headings-table td, th {
+#headings-table td, #headings-table th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;
@@ -58,7 +58,7 @@
 }
 
 
-#rankings-table td, th {
+#rankings-table td, #rankings-table th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;

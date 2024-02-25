@@ -35,7 +35,7 @@
     font-size: 1.8vh;
 }
 
-#alliance-display-table td, th {
+#alliance-display-table td, #alliance-display-table th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;
@@ -61,7 +61,7 @@ th.alliance-selector {
     font-size: min(2vh, 3vw);
 }
 
-#alliance-suggestions td, th {
+#alliance-suggestions td, #alliance-suggestions th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;
@@ -118,7 +118,7 @@ th.alliance-selector {
     font-size: 1.8vh;
 }
 
-#available-teams-table td, th {
+#available-teams-table td, #available-teams-table th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;

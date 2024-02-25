@@ -321,7 +321,7 @@ function main() {
 
         const old = currentChart
 
-        currentChart = currentChart == 0 ? 5 : currentChart - 1
+        currentChart = currentChart == 0 ? 6 : currentChart - 1
 
         updateMarker(old, currentChart)
 
@@ -340,7 +340,7 @@ function main() {
         //increment currentChart
         const old = currentChart
 
-        currentChart = currentChart == 5 ? 0 : currentChart + 1
+        currentChart = currentChart == 6 ? 0 : currentChart + 1
 
         updateMarker(old, currentChart)
 
