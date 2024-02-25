@@ -133,7 +133,6 @@ function main() {
     const chartAreaWrapper = document.getElementById("chart-area-wrapper")
     const scatterPlotCanvas = document.getElementById("scatterplot-chart")
     const barGraphCanvas = document.getElementById("bar-graph-chart")
-    //barGraphCanvas.style.height = "200% !important"
     const spiderCanvas = document.getElementById("spider-chart")
     let ctx
 
@@ -160,6 +159,7 @@ function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: hidden !important")
                 ctx = barGraphCanvas.getContext("2d")
+                barGraphCanvas.height = Math.round(250 * chartAreaWrapper.clientHeight / chartAreaWrapper.clientWidth)
                 break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
