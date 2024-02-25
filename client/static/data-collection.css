@@ -391,6 +391,8 @@
 }
 
 .NumberButtonContainer {
+    display: flex;
+    flex-direction: row;
     margin-top: 0.8vh;
     margin-left: 1vw;
 }

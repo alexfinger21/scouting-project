@@ -136,6 +136,7 @@ function writeDataLists(points) {
         teleopSpeakerAmped: points.map(p => p.teleopSpeakerAmped.toFixed(1)),
         teleopSpeaker: points.map(p => p.teleopSpeaker.toFixed(1)),
         teleopAmp: points.map(p => p.teleopAmp.toFixed(1)),
+        teleopScore: points.map(p => p.teleopScore.toFixed(1)),
         onstage: points.map(p => p.onstage.toFixed(1)),
     }
 }
