@@ -23,6 +23,8 @@ function createTooltip(context) {
         tooltipEl.style.opacity = 0
         return
     }
+
+
     let data
     if(config.type == "bar") {
         data = {}
@@ -92,6 +94,7 @@ function createTooltip(context) {
     const bottomBar = $("#footer")
 
     // Display, position, and set styles for font
+    tooltipEl.style.width = "auto"
     tooltipEl.style.opacity = 1
     tooltipEl.style.zIndex = 10
     tooltipEl.style.position = 'absolute'
@@ -113,7 +116,6 @@ function createTooltip(context) {
             tooltipEl.style.opacity = 0
         }
     }
-
 }
 
 function writeDataLists(points) {
