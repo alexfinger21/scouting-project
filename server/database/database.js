@@ -388,16 +388,16 @@ FROM
 function saveMatchStrategy() {
     return SQL`CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
     SELECT
-        *, 
-        rank() OVER (ORDER BY api_opr desc) AS api_opr_rank, 
-        rank() OVER (ORDER BY api_dpr desc) AS api_dpr_rank
+      *, 
+      rank() OVER (ORDER BY vmsa.api_opr desc) AS api_opr_rank, 
+      rank() OVER (ORDER BY vmsa.api_dpr desc) AS api_dpr_rank
     FROM 
-    teamsixn_scouting_dev.v_match_team_score_avg_rankings vmtsar 
+        teamsixn_scouting_dev.v_match_summary_api vmsa 
     where 
-    frc_season_master_sm_year = ${gameConstants.YEAR} and 
-    competition_master_cm_event_code = ${gameConstants.COMP} and 
-    game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
-    team_master_tm_number is not NULL;`
+        frc_season_master_sm_year = ${gameConstants.YEAR} and 
+        competition_master_cm_event_code = ${gameConstants.COMP} and 
+        game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
+        team_master_tm_number is not NULL;`
 }
 
 function getSeventhScouter() {
@@ -442,7 +442,7 @@ async function getMatchData(gameNumber) {
             tm.tm_name, 
             gm.gm_alliance, 
             gm.gm_alliance_position, 
-            tms.games_played, 
+            tms.nbr_games, 
             tms.api_rank, 
             tms.api_win,
             tms.api_loss, 
@@ -451,10 +451,6 @@ async function getMatchData(gameNumber) {
             tms.api_opr_rank,
             tms.api_dpr,
             tms.api_dpr_rank,
-            tms.avg_gm_score, 
-            tms.avg_nbr_links, 
-            tms.avg_auton_chg_station_score, 
-            tms.avg_endgame_chg_station_score 
         FROM 
         teamsixn_scouting_dev.game_matchup gm
         LEFT JOIN
@@ -467,7 +463,7 @@ async function getMatchData(gameNumber) {
         LEFT JOIN 
         teamsixn_scouting_dev.team_master tm 
         ON
-        gm.team_master_tm_number  = tm.tm_number 
+        gm.team_master_tm_number = tm.tm_number 
         WHERE 
         gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
         gm.competition_master_cm_event_code = ${gameConstants.COMP} AND
