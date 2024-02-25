@@ -119,7 +119,7 @@
     font-size: 1.8vh;
 }
 
-#team-display-table td, th {
+#team-display-table td, #team-display-table th {
     border: 1px solid #dddddd;
     text-align: left;
     padding-top: 4px;
@@ -129,6 +129,6 @@
     text-align: center;
 }
 
-#team-display-table thead th {
+#team-display-table thead, #team-display-table th {
     background-color: white;
 }
