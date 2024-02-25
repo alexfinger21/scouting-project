@@ -21,6 +21,7 @@ function createTooltip(context) {
     const config = context.chart.config._config
     if(tooltipModel.opacity === 0) {
         tooltipEl.style.opacity = 0
+        tooltipEl.getElementsByTagName("button")[0].style.display = "none"
         return
     }
 
@@ -96,6 +97,7 @@ function createTooltip(context) {
     // Display, position, and set styles for font
     tooltipEl.style.width = "auto"
     tooltipEl.style.opacity = 1
+    tooltipEl.getElementsByTagName("button")[0].style.display = "block"
     tooltipEl.style.zIndex = 10
     tooltipEl.style.position = 'absolute'
     tooltipEl.style.left = Math.min(window.innerWidth -  $("#tooltip").outerWidth(), position.left + window.scrollX + tooltipModel.caretX) + 'px'
@@ -114,6 +116,7 @@ function createTooltip(context) {
             }
             //hide tooltip
             tooltipEl.style.opacity = 0
+            tooltipEl.getElementsByTagName("button")[0].style.display = "none"
         }
     }
 }
@@ -136,7 +139,6 @@ function writeDataLists(points) {
         teleopSpeakerAmped: points.map(p => p.teleopSpeakerAmped.toFixed(1)),
         teleopSpeaker: points.map(p => p.teleopSpeaker.toFixed(1)),
         teleopAmp: points.map(p => p.teleopAmp.toFixed(1)),
-        teleopScore: points.map(p => p.teleopScore.toFixed(1)),
         onstage: points.map(p => p.onstage.toFixed(1)),
     }
 }
@@ -333,7 +335,6 @@ function createBarGraph(points, orderBy) {
 
     return {
         type: 'bar',
-        events: ["click"],
         data: {
             ...writeDataLists(points),
             labels: points.map(p => p.teamNumber),
@@ -359,6 +360,7 @@ function createBarGraph(points, orderBy) {
         },
         options: {
             //maintainAspectRatio: false,
+            events: ["click"],
             indexAxis: "y",
             scales: {
                 x: {
@@ -479,7 +481,6 @@ function createStackedBarGraph(points, orderBy, scoring) {
     const dataLists = writeDataLists(points)
     return {
         type: 'bar',
-        events: ["click"],
         data: {
             ...dataLists,
             labels: points.map(p => p.teamNumber),
@@ -494,6 +495,7 @@ function createStackedBarGraph(points, orderBy, scoring) {
         options: {
             //maintainAspectRatio: false,
             indexAxis: "y",
+            events: ["click"],
             scales: {
                 x: {
                     position: "top",
@@ -571,7 +573,7 @@ function createStackedBarGraph(points, orderBy, scoring) {
                         }
                     },
                     formatter: function(value, context) {
-                        if(context.datasetIndex == 2) {
+                        if(context.datasetIndex == orderBy.length - 1) {
                             consoleLog(scoring, "in", context.chart.data)
                             return context.chart.data[scoring][context.dataIndex];
                         }
