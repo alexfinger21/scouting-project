@@ -95,7 +95,7 @@ function createTooltip(context) {
     tooltipEl.style.opacity = 1
     tooltipEl.style.zIndex = 10
     tooltipEl.style.position = 'absolute'
-    tooltipEl.style.left = Math.min(window.innerWidth - tooltipEl.clientWidth, position.left + window.scrollX + tooltipModel.caretX) + 'px'
+    tooltipEl.style.left = Math.min(window.innerWidth -  $("#tooltip").outerWidth(), position.left + window.scrollX + tooltipModel.caretX) + 'px'
     tooltipEl.style.top = Math.min(window.innerHeight - bottomBar.outerHeight() - $("#tooltip").outerHeight(), position.top + window.scrollY + tooltipModel.caretY) + 'px'
     tooltipEl.style.font = bodyFont.string
     tooltipEl.style.pointerEvents = 'none'
@@ -365,6 +365,11 @@ function createBarGraph(points, orderBy) {
                         font: {
                             size: 9 * CHART_SIZE_CONST
                         }
+                    },
+                    title: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
                     }
                 },
                 y: {
@@ -372,7 +377,12 @@ function createBarGraph(points, orderBy) {
                         font: {
                             size: 9 * CHART_SIZE_CONST
                         }
-                    } 
+                    }, 
+                    title: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
+                    }
                 }
             },
             //display values next to bars
@@ -490,6 +500,16 @@ function createStackedBarGraph(points, orderBy, scoring) {
                         display: false,
                         //labelString: xAxisTitle,
                     },
+                    ticks: {
+                        font: {
+                            size: 9 * CHART_SIZE_CONST
+                        }
+                    },
+                    title: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
+                    }
                 },
 
                 y: {
@@ -498,6 +518,16 @@ function createStackedBarGraph(points, orderBy, scoring) {
                         display: false,
                         //labelString: yAxisTitle,
                     },
+                    ticks: {
+                        font: {
+                            size: 12 * CHART_SIZE_CONST
+                        }
+                    },
+                    title: {
+                        font: {
+                            size: 11 * CHART_SIZE_CONST
+                        }
+                    }
                 },
             },
             //display values next to bars
@@ -507,7 +537,12 @@ function createStackedBarGraph(points, orderBy, scoring) {
             },
             plugins: {
                 legend: {
-                    display: true
+                    display: true,
+                    labels: {
+                        font: {
+                            size: 10 * CHART_SIZE_CONST
+                        }
+                    }
                 },
                 zoom: {
                     pan: {
@@ -525,6 +560,13 @@ function createStackedBarGraph(points, orderBy, scoring) {
                     color: "#36A2EB",
                     anchor: "end",
                     align: "end",
+                    labels: {
+                        title: {
+                            font: {
+                                size: 13 * CHART_SIZE_CONST
+                            }
+                        }
+                    },
                     formatter: function(value, context) {
                         if(context.datasetIndex == 2) {
                             consoleLog(scoring, "in", context.chart.data)
