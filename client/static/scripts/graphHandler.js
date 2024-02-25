@@ -13,6 +13,7 @@ function createTooltip(context) {
         tooltipEl = document.createElement('div')
         tooltipEl.id = 'tooltip'
         tooltipEl.innerHTML = '<table></table>'
+        
         document.body.appendChild(tooltipEl)
     }
 
@@ -100,11 +101,15 @@ function createTooltip(context) {
     tooltipEl.getElementsByTagName("button")[0].style.display = "block"
     tooltipEl.style.zIndex = 10
     tooltipEl.style.position = 'absolute'
+    consoleLog($("#tooltip").outerWidth(), $("#tooltip").outerHeight())
+    tooltipEl.style.font = bodyFont.string
     tooltipEl.style.left = Math.min(window.innerWidth -  $("#tooltip").outerWidth(), position.left + window.scrollX + tooltipModel.caretX) + 'px'
     tooltipEl.style.top = Math.min(window.innerHeight - bottomBar.outerHeight() - $("#tooltip").outerHeight(), position.top + window.scrollY + tooltipModel.caretY) + 'px'
-    tooltipEl.style.font = bodyFont.string
     tooltipEl.style.pointerEvents = 'none'
-   
+  
+    consoleLog(window.innerHeight, bottomBar.outerHeight(), $("#tooltip").outerHeight())
+    consoleLog(position.top, window.scrollY, tooltipModel.caretY)
+
     const btn = document.getElementById("tooltip-button")
     if(btn) {
         btn.onclick = () => {
