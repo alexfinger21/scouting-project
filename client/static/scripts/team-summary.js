@@ -389,8 +389,8 @@ function main() {
         if(tooltip) {
             const box =  tooltip.getBoundingClientRect()
             if(!(event.clientX > box.left && event.clientX < box.right && event.clientY < box.bottom && event.clientY > box.top)) {
-                consoleLog("Clicked outside tooltip")
                 tooltip.style.opacity = 0
+                tooltip.getElementsByTagName("button")[0].style.display = "none"
                 tooltip.style.width = 0
             }
         }
