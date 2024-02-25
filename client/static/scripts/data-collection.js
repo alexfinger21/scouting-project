@@ -183,6 +183,9 @@ function loadData() {
     return new Promise(async (res, rej) => {
         const match = await getMatch()
         const form = document.getElementById("match-number-form")
+        
+        if (!form) {return}
+
         const buttonContainers = form.querySelectorAll(".NumberButtonContainer")
         const matchNumber = document.getElementById("match-number")
         const inputContainers = form.querySelectorAll(".input-container")
@@ -276,14 +279,6 @@ function loadData() {
         if (!localData) {
             return rej()
         }
-
-<<<<<<< Updated upstream
-
-        consoleLog(data)
-=======
-        const data = localData[match]
-            //consoleLog("Data is: " + data)
->>>>>>> Stashed changes
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
