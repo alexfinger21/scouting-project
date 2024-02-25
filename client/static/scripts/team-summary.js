@@ -14,7 +14,7 @@ const observer = new MutationObserver(function (mutations_list) {
         consoleLog("Hello from mutation observer")
         for (const removed_node of mutation.removedNodes) {
             consoleLog("hey")
-            if (removed_node.id == 'page-holder') {
+            if (removed_node.id == 'page-holder' && currentPage == paths.teamSummary) {
                 consoleLog("hello from removed node")
                 data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
                 consoleLog(data)

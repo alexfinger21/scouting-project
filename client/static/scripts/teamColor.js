@@ -73,7 +73,6 @@ async function getTeamColor(team, teamName, existingColors) {
             if(!hasColor(HSLToRGB(hue, 0.8, 0.7), existingColors)) {
                 return HSLToRGB(hue, 0.8, 0.7)
             }
-            console.log("IT WORKED with team", team)
             return HSLToRGB((hue + 37), 0.8, 0.7)
         })
 }
