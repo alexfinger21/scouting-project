@@ -103,7 +103,8 @@
 }
 
 #access-denied {
-    text-align: center;
+    display: block;
+    margin: 3% auto;
     font-size: 2.5vh;
     margin-bottom: 2vh;
 }
