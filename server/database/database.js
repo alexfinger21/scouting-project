@@ -453,6 +453,7 @@ async function getMatchData(gameNumber) {
             tms.api_dpr_rank,
             tms.total_game_score_avg, 
             tms.auton_total_score_avg, 
+            tms.endgame_total_score_avg, 
             tms.teleop_total_score_avg, 
             tms.total_game_score_avg
         FROM 
