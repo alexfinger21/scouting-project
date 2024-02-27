@@ -96,6 +96,7 @@ async function getPoints(x, y, color) {
             teleopSpeaker: val.teleop_notes_speaker_not_amped_avg,
             teleopAmp: val.teleop_notes_amp_avg,
             onstage: val.endgame_onstage_points_avg,
+            endgameScore: val.endgame_total_score_avg,
             rank: val.api_rank,
             opr: val.api_opr,
             x: val[x],
@@ -208,7 +209,6 @@ function main() {
                 consoleLog(points)
 
                 if (oldCurrentChart == currentChart) {
-                    points.sort(function (a, b) { return b.gameScore - a.gameScore })
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
@@ -224,7 +224,6 @@ function main() {
                 consoleLog(points)
 
                 if (oldCurrentChart == currentChart) {
-                    points.sort(function (a, b) { return b.gameScore - a.gameScore })
                     const config = await graphHandler.createSpiderChart(
                         points,
                         "gameScore",
@@ -241,10 +240,9 @@ function main() {
             case 3:
                 switchChart("bar")
 
-                points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
+                points = await getPoints("team_master_tm_number", "auton_total_score_avg", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart) {
-                    points.sort(function (a, b) { return b.links - a.links })
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
@@ -257,10 +255,9 @@ function main() {
             case 4:
                 switchChart("bar")
 
-                points = await getPoints("team_master_tm_number", "avg_auton_chg_station_score", POINT_COLOR)
+                points = await getPoints("team_master_tm_number", "teleop_total_score_avg", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart) {
-                    points.sort(function (a, b) { return b.autoDocking - a.autoDocking })
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
@@ -273,14 +270,13 @@ function main() {
             case 5:
                 switchChart("bar")
 
-                points = await getPoints("team_master_tm_number", "avg_endgame_chg_station_score", POINT_COLOR)
+                points = await getPoints("team_master_tm_number", "endgame_total_score_avg", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart) {
-                    points.sort(function (a, b) { return b.endgameDocking - a.endgameDocking })
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
-                            "onstage"
+                            "endgameScore"
                         )
                     )
                 }
@@ -291,7 +287,6 @@ function main() {
                 points = await getPoints("team_master_tm_number", "games_played", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart) {
-                    points.sort(function (a, b) { return b.gamesPlayed - a.gamesPlayed })
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,

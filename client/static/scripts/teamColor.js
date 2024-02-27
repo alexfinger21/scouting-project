@@ -32,7 +32,7 @@ function isSimilar([r1, g1, b1], [r2, g2, b2]) {
 
 function hasColor(color, arr) {
     for (const c of arr) {
-        if (isSimilar(c, color)) {
+        if (c && color && isSimilar(c, color)) {
             return true
         }
     }
