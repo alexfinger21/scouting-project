@@ -123,6 +123,7 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
@@ -249,6 +250,7 @@
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
