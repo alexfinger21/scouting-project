@@ -451,6 +451,10 @@ async function getMatchData(gameNumber) {
             tms.api_opr_rank,
             tms.api_dpr,
             tms.api_dpr_rank,
+            tms.total_game_score_avg, 
+            tms.auton_total_score_avg, 
+            tms.teleop_total_score_avg, 
+            tms.total_game_score_avg
         FROM 
         teamsixn_scouting_dev.game_matchup gm
         LEFT JOIN
@@ -463,7 +467,7 @@ async function getMatchData(gameNumber) {
         LEFT JOIN 
         teamsixn_scouting_dev.team_master tm 
         ON
-        gm.team_master_tm_number = tm.tm_number 
+        gm.team_master_tm_number  = tm.tm_number 
         WHERE 
         gm.frc_season_master_sm_year = ${gameConstants.YEAR} AND
         gm.competition_master_cm_event_code = ${gameConstants.COMP} AND

@@ -123,7 +123,6 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
                         </td>
                     <% } %>
                 </tr>
@@ -288,6 +287,7 @@
                 </tr>
             </table>
         </div>
+        <canvas id="strategy-chart" display="false" ></canvas>
         
         <!--
         <div class="strategy-display">
@@ -324,5 +324,6 @@
            </p>
        </div>
     -->
+
     </div>
 </body>
