@@ -174,12 +174,13 @@ async function getTeamData(team, records, existingColors) {
                 label: team.teamNumber,
                 hidden: team.hidden,
                 data: [
-                    1 - team.rank / records.rank,
+                    //1 - team.rank / records.rank,
                     team.opr / records.opr,
-                    team.gamesPlayed / records.gamesPlayed,
+                    team.dpr / records.dpr,
                     team.gameScore / records.gameScore,
                     team.teleopScore / records.teleopScore,
-                    team.autonNotes / records.autonNotes
+                    team.autonNotes / records.autonNotes,
+                    team.endgameScore / records.endgameScore,
                 ],
                 fill: true,
                 backgroundColor: team.hidden == false ? team.color.substring(0, team.color.length - 1) + ", 0.2)" : `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.2)`,
@@ -203,8 +204,10 @@ async function writeSpiderData(points) {
         gameScore: Math.max(...points.map(p => Math.round(p.gameScore))),
         autonNotes: Math.max(...points.map(p => Math.round(p.autonSpeaker + p.autonAmp))),
         teleopScore: Math.max(...points.map(p => Math.round(p.teleopScore))),
-        rank: Math.max(...points.map(p => Math.round(p.rank))),
+        endgameScore: Math.max(...points.map(p => Math.round(p.endgameScore))),
+        //rank: Math.max(...points.map(p => Math.round(p.rank))),
         opr: Math.max(...points.map(p => Math.round(p.opr))),
+        dpr: Math.max(...points.map(p => Math.round(p.dpr))),
     }
     
     for (let i = 0; i < points.length; i++) {
@@ -215,7 +218,7 @@ async function writeSpiderData(points) {
 
     const res = {
         labels: [
-            "Rank", "OPR", "Games Played", "Game Score", "Teleop Score", "Auton Notes"
+            "OPR", "DPR", "Game Score", "Teleop Score", "Auton Notes", "Endgame Score"
         ],
         datasets: (await Promise.all(data)).sort((a, b) => a.label - b.label)
     }

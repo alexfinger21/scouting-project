@@ -19,7 +19,7 @@ const observer = new MutationObserver(function (mutations_list) {
 function sumParam(data, param) {
     let sum = 0
     for (const t of data) {
-        sum += t[param] ? t[param] : 0
+        sum += t[param] != undefined ? t[param] : 0
     }
     return sum
 }
@@ -58,8 +58,10 @@ async function main() {
                 gamesPlayed: sumParam(red, "nbr_games"),
                 gameScore: sumParam(red, "total_game_score_avg"),
                 teleopScore: sumParam(red, "teleop_total_score_avg"),
+                endgameScore: sumParam(red, "endgame_total_score_avg"),
                 rank: sumParam(red, "api_rank"),
-                opr: sumParam(red, "api_opr")
+                opr: sumParam(red, "api_opr"),
+                dpr: sumParam(red, "api_dpr")
             },
             {
                 teamNumber: 1,
@@ -72,8 +74,10 @@ async function main() {
                 gamesPlayed: sumParam(blue, "nbr_games"),
                 gameScore: sumParam(blue, "total_game_score_avg"),
                 teleopScore: sumParam(blue, "teleop_total_score_avg"),
+                endgameScore: sumParam(blue, "endgame_total_score_avg"),
                 rank: sumParam(blue, "api_rank"),
-                opr: sumParam(blue, "api_opr")
+                opr: sumParam(blue, "api_opr"),
+                dpr: sumParam(blue, "api_dpr")
             }
         ],
         false
