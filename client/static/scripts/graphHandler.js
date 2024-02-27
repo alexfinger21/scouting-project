@@ -186,7 +186,7 @@ async function getTeamData(team, records, existingColors) {
                 borderColor: team.hidden == false ? team.color : `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
+                pointHoverBorderColor: team.hidden == false ? team.color : `rgb(${color[0]}, ${color[1]}, ${color[2]})`,
             })
         })
     })
@@ -214,7 +214,6 @@ async function writeSpiderData(points) {
     }
 
     const res = {
-        ...writeDataLists(points),
         labels: [
             "Rank", "OPR", "Games Played", "Game Score", "Teleop Score", "Auton Notes"
         ],
@@ -595,7 +594,7 @@ function createStackedBarGraph(points, orderBy, scoring) {
     }
 }
 
-async function createSpiderChart(points) {
+async function createSpiderChart(points, showLegend=true) {
     return {
         type: "radar",
         data: await writeSpiderData(points),
@@ -672,6 +671,7 @@ async function createSpiderChart(points) {
             },
             plugins: {
                 legend: {
+                    display: showLegend,
                     position: "top",
                     labels: {
                         boxWidth: 8,
@@ -679,30 +679,7 @@ async function createSpiderChart(points) {
                         font: {
                             size: 10 * CHART_SIZE_CONST
                         },
-                        /*generateLabels: chart => {
-                            return chart.data.datasets.map((set, i) => {
-                                consoleLog(i)
-                                return {
-                                    datasetIndex: i,
-                                    text: set.label,
-                                    fillStyle: set.backgroundColor,
-                                    strokeStyle: set.backgroundColor,
-                                    hidden: true //chart.getDatasetMeta(i).hidden 
-                                }
-                            })
-                        },*/
                     },
-                    /*onClick: function(e, legendItem, legend) {
-                        const index = legendItem.datasetIndex;
-                        const ci = legend.chart;
-                        if (ci.isDatasetVisible(index)) {
-                            ci.hide(index);
-                            legendItem.hidden = true;
-                        } else {
-                            ci.show(index);
-                            legendItem.hidden = false;
-                        }
-                    }   */
                 }
             }
         }
