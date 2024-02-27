@@ -99,6 +99,7 @@ async function getPoints(x, y, color) {
             endgameScore: val.endgame_total_score_avg,
             rank: val.api_rank,
             opr: val.api_opr,
+            dpr: val.api_dpr,
             x: val[x],
             y: val[y] ? val[y] : 0,
             color: color
