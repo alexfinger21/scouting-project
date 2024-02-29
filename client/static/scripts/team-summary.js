@@ -97,9 +97,9 @@ async function getPoints(x, y, color) {
             teleopAmp: val.teleop_notes_amp_avg,
             onstage: val.endgame_onstage_points_avg,
             endgameScore: val.endgame_total_score_avg,
-            rank: val.api_rank,
-            opr: val.api_opr,
-            dpr: val.api_dpr,
+            rank: val.api_rank ?? 0,
+            opr: val.api_opr ?? 0,
+            dpr: val.api_dpr ?? 0,
             x: val[x],
             y: val[y] ? val[y] : 0,
             color: color
