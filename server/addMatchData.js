@@ -27,6 +27,8 @@ function getData () {
         request(matchList, function(error, response) {
             if (error) throw new Error(error)
             consoleLog("Status Code", response.statusCode)
+            consoleLog("Response")
+            consoleLog(response.body)
             const matchData = (JSON.parse(response.body))
             //consoleLog(JSON.stringify(matchData, null, "\t")) // makes text look nice
             //consoleLog(matchData)
@@ -56,14 +58,18 @@ function getData () {
             }
             const qTimes = gameTimes(qNum)
             //consoleLog("hi", qTimes)
-            database.query(database.deleteMatchDataX(), (err, res) => {
+            consoleLog("Match output")
+            consoleLog(matchOutput)
+            consoleLog("Times")
+            consoleLog(qTimes)
+            /*database.query(database.deleteMatchDataX(), (err, res) => {
                 consoleLog(err)
                 //consoleLog(res)
                 database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
                     consoleLog(err)
                     //consoleLog(res)
                 })
-            })
+            })*/
             resolve(matchData)
          
         })
