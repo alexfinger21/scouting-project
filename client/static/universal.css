@@ -19,6 +19,14 @@ body {
 
 
 /* WEBKIT */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 /* Removes input spinners/arrows on Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -87,6 +95,12 @@ input::-webkit-inner-spin-button {
   object-fit: cover;
 }
 
+#username-holder {
+    color: rgb(255, 255, 255);
+    margin-left: auto;
+    margin-right: auto; 
+}
+
 #dropdown {
   height: 4vh;
   aspect-ratio: 1.2;
@@ -94,8 +108,9 @@ input::-webkit-inner-spin-button {
   border: none;
   padding: 0.2%;
   margin-right: 5%;
-  margin-left: auto;
+  margin-left: 0;
 }
+
 
 #dropdownImg {
   height: 100%;
