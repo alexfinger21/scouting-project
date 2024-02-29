@@ -2,6 +2,7 @@ const log = true
 const debugLog = false //shows where console logs came from
 const canvasFPS = 40
 
+
 let currentPage = "/match-listing"
 
 const paths = {
@@ -66,6 +67,20 @@ function getMatch() {
         })
     })
 }
+
+(function getUsername() {
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: "/getUsername",
+            success: function(response) {
+                document.getElementById("username-holder").innerText = response
+
+                resolve(response)
+            }
+        })
+    })
+})()
 
 function requestData(url, data) {
     return new Promise(resolve => {
