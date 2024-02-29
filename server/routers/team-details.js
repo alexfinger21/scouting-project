@@ -74,9 +74,8 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
     consoleLog("the request took " + (Date.now() - start) / 1000)
 
-    let [err5, pitData] = await database.query(SQL`SELECT * FROM pit_scouting_data_2024 psd WHERE 
-        psd.frc_season_master_sm_year = ${gameConstants.YEAR} 
-        AND psd.team_master_tm_number = ${teamNumber};`)
+    let [err5, pitData] = await database.query(SQL`SELECT * FROM survey_responses sr WHERE 
+        sr.Team_Number = ${teamNumber};`)
 
     pitData = JSON.parse(JSON.stringify(pitData))
 

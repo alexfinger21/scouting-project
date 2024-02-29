@@ -67,6 +67,7 @@ const allowCrossDomain = function (req, res, next) {
 const io = new Server(server, {
     cors: {
         origin: '*',
+        credentials: true
     }
 })
 
