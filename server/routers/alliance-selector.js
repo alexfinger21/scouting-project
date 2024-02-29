@@ -4,6 +4,7 @@ const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
 const SQL = require('sql-template-strings')
+const socketManager = require("../sockets.js")
 
 //returns an array where the team is substituted for the rank
 function rank(arr) {
