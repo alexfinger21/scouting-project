@@ -19,6 +19,14 @@ body {
 
 
 /* WEBKIT */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 /* Removes input spinners/arrows on Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -102,6 +110,7 @@ input::-webkit-inner-spin-button {
   margin-right: 5%;
   margin-left: 0;
 }
+
 
 #dropdownImg {
   height: 100%;
