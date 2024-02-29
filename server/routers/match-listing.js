@@ -63,6 +63,8 @@ router.get("/", async function (req, res) {
         database.query(database.getTeams(), async (err, results) => {
             //get isAdmin
             consoleLog(err)
+            consoleLog("MATCHES")
+            consoleLog(database.getTeams())
             const isAdmin = await checkAdmin(req)
     
             //get running game
