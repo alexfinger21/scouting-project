@@ -498,6 +498,19 @@ async function getChartData() {
 
 }
 
+async function getTeamDetailsTeamData() {
+    await checkTempMatchStrategy()
+
+    return SQL`
+    SELECT *
+    FROM 
+        teamsixn_scouting_dev.tmp_match_strategy
+    WHERE
+        frc_season_master_sm_year = ${gameConstants.YEAR} AND
+        competition_master_cm_event_code = ${gameConstants.COMP} AND 
+        game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`
+}
+
 function getTeamPictures(team) {
     return SQL`
     select 
@@ -620,5 +633,6 @@ module.exports = {
     getSeventhScouter: getSeventhScouter,
     getRandomTeam: getRandomTeam,
     addMatchData: addMatchData,
+    getTeamDetailsTeamData: getTeamDetailsTeamData,
     deleteMatchDataX: deleteMatchDataX,
 }

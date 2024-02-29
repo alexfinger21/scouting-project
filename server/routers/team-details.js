@@ -17,14 +17,7 @@ function mergeDicts(dict1, dict2) {
 router.get("/", async function (req, res) { //only gets used if the url == team-details
     consoleLog("recieved")
     const start = Date.now()
-    let [err1, team_results] = await database.query(SQL`SELECT 
-        *
-        FROM 
-            teamsixn_scouting_dev.tmp_match_strategy
-        WHERE
-            frc_season_master_sm_year = ${gameConstants.YEAR} AND
-            competition_master_cm_event_code = ${gameConstants.COMP} AND 
-            game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};`)
+    let [err1, team_results] = await database.query(database.getTeamDetailsTeamData())
 
     team_results = JSON.parse(JSON.stringify(team_results))
     const teamNumber = req.query.team || 695
@@ -87,7 +80,10 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
     pitData = JSON.parse(JSON.stringify(pitData))
 
+    consoleLog(pitData)
+
     if (pitData?.length > 0) {
+        consoleLog(teamInfo)
         Object.assign(teamInfo, pitData[0])
     }
 
