@@ -4,9 +4,6 @@ import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
 import Endgame from "./data_collection/Endgame.js"
 
-//import Endgame from "./data_collection/Endgame.js"
-
-
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
 let EndgameObject
