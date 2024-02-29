@@ -167,6 +167,7 @@ function writeData(points) {
 
 async function getTeamData(team, records, existingColors) {
     return new Promise((resolve, reject) => {
+        consoleLog("team is", team)
         getTeamColor(team.teamNumber.toString(), team.teamName, existingColors).then((color) => {
             consoleLog(team.teamNumber, "-", color)
             existingColors.push(color)
@@ -212,7 +213,6 @@ async function writeSpiderData(points) {
     
     for (let i = 0; i < points.length; i++) {
         const team = points[i]
-
         data.push(getTeamData(team, records, existingColors))
     }
 
