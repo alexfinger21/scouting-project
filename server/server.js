@@ -197,6 +197,20 @@ app.get("/getMatch", function (req, res) {
     })
 })
 
+//GET USERNAME
+app.get("/getUsername", async (req, res) => {
+    consoleLog("COOKIES", req.cookies)
+    let [err, dbRes] = await database.query(SQL`SELECT * FROM teamsixn_scouting_dev.user_master um WHERE um.um_id = ${req.cookies["username"]};`)
+    
+    consoleLog("DB RES", dbRes)
+    const user = JSON.parse(JSON.stringify(dbRes))
+    if (user?.length > 0) {
+        return res.send(user[0]["um_name"])
+    }
+
+    return res.send("unknown")
+})
+
 app.get("/getMatchTeams", function (req, res) {
     consoleLog("request recieved!")
     database.query(database.getTeams(), (err, runningMatchResults) => {
