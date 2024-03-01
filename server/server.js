@@ -231,7 +231,7 @@ app.get("/getMatchTeams", function (req, res) {
 })
 
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runAPICall, 2400000)
+    setInterval(runAPICall, 240000)
 }
 
 //DEFAULT PATH
