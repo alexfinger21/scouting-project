@@ -1,4 +1,4 @@
-import { currentPage, paths, requestPage, consoleLog, requestData } from "./utility.js"
+import { currentPage, paths, requestPage, consoleLog, requestData, checkPage } from "./utility.js"
 import * as graphHandler from "./graphHandler.js"
 
 
@@ -8,7 +8,7 @@ let chart
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(async function (mutation) {
         for (const removed_node of mutation.removedNodes) {
-            if (removed_node.id == 'page-holder' && currentPage == paths.matchStrategy) {
+            if (removed_node.id == 'page-holder' && checkPage(paths.matchStrategy)) {
                 main()
                 break
             }
@@ -19,7 +19,7 @@ const observer = new MutationObserver(function (mutations_list) {
 function sumParam(data, param) {
     let sum = 0
     for (const t of data) {
-        sum += t[param] != undefined ? t[param] : 0
+        sum += t[param] ? t[param] : 0
     }
     return sum
 }
@@ -43,6 +43,9 @@ async function main() {
     const blue = data.slice(3)
     
     consoleLog("BLUE:", blue)
+
+    consoleLog("RED AUTON: ", sumParam(red, "auton_notes_amp_avg") + sumParam(red, "auton_notes_speaker_avg"))
+    consoleLog("BLUE AUTON: ", sumParam(blue, "auton_notes_amp_avg") + sumParam(blue, "auton_notes_speaker_avg"))
 
 
     const config = await graphHandler.createSpiderChart(
@@ -68,7 +71,7 @@ async function main() {
                 teamName: "Blue Alliance",
                 color: "rgb(0,0,255)",
                 hidden: false,
-                autonNotes: sumParam(blue, "auton_notes_amp_avg") + sumParam(red, "auton_notes_speaker_avg"),
+                autonNotes: sumParam(blue, "auton_notes_amp_avg") + sumParam(blue, "auton_notes_speaker_avg"),
                 autonAmp: sumParam(blue, "auton_notes_amp_avg"),
                 autonSpeaker: sumParam(blue, "auton_notes_speaker_avg"),
                 gamesPlayed: sumParam(blue, "nbr_games"),
