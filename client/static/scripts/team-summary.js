@@ -49,62 +49,64 @@ function getMatchTeams(matchNum) {
 }
 
 async function getPoints(x, y, color) {
-    consoleLog("gotten data")
+    /*consoleLog("gotten data")
     consoleLog("the data")
-    consoleLog(data)
+    consoleLog(data)*/
 
-    let points = new Array(Array.from(data).length)
+    let points = []
+    const gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
     let ind = 0
     for (const val of data) {
         let teamNumber = val.team_master_tm_number
-        let gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
-        //consoleLog("GAME TEAMS:")
-        //consoleLog(gameTeams)
-        let color = POINT_COLOR
-        let hidden = true
-        if (teamNumber == document.getElementById("highlight-team").value) {
-            color = HIGHTLIGHT_COLOR
-            hidden = false
+        if (teamNumber && val.tm_name) {
+            //consoleLog("GAME TEAMS:")
+            //consoleLog(gameTeams)
+            let color = POINT_COLOR
+            let hidden = true
+            if (teamNumber == document.getElementById("highlight-team").value) {
+                color = HIGHTLIGHT_COLOR
+                hidden = false
+            }
+            else if (gameTeams && (gameTeams.r1 == teamNumber || gameTeams.r2 == teamNumber || gameTeams.r3 == teamNumber)) {
+                color = RED_COLOR
+                hidden = false
+            }
+            else if (gameTeams && (gameTeams.b1 == teamNumber || gameTeams.b2 == teamNumber || gameTeams.b3 == teamNumber)) {
+                color = BLUE_COLOR
+                hidden = false
+            }
+            else if (highlightColors[val.team_master_tm_number]) {
+                color = highlightColors[val.team_master_tm_number]
+                hidden = false
+            }
+            points.push({
+                teamNumber: val.team_master_tm_number,
+                hidden: hidden,
+                teamName: val.tm_name,
+                rank: val.api_rank,
+                gamesPlayed: val.nbr_games,
+                gameScore: val.total_game_score_avg,
+                autonPickup: val.auton_notes_pickup_avg,
+                autonSpeaker: val.auton_notes_speaker_avg,
+                autonAmp: val.auton_notes_amp_avg,
+                autonNotes: val.auton_notes_amp_avg + val.auton_notes_speaker_avg,
+                autonUnused: Math.max(val.auton_notes_pickup_avg - val.auton_notes_amp_avg - val.auton_notes_speaker_avg, 0),
+                autonScore: val.auton_notes_amp_avg * 2 + val.auton_notes_speaker_avg * 5,
+                teleopScore: val.teleop_total_score_avg,
+                teleopSpeakerAmped: val.teleop_notes_speaker_amped_avg,
+                teleopSpeaker: val.teleop_notes_speaker_not_amped_avg,
+                teleopAmp: val.teleop_notes_amp_avg,
+                onstage: val.endgame_onstage_points_avg,
+                endgameScore: val.endgame_total_score_avg,
+                rank: val.api_rank ?? 0,
+                opr: val.api_opr ?? 0,
+                dpr: val.api_dpr ?? 0,
+                x: val[x],
+                y: val[y] ? val[y] : 0,
+                color: color
+            })
+            ind++
         }
-        else if (gameTeams && (gameTeams.r1 == teamNumber || gameTeams.r2 == teamNumber || gameTeams.r3 == teamNumber)) {
-            color = RED_COLOR
-            hidden = false
-        }
-        else if (gameTeams && (gameTeams.b1 == teamNumber || gameTeams.b2 == teamNumber || gameTeams.b3 == teamNumber)) {
-            color = BLUE_COLOR
-            hidden = false
-        }
-        else if (highlightColors[val.team_master_tm_number]) {
-            color = highlightColors[val.team_master_tm_number]
-            hidden = false
-        }
-        points[ind] = {
-            teamNumber: val.team_master_tm_number,
-            hidden: hidden,
-            teamName: val.tm_name,
-            rank: val.api_rank,
-            gamesPlayed: val.nbr_games,
-            gameScore: val.total_game_score_avg,
-            autonPickup: val.auton_notes_pickup_avg,
-            autonSpeaker: val.auton_notes_speaker_avg,
-            autonAmp: val.auton_notes_amp_avg,
-            autonNotes: val.auton_notes_amp_avg + val.auton_notes_speaker_avg,
-            autonUnused: Math.max(val.auton_notes_pickup_avg - val.auton_notes_amp_avg - val.auton_notes_speaker_avg, 0),
-            autonScore: val.auton_notes_amp_avg * 2 + val.auton_notes_speaker_avg * 5,
-            teleopScore: val.teleop_total_score_avg,
-            teleopSpeakerAmped: val.teleop_notes_speaker_amped_avg,
-            teleopSpeaker: val.teleop_notes_speaker_not_amped_avg,
-            teleopAmp: val.teleop_notes_amp_avg,
-            onstage: val.endgame_onstage_points_avg,
-            endgameScore: val.endgame_total_score_avg,
-            rank: val.api_rank ?? 0,
-            opr: val.api_opr ?? 0,
-            dpr: val.api_dpr ?? 0,
-            x: val[x],
-            y: val[y] ? val[y] : 0,
-            color: color
-        }
-        ind++
     }
     return points
 }
@@ -161,7 +163,7 @@ function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: hidden !important")
                 ctx = barGraphCanvas.getContext("2d")
-                barGraphCanvas.height = Math.round(250 * chartAreaWrapper.clientHeight / chartAreaWrapper.clientWidth)
+                barGraphCanvas.height = Math.round(350 * chartAreaWrapper.clientHeight / chartAreaWrapper.clientWidth)
                 break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -382,9 +384,9 @@ function main() {
 
     document.addEventListener("click", (event) => {
         const tooltip = document.getElementById("tooltip")
-        if(tooltip) {
-            const box =  tooltip.getBoundingClientRect()
-            if(!(event.clientX > box.left && event.clientX < box.right && event.clientY < box.bottom && event.clientY > box.top)) {
+        if (tooltip) {
+            const box = tooltip.getBoundingClientRect()
+            if (!(event.clientX > box.left && event.clientX < box.right && event.clientY < box.bottom && event.clientY > box.top)) {
                 tooltip.style.opacity = 0
                 tooltip.getElementsByTagName("button")[0].style.display = "none"
                 tooltip.style.width = 0

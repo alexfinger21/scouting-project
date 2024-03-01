@@ -20,25 +20,39 @@
                 <% } %>
             </select>
         </div>
-        
-        <table id="scoring">
-            <colgroup>
-                <col span="1" style="width:60%">
-            </colgroup>
-            <tr>
-                <td>Predicted Score:</td>
-                <td class="R">
-                    <%= Math.round(matchup[0].total_game_score_avg + matchup[1].total_game_score_avg + matchup[2].total_game_score_avg) %>
-                </td>
-                <td class="B">
-                    <%= Math.round(matchup[3].total_game_score_avg + matchup[4].total_game_score_avg + matchup[5].total_game_score_avg) %>
-                </td>
-            </tr>
-        </table>
 
         <div id="match-strategy-container">
             <div id="match-strategy-graph-container">
-                <div id="chart-area-wrapper">
+                <table id="alliance-properties">
+                    <colgroup>
+                        <col span="1" style="width:60%">
+                    </colgroup>
+                    <tr id="predicted-score">
+                        <td>Predicted Score:</td>
+                        <td class="R">
+                            <%= Math.round(matchup[0].total_game_score_avg + matchup[1].total_game_score_avg + matchup[2].total_game_score_avg) %>
+                        </td>
+                        <td class="B">
+                            <%= Math.round(matchup[3].total_game_score_avg + matchup[4].total_game_score_avg + matchup[5].total_game_score_avg) %>
+                        </td>
+                    </tr>
+                    <tr id="coopertition-expected">
+                        <td>Co-op Expected:</td>
+                        <td class="R">
+                            
+                        </td>
+                        <td class="B">
+                            
+                        </td>
+                    </tr>
+                    <tr id="stockpile-suggested">
+                        <td>Stockpiling Suggested:</td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <div id="match-strategy-graph-wrapper">
                     <canvas id="spider-chart" display="false" ></canvas>
                 </div>
                 <!--Chart.js-->
