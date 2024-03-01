@@ -4,26 +4,26 @@
 <body>
     <div id="page-holder">
         <h1 id="rankings-title">Team Rankings</h1>
-        <h3 id="rankings-subtitle" timestamp = <%=timeStamp%>>
+        <h3 id="rankings-subtitle" timestamp=<%=timeStamp%>>
             <%=year%> - <%=eventCode%> - <%=timeStamp%>
         </h3>
         <div id="rankings-container">
             <!--HEADINGS-->
             <table id="headings-table">
                 <colgroup>
-                    <col span="1" style="width: 11%">
-                    <col span="1" style="width: 11%">
-                    <col span="1" style="width: 11%">
-                    <col span="1" style="width: 34%">
-                    <col span="1" style="width: 11%">
-                    <col span="1" style="width: 11%">
-                    <col span="1" style="width: 11%">
+                    <col span="1" style="width: 13.5%">
+                    <col span="1" style="width: 13.5%">
+                    <col span="1" style="width: 13.5%">
+                    <col span="1" style="width: 20%">
+                    <col span="1" style="width: 13.5%">
+                    <col span="1" style="width: 13.5%">
+                    <col span="1" style="width: 13.5%">
                 </colgroup>
                 <tr>
                     <th>Rank</th>
                     <th>Team</th>
                     <th>Games</th>
-                    <th>Win/Loss/Tie</th>
+                    <th>W/L/T</th>
                     <th>DQ's</th>
                     <th>OPR</th>
                     <th>DPR</th>
@@ -33,13 +33,13 @@
             <div id="rankings-scroller">
                 <table id="rankings-table">
                     <colgroup>
-                        <col span="1" style="width: 11%">
-                        <col span="1" style="width: 11%">
-                        <col span="1" style="width: 11%">
-                        <col span="1" style="width: 34%">
-                        <col span="1" style="width: 11%">
-                        <col span="1" style="width: 11%">
-                        <col span="1" style="width: 11%">
+                        <col span="1" style="width: 13.5%">
+                        <col span="1" style="width: 13.5%">
+                        <col span="1" style="width: 13.5%">
+                        <col span="1" style="width: 20%">
+                        <col span="1" style="width: 13.5%">
+                        <col span="1" style="width: 13.5%">
+                        <col span="1" style="width: 13.5%">
                     </colgroup>
                     <%for(let i=0; i < teamStats.length; i++) {%>
                         <tr>
