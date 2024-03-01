@@ -163,7 +163,7 @@ function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: hidden !important")
                 ctx = barGraphCanvas.getContext("2d")
-                barGraphCanvas.height = Math.round(250 * chartAreaWrapper.clientHeight / chartAreaWrapper.clientWidth)
+                barGraphCanvas.height = Math.round(350 * chartAreaWrapper.clientHeight / chartAreaWrapper.clientWidth)
                 break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
