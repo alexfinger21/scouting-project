@@ -15,7 +15,7 @@
     font-size: 1.8vh;
 }
 
-#scoring {
+#alliance-properties {
     margin-top: 1vh;
     margin-bottom: 1vh;
     margin-left: auto;
@@ -23,32 +23,26 @@
     width: 95%;
     table-layout: fixed;
     background-color: transparent;
-    border: none !important;
     padding: 2px;
     font-size: 2vh;
     text-align: center;
+    border: 1px solid #5B6671;
+    border-radius: 6px;
+    flex: 1;
+}
+
+#alliance-properties tr {
+    background-color: transparent !important;
+}
+
+#alliance-properties td:nth-child(1) {
+    text-align: right;
 }
 
 #match-strategy-container {
     width: 99.5%;
     height: 58vh;
     overflow: scroll;
-}
-
-#match-strategy-graph-container {
-    margin-top: 1.5vh;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 30vh;
-    aspect-ratio: 1.5;
-    background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    overflow: auto;
-    margin-bottom: 2vh;
 }
 
 .stats {
@@ -138,4 +132,41 @@ tr:nth-child(even) { /* copied from w3schools lol*/
     margin-top: 0.5vh !important;
     margin-bottom: 1vh !important;
     margin: auto;
+}
+
+
+
+#match-strategy-graph-container {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    overflow: hidden;
+    margin-top: 1.5vh;
+    background-color: #FFF;
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    overflow: auto;
+    margin-bottom: 2vh;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#match-strategy-graph-wrapper {
+    flex: 2;
+    display: block;
+    height: 30vh;
+    max-width: 100%;
+    aspect-ratio: 1.5;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+@media only screen and (max-aspect-ratio: .85) {
+    #match-strategy-graph-container {
+        flex-direction: column;
+    }
 }
