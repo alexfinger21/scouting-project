@@ -167,7 +167,8 @@ function writeData(points) {
 
 async function getTeamData(team, records, existingColors) {
     return new Promise((resolve, reject) => {
-        /*consoleLog("team is", team)*/
+        consoleLog("team is", team)
+        consoleLog(team.autonNotes / records.autonNotes,)
         getTeamColor(team.teamNumber.toString(), team.teamName, existingColors).then((color) => {
             consoleLog(team.teamNumber, "-", color)
             existingColors.push(color)
@@ -202,14 +203,16 @@ async function writeSpiderData(points) {
     let existingColors = []
     const records = {
         gamesPlayed: Math.max(...points.map(p => p.gamesPlayed)),
-        gameScore: Math.max(...points.map(p => Math.round(p.gameScore))),
-        autonNotes: Math.max(...points.map(p => Math.round(p.autonSpeaker + p.autonAmp))),
-        teleopScore: Math.max(...points.map(p => Math.round(p.teleopScore))),
-        endgameScore: Math.max(...points.map(p => Math.round(p.endgameScore))),
+        gameScore: Math.max(...points.map(p => p.gameScore)),
+        autonNotes: Math.max(...points.map(p => p.autonSpeaker + p.autonAmp)),
+        teleopScore: Math.max(...points.map(p => p.teleopScore)),
+        endgameScore: Math.max(...points.map(p => p.endgameScore)),
         //rank: Math.max(...points.map(p => Math.round(p.rank))),
-        opr: Math.max(...points.map(p => Math.round(p.opr))),
-        dpr: Math.max(...points.map(p => Math.round(p.dpr))),
+        opr: Math.max(...points.map(p => p.opr)),
+        dpr: Math.max(...points.map(p => p.dpr)),
     }
+
+    consoleLog("REC AUTON: ", records.autonNotes)
     
     for (let i = 0; i < points.length; i++) {
         const team = points[i]
