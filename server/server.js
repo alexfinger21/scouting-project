@@ -184,6 +184,17 @@ app.use("/game-strategy", gameStrategy)
 //PIT SCOUTING PAGE
 app.use("/pit-scout", pitScouting)
 
+app.post("/logout", (req, res) => {
+   req.cookies.set("user_id", "", {
+            maxAge: 24 * 60 * 60 * 1000,
+            // expires works the same as the maxAge
+            httpOnly: true,
+        }   
+   )
+
+    return res.redirect("/login")
+})
+
 //GET MATCH
 app.get("/getMatch", function (req, res) {
     consoleLog(req.body)
@@ -220,7 +231,7 @@ app.get("/getMatchTeams", function (req, res) {
 })
 
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runAPICall, 100000)
+    setInterval(runAPICall, 2400000)
 }
 
 //DEFAULT PATH
