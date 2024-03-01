@@ -42,7 +42,7 @@ function deleteData(data) {
 function deleteAPIData() {
     return SQL`DELETE FROM teamsixn_scouting_dev.api_rankings
     WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
-        AND api_rankings.competition_master_cm_event_code = '${gameConstants.COMP}';`
+        AND api_rankings.competition_master_cm_event_code = ${gameConstants.COMP};`
 
 }
 
@@ -74,7 +74,7 @@ function writeAPIData(teamRankings) {
 
     //console.log(valuesStr)
 
-    const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.api_rankings
+    const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_rankings
     (
         frc_season_master_sm_year, 
         competition_master_cm_event_code, 
