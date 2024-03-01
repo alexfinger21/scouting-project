@@ -60,6 +60,7 @@ function returnAPIDATA() {
         request(optionsOPRS, function(error, response) {
             if (error) throw new Error(error)
             printMessage("Status Code", response.statusCode)
+            consoleLog(response.body)
             const oprData = JSON.parse(response.body)
             
             consoleLog(oprData)
@@ -73,6 +74,7 @@ function returnAPIDATA() {
             }
 
             request(optionsRankings, function(error, response) {
+                consoleLog(response.body)
                 const rankingsData = JSON.parse(response.body).rankings
                 //consoleLog(rankingsData)
                 const combinedTeamData = {}
