@@ -40,12 +40,13 @@ let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
     }
 })
 
-//consoleLog(matchTeams)
+consoleLog("\n\nMATCH TEAMS")
+consoleLog(matchTeams)
 //When teamsummary is loaded, call the main function 
 
 
 function getMatchTeams(matchNum) {
-    return matchTeams[matchNum]
+    return matchTeams.find(match => match.gm_number == matchNum)
 }
 
 async function getPoints(x, y, color) {
