@@ -69,7 +69,7 @@ const io = new Server(server, {
         origin: '*',
         credentials: true
     },
-    pingTimeout: 20000,
+    pingTimeout: 7200000,
     pingInterval: 25000
 })
 
