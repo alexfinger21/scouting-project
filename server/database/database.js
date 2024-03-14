@@ -439,25 +439,10 @@ async function getMatchData(gameNumber) {
     return SQL`
         SELECT 
         gm.team_master_tm_number,
-            tm.tm_name, 
-            gm.gm_alliance, 
-            gm.gm_alliance_position, 
-            tms.nbr_games, 
-            tms.api_rank, 
-            tms.api_win,
-            tms.api_loss, 
-            tms.api_tie, 
-            tms.api_opr,
-            tms.api_opr_rank,
-            tms.api_dpr,
-            tms.api_dpr_rank,
-            tms.total_game_score_avg, 
-            tms.auton_total_score_avg, 
-            tms.auton_notes_amp_avg, 
-            tms.auton_notes_speaker_avg, 
-            tms.endgame_total_score_avg, 
-            tms.teleop_total_score_avg, 
-            tms.total_game_score_avg
+        gm.gm_alliance, 
+        gm.gm_alliance_position, 
+        tm.tm_name, 
+        tms.*
         FROM 
         teamsixn_scouting_dev.game_matchup gm
         LEFT JOIN
