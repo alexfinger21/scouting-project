@@ -36,7 +36,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    transform: translate(0, 100%);
+    transform: translate(0, 39%);
     height: 10vh;
     padding: 0.2%;
     margin-left: auto;
@@ -51,7 +51,7 @@
   }
 
   #login-form {
-    margin-top: 3%;
+    margin-top: -1%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
