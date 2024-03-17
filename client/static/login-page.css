@@ -204,7 +204,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    transform: translate(0, 90%);
+    transform: translate(0, 80%);
     height: 15vw;
     padding: 0.2%;
     margin-left: auto;
@@ -219,7 +219,7 @@
   }
 
   #login-form {
-    margin-top: 6%;
+    margin-top: 4%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
