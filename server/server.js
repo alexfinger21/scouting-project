@@ -187,7 +187,7 @@ app.use("/game-strategy", gameStrategy)
 app.use("/pit-scout", pitScouting)
 
 app.post("/logout", (req, res) => {
-   req.cookies.set("user_id", "", {
+   res.cookie("user_id", "", {
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
             httpOnly: true,
