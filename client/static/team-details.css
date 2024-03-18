@@ -98,6 +98,7 @@
 
 #team-picture {
     width: 80%;
+    max-width: 60vh;
     height: auto;
 }
 
