@@ -280,3 +280,10 @@ input[type=radio] {
   width: auto !important;
   white-space: break-spaces;
 }
+
+@media (min-aspect-ratio: 1) {
+  #page-holder {
+    height: 80vh !important;
+    margin-top: 0;
+  }
+}
