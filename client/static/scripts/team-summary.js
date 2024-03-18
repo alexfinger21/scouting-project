@@ -56,7 +56,9 @@ async function getPoints(x, y, color) {
 
     let points = []
     const gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
+    let noVal = 0
     let ind = 0
+
     for (const val of data) {
         let teamNumber = val.team_master_tm_number
         if (teamNumber && val.tm_name) {
@@ -80,6 +82,11 @@ async function getPoints(x, y, color) {
                 color = highlightColors[val.team_master_tm_number]
                 hidden = false
             }
+
+            if (!val[x]) {
+                ++noVal
+            }
+
             points.push({
                 teamNumber: val.team_master_tm_number,
                 hidden: hidden,
@@ -109,6 +116,9 @@ async function getPoints(x, y, color) {
             ind++
         }
     }
+
+    if (noVal == points.length) {return false;}
+
     return points
 }
 
@@ -129,7 +139,7 @@ function updateMarker(oldval, newval) {
     })
 }
 
-function main() {
+async function main() {
     let chart
     let currentChart = 0 //goes from 0 to 5
     let points
@@ -139,6 +149,8 @@ function main() {
     const scatterPlotCanvas = document.getElementById("scatterplot-chart")
     const barGraphCanvas = document.getElementById("bar-graph-chart")
     const spiderCanvas = document.getElementById("spider-chart")
+    const arrowLeft = document.getElementById("arrow-left")
+    const arrowRight = document.getElementById("arrow-right")
     let ctx
 
     function switchChart(newChart) {
@@ -184,6 +196,7 @@ function main() {
         consoleLog("DRAW CHART:", number)
         const oldCurrentChart = currentChart
 
+
         if (debounce) { return }
 
         debounce = true
@@ -195,7 +208,7 @@ function main() {
                 ctx = scatterPlotCanvas.getContext("2d")
                 points = await getPoints("api_rank", "total_game_score_avg")
 
-                if (oldCurrentChart == currentChart) {
+                if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
                         graphHandler.createScatterChart(
                             points,
@@ -203,7 +216,10 @@ function main() {
                             "Avg Score" //y axis title
                         )
                     )
+                } else if (!points) {
+                    return false
                 }
+                
                 break
             case 1:
                 switchChart("bar")
@@ -212,7 +228,7 @@ function main() {
 
                 consoleLog(points)
 
-                if (oldCurrentChart == currentChart) {
+                if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
@@ -220,14 +236,17 @@ function main() {
                             15
                         )
                     )
+                } else if (!points) {
+                    return false
                 }
+                
                 break
             case 2:
                 switchChart("spider")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
                 consoleLog(points)
 
-                if (oldCurrentChart == currentChart) {
+                if (oldCurrentChart == currentChart && points) {
                     const config = await graphHandler.createSpiderChart(
                         points,
                         "gameScore",
@@ -238,15 +257,17 @@ function main() {
                     chart = new Chart(ctx,
                         config
                     )
+                } else if (!points) {
+                    return false
                 }
+                
                 break
-
             case 3:
                 switchChart("bar")
 
                 points = await getPoints("team_master_tm_number", "auton_total_score_avg", POINT_COLOR)
 
-                if (oldCurrentChart == currentChart) {
+                if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
@@ -254,14 +275,17 @@ function main() {
                             "autonScore",
                         )
                     )
+                } else if (!points) {
+                   arrowRight.click() 
                 }
+                
                 break
             case 4:
                 switchChart("bar")
 
                 points = await getPoints("team_master_tm_number", "teleop_total_score_avg", POINT_COLOR)
 
-                if (oldCurrentChart == currentChart) {
+                if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
@@ -269,35 +293,44 @@ function main() {
                             "teleopScore",
                         )
                     )
+                } else if (!points) {
+                    return false
                 }
+
                 break
             case 5:
                 switchChart("bar")
 
                 points = await getPoints("team_master_tm_number", "endgame_total_score_avg", POINT_COLOR)
 
-                if (oldCurrentChart == currentChart) {
+                if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
                             "endgameScore"
                         )
                     )
+                } else if (!points) {
+                    return false
                 }
+                
                 break
             case 6:
                 switchChart("bar")
 
                 points = await getPoints("team_master_tm_number", "games_played", POINT_COLOR)
 
-                if (oldCurrentChart == currentChart) {
+                if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
                         graphHandler.createBarGraph(
                             points,
                             "gamesPlayed"
                         )
                     )
+                } else if (!points) {
+                    return false
                 }
+                
                 break
         }
 
@@ -307,10 +340,8 @@ function main() {
     //variable stores currently selected chart
     //initialize to scatterchart
     updateMarker(null, currentChart)
-    consoleLog("HIHIHIHI")
-    drawChart(currentChart)
 
-    const arrowLeft = document.getElementById("arrow-left")
+    //when the arrows are clicked, draw a new graph
     arrowLeft.addEventListener("click", async () => {
         if (debounce) { return }
 
@@ -324,11 +355,15 @@ function main() {
 
         updateMarker(old, currentChart)
 
-        drawChart(currentChart)
+        const chartRes = await drawChart(currentChart) 
+
+        if (chartRes === false) {
+            debounce = false
+            arrowLeft.click()
+        }
     })
 
     //when the arrows are clicked, draw a new graph
-    const arrowRight = document.getElementById("arrow-right")
     arrowRight.addEventListener("click", async () => {
         if (debounce) { return }
 
@@ -343,9 +378,21 @@ function main() {
 
         updateMarker(old, currentChart)
 
-        drawChart(currentChart)
+        const chartRes = await drawChart(currentChart) 
+
+        if (chartRes === false) {
+            debounce = false
+            arrowRight.click()
+        }
     })
 
+    let chartRes = await drawChart(currentChart)
+    while (chartRes === false) {
+        consoleLog("CHART RES")
+        debounce = false
+        arrowRight.click()
+        chartRes = await drawChart(currentChart)
+    }
     //update graph when highlight team value changes
     const highlightTeam = document.getElementById("highlight-team")
     highlightTeam.addEventListener("change", (event) => {
