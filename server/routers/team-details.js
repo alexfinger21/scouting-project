@@ -79,7 +79,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
     pitData = JSON.parse(JSON.stringify(pitData))
 
-    consoleLog(pitData)
+    consoleLog("PIT DATA", pitData)
 
     if (pitData?.length > 0) {
         consoleLog(teamInfo)
@@ -96,11 +96,9 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         index = urls.indexOf(undefined)
     }
 
-    consoleLog("TEAM INFO")
-    consoleLog(teamInfo)
+    consoleLog("TEAM INFO", teamInfo)
 
-    consoleLog("URLS: ")
-    consoleLog(urls)
+    consoleLog("URLS: ", urls)
 
     res.render("team-details", {
         teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),

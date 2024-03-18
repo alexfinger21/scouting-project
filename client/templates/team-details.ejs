@@ -94,15 +94,15 @@
                 <%="OPR: " + (teamInfo.api_opr != null ? teamInfo.api_opr.toFixed(1) : "None") + " - DPR: "
                  + (teamInfo.api_dpr != null ? teamInfo.api_dpr.toFixed(1) : "None")%>
                 <br>
-                <%="Drivetrain: " + (teamInfo.type_of_drive_train ?? "Unknown")%>
+                <%="Drivetrain: " + (teamInfo.Drive_Train_Type ?? "Unknown")%>
                 <br>
-                <%="Wheels used: " + (teamInfo.type_of_wheels_used ?? "Unknown") %>
+                <%="Wheels used: " + (teamInfo.Wheel_Type ?? "Unknown") %>
                 <br>
-                <%="Weight: " + (teamInfo.robot_weight ?? "Unknown ") + "lbs"%>
+                <%="Weight: " + (teamInfo.Robot_Weight ?? "Unknown ") + "lbs"%>
                 <br>
-                <%="Length: " + (teamInfo.robot_dimension_length ?? "Unkown ") 
-                + "in    Width: " + (teamInfo.robot_dimension_width ?? "Unknown ")
-                + "in    Height: " + (teamInfo.robot_dimension_height ?? "Unknown ") + "in"%>
+                <%="Length: " + (teamInfo.Robot_Length ?? "Unkown ") 
+                + "in    Width: " + (teamInfo.Robot_Width ?? "Unknown ")
+                + "in    Height: " + (teamInfo.Robot_Height ?? "Unknown ") + "in"%>
             </p>
             <div id="team-pictures-container">
                 <button id="arrow-left">
