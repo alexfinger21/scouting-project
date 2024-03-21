@@ -128,18 +128,29 @@
                 <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Teleop Notes Avg
+                        Teleop Amp
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].teleop_total_score_avg ? matchup[i].teleop_total_score_avg.toFixed(1) : "N/A"%>
+                            <%=matchup[i].teleop_notes_amp_avg ? matchup[i].teleop_notes_amp_avg.toFixed(1) : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--TELEOP AVG PTS-->
+                <tr>
+                    <td>
+                        Teleop Speaker
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%=matchup[i].teleop_notes_speaker_not_amped_avg && matchup[i].teleop_notes_speaker_amped_avg ? (matchup[i].teleop_notes_speaker_not_amped_avg + matchup[i].teleop_notes_speaker_amped_avg).toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
                 <!--AUTON AVG PTS-->
                 <tr>
                     <td>
-                        Auton Notes Avg
+                        Auton Score Avg
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
@@ -150,7 +161,7 @@
                 <!--ENDGAME-->
                 <tr>
                     <td>
-                        Hang Success Rate
+                        Endgame Score Avg
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
@@ -158,16 +169,7 @@
                         </td>
                     <% } %>
                 </tr>
-                <tr>
-                    <td>
-                        Trap Success Rate
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
-                        </td>
-                    <% } %>
-                </tr>
+
                 <!--OPR-->
                 <tr>
                     <td>
@@ -190,6 +192,8 @@
                         </td>
                     <% } %>
                 </tr>
+
+                <!-- misc 
                 <tr>
                     <td>
                         Has Ground Intake
@@ -200,6 +204,18 @@
                         </td>
                     <% } %>
                 </tr>
+
+                                <tr>
+                    <td>
+                        Trap Success Rate
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                -->
                 
             </table>
 
@@ -279,18 +295,29 @@
                 <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Teleop Notes Avg
+                        Teleop Amp
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <%=matchup[i].teleop_total_score_avg ? matchup[i].teleop_total_score_avg.toFixed(1) : "N/A"%>
+                            <%=matchup[i].teleop_notes_amp_avg ? matchup[i].teleop_notes_amp_avg.toFixed(1) : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--TELEOP AVG PTS-->
+                <tr>
+                    <td>
+                        Teleop Speaker
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%=matchup[i].teleop_notes_speaker_not_amped_avg && matchup[i].teleop_notes_speaker_amped_avg ? (matchup[i].teleop_notes_speaker_not_amped_avg + matchup[i].teleop_notes_speaker_amped_avg).toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
                 <!--AUTON AVG PTS-->
                 <tr>
                     <td>
-                        Auton Notes Avg
+                        Auton Score Avg
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
@@ -301,7 +328,7 @@
                 <!--ENDGAME-->
                 <tr>
                     <td>
-                        Hang Success Rate
+                        Endgame Score Avg
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
@@ -309,16 +336,7 @@
                         </td>
                     <% } %>
                 </tr>
-                <tr>
-                    <td>
-                        Trap Success Rate
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
-                        </td>
-                    <% } %>
-                </tr>
+
                 <!--OPR-->
                 <tr>
                     <td>
@@ -341,7 +359,17 @@
                         </td>
                     <% } %>
                 </tr>
-                <!--MISC-->
+                <!--MISC
+                <tr>
+                    <td>
+                        Trap Success Rate
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
                 <tr>
                     <td>
                         Has Ground Intake
@@ -371,7 +399,7 @@
                             <% matchup[i].teleop_coop_button_press_avg%>
                         </td>
                     <% } %>
-                </tr>
+                </tr> -->
 
             </table>
         </div>
