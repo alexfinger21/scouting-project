@@ -415,7 +415,7 @@ async function main() {
     const topButtonsContainer = document.querySelector("#graph-display-container")
 
     for (const button of topButtonsContainer.children) {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", async () => {
             if (debounce) { return }
             if (button.name != currentChart) {
                 if (chart) {
@@ -424,8 +424,11 @@ async function main() {
                 updateMarker(currentChart, button.name)
                 consoleLog("NUMBER: ", Number(button.name))
                 currentChart = Number(button.name)
-                drawChart(currentChart)
-                consoleLog("top btn clickd")
+                const res = await drawChart(currentChart)
+                if (res === false) {
+                    debounce = false
+                    arrowRight.click()
+                }
             }
         })
     }
