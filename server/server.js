@@ -87,12 +87,18 @@ async function runAPICall() {
 }
 
 io.on("connection", (socket) => {
-    const index = socketManager.addSocket(socket)
+    const socketObj = socketManager.socketArray[socketManager.addSocket(socket)]
 
-    socket.on("disconnect", () => {
+    socket.on("username", (data) => {
+      socketObj.username = data.name
+    })
+
+    socket.on("disconnect", (reason) => {
+        consoleLog(`SOCKET ${socket?.username} DISCONNECTED: ` + reason)
         socketManager.removeSocket(index)
         consoleLog(socketManager.getSockets())
     })
+
 
     consoleLog(socketManager.getSockets())
 })
