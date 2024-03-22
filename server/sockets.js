@@ -6,7 +6,6 @@ let sockets = {
         this.socketArray.push(socket)
 
         socket.on("disconnect", (reason) => {
-            consoleLog("SOCKET DISCONNECTED: " + reason)
         })
 
         return this.socketArray.length - 1
