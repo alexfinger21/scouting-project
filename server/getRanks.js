@@ -81,8 +81,8 @@ function returnAPIDATA() {
 
                 for (let i = 0; i<rankingsData.length; i++) {
                     combinedTeamData[rankingsData[i].team_key.substring(3)] = rankingsData[i]
-                    combinedTeamData[rankingsData[i].team_key.substring(3)].opr = oprData["oprs"][rankingsData[i].team_key.substring(3)]
-                    combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData["dprs"][rankingsData[i].team_key.substring(3)]
+                    combinedTeamData[rankingsData[i].team_key.substring(3)].opr = oprData?.["oprs"]?.[rankingsData[i].team_key.substring(3)]
+                    combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData?.["dprs"]?.[rankingsData[i].team_key.substring(3)]
                 }
 
                 //consoleLog(database.writeAPIData(combinedTeamData))

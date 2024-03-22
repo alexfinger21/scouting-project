@@ -55,15 +55,15 @@ function writeAPIData(teamRankings) {
 
     for (const [k, team] of Object.entries(teamRankings)) {
         counter++
-        const rank_str = String(team.rank)
+        const rank_str = String(team.rank ?? 0)
         const team_num_str = String(k)
-        const wins_str = String(team.record.wins)
-        const losses_str = String(team.record.losses)
-        const ties_str = String(team.record.ties)
-        const dq_str = String(team.dq)
-        const matches_played_str = String(team.matches_played)
-        const opr_str = String(team.opr)
-        const dpr_str = String(team.dpr)
+        const wins_str = String(team.record.wins ?? 0)
+        const losses_str = String(team.record.losses ?? 0)
+        const ties_str = String(team.record.ties ?? 0)
+        const dq_str = String(team.dq ?? 0)
+        const matches_played_str = String(team.matches_played ?? 0)
+        const opr_str = String(team.opr ?? 0)
+        const dpr_str = String(team.dpr ?? 0)
         let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + "," + opr_str + "," + dpr_str + ",'" + String(time) + "')"
         //console.log(a)
         a = Object.keys(teamRankings).length != counter ? a + "," : a
