@@ -15,8 +15,12 @@ let sockets = {
         return this.socketArray.map(e => e.id)
     },
 
-    removeSocket: function(index) {
-        this.socketArray.splice(index, 1)
+    removeSocket: function(socket) {
+        const index = this.socketArray.find((e) => e == e)
+
+        if (index === -1) {return false;}
+
+        return this.socketArray.splice(index, 1)
     },
 
     clearSockets: function() {

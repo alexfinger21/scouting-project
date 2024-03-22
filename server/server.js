@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
 
     socket.on("disconnect", (reason) => {
         consoleLog(`SOCKET ${socket?.username} DISCONNECTED: ` + reason)
-        //socketManager.removeSocket(index)
+        socketManager.removeSocket(socketObj)
         consoleLog(socketManager.getSockets())
     })
 
