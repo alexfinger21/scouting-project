@@ -1,5 +1,7 @@
 const log = true
-const debugLog = false
+const debugLog = false //shows where console logs came from
+const canvasFPS = 40
+
 let currentPage = "/match-listing"
 
 const paths = {
@@ -8,11 +10,14 @@ const paths = {
     matchListing: "/match-listing",
     matchStrategy: "/match-strategy",
     adminPage: "/admin-page",
+    matchVerify: "/match-verify",
     teamSummary: "/team-summary",
     teamDetails: "/team-details",
     allianceInput: "/alliance-input",
     allianceSelector: "/alliance-selector",
     rankings: "/rankings",
+    pitScouting: "/pit-scout",
+    logout: "/logout",
     //eventData: "/event-data"
 }
 
@@ -23,6 +28,9 @@ function consoleLog(...args) {
             console.trace()
         }
     }
+}
+function hexToRgb(hex) {
+    return [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)]
 }
 
 function lerp(a, b, c) {
@@ -59,6 +67,23 @@ function getMatch() {
         })
     })
 }
+
+(function getUsername() {
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: "/getUsername",
+            success: function(response) {
+                consoleLog("CURRENT PAGE", currentPage)
+                if (Object.values(paths).includes(currentPage)) {
+                    document.getElementById("username-holder").innerText = response
+
+                    resolve(response)
+                }   
+            }
+        })
+    })
+})()
 
 function requestData(url, data) {
     return new Promise(resolve => {
@@ -150,5 +175,39 @@ async function requestPage(url, data, pageVal) {
     })
 }
 
+function isObject(o) {
+    return o && typeof(o) == "object" && !Array.isArray(o)
+}
 
-export {consoleLog, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+function deepMerge(target, ...sources) {
+    for (const s of sources) {
+        if (isObject(s)) {
+            for (const k of Object.keys(s)) {
+                if (isObject(s[k])) {
+                    if (isObject(target[k])) {
+                        deepMerge(target[k], s[k])
+                    } else {
+                        target[k] = Object.assign({}, s[k])
+                    }
+                }
+                else {
+                    if (isObject(target[k])) {
+                        Object.assign(target[k], {[k]: s[k]})
+                    } else {
+                        target[k] = s[k]
+                    }
+                }
+            }
+        }
+    }
+
+    return target
+}
+
+function checkPage(path) {
+    return currentPage.split("?")[0] == path
+}
+
+//console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
+
+export {consoleLog, checkPage, isObject, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

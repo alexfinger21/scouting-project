@@ -34,15 +34,24 @@ function getAvailableTeams(sortValue) {
         data: JSON.stringify({ sortBy: sortValue }),
         success: function (response) {
             for (const team of response) {
-                let links = team.links
-                if(links) {
-                    links = links.toFixed(1)
-                }
-                else {
-                    links = "N/A"
-                }
-                const html = "<tr><td>" + team.team + "</td><td>" + team.apiRank + "</td><td>" + Math.round(team.gameScore) + "</td><td>" + links + "</td><td>" 
-                    + team.autonChargeStation.toFixed(1) + "</td><td>" + team.endgameChargeStation.toFixed(1) + "</td></tr> "
+                const html = "<tr><td>"
+                    + team.team
+                    + "</td><td>"
+                    + team.apiRank 
+                    + "</td><td>" 
+                    + Math.round(team.gameScore) 
+                    + "</td><td>" 
+                    + team.auton.toFixed(1) 
+                    + "</td><td>" 
+                    + team.speakerScore.toFixed(1)
+                    + "</td><td>" 
+                    + team.ampScore.toFixed(1) 
+                    + "</td><td>" 
+                    + team.stageScore.toFixed(1) 
+                    + "</td><td>" 
+                    + team.trapScore.toFixed(1) 
+                    + "</td></tr> "
+                
                 tbody.insertAdjacentElement("beforeend", $(html)[0])
             }
         },

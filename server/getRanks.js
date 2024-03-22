@@ -60,6 +60,7 @@ function returnAPIDATA() {
         request(optionsOPRS, function(error, response) {
             if (error) throw new Error(error)
             printMessage("Status Code", response.statusCode)
+            consoleLog(response.body)
             const oprData = JSON.parse(response.body)
             
             consoleLog(oprData)
@@ -73,14 +74,15 @@ function returnAPIDATA() {
             }
 
             request(optionsRankings, function(error, response) {
+                consoleLog(response.body)
                 const rankingsData = JSON.parse(response.body).rankings
                 //consoleLog(rankingsData)
                 const combinedTeamData = {}
 
                 for (let i = 0; i<rankingsData.length; i++) {
                     combinedTeamData[rankingsData[i].team_key.substring(3)] = rankingsData[i]
-                    combinedTeamData[rankingsData[i].team_key.substring(3)].opr = oprData["oprs"][rankingsData[i].team_key.substring(3)]
-                    combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData["dprs"][rankingsData[i].team_key.substring(3)]
+                    combinedTeamData[rankingsData[i].team_key.substring(3)].opr = oprData?.["oprs"]?.[rankingsData[i].team_key.substring(3)]
+                    combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData?.["dprs"]?.[rankingsData[i].team_key.substring(3)]
                 }
 
                 //consoleLog(database.writeAPIData(combinedTeamData))

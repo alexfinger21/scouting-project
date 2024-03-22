@@ -42,40 +42,36 @@
                         <tr>
                             <th>Match #</th>
                             <th>Game Score</th>
-                            <th>Links</th>
-                            <th>Auton Chg Stn</th>
-                            <th>End Chg Stn</th>
-                            <th>Cones<br>L/M/H</th>
-                            <th>Cubes<br>L/M/H</th>
+                            <th>Auton</th>
+                            <th>Speaker Score</th>
+                            <th>Amp Score</th>
+                            <th>Stage Score</th>
+                            <th>Trap Score</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for(let i = 0; i < teamData.length; i++) {%>
+                        <% for(let i = 0; i < teamData.length; ++i) {%>
                             <tr>
                                 <td>
                                     <%= teamData[i].game_matchup_gm_number %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].gm_score %>
+                                    <%= teamData[i].total_game_score %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].nbr_links %>
+                                    <%= teamData[i].auton_total_score %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].auton_chg_station %>
+                                    <%= teamData[i].teleop_notes_speaker_amped + teamData[i].teleop_notes_speaker_not_amped %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].endgame_chg_station %>
+                                    <%= teamData[i].teleop_notes_amp %>
                                 </td>
                                 <td>
-                                    <%= `T: ${teamData[i].Cone_Count_L + teamData[i].Cone_Count_M + teamData[i].Cone_Count_H}`%>
-                                    <br>
-                                    <%= `${teamData[i].Cone_Count_L}/${teamData[i].Cone_Count_M}/${teamData[i].Cone_Count_H}` %>
+                                    <%= teamData[i].endgame_onstage_points %>
                                 </td>
                                 <td>
-                                    <%= `T: ${teamData[i].Cube_Count_L + teamData[i].Cube_Count_M + teamData[i].Cube_Count_H}`%>
-                                    <br>
-                                    <%= `${teamData[i].Cube_Count_L}/${teamData[i].Cube_Count_M}/${teamData[i].Cube_Count_H}` %>
+                                    <%= teamData[i].endgame_notes_trap %>
                                 </td>
                             </tr>
                         <% } %>
@@ -98,15 +94,15 @@
                 <%="OPR: " + (teamInfo.api_opr != null ? teamInfo.api_opr.toFixed(1) : "None") + " - DPR: "
                  + (teamInfo.api_dpr != null ? teamInfo.api_dpr.toFixed(1) : "None")%>
                 <br>
-                <%="Drivetrain: " + (teamInfo.ps_drive_train != null ? teamInfo.ps_drive_train : "Unknown")%>
+                <%="Drivetrain: " + (teamInfo.Drive_Train_Type ?? "Unknown")%>
                 <br>
-                <%="Wheels used: " + (teamInfo.ps_wheel_used != null ? teamInfo.ps_wheel_used : "Unknown") %>
+                <%="Wheels used: " + (teamInfo.Wheel_Type ?? "Unknown") %>
                 <br>
-                <%="Weight: " + (teamInfo.ps_robot_weight_lbs != null ? teamInfo.ps_robot_weight_lbs : "Unknown ") + "lbs"%>
+                <%="Weight: " + (teamInfo.Robot_Weight ?? "Unknown ") + "lbs"%>
                 <br>
-                <%="Length: " + (teamInfo.ps_robot_length_in != null ? teamInfo.ps_robot_length_in : "Unkown ") 
-                + "in    Width: " + (teamInfo.ps_robot_width_in != null ? teamInfo.ps_robot_width_in : "Unknown ")
-                + "in    Height: " + (teamInfo.ps_robot_height_in != null ? teamInfo.ps_robot_height_in : "Unknown ") + "in"%>
+                <%="Length: " + (teamInfo.Robot_Length ?? "Unkown ") 
+                + "in    Width: " + (teamInfo.Robot_Width ?? "Unknown ")
+                + "in    Height: " + (teamInfo.Robot_Height ?? "Unknown ") + "in"%>
             </p>
             <div id="team-pictures-container">
                 <button id="arrow-left">

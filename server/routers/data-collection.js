@@ -7,6 +7,9 @@ const SQL = require('sql-template-strings')
 
 async function getMatchup(match) {
     const [err, matchup] = await database.query(database.getMatchData(match))
+
+    consoleLog("MATCHUP")
+    consoleLog(matchup)
     
     return parseData(matchup)
 }
@@ -47,6 +50,7 @@ async function getAssignment(username) {
         let teamName = assignment.team_color.substring(0, 1).toUpperCase() + assignment.team_color.substring(1)
         assignment.match_display = "Match " + assignment.gm_game_type + assignment.cg_gm_number + " - "
             + teamName + " " + assignment.gm_alliance_position
+        consoleLog("ASSIGNMENT: ")
         consoleLog(assignment)
         return assignment
     }
@@ -155,6 +159,7 @@ router.post("/", function (req, res) {
     if (body.type == "scouting") {
         const seventhScouter = getSeventhScouter(body.username)
         if(seventhScouter != body.username) {
+            consoleLog("Received:")
             consoleLog(body)
             updateData(body)
         }
