@@ -20,23 +20,43 @@
                 <% } %>
             </select>
         </div>
-        
-        <table id="scoring">
-            <colgroup>
-                <col span="1" style="width:60%">
-            </colgroup>
-            <tr>
-                <td>Predicted Score:</td>
-                <td class="R">
-                    <%= Math.round(matchup[0].avg_gm_score + matchup[1].avg_gm_score + matchup[2].avg_gm_score) %>
-                </td>
-                <td class="B">
-                    <%= Math.round(matchup[3].avg_gm_score + matchup[4].avg_gm_score + matchup[5].avg_gm_score) %>
-                </td>
-            </tr>
-        </table>
 
         <div id="match-strategy-container">
+            <div id="match-strategy-graph-container">
+                <table id="alliance-properties">
+                    <colgroup>
+                        <col span="1" style="width:60%">
+                    </colgroup>
+                    <tr id="predicted-score">
+                        <td>Predicted Score:</td>
+                        <td class="R">
+                            <%= Math.round(matchup[0].total_game_score_avg + matchup[1].total_game_score_avg + matchup[2].total_game_score_avg) %>
+                        </td>
+                        <td class="B">
+                            <%= Math.round(matchup[3].total_game_score_avg + matchup[4].total_game_score_avg + matchup[5].total_game_score_avg) %>
+                        </td>
+                    </tr>
+                    <tr id="coopertition-expected">
+                        <td>Co-op Expected:</td>
+                        <td class="R">
+                            
+                        </td>
+                        <td class="B">
+                            
+                        </td>
+                    </tr>
+                    <tr id="stockpile-suggested">
+                        <td>Stockpiling Suggested:</td>
+                        <td>
+                            
+                        </td>
+                    </tr>
+                </table>
+                <div id="match-strategy-graph-wrapper">
+                    <canvas id="spider-chart" display="false" ></canvas>
+                </div>
+                <!--Chart.js-->
+            </div>
             <!--RED TEAM TABLE-->
             <table class="stats">
                 <colgroup>
@@ -83,6 +103,17 @@
                         </td>
                     <% } %>
                 </tr>
+                <!--AVG SCORE-->
+                <tr>
+                    <td>
+                        Avg Score
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%= Math.round(matchup[i].total_game_score_avg) %>
+                        </td>
+                    <% } %>
+                </tr>
                 <!--GAMES PLAYED-->
                 <tr>
                     <td>
@@ -94,43 +125,51 @@
                         </td>
                     <% } %>
                 </tr>
-                <!--AUTON CHARGE STATION-->
+                <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Avg Auton<br>Chg Station
+                        Teleop Amp
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].avg_auton_chg_station_score) || "N/A"%>
+                            <%=matchup[i].teleop_notes_amp_avg ? matchup[i].teleop_notes_amp_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--AVG LINKS-->
+                <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Avg Links
+                        Teleop Speaker
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <% if(matchup[i].avg_nbr_links) {%> 
-                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
-                            <%} else { %>
-                                N/A
-                            <% } %>
+                            <%=matchup[i].teleop_notes_speaker_not_amped_avg && matchup[i].teleop_notes_speaker_amped_avg ? (matchup[i].teleop_notes_speaker_not_amped_avg + matchup[i].teleop_notes_speaker_amped_avg).toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--ENDGAME CHARGE STATION-->
+                <!--AUTON AVG PTS-->
                 <tr>
                     <td>
-                        Avg Endgame<br>Chg Station
+                        Auton Score Avg
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td >
+                            <%=matchup[i].auton_total_score_avg ? matchup[i].auton_total_score_avg.toFixed(1) : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--ENDGAME-->
+                <tr>
+                    <td>
+                        Endgame Score Avg
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
+
                 <!--OPR-->
                 <tr>
                     <td>
@@ -153,17 +192,31 @@
                         </td>
                     <% } %>
                 </tr>
-                <!--AVG SCORE-->
+
+                <!-- misc 
                 <tr>
                     <td>
-                        Avg Score
+                        Has Ground Intake
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].avg_gm_score) %>
+                            <%= Math.round(matchup[i].total_game_score_avg) %>
                         </td>
                     <% } %>
                 </tr>
+
+                                <tr>
+                    <td>
+                        Trap Success Rate
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                -->
+                
             </table>
 
             <!-------------------------------------------------------------------------------------->
@@ -181,6 +234,7 @@
                         </th>
                     <% } %>
                 </tr>
+                
                 <!--NAME-->
                 <tr>
                     <td>
@@ -203,6 +257,7 @@
                         </td>
                     <% } %>
                 </tr>
+
                 <!--Win/Loss/Tie-->
                 <tr>
                     <td>
@@ -221,47 +276,67 @@
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <%=matchup[i].games_played || "N/A"%>
+                            <%=matchup[i].nbr_games || "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--AUTON CHARGE STATION-->
+                <!--AVG SCORE-->
                 <tr>
                     <td>
-                        Avg Auton<br>Chg Station
+                        Avg Score
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <%=Math.round(matchup[i].avg_auton_chg_station_score) || "N/A"%>
+                            <%= Math.round(matchup[i].total_game_score_avg) %>
                         </td>
                     <% } %>
                 </tr>
-                <!--AVG LINKS-->
+                
+                <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Avg Links
+                        Teleop Amp
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td >
-                            <% if(matchup[i].avg_nbr_links) {%> 
-                                <%=matchup[i].avg_nbr_links.toFixed(1)%>
-                            <%} else { %>
-                                N/A
-                            <% } %>
+                            <%=matchup[i].teleop_notes_amp_avg ? matchup[i].teleop_notes_amp_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
-                <!--ENDGAME CHARGE STATION-->
+                <!--TELEOP AVG PTS-->
                 <tr>
                     <td>
-                        Avg Endgame<br>Chg Station
+                        Teleop Speaker
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%=matchup[i].teleop_notes_speaker_not_amped_avg && matchup[i].teleop_notes_speaker_amped_avg ? (matchup[i].teleop_notes_speaker_not_amped_avg + matchup[i].teleop_notes_speaker_amped_avg).toFixed(1) : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--AUTON AVG PTS-->
+                <tr>
+                    <td>
+                        Auton Score Avg
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <%=matchup[i].auton_notes_amp_avg && matchup[i].auton_notes_speaker_avg && matchup[i].auton_notes_pickup_avg ? `${matchup[i].auton_notes_amp_avg + matchup[i].auton_notes_speaker_avg}+${matchup[i].auton_notes_pickup_avg - matchup[i].auton_notes_amp_avg - matchup[i].auton_notes_speaker_avg}` : "N/A"%>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--ENDGAME-->
+                <tr>
+                    <td>
+                        Endgame Score Avg
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=Math.round(matchup[i].avg_endgame_chg_station_score) || "N/A"%>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
+
                 <!--OPR-->
                 <tr>
                     <td>
@@ -284,19 +359,51 @@
                         </td>
                     <% } %>
                 </tr>
-                <!--AVG SCORE-->
+                <!--MISC
                 <tr>
                     <td>
-                        Avg Score
+                        Trap Success Rate
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%= Math.round(matchup[i].avg_gm_score) %>
+                        <td class= <%= matchup[i].team_master_tm_number%>>
+                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
                         </td>
                     <% } %>
                 </tr>
+                <tr>
+                    <td>
+                        Has Ground Intake
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            Yes
+                        </td>
+                    <% } %>
+                </tr>
+                <tr>
+                    <td>
+                        Can Pass Under Stage
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            Yes
+                        </td>
+                    <% } %>
+                </tr>
+                <tr>
+                    <td>
+                        Activates Co-Op
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <td >
+                            <% matchup[i].teleop_coop_button_press_avg%>
+                        </td>
+                    <% } %>
+                </tr> -->
+
             </table>
         </div>
+        <canvas id="strategy-chart" display="false" ></canvas>
         
         <!--
         <div class="strategy-display">
@@ -333,5 +440,6 @@
            </p>
        </div>
     -->
+
     </div>
 </body>

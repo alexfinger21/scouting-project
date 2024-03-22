@@ -110,7 +110,7 @@ window.addEventListener("load", () => {
             setTimeout(() => {bottomBarDebounce = false}, 300)
             }
         })
-    })
+    })  
 
     const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {
@@ -124,9 +124,20 @@ window.addEventListener("load", () => {
         hideHighlight(hoverButton)
     })
     
+    const pitScoutingButton = document.getElementById("pit-scouting-button")
+    pitScoutingButton.addEventListener("click", () =>  {
+        requestPage(paths.pitScouting)
+        hideHighlight(hoverButton)
+    })
     const adminPageButton = document.getElementById("admin-page-button")
     adminPageButton.addEventListener("click", () =>  {
         requestPage(paths.adminPage)
+        hideHighlight(hoverButton)
+    })
+
+    const matchVerifyButton = document.getElementById("match-verify-button")
+    matchVerifyButton.addEventListener("click", () =>  {
+        requestPage(paths.matchVerify)
         hideHighlight(hoverButton)
     })
 

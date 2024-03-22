@@ -48,7 +48,7 @@ const getAlliances = async (eventId) => {
 };
 
 router.get("/", async function (req, res) {
-    getAlliances("2023ohcl")
+    //getAlliances("2023ohcl") //include for testing purposes
 
     consoleLog("GET request for match listing")
     consoleLog("Get collected data: " + req.query.getCollectedData)
@@ -63,6 +63,8 @@ router.get("/", async function (req, res) {
         database.query(database.getTeams(), async (err, results) => {
             //get isAdmin
             consoleLog(err)
+            consoleLog("MATCHES")
+            consoleLog(database.getTeams())
             const isAdmin = await checkAdmin(req)
     
             //get running game
@@ -112,6 +114,7 @@ router.get("/", async function (req, res) {
 router.post("/", function (req, res) {
     const body = req.body
     if (body.stop_match == true) { //stop match
+        consoleLog("Got here ")
         database.query(SQL`delete from teamsixn_scouting_dev.current_game 
         where cg_sm_year > 0;`, (err, results) => {
             consoleLog(err)
@@ -119,9 +122,13 @@ router.post("/", function (req, res) {
             res.send("match stopped")
         })
 
-        database.query(database.clearMatchStretegyTemp(), (err, results) => {
+        consoleLog("GOT HERE 2")
+
+        database.query(database.clearMatchStrategyTemp(), (err, results) => {
+            console.log(err)
             database.query(database.saveMatchStrategy(), (err, results) => {
                 consoleLog(err)
+                consoleLog("DID it")
                 //consoleLog(results)
             })
             consoleLog(err)

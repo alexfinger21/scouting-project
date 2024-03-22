@@ -1,11 +1,8 @@
-import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog } from "./utility.js"
+import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog, canvasFPS } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
 import Endgame from "./data_collection/Endgame.js"
-
-//import Endgame from "./data_collection/Endgame.js"
-
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
@@ -183,6 +180,9 @@ function loadData() {
     return new Promise(async (res, rej) => {
         const match = await getMatch()
         const form = document.getElementById("match-number-form")
+        
+        if (!form) {return}
+
         const buttonContainers = form.querySelectorAll(".NumberButtonContainer")
         const matchNumber = document.getElementById("match-number")
         const inputContainers = form.querySelectorAll(".input-container")
@@ -212,7 +212,10 @@ function loadData() {
         robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
         const robotContainer = new Image()
         robotContainer.src = `./static/images/data-collection/robot-container.png`
-        const images = { gamePieceImage, robotImage, mapImage, robotContainer }
+        const legendButton = new Image()
+        legendButton.src = `./static/images/data-collection/legend-button.png`
+        
+        const images = { gamePieceImage, robotImage, mapImage, robotContainer, legendButton }
 
         await waitUntilImagesLoaded(Object.values(images))
 
@@ -273,9 +276,6 @@ function loadData() {
         if (!localData) {
             return rej()
         }
-
-
-        consoleLog(data)
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
@@ -392,6 +392,8 @@ async function loadDataCollection() {
     const radioButtonContainers = document.getElementsByClassName("radio-button-container")
     const tableScrollers = document.querySelectorAll(".table-scroller")
 
+    let lastFrame = 0
+
     try {
         await loadData()
     } catch (e) {
@@ -399,9 +401,11 @@ async function loadDataCollection() {
     }
     function animateAuton() {
         if (currentPage == paths.dataCollection && AutonObject) {
-            AutonObject.draw()
-            EndgameObject.draw()
-
+            if ((Date.now() - lastFrame) > 1000/canvasFPS) {
+                AutonObject.draw()
+                EndgameObject.draw()
+                lastFrame = Date.now()
+            }
             window.requestAnimationFrame(animateAuton)
         }
     }
@@ -431,6 +435,7 @@ async function loadDataCollection() {
                     const inputMax = Number(input.max)
 
                     plusButton.addEventListener("click", (event) => {
+                        consoleLog("clicked")
                         input.value = clamp(Number(input.value) + 1, inputMin, inputMax)
                     })
 

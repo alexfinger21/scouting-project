@@ -39,14 +39,16 @@ const teamSummary = require(path.resolve(serverDirectory, routeDirectory, "team-
 const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
 const allianceSelector = require(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
 const matchListing = require(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
+const matchVerify = require(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))
 const adminPage = require(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
 const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "rankings.js"))
 const teamDetails = require(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
 const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
 const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
+const pitScouting = require(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
 const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
-//CONSTANTS
 
+//CONSTANTS
 const corsOptions = {
     origin: '*',
     credentials: true
@@ -65,7 +67,10 @@ const allowCrossDomain = function (req, res, next) {
 const io = new Server(server, {
     cors: {
         origin: '*',
-    }
+        credentials: true
+    },
+    pingTimeout: 7200000,
+    pingInterval: 25000
 })
 
 //FUNCTIONS
@@ -140,11 +145,6 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
     }
 })
 
-//DEFAULT PATH
-app.get("/", function (req, res) { //only gets used if the url == /
-    res.redirect("app")
-})
-
 //MAIN
 app.use("/app", template)
 
@@ -166,6 +166,9 @@ app.use("/alliance-selector", allianceSelector)
 //MATCH LISTING
 app.use("/match-listing", matchListing)
 
+//MATCH VERIFY
+app.use("/match-verify", matchVerify)
+
 //ADMIN PAGE
 app.use("/admin-page", adminPage)
 
@@ -180,6 +183,20 @@ app.use("/alliance-input", allianceInput)
 
 app.use("/game-strategy", gameStrategy)
 
+//PIT SCOUTING PAGE
+app.use("/pit-scout", pitScouting)
+
+app.post("/logout", (req, res) => {
+   res.cookie("user_id", "", {
+            maxAge: 24 * 60 * 60 * 1000,
+            // expires works the same as the maxAge
+            httpOnly: true,
+        }   
+   )
+
+    return res.redirect("/login")
+})
+
 //GET MATCH
 app.get("/getMatch", function (req, res) {
     consoleLog(req.body)
@@ -193,6 +210,20 @@ app.get("/getMatch", function (req, res) {
     })
 })
 
+//GET USERNAME
+app.get("/getUsername", async (req, res) => {
+    consoleLog("COOKIES", req.cookies)
+    let [err, dbRes] = await database.query(SQL`SELECT * FROM teamsixn_scouting_dev.user_master um WHERE um.um_id = ${req.cookies["username"]};`)
+    
+    consoleLog("DB RES", dbRes)
+    const user = JSON.parse(JSON.stringify(dbRes))
+    if (user?.length > 0) {
+        return res.send(user[0]["um_name"])
+    }
+
+    return res.send("unknown")
+})
+
 app.get("/getMatchTeams", function (req, res) {
     consoleLog("request recieved!")
     database.query(database.getTeams(), (err, runningMatchResults) => {
@@ -202,8 +233,22 @@ app.get("/getMatchTeams", function (req, res) {
 })
 
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runAPICall, 100000)
+    setInterval(runAPICall, 240000)
 }
+
+//DEFAULT PATH
+app.use((req, res, next) => {
+    //pit-scouting
+    if (req.path.match(/(pit-scouting)+/) != null) {
+        console.log("here")
+        return next()
+    }
+
+    res.status(404)
+
+    res.redirect("/app")
+})
+
 //PORT
 app.listen(3000) //goes to localhost 3000
 

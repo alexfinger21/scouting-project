@@ -36,7 +36,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    transform: translate(0, 140%);
+    transform: translate(0, 39%);
     height: 10vh;
     padding: 0.2%;
     margin-left: auto;
@@ -51,7 +51,7 @@
   }
 
   #login-form {
-    margin-top: 5%;
+    margin-top: -1%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
@@ -61,6 +61,7 @@
     background-color: #FFF;
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    max-width: 500px;
   }
 
   #form-container {
@@ -68,6 +69,7 @@
     align-items: center;
     flex-direction: column;
     width: 80vw;
+    max-width: 500px;
   }
 
   .login-input-container {
@@ -202,7 +204,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    transform: translate(0, 110%);
+    transform: translate(0, 80%);
     height: 15vw;
     padding: 0.2%;
     margin-left: auto;
@@ -217,7 +219,7 @@
   }
 
   #login-form {
-    margin-top: 10%;
+    margin-top: 4%;
     margin-left: auto;
     margin-right: auto;
     display: flex;
