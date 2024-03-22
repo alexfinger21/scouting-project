@@ -104,7 +104,7 @@
                     <span>Auton - Scored in Speaker</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="auton-speaker" min="0" max="5" value="0">
+                        <input type="number" name="auton-speaker" min="0" max="10" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                     <span>Auton - Scored in Amplifier</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="auton-amplifier" min="0" max="5" value="0">
+                        <input type="number" name="auton-amplifier" min="0" max="10" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
@@ -129,11 +129,21 @@
 
                 <!--TELEOP-->
                 <div class="line" id="tele-op">ㅤ</div>
+                
+                <!--<div class="input-container">
+                    <span>Notes Picked Up</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="trap-notes" min="0" max="3" value="0">
+                        <button type="button" class="big-button">-</button>
+                    </div>
+                </div> -->
+
                 <div class="input-container">
                     <span>Teleop - Amplifier</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="teleop-amplifier" min="0" max="5" value="0">
+                        <input type="number" name="teleop-amplifier" min="0" max="25" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
@@ -141,7 +151,7 @@
                     <span>Teleop - Speaker</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="teleop-speaker" min="0" max="5" value="0">
+                        <input type="number" name="teleop-speaker" min="0" max="25" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
@@ -149,7 +159,7 @@
                     <div class="one-line"><span>Teleop - </span> <span style="color: #EEC800">Amplified </span> <span>Speaker</span></div>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="teleop-amplified-speaker" min="0" max="5" value="0">
+                        <input type="number" name="teleop-amplified-speaker" min="0" max="25" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
@@ -201,7 +211,7 @@
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
-
+                
                 <div class="input-container">
                     <span>Teleop + Endgame - Fouls</span>
                     <div class="NumberButtonContainer">
@@ -269,7 +279,7 @@
                         <label for="intake-ground">From ground</label>
                         <br>
                         <input type="radio" id="intake-source" name="intake-location" value="source">
-                        <label for="intake-source">Direct drop-in from source</label>
+                        <label for="intake-source">Direct drop-in from source (Note does not touch the ground)</label>
                         <br>
                         <input type="radio" id="intake-ground-source" name="intake-location" value="ground-source">
                         <label for="intake-ground-source">Can do ground intake & drop-in</label>

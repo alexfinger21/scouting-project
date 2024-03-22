@@ -1,3 +1,5 @@
+import { paths } from "./utility.js"
+
 window.addEventListener("load", main)
 
 function main() {
@@ -6,6 +8,7 @@ function main() {
     let debounce = false
     const dropdown = document.getElementById("dropdown")
     const content = document.getElementById("dropdown-content")
+    const logOutButton = document.getElementById("log-out-button")
 
     //when the button is clicked, changes the max visible height
     dropdown.addEventListener("click", () => {
@@ -15,7 +18,7 @@ function main() {
             debounce = true
             content.style.visibility = "visible"
             content.style.display = "block"
-            content.style.maxHeight = "30vh"
+            content.style.maxHeight = "100vh"
 
             setTimeout(() => {
                 debounce = false
@@ -48,5 +51,16 @@ function main() {
                 debounce = false
             }, 200)
         }
+    })
+
+    logOutButton.addEventListener("click", (event) => {
+        $.ajax({
+            type: "POST",
+            url: paths.logout,
+            contentType: "application/json",
+            success: (response) => {
+                window.location.replace("/logout")
+            }
+        })
     })
 }

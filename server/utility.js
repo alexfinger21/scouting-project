@@ -1,15 +1,15 @@
 const log = true
-const debugLog = false
+const debugLog = false  //shows where console logs came from
 const SQL = require('sql-template-strings')
 
 function arrAvg(...args) {
-    return args.reduce((total, val) => total+val)/args.length
+    return args.reduce((total, val) => total + val) / args.length
 }
 
 function consoleLog(...args) {
     if (log) {
         console.log(...args)
-        if(debugLog) {
+        if (debugLog) {
             console.trace()
         }
     }
@@ -53,4 +53,4 @@ function parseData(info) {
     return JSON.parse(JSON.stringify(info))
 }
 
-module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData}
+module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData }

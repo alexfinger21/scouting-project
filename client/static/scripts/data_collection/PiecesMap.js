@@ -10,7 +10,7 @@ export default class PiecesMap {
         const isBlue = allianceColor == "B" 
         //Add Pickup Wing Notes ge_key 202-204
         const wingNoteX = isBlue ? Math.floor(canvasSize.x * 0.35) : Math.floor(canvasSize.x * 0.52)
-        const centerNoteX = isBlue ? Math.floor(canvasSize.x * 0.8) : Math.floor(canvasSize.x * 0.05)
+        const centerNoteX = isBlue ? Math.floor(canvasSize.x * 0.75) : Math.floor(canvasSize.x * 0.1)
 
         //Wing Notes
         if (isAuton) {
@@ -101,7 +101,8 @@ export default class PiecesMap {
         const data = {}
 
         for (const x of this.pieces) {
-            data[x.ge_key] = x.spotlightStatus ? 2 : (x.isSelected ? 1 : 0)
+            const val =  x.spotlightStatus ? 2 : (x.isSelected ? 1 : 0)
+            data[x.ge_key] = val            
         }
 
         return data

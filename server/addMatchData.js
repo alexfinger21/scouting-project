@@ -17,7 +17,6 @@ const matchList = {
        'If-Modified-Since': ''
     }
 }
-
 function getData () {
     return new Promise((resolve, reject) => {
         if(gameConstants.COMP == "test")
@@ -28,22 +27,24 @@ function getData () {
         request(matchList, function(error, response) {
             if (error) throw new Error(error)
             consoleLog("Status Code", response.statusCode)
+            consoleLog("Response")
+            consoleLog(response.body)
             const matchData = (JSON.parse(response.body))
             //consoleLog(JSON.stringify(matchData, null, "\t")) // makes text look nice
             //consoleLog(matchData)
-
+            const gametype = (gameConstants.GAME_TYPE == "qm" || gameConstants.GAME_TYPE == "Q")? "qm":""
             const matchOutput = {}
-            
+            let qNum = 0
             for (let i = 0; i < matchData.length; i++)
             {
                 const m = matchData[i]
                 const alliancesForBlue = [m.alliances.blue.team_keys[0].substring(3), m.alliances.blue.team_keys[1].substring(3), m.alliances.blue.team_keys[2].substring(3)]
                 const alliancesForRed = [m.alliances.red.team_keys[0].substring(3), m.alliances.red.team_keys[1].substring(3), m.alliances.red.team_keys[2].substring(3)]
                 const matchNumber =  m.match_number
-                // let theUtcTime = new Date((m.predicted_time*1000))
-                // let time = theUtcTime.toUTCString()
+                //let theUtcTime = new Date((m.predicted_time*1000))
+                //let time = theUtcTime.toUTCString()
                 // Time not working right now
-                if (m.comp_level != gameConstants.GAME_TYPE)
+                if (m.comp_level != gametype)
                 {
                     continue
                 }
@@ -53,11 +54,18 @@ function getData () {
                 matchOutput [String(matchNumber)] =  m
                 matchOutput [String(matchNumber)].red = alliancesForRed
                 matchOutput [String(matchNumber)].blue = alliancesForBlue
+                qNum++
             }
+            const qTimes = gameTimes(qNum)
+            //consoleLog("hi", qTimes)
+            consoleLog("Match output")
+            consoleLog(matchOutput)
+            consoleLog("Times")
+            consoleLog(qTimes)
             database.query(database.deleteMatchDataX(), (err, res) => {
                 consoleLog(err)
                 //consoleLog(res)
-                database.query(database.addMatchData(matchOutput), (err, res) => {
+                database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
                     consoleLog(err)
                     //consoleLog(res)
                 })
@@ -67,5 +75,27 @@ function getData () {
         })
     })
 } 
+function gameTimes (matchNum) 
+{
+    let gameArray = []
+    let date = ''
+    let time = ''
+    for (let segment = 0; segment < gameConstants.sch_constants.length; segment++)
+    {
+        let sched = gameConstants.sch_constants[segment]
+        let dateTime = new Date(sched[2]+'T'+sched[3])
+        const offset = dateTime.getTimezoneOffset()*60000
+        dateTime.setTime(dateTime.getTime() - offset)  
+        for (let match = sched[0]; match <= sched[1]; match++)
+        {
+            [date, time] = dateTime.toISOString().substring(0, 19).split('T')
+            gameArray.push(String(`${date} ${time}`))
+            dateTime.setTime(dateTime.getTime() + sched[4]) 
+        }
+    }
+    consoleLog(gameArray)
+    return gameArray
+
+}
 getData()
 module.exports = {getData}

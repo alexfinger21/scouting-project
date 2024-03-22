@@ -19,6 +19,14 @@ body {
 
 
 /* WEBKIT */
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 /* Removes input spinners/arrows on Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -40,7 +48,7 @@ input::-webkit-inner-spin-button {
   box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
-/* HIGHLIGHT 695 and 2399 */ 
+/* HIGHLIGHT 695 and 2399 */
 
 .team695 {
   background-color: #FFD962;
@@ -87,6 +95,12 @@ input::-webkit-inner-spin-button {
   object-fit: cover;
 }
 
+#username-holder {
+  color: rgb(255, 255, 255);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #dropdown {
   height: 4vh;
   aspect-ratio: 1.2;
@@ -94,8 +108,9 @@ input::-webkit-inner-spin-button {
   border: none;
   padding: 0.2%;
   margin-right: 5%;
-  margin-left: auto;
+  margin-left: 0; 
 }
+
 
 #dropdownImg {
   height: 100%;
@@ -109,7 +124,8 @@ input::-webkit-inner-spin-button {
   top: 5vh;
   right: 0vw;
   background-color: rgb(255, 255, 255);
-  width: 21vw;
+  width: 15vh;
+  height: fit-content;
   padding: 0.5vh;
   transform: translate(-1.5vw, 1.5vh);
   text-align: left;
@@ -135,6 +151,22 @@ input::-webkit-inner-spin-button {
   display: inline-block;
   font-size: 2vh;
   margin-bottom: 1.5vh;
+}
+
+
+#log-out-button {
+  display: block;
+  width: 90%;
+  height: 5vh;
+  color: #FFF !important;
+  background-color: #3492EA !important;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 6px #3077b9;
+  transition: all .1s ease-in-out;
+  /*margin-left: auto;*/
+  margin-right: auto;
+  text-align: center !important;
 }
 
 
@@ -225,6 +257,12 @@ input::-webkit-inner-spin-button {
   background-color: #D9D9D9;
 }
 
+input[type=radio] {
+  border: 0px;
+  width: 1em !important;
+  height: 1em !important;
+}
+
 /*----------------utils----------------*/
 
 .one-line {
@@ -241,4 +279,11 @@ input::-webkit-inner-spin-button {
 .one-line span {
   width: auto !important;
   white-space: break-spaces;
+}
+
+@media (min-aspect-ratio: 1) {
+  #page-holder {
+    height: 80vh !important;
+    margin-top: 0;
+  }
 }
