@@ -47,6 +47,7 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
     transports: ["polling"],
 })
 
+
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
 //selects a random value from an array
@@ -78,6 +79,7 @@ function getMatch() {
                 if (Object.values(paths).includes(currentPage)) {
                     document.getElementById("username-holder").innerText = response
 
+                    socket.emit("username", {name: response})
                     resolve(response)
                 }   
             }
