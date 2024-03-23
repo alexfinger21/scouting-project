@@ -120,16 +120,6 @@
     font-size: 1.8vh;
 }
 
-#team-display-table td, #team-display-table th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    font-weight: normal;
-    word-wrap:break-word;
-    text-align: center;
-}
-
-#team-display-table thead, #team-display-table th {
-    background-color: white;
+.team-display-table th {
+    font-size: 1.5vh;
 }
