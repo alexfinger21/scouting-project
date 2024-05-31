@@ -66,7 +66,8 @@ const allowCrossDomain = function (req, res, next) {
 //sockets, they let us connect users and the server based on events
 const io = new Server(server, {
     cors: {
-        origin: '*'
+        origin: '*',
+        credentials: true
     },
     pingTimeout: 7200000,
     pingInterval: 25000
