@@ -4,7 +4,7 @@ const crypto = require("crypto")
 require('dotenv').config()
 const database = require("../database/database.js")
 const { consoleLog } = require("../utility")
-//SQL
+//SQL 
 const SQL = require('sql-template-strings')
 
 async function checkUser(body) {
