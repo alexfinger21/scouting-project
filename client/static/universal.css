@@ -179,14 +179,27 @@ input::-webkit-inner-spin-button {
   align-items: center;
   flex-wrap: nowrap;
   flex-direction: row;
+  jusity-content: space-between;
   background: #3492ea;
   width: 100%;
   height: 7.5vh;
 }
 
+#team-text-container {
+    display: flex;
+    flex: 1;
+}
+
+#username-holder {
+    position: absolute;
+    left: 45%;
+}
+
 #headertext {
   line-height: 1.4;
   margin-left: 2%;
+  margin-top: auto;
+  margin-bottom: auto;
   font-family: 'Rubik', fantasy;
   font-size: 1.5vh;
   color: #ffffff;
