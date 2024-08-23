@@ -4,6 +4,7 @@ const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
 const { getImageData } = require("../getImages.js")
+const {getTeamVideos, getMatchVideos} = require("../TBAAPIData.js")
 const SQL = require('sql-template-strings')
 
 function mergeDicts(dict1, dict2) {
@@ -22,6 +23,16 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     team_results = JSON.parse(JSON.stringify(team_results))
     const teamNumber = req.query.team || 695
     const selectedPage = req.query.selectedPage || "game-data-page"
+
+    let matchVideos
+
+    try {
+        matchVideos = await getMatchVideos(teamNumber)
+    }
+    catch {
+        matchVideos = []
+    }
+    
 
     let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
     if(teamInfo == null || teamInfo == undefined) {
@@ -104,6 +115,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
         teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
         teamInfo: teamInfo,
+        matchVideos: matchVideos,
         selectedTeam: teamNumber,
         teamPictures: urls,
         comments: comments,
