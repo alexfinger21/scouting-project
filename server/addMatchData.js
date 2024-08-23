@@ -11,7 +11,7 @@ const database = require("./database/database.js")
 
 const matchList = {
     "method": "GET",
-    "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches/simple',
+    "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches',
     'headers': {
         'X-TBA-Auth-Key': auth,
        'If-Modified-Since': ''
@@ -30,7 +30,7 @@ function getData () {
             consoleLog("Response")
             consoleLog(response.body)
             const matchData = (JSON.parse(response.body))
-            //consoleLog(JSON.stringify(matchData, null, "\t")) // makes text look nice
+            consoleLog(JSON.stringify(matchData, null, "\t")) // makes text look nice
             //consoleLog(matchData)
             const gametype = (gameConstants.GAME_TYPE == "qm" || gameConstants.GAME_TYPE == "Q")? "qm":""
             const matchOutput = {}
@@ -41,14 +41,12 @@ function getData () {
                 const alliancesForBlue = [m.alliances.blue.team_keys[0].substring(3), m.alliances.blue.team_keys[1].substring(3), m.alliances.blue.team_keys[2].substring(3)]
                 const alliancesForRed = [m.alliances.red.team_keys[0].substring(3), m.alliances.red.team_keys[1].substring(3), m.alliances.red.team_keys[2].substring(3)]
                 const matchNumber =  m.match_number
-                //let theUtcTime = new Date((m.predicted_time*1000))
-                //let time = theUtcTime.toUTCString()
-                // Time not working right now
+                //const video = "https://www.youtube.com/watch?v="+m.videos[0].key
+        
                 if (m.comp_level != gametype)
                 {
                     continue
                 }
-                //consoleLog(/*'time ', time,*/ 'blue ', alliancesForBlue, ' red ', alliancesForRed, matchNumber)
                
                 
                 matchOutput [String(matchNumber)] =  m
@@ -62,14 +60,14 @@ function getData () {
             consoleLog(matchOutput)
             consoleLog("Times")
             consoleLog(qTimes)
-            database.query(database.deleteMatchDataX(), (err, res) => {
-                consoleLog(err)
-                //consoleLog(res)
-                database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
-                    consoleLog(err)
-                    //consoleLog(res)
-                })
-            })
+            // database.query(database.deleteMatchDataX(), (err, res) => {
+            //     consoleLog(err)
+            //     //consoleLog(res)
+            //     database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
+            //         consoleLog(err)
+            //         //consoleLog(res)
+            //     })
+            // })
             resolve(matchData)
          
         })
