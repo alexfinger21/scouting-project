@@ -3,6 +3,7 @@ const router = express.Router()
 require('dotenv').config()
 const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
+const { getMatchVideo } = require("../TBAAPIData.js")
 const socketManager = require("../sockets.js")
 const { data } = require("jquery")
 const { consoleLog } = require("../utility")
@@ -66,44 +67,54 @@ router.get("/", async function (req, res) {
             consoleLog("MATCHES")
             consoleLog(database.getTeams())
             const isAdmin = await checkAdmin(req)
-    
+
             //get running game
             let runningMatch = -1
-            database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-    
+            database.query(SQL`select * from teamsixn_scouting_dev.current_game;`,async (err, runningMatchResults) => {
+
                 if (runningMatchResults.length > 0) {
                     runningMatch = runningMatchResults[0].cg_gm_number
                     process.env.lastPlayedMatch = runningMatchResults[0].cg_gm_number
                 }
-    
-    
+
+
                 //get teams 
                 const teams = {}
-    
+
                 for (let i = 0; i < results.length; i++) {
                     const currentTeam = results[i]
-    
+
                     teams[i] = currentTeam
-    
+
                     const date = new Date(teams[i].gm_timestamp)
                     const month = months[date.getUTCMonth()]
                     const day = date.getDate()
                     const h = addZero(date.getHours())
                     const m = addZero(date.getMinutes())
                     teams[i].time = month + " " + day + ", " + h + ":" + m
-    
+
                     //consoleLog(teams[i])
                 }
-    
+
                 teams.length = Object.keys(teams).length
+
+                let matchVideos
+
+                try {
+                    matchVideos = await getMatchVideos()
+                }
+                catch {
+                    matchVideos = []
+                }
 
                 consoleLog("Rendering match listing")
                 //consoleLog(teams)
 
                 res.render("match-listing", {
-                    teams: teams, 
+                    teams: teams,
                     isAdmin: isAdmin,
                     runningMatch: runningMatch,
+                    matchVideos: matchVideos,
                     lastPlayedMatch: process.env.lastPlayedMatch
                 })
             })
@@ -148,9 +159,9 @@ router.post("/", function (req, res) {
                 })
 
                 process.env.lastPlayedMatch = body.gm_number
-                
+
                 socketManager.emitAllSockets(body.gm_number, "changeMatch")
-                
+
                 res.status(200).send({ response: true })
             }
         })
