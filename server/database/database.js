@@ -621,7 +621,6 @@ function addMatchData(matchInfo, matchTimes)
     
 }
 
-
 module.exports = {
     getMatchData: getMatchData,
     getGameNumbers: getGameNumbers,
