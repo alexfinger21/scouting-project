@@ -4,7 +4,7 @@ const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
 const { getImageData } = require("../getImages.js")
-const {getTeamVideos, getMatchVideos} = require("../TBAAPIData.js")
+const {getMatchVideos } = require("../TBAAPIData.js")
 const SQL = require('sql-template-strings')
 
 function mergeDicts(dict1, dict2) {
@@ -27,7 +27,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     let matchVideos
 
     try {
-        matchVideos = await getMatchVideos(teamNumber)
+        matchVideos = await getMatchVideos()
     }
     catch {
         matchVideos = []
