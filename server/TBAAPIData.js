@@ -62,25 +62,32 @@ async function getMatchVideos (specificTeam=false)
         const matchNumber =  m.match_number
         const alliancesForBlue = [m.alliances.blue.team_keys[0].substring(3), m.alliances.blue.team_keys[1].substring(3), m.alliances.blue.team_keys[2].substring(3)]
         const alliancesForRed = [m.alliances.red.team_keys[0].substring(3), m.alliances.red.team_keys[1].substring(3), m.alliances.red.team_keys[2].substring(3)]
-        const video = "https://www.youtube.com/watch?v="+m.videos[0].key
+        const videoKey = m.videos[0].key
+        const video = "https://www.youtube.com/watch?v="+m.videos[0].key 
        
 
-        if (specificTeam)
-        {    
-        for (let f = 0; f <= 2; f++)
+        if (videoKey)
         {
+            if (specificTeam)
+            {
+            for (let f = 0; f <= 2; f++)
+            {
             if (specificTeam == alliancesForBlue[f]|| specificTeam == alliancesForRed[f])
             {
                 matchVideos.push([matchNumber, video])
                 break
             }
+            }
+            }
+            else
+            {
+            matchVideos.push([matchNumber, video])
+            }
         }
+        else
+        {
+            matchVideos.push([matchNumber, ""])
         }
-       else
-       {
-        matchVideos.push([matchNumber, video])
-       }
-
     }
 
     matchVideos.sort(function(a, b){return a[0] - b[0]})
