@@ -100,15 +100,10 @@ router.get("/", async function (req, res) {
 
                 let matchVideos
 
-                try {
-                    matchVideos = await getMatchVideos()
-                }
-                catch {
-                    matchVideos = []
-                }
+                matchVideos = await getMatchVideos()
 
                 consoleLog("Rendering match listing")
-                //consoleLog(teams)
+                consoleLog(matchVideos)
 
                 res.render("match-listing", {
                     teams: teams,
