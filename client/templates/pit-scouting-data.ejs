@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pit Scouting</title>
+</head>
+<body>
+<script>
+    let survey=[
+        { question: 'Event', type: 'text' },
+        { question: 'Team number', type: 'number' },
+        { question: 'Type of drive train', type: 'radio', options: ['Tank Drive ("skid steer", plates on both sides of wheels)', 'West Coast Drive (wheels mounted off one side of tube)', 'Swerve Drive','Other: ']  },
+        { question: 'Type of wheels used', type: 'radio', options: ["Traction","Mecanum (rollers at 45° angle)","Omni (rollers at 90° angle)","Other: "] },
+        { question: 'Intake Use:', type: 'radio', options: ["Ground","Station","Other: "] },
+        { question: 'Scoring Locations:', type: 'checkbox', options: ["Amp","Speaker","Trap","Balance"] },
+        { question: 'Robot Weight', type: 'number' },
+        { question: 'Robot Dimension (Length in Inches) without bumpers - front to back', type: 'number' },//might need to be text
+        { question: 'Robot Dimension (Width in Inches) without bumpers - left to right', type: 'number' },//might need to be text
+        { question: 'Robot Dimension (Height in Inches) from floor to highest point on robot at the start of the match', type: 'number' },//might need to be text
+        { question: 'Drive Team Members', type: 'radio', options: ["One person driving and operating the robot during a match","Other: "] },
+        { question: 'Hours/Weeks of Practice', type: 'text' },
+        { question: 'Picture - Full Robot', type: 'file' },
+        { question: 'Picture - Drive Train', type: 'file' },
+        { question: 'Additional Comments', type: 'textarea' },   
+    ];
+    
+</script>
+</body>
+</html>
