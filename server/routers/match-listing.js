@@ -99,8 +99,13 @@ router.get("/", async function (req, res) {
                 teams.length = Object.keys(teams).length
 
                 let matchVideos
-
-                matchVideos = await getMatchVideos()
+                
+                try {
+                    matchVideos = await getMatchVideos()
+                }
+                catch {
+                    matchVideos = []
+                }
 
                 consoleLog("Rendering match listing")
                 consoleLog(matchVideos)
