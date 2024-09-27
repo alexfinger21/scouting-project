@@ -188,6 +188,7 @@ function main() {
             //}
         })
     }
+
     //match strat buttons
     const matchStrat = document.getElementsByClassName("match-strat-button")
     for (const button of matchStrat) {

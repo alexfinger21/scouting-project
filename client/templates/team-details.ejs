@@ -53,7 +53,12 @@
                         <% for(let i = 0; i < teamData.length; ++i) {%>
                             <tr>
                                 <td>
-                                    <%= teamData[i].game_matchup_gm_number %>
+                                   <a href=<%-matchVideos[parseFloat(teamData[i].game_matchup_gm_number)-1][1]%> target="_blank">
+                                    <%= teamData[i].game_matchup_gm_number %> 
+                                    
+
+                                </a>
+
                                 </td>
                                 <td>
                                     <%= teamData[i].total_game_score %>
