@@ -118,6 +118,7 @@ input::-webkit-inner-spin-button {
 }
 
 #dropdown-content {
+  z-index: 1000;
   display: block;
   visibility: hidden;
   position: fixed;

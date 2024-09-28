@@ -1,4 +1,4 @@
-import { paths } from "./utility.js"
+import { paths, consoleLog } from "./utility.js"
 
 window.addEventListener("load", main)
 
@@ -42,7 +42,7 @@ function main() {
         if (debounce) return
 
         if (!event.target.matches("#dropdownImg") && !event.target.matches("#dropdown-content") && !event.target.matches("#dropdown")) {
-            //consoleLog(event.target)
+            consoleLog(event.target)
             content.style.maxHeight = "0px"
             debounce = true
             
