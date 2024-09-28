@@ -1,4 +1,4 @@
-import {requestPage, paths, consoleLog} from "./utility.js"
+import {requestPage, paths, consoleLog, waitForElem} from "./utility.js"
 
 let globalPos = 0
 let selectedObj = document.getElementById("match-listing-btn")
@@ -70,7 +70,7 @@ function setSelectedObject(value) {
     selectedObj = value
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
     requestPage(paths.matchListing)
    
     selectedObj = document.getElementById("match-listing-btn")
@@ -112,36 +112,32 @@ window.addEventListener("load", () => {
         })
     })  
 
-    const allianceSelectorButton = document.getElementById("alliance-selector-button")
+    const allianceSelectorButton = await waitForElem("#alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {
         requestPage(paths.allianceSelector)
         hideHighlight(hoverButton)
     })
 
-    const teamDetailsButton = document.getElementById("team-details-button")
+    const teamDetailsButton = await waitForElem("#team-details-button")
     teamDetailsButton.addEventListener("click", () =>  {
         requestPage(paths.teamDetails)
         hideHighlight(hoverButton)
     })
-    
-    const pitScoutingButton = document.getElementById("pit-scouting-button")
-    pitScoutingButton.addEventListener("click", () =>  {
-        requestPage(paths.pitScouting)
-        hideHighlight(hoverButton)
-    })
-    const adminPageButton = document.getElementById("admin-page-button")
+
+    const adminPageButton = await waitForElem("#admin-page-button")
+    consoleLog(adminPageButton)
     adminPageButton.addEventListener("click", () =>  {
         requestPage(paths.adminPage)
         hideHighlight(hoverButton)
     })
 
-    const matchVerifyButton = document.getElementById("match-verify-button")
+    const matchVerifyButton = await waitForElem("#match-verify-button")
     matchVerifyButton.addEventListener("click", () =>  {
         requestPage(paths.matchVerify)
         hideHighlight(hoverButton)
     })
 
-    const allianceInputButton = document.getElementById("alliance-input-button")
+    const allianceInputButton = await waitForElem("#alliance-input-button")
     allianceInputButton.addEventListener("click", () =>  {
         requestPage(paths.allianceInput)
         hideHighlight(hoverButton)
