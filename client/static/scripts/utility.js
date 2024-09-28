@@ -29,6 +29,28 @@ function consoleLog(...args) {
         }
     }
 }
+
+function waitForElem(query) {
+    return new Promise((res, rej) => {
+        consoleLog(query)
+        const ogQuery = document.querySelector(query) 
+        if (ogQuery) {
+            return res(ogQuery)
+        }
+        const observer = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+                if (!mutation.addedNodes) {continue;}
+
+                const queryRes = document.querySelector(query) 
+                if (queryRes) {
+                    observer.disconnect()
+                    return res(queryRes)
+                }
+            }
+        })
+    })
+}
+
 function hexToRgb(hex) {
     return [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)]
 }
@@ -212,4 +234,4 @@ function checkPage(path) {
 
 //console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
 
-export {consoleLog, checkPage, isObject, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
