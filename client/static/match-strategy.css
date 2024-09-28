@@ -168,5 +168,11 @@ tr:nth-child(even) { /* copied from w3schools lol*/
 @media only screen and (max-aspect-ratio: .85) {
     #match-strategy-graph-container {
         flex-direction: column;
+        height: 50vh;
     }
+
+    #match-strategy-graph-wrapper {
+        flex: 5
+    }
+
 }
