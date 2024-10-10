@@ -86,7 +86,7 @@ async function getMatchVideos (specificTeam=false)
         }
         else
         {
-            matchVideos.push([matchNumber, ""])
+            matchVideos.push([matchNumber, "https://www.youtube.com/watch?v=dQw4w9WgXcQ"])
         }
     }
 
