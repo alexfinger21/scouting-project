@@ -32,12 +32,12 @@
     </div>
 
     <div id="login-form">
-      <form class="centerform" action="/login" method="POST">
+      <form class="centerform" action="/login" method="POST" onsubmit="saveTeamNumber()">
         <div id="form-container">
 
           <div class="login-input-container">
             <img src="../static/images/hashtag.png">
-            <input type="number" name="team_number" placeholder="Team Number" class="login-input">
+            <input type="text" pattern="\d*" name="team_number" value="695" autocomplete="on" placeholder="Team Number" class="login-input">
           </div>
 
           <div class="login-input-container">
@@ -67,5 +67,22 @@
 
   </div>
 </body>
+<!-- <script>
+  // Function to save team number to local storage
+  function saveTeamNumber() {
+    const teamNumber = document.getElementById('team_number').value;
+    localStorage.setItem('teamNumber', teamNumber);
+  }
 
+  // Function to load team number from local storage
+  function loadTeamNumber() {
+    const savedTeamNumber = localStorage.getItem('teamNumber');
+    if (savedTeamNumber) {
+      document.getElementById('team_number').value = savedTeamNumber;
+    }
+  }
+
+  // Load team number when the page loads
+  window.onload = loadTeamNumber;
+</script> !-->
 </html>
