@@ -53,12 +53,15 @@
                         <% for(let i = 0; i < teamData.length; ++i) {%>
                             <tr>
                                 <td>
-                                   <a href=<%-matchVideos[parseFloat(teamData[i].game_matchup_gm_number)-1][1]%> target="_blank">
-                                    <%= teamData[i].game_matchup_gm_number %> 
-                                    
-
-                                </a>
-
+                                    <% const gnum=parseFloat(teamData[i].game_matchup_gm_number)-1; if(matchVideos[gnum]) { %>
+                                        <a href=<%-matchVideos[gnum][1]%> target="_blank">
+                                            <%= teamData[i].game_matchup_gm_number %> 
+                                        </a>
+                                    <% } else { %>
+                                        <p>
+                                            <%= teamData[i].game_matchup_gm_number %> 
+                                        </p>
+                                    <% } %>
                                 </td>
                                 <td>
                                     <%= teamData[i].total_game_score %>
