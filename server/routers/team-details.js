@@ -31,8 +31,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     }
     catch {
         matchVideos = []
-    }
-    
+    }    
 
     let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
     if(teamInfo == null || teamInfo == undefined) {

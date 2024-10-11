@@ -123,6 +123,10 @@
     width: auto;
 }
 
+.match-video-button .gray {
+    filter: grayscale();
+}
+
 .match-strat-button {
     width: 100%;
     height: 100%;
