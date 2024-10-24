@@ -276,6 +276,12 @@ function loadData() {
         if (!localData) {
             return rej()
         }
+<<<<<<< Updated upstream
+=======
+
+        const data = localData[match]
+            //consoleLog("Data is: " + data)
+>>>>>>> Stashed changes
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
