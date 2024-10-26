@@ -246,7 +246,7 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
 app.use((req, res, next) => {
     //pit-scouting
     if (req.path.match(/(pit-scouting)+/) != null) {
-        console.log("here")
+        consoleLog("here")
         return next()
     }
 
