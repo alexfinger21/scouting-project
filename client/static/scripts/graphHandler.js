@@ -232,8 +232,6 @@ async function writeSpiderData(points) {
 //Returns the data to be fed into a chart.js scatterchart given an array containing the points
 function createScatterChart(points, xAxisTitle, yAxisTitle) {
 
-    console.log("LAS POINTAS", points)
-
     return {
         type: "scatter",
         data: writeData(points),
