@@ -224,7 +224,7 @@ app.get("/getUsername", async (req, res) => {
     consoleLog("DB RES", dbRes)
     const user = JSON.parse(JSON.stringify(dbRes))
     if (user?.length > 0) {
-        return res.send(user[0]["um_name"])
+        return res.send({username: user[0]["um_name"], comp: gameConstants.COMP})
     }
 
     return res.send("unknown")

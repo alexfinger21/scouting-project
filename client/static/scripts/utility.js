@@ -99,7 +99,7 @@ function getMatch() {
             success: function(response) {
                 consoleLog("CURRENT PAGE", currentPage)
                 if (Object.values(paths).includes(currentPage)) {
-                    document.getElementById("username-holder").innerText = response
+                    document.getElementById("username-holder").innerText = response.comp.toUpperCase() + " - " + response.username
 
                     socket.emit("username", {name: response})
                     resolve(response)
