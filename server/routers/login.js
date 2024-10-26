@@ -84,12 +84,14 @@ router.post("/", async function (req, res) {
         consoleLog(sessionResult)
 
         res.cookie("user_id", sessionId, {
+            sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
             httpOnly: true,
         })
 
         res.cookie("username", body.username, {
+            sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000,
             // expires works the same as the maxAge
             httpOnly: true,
