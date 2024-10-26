@@ -27,8 +27,11 @@ window.addEventListener("load", () => {
                 return false;
             }
         }
+
+        console.log(data)
+
         
-        data.password = SHA256(data.password).toString(CryptoJS.enc.Hex)
+        /*data.password = SHA256(data.password).toString(CryptoJS.enc.Hex)
 
         $.ajax({
             type: "POST",
@@ -46,7 +49,7 @@ window.addEventListener("load", () => {
             {
                 console.log("Error\n" + errorThrown, jqXHR)
             },
-        })
+        })*/
         
      }
 })

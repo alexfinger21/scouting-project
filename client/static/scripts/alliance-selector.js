@@ -21,54 +21,91 @@ const observer = new MutationObserver(function (mutations_list) {
 observer.observe(document.body, { subtree: false, childList: true });
 
 function getAvailableTeams(sortValue) {
+    return new Promise(resolve => {
+        
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: paths.allianceSelector,
+            data: JSON.stringify({ sortBy: sortValue }),
+            success: function (response) {
+                resolve(response)
+            },
+    
+            error: function (jqXHR, textStatus, errorThrown) {
+    
+            },
+        })
+    })
+
+}
+
+function replaceAvailableTeams(teams) {
     //delete everything inside
     const table = document.getElementById("available-teams-table")
     const tbody = table.getElementsByTagName("tbody")[0]
 
     tbody.replaceChildren() //replaces all the children with an array of new children
+    
+    for (const team of teams) {
+        const html = "<tr><td>"
+            + team.team
+            + "</td><td>"
+            + team.apiRank 
+            + "</td><td>" 
+            + Math.round(team.gameScore) 
+            + "</td><td>" 
+            + team.auton.toFixed(1) 
+            + "</td><td>" 
+            + team.speakerScore.toFixed(1)
+            + "</td><td>" 
+            + team.ampScore.toFixed(1) 
+            + "</td><td>" 
+            + team.stageScore.toFixed(1) 
+            + "</td><td>" 
+            + team.trapScore.toFixed(1) 
+            + "</td></tr> "
+        
+        tbody.insertAdjacentElement("beforeend", $(html)[0])
+    }
+}
 
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: paths.allianceSelector,
-        data: JSON.stringify({ sortBy: sortValue }),
-        success: function (response) {
-            for (const team of response) {
-                const html = "<tr><td>"
-                    + team.team
-                    + "</td><td>"
-                    + team.apiRank 
-                    + "</td><td>" 
-                    + Math.round(team.gameScore) 
-                    + "</td><td>" 
-                    + team.auton.toFixed(1) 
-                    + "</td><td>" 
-                    + team.speakerScore.toFixed(1)
-                    + "</td><td>" 
-                    + team.ampScore.toFixed(1) 
-                    + "</td><td>" 
-                    + team.stageScore.toFixed(1) 
-                    + "</td><td>" 
-                    + team.trapScore.toFixed(1) 
-                    + "</td></tr> "
-                
-                tbody.insertAdjacentElement("beforeend", $(html)[0])
-            }
-        },
+function replaceSuggestedPicks(teams) {
+    const table = document.getElementById("alliance-suggestions")
+    const tbody = table.getElementsByTagName("tbody")[0]
 
-        error: function (jqXHR, textStatus, errorThrown) {
+    tbody.replaceChildren() //replaces all the children with an array of new children
 
-        },
-    })
+    for (let i = 0; i < Math.min(teams.length, 5); i++) {
+        const html = "<tr><td>"
+            + teams[i].team
+            + "</td><td>"
+            + teams[i].name 
+            + "</td><td>" 
+            + teams[i].suggestion
+            + "</td></tr> "
+        
+        tbody.insertAdjacentElement("beforeend", $(html)[0]) 
+    }
 }
 
 function main() {
     //when a team buton is clicked, make it empty
     const sortBy = document.getElementById("sorting-options")
 
-    getAvailableTeams(sortBy.value)
+    getAvailableTeams(sortBy).then((sortedTeams) => {
+        replaceAvailableTeams(sortedTeams)
+        replaceSuggestedPicks(sortedTeams)
+    })
+
+    getAvailableTeams("suggestions").then((sortedTeams) => {
+        replaceSuggestedPicks(sortedTeams)
+    })
+
 
     sortBy.addEventListener("change", (e) => {
-        getAvailableTeams(sortBy.value)
+        getAvailableTeams(sortBy.value).then((sortedTeams) => {
+            replaceAvailableTeams(sortedTeams)
+        })
     })
 }
