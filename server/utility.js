@@ -1,6 +1,6 @@
 require('dotenv').config()
 const log = Number(process.env.LOG)
-const debugLog = Number(process.env.LOG_TRACE) //shows where console logs came from
+const debugLog = Number(process.env.TRACE_LOG) //shows where console logs came from
 const SQL = require('sql-template-strings')
 
 function arrAvg(...args) {
