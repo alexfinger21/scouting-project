@@ -23,7 +23,6 @@ function main() {
             setTimeout(() => {
                 debounce = false
             }, 200)
-
         } else {
             open = false
             debounce = true

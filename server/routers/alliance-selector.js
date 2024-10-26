@@ -82,7 +82,6 @@ function sortBy(data, totalRank) {
             apiRank: data[arrIndex].api_rank,
             trapScore: data[arrIndex].endgame_notes_trap_avg
         }
-        consoleLog(res[rankings])
     }
 
     return res
@@ -133,6 +132,8 @@ router.post("/", async function (req, res) {
 
     //consoleLog(data)
 
+
+
     const GSRank = rank(data.map(e => e.total_game_score_avg))
     const autonRank = rank(data.map(e => e.auton_total_score_avg))
     const ampRank = rank(data.map(e => e.auton_notes_amp_avg + e.teleop_notes_amp_avg))
@@ -142,6 +143,7 @@ router.post("/", async function (req, res) {
     const trapRank = rank(data.map(e => e.endgame_notes_trap_avg))
     const apiRank = rank(data.map(e => e.api_rank))
 
+    /*
     const totalRank = new Array(GSRank.length)
 
     if (body.sortBy == "best") {
@@ -245,11 +247,12 @@ router.post("/", async function (req, res) {
             consoleLog("found word - " + dublicateCount)
             //consoleLog(data[i], v)
         }
-    }
+    } 
+    */
 
-    consoleLog("THIS IS THE DATA", data)
+    //consoleLog("THIS IS THE DATA", data)
 
-    return res.status(200).send(sortBy(data, totalRank))
+    return res.status(200).send(data)
 })
 
 module.exports = router

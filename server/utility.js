@@ -1,4 +1,4 @@
-const log = false
+const log = true
 const debugLog = false  //shows where console logs came from
 const SQL = require('sql-template-strings')
 

@@ -96,10 +96,16 @@ input::-webkit-inner-spin-button {
 }
 
 #username-holder {
+  position: absolute;
+  left: 0%;
+  width: 100%;
+  pointer-events: none;
+  text-align: center;
   color: rgb(255, 255, 255);
   margin-left: auto;
   margin-right: auto;
 }
+
 
 #dropdown {
   height: 4vh;
@@ -189,11 +195,6 @@ input::-webkit-inner-spin-button {
 #team-text-container {
     display: flex;
     flex: 1;
-}
-
-#username-holder {
-    position: absolute;
-    left: 45%;
 }
 
 #headertext {
