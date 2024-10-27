@@ -302,3 +302,9 @@ input[type=radio] {
     margin-top: 0;
   }
 }
+
+@media (max-aspect-ratio: 7/8) {
+  #username-holder {
+    left: 7.5%
+  }
+}

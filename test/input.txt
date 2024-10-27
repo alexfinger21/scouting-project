@@ -1,0 +1,168 @@
+Sat 9:15 AM
+Qualification 1
+9415
+2172
+4601
+120
+8243
+9622
+Sat 9:24 AM
+Qualification 2
+2010
+9194
+1308
+2603
+5413
+48
+Sat 9:33 AM
+Qualification 3
+4150
+2399
+2656
+8140
+3193
+8222
+Sat 9:42 AM
+Qualification 4
+9643
+1038
+1787
+695
+5740
+4121
+Sat 9:51 AM
+Qualification 5
+8243
+5413
+2172
+8145
+9622
+2603
+Sat 10:00 AM
+Qualification 6
+9415
+8140
+120
+3193
+1308
+48
+Sat 10:09 AM
+Qualification 7
+4121
+4150
+1038
+2010
+5740
+4601
+Sat 10:18 AM
+Qualification 8
+2399
+8222
+8145
+9194
+695
+9643
+Sat 10:27 AM
+Qualification 9
+3193
+2656
+9622
+1308
+1787
+120
+Sat 10:36 AM
+Qualification 10
+2172
+4121
+8140
+2603
+1038
+9415
+Sat 10:45 AM
+Qualification 11
+48
+4601
+8222
+5740
+8145
+5413
+Sat 10:54 AM
+Qualification 12
+2656
+9643
+8243
+4150
+1787
+9194
+Sat 11:03 AM
+Qualification 13
+9622
+1308
+695
+4121
+2010
+2399
+Sat 11:12 AM
+Qualification 14
+120
+2603
+3193
+1038
+8222
+5740
+Sat 11:21 AM
+Qualification 15
+2172
+4150
+9643
+5413
+2656
+9415
+Sat 11:30 AM
+Qualification 16
+4601
+8145
+9194
+1787
+8140
+2010
+Sat 11:39 AM
+Qualification 17
+2399
+695
+3193
+8243
+48
+4121
+Sat 11:48 AM
+Qualification 18
+8222
+9643
+1308
+9622
+2172
+1038
+Sat 11:57 AM
+Qualification 19
+2656
+9194
+5740
+8145
+9415
+2010
+Sat 12:06 PM 
+Qualification 20
+1787
+48
+695
+4601
+2603
+4150
+Sat 12:15 PM
+Qualification 21
+1038
+120
+5413
+8140
+2399
+8243
