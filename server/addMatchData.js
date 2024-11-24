@@ -41,7 +41,6 @@ function getData () {
                 const alliancesForBlue = [m.alliances.blue.team_keys[0].substring(3), m.alliances.blue.team_keys[1].substring(3), m.alliances.blue.team_keys[2].substring(3)]
                 const alliancesForRed = [m.alliances.red.team_keys[0].substring(3), m.alliances.red.team_keys[1].substring(3), m.alliances.red.team_keys[2].substring(3)]
                 const matchNumber =  m.match_number
-                //const video = "https://www.youtube.com/watch?v="+m.videos[0].key
         
                 if (m.comp_level != gametype)
                 {

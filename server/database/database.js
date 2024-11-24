@@ -621,6 +621,33 @@ function addMatchData(matchInfo, matchTimes)
     
 }
 
+async function getScoutifyMatchData() {
+    return await executeQuery(SQL `select
+	frc_season_master_sm_year, 
+	competition_master_cm_event_code, 
+	game_matchup_gm_game_type, 
+	game_matchup_gm_number, 
+	game_matchup_gm_alliance, 
+	game_element_ge_key, 
+	sum(gd_value) as gd_value, 
+	sum(gd_score) as gd_score
+FROM 
+	game_details gd 
+		
+where frc_season_master_sm_year = ${gameConstants.YEAR} and 
+			competition_master_cm_event_code = ${gameConstants.COMP} and 
+			game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
+			game_matchup_gm_alliance_position in (1, 2, 3) and 
+			game_element_ge_key in (210, 211, 301, 302, 303)
+group by 
+	frc_season_master_sm_year, 
+	competition_master_cm_event_code, 
+	game_matchup_gm_game_type, 
+	game_matchup_gm_number, 
+	game_matchup_gm_alliance, 
+	game_element_ge_key;`)
+}
+
 module.exports = {
     getMatchData: getMatchData,
     getGameNumbers: getGameNumbers,
@@ -648,4 +675,5 @@ module.exports = {
     addMatchData: addMatchData,
     getTeamDetailsTeamData: getTeamDetailsTeamData,
     deleteMatchDataX: deleteMatchDataX,
+    getScoutifyMatchData: getScoutifyMatchData,
 }

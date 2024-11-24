@@ -12,13 +12,14 @@ const database = require("./database/database.js")
 const matchList = {
     "method": "GET",
     "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches',
+   // "url":  'https://www.thebluealliance.com/api/v3/event/2024ohcl/matches',
     'headers': {
         'X-TBA-Auth-Key': auth,
        'If-Modified-Since': ''
     }
 }
 function getData () {
-    
+    //console.log("getting data")
     return new Promise((resolve, reject) => {
         if(gameConstants.COMP == "test")
         {
@@ -28,10 +29,10 @@ function getData () {
         request(matchList, function(error, response) {
             if (error) throw new Error(error)
             consoleLog("Status Code", response.statusCode)
-
+            //console.log("getting json")
             const jsonData = (JSON.parse(response.body))
-            //consoleLog(JSON.stringify(matchData, null, "\t")) // makes text look nice
-
+            //console.log(JSON.stringify(jsonData, null, "\t")) // makes text look nice
+            
             resolve(jsonData)
         })
     })
@@ -96,4 +97,4 @@ async function getMatchVideos (specificTeam=false)
     return matchVideos
 }
 
-module.exports = {getMatchVideos}
+module.exports = {getMatchVideos, getData,}
