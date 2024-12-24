@@ -20,14 +20,18 @@ const observer = new MutationObserver(function (mutations_list) {
 
 observer.observe(document.body, { subtree: false, childList: true });
 
-function getAvailableTeams(sortValue) {
+function getTeamsFromTr(tr) {
+    return Array.from(tr.children).map((e) =>  e.innerText) 
+}
+
+function getAvailableTeams(sortValue, teams) {
     return new Promise(resolve => {
         
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: paths.allianceSelector,
-            data: JSON.stringify({ sortBy: sortValue }),
+            data: JSON.stringify({ sortBy: sortValue, teams }),
             success: function (response) {
                 resolve(response)
             },
@@ -103,15 +107,15 @@ function main() {
                 selectedRow = tr
                 tr.style.backgroundColor = "yellow"
             }
+            getAvailableTeams(selectedRow, getTeamsFromTr(selectedRow)).then((sortedTeams, suggestedPicks) => {
+                replaceAvailableTeams(sortedTeams)
+                replaceSuggestedPicks(suggestedPicks)
+            })
         })
     }
 
     getAvailableTeams(sortBy).then((sortedTeams) => {
         replaceAvailableTeams(sortedTeams)
-        replaceSuggestedPicks(sortedTeams)
-    })
-
-    getAvailableTeams("suggestions").then((sortedTeams) => {
         replaceSuggestedPicks(sortedTeams)
     })
 
