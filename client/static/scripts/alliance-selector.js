@@ -92,6 +92,19 @@ function replaceSuggestedPicks(teams) {
 function main() {
     //when a team buton is clicked, make it empty
     const sortBy = document.getElementById("sorting-options")
+    const allianceRows = document.getElementById("alliance-display-table").getElementsByTagName("tbody")[0].getElementsByTagName("tr") 
+    let selectedRow
+    for (const tr of allianceRows) {
+        tr.addEventListener("click", (event) => {
+            if(selectedRow) {
+                selectedRow.style.backgroundColor = "transparent"
+            }
+            if(tr != selectedRow) {
+                selectedRow = tr
+                tr.style.backgroundColor = "yellow"
+            }
+        })
+    }
 
     getAvailableTeams(sortBy).then((sortedTeams) => {
         replaceAvailableTeams(sortedTeams)
