@@ -5,6 +5,8 @@ const { consoleLog } = require("../utility")
 const router = express.Router()
 const SQL = require('sql-template-strings')
 const socketManager = require("../sockets.js")
+const Team = require("../alliance-suggester/team.js")
+const Alliance = require("../alliance-suggester/alliance.js")
 
 //returns an array where the team is substituted for the rank
 function rank(arr) {
@@ -115,7 +117,13 @@ router.post("/", async function (req, res) {
    
     data = Array.from(JSON.parse(JSON.stringify(data)))
 
-    //consoleLog("SUMMARY API RESULT:", data)
+    const t1 = new Team(data[1])
+    const t2 = new Team(data[2])
+
+    const al1 = new Alliance([t1])
+    const al2 = new Alliance([t2])
+    consoleLog(al1.getAverage(), al2.getAverage())
+    consoleLog(Alliance.getWeights(al2, al1))
     
     for (const e of data) {
         disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
