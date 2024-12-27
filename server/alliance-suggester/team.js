@@ -1,6 +1,6 @@
 module.exports = class Team {
-    constructor(name, props) {
-        this.name = name
+    constructor(props) {
+        this.name = props.tm_name
         this.props = props
         this.suggestions = {}
     }

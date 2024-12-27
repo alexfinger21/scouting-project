@@ -44,6 +44,7 @@ function main() {
             consoleLog(event.target)
             content.style.maxHeight = "0px"
             debounce = true
+            open = false
             
             setTimeout(() => {
                 content.style.visibility = "hidden"

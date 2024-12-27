@@ -1,6 +1,10 @@
+const { consoleLog } = require("../utility.js")
 const Team = require("./team.js")
-
-// teams: {1: Team, 2: Team, 3: Team}
+const ignoredParams = [
+  "frc_season_master_sm_year",
+  "team_master_tm_number",
+  "nbr_games"
+]
 
 module.exports = class Alliance {
     constructor(teams) {
@@ -14,18 +18,24 @@ module.exports = class Alliance {
         let maxW = 0
 
         for (const x of Object.keys(compAvg)) {
-            weights[x] = (compAvg[x]/srcAvg[x])
+            if (!isNaN(compAvg[x]) && !ignoredParams.includes(x)) {
+                weights[x] = (compAvg[x]/srcAvg[x])
 
-            if (weights[x] == Infinity) {
-                weights[x] = 1
+                if (weights[x] == Infinity) {
+                    weights[x] = 1
+                } else if (isNaN(weights[x])) {
+                    weights[x] = 0
+                }
+
+                maxW = Math.max(maxW, weights[x])
             }
-            maxW = Math.max(maxW, weights[x])
         }
+        consoleLog("MAX WEIGHT", maxW)
 
         // normalize
 
         for (const x of Object.keys(weights)) {
-            weights[x] = weights[x]/maxW
+            weights[x] = Math.round(weights[x]/maxW*1000) / 1000
         }
 
         return weights
@@ -33,7 +43,7 @@ module.exports = class Alliance {
 
     getAverage() {
         const res = {}
-        const tlen = Object.values(this.teams).filter(t => t).length
+        const tlen = this.teams.filter(t => t).length
 
         for (const t of Object.values(this.teams)) {
             if (t && t.props) {
