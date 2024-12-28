@@ -30,7 +30,7 @@ module.exports = class Alliance {
                 maxW = Math.max(maxW, weights[x])
             }
         }
-        consoleLog("MAX WEIGHT", maxW)
+        //consoleLog("MAX WEIGHT", maxW)
 
         // normalize
 
