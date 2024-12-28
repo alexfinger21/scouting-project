@@ -12,7 +12,8 @@ module.exports = class Alliance {
     }
 
     static getWeights(comp, src) {
-        const [compAvg, srcAvg] = [comp.getAverage(), src.getAverage()]
+        // basically if src is an array of alliances average them all out otherwise only do one
+        const [compAvg, srcAvg] = [comp.getAverage(), src.length ? src.reduce((a, c) => c.getAverage(a), src[0]) : src.getAverage()]
         const weights = {}
 
         let maxW = 0
@@ -58,5 +59,19 @@ module.exports = class Alliance {
         }
 
         return res
+    } 
+
+    getAverage(comp) {
+        const res = {}
+
+        //if comp is a dict of alliance vals and not an alliance object itself
+        const [avgCur, avgComp] = [this.getAverage(), comp.teams ? comp.getAverage() : comp]
+
+        for (const p of Object.keys(avgCur)) {
+            res = (avgCur[p] + avgComp[p])/2
+        }
+
+        return res
     }
+
 }
