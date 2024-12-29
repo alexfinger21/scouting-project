@@ -1,21 +1,25 @@
 module.exports = class Team {
     constructor(props) {
         this.name = props.tm_name
+        this.tm_num = props.team_master_tm_number
         this.props = props
         this.suggestions = {}
     }
 
     static getAverage(...teams) {
         const res = {}
-        const tlen = teams.filter(t => t).length
+        teams = teams.filter(t => t)
+        const tlen = teams.length
 
         for (const t of teams) {
             if (t && t.props) {
                 for (const p of Object.keys(t.props)) {
-                    if (!res[p]) {
-                        res[p] = t.props[p]/tlen
-                    } else {
-                        res[p] += t.props[p]/tlen
+                    if (!isNaN(t.props[p])) {
+                        if (!res[p]) {
+                            res[p] = t.props[p]/tlen
+                        } else {
+                            res[p] += t.props[p]/tlen
+                        }
                     }
                 }
             }
@@ -28,7 +32,14 @@ module.exports = class Team {
         let res = 0 
 
         for (const i of Object.keys(comp)) {
-            res += this.props[i]/comp[i] * weights[i]
+            if (weights[i]) {
+                const addR = this.props[i]/comp[i] * weights[i]
+                if (isNaN(addR)) {
+                    res += this.props[i] ? (this.props[i] * weights[i]) : 0
+                } else {
+                    res += addR
+                }
+            }
         }
 
         return res

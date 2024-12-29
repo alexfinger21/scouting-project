@@ -117,13 +117,25 @@ router.post("/", async function (req, res) {
    
     data = Array.from(JSON.parse(JSON.stringify(data)))
 
-    const t1 = new Team(data[1])
-    const t2 = new Team(data[2])
+    const teams = data.map(d => new Team(d))
+
+    const t1 = teams[1]
+    const t2 = teams[2]
 
     const al1 = new Alliance([t1])
     const al2 = new Alliance([t2])
-    consoleLog(al1.getAverage(), al2.getAverage())
-    consoleLog(Alliance.getWeights(al2, al1))
+    //consoleLog(al1.getAverage(), al2.getAverage())
+    
+    // alliance 2 is the one we are on and we want to rank our picks based on alliance 1
+
+    consoleLog(Alliance.getWeights(al1, al2))
+    const weights = Alliance.getWeights(al1, al2) 
+    const allAvg = Team.getAverage(...teams)
+    const ranks = teams.map(t => [t, t.getRank(allAvg, weights)])
+    ranks.sort((a, b) => b[1] - a[1])
+    consoleLog("ALL AVERAGE:", allAvg)
+    consoleLog(ranks)
+
     
     for (const e of data) {
         disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
