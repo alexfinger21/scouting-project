@@ -13,6 +13,7 @@ module.exports = class Alliance {
 
     static getWeights(comp, src) {
         // basically if src is an array of alliances average them all out otherwise only do one
+        consoleLog(src.length, src.length == null)
         const [compAvg, srcAvg] = [comp.getAverage(), src.length ? src.reduce((a, c) => c.getAverage(a), src[0]) : src.getAverage()]
         const weights = {}
 
@@ -42,36 +43,33 @@ module.exports = class Alliance {
         return weights
     }
 
-    getAverage() {
+    getAverage(comp = -1) {
         const res = {}
-        const tlen = this.teams.filter(t => t).length
+        if (comp == -1) {
+            const tlen = this.teams.filter(t => t).length
 
-        for (const t of Object.values(this.teams)) {
-            if (t && t.props) {
-                for (const p of Object.keys(t.props)) {
-                    if (!res[p]) {
-                        res[p] = t.props[p]/tlen
-                    } else {
-                        res[p] += t.props[p]/tlen
+            for (const t of Object.values(this.teams)) {
+                if (t && t.props) {
+                    for (const p of Object.keys(t.props)) {
+                        if (!res[p]) {
+                            res[p] = t.props[p]/tlen
+                        } else {
+                            res[p] += t.props[p]/tlen
+                        }
                     }
                 }
             }
-        }
 
-        return res
+            return res
+        } else {
+            //if comp is a dict of alliance vals and not an alliance object itself
+            const [avgCur, avgComp] = [this.getAverage(), comp.teams ? comp.getAverage() : comp]
+
+            for (const p of Object.keys(avgCur)) {
+                res = (avgCur[p] + avgComp[p])/2
+            }
+
+            return res
+        }
     } 
-
-    getAverage(comp) {
-        const res = {}
-
-        //if comp is a dict of alliance vals and not an alliance object itself
-        const [avgCur, avgComp] = [this.getAverage(), comp.teams ? comp.getAverage() : comp]
-
-        for (const p of Object.keys(avgCur)) {
-            res = (avgCur[p] + avgComp[p])/2
-        }
-
-        return res
-    }
-
 }
