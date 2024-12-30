@@ -13,8 +13,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
     FROM
         teamsixn_scouting_dev.game_matchup
     WHERE
-        competition_master_cm_event_code = "${gameConstants.COMP}" AND
-        gm_game_type = "${gameConstants.GAME_TYPE}"
+        competition_master_cm_event_code = ${gameConstants.COMP} AND
+        gm_game_type = ${gameConstants.GAME_TYPE}
     ORDER BY 
         1`,
     (err, team_results) => {
@@ -22,8 +22,6 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
         if (!req.query.getTeams) {
             database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
                 data = JSON.parse(JSON.stringify(data))
-                consoleLog("DATA:")
-                consoleLog(data)
 
                 let selectedTeams = []
                 for(let i = 0; i < data.length; i++) {
@@ -39,9 +37,8 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         }
                     }
                 }
-                consoleLog("SELECTED TEAMS")
-                consoleLog(selectedTeams)
-                let availableTeams = []
+
+                const availableTeams = []
                 for(team of team_results) {
                     let found = false
                     for(selected of selectedTeams) {
@@ -53,8 +50,6 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
                         availableTeams.push(team.team_master_tm_number)
                     }
                 }
-                consoleLog("AVAILABLE TEAMS")
-                consoleLog(availableTeams)
 
                 res.render("alliance-input", {
                     teams: availableTeams,
