@@ -23,7 +23,7 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
             database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`, (err, data) => {
                 data = JSON.parse(JSON.stringify(data))
 
-                let selectedTeams = []
+                const selectedTeams = []
                 for(let i = 0; i < data.length; i++) {
                     if(data[i]) {
                         if(data[i].alliance_captain) {
