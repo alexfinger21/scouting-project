@@ -106,7 +106,7 @@ router.post("/", async function (req, res) {
     
     alliances = JSON.parse(JSON.stringify(alliances))
     
-    consoleLog("BODY:", body)
+    consoleLog("ALLIANCE SELECT BODY:", body)
 
     const disallowedTeams = alliances.map(a => Object.values(a).slice(1)).flat().filter(t => t)
    
