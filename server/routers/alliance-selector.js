@@ -102,66 +102,67 @@ router.get("/", async function (req, res) { //only gets used if the url == allia
 router.post("/", async function (req, res) {
     const body = req.body
 
-    let [err1, dbRes] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
+    let [err1, alliances] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
     
-    dbRes = JSON.parse(JSON.stringify(dbRes))
+    alliances = JSON.parse(JSON.stringify(alliances))
     
-    //consoleLog("DATABASE RESULT:", dbRes)
+    consoleLog("BODY:", body)
 
-    const disallowedTeams = []
+    const disallowedTeams = alliances.map(a => Object.values(a).slice(1)).flat().filter(t => t)
    
-    let [err2, data] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api vmd 
+    let [err2, teamData] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api vmd 
         WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
         vmd.competition_master_cm_event_code = ${gameConstants.COMP} AND 
             vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}`)
+
+
    
-    data = Array.from(JSON.parse(JSON.stringify(data)))
+    teamData = Array.from(JSON.parse(JSON.stringify(teamData)))
 
-    const teams = data.map(d => new Team(d))
-
-    const t1 = teams[1]
-    const t2 = teams[2]
-
-    const al1 = new Alliance([t1])
-    const al2 = new Alliance([t2])
-    //consoleLog(al1.getAverage(), al2.getAverage())
+    const teams = teamData.map(t => new Team(t))
+    const remainingTeams = teams.filter(t => !disallowedTeams.includes(t.tm_num))
+    const al1 = new Alliance(Object.values(alliances[0]).slice(1).map(t => teams.find(tt => tt.tm_num == t)))
+    const al2 = new Alliance(Object.values(alliances[1]).slice(1).map(t => teams.find(tt => tt.tm_num == t)))
+    consoleLog(al1, al2, al1.getAverage(), al2.getAverage())
     
     // alliance 2 is the one we are on and we want to rank our picks based on alliance 1
 
     consoleLog(Alliance.getWeights(al1, al2))
     const weights = Alliance.getWeights(al1, al2) 
-    const allAvg = Team.getAverage(...teams)
-    const ranks = teams.map(t => [t, t.getRank(allAvg, weights)])
+    const allAvg = Team.getAverage(...remainingTeams)
+    const ranks = remainingTeams.map(t => [t, t.getRank(allAvg, weights)])
     ranks.sort((a, b) => b[1] - a[1])
-    consoleLog("ALL AVERAGE:", allAvg)
+    consoleLog("ALL AVERAGE:", allAvg, "WEIGHTS", weights)
     consoleLog(ranks)
 
-    
+
+    /*
     for (const e of data) {
         disallowedTeams.push(e.alliance_captain, e.alliance_first, e.alliance_second)
     }
 
-    //consoleLog("Alliance Selector Input: ")
-    //consoleLog(data)
+    consoleLog("Alliance Selector Input: ")
+    consoleLog(data)
 
-    //remove do not pick list from the data
+    remove do not pick list from the data
     removeTeams(data, disallowedTeams)
 
-    //remove duplicates (to do make them red)
-    //removeDuplicates(data)
+    remove duplicates (to do make them red)
+    removeDuplicates(data)
 
-    //consoleLog(data)
+    consoleLog(data)
+    */
 
-
-
-    const GSRank = rank(data.map(e => e.total_game_score_avg))
-    const autonRank = rank(data.map(e => e.auton_total_score_avg))
-    const ampRank = rank(data.map(e => e.auton_notes_amp_avg + e.teleop_notes_amp_avg))
-    const speakerRank = rank(data.map(e => e.auton_notes_speaker_avg + e.teleop_notes_speaker_amped_avg + e.teleop_notes_speaker_not_amped_avg))
-    const ampedSpeakerRank = rank(data.map(e => e.teleop_notes_amped_speaker_avg))
-    const stageRank = rank(data.map(e => e.endgame_notes_trap_avg + e.endgame_onstage_points_avg))
-    const trapRank = rank(data.map(e => e.endgame_notes_trap_avg))
-    const apiRank = rank(data.map(e => e.api_rank))
+    /*
+    const GSRank = rank(teamData.map(e => e.total_game_score_avg))
+    const autonRank = rank(teamData.map(e => e.auton_total_score_avg))
+    const ampRank = rank(teamData.map(e => e.auton_notes_amp_avg + e.teleop_notes_amp_avg))
+    const speakerRank = rank(teamData.map(e => e.auton_notes_speaker_avg + e.teleop_notes_speaker_amped_avg + e.teleop_notes_speaker_not_amped_avg))
+    const ampedSpeakerRank = rank(teamData.map(e => e.teleop_notes_amped_speaker_avg))
+    const stageRank = rank(teamData.map(e => e.endgame_notes_trap_avg + e.endgame_onstage_points_avg))
+    const trapRank = rank(teamData.map(e => e.endgame_notes_trap_avg))
+    const apiRank = rank(teamData.map(e => e.api_rank))
+    */
 
     /*
     const totalRank = new Array(GSRank.length)
@@ -272,7 +273,7 @@ router.post("/", async function (req, res) {
 
     //consoleLog("THIS IS THE DATA", data)
 
-    return res.status(200).send(data)
+    return res.status(200).send(teamData)
 })
 
 module.exports = router
