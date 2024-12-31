@@ -33,6 +33,7 @@ function getAvailableTeams(sortValue, teams) {
             url: paths.allianceSelector,
             data: JSON.stringify({ sortBy: sortValue, teams }),
             success: function (response) {
+                consoleLog("answer", response)
                 resolve(response)
             },
     

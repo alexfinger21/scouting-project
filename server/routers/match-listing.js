@@ -129,7 +129,7 @@ router.post("/", function (req, res) {
         database.query(SQL`delete from teamsixn_scouting_dev.current_game 
         where cg_sm_year > 0;`, (err, results) => {
             consoleLog(err)
-            socketManager.emitAllSockets(body.gm_number, "stopMatch")
+            socketManager.emitAllSockets("stopMatch", body.gm_number)
             res.send("match stopped")
         })
 
@@ -160,7 +160,7 @@ router.post("/", function (req, res) {
 
                 process.env.lastPlayedMatch = body.gm_number
 
-                socketManager.emitAllSockets(body.gm_number, "changeMatch")
+                socketManager.emitAllSockets("changeMatch", body.gm_number)
 
                 res.status(200).send({ response: true })
             }
