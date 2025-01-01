@@ -3,7 +3,8 @@ const Team = require("./team.js")
 const ignoredParams = [
   "frc_season_master_sm_year",
   "team_master_tm_number",
-  "nbr_games"
+  "nbr_games",
+  "tm_name",
 ]
 
 const customWeights = {
@@ -15,11 +16,12 @@ module.exports = class Alliance {
         this.teams = teams
     }
 
-    static getWeights(comp, src) {
+    static getWeights(src, comp) {
         // basically if src is an array of alliances average them all out otherwise only do one
         consoleLog(src.length, src.length == null)
-        const [compAvg, srcAvg] = [comp.getAverage(), src.length ? src.reduce((a, c) => c.getAverage(a), src[0]) : src.getAverage()]
+        const [srcAvg, compAvg] = [src.getAverage(), comp.length ? comp.reduce((a, c) => c.getAverage(a), comp[0]) : comp.getAverage()]
         const weights = {}
+        consoleLog(srcAvg, compAvg)
 
         let maxW = 0
 
@@ -52,7 +54,7 @@ module.exports = class Alliance {
     }
 
     getAverage(comp = -1) {
-        const res = {}
+        let res = {}
         if (comp == -1) {
             const tlen = this.teams.filter(t => t).length
 
@@ -72,9 +74,10 @@ module.exports = class Alliance {
         } else {
             //if comp is a dict of alliance vals and not an alliance object itself
             const [avgCur, avgComp] = [this.getAverage(), comp.teams ? comp.getAverage() : comp]
+            consoleLog(avgCur, avgComp)
 
             for (const p of Object.keys(avgCur)) {
-                res = (avgCur[p] + avgComp[p])/2
+                res[p] = (avgCur[p] + avgComp[p])/2
             }
 
             return res
