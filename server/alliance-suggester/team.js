@@ -3,7 +3,7 @@ module.exports = class Team {
         this.name = props.tm_name
         this.tm_num = props.team_master_tm_number
         this.props = props
-        this.suggestions = {}
+        this.suggestions = []
     }
 
     static getAverage(...teams) {
@@ -32,12 +32,16 @@ module.exports = class Team {
         let res = 0 
 
         for (const i of Object.keys(comp)) {
-            if (weights[i]) {
+            if (weights?.[i]) {
                 const addR = this.props[i]/comp[i] * weights[i]
                 if (isNaN(addR)) {
                     res += this.props[i] ? (this.props[i] * weights[i]) : 0
                 } else {
                     res += addR
+                }
+
+                if (this.props[i]/comp[i] > 1) {
+                    this.suggestions.push(`higher than average ${i}`)
                 }
             }
         }
