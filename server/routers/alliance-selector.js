@@ -104,9 +104,11 @@ router.post("/", async function (req, res) {
 
     let [err1, alliances] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
     
-    alliances = JSON.parse(JSON.stringify(alliances))
-    
+    alliances = JSON.parse(JSON.stringify(alliances))    
+    alliances.sort((a, b) => a - b)
+
     const disallowedTeams = alliances.map(a => Object.values(a).slice(1)).flat().filter(t => t)
+
    
     let [err2, teamData] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api vmd 
         WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
@@ -114,21 +116,19 @@ router.post("/", async function (req, res) {
             vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}`)
 
 
-   
     teamData = Array.from(JSON.parse(JSON.stringify(teamData)))
 
     const teams = teamData.map(t => new Team(t))
+    alliances = JSON.parse(JSON.stringify(alliances)).map(t => new Alliance(Object.values(t).slice(1).map(t => teams.find(tt => tt.tm_num  == t))))
     const remainingTeams = teams.filter(t => !disallowedTeams.includes(t.tm_num))
-    const al1 = new Alliance(Object.values(alliances[0]).slice(1).map(t => teams.find(tt => tt.tm_num == t)))
-    const al2 = new Alliance(Object.values(alliances[1]).slice(1).map(t => teams.find(tt => tt.tm_num == t)))
-    
+        
     // alliance 2 is the one we are on and we want to rank our picks based on alliance 1
-
-    const weights = Alliance.getWeights(al1, al2) 
+    const pickedAlliance = alliances[body?.alliance ? body.alliance : 0]
+    const weights = Alliance.getWeights(pickedAlliance, alliances.filter(a => a != pickedAlliance)) 
     const allAvg = Team.getAverage(...remainingTeams)
     const ranks = remainingTeams.map(t => [t, t.getRank(allAvg, weights)])
     ranks.sort((a, b) => b[1] - a[1])
-    //consoleLog(weights)
+    consoleLog("WEIGHTS: ", weights)
 
 
     /*
