@@ -128,6 +128,7 @@ router.post("/", async function (req, res) {
     const allAvg = Team.getAverage(...remainingTeams)
     const ranks = remainingTeams.map(t => [t, t.getRank(allAvg, weights)])
     ranks.sort((a, b) => b[1] - a[1])
+    //consoleLog(weights)
 
 
     /*
