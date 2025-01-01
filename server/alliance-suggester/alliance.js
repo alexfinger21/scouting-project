@@ -6,6 +6,10 @@ const ignoredParams = [
   "nbr_games"
 ]
 
+const customWeights = {
+    "total_game_score_avg": 1.1
+}
+
 module.exports = class Alliance {
     constructor(teams) {
         this.teams = teams
@@ -20,13 +24,17 @@ module.exports = class Alliance {
         let maxW = 0
 
         for (const x of Object.keys(compAvg)) {
-            if (!isNaN(compAvg[x]) && !ignoredParams.includes(x)) {
+            if (!isNaN(compAvg[x]) && !ignoredParams.includes(x) && x.search("sum") == -1) {
                 weights[x] = (compAvg[x]/srcAvg[x])
 
                 if (weights[x] == Infinity) {
                     weights[x] = 1
                 } else if (isNaN(weights[x])) {
                     weights[x] = 0
+                }
+
+                if (customWeights?.[x]) {
+                    weights[x] *= customWeights[x]
                 }
 
                 maxW = Math.max(maxW, weights[x])
