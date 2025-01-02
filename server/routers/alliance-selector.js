@@ -8,6 +8,7 @@ const socketManager = require("../sockets.js")
 const Team = require("../alliance-suggester/team.js")
 const Alliance = require("../alliance-suggester/alliance.js")
 
+
 //returns an array where the team is substituted for the rank
 function rank(arr) {
     const sorted = arr.slice().sort((a, b) => b - a)
@@ -120,10 +121,16 @@ router.post("/", async function (req, res) {
 
     const teams = teamData.map(t => new Team(t))
     alliances = JSON.parse(JSON.stringify(alliances)).map(t => new Alliance(Object.values(t).slice(1).map(t => teams.find(tt => tt.tm_num  == t))))
+
+    if(!alliances.length) {
+        return res.status(200).send([])
+    }
+
     const remainingTeams = teams.filter(t => !disallowedTeams.includes(t.tm_num))
         
     // alliance 2 is the one we are on and we want to rank our picks based on alliance 1
-    const pickedAlliance = alliances[body?.alliance ? body.alliance : 0]
+    const pickedAlliance = alliances[Math.min(body?.alliance ? Number(body.alliance) - 1 : 0, alliances.length-1) ]
+    console.log("PICKED ALLIANCE: ", pickedAlliance)
     const weights = Alliance.getWeights(pickedAlliance, alliances.filter(a => a != pickedAlliance)) 
     const allAvg = Team.getAverage(...remainingTeams)
     const ranks = remainingTeams.map(t => [t, t.getRank(allAvg, weights)])
@@ -266,7 +273,7 @@ router.post("/", async function (req, res) {
     } 
     */
 
-    //consoleLog("THIS IS THE DATA", data)
+    consoleLog("THIS IS THE DATA", ranks[0])
 
     return res.status(200).send(ranks)
 })
