@@ -18,7 +18,7 @@
     flex-direction: row;
 }
 
-.alliance-selector-header {
+#alliance-selector-header, #available-teams-header {
     font-size: 2.5vh !important;
     text-align: center;
     font-weight: normal;
@@ -47,9 +47,8 @@
 
 #alliance-suggestions-scroller {
     height: 35vh;
-    margin-left: 4%;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    width: 55%;
+    margin-left: 2%;
+    width: 60%;
     overflow: auto;
 }
 
@@ -152,7 +151,7 @@ th.alliance-selector {
         margin-top: 5%;
         margin-left: 0;
         width: 100%;
-        height: 50vh;
+        height: fit-content;
     }
 
 }
