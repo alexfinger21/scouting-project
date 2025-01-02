@@ -88,6 +88,8 @@ function replaceSuggestedPicks(teams) {
     for (let i = 0; i < Math.min(teams.length, 5); i++) {
         const t = teams[i][0]
         const html = "<tr><td>"
+            + "<b>" + (i+1) + "</b>"
+            + "</td><td>"
             + t.tm_num
             + "</td><td>"
             + t.tm_num
