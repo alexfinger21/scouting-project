@@ -91,8 +91,6 @@ function replaceSuggestedPicks(teams) {
             + "<b>" + (i+1) + "</b>"
             + "</td><td>"
             + t.tm_num
-            + "</td><td>"
-            + t.tm_num
             + "</td><td>" 
             + `<p>${t.suggestions.best}</p><p>` + t.suggestions.successful.join("</p><p>") + "</p><p>" + t.suggestions.unsuccessful.join("</p><p>") + "</p><p>"
             + "</td></tr> "
