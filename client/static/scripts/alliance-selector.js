@@ -24,14 +24,15 @@ function getTeamsFromTr(tr) {
     return Array.from(tr.children).map((e) =>  e.innerText) 
 }
 
-function getAvailableTeams(sortValue, teams) {
+function getTeamRankings(pickedAlliance, teams) {
+    consoleLog("PICKED: ", pickedAlliance)
     return new Promise(resolve => {
         
         $.ajax({
             type: "POST",
             contentType: "application/json",
             url: paths.allianceSelector,
-            data: JSON.stringify({ sortBy: sortValue, teams }),
+            data: JSON.stringify({ alliance: pickedAlliance, teams }),
             success: function (response) {
                 consoleLog("answer", response)
                 resolve(response)
@@ -53,22 +54,25 @@ function replaceAvailableTeams(teams) {
     tbody.replaceChildren() //replaces all the children with an array of new children
     
     for (const team of teams) {
+        let t = team[0]
         const html = "<tr><td>"
-            + team.team
+            + t.name
             + "</td><td>"
-            + team.apiRank 
+            + t.props.api_rank 
             + "</td><td>" 
-            + Math.round(team.gameScore) 
+            + Math.round(t.props.total_game_score_avg) 
             + "</td><td>" 
-            + team.auton.toFixed(1) 
+            + t.props.auton_total_score_avg.toFixed(1) 
             + "</td><td>" 
-            + team.speakerScore.toFixed(1)
+            + t.props.teleop_notes_speaker_not_amped_avg.toFixed(1)
             + "</td><td>" 
-            + team.ampScore.toFixed(1) 
+            + t.props.teleop_notes_speaker_amped_avg.toFixed(1) 
             + "</td><td>" 
-            + team.stageScore.toFixed(1) 
+            + t.props.teleop_notes_amp_avg.toFixed(1) 
             + "</td><td>" 
-            + team.trapScore.toFixed(1) 
+            + t.props.endgame_onstage_points_avg.toFixed(1) 
+            + "</td><td>" 
+            + t.props.endgame_notes_trap_avg.toFixed(1) 
             + "</td></tr> "
         
         tbody.insertAdjacentElement("beforeend", $(html)[0])
@@ -82,12 +86,13 @@ function replaceSuggestedPicks(teams) {
     tbody.replaceChildren() //replaces all the children with an array of new children
 
     for (let i = 0; i < Math.min(teams.length, 5); i++) {
+        const t = teams[i][0]
         const html = "<tr><td>"
-            + teams[i].team
+            + t.tm_num
             + "</td><td>"
-            + teams[i].name 
+            + t.tm_num
             + "</td><td>" 
-            + teams[i].suggestion
+            + `<p>${t.suggestions.best}</p><p>` + t.suggestions.successful.join("</p><p>") + "</p><p>" + t.suggestions.unsuccessful.join("</p><p>") + "</p><p>"
             + "</td></tr> "
         
         tbody.insertAdjacentElement("beforeend", $(html)[0]) 
@@ -108,14 +113,16 @@ function main() {
                 selectedRow = tr
                 tr.style.backgroundColor = "yellow"
             }
-            getAvailableTeams(selectedRow, getTeamsFromTr(selectedRow)).then((sortedTeams, suggestedPicks) => {
-                replaceAvailableTeams(sortedTeams)
-                replaceSuggestedPicks(suggestedPicks)
+            getTeamRankings(selectedRow.children[0].innerText, getTeamsFromTr(selectedRow)).then((ranks) => {
+                if(ranks.length) {
+                    replaceAvailableTeams(ranks)
+                    replaceSuggestedPicks(ranks)
+                }
             })
         })
     }
 
-    getAvailableTeams(sortBy).then((sortedTeams) => {
+    /* getAvailableTeams(sortBy).then((sortedTeams) => {
         replaceAvailableTeams(sortedTeams)
         replaceSuggestedPicks(sortedTeams)
     })
@@ -125,5 +132,5 @@ function main() {
         getAvailableTeams(sortBy.value).then((sortedTeams) => {
             replaceAvailableTeams(sortedTeams)
         })
-    })
+    })*/
 }
