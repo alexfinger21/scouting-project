@@ -2,11 +2,13 @@ import { consoleLog } from "../utility.js"
 
 export default class DrawableObject {
     constructor({ctx, x, y, sX, sY, r, img, visible = true}) {
-        this.x = x        
-        this.y = y
+        this.dpr = window.devicePixelRatio
 
-        this.sX = sX
-        this.sY = sY
+        this.x = x*this.dpr     
+        this.y = y*this.dpr
+
+        this.sX = sX*this.dpr
+        this.sY = sY*this.dpr
 
         this.img = img        
         this.ctx = ctx
@@ -14,6 +16,7 @@ export default class DrawableObject {
         this.visible = visible
         this.r = (r ?? 91) * Math.PI / 180
         this.prevTick = Date.now()
+
     }
 
     /*Return true if x, y position is in object*/
@@ -24,7 +27,8 @@ export default class DrawableObject {
         if(this.r < 75) {
             consoleLog("R: ", this.r < 75 * 180/Math.PI, " Top bound: ", topBounds, " Click pos: ", y, " Passed: ", y < topBounds)
         } */
-        if ((y > this.y) && (y < this.y + this.sY) && (x > this.x) && (x < this.x + this.sX)) {
+        console.log(x, y)
+        if ((y > this.y/this.dpr) && (y < this.y/this.dpr + this.sY/this.dpr) && (x > this.x/this.dpr) && (x < this.x/this.dpr + this.sX/this.dpr)) {
             return true
         }
     }
