@@ -199,8 +199,8 @@ function loadData() {
         const endgameCanvasCTX = endgameCanvas.getContext("2d")
 
         const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-        autonCanvas.height = autonCanvasSize*763/595
-        autonCanvas.width = autonCanvasSize
+        autonCanvas.height = autonCanvasSize
+        autonCanvas.width = autonCanvasSize*763/595
         const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         endgameCanvas.width = endgameCanvasSize
         endgameCanvas.height = endgameCanvasSize
