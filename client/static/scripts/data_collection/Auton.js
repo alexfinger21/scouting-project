@@ -19,6 +19,7 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, allianceColor, images, startPositions: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: images.gamePieceImage, pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.legend = new Legend({ctx, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
+        this.dpr = window.devicePixelRatio
     }
 
     onClick({event, leftOffset, topOffset}) {
@@ -39,8 +40,9 @@ export default class {
     }
 
     draw() {
+        
         this.ctx.save()
-        this.ctx.setTransform(1, 0, 0, 1, 0, 0) //reset canvas transform just in case
+        this.ctx.setTransform(1/this.dpr, 0, 0, 1/this.dpr, 0, 0) //reset canvas transform just in case and set dpr (device pixel ratio) to remove blur
         this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y)
 
         this.map.draw()

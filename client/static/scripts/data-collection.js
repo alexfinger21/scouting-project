@@ -199,7 +199,7 @@ function loadData() {
         const endgameCanvasCTX = endgameCanvas.getContext("2d")
 
         const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-        autonCanvas.height = autonCanvasSize
+        autonCanvas.height = autonCanvasSize*763/595
         autonCanvas.width = autonCanvasSize
         const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         endgameCanvas.width = endgameCanvasSize
@@ -207,7 +207,7 @@ function loadData() {
         const gamePieceImage = new Image()
         gamePieceImage.src = "./static/images/data-collection/orange-note.png"
         const mapImage = new Image()
-        mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
+        mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.png`
         const robotImage = new Image()
         robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
         const robotContainer = new Image()
