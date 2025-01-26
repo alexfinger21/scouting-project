@@ -10,13 +10,14 @@ const { json } = require("express")
 const { getScoutifyMatchData, database } = require("./database/database.js")
 const { getData } = require("./TBAAPIdata.js")
 
-async function lebron() 
+async function lebron() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
     const gametype = (gameConstants.GAME_TYPE.toLowerCase() === "qm" || gameConstants.GAME_TYPE.toLowerCase() === "q") ? "qm" : "";
 
     const filteredData = {};
 
+    //list of what we get from TBA
     let input = `
 autoAmpNoteCount
 autoSpeakerNoteCount
@@ -48,13 +49,13 @@ teleopAmpNoteCount`;
         }
     }
 
-    console.log(filteredData); // Check the data for match 1 (or adjust accordingly)
+    //console.log(filteredData); // Check the data for match 1 (or adjust accordingly)
     
     return filteredData;
 }
 
 
-async function legoat() 
+async function legoat()// Gets the data from the Database
 {
     const hello = await getScoutifyMatchData()
     const filteredData = {}
@@ -85,12 +86,51 @@ async function legoat()
     }
 
     //console.log(hello[1])
-    console.log(filteredData)
+    //console.log(filteredData)
     //console.log(hello[1][1].game_element_ge_key)
     return filteredData
 }
 
+async function CaptainLeMerica()
+{
+    const fromTBA = await lebron()
+    const fromDB = await legoat()
 
-legoat();
+    let collectedData = {};
+    
+    console.log(fromTBA[1].red.autoSpeakerNoteCount)
+    //console.log(fromDB)
+
+    const scatterpoints = []
+    
+     for (let i = 0; i < Object.keys(fromTBA).length; i++) 
+    {
+         //console.log(fromTBA[i + 1].red);
+         scatterpoints.push({x:fromTBA[i+1].red.autoSpeakerNoteCount, y:fromDB[i+1].red['210']})
+        // console.log(scatterpoints)
+    }
+
+    console.log(scatterpoints)
+    // Object.keys(fromDB).forEach(
+    //     (a)=>
+    // )
+    // Object.keys(fromTBA).forEach(
+    //     (a)=>scatterpoints.push({x:a.red.autoSpeakerNoteCount}
+    // )
+
+
+/*
+    const combinedData = {}
+    for(let i = 0; i < Object.keys(fromTBA).length; i++)
+    {
+        combinedData[i] = { red: {TBA}, blue: {TBA} }
+
+        combinedData[i].red.TBA.autoSpeakerNoteCount = fromTBA[i+1].red.autoSpeakerNoteCount
+    }
+    console.log(combinedData)
+*/
+}
+
+CaptainLeMerica();
 
 module.exports = {lebron}

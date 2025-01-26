@@ -4,7 +4,7 @@ const gameConstants = require("../game.js")
 const { consoleLog } = require("../utility")
 const router = express.Router()
 const { getImageData } = require("../getImages.js")
-const {getMatchVideos } = require("./TBAAPIData.js")
+const {getMatchVideos } = require("../TBAAPIData.js")
 const SQL = require('sql-template-strings')
 
 function mergeDicts(dict1, dict2) {
