@@ -64,20 +64,17 @@ router.get("/", function (req, res) { //only gets used if the url == team-detail
 
 router.post("/", function (req, res) {
     const body = req.body
-    consoleLog("BODY: ")
-    consoleLog(body)
     database.query(database.deleteAllianceSelection(body.allianceNum, body.pos), (err, result) => {
-        consoleLog(err)
         consoleLog(result)
         consoleLog("REMOVED")
         if (body.action == "INSERT") {
-            database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {consoleLog(err); socketManager.emitAllSockets("yes", "allianceSelection")})
+            database.query(database.insertAllianceSelection(body.allianceNum, body.pos, body.team), (err, result) => {consoleLog(err); socketManager.emitAllSockets("allianceSelection", "yes")})
             consoleLog("INSERTED")
         } else {
             if (body.pos == 0) {
-                database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 1), (err, result) => {database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 2), (err, result) => {socketManager.emitAllSockets("yes", "allianceSelection")})})
+                database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 1), (err, result) => {database.query(database.deleteAllianceSelection(body.allianceNum, body.pos + 2), (err, result) => {socketManager.emitAllSockets("allianceSelection", "yes")})})
             } else {
-                socketManager.emitAllSockets("yes", "allianceSelection")
+                socketManager.emitAllSockets("allianceSelection", "yes")
             }
         }
     })
