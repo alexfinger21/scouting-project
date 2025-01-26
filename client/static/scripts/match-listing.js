@@ -88,6 +88,20 @@ const observer = new MutationObserver(function (mutations_list) {
     })
 })
 
+function getMatchVideos() {
+    return new Promise(res => {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: paths.matchListing + "?get-videos=1",
+            success: function (response) {
+                if (response) {
+                    res(response)
+                }
+            }
+        })
+    }) 
+}
 
 function startMatch(data) {
     return new Promise(resolve => {
@@ -139,6 +153,10 @@ function main() {
     const lastPlayed = matchScroller.getAttribute("scroll-to")
     const matchTable = matchScroller.children[lastPlayed - 1]
     matchTable.scrollIntoView()
+
+    getMatchVideos().then(e => {
+        consoleLog("SUPA RES: ", e)
+    }) 
 
 
     /*highlight every th element that has our team
