@@ -80,7 +80,7 @@ function createTooltip(context) {
         }
 
         //button
-        innerHtml += `<tr><td><button id="tooltip-button" style="pointer-events: auto" >Details</button><tr><td>`
+        innerHtml += `<tr><td><button id="tooltip-button" style="pointer-events: auto" >Details</button></tr></td>`
 
 
         innerHtml += '</tbody>'
