@@ -40,7 +40,7 @@ function getData () {
 
 //gets all videos for all qual matches for specificTeam
 //otherwise it gets all the videos sorted by match number
-async function getMatchVideos (specificTeam=false)
+async function getMatchVideos(specificTeam=false)
 {
     const matchData = await getData()
     const gametype = (gameConstants.GAME_TYPE == "qm" || gameConstants.GAME_TYPE == "Q")? "qm":""        

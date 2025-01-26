@@ -61,9 +61,9 @@ router.get("/", async function (req, res) {
         })
     }
     else {
+        const tmr = Date.now()
         database.query(database.getTeams(), async (err, results) => {
             //get isAdmin
-            consoleLog(err)
             consoleLog("MATCHES")
             consoleLog(database.getTeams())
             const isAdmin = await checkAdmin(req)
@@ -76,6 +76,7 @@ router.get("/", async function (req, res) {
                     runningMatch = runningMatchResults[0].cg_gm_number
                     process.env.lastPlayedMatch = runningMatchResults[0].cg_gm_number
                 }
+                consoleLog("TIME", Date.now() - tmr)
 
 
                 //get teams 
@@ -107,6 +108,7 @@ router.get("/", async function (req, res) {
                     matchVideos = []
                 }
 
+                consoleLog("TIME", Date.now() - tmr)
                 consoleLog("Rendering match listing")
                 consoleLog(matchVideos)
 
