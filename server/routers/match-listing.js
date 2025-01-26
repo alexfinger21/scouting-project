@@ -88,15 +88,6 @@ router.get("/", async function (req, res) {
         }
         consoleLog("TIME", Date.now() - tmr)
 
-        let matchVideos
-        
-        try {
-            matchVideos = await getMatchVideos()
-        }
-        catch {
-            matchVideos = []
-        }
-
         //get teams 
         const teams = {}
 
