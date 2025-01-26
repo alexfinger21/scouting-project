@@ -96,19 +96,18 @@ input::-webkit-inner-spin-button {
 }
 
 #username-holder {
-  position: absolute;
-  left: 0%;
-  width: 100%;
   pointer-events: none;
   text-align: center;
   color: rgb(255, 255, 255);
   margin-left: auto;
   margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 
 #dropdown {
-  height: 4vh;
+  height: 2vh;
   aspect-ratio: 1.2;
   background-color: transparent;
   border: none;
@@ -222,7 +221,7 @@ input::-webkit-inner-spin-button {
 .footer-icon {
   position: relative;
   object-fit: contain;
-  height: 4.5vh;
+  height: 3.5vh;
   z-index: 3;
 }
 
@@ -236,8 +235,8 @@ input::-webkit-inner-spin-button {
 
 
 .footer-page-button {
-  padding-top: 2vh;
-  padding-bottom: 2vh;
+  padding-top: 1.5vh;
+  padding-bottom: 1vh;
   border: 0px;
   background-color: #E2F1FF;
 }
@@ -253,7 +252,6 @@ input::-webkit-inner-spin-button {
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
-  height: 10.5vh;
   flex: 1;
 }
 
@@ -304,7 +302,7 @@ input[type=radio] {
 }
 
 @media (max-aspect-ratio: 7/8) {
-  #username-holder {
+  /*#username-holder {
     left: 9.5%
-  }
+  }*/
 }
