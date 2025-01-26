@@ -27,7 +27,7 @@ let sockets = {
         this.socketArray = null
     },
 
-    emitAllSockets: function(msg, type) {
+    emitAllSockets: function(type, msg) {
         for (const socket of this.socketArray) {
             socket.emit(type, msg)
         }
