@@ -154,8 +154,17 @@ function main() {
     const matchTable = matchScroller.children[lastPlayed - 1]
     matchTable.scrollIntoView()
 
-    getMatchVideos().then(e => {
-        consoleLog("SUPA RES: ", e)
+    getMatchVideos().then(vids => {
+        const vidHTMLButtons = Array.from(document.querySelectorAll(".match-video-button"))
+        for (const i in vids) {
+            const newBtn =  $(`<a href="${vids[i][1]}" target="_blank" class="match-video-button">
+                <img src="../static/images/video-camera-icon.png">
+            </a>`)
+
+            consoleLog(newBtn[0])
+            vidHTMLButtons[i].parentElement.appendChild(newBtn[0])
+            vidHTMLButtons[i].remove()
+        }
     }) 
 
 
