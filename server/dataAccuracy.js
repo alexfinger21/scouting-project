@@ -10,7 +10,8 @@ const { json } = require("express")
 const { getScoutifyMatchData, database } = require("./database/database.js")
 const { getData } = require("./TBAAPIdata.js")
 
-async function lebron() //gets the data from theBlueAlliance
+//formerly lebron
+async function APIData() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
     const gametype = (gameConstants.GAME_TYPE.toLowerCase() === "qm" || gameConstants.GAME_TYPE.toLowerCase() === "q") ? "qm" : "";
@@ -54,11 +55,10 @@ teleopAmpNoteCount`;
     return filteredData;
 }
 
-
-async function legoat()// Gets the data from the Database
+//formerly legoat
+async function DataBaseData()// Gets the data from the Database
 {
-    const hello = await getScoutifyMatchData()
-    const filteredData = {}
+    const dbData = await getScoutifyMatchData()
     /*
     210 = Auton notes scored in speaker
     211 = Auton notes scored in amp
@@ -66,71 +66,97 @@ async function legoat()// Gets the data from the Database
     302 = Tele speaker notes amped
     303 = Tele amp notes
     */
-    for (let i = 0; i < hello[1].length; i++) {
-        const matchNum = hello[1][i].game_matchup_gm_number + 1;
+
+
+    //change year by year
+    const offset = 4 // offsets the the RowDataPacket to go from blue to red
+
+    const filteredData = {}//dont change
+    let scouters = {}//dont change
+    let teams = {}//dont change
+    let num = 0 //dont change
+
+
+    for (let i = 0; i < dbData[1].length; i++) {
+        const matchNum = dbData[1][i].game_matchup_gm_number;
+
+        if(matchNum == 0) //skip any 0th match
+            continue
     
+        if(num < matchNum)
+        {   
+            const otherMatchNum = i/(offset*2)
+
+            scouters[otherMatchNum] = {red: [], blue: []}
+            scouters[otherMatchNum].blue = dbData[1][i].user_list
+            scouters[otherMatchNum].red = dbData[1][i+offset].user_list
+            teams[otherMatchNum] = {red: [], blue: []}
+            teams[otherMatchNum].blue = dbData[1][i].team_list
+            teams[otherMatchNum].red = dbData[1][i+offset].team_list
+
+            num = matchNum
+        }
+
+
+        
         // Initialize matchNum only if it doesn't exist
         if (!filteredData[matchNum]) {
             filteredData[matchNum] = { red: {}, blue: {} };
         }
     
-        const key = hello[1][i].game_element_ge_key;
-        const alliance = hello[1][i].game_matchup_gm_alliance;
+        const key = dbData[1][i].ge_key_group;
+        const alliance = dbData[1][i].game_matchup_gm_alliance;
+
+        //console.log(key)
     
-        if (alliance === "B" && [210, 211, 301, 302, 303].includes(key)) {
-            filteredData[matchNum].blue[key] = hello[1][i].gd_value;
+        if (alliance === "B" && ['210', '211', '301+302', '303'].includes(key)) {
+            filteredData[matchNum].blue[key] = dbData[1][i].gd_value;
         } 
-        else if (alliance === "R"  && [210, 211, 301, 302, 303].includes(key)) {
-            filteredData[matchNum].red[key] = hello[1][i].gd_value;
+        else if (alliance === "R"  && ['210', '211', '301+302', '303'].includes(key)) {
+            filteredData[matchNum].red[key] = dbData[1][i].gd_value;
         }
     }
+    
 
-    //console.log(hello[1])
-    //console.log(filteredData)
-    //console.log(hello[1][1].game_element_ge_key)
+    console.log(scouters)
     return filteredData
 }
 
-async function CaptainLeMerica()
+//formerly CaptainLeMerica
+async function combinedData()
 {
-    const fromTBA = await lebron()
-    const fromDB = await legoat()
+    const [fromTBA,fromDB]=await Promise.all
+    ([
+        APIData(), DataBaseData()
+    ])
 
     let collectedData = {};
     
     console.log(fromTBA[1].red.autoSpeakerNoteCount)
     //console.log(fromDB)
 
-    const scatterpoints = []
-    
-     for (let i = 0; i < Object.keys(fromTBA).length; i++) 
+    const scatterpoints = {autoAmpNoteCount:[], autoSpeakerNoteCount: [], teleopSpeakerNoteCount:[], teleopAmpNoteCount: [],}
+    const apiNames = ['211', '210', '301+302', '303']
+    for(let n of Object.keys(scatterpoints))
     {
-         //console.log(fromTBA[i + 1].red);
-         scatterpoints.push({x:fromTBA[i+1].red.autoSpeakerNoteCount, y:fromDB[i+1].red['210']})
-        // console.log(scatterpoints)
-    }
 
+        for (let i = 0; i < Object.keys(fromTBA).length; i++) 
+        {   
+            scatterpoints[n].push
+            ({
+                x:fromTBA[i+1].red[n], 
+                y:fromDB[i+1].red[apiNames[Object.keys(scatterpoints).indexOf(n)]]
+            })
+            scatterpoints[n].push
+            ({
+                x:fromTBA[i+1].blue[n], 
+                y:fromDB[i+1].blue[apiNames[Object.keys(scatterpoints).indexOf(n)]]
+            })
+        }
+    }
     console.log(scatterpoints)
-    // Object.keys(fromDB).forEach(
-    //     (a)=>
-    // )
-    // Object.keys(fromTBA).forEach(
-    //     (a)=>scatterpoints.push({x:a.red.autoSpeakerNoteCount}
-    // )
-
-
-/*
-    const combinedData = {}
-    for(let i = 0; i < Object.keys(fromTBA).length; i++)
-    {
-        combinedData[i] = { red: {TBA}, blue: {TBA} }
-
-        combinedData[i].red.TBA.autoSpeakerNoteCount = fromTBA[i+1].red.autoSpeakerNoteCount
-    }
-    console.log(combinedData)
-*/
 }
 
-CaptainLeMerica();
+combinedData();
 
-module.exports = {lebron}
+module.exports = {combinedData}
