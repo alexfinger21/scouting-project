@@ -171,14 +171,11 @@ h1 {
 
 #tooltip th {
     font-weight: bold;
+    font-size: 1.8vh;
 }
 
 #tooltip td {
     font-size: 1.5vh;
-}
-
-#tooltip th {
-    font-size: 1.8vh;
 }
 
 #tooltip tr {

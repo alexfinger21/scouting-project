@@ -8,6 +8,7 @@ const socketManager = require("../sockets.js")
 const Team = require("../alliance-suggester/team.js")
 const Alliance = require("../alliance-suggester/alliance.js")
 
+
 //returns an array where the team is substituted for the rank
 function rank(arr) {
     const sorted = arr.slice().sort((a, b) => b - a)
@@ -104,11 +105,11 @@ router.post("/", async function (req, res) {
 
     let [err1, alliances] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
     
-    alliances = JSON.parse(JSON.stringify(alliances))
-    
-    consoleLog("ALLIANCE SELECT BODY:", body)
+    alliances = JSON.parse(JSON.stringify(alliances))    
+    alliances.sort((a, b) => a - b)
 
     const disallowedTeams = alliances.map(a => Object.values(a).slice(1)).flat().filter(t => t)
+
    
     let [err2, teamData] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api vmd 
         WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
@@ -116,24 +117,25 @@ router.post("/", async function (req, res) {
             vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}`)
 
 
-   
     teamData = Array.from(JSON.parse(JSON.stringify(teamData)))
 
     const teams = teamData.map(t => new Team(t))
-    const remainingTeams = teams.filter(t => !disallowedTeams.includes(t.tm_num))
-    const al1 = new Alliance(Object.values(alliances[0]).slice(1).map(t => teams.find(tt => tt.tm_num == t)))
-    const al2 = new Alliance(Object.values(alliances[1]).slice(1).map(t => teams.find(tt => tt.tm_num == t)))
-    consoleLog(al1, al2, al1.getAverage(), al2.getAverage())
-    
-    // alliance 2 is the one we are on and we want to rank our picks based on alliance 1
+    alliances = JSON.parse(JSON.stringify(alliances)).map(t => new Alliance(Object.values(t).slice(1).map(t => teams.find(tt => tt.tm_num  == t))))
 
-    consoleLog(Alliance.getWeights(al1, al2))
-    const weights = Alliance.getWeights(al1, al2) 
+    if(!alliances.length) {
+        return res.status(200).send([])
+    }
+
+    const remainingTeams = teams.filter(t => !disallowedTeams.includes(t.tm_num))
+        
+    // alliance 2 is the one we are on and we want to rank our picks based on alliance 1
+    const pickedAlliance = alliances[Math.min(body?.alliance ? Number(body.alliance) - 1 : 0, alliances.length-1) ]
+    console.log("PICKED ALLIANCE: ", pickedAlliance)
+    const weights = Alliance.getWeights(pickedAlliance, alliances.filter(a => a != pickedAlliance)) 
     const allAvg = Team.getAverage(...remainingTeams)
     const ranks = remainingTeams.map(t => [t, t.getRank(allAvg, weights)])
     ranks.sort((a, b) => b[1] - a[1])
-    consoleLog("ALL AVERAGE:", allAvg, "WEIGHTS", weights)
-    consoleLog(ranks)
+    consoleLog("WEIGHTS: ", weights)
 
 
     /*
@@ -271,9 +273,9 @@ router.post("/", async function (req, res) {
     } 
     */
 
-    //consoleLog("THIS IS THE DATA", data)
+    consoleLog("THIS IS THE DATA", ranks[0])
 
-    return res.status(200).send(teamData)
+    return res.status(200).send(ranks)
 })
 
 module.exports = router

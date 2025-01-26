@@ -6,8 +6,8 @@
     <div id="page-holder">
         <div id="alliance-selector-scroller">
             <div id="alliance-display">
-                <p class="alliance-selector-header">
-                    Current Alliance Picks
+                <p id="alliance-selector-header">
+                    Alliance Picks For Alliance: None
                 </p>
                 <div class="strategy-divider">ㅤ</div>
                 <div id="alliance-table-holder">
@@ -54,33 +54,29 @@
                             <% } %>
                         </tbody>
                     </table>
-    
-                    <table id="alliance-suggestions">
-                        <colgroup>
-                            <col span="1" style="width: 9%">
-                            <col span="1" style="width: 15%">
-                            <col span="1" style="width: 20%">
-                        </colgroup>
-    
-                        <thead>
-                            <tr>
-                                <th>Team</th>
-                                <th>Name</th>
-                                <th>Suggestion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>695</td>
-                                <td>Bison Robotics</td>
-                                <td>"It's the best"</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    <div id="alliance-suggestions-scroller">
+                        <table id="alliance-suggestions">
+                            <colgroup>
+                                <col span="1" style="width: 8%">
+                                <col span="1" style="width: 22%">
+                                <col span="1" style="width: 70%">
+                            </colgroup>
+        
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td>Team #</td>
+                                    <td>Suggestion</td>
+                                </tr>
+                            </thead>
+                            <tbody><tr><td><b>1</b></td><td></td><td></td></tr><tr><td><b>2</b></td><td></td><td></td></tr><tr><td><b>3</b></td><td></td><td></td></tr><tr><td><b>4</b></td><td></td><td></td></tr><tr><td><b>5</b></td><td></td><td></td></tr></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <p class="alliance-selector-header">
+            <p id="available-teams-header">
                 Available Teams
             </p>
             <div class="strategy-divider">ㅤ</div>
@@ -113,7 +109,8 @@
                     <th class="alliance-selector">Api Rank</th>
                     <th class="alliance-selector">Game Score</th>
                     <th class="alliance-selector">Auton</th>
-                    <th class="alliance-selector">Speaker Score</th>
+                    <th class="alliance-selector">Speaker Unamped</th>
+                    <th class="alliance-selector">Speaker Amped</th>
                     <th class="alliance-selector">Amp Score</th>
                     <th class="alliance-selector">Stage Score</th>
                     <th class="alliance-selector">Trap Score</th>
