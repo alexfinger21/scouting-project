@@ -41,16 +41,9 @@
                             <%= teams[i].time %>
                         </th>
                         <th class="no-padding">
-                            <% if(matchVideos[i]) { %>
-
-                                <a href=<%-matchVideos[i][1]%> target="_blank" class="match-video-button">
-                                    <img src="../static/images/video-camera-icon.png">
-                                </a>
-                            <% } else { %>
-                                <div class="match-video-button">    
-                                    <img src="../static/images/video-camera-icon.png" class="gray">
-                                </div>
-                            <% } %>
+                            <div class="match-video-button">    
+                                <img src="../static/images/video-camera-icon.png" class="gray">
+                            </div>
                         </th>
                         <th class="no-padding">
                             <button class="match-strat-button">
