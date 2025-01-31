@@ -47,7 +47,7 @@ export default class {
         this.ctx.save()
 
         if (document.getElementById("on-stage").checked == false && document.getElementById("harmony").checked == false) {
-             for (const x of this.clickable.robots.stagePositions) {
+             for (const x of this.clickable.robots.bargePositions) {
                 if (x.isSelected) {
                     document.getElementById("on-stage").checked = true
                     break

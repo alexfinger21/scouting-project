@@ -219,12 +219,7 @@ function loadData() {
 
         await waitUntilImagesLoaded(Object.values(images))
 
-        const startingPositions = {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false,
-        }
+        const robotStartingPercent = 0
 
         const templatePieceData = {
             //  Wing Notes
@@ -262,11 +257,23 @@ function loadData() {
             stagePositions[gameData["Instage Location"]] = true
         }
 
-        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
         EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
         autonCanvas.addEventListener("click", (event) => {
             AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+        })
+
+        autonCanvas.addEventListener("mousedown", (event) => {
+            AutonObject.onMouseDown({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+        })
+
+        autonCanvas.addEventListener("mouseup", (event) => {
+            AutonObject.onMouseUp({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+        })
+
+        autonCanvas.addEventListener("mousemove", (event) => {
+            AutonObject.onMouseMove({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
         })
 
         endgameCanvas.addEventListener("click", (event) => {
