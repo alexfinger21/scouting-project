@@ -162,8 +162,12 @@ function main() {
             </a>`)
 
             consoleLog(newBtn[0])
-            vidHTMLButtons[i].parentElement.appendChild(newBtn[0])
-            vidHTMLButtons[i].remove()
+            try {
+                vidHTMLButtons[i].parentElement.appendChild(newBtn[0])
+                vidHTMLButtons[i].remove()
+            } catch {
+                return
+            }
         }
     }) 
 
