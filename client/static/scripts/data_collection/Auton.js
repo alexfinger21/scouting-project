@@ -22,36 +22,25 @@ export default class {
         this.dpr = window.devicePixelRatio
     }
 
-    onClick({event, leftOffset, topOffset}) {
-        const x = event.pageX - leftOffset
-        const y = event.pageY - topOffset
-
+    onClick({ x, y }) {
         // Collision detection between clicked offset and element.
         //this.clickable.pieces.onClick({x, y})
         this.clickable.robots.onClick({x, y})
         this.legend.onClick({x, y})
     }
 
-    onMouseDown({event, leftOffset, topOffset}) {
-        const x = event.pageX - leftOffset
-        const y = event.pageY - topOffset
-
+    onMouseDown({ x, y }) {
         this.clickable.robots.onMouseDown({x, y})
     }
+    
+    onMouseMove({ x, y }) {
+        this.clickable.robots.onMouseMove({x, y})
+    }
 
-    onMouseUp({event, leftOffset, topOffset}) {
-        const x = event.pageX - leftOffset
-        const y = event.pageY - topOffset
-
+    onMouseUp({ x, y }) {
         this.clickable.robots.onMouseUp({x, y})
     }
 
-    onMouseMove({event, leftOffset, topOffset}) {
-        const x = event.pageX - leftOffset
-        const y = event.pageY - topOffset
-
-        this.clickable.robots.onMouseMove({x, y})
-    }
 
     sendData() {
         return {
@@ -64,7 +53,7 @@ export default class {
         
         this.ctx.save()
         this.ctx.setTransform(1/this.dpr, 0, 0, 1/this.dpr, 0, 0) //reset canvas transform just in case and set dpr (device pixel ratio) to remove blur
-        this.ctx.clearRect(0, 0, this.canvasSize.x, this.canvasSize.y)
+        this.ctx.clearRect(0, 0, this.canvasSize.x*this.dpr, this.canvasSize.y*this.dpr)
 
         this.map.draw()
         this.clickable.robots.draw()

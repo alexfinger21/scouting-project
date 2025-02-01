@@ -23,7 +23,10 @@ export default class Robot extends DrawableObject {
         
         this.draggable = draggable ?? false
         this.isSelected = clickable ? (isSelected ?? false) : true
-        consoleLog("SELECTED: ", this.isSelected)
+
+        if (this.draggable) {
+            this.dragOffset = [0, 0]
+        }
 
         this.clickable = clickable ?? false 
         
@@ -46,7 +49,10 @@ export default class Robot extends DrawableObject {
     }
 
     onMouseDown({ x, y }) {
+        consoleLog(x, y, super.inBoundingBox({ x, y }))
         if (this.draggable && super.inBoundingBox({ x, y })) {
+            this.dragOffset[0] = this.x - x 
+            this.dragOffset[1] = this.y - y 
             this.isSelected = true
         } 
     }
@@ -60,7 +66,8 @@ export default class Robot extends DrawableObject {
 
     onMouseMove({ x, y }) {
         if (this.isSelected && this.draggable) {
-            this.y = y 
+            consoleLog(this.y, y + this.dragOffset[1])
+            this.y = y + this.dragOffset[1]
         }
     }
 

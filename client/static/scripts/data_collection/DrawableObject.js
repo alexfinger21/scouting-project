@@ -3,12 +3,13 @@ import { consoleLog } from "../utility.js"
 export default class DrawableObject {
     constructor({ctx, x, y, sX, sY, r, img, visible = true}) {
         this.dpr = window.devicePixelRatio
+        // dpr necessary to increase render resolution
 
-        this.x = x*this.dpr     
-        this.y = y*this.dpr
+        this.x = x 
+        this.y = y
 
-        this.sX = sX*this.dpr
-        this.sY = sY*this.dpr
+        this.sX = sX
+        this.sY = sY
 
         this.img = img        
         this.ctx = ctx
@@ -27,17 +28,17 @@ export default class DrawableObject {
         if(this.r < 75) {
             consoleLog("R: ", this.r < 75 * 180/Math.PI, " Top bound: ", topBounds, " Click pos: ", y, " Passed: ", y < topBounds)
         } */
-        console.log(x, y)
-        if ((y > this.y/this.dpr) && (y < this.y/this.dpr + this.sY/this.dpr) && (x > this.x/this.dpr) && (x < this.x/this.dpr + this.sX/this.dpr)) {
+        if ((y > this.y) && (y < this.y + this.sY) && (x > this.x) && (x < this.x + this.sX)) {
             return true
         }
+        return false
     }
 
     rotate() {
         const a = this.r 
         //rotate code
-        const x = Math.cos(a) * 1/2 * this.sY - Math.cos(Math.PI/2 - a) * 1/2 * this.sX
-        const y = Math.sin(a) * 1/2 * this.sY + Math.sin(Math.PI/2 - a) * 1/2 * this.sX
+        const x = Math.cos(a) * 1/2 * this.sY*this.dpr - Math.cos(Math.PI/2 - a) * 1/2 * this.sX*this.dpr
+        const y = Math.sin(a) * 1/2 * this.sY*this.dpr + Math.sin(Math.PI/2 - a) * 1/2 * this.sX*this.dpr
 
         this.ctx.translate(x, -y)
         this.ctx.rotate(-a + Math.PI/2) //add rotation
@@ -52,9 +53,9 @@ export default class DrawableObject {
 
             //move here, so rotation doesnt affect x and y
 
-            this.ctx.translate(this.x+this.sX/2, this.y+this.sY/2)
+            this.ctx.translate((this.x+this.sX/2)*this.dpr, (this.y+this.sY/2)*this.dpr)
             this.rotate()
-            this.ctx.drawImage(this.img, 0, 0, this.sX, this.sY) //do not use x and y here to support rotation
+            this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation
             //1this.ctx.translate(-1*this.x, -1*this.y)//move back
             this.ctx.restore()
         }

@@ -64,6 +64,14 @@ export default class RobotMap {
         }
     }
 
+    onMouseMove({ x, y }) {
+        for (const r of [...this.startPositions, ...this.bargePositions]) {
+            if (r.draggable) {
+                r.onMouseMove({ x, y })
+            }
+        }
+    }
+
     onMouseUp({ x, y }) {
         for (const r of [...this.startPositions, ...this.bargePositions]) {
             if (r.draggable) {
@@ -73,13 +81,6 @@ export default class RobotMap {
     }
 
 
-    onMouseMove({ x, y }) {
-        for (const r of [...this.startPositions, ...this.bargePositions]) {
-            if (r.draggable) {
-                r.onMouseMove({ x, y })
-            }
-        }
-    }
 
     sendData() {
         let data = {}
