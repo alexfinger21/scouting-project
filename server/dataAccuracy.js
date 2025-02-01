@@ -9,26 +9,41 @@ const { default: jsPDF } = require("jspdf")
 const { json } = require("express")
 const { getScoutifyMatchData, database } = require("./database/database.js")
 const { getData } = require("./TBAAPIData.js")
+const fs = require('node:fs/promises'); // file-system for writing to other files
 
-const fs = require('node:fs/promises');
+
+// CONSTANTS TO BE CHANGED EVERY YEAR
+
+/* TBAAPITNAMES[0] should be the value which correlates to DBNAMES[0] and etc, etc.
+   If format isn't followed then the combined data will be wrong*/
+const TBAAPINAMES = ["autoAmpNoteCount", "autoSpeakerNoteCount", "teleopSpeakerNoteCount", "teleopAmpNoteCount"] 
+const DBNAMES = ['211', '210', '301+302', '303']
+
+/* Offsets the the RowDataPacket to go from blue to red.
+   Idk how it works, ask mayer*/
+const OFFSET = 4 
+
+/*
+    210 = Auton notes scored in speaker
+    211 = Auton notes scored in amp
+    301 = Tele speaker notes not amped
+    302 = Tele speaker notes amped
+    303 = Tele amp notes
+*/
+
+// END CONSTANTS
 
 //formerly lebron
 async function APIData() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
-    //console.log(matchData[0].alliances.blue.team_keys); // [ 'frc3015', 'frc2172', 'frc1787' ]
     const gametype = (gameConstants.GAME_TYPE.toLowerCase() === "qm" || gameConstants.GAME_TYPE.toLowerCase() === "q") ? "qm" : "";
 
     const filteredData = {};
 
     //list of what we get from TBA
-    let input = `
-autoAmpNoteCount
-autoSpeakerNoteCount
-teleopSpeakerNoteCount
-teleopAmpNoteCount`;
+    let input = TBAAPINAMES;
 
-    input = input.trim().split("\n"); // Everything in an array
     // Loop through all match data
     for (let i = 0; i < matchData.length; i++) {
         const m = matchData[i]
@@ -71,6 +86,7 @@ teleopAmpNoteCount`;
 async function DataBaseData()// Gets the data from the Database
 {
     const dbData = await getScoutifyMatchData()
+
     /*
     210 = Auton notes scored in speaker
     211 = Auton notes scored in amp
@@ -81,12 +97,12 @@ async function DataBaseData()// Gets the data from the Database
 
 
     //change year by year
-    const offset = 4 // offsets the the RowDataPacket to go from blue to red
+    const offset = OFFSET // offsets the the RowDataPacket to go from blue to red
 
-    const filteredData = {}//dont change
-    let scouters = {}//dont change
-    let teams = {}//dont change
-    let num = 0 //dont change
+    const filteredData = {}// the returned obj of filtered match data
+    let scouters = {} // the returned obj of scouters
+
+    let num = 0 // idk what this is, i think it is an iterator variable but who knows?
 
 
     for (let i = 0; i < dbData[1].length; i++) {
@@ -99,18 +115,17 @@ async function DataBaseData()// Gets the data from the Database
         {   
             const otherMatchNum = i/(offset*2)
 
-            scouters[otherMatchNum] = {red: [], blue: []}
+            scouters[otherMatchNum] = {
+                red: [], 
+                blue: []
+            }
+
             scouters[otherMatchNum].blue = dbData[1][i].user_list
             scouters[otherMatchNum].red = dbData[1][i+offset].user_list
-            teams[otherMatchNum] = {red: [], blue: []}
-            teams[otherMatchNum].blue = dbData[1][i].team_list
-            teams[otherMatchNum].red = dbData[1][i+offset].team_list
 
             num = matchNum
         }
 
-
-        
         // Initialize matchNum only if it doesn't exist
         if (!filteredData[matchNum]) {
             filteredData[matchNum] = { red: {}, blue: {} };
@@ -118,19 +133,15 @@ async function DataBaseData()// Gets the data from the Database
     
         const key = dbData[1][i].ge_key_group;
         const alliance = dbData[1][i].game_matchup_gm_alliance;
-
-        //console.log(key)
     
-        if (alliance === "B" && ['210', '211', '301+302', '303'].includes(key)) {
+        if (alliance === "B" && DBNAMES.includes(key)) {
             filteredData[matchNum].blue[key] = dbData[1][i].gd_value;
         } 
-        else if (alliance === "R"  && ['210', '211', '301+302', '303'].includes(key)) {
+        else if (alliance === "R"  && DBNAMES.includes(key)) {
             filteredData[matchNum].red[key] = dbData[1][i].gd_value;
         }
     }
     
-
-    //console.log(scouters)
     return [filteredData, scouters]
 }
 
@@ -149,51 +160,53 @@ async function combinedData() // combine data from TBA and DB
     const TBAAllianceData = fromTBA[1] // the teams for the respective matches
 
     let collectedData = {}; // return object, holds all the organized data in the format which can be found at: https://docs.google.com/document/d/1NK2FcjZGP_nJxAf9On0Mf55u8Ig7DmbRmSeLbrkwQI0/edit?tab=t.0
-    //const scatterpointsNames = {autoAmpNoteCount:[], autoSpeakerNoteCount: [], teleopSpeakerNoteCount:[], teleopAmpNoteCount: [],} // Will compare the different data from TBA and our DB 
-    let scatterpoints = {};
-    const apiNames = ['211', '210', '301+302', '303'] 
+    const scatterpointsNames = TBAAPINAMES;
+    let scatterpoints = {}; // will compare the different data from TBA and our DB 
+    const apiNames = DBNAMES;
 
-    for (let i = 1; i <= 80; i++) {
-        scatterpoints[i] = {
-            red: {
-                autoAmpNoteCount:{TBA: TBAMatchData[i].red.autoAmpNoteCount, DB: DBMatchData[i].red['211']}, 
-                autoSpeakerNoteCount: {TBA: TBAMatchData[i].red.autoSpeakerNoteCount, DB: DBMatchData[i].red['210']}, 
-                teleopSpeakerNoteCount:{TBA: TBAMatchData[i].red.teleopSpeakerNoteCount, DB: DBMatchData[i].red['301+302']}, 
-                teleopAmpNoteCount: {TBA: TBAMatchData[i].red.teleopAmpNoteCount, DB: DBMatchData[i].red['303']}
-            },
-            blue: {
-                autoAmpNoteCount:{TBA: TBAMatchData[i].blue.autoAmpNoteCount, DB: DBMatchData[i].blue['211']}, 
-                autoSpeakerNoteCount: {TBA: TBAMatchData[i].blue.autoSpeakerNoteCount, DB: DBMatchData[i].blue['210']}, 
-                teleopSpeakerNoteCount:{TBA: TBAMatchData[i].blue.teleopSpeakerNoteCount, DB: DBMatchData[i].blue['301+302']}, 
-                teleopAmpNoteCount: {TBA: TBAMatchData[i].blue.teleopAmpNoteCount, DB: DBMatchData[i].blue['303']}
+    for (let i = 1; i <= 80; i++) { // 1-80 inclusive matches
+        scatterpoints[i] = { // each match has red/blue alliance
+            red: {},
+            blue: {}
+        }
+
+        for (let nameNum in scatterpointsNames) { // a set of scatterpoints for each type of API key
+            let name = scatterpointsNames[nameNum]
+
+            scatterpoints[i].red[name] = { // example of this object filled in would be: autoAmpNoteCount:{TBA: TBAMatchData[i].red.autoAmpNoteCount, DB: DBMatchData[i].red['211']}, 
+                TBA: TBAMatchData[i].red[name], // The x value of the scatterpoint
+                DB: DBMatchData[i].red[apiNames[nameNum]] // The y value of the scatter point
+            }
+
+            scatterpoints[i].blue[name] = { // same as the above but for blue alliance
+                TBA: TBAMatchData[i].blue[name], 
+                DB: DBMatchData[i].blue[apiNames[nameNum]] 
             }
         }
     }
-   //console.log(scatterpoints)
+   
 
     // scatterpoints has been initialized now we must collect all the data in collectedData
+
     for (let i = 1; i <= 80; i++) { // run through all 80 matches
         collectedData[i] = {
             red: {
                 teams: TBAAllianceData[i].red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
-                scouters: DBScoutersData[i].red.split(', '),
-                matchStats: {
-                    autoAmpNoteCount: scatterpoints[i].red.autoAmpNoteCount,
-                    autoSpeakerNoteCount: scatterpoints[i].red.autoSpeakerNoteCount,
-                    teleopSpeakerNoteCount: scatterpoints[i].red.teleopSpeakerNoteCount,
-                    teleopAmpNoteCount: scatterpoints[i].red.teleopAmpNoteCount
-                }
+                scouters: DBScoutersData[i].red.split(', '), // we split because currently it is a string like 'aaron, alex, artiom'
+                matchStats: {} // to be populated later
             },
             blue: {
                 teams: TBAAllianceData[i].blue,
                 scouters: DBScoutersData[i].blue.split(', '),
-                matchStats: {
-                    autoAmpNoteCount: scatterpoints[i].blue.autoAmpNoteCount,
-                    autoSpeakerNoteCount: scatterpoints[i].blue.autoSpeakerNoteCount,
-                    teleopSpeakerNoteCount: scatterpoints[i].blue.teleopSpeakerNoteCount,
-                    teleopAmpNoteCount: scatterpoints[i].blue.teleopAmpNoteCount
-                }
+                matchStats: {}
             }
+        }
+
+        for (let nameNum in scatterpointsNames) { // populate matchStats
+            let name = scatterpointsNames[nameNum]
+
+            collectedData[i].red.matchStats[name] = scatterpoints[i].red[name]
+            collectedData[i].blue.matchStats[name] = scatterpoints[i].blue[name]
         }
     }
 
