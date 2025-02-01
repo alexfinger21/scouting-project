@@ -27,3 +27,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Temp data json
+temp.json

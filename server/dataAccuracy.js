@@ -8,12 +8,15 @@ const { consoleLog, parseData } = require("./utility.js")
 const { default: jsPDF } = require("jspdf")
 const { json } = require("express")
 const { getScoutifyMatchData, database } = require("./database/database.js")
-const { getData } = require("./TBAAPIdata.js")
+const { getData } = require("./TBAAPIData.js")
+
+const fs = require('node:fs/promises');
 
 //formerly lebron
 async function APIData() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
+    //console.log(matchData[0].alliances.blue.team_keys); // [ 'frc3015', 'frc2172', 'frc1787' ]
     const gametype = (gameConstants.GAME_TYPE.toLowerCase() === "qm" || gameConstants.GAME_TYPE.toLowerCase() === "q") ? "qm" : "";
 
     const filteredData = {};
@@ -50,9 +53,18 @@ teleopAmpNoteCount`;
         }
     }
 
+    let teamData = {}
+    for (let i = 1; i < matchData.length; i++) {
+        let alliance = matchData[0].alliances;
+        teamData[i] = {
+            red: alliance.red.team_keys,
+            blue: alliance.blue.team_keys
+        }
+    }
+
     //console.log(filteredData); // Check the data for match 1 (or adjust accordingly)
-    
-    return filteredData;
+    //console.log(teamData)
+    return [filteredData, teamData];
 }
 
 //formerly legoat
@@ -118,45 +130,86 @@ async function DataBaseData()// Gets the data from the Database
     }
     
 
-    console.log(scouters)
-    return filteredData
+    //console.log(scouters)
+    return [filteredData, scouters]
 }
 
 //formerly CaptainLeMerica
-async function combinedData()
+async function combinedData() // combine data from TBA and DB
 {
     const [fromTBA,fromDB]=await Promise.all
     ([
         APIData(), DataBaseData()
     ])
 
-    let collectedData = {};
-    
-    console.log(fromTBA[1].red.autoSpeakerNoteCount)
-    //console.log(fromDB)
+    const DBMatchData = fromDB[0] // our match data
+    const DBScoutersData = fromDB[1] // the people who scouted for the respective matches
 
-    const scatterpoints = {autoAmpNoteCount:[], autoSpeakerNoteCount: [], teleopSpeakerNoteCount:[], teleopAmpNoteCount: [],}
-    const apiNames = ['211', '210', '301+302', '303']
-    for(let n of Object.keys(scatterpoints))
-    {
+    const TBAMatchData = fromTBA[0] // tba match data
+    const TBAAllianceData = fromTBA[1] // the teams for the respective matches
 
-        for (let i = 0; i < Object.keys(fromTBA).length; i++) 
-        {   
-            scatterpoints[n].push
-            ({
-                x:fromTBA[i+1].red[n], 
-                y:fromDB[i+1].red[apiNames[Object.keys(scatterpoints).indexOf(n)]]
-            })
-            scatterpoints[n].push
-            ({
-                x:fromTBA[i+1].blue[n], 
-                y:fromDB[i+1].blue[apiNames[Object.keys(scatterpoints).indexOf(n)]]
-            })
+    let collectedData = {}; // return object, holds all the organized data in the format which can be found at: https://docs.google.com/document/d/1NK2FcjZGP_nJxAf9On0Mf55u8Ig7DmbRmSeLbrkwQI0/edit?tab=t.0
+    //const scatterpointsNames = {autoAmpNoteCount:[], autoSpeakerNoteCount: [], teleopSpeakerNoteCount:[], teleopAmpNoteCount: [],} // Will compare the different data from TBA and our DB 
+    let scatterpoints = {};
+    const apiNames = ['211', '210', '301+302', '303'] 
+
+    for (let i = 1; i <= 80; i++) {
+        scatterpoints[i] = {
+            red: {
+                autoAmpNoteCount:{TBA: TBAMatchData[i].red.autoAmpNoteCount, DB: DBMatchData[i].red['211']}, 
+                autoSpeakerNoteCount: {TBA: TBAMatchData[i].red.autoSpeakerNoteCount, DB: DBMatchData[i].red['210']}, 
+                teleopSpeakerNoteCount:{TBA: TBAMatchData[i].red.teleopSpeakerNoteCount, DB: DBMatchData[i].red['301+302']}, 
+                teleopAmpNoteCount: {TBA: TBAMatchData[i].red.teleopAmpNoteCount, DB: DBMatchData[i].red['303']}
+            },
+            blue: {
+                autoAmpNoteCount:{TBA: TBAMatchData[i].blue.autoAmpNoteCount, DB: DBMatchData[i].blue['211']}, 
+                autoSpeakerNoteCount: {TBA: TBAMatchData[i].blue.autoSpeakerNoteCount, DB: DBMatchData[i].blue['210']}, 
+                teleopSpeakerNoteCount:{TBA: TBAMatchData[i].blue.teleopSpeakerNoteCount, DB: DBMatchData[i].blue['301+302']}, 
+                teleopAmpNoteCount: {TBA: TBAMatchData[i].blue.teleopAmpNoteCount, DB: DBMatchData[i].blue['303']}
+            }
         }
     }
-    console.log(scatterpoints)
+   //console.log(scatterpoints)
+
+    // scatterpoints has been initialized now we must collect all the data in collectedData
+    for (let i = 1; i <= 80; i++) { // run through all 80 matches
+        collectedData[i] = {
+            red: {
+                teams: TBAAllianceData[i].red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
+                scouters: DBScoutersData[i].red.split(', '),
+                matchStats: {
+                    autoAmpNoteCount: scatterpoints[i].red.autoAmpNoteCount,
+                    autoSpeakerNoteCount: scatterpoints[i].red.autoSpeakerNoteCount,
+                    teleopSpeakerNoteCount: scatterpoints[i].red.teleopSpeakerNoteCount,
+                    teleopAmpNoteCount: scatterpoints[i].red.teleopAmpNoteCount
+                }
+            },
+            blue: {
+                teams: TBAAllianceData[i].blue,
+                scouters: DBScoutersData[i].blue.split(', '),
+                matchStats: {
+                    autoAmpNoteCount: scatterpoints[i].blue.autoAmpNoteCount,
+                    autoSpeakerNoteCount: scatterpoints[i].blue.autoSpeakerNoteCount,
+                    teleopSpeakerNoteCount: scatterpoints[i].blue.teleopSpeakerNoteCount,
+                    teleopAmpNoteCount: scatterpoints[i].blue.teleopAmpNoteCount
+                }
+            }
+        }
+    }
+
+    try { // Write the collectedData to temp.json in root to view
+        let json = JSON.stringify(collectedData, null, 2);
+        await fs.writeFile('./temp.json', json);
+
+        console.log("Successfully wrote collectedData to ./temp.json")
+    }
+    catch (err) {
+        console.error(err)
+    }
 }
 
 combinedData();
+//APIData()
+//DataBaseData()
 
 module.exports = {combinedData}
