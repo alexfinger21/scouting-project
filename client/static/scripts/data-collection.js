@@ -260,21 +260,63 @@ function loadData() {
         AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
         EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
+        // HANDLE TOUCHES / MOUSE
+
+        function handleMouse(event, obj, func) {
+            const x = event.pageX - event.target.getBoundingClientRect().left - window.scrollX
+            const y = event.pageY - event.target.getBoundingClientRect().top - window.scrollY
+
+            func.call(obj, { x, y })
+        }
+
+        function handleTouch(event, obj, func) {
+            const touches = event.touches
+            if (touches.length) {
+                const x = touches[0].clientX - event.target.getBoundingClientRect().left - window.scrollX
+                const y = touches[0].clientY - event.target.getBoundingClientRect().top - window.scrollY
+
+                func.call(obj, { x, y })
+            } else {
+                func.call(obj, { Infinity, Infinity })
+            }
+        }
+
         autonCanvas.addEventListener("click", (event) => {
-            AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onClick)
         })
 
         autonCanvas.addEventListener("mousedown", (event) => {
-            AutonObject.onMouseDown({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
-        })
-
-        autonCanvas.addEventListener("mouseup", (event) => {
-            AutonObject.onMouseUp({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onMouseDown)
         })
 
         autonCanvas.addEventListener("mousemove", (event) => {
-            AutonObject.onMouseMove({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onMouseMove)
         })
+
+        autonCanvas.addEventListener("mouseup", (event) => {
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onMouseUp)
+        })
+
+
+        autonCanvas.addEventListener("touchstart", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseDown)
+        })
+
+        autonCanvas.addEventListener("touchmove", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseMove)
+        })
+
+        autonCanvas.addEventListener("touchend", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseUp)
+        })
+
 
         endgameCanvas.addEventListener("click", (event) => {
             EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
@@ -410,7 +452,7 @@ async function loadDataCollection() {
         if (currentPage == paths.dataCollection && AutonObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
                 AutonObject.draw()
-                EndgameObject.draw()
+                //EndgameObject.draw()
                 lastFrame = Date.now()
             }
             window.requestAnimationFrame(animateAuton)
