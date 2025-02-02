@@ -230,4 +230,4 @@ combinedData();
 //APIData()
 //DataBaseData()
 
-module.exports = {combinedData}
+module.exports = {combinedData, TBAAPINAMES}
