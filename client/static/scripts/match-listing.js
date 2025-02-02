@@ -161,7 +161,6 @@ function main() {
                 <img src="../static/images/video-camera-icon.png">
             </a>`)
 
-            consoleLog(newBtn[0])
             try {
                 vidHTMLButtons[i].parentElement.appendChild(newBtn[0])
                 vidHTMLButtons[i].remove()

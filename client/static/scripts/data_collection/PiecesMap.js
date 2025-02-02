@@ -9,43 +9,27 @@ export default class PiecesMap {
         this.pieces = []
         const isBlue = allianceColor == "B" 
         //Add Pickup Wing Notes ge_key 202-204
-        const wingNoteX = isBlue ? Math.floor(canvasSize.x * 0.35) : Math.floor(canvasSize.x * 0.52)
-        const centerNoteX = isBlue ? Math.floor(canvasSize.x * 0.75) : Math.floor(canvasSize.x * 0.1)
-
         //Wing Notes
         if (isAuton) {
-            for (let i = 0; i < 3; i++) {
-                const idx = 202 + i
-                if (idx in pieceData) {
-                    this.pieces.push(new GamePiece({
-                        x: wingNoteX,
-                        y: canvasSize.y * 0.1 + Math.floor(canvasSize.y * 0.18 * i),
-                        ctx,
-                        img,
-                        isSelected: pieceData[idx],
-                        ge_key: idx, canvasSize
-                    }))
-                }
+            const dist = canvasSize.x * 0.25
+            const startAng = Math.PI/11
+            const ctr = [canvasSize.x * 0.54, canvasSize.y * 0.45]
+            for (let i = 0; i < 12; ++i) {
+                consoleLog(ctr[0] + dist*Math.cos(Math.PI/6*i), ctr[1] + dist*Math.sin(Math.PI/6*i))
+                this.pieces.push(new GamePiece({
+                    x: ctr[0] + dist*Math.cos(startAng - Math.PI/6*i),
+                    y: ctr[1] + dist*Math.sin(startAng - Math.PI/6*i),
+                    ctx,
+                    img,
+                    isSelected: false,
+                    ge_key: 123,
+                    text: String.fromCharCode(65+i),
+                    color: isBlue ? "#3B86CD" : "#FF2B2B",
+                    canvasSize
+                }))  
             }
         }
 
-        //Center Notes
-        if (isAuton) {
-            for (let i = 0; i < 5; i++) {
-                const idx = 205 + i
-                if (idx in pieceData) {
-                    this.pieces.push(new GamePiece({
-                        x: centerNoteX,
-                        y: canvasSize.y * 0.1 + Math.floor(canvasSize.y * 0.18 * i),
-                        ctx,
-                        img,
-                        isSelected: pieceData[idx],
-                        ge_key: idx,
-                        canvasSize,
-                    }))
-                }
-            }
-        }
         //Splotlight notes moving top-down
         if ("403" in pieceData && !isAuton) { //topmost spotlight
             this.pieces.push(new GamePiece({

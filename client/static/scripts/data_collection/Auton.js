@@ -17,7 +17,7 @@ export default class {
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
         this.clickable.robots = new RobotMap({ctx, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
-        //this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: images.gamePieceImage, pieceData: autonPieceData, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.legend = new Legend({ctx, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.dpr = window.devicePixelRatio
     }
@@ -57,7 +57,7 @@ export default class {
 
         this.map.draw()
         this.clickable.robots.draw()
-        //this.clickable.pieces.draw()
+        this.clickable.pieces.draw()
         this.legend.draw()
 
         this.ctx.restore()
