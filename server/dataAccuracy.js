@@ -1,3 +1,10 @@
+/* TODO:
+- Make a way to show the data by graphing it (chart.js?)
+- Make sure the code works while in the middle of a match (eg. theres 49 matches played and we don't try accessing the 70th match)
+- Make code easier to change once API is updated by adding more constants (I think it's done but should still check in order for the migration to be easier)
+- Check the first two function which take the data from TBA and DB and make sure they aren't getting false matches like null and such
+*/
+
 require("dotenv").config()
 
 //const csv = require('fast-csv')
@@ -9,6 +16,8 @@ const { default: jsPDF } = require("jspdf")
 const { json } = require("express")
 const { getScoutifyMatchData, database } = require("./database/database.js")
 const { getData } = require("./TBAAPIData.js")
+
+//make sure you 'git install' so that you have the updated node_modules
 const fs = require('node:fs/promises'); // file-system for writing to other files
 
 
@@ -164,7 +173,8 @@ async function combinedData() // combine data from TBA and DB
     let scatterpoints = {}; // will compare the different data from TBA and our DB 
     const apiNames = DBNAMES;
 
-    for (let i = 1; i <= 80; i++) { // 1-80 inclusive matches
+    console.log(TBAMatchData)
+    for (let i = 1; i <= Object.keys(DBMatchData).length; i++) { // 1-80 inclusive matches, using DBMatchData.length should allow viewing the data while in the midst of a match as it won't try to load nonexistent matches
         scatterpoints[i] = { // each match has red/blue alliance
             red: {},
             blue: {}
@@ -193,7 +203,7 @@ async function combinedData() // combine data from TBA and DB
             red: {
                 teams: TBAAllianceData[i].red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
                 scouters: DBScoutersData[i].red.split(', '), // we split because currently it is a string like 'aaron, alex, artiom'
-                matchStats: {} // to be populated later
+                matchStats: {} // to be populated later on
             },
             blue: {
                 teams: TBAAllianceData[i].blue,
@@ -211,8 +221,8 @@ async function combinedData() // combine data from TBA and DB
     }
 
     try { // Write the collectedData to temp.json in root to view
-        let json = JSON.stringify(collectedData, null, 2);
-        await fs.writeFile('./temp.json', json);
+        let json = JSON.stringify(collectedData, null, 2); // convert js object (collectedData) to json with an indentation of 2
+        await fs.writeFile('./temp.json', json); // write the new json to temp.json
 
         console.log("Successfully wrote collectedData to ./temp.json")
     }
