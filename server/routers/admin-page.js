@@ -47,7 +47,8 @@ router.get("/", async function (req, res) {
             })
         })
     } else {
-        res.statusCode(403).send()
+        res.status(403)
+        return res.redirect("app")
     }
 })
 
