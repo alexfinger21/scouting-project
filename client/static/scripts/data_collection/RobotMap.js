@@ -16,11 +16,11 @@ export default class RobotMap {
                 clickable: true,
                 value: robotStartingPercent,
                 img: images.robotImage,
-                containerImg: images.robotContainer,
+                containerImg: images.robotStartPosImage,
                 canvasSize,
                 pos: {
-                    x: isBlue ? canvasSize.x * 0.43 : canvasSize.x * 0.45,
-                    y: isBlue ? canvasSize.y * 0.63 : canvasSize.y * 0.64,
+                    x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.84,
+                    y: isBlue ? canvasSize.y * 0.15 : canvasSize.y * 0.15,
                     r: isBlue ? 0 : 180 //150,
                 },
             }))

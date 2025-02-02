@@ -11,8 +11,8 @@ export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
     constructor({ctx, allianceColor, autonPieceData, robotData, images, cX, cY}) {
-        consoleLog(images)
         this.canvasSize = {x: cX, y: cY}
+        consoleLog("CTX SIZE", images, this.canvasSize)
         this.ctx = ctx
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}

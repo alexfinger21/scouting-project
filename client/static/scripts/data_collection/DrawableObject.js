@@ -40,6 +40,9 @@ export default class DrawableObject {
         const x = Math.cos(a) * 1/2 * this.sY*this.dpr - Math.cos(Math.PI/2 - a) * 1/2 * this.sX*this.dpr
         const y = Math.sin(a) * 1/2 * this.sY*this.dpr + Math.sin(Math.PI/2 - a) * 1/2 * this.sX*this.dpr
 
+        if (a == Math.PI/4) {
+            consoleLog(x, y)
+        }
         this.ctx.translate(x, -y)
         this.ctx.rotate(-a + Math.PI/2) //add rotation
     }
@@ -60,6 +63,4 @@ export default class DrawableObject {
             this.ctx.restore()
         }
     }
-
-
 } 
