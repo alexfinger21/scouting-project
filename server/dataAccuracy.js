@@ -77,14 +77,19 @@ async function APIData() //gets the data from theBlueAlliance
         }
     }
 
+   
+
     let teamData = {}
     for (let i = 1; i < matchData.length; i++) {
-        let alliance = matchData[0].alliances;
-        teamData[i] = {
+        if (matchData[i].comp_level !== gametype) continue; // Filter for valid match types
+       
+        let alliance = matchData[i].alliances;
+        teamData[matchData[i].match_number] = {
             red: alliance.red.team_keys,
             blue: alliance.blue.team_keys
         }
     }
+
 
     //console.log(filteredData); // Check the data for match 1 (or adjust accordingly)
     //console.log(teamData)
@@ -96,22 +101,12 @@ async function DataBaseData()// Gets the data from the Database
 {
     const dbData = await getScoutifyMatchData()
 
-    /*
-    210 = Auton notes scored in speaker
-    211 = Auton notes scored in amp
-    301 = Tele speaker notes not amped
-    302 = Tele speaker notes amped
-    303 = Tele amp notes
-    */
-
-
-    //change year by year
     const offset = OFFSET // offsets the the RowDataPacket to go from blue to red
 
     const filteredData = {}// the returned obj of filtered match data
     let scouters = {} // the returned obj of scouters
 
-    let num = 0 // idk what this is, i think it is an iterator variable but who knows?
+    let num = 0 // an iterator variable. Don't change
 
 
     for (let i = 0; i < dbData[1].length; i++) {
@@ -174,7 +169,7 @@ async function combinedData() // combine data from TBA and DB
     const apiNames = DBNAMES;
 
     console.log(TBAMatchData)
-    for (let i = 1; i <= Object.keys(DBMatchData).length; i++) { // 1-80 inclusive matches, using DBMatchData.length should allow viewing the data while in the midst of a match as it won't try to load nonexistent matches
+    for (let i = 1; i <= Object.keys(TBAMatchData).length; i++) { // 1-80 inclusive matches, using DBMatchData.length should allow viewing the data while in the midst of a match as it won't try to load nonexistent matches
         scatterpoints[i] = { // each match has red/blue alliance
             red: {},
             blue: {}
@@ -198,7 +193,7 @@ async function combinedData() // combine data from TBA and DB
 
     // scatterpoints has been initialized now we must collect all the data in collectedData
 
-    for (let i = 1; i <= 80; i++) { // run through all 80 matches
+    for (let i = 1; i <= Object.keys(TBAMatchData).length; i++) { // run through all 80 matches
         collectedData[i] = {
             red: {
                 teams: TBAAllianceData[i].red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
