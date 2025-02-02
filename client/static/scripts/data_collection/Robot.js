@@ -71,8 +71,15 @@ export default class Robot extends DrawableObject {
 
     onMouseMove({ x, y }) {
         if (this.isSelected && this.draggable) {
-            consoleLog("PERCENT", Math.round((this.y-this.dragLimits.y[0])/(this.dragLimits.y[1] - this.dragLimits.y[0]) * 100)/100)
+            //consoleLog("PERCENT", Math.round((this.y-this.dragLimits.y[0])/(this.dragLimits.y[1] - this.dragLimits.y[0]) * 100)/100)
             this.y = Math.max(Math.min(this.dragLimits.y[1], y + this.dragOffset[1]), this.dragLimits.y[0])
+        }
+    }
+
+    getRobotPosition() {
+        if (this.draggable) {
+            const p = Math.round((this.y-this.dragLimits.y[0])/(this.dragLimits.y[1] - this.dragLimits.y[0]) * 100)/100
+            return p
         }
     }
 

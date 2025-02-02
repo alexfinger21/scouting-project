@@ -20,7 +20,7 @@ export default class RobotMap {
                 canvasSize,
                 pos: {
                     x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.84,
-                    y: isBlue ? canvasSize.y * 0.15 : canvasSize.y * 0.15,
+                    y: isBlue ? canvasSize.y * 0.145 : canvasSize.y * 0.145,
                     r: isBlue ? 0 : 180 //150,
                 },
             }))
@@ -85,9 +85,7 @@ export default class RobotMap {
     sendData() {
         let data = {}
         this.startPositions.forEach((robot) => {
-            if(robot.isSelected) {
-                data["Starting Location"] = robot.value
-            }
+            data["Starting Location"] = robot.getRobotPosition()
         })
 
         this.bargePositions.forEach((robot) => {

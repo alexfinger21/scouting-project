@@ -91,7 +91,6 @@ async function getMatchVideos(specificTeam=false)
     }
 
     matchVideos.sort(function(a, b){return a[0] - b[0]})
-    consoleLog (matchVideos)
 
     return matchVideos
 }

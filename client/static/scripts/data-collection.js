@@ -374,6 +374,7 @@ async function saveData() {
 
 
         data.gameData = { ...EndgameObject?.sendData(), ...AutonObject?.sendData() }
+        consoleLog(data.gameData)
 
         data.matchNumber = match
 
@@ -444,14 +445,14 @@ async function loadDataCollection() {
     } catch (e) {
         consoleLog(e)
     }
-    function animateAuton() {
+    function animateCanvas() {
         if (currentPage == paths.dataCollection && AutonObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
                 AutonObject.draw()
                 //EndgameObject.draw()
                 lastFrame = Date.now()
             }
-            window.requestAnimationFrame(animateAuton)
+            window.requestAnimationFrame(animateCanvas)
         }
     }
 
@@ -528,6 +529,8 @@ async function loadDataCollection() {
             submitButton.style.transform = ""
         }, 100); //in milliseconds
     })
+
+    animateCanvas()
 }
 
 function loadCommentsPage() {
