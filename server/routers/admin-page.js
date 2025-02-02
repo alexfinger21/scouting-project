@@ -52,7 +52,7 @@ router.get("/", async function (req, res) {
     }
 })
 
-router.post("/", function (req, res) { //admin presses save button
+router.post("/", async function (req, res) { //admin presses save button
     const body = req.body //users and their assigned team\
     consoleLog("body:")
     consoleLog(body)
