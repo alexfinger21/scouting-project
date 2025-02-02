@@ -58,42 +58,48 @@ router.post("/", function (req, res) { //admin presses save button
     consoleLog(body)
 
     //delete previous data
-    database.query(SQL`delete from teamsixn_scouting_dev.current_game_user_assignment;`, (err, results) => {
-        consoleLog(err)
-        //set new data
-        consoleLog(SQL`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
-        (
-                cgua_alliance, 
-                cgua_alliance_position, 
-                cgua_user_id
-        )
-        VALUES 
-            ('R', 1, '` + body[0].id + `'),
-            ('R', 2, '` + body[1].id + `'),
-            ('R', 3, '` + body[2].id + `'),
-            ('B', 1, '` + body[3].id + `'),
-            ('B', 2, '` + body[4].id + `'),
-            ('B', 3, '` + body[5].id + `'),
-            ('X', 0, '` + body[6].id + `');`)
-        database.query(`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
-        (
-                cgua_alliance, 
-                cgua_alliance_position, 
-                cgua_user_id
-        )
-        VALUES 
+    const isAdmin = await checkAdmin(req)
+    if (isAdmin) {
+        database.query(SQL`delete from teamsixn_scouting_dev.current_game_user_assignment;`, (err, results) => {
+            consoleLog(err)
+            //set new data
+            consoleLog(SQL`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
+            (
+                    cgua_alliance, 
+                    cgua_alliance_position, 
+                    cgua_user_id
+            )
+            VALUES 
                 ('R', 1, '` + body[0].id + `'),
                 ('R', 2, '` + body[1].id + `'),
                 ('R', 3, '` + body[2].id + `'),
                 ('B', 1, '` + body[3].id + `'),
                 ('B', 2, '` + body[4].id + `'),
                 ('B', 3, '` + body[5].id + `'),
-                ('X', 0, '` + body[6].id + `');`, (err, results) => {
-                    consoleLog(err)
-        })
+                ('X', 0, '` + body[6].id + `');`)
+            database.query(`INSERT INTO teamsixn_scouting_dev.current_game_user_assignment
+            (
+                    cgua_alliance, 
+                    cgua_alliance_position, 
+                    cgua_user_id
+            )
+            VALUES 
+                    ('R', 1, '` + body[0].id + `'),
+                    ('R', 2, '` + body[1].id + `'),
+                    ('R', 3, '` + body[2].id + `'),
+                    ('B', 1, '` + body[3].id + `'),
+                    ('B', 2, '` + body[4].id + `'),
+                    ('B', 3, '` + body[5].id + `'),
+                    ('X', 0, '` + body[6].id + `');`, (err, results) => {
+                        consoleLog(err)
+            })
 
-        res.send("assigned users")
-    })
+            res.send("assigned users")
+        })
+    } else {
+        res.status(403)
+        return res.send()
+    }
 })
 
 module.exports = router
