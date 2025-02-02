@@ -11,6 +11,8 @@ export default class Robot extends DrawableObject {
         let x = 0
         let y = 0
         let r = 0
+        const sX = Math.floor(canvasSize.x * 0.13) 
+        const sY = Math.floor(canvasSize.x * 0.13) 
 
         if(pos) {
             x = pos.x ?? 0
@@ -19,21 +21,24 @@ export default class Robot extends DrawableObject {
         }
 
 
-        super({ctx, img, x, y, r, sX: Math.floor(canvasSize.x * 0.13), sY: Math.floor(canvasSize.x * 0.13)});
+        super({ctx, img, x, y, r, sX, sY})
         
         this.draggable = draggable ?? false
         this.isSelected = clickable ? (isSelected ?? false) : true
+        this.dragLimHeight = Math.floor(canvasSize.y * 0.8)
 
         if (this.draggable) {
             this.dragOffset = [0, 0]
+            this.dragLimits = {y: [pos.y, Math.floor(this.dragLimHeight - sX*0.14)]}
         }
 
         this.clickable = clickable ?? false 
         
         this.value = value ?? 0
 
+
         if(this.clickable) {
-            this.mask = new DrawableObject({ctx, img: containerImg, x, y, r, sX: Math.floor(canvasSize.y * 0.13), sY: Math.floor(canvasSize.x*0.13)})
+            this.mask = new DrawableObject({ctx, img: containerImg, x, y: y - canvasSize.y * 0.005, r: 90, sX, sY: this.dragLimHeight})
         }
     }
 
@@ -66,8 +71,8 @@ export default class Robot extends DrawableObject {
 
     onMouseMove({ x, y }) {
         if (this.isSelected && this.draggable) {
-            consoleLog(this.y, y + this.dragOffset[1])
-            this.y = y + this.dragOffset[1]
+            consoleLog("PERCENT", Math.round((this.y-this.dragLimits.y[0])/(this.dragLimits.y[1] - this.dragLimits.y[0]) * 100)/100)
+            this.y = Math.max(Math.min(this.dragLimits.y[1], y + this.dragOffset[1]), this.dragLimits.y[0])
         }
     }
 

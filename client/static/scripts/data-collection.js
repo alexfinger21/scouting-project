@@ -29,12 +29,6 @@ socket.on("changeMatch", () => {
     }
 })
 
-const playPiecesDict = {
-    cone: "../static/images/cone.svg",
-    cube: "../static/images/cube.svg",
-    empty: "../static/images/transparent.png",
-}
-
 //given a TD's id and index in the auton-scoring table, it returns the corresponding TD in the teleop-scoring table
 function getCorrespondingTd(id, index) {
     const teleopConeButtons = document.getElementById("teleop-scoring").getElementsByClassName(id) //get all cone buttons in teleop
@@ -210,12 +204,14 @@ function loadData() {
         mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.png`
         const robotImage = new Image()
         robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-        const robotContainer = new Image()
-        robotContainer.src = `./static/images/data-collection/robot-container.png`
+        const robotContainerImage = new Image()
+        robotContainerImage.src = `./static/images/data-collection/robot-container.png`
+        const robotStartPosImage = new Image()
+        robotStartPosImage.src = `./static/images/data-collection/robot-starting-pos-container.png`
         const legendButton = new Image()
         legendButton.src = `./static/images/data-collection/legend-button.png`
         
-        const images = { gamePieceImage, robotImage, mapImage, robotContainer, legendButton }
+        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage }
 
         await waitUntilImagesLoaded(Object.values(images))
 
@@ -244,7 +240,7 @@ function loadData() {
         consoleLog(data)
         
         if(gameData && gameData["Starting Location"]) {
-            startingPositions[gameData["Starting Location"]] = true
+            robotStartingPercent = gameData["Starting Location"]
         }
 
         const stagePositions = {
