@@ -455,7 +455,7 @@ async function loadDataCollection() {
         }
     }
 
-    animateAuton()
+    //animateAuton()
 
     form.onsubmit = (event) => {
         event.preventDefault()
@@ -602,4 +602,64 @@ function main() {
         }, 100); //in milliseconds
     })
 
+
+    const trash = document.getElementById("trash")
+    const trows = document.querySelectorAll(".responsive-table tr:not(:first-of-type)") //exclude thead
+
+    let dragRow;
+    
+    for (let tr of trows) {
+        if(tr.draggable) {
+            tr.ondragstart = e => {
+                dragRow = tr
+                e.dataTransfer.dropEffect = "move"
+                e.dataTransfer.effectAllowed = "move"
+                e.dataTransfer.setData("text/html", tr.innerHTML)
+                trash.classList.add("show")
+            }
+    
+            tr.ondragover = e => {
+                e.preventDefault()
+            }
+    
+            tr.ondrop = e => {
+                trash.classList.remove("show")
+                trash.classList.remove("hover")
+                e.preventDefault()
+            };
+    
+            tr.ondragenter = e => {
+                consoleLog('enter!', tr.innerHTML)
+                tr.classList.add("hover")
+                const a =  dragRow.getElementsByTagName("td")[1]
+                const b =  tr.getElementsByTagName("td")[1]
+                const tmp = a.innerText
+                a.innerText = b.innerText
+                b.innerText = tmp
+                dragRow = tr
+            }
+            tr.ondragleave = e => {
+                tr.classList.remove("hover")
+            }
+            tr.ondragend = () => {
+                for (let r of trows) {
+                    r.classList.remove("hover")
+                }
+            }
+        }
+    }
+
+    trash.draggable = true
+    trash.ondragover = e => e.preventDefault()
+    trash.ondragenter = e => {
+        trash.classList.add("hover")
+        dragRow.classList.add("remove")
+    }
+    trash.ondragleave = e => {
+        trash.classList.remove("hover")
+        dragRow.classList.remove("remove")
+    }
+    trash.ondrop = e => {
+        dragRow.remove()
+    }
 }

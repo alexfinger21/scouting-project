@@ -23,8 +23,7 @@
 
     <%- include("../static/partials/header") %>
 
-        <div id="page-holder">
-            
+        <div id="page-holder">            
 
             <%if(assignment != null) {%> <!--Check if user has access-->
                 <div id="data-collection-tabs">
@@ -92,6 +91,46 @@
 
                 <div class="canvas-container">
                     <canvas id="auton-canvas"></canvas>
+                </div>
+
+                <div class="responsive-table">
+                    <table id="sortable">
+                        <colgroup>
+                            <col style="width: 18%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Drag Row</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>L4 Coral</td>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>Intake Algae</td>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>Feeder Station</td>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>Processor</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <img id="trash" src="../static/images/trash.png">
+
                 </div>
 
                 <div class="input-container">

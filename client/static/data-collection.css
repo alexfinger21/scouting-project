@@ -448,3 +448,80 @@ canvas {
     width: 90%;
     position: fixed;
 }
+
+
+
+.responsive-table {
+    table {
+        width: 80vw;
+        border-spacing: 0;
+        border-collapse: collapse;
+        white-space:nowrap;
+    }
+
+    img {
+        height: 2vh !important;
+        padding-top: .5%;
+        padding-bottom: .5%;
+        filter: brightness(0.35);
+    }
+    
+    table tr {
+        transition: all .2s;
+    }
+
+    table th {
+        background: #BDBDBD;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #F2F2F2;
+    }
+    table tr:nth-child(even) {
+        background-color: #E6E6E6;
+    }
+
+    th, tr, td {
+        text-align: center;
+        border: 1px solid #E0E0E0;
+        padding: 5px;
+    }
+
+    img {
+        font-style: italic;
+        font-size: 11px;
+    }
+
+    tr.hover {
+        background-color: #BDBDBD !important;
+    }
+
+    tr.remove {
+        background-color: #e38484 !important;
+    }
+
+    #trash {
+        position: absolute;
+        visibility: hidden;
+        bottom: 0;
+        width: 30vw !important;
+        height: auto !important;
+        opacity: 0.5;
+        bottom: 0;
+        right: 8vh;
+
+    }
+
+    #trash.show {
+        visibility: visible;
+    }
+
+    #trash.hover {
+        /*filter: hue*/
+    }
+
+
+    .fa-bars{
+        cursor: move;
+    } 
+}
