@@ -1,10 +1,6 @@
 import { consoleLog, lerp } from "../utility.js"
 import DrawableObject from "./DrawableObject.js"
 
-const unselectedColor = "rgb(255, 255, 255)"
-const selectedColor = "rgb(248, 169, 15)"
-const spotLightColor = "rgb(104, 19, 240)" //if your own team spotlights a piece
-
 const changePerMS = 2
 
 function getColors(color) {
@@ -13,8 +9,6 @@ function getColors(color) {
 
     return color.map(e => Number(e))
 }
-
-
 
 function lerpColor(current, goal, tickDiff) {
     const [c1, c2, c3] = getColors(current)
@@ -28,25 +22,21 @@ function lerpColor(current, goal, tickDiff) {
 }
 
 export default class GamePiece extends DrawableObject {
-    constructor({ x, y, ctx, img, isSelected, canvasSize, ge_key, canSpotlight, spotlightStatus }) {
+    constructor({ x, y, ctx, img, isSelected, canvasSize, ge_key, color, text }) {
         super({ ctx, img, x, y, sX: canvasSize.x * 0.13, sY: canvasSize.x * 0.13 })
 
-        this.size = canvasSize.x * 0.13
+        this.size = canvasSize.x * 0.09
 
         this.isSelected = isSelected
 
         this.mask = document.createElement("canvas")
         this.mask.width = this.size
         this.mask.height = this.size
-        this.color = unselectedColor
+        this.color = color
         
-        if (canSpotlight) {
-            this.spotlightStatus = spotlightStatus ?? false
-        
-        }
         this.maskCtx = this.mask.getContext("2d")
-        this.opacity = 0.2
-        this.color = this.isSelected ? selectedColor : unselectedColor
+        this.opacity = 1
+        this.text = text
 
         this.lastTick = Date.now()    
 
@@ -87,16 +77,15 @@ export default class GamePiece extends DrawableObject {
     }
 
     draw() {
-        this.color = lerpColor(this.color, this.spotlightStatus ? spotLightColor : (this.isSelected ? selectedColor : unselectedColor) , Date.now() - this.lastTick)
-        this.lastTick = Date.now()
-        this.drawMask()
+        //this.color = lerpColor(this.color, this.spotlightStatus ? spotLightColor : (this.isSelected ? selectedColor : unselectedColor) , Date.now() - this.lastTick)
+        //this.lastTick = Date.now()
+        //this.drawMask()
 
         this.ctx.save()
-        this.ctx.drawImage(this.mask, this.x, this.y, this.sX, this.sY)
-        this.ctx.globalCompositeOperation = "multiply"
+        //this.ctx.drawImage(this.mask, this.x, this.y, this.sX, this.sY)
+        //this.ctx.globalCompositeOperation = "multiply"
         this.ctx.restore()
 
         super.draw()
     }
 }
-

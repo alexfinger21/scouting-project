@@ -23,8 +23,7 @@
 
     <%- include("../static/partials/header") %>
 
-        <div id="page-holder">
-            
+        <div id="page-holder">            
 
             <%if(assignment != null) {%> <!--Check if user has access-->
                 <div id="data-collection-tabs">
@@ -64,9 +63,6 @@
                         <input type="checkbox" id="preloaded" name="pregame" value="true">
                         <label for="preloaded">Preloaded</label>
                         <br>
-                        <input type="checkbox" id="human-player" name="pregame" value="true">
-                        <label for="human-player"><%= `Team ${assignment.team_display.split(" ")[0]} has a human player at amp` %></label>
-                        <br>
                     </div>
                 </div>
 
@@ -90,32 +86,51 @@
                         <input type="checkbox" id="robot-taxies" name="robot-taxies" value="true">
                         <label for="robot-taxies">Leaves Starting Zone</label>
                         <br>
-                        <input type="checkbox" id="used-a-stop" name="used-a-stop" value="true">
-                        <label for="used-a-stop">Used A-Stop</label>
-                        <br>
                     </div>
                 </div>
 
                 <div class="canvas-container">
                     <canvas id="auton-canvas"></canvas>
                 </div>
-                
-                <div class="input-container">
-                    <span>Auton - Scored in Speaker</span>
-                    <div class="NumberButtonContainer">
-                        <button type="button" class="big-button">+</button>
-                        <input type="number" name="auton-speaker" min="0" max="10" value="0">
-                        <button type="button" class="big-button">-</button>
-                    </div>
-                </div>
 
-                <div class="input-container">
-                    <span>Auton - Scored in Amplifier</span>
-                    <div class="NumberButtonContainer">
-                        <button type="button" class="big-button">+</button>
-                        <input type="number" name="auton-amplifier" min="0" max="10" value="0">
-                        <button type="button" class="big-button">-</button>
-                    </div>
+                <div class="responsive-table">
+                    <table id="sortable">
+                        <colgroup>
+                            <col style="width: 18%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Drag Row</th>
+                                <th>Action</th>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>L4 Coral</td>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>Intake Algae</td>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>Feeder Station</td>
+                            </tr>
+                            <tr draggable="true">
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/dropdown.png">
+                                </td>
+                                <td>Processor</td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <img id="trash" src="../static/images/trash.png">
+
                 </div>
 
                 <div class="input-container">
@@ -140,43 +155,46 @@
                 </div> -->
 
                 <div class="input-container">
-                    <span>Teleop - Amplifier</span>
+                    <span>Teleop - L4 Coral</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="teleop-amplifier" min="0" max="25" value="0">
+                        <input type="number" name="L4=coral" min="0" max="25" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
                 <div class="input-container">
-                    <span>Teleop - Speaker</span>
+                    <span>Teleop - L3 Coral</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="teleop-speaker" min="0" max="25" value="0">
+                        <input type="number" name="L3-coral" min="0" max="25" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
                 <div class="input-container">
-                    <div class="one-line"><span>Teleop - </span> <span style="color: #EEC800">Amplified </span> <span>Speaker</span></div>
+                    <span>Teleop - L2 Coral</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="teleop-amplified-speaker" min="0" max="25" value="0">
+                        <input type="number" name="L2-coral" min="0" max="25" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
-
                 <div class="input-container">
-                    <span>Coopertition Bonus Activated</span>
+                    <span>Teleop - L1 Coral</span>
                     <div class="NumberButtonContainer">
-                        <button type="button" class="big-button">x</button>
-                        <input name="coopertition-bonus-activated">
-                        <button type="button" class="big-button">
-                            <img src="../static/images/checkmark.png" id="button-checkmark">
-                        </button>
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="L1-coral" min="0" max="25" value="0">
+                        <button type="button" class="big-button">-</button>
                     </div>
                 </div>
-
+                <div class="input-container">
+                    <span>Scored in Processor</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="p" min="0" max="25" value="0">
+                        <button type="button" class="big-button">-</button>
+                    </div>
+                </div>
                         
-
                 <!--ENDGAME-->
                 <div class="line" id="endgame">ㅤ</div>
 
@@ -188,27 +206,21 @@
                 <div class="input-container">
                     <span>Robot Endgame</span>
                     <div class="radio-button-container">
-                        <input type="radio" id="not-parked" name="robot-in-stage" value="not-parked">
+                        <input type="radio" id="not-parked" name="not-parked" value="not-parked">
                         <label for="not-parked">Robot Not Parked</label>
                         <br>
-                        <input type="radio" id="parked" name="robot-in-stage" value="parked">
+                        <input type="radio" id="parked" name="parked" value="parked">
                         <label for="parked">Robot Parked</label>
                         <br>
-                        <input type="radio" id="on-stage" name="robot-in-stage" value="on-stage">
-                        <label for="on-stage">Robot On Stage</label>
+                        <input type="radio" id="shallow-climb" name="shallow-climb" value="on-stage">
+                        <label for="on-stage">Robot Shallow Climb</label>
                         <br>
-                        <input type="radio" id="harmony" name="robot-in-stage" value="harmony">
-                        <label for="harmony">Robot Harmony</label>
+                        <input type="radio" id="deep-climb" name="deep-climb" value="harmony">
+                        <label for="harmony">Robot Deep Climb</label>
                         <br>
-                    </div>
-                </div>
-
-                <div class="input-container">
-                    <span>Notes in Trap</span>
-                    <div class="NumberButtonContainer">
-                        <button type="button" class="big-button">+</button>
-                        <input type="number" name="trap-notes" min="0" max="3" value="0">
-                        <button type="button" class="big-button">-</button>
+                        <input type="radio" id="failed-climb" name="failed-climb" value="harmony">
+                        <label for="harmharmonyony">Robot Deep Climb</label>
+                        <br>
                     </div>
                 </div>
                 
@@ -231,98 +243,16 @@
                 </div>
 
                 <div class="input-container">
-                    <span>Robot passed under the stage</span>
+                    <span>Robot entered opponent barge area</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">x</button>
-                        <input name="passed-under-stage">
+                        <input name="entered-opponent-barge">
                         <button type="button" class="big-button">
                             <img src="../static/images/checkmark.png" id="button-checkmark">
                         </button>
                     </div>
                 </div>
                 
-                <div class="input-container">
-                    <span>Robot Fumbles Notes</span>
-                    <div class="radio-button-container">
-                        <input type="checkbox" id="fumbles-rarely" name="fumbling" value="true">
-                        <label for="fumbles-rarely">Rarely fumbles notes</label>
-                        <br>
-                        <input type="checkbox" id="fumbles-intake" name="fumbling" value="true">
-                        <label for="fumbles-intake">Failed to intake note >3x</label>
-                        <br>
-                        <input type="checkbox" id="fumbles-speaker" name="fumbling" value="true">
-                        <label for="fumbles-speaker">Misses speaker shot >3x </label>
-                        <br>
-                        <input type="checkbox" id="fumbles-amplifier" name="fumbling" value="true">
-                        <label for="fumbles-amplifier">Misses amplifier shot >3x </label>
-                    </div>
-                </div>
-
-                <div class="input-container">
-                    <span>Robot Fault</span>
-                    <div class="radio-button-container">
-                        <input type="checkbox" id="robot-tipped" name="robot-tipped" value="true">
-                        <label for="robot-tipped">Robot Tipped</label>
-                        <br>
-                        <input type="checkbox" id="robot-broke" name="robot-broke" value="true">
-                        <label for="robot-broke">Robot Physically Broke</label>
-                        <br>
-                        <input type="checkbox" id="robot-disabled" name="robot-disabled" value="true">
-                        <label for="robot-disabled">Robot Disabled</label>
-                    </div>
-                </div>
-
-                <div class="input-container">
-                    <span>Intake Location</span>
-                    <div class="radio-button-container">
-                        <input type="radio" id="intake-ground" name="intake-location" value="ground">
-                        <label for="intake-ground">From ground</label>
-                        <br>
-                        <input type="radio" id="intake-source" name="intake-location" value="source">
-                        <label for="intake-source">Direct drop-in from source (Note does not touch the ground)</label>
-                        <br>
-                        <input type="radio" id="intake-ground-source" name="intake-location" value="ground-source">
-                        <label for="intake-ground-source">Can do ground intake & drop-in</label>
-                        <br>
-                    </div>
-                </div>
-
-                <div class="input-container">
-                    <span>Speaker Shooting Position</span>
-                    <div class="radio-button-container">
-                        <input type="radio" id="speaker-nowhere" name="shot-position" value="nowhere">
-                        <label for="speaker-nowhere">Does not score into speaker</label>
-                        <br>
-                        <input type="radio" id="speaker-touching" name="shot-position" value="touching">
-                        <label for="speaker-touching">Subwoofer only</label>
-                        <br>
-                        <input type="radio" id="speaker-anywhere" name="shot-position" value="anywhere">
-                        <label for="speaker-anywhere">Can shoot into speaker from any position</label>
-                        <br>
-                    </div>
-                </div>
-
-                <div class="input-container">
-                    <span>Amp Scoring Position</span>
-                    <div class="radio-button-container">
-                        <input type="radio" id="amp-nowhere" name="amp-position" value="nowhere">
-                        <label for="amp-nowhere">Does not score into amp</label>
-                        <br>
-                        <input type="radio" id="amp-touching" name="amp-position" value="touching">
-                        <label for="amp-touching">Touching the amp</label>
-                        <br>
-                        <input type="radio" id="amp-anywhere" name="amp-position" value="anywhere">
-                        <label for="amp-anywhere">Can score into the amp from a distance</label>
-                        <br>
-                    </div>
-                </div>
-
-                <div class="input-container">
-                    <span>Additional Comments</span>
-                    <div id="comments-container">
-                        <textarea rows="5" cols="33"></textarea>
-                    </div>
-                </div>
             </div>
             
             <button type="submit" id="data-submit" class="big-button">Save</button>

@@ -88,6 +88,20 @@ const observer = new MutationObserver(function (mutations_list) {
     })
 })
 
+function getMatchVideos() {
+    return new Promise(res => {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: paths.matchListing + "?get-videos=1",
+            success: function (response) {
+                if (response) {
+                    res(response)
+                }
+            }
+        })
+    }) 
+}
 
 function startMatch(data) {
     return new Promise(resolve => {
@@ -139,6 +153,22 @@ function main() {
     const lastPlayed = matchScroller.getAttribute("scroll-to")
     const matchTable = matchScroller.children[lastPlayed - 1]
     matchTable.scrollIntoView()
+
+    getMatchVideos().then(vids => {
+        const vidHTMLButtons = Array.from(document.querySelectorAll(".match-video-button"))
+        for (const i in vids) {
+            const newBtn =  $(`<a href="${vids[i][1]}" target="_blank" class="match-video-button">
+                <img src="../static/images/video-camera-icon.png">
+            </a>`)
+
+            try {
+                vidHTMLButtons[i].parentElement.appendChild(newBtn[0])
+                vidHTMLButtons[i].remove()
+            } catch {
+                return
+            }
+        }
+    }) 
 
 
     /*highlight every th element that has our team

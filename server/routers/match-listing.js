@@ -53,71 +53,72 @@ router.get("/", async function (req, res) {
 
     consoleLog("GET request for match listing")
     consoleLog("Get collected data: " + req.query.getCollectedData)
-    if ("" + req.query.getCollectedData == "true") {
+    if ("" + req.query?.getCollectedData == "true") {
         database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
             //consoleLog("COLLECTED DATA RESULTS")
             //consoleLog(results)
             res.status(200).send(JSON.stringify(results))
         })
-    }
-    else {
-        database.query(database.getTeams(), async (err, results) => {
-            //get isAdmin
-            consoleLog(err)
-            consoleLog("MATCHES")
-            consoleLog(database.getTeams())
-            const isAdmin = await checkAdmin(req)
+    } else if (req.query?.["get-videos"]) {
+        let matchVideos
+        
+        try {
+            matchVideos = await getMatchVideos()
+        }
+        catch {
+            matchVideos = []
+        }
 
-            //get running game
-            let runningMatch = -1
-            database.query(SQL`select * from teamsixn_scouting_dev.current_game;`,async (err, runningMatchResults) => {
+        return res.send(matchVideos)
+    } else {
+        const tmr = Date.now()
+        const [err, results] = await database.query(database.getTeams())
+        //get isAdmin
+        consoleLog("MATCHES")
+        consoleLog(database.getTeams())
+        const isAdmin = await checkAdmin(req)
 
-                if (runningMatchResults.length > 0) {
-                    runningMatch = runningMatchResults[0].cg_gm_number
-                    process.env.lastPlayedMatch = runningMatchResults[0].cg_gm_number
-                }
+        //get running game
+        let runningMatch = -1
+        const [err1, runningMatchResults] = await database.query(SQL`select * from teamsixn_scouting_dev.current_game;`)
+
+        if (runningMatchResults.length > 0) {
+            runningMatch = runningMatchResults[0].cg_gm_number
+            process.env.lastPlayedMatch = runningMatchResults[0].cg_gm_number
+        }
+        consoleLog("TIME", Date.now() - tmr)
+
+        //get teams 
+        const teams = {}
+
+        for (let i = 0; i < results.length; i++) {
+            const currentTeam = results[i]
+
+            teams[i] = currentTeam
+
+            const date = new Date(teams[i].gm_timestamp)
+            const month = months[date.getUTCMonth()]
+            const day = date.getDate()
+            const h = addZero(date.getHours())
+            const m = addZero(date.getMinutes())
+            teams[i].time = month + " " + day + ", " + h + ":" + m
+
+            //consoleLog(teams[i])
+        }
+
+        teams.length = Object.keys(teams).length
 
 
-                //get teams 
-                const teams = {}
+        consoleLog("TIME", Date.now() - tmr)
+        consoleLog("Rendering match listing")
+        //consoleLog(matchVideos)
 
-                for (let i = 0; i < results.length; i++) {
-                    const currentTeam = results[i]
-
-                    teams[i] = currentTeam
-
-                    const date = new Date(teams[i].gm_timestamp)
-                    const month = months[date.getUTCMonth()]
-                    const day = date.getDate()
-                    const h = addZero(date.getHours())
-                    const m = addZero(date.getMinutes())
-                    teams[i].time = month + " " + day + ", " + h + ":" + m
-
-                    //consoleLog(teams[i])
-                }
-
-                teams.length = Object.keys(teams).length
-
-                let matchVideos
-                
-                try {
-                    matchVideos = await getMatchVideos()
-                }
-                catch {
-                    matchVideos = []
-                }
-
-                consoleLog("Rendering match listing")
-                consoleLog(matchVideos)
-
-                res.render("match-listing", {
-                    teams: teams,
-                    isAdmin: isAdmin,
-                    runningMatch: runningMatch,
-                    matchVideos: matchVideos,
-                    lastPlayedMatch: process.env.lastPlayedMatch
-                })
-            })
+        res.render("match-listing", {
+            teams: teams,
+            isAdmin: isAdmin,
+            runningMatch: runningMatch,
+            //matchVideos: matchVideos,
+            lastPlayedMatch: process.env.lastPlayedMatch
         })
     }
 })

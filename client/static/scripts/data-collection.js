@@ -29,12 +29,6 @@ socket.on("changeMatch", () => {
     }
 })
 
-const playPiecesDict = {
-    cone: "../static/images/cone.svg",
-    cube: "../static/images/cube.svg",
-    empty: "../static/images/transparent.png",
-}
-
 //given a TD's id and index in the auton-scoring table, it returns the corresponding TD in the teleop-scoring table
 function getCorrespondingTd(id, index) {
     const teleopConeButtons = document.getElementById("teleop-scoring").getElementsByClassName(id) //get all cone buttons in teleop
@@ -200,31 +194,28 @@ function loadData() {
 
         const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         autonCanvas.height = autonCanvasSize
-        autonCanvas.width = autonCanvasSize
+        autonCanvas.width = autonCanvasSize*763/595
         const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         endgameCanvas.width = endgameCanvasSize
         endgameCanvas.height = endgameCanvasSize
         const gamePieceImage = new Image()
         gamePieceImage.src = "./static/images/data-collection/orange-note.png"
         const mapImage = new Image()
-        mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.jpg`
+        mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.png`
         const robotImage = new Image()
         robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
-        const robotContainer = new Image()
-        robotContainer.src = `./static/images/data-collection/robot-container.png`
+        const robotContainerImage = new Image()
+        robotContainerImage.src = `./static/images/data-collection/robot-container.png`
+        const robotStartPosImage = new Image()
+        robotStartPosImage.src = `./static/images/data-collection/robot-starting-pos-container.png`
         const legendButton = new Image()
         legendButton.src = `./static/images/data-collection/legend-button.png`
         
-        const images = { gamePieceImage, robotImage, mapImage, robotContainer, legendButton }
+        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage }
 
         await waitUntilImagesLoaded(Object.values(images))
 
-        const startingPositions = {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false,
-        }
+        const robotStartingPercent = 0
 
         const templatePieceData = {
             //  Wing Notes
@@ -249,7 +240,7 @@ function loadData() {
         consoleLog(data)
         
         if(gameData && gameData["Starting Location"]) {
-            startingPositions[gameData["Starting Location"]] = true
+            robotStartingPercent = gameData["Starting Location"]
         }
 
         const stagePositions = {
@@ -262,12 +253,66 @@ function loadData() {
             stagePositions[gameData["Instage Location"]] = true
         }
 
-        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: startingPositions, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
         EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
 
+        // HANDLE TOUCHES / MOUSE
+
+        function handleMouse(event, obj, func) {
+            const x = event.pageX - event.target.getBoundingClientRect().left - window.scrollX
+            const y = event.pageY - event.target.getBoundingClientRect().top - window.scrollY
+
+            func.call(obj, { x, y })
+        }
+
+        function handleTouch(event, obj, func) {
+            const touches = event.touches
+            if (touches.length) {
+                const x = touches[0].clientX - event.target.getBoundingClientRect().left - window.scrollX
+                const y = touches[0].clientY - event.target.getBoundingClientRect().top - window.scrollY
+
+                func.call(obj, { x, y })
+            } else {
+                func.call(obj, { Infinity, Infinity })
+            }
+        }
+
         autonCanvas.addEventListener("click", (event) => {
-            AutonObject.onClick({ event, leftOffset: autonCanvas.getBoundingClientRect().left, topOffset: autonCanvas.getBoundingClientRect().top + window.scrollY })
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onClick)
         })
+
+        autonCanvas.addEventListener("mousedown", (event) => {
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onMouseDown)
+        })
+
+        autonCanvas.addEventListener("mousemove", (event) => {
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onMouseMove)
+        })
+
+        autonCanvas.addEventListener("mouseup", (event) => {
+            event.preventDefault()
+            handleMouse(event, AutonObject, AutonObject.onMouseUp)
+        })
+
+
+        autonCanvas.addEventListener("touchstart", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseDown)
+        })
+
+        autonCanvas.addEventListener("touchmove", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseMove)
+        })
+
+        autonCanvas.addEventListener("touchend", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseUp)
+        })
+
 
         endgameCanvas.addEventListener("click", (event) => {
             EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
@@ -329,6 +374,7 @@ async function saveData() {
 
 
         data.gameData = { ...EndgameObject?.sendData(), ...AutonObject?.sendData() }
+        consoleLog(data.gameData)
 
         data.matchNumber = match
 
@@ -399,18 +445,18 @@ async function loadDataCollection() {
     } catch (e) {
         consoleLog(e)
     }
-    function animateAuton() {
+    function animateCanvas() {
         if (currentPage == paths.dataCollection && AutonObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
                 AutonObject.draw()
-                EndgameObject.draw()
+                //EndgameObject.draw()
                 lastFrame = Date.now()
             }
-            window.requestAnimationFrame(animateAuton)
+            window.requestAnimationFrame(animateCanvas)
         }
     }
 
-    animateAuton()
+    //animateAuton()
 
     form.onsubmit = (event) => {
         event.preventDefault()
@@ -483,6 +529,8 @@ async function loadDataCollection() {
             submitButton.style.transform = ""
         }, 100); //in milliseconds
     })
+
+    animateCanvas()
 }
 
 function loadCommentsPage() {
@@ -557,4 +605,64 @@ function main() {
         }, 100); //in milliseconds
     })
 
+
+    const trash = document.getElementById("trash")
+    const trows = document.querySelectorAll(".responsive-table tr:not(:first-of-type)") //exclude thead
+
+    let dragRow;
+    
+    for (let tr of trows) {
+        if(tr.draggable) {
+            tr.ondragstart = e => {
+                dragRow = tr
+                e.dataTransfer.dropEffect = "move"
+                e.dataTransfer.effectAllowed = "move"
+                e.dataTransfer.setData("text/html", tr.innerHTML)
+                trash.classList.add("show")
+            }
+    
+            tr.ondragover = e => {
+                e.preventDefault()
+            }
+    
+            tr.ondrop = e => {
+                trash.classList.remove("show")
+                trash.classList.remove("hover")
+                e.preventDefault()
+            };
+    
+            tr.ondragenter = e => {
+                consoleLog('enter!', tr.innerHTML)
+                tr.classList.add("hover")
+                const a =  dragRow.getElementsByTagName("td")[1]
+                const b =  tr.getElementsByTagName("td")[1]
+                const tmp = a.innerText
+                a.innerText = b.innerText
+                b.innerText = tmp
+                dragRow = tr
+            }
+            tr.ondragleave = e => {
+                tr.classList.remove("hover")
+            }
+            tr.ondragend = () => {
+                for (let r of trows) {
+                    r.classList.remove("hover")
+                }
+            }
+        }
+    }
+
+    trash.draggable = true
+    trash.ondragover = e => e.preventDefault()
+    trash.ondragenter = e => {
+        trash.classList.add("hover")
+        dragRow.classList.add("remove")
+    }
+    trash.ondragleave = e => {
+        trash.classList.remove("hover")
+        dragRow.classList.remove("remove")
+    }
+    trash.ondrop = e => {
+        dragRow.remove()
+    }
 }
