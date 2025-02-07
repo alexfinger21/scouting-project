@@ -30,7 +30,7 @@ const DBNAMES = ['211', '210', '301+302', '303']
 
 /* Offsets the the RowDataPacket to go from blue to red.
    Idk how it works, ask mayer*/
-const OFFSET = 4 
+const OFFSET = TBAAPINAMES.length
 
 /*
     210 = Auton notes scored in speaker
