@@ -1,4 +1,4 @@
-import { paths } from "./utility"
+//import { paths } from "./utility"
 const ctx = document.getElementById("chartForDA")
 
 console.log("yo bro you done not Messed up")
