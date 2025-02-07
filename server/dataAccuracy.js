@@ -215,18 +215,20 @@ async function combinedData() // combine data from TBA and DB
         }
     }
 
-    try { // Write the collectedData to temp.json in root to view
-        let json = JSON.stringify(collectedData, null, 2); // convert js object (collectedData) to json with an indentation of 2
-        await fs.writeFile('./temp.json', json); // write the new json to temp.json
+    // try { // Write the collectedData to temp.json in root to view
+    //     let json = JSON.stringify(collectedData, null, 2); // convert js object (collectedData) to json with an indentation of 2
+    //     await fs.writeFile('./temp.json', json); // write the new json to temp.json
 
-        console.log("Successfully wrote collectedData to ./temp.json")
-    }
-    catch (err) {
-        console.error(err)
-    }
+    //     console.log("Successfully wrote collectedData to ./temp.json")
+    // }
+    // catch (err) {
+    //     console.error(err)
+    // }
+
+    return JSON.stringify(collectedData, null, 2)
 }
 
-combinedData();
+//combinedData();
 //APIData()
 //DataBaseData()
 

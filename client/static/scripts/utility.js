@@ -18,6 +18,7 @@ const paths = {
     rankings: "/rankings",
     pitScouting: "/pit-scout",
     logout: "/logout",
+    dataAccuracy: "/data-accuracy",
     //eventData: "/event-data"
 }
 

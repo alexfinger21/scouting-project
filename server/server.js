@@ -19,6 +19,8 @@ const socketManager = require("./sockets.js")
 const SQL = require('sql-template-strings')
 
 const { Server } = require("socket.io")
+const { setDefaultHighWaterMark } = require("stream")
+const { data } = require("jquery")
 
 const credentials = {
     key: fs.readFileSync("./server/certs/privkey.pem"),
@@ -47,6 +49,8 @@ const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "all
 const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
 const pitScouting = require(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
 const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
+
+const dataAccuracy = require(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))
 
 //CONSTANTS
 const corsOptions = {
@@ -186,6 +190,9 @@ app.use("/team-details", teamDetails)
 
 //ALLIANCE INPUT
 app.use("/alliance-input", allianceInput)
+
+//CHJART 
+app.use("/data-accuracy", dataAccuracy)
 
 app.use("/game-strategy", gameStrategy)
 
