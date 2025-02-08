@@ -21,13 +21,11 @@ export default class Robot extends DrawableObject {
         }
 
 
-        super({ctx, img, x, y, r, sX, sY})
+        super({ctx, img, renderQueue, x, y, r, sX, sY})
         
         this.draggable = draggable ?? false
         this.isSelected = clickable ? (isSelected ?? false) : true
         this.dragLimHeight = Math.floor(canvasSize.y * 0.8)
-
-        this.renderQueue = renderQueue
 
         if (this.draggable) {
             this.dragOffset = [0, 0]

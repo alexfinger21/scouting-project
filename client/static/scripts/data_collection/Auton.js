@@ -13,15 +13,15 @@ export default class {
     allianceColor: "R", "B" */
     constructor({ctx, allianceColor, autonPieceData, robotData, images, cX, cY}) {
         this.canvasSize = {x: cX, y: cY}
+        this.dpr = window.devicePixelRatio
         consoleLog("CTX SIZE", images, this.canvasSize)
         this.ctx = ctx
-        this.renderQueue = new RenderQueue()
-        this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
+        this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
+        this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.legend = new Legend({ctx, renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
-        this.dpr = window.devicePixelRatio
+        this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
+        this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
     }
 
     onClick({ x, y }) {
@@ -52,16 +52,9 @@ export default class {
     }
 
     draw() {
-        
-        this.ctx.save()
-        this.ctx.setTransform(1/this.dpr, 0, 0, 1/this.dpr, 0, 0) //reset canvas transform just in case and set dpr (device pixel ratio) to remove blur
-        this.ctx.clearRect(0, 0, this.canvasSize.x*this.dpr, this.canvasSize.y*this.dpr)
-
         this.map.draw()
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.legend.draw()
-
-        this.ctx.restore()
     }
 }

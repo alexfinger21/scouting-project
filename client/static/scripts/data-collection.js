@@ -448,7 +448,7 @@ async function loadDataCollection() {
     function animateCanvas() {
         if (currentPage == paths.dataCollection && AutonObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
-                consoleLog("HERE")
+                AutonObject.draw()
                 AutonObject.renderQueue.render()
                 //EndgameObject.draw()
                 lastFrame = Date.now()

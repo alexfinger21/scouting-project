@@ -1,19 +1,19 @@
 import { consoleLog } from "../utility.js"
 
 export default class RenderQueue {
-    constructor(objs = []) {
+    constructor({ctx, canvasSize, dpr}) {
+        this.ctx = ctx
         this.queue = []
 
-        for (const x of objs) {
-            this.insert(x)
-        }
+        this.canvasSize = canvasSize
+        this.dpr = dpr
     }
 
     insert(obj) {
-        this.queue.push_back(obj)
+        this.queue.push(obj)
         let idx = this.queue.length - 1
 
-        while (idx > 0 && this.queue[idx].zIndex > this.queue[Math.floor((idx-1)/2)].zIndex) {
+        while (idx > 0 && this.queue[idx].zIndex < this.queue[Math.floor((idx-1)/2)].zIndex) {
             this.queue[idx] = this.queue[Math.floor((idx-1)/2)]
             this.queue[Math.floor((idx-1)/2)] = obj
             idx = Math.floor((idx-1)/2)
@@ -23,7 +23,9 @@ export default class RenderQueue {
     pop() {
         const top = this.queue[0]
         
-        this.queue[0] = null
+        this.queue[0] = this.queue[this.queue.length - 1]
+        this.queue.pop()
+        this.sort()
 
         return top
     }
@@ -34,15 +36,17 @@ export default class RenderQueue {
         let left = idx * 2 + 1
         let right = idx * 2 + 2
 
-        while (this.queue[idx] == null || (left < this.queue.length && this.queue[left] > this.queue[idx]) || (right < this.queue.length && this.queue[right] > this.queue[idx])) {
-            if (this.queue[left] > this.queue[right]) {
+        //consoleLog("QUEUE TOP", this.queue[idx], this.queue[left])
+        while ((left < this.queue.length && this.queue[left].zIndex < this.queue[idx].zIndex) || (right < this.queue.length && this.queue[right].zIndex < this.queue[idx].zIndex)) {
+            //consoleLog("QUEUE SIGMA", this.queue[idx])
+            if (left < this.queue.length && (right >= this.queue.length || this.queue[left].zIndex < this.queue[right].zIndex)) {
                 const tmp = this.queue[idx]
                 this.queue[idx] = this.queue[left]
                 this.queue[left] = tmp
                 idx = left
                 left = idx * 2 + 1
                 right = idx * 2 + 2
-            } else {
+            } else if (right < this.queue.length) {
                 const tmp = this.queue[idx]
                 this.queue[idx] = this.queue[right]
                 this.queue[right] = tmp
@@ -52,15 +56,18 @@ export default class RenderQueue {
             }     
         }
 
-        this.queue.pop()
     }
 
     render() {
-        consoleLog("QUEUE", this.queue)
+        this.ctx.save()
+        this.ctx.setTransform(1/this.dpr, 0, 0, 1/this.dpr, 0, 0) //reset canvas transform just in case and set dpr (device pixel ratio) to remove blur
+        this.ctx.clearRect(0, 0, this.canvasSize.x*this.dpr, this.canvasSize.y*this.dpr)
+        //consoleLog(this.queue.slice())
         while (this.queue.length) {
             const rndr = this.pop()
-            consoleLog(rndr)
             rndr.render() 
         }
+        //consoleLog("queue end")
+        this.ctx.restore()
     }
 }
