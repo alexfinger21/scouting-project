@@ -68,8 +68,9 @@ export default class DrawableObject {
                 this.ctx.fillStyle = this.color
                 this.ctx.fill()
                 this.ctx.fill()
-                this.ctx.translate(-this.size/5, this.size/4)
+                this.ctx.translate(0, this.size/6)
                 this.ctx.fillStyle = "#FFFFFF"
+                this.ctx.textAlign = "center"
                 this.ctx.font = "20px 'Rubik', sans-serif"
                 this.ctx.fillText(this.text, 0, 0)
             } else {
