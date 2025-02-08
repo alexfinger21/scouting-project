@@ -1,7 +1,7 @@
 import { consoleLog } from "../utility.js"
 
 export default class DrawableObject {
-    constructor({ctx, x, y, sX, sY, r, img, text, visible = true, zIndex = 0}) {
+    constructor({ctx, x, y, sX, sY, r, img, text, renderQueue, visible = true, zIndex = 0}) {
         this.dpr = window.devicePixelRatio
         // dpr necessary to increase render resolution
 
@@ -19,6 +19,7 @@ export default class DrawableObject {
             this.text = text
         }
 
+        this.renderQueue = 
         this.visible = visible
         this.r = (r ?? 91) * Math.PI / 180
         this.prevTick = Date.now()
@@ -53,6 +54,10 @@ export default class DrawableObject {
     }
 
     draw() {
+        this.renderQueue.insert(this)
+    }
+
+    render() {
         if (this.visible) {
             this.ctx.save()
             this.ctx.globalAlpha = this.opacity ?? 1

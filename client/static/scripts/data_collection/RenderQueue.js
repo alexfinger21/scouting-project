@@ -1,5 +1,7 @@
+import { consoleLog } from "../utility"
+
 export default class RenderQueue {
-    constructor(objs) {
+    constructor(objs = []) {
         this.queue = []
 
         for (const x of objs) {
@@ -54,9 +56,11 @@ export default class RenderQueue {
     }
 
     render() {
+        consoleLog("QUEUE", this.queue)
         while (this.queue.length) {
             const rndr = this.pop()
-            rndr.draw() 
+            consoleLog(rndr)
+            rndr.render() 
         }
     }
 }

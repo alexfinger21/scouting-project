@@ -3,6 +3,7 @@ import Map from "./Map.js"
 import PiecesMap from "./PiecesMap.js"
 import RobotMap from "./RobotMap.js"
 import Legend from "./Legend.js"
+import RenderQueue from "./RenderQueue.js"
 
 const helpText = `1. Tap square to approx. start pos
 2. Orange note: picked up by robot`
@@ -14,11 +15,12 @@ export default class {
         this.canvasSize = {x: cX, y: cY}
         consoleLog("CTX SIZE", images, this.canvasSize)
         this.ctx = ctx
+        this.renderQueue = new RenderQueue()
         this.map = new Map({ctx, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.legend = new Legend({ctx, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
+        this.clickable.robots = new RobotMap({ctx, renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
+        this.legend = new Legend({ctx, renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.dpr = window.devicePixelRatio
     }
 

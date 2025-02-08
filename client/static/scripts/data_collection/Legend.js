@@ -7,11 +7,11 @@ export default class Legend extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, img, canvasSize, text}) {
+    constructor({ctx, img, renderQueue, canvasSize, text}) {
         const x = canvasSize.x * 0.87
         const y = canvasSize.y * 0.05
 
-        super({ctx, img, x, y, r: 90, sX: Math.floor(canvasSize.y * 0.09), sY: Math.floor(canvasSize.y*0.09)})
+        super({ctx, renderQueue, img, x, y, r: 90, sX: Math.floor(canvasSize.y * 0.09), sY: Math.floor(canvasSize.y*0.09)})
         this.isSelected = false
         this.text = text
         this.x = x

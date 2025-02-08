@@ -22,8 +22,8 @@ function lerpColor(current, goal, tickDiff) {
 }
 
 export default class GamePiece extends DrawableObject {
-    constructor({ x, y, ctx, img, isSelected, canvasSize, ge_key, color, text }) {
-        super({ ctx, img, x, y, sX: canvasSize.x * 0.13, sY: canvasSize.x * 0.13 })
+    constructor({ x, y, ctx, img, renderQueue, isSelected, canvasSize, ge_key, color, text }) {
+        super({ ctx, img, x, y, renderQueue, sX: canvasSize.x * 0.13, sY: canvasSize.x * 0.13 })
 
         this.size = canvasSize.x * 0.09
 

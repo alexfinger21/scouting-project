@@ -3,9 +3,10 @@ import DrawableObject from "./DrawableObject.js"
 import GamePiece from "./GamePiece.js"
 
 export default class PiecesMap {
-    constructor({ ctx, allianceColor, img, pieceData, canvasSize, isAuton}) {
+    constructor({ ctx, allianceColor, img, pieceData, renderQueue, canvasSize, isAuton}) {
         console.log("Create pieces")
         console.log(canvasSize)
+        this.renderQueue = renderQueue
         this.pieces = []
         const isBlue = allianceColor == "B" 
         //Add Pickup Wing Notes ge_key 202-204
@@ -21,6 +22,7 @@ export default class PiecesMap {
                     y: ctr[1] + dist*Math.sin(startAng - Math.PI/6*i),
                     ctx,
                     img,
+                    renderQueue, 
                     isSelected: false,
                     ge_key: 123,
                     text: String.fromCharCode(65+i),
