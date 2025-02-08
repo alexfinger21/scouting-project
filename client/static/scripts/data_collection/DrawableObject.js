@@ -19,7 +19,7 @@ export default class DrawableObject {
             this.text = text
         }
 
-        this.renderQueue = 
+        this.renderQueue = renderQueue
         this.visible = visible
         this.r = (r ?? 91) * Math.PI / 180
         this.prevTick = Date.now()

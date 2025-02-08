@@ -1,4 +1,4 @@
-import { consoleLog } from "../utility"
+import { consoleLog } from "../utility.js"
 
 export default class RenderQueue {
     constructor(objs = []) {
