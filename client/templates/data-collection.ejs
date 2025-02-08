@@ -23,7 +23,8 @@
 
     <%- include("../static/partials/header") %>
 
-        <div id="page-holder">            
+        <div id="page-holder">          
+            <div id="trash"> </div>
 
             <%if(assignment != null) {%> <!--Check if user has access-->
                 <div id="data-collection-tabs">
@@ -93,7 +94,7 @@
                     <canvas id="auton-canvas"></canvas>
                 </div>
 
-                <div class="responsive-table">
+                <div id="responsive-table">
                     <table id="sortable">
                         <colgroup>
                             <col style="width: 18%">
@@ -102,6 +103,12 @@
                             <tr>
                                 <th>Drag Row</th>
                                 <th>Action</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img id="dropdownImg" src="../static/images/lock.png">
+                                </td>
+                                <td>Leave Starting Zone</td>
                             </tr>
                             <tr draggable="true">
                                 <td>
@@ -129,8 +136,6 @@
                             </tr>
                         </thead>
                     </table>
-                    <img id="trash" src="../static/images/trash.png">
-
                 </div>
 
                 <div class="input-container">

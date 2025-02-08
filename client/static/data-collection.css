@@ -451,7 +451,7 @@ canvas {
 
 
 
-.responsive-table {
+#responsive-table {
     table {
         width: 80vw;
         border-spacing: 0;
@@ -500,28 +500,28 @@ canvas {
         background-color: #e38484 !important;
     }
 
-    #trash {
-        position: absolute;
-        visibility: hidden;
-        bottom: 0;
-        width: 30vw !important;
-        height: auto !important;
-        opacity: 0.5;
-        bottom: 0;
-        right: 8vh;
-
-    }
-
-    #trash.show {
-        visibility: visible;
-    }
-
-    #trash.hover {
-        /*filter: hue*/
-    }
-
-
     .fa-bars{
         cursor: move;
     } 
 }
+
+
+#trash {
+    position: absolute;
+    visibility: hidden;
+    bottom: -10vh;
+    width: 100vw !important;
+    height: 20vh !important;
+    background: linear-gradient(#e6646500, #e66465ff);
+    right: 8vh;
+
+}
+
+#trash.show {
+    visibility: visible;
+}
+
+#trash.hover {
+    /*filter: hue*/  
+}
+

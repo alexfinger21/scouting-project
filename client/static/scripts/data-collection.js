@@ -607,14 +607,18 @@ function main() {
 
 
     const trash = document.getElementById("trash")
-    const trows = document.querySelectorAll(".responsive-table tr:not(:first-of-type)") //exclude thead
+    const trows = document.querySelectorAll("#responsive-table tr:not(:first-of-type)") //exclude thead
 
-    let dragRow;
+    let dragRow
+
+    let dragDeb = false
+    let draggingText = ""
     
-    for (let tr of trows) {
+    for (const tr of trows) {
         if(tr.draggable) {
             tr.ondragstart = e => {
                 dragRow = tr
+                draggingText = dragRow.getElementsByTagName("td")[1].innerText
                 e.dataTransfer.dropEffect = "move"
                 e.dataTransfer.effectAllowed = "move"
                 e.dataTransfer.setData("text/html", tr.innerHTML)
@@ -626,27 +630,33 @@ function main() {
             }
     
             tr.ondrop = e => {
-                trash.classList.remove("show")
-                trash.classList.remove("hover")
                 e.preventDefault()
-            };
+                tr.innerHTML = e.dataTransfer.getData("text/html")
+                dragDeb = true
+            }
     
             tr.ondragenter = e => {
                 consoleLog('enter!', tr.innerHTML)
                 tr.classList.add("hover")
                 const a =  dragRow.getElementsByTagName("td")[1]
                 const b =  tr.getElementsByTagName("td")[1]
-                const tmp = a.innerText
                 a.innerText = b.innerText
-                b.innerText = tmp
+                b.innerText = ""
                 dragRow = tr
             }
             tr.ondragleave = e => {
                 tr.classList.remove("hover")
             }
-            tr.ondragend = () => {
-                for (let r of trows) {
+            tr.ondragend = (e) => {
+                if(!dragDeb) {
+                    const a =  dragRow.getElementsByTagName("td")[1]
+                    a.innerText = draggingText
+                }
+                dragDeb = false
+                for (const r of trows) {
                     r.classList.remove("hover")
+                    trash.classList.remove("show")
+                    trash.classList.remove("hover")
                 }
             }
         }
@@ -664,5 +674,6 @@ function main() {
     }
     trash.ondrop = e => {
         dragRow.remove()
+        dragDeb = true
     }
 }
