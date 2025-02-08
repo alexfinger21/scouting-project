@@ -1,7 +1,7 @@
 import { consoleLog } from "../utility.js"
 
 export default class DrawableObject {
-    constructor({ctx, x, y, sX, sY, r, img, text, visible = true}) {
+    constructor({ctx, x, y, sX, sY, r, img, text, visible = true, zIndex = 0}) {
         this.dpr = window.devicePixelRatio
         // dpr necessary to increase render resolution
 
@@ -13,6 +13,7 @@ export default class DrawableObject {
 
         this.img = img        
         this.ctx = ctx
+        this.zIndex = zIndex
 
         if (text) {
             this.text = text

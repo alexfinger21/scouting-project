@@ -25,6 +25,7 @@ export default class PiecesMap {
                     ge_key: 123,
                     text: String.fromCharCode(65+i),
                     color: isBlue ? "#3B86CD" : "#FF2B2B",
+                    zIndex: 2,
                     canvasSize
                 }))  
             }
@@ -41,6 +42,7 @@ export default class PiecesMap {
                 spotlightStatus: pieceData["403"] == 2,
                 ge_key: 403,
                 canSpotlight: true,
+                zIndex: 2,
                 canvasSize 
             }))
         }
