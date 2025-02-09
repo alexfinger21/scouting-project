@@ -1,35 +1,36 @@
-import Reef from "./Reef"
+import Reef from "./Reef.js"
+import ClickArea from "./ClickArea.js"
+import { consoleLog } from "../../utility.js"
+
 
 export default class CoralScreen {
-    constructor({ctx, allianceColor, images, cX, cY}) {
+    constructor({ctx, allianceColor, images, canvasSize, renderQueue}) {
         this.ctx = ctx
-        this.canvasSize = {x: cX, y: cY}
-        this.x = x
-        this.y = y
-        this.sX = sX
-        this.sY = sY
+        this.canvasSize = canvasSize
 
-        this.reef = new Reef({ctx, allianceColor, image: images.reef, canvasSize: this.canvasSize })
+        consoleLog(images)
+
+        this.reef = new Reef({ctx, renderQueue, allianceColor, img: images.reefImage, canvasSize: this.canvasSize })
         this.clickAreas = [
-            ClickArea({ctx, value: 1, clickable: true, isSelected: false, image: images.clickArea, canvasSize: this.canvasSize,
+            new ClickArea({ctx, renderQueue, value: 1, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
                 pos: {
                     x: canvasSize.x * 0.2,
                     y: canvasSize.y * 0.3,
                 },
             }),
-            ClickArea({ctx, value: 2, clickable: true, isSelected: false, image: images.clickArea, canvasSize: this.canvasSize,
+            new ClickArea({ctx, renderQueue, value: 2, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
                 pos: {
                     x: canvasSize.x * 0.2,
                     y: canvasSize.y * 0.45,
                 },
             }),
-            ClickArea({ctx, value: 3, clickable: true, isSelected: false, image: images.clickArea, canvasSize: this.canvasSize,
+            new ClickArea({ctx, renderQueue, value: 3, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
                 pos: {
                     x: canvasSize.x * 0.2,
                     y: canvasSize.y * 0.6,
                 },
             }),
-            ClickArea({ctx, value: 4, clickable: true, isSelected: false, image: images.clickArea, canvasSize: this.canvasSize,
+            new ClickArea({ctx, renderQueue, value: 4, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
                 pos: {
                     x: canvasSize.x * 0.2,
                     y: canvasSize.y * 0.75,
@@ -40,6 +41,9 @@ export default class CoralScreen {
 
     draw() {
         this.reef.draw()
+        for(const clickArea of this.clickAreas) {
+            clickArea.draw()
+        }
     }
 
     onClick({x, y}) {

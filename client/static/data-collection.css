@@ -509,7 +509,8 @@ canvas {
 #trash {
     position: absolute;
     visibility: hidden;
-    bottom: -10vh;
+    bottom: 0;
+    left: 0;
     width: 100vw !important;
     height: 20vh !important;
     background: linear-gradient(#e6646500, #e66465ff);

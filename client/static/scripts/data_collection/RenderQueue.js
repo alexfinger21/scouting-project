@@ -62,7 +62,7 @@ export default class RenderQueue {
         this.ctx.save()
         this.ctx.setTransform(1/this.dpr, 0, 0, 1/this.dpr, 0, 0) //reset canvas transform just in case and set dpr (device pixel ratio) to remove blur
         this.ctx.clearRect(0, 0, this.canvasSize.x*this.dpr, this.canvasSize.y*this.dpr)
-        //consoleLog(this.queue.slice())
+        consoleLog(this.queue.slice())
         while (this.queue.length) {
             const rndr = this.pop()
             rndr.render() 

@@ -210,8 +210,11 @@ function loadData() {
         robotStartPosImage.src = `./static/images/data-collection/robot-starting-pos-container.png`
         const legendButton = new Image()
         legendButton.src = `./static/images/data-collection/legend-button.png`
-        
-        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage }
+        const reefImage = new Image()
+        reefImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef.png`
+        const clickAreaImage = new Image()
+        clickAreaImage.src = `./static/images/data-collection/click-area.png`
+        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, reefImage, clickAreaImage }
 
         await waitUntilImagesLoaded(Object.values(images))
 
@@ -608,7 +611,9 @@ function main() {
     })
 
 
-    const trash = document.getElementById("trash")
+    const trash = document.createElement("div")
+    trash.id="trash"
+    document.body.insertBefore(trash, document.getElementById("page-holder"))
     const trows = document.querySelectorAll("#responsive-table tr:not(:first-of-type)") //exclude thead
 
     let dragRow
@@ -644,6 +649,8 @@ function main() {
                 const b =  tr.getElementsByTagName("td")[1]
                 a.innerText = b.innerText
                 b.innerText = ""
+                dragRow.getElementsByTagName("img")[0].style.visibility="visible"
+                tr.getElementsByTagName("img")[0].style.visibility="hidden"
                 dragRow = tr
             }
             tr.ondragleave = e => {
@@ -653,6 +660,7 @@ function main() {
                 if(!dragDeb) {
                     const a =  dragRow.getElementsByTagName("td")[1]
                     a.innerText = draggingText
+                    dragRow.getElementsByTagName("img")[0].style.visibility="visible"
                 }
                 dragDeb = false
                 for (const r of trows) {

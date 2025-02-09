@@ -1,5 +1,4 @@
-import { consoleLog } from "../utility.js"
-import DrawableObject from "./DrawableObject.js"
+import DrawableObject from "../DrawableObject.js"
 
 export default class ClickArea extends DrawableObject {
     /* 

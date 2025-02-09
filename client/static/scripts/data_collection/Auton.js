@@ -4,6 +4,7 @@ import PiecesMap from "./PiecesMap.js"
 import RobotMap from "./RobotMap.js"
 import Legend from "./Legend.js"
 import RenderQueue from "./RenderQueue.js"
+import CoralScreen from "./coral_screen/CoralScreen.js"
 
 const helpText = `1. Tap square to approx. start pos
 2. Orange note: picked up by robot`
@@ -22,6 +23,7 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
+        this.coralScreen = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, images, canvasSize: this.canvasSize})
     }
 
     onClick({ x, y }) {
@@ -29,6 +31,7 @@ export default class {
         this.clickable.pieces.onClick({x, y})
         this.clickable.robots.onClick({x, y})
         this.legend.onClick({x, y})
+        this.coralScreen.onClick({x, y})
     }
 
     onMouseDown({ x, y }) {
@@ -56,5 +59,6 @@ export default class {
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.legend.draw()
+        this.coralScreen.draw()
     }
 }

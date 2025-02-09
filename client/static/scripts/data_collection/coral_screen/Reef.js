@@ -1,8 +1,8 @@
-import DrawableObject from "../DrawableObject"
+import DrawableObject from "../DrawableObject.js"
 
 export default class Reef extends DrawableObject {
-    constructor({ctx, img, canvasSize, visible = true, zIndex = 0}) {
-        super({ctx, img, x: 0, y: 0, r: 0, sX: canvasSize.x, sY: canvasSize.y, visible, zIndex})
+    constructor({ctx, renderQueue, img, canvasSize, visible = true, zIndex = 10000}) {
+        super({ctx, renderQueue, zIndex, img, x: 0, y: canvasSize.y * .1, r: 90, sX: canvasSize.x / 2.2, sY: canvasSize.x / 2.2 * 1.34260869565, visible})
     }
 }
 
