@@ -1,13 +1,12 @@
 import { paths, consoleLog } from "./utility.js"
 const ctx = document.getElementById("chartForDA")
+const ctx2 = document.getElementById("chart2")
 
-console.log("yo bro you done not messed up")
+consoleLog("yo bro you done not messed up")
 
 
-function hh () {
-    return new Promise((res, rej) => { 
-        const somedata = []
-
+function backEndData() {
+    return new Promise((res, rej) => {
         $.ajax({
             type: "GET",
             contentType: "application/json",
@@ -17,17 +16,22 @@ function hh () {
                 consoleLog(response)
                 response = JSON.parse(response)
 
-                for(let i = 1; i <= Object.keys(response).length; i++)
-                {
-                    somedata.push({x:response[i].red.matchStats.teleopSpeakerNoteCount.TBA,
-                        y: response[i].red.matchStats.teleopSpeakerNoteCount.DB})
-                }
-                return res(somedata)
+                return res(response)
             }})
     })
 }
 
-async function loadChart() { //only initialize chart once window loads completely to avoid context issues            
+async function loadChart() {//only initialize chart once window loads completely to avoid context issues            
+    const data = await backEndData()
+    const somedata = []
+
+    for(let i = 1; i <= Object.keys(data).length; i++)
+        {
+            somedata.push({x:data[i].red.matchStats.teleopSpeakerNoteCount.TBA,
+                y: data[i].red.matchStats.teleopSpeakerNoteCount.DB})
+        }
+
+    
     const DAChart = new Chart(
         ctx, 
         {
@@ -35,8 +39,28 @@ async function loadChart() { //only initialize chart once window loads completel
             data: {
                 datasets: [{
                     pointRadius: 4,
-                    pointBackgroundColor: "pink",
-                data: await hh()
+                    pointBackgroundColor: "RED",
+                data: somedata
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'TOTAL SCORE - SCENARIO'
+                },
+                legend: { display: false },
+        }
+    });
+
+    const DAChart1 = new Chart(
+        ctx2, 
+        {
+            type: "scatter",
+            data: {
+                datasets: [{
+                    pointRadius: 4,
+                    pointBackgroundColor: "BLUE",
+                data: somedata
                 }]
             },
             options: {
