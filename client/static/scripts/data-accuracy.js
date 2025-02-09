@@ -22,8 +22,8 @@ function backEndData() {
             contentType: "application/json",
             url: paths.dataAccuracy + "?get-data=true",
             success: function (response) {
-                consoleLog("response:\n")
-                consoleLog(response)
+                //consoleLog("response:\n")
+               // consoleLog(response)
                 response = JSON.parse(response)
 
                 return res(response)
@@ -32,10 +32,11 @@ function backEndData() {
 }
 
 async function main() {//only initialize chart once window loads completely to avoid context issues    
-    const ctx = document.getElementById("chartForDA")
+    const ctx = document.getElementById("chart1")
     const ctx2 = document.getElementById("chart2")        
     const data = await backEndData()
     const somedata = []
+    let maxht = 18
 
     for(let i = 1; i <= Object.keys(data).length; i++)
         {
@@ -48,6 +49,7 @@ async function main() {//only initialize chart once window loads completely to a
         ctx, 
         {
             type: "scatter",
+            label: "hi",
             data: {
                 datasets: [{
                     pointRadius: 4,
@@ -61,6 +63,15 @@ async function main() {//only initialize chart once window loads completely to a
                     text: 'RED TELEOP SPEAKER NOTE COUNT'
                 },
                 legend: { display: false },
+                aspectRatio: 1,
+                scales: {
+                    x: {
+                        max: maxht,
+                    },
+                    y: {
+                        max: maxht,
+                    }
+                }
         }
     });
 
@@ -81,6 +92,15 @@ async function main() {//only initialize chart once window loads completely to a
                     text: 'BLUE TELEOP SPEAKER NOTE COUNT'
                 },
                 legend: { display: false },
+                aspectRatio: 1,
+                scales: {
+                    x: {
+                        max: maxht,
+                    },
+                    y: {
+                        max: maxht,
+                    }
+                }
         }
     });
 }
