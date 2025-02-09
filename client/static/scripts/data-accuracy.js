@@ -1,31 +1,33 @@
-//import { paths } from "./utility"
+import { paths, consoleLog } from "./utility.js"
 const ctx = document.getElementById("chartForDA")
 
-console.log("yo bro you done not Messed up")
-/*
-function hh ()
-{
+console.log("yo bro you done not messed up")
 
-    $.ajax({
-        type: "GET",
-        contentType: "application/json",
-        url: paths.dataAccuracy + "?combinedData=true",
-        data: JSON.stringify({}),
-        success: function (response) {
-            consoleLog("response:\n")
-            consoleLog(response)
-        }})
-    let somedata = []
 
-    // for(let i = 1; i <= Object.keys(temp).length; i++)
-    // {
-    //     somedata.push({x:temp[i].red.matchStats.teleopSpeakerNoteCount.TBA,
-    //         y: temp[i].red.matchStats.teleopSpeakerNoteCount.DB})
-    // }
-    return somedata
+function hh () {
+    return new Promise((res, rej) => { 
+        const somedata = []
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: paths.dataAccuracy + "?get-data=true",
+            success: function (response) {
+                consoleLog("response:\n")
+                consoleLog(response)
+                response = JSON.parse(response)
+
+                for(let i = 1; i <= Object.keys(response).length; i++)
+                {
+                    somedata.push({x:response[i].red.matchStats.teleopSpeakerNoteCount.TBA,
+                        y: response[i].red.matchStats.teleopSpeakerNoteCount.DB})
+                }
+                return res(somedata)
+            }})
+    })
 }
-*/
-function loadChart() { //only initialize chart once window loads completely to avoid context issues            
+
+async function loadChart() { //only initialize chart once window loads completely to avoid context issues            
     const DAChart = new Chart(
         ctx, 
         {
@@ -34,7 +36,7 @@ function loadChart() { //only initialize chart once window loads completely to a
                 datasets: [{
                     pointRadius: 4,
                     pointBackgroundColor: "pink",
-                //data: hh()
+                data: await hh()
                 }]
             },
             options: {

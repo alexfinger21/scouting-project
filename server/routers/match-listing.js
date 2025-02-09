@@ -108,7 +108,7 @@ router.get("/", async function (req, res) {
                 }
 
                 consoleLog("Rendering match listing")
-                consoleLog(matchVideos)
+                //consoleLog(matchVideos)
 
                 res.render("match-listing", {
                     teams: teams,

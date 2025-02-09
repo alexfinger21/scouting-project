@@ -46,7 +46,8 @@ const OFFSET = TBAAPINAMES.length
 async function APIData() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
-    const gametype = (gameConstants.GAME_TYPE.toLowerCase() === "qm" || gameConstants.GAME_TYPE.toLowerCase() === "q") ? "qm" : "";
+    //const gametype = (gameConstants.GAME_TYPE.toLowerCase() === "qm" || gameConstants.GAME_TYPE.toLowerCase() === "q") ? "qm" : "";
+    const gametype = "qm" //only want qual matches
 
     const filteredData = {};
 
@@ -168,7 +169,7 @@ async function combinedData() // combine data from TBA and DB
     let scatterpoints = {}; // will compare the different data from TBA and our DB 
     const apiNames = DBNAMES;
 
-    console.log(TBAMatchData)
+    //console.log(TBAMatchData)
     for (let i = 1; i <= Object.keys(TBAMatchData).length; i++) { // 1-80 inclusive matches, using DBMatchData.length should allow viewing the data while in the midst of a match as it won't try to load nonexistent matches
         scatterpoints[i] = { // each match has red/blue alliance
             red: {},
