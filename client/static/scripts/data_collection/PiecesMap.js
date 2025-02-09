@@ -26,7 +26,7 @@ export default class PiecesMap {
                     isSelected: false,
                     ge_key: 123,
                     text: String.fromCharCode(65+i),
-                    color: isBlue ? "#3B86CD" : "#FF2B2B",
+                    isBlue,
                     zIndex: 2,
                     canvasSize
                 }))  
@@ -80,7 +80,7 @@ export default class PiecesMap {
     }
 
     onClick({ x, y }) {
-        this.pieces.forEach(function (piece) {
+        this.pieces.forEach(function(piece) {
             piece.onClick({ x, y })
         })
     }

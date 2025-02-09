@@ -26,7 +26,7 @@ export default class {
 
     onClick({ x, y }) {
         // Collision detection between clicked offset and element.
-        //this.clickable.pieces.onClick({x, y})
+        this.clickable.pieces.onClick({x, y})
         this.clickable.robots.onClick({x, y})
         this.legend.onClick({x, y})
     }

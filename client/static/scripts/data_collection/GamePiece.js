@@ -1,7 +1,7 @@
 import { consoleLog, lerp } from "../utility.js"
 import DrawableObject from "./DrawableObject.js"
 
-const changePerMS = 2
+const changePerS = 5
 
 function getColors(color) {
     color = color.substring(4, color.length).split(", ")
@@ -14,26 +14,29 @@ function lerpColor(current, goal, tickDiff) {
     const [c1, c2, c3] = getColors(current)
     const [g1, g2, g3] = getColors(goal)
 
-    const l1 = Math.min(1, Math.abs((changePerMS*tickDiff)/(g1 - c1)))
-    const l2 = Math.min(1, Math.abs((changePerMS*tickDiff)/(g2 - c2)))
-    const l3 = Math.min(1, Math.abs((changePerMS*tickDiff)/(g3 - c3)))
+    const l1 = Math.min(1, tickDiff/1000*changePerS)
+    const l2 = Math.min(1, tickDiff/1000*changePerS)
+    const l3 = Math.min(1, tickDiff/1000*changePerS)
 
     return `rgb(${lerp(c1, g1, isNaN(l1) ? 0 : l1)}, ${lerp(c2, g2, isNaN(l2) ? 0 : l2)}, ${lerp(c3, g3, isNaN(l3) ? 0 : l3)})`
 }
 
 export default class GamePiece extends DrawableObject {
-    constructor({ x, y, ctx, img, renderQueue, isSelected, canvasSize, ge_key, color, text }) {
+    constructor({ x, y, ctx, img, renderQueue, isSelected, canvasSize, ge_key, isBlue, text }) {
         super({ ctx, img, x, y, renderQueue, sX: canvasSize.x * 0.13, sY: canvasSize.x * 0.13 })
 
-        this.size = canvasSize.x * 0.09
+        this.radius = canvasSize.x * 0.05
 
         this.isSelected = isSelected
 
         this.mask = document.createElement("canvas")
-        this.mask.width = this.size
-        this.mask.height = this.size
-        this.color = color
-        
+        this.mask.width = this.radius
+        this.mask.height = this.radius
+        this.team = isBlue ? "blue" : "red"
+        this.color = isBlue ? "rgb(59, 134, 205)" : "rgb(255, 43, 43)"
+        this.selectedColor = isBlue ? "rgb(150, 150, 150)" : "rgb(0, 0, 0)"
+        this.unselectedColor = this.color
+
         this.maskCtx = this.mask.getContext("2d")
         this.opacity = 1
         this.text = text
@@ -47,38 +50,26 @@ export default class GamePiece extends DrawableObject {
     drawMask() {
         this.maskCtx.save()
         this.maskCtx.fillStyle = this.color
-        this.maskCtx.rect(0, 0, this.size, this.size)
+        this.maskCtx.rect(0, 0, this.radius, this.radius)
         this.maskCtx.fill()
         this.maskCtx.globalCompositeOperation = "destination-atop"
-        this.maskCtx.drawImage(this.img, 0, 0, this.size, this.size)
+        this.maskCtx.drawImage(this.img, 0, 0, this.radius, this.radius)
         this.maskCtx.restore()
     }
 
     onClick({ x, y }) {
-        if (super.inBoundingBox({ x, y })) {
-
-            if (this.spotlightStatus === undefined) {
-                this.isSelected = !this.isSelected
-            } else {
-                if (!this.spotlightStatus) {
-                    if (!this.isSelected) {
-                        this.isSelected = true
-                    } else {
-                        this.spotlightStatus = true
-                    }
-                } else {
-                    this.isSelected = false
-                    this.spotlightStatus = false
-                }
-
-            //alert("Selected Note " + this.ge_key
-            }
+        if (super.inBoundingRadius({ x, y })) {
+            this.lastTick = Date.now()
+            this.isSelected = !this.isSelected
         }
     }
 
     draw() {
-        //this.color = lerpColor(this.color, this.spotlightStatus ? spotLightColor : (this.isSelected ? selectedColor : unselectedColor) , Date.now() - this.lastTick)
-        //this.lastTick = Date.now()
+        this.color = lerpColor(this.color, 
+            (this.isSelected ? this.selectedColor : this.unselectedColor), 
+            Date.now() - this.lastTick,
+        )
+
         //this.drawMask()
 
         this.ctx.save()

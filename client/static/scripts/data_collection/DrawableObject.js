@@ -40,6 +40,14 @@ export default class DrawableObject {
         return false
     }
 
+    inBoundingRadius({x, y}) {
+        if (this.radius) {
+            const rad = Math.sqrt(Math.pow((y - this.y-this.radius), 2) + Math.pow((x - this.x-this.radius), 2))
+            
+            return rad <= this.radius
+        }
+    }
+
     rotate() {
         const a = this.r 
         //rotate code
@@ -70,11 +78,11 @@ export default class DrawableObject {
 
             if (this.img == "circle") {
                 this.ctx.beginPath()
-                this.ctx.arc(0, 0, this.size/2, 0, 2 * Math.PI, false)
+                this.ctx.arc(0, 0, this.radius, 0, 2 * Math.PI, false)
                 this.ctx.fillStyle = this.color
                 this.ctx.fill()
                 this.ctx.fill()
-                this.ctx.translate(0, this.size/6)
+                this.ctx.translate(0, this.radius/3)
                 this.ctx.fillStyle = "#FFFFFF"
                 this.ctx.textAlign = "center"
                 this.ctx.font = "20px 'Rubik', sans-serif"
