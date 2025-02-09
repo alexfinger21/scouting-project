@@ -130,20 +130,32 @@ window.addEventListener("load", () => {
         hideHighlight(hoverButton)
     })
     const adminPageButton = document.getElementById("admin-page-button")
-    adminPageButton.addEventListener("click", () =>  {
-        requestPage(paths.adminPage)
-        hideHighlight(hoverButton)
-    })
+    if (adminPageButton) {
+        adminPageButton.addEventListener("click", () =>  {
+            requestPage(paths.adminPage)
+            hideHighlight(hoverButton)
+        })
 
-    const matchVerifyButton = document.getElementById("match-verify-button")
-    matchVerifyButton.addEventListener("click", () =>  {
-        requestPage(paths.matchVerify)
-        hideHighlight(hoverButton)
-    })
+        const matchVerifyButton = document.getElementById("match-verify-button")
+        matchVerifyButton.addEventListener("click", () =>  {
+            requestPage(paths.matchVerify)
+            hideHighlight(hoverButton)
+        })
 
-    const allianceInputButton = document.getElementById("alliance-input-button")
-    allianceInputButton.addEventListener("click", () =>  {
-        requestPage(paths.allianceInput)
+        const allianceInputButton = document.getElementById("alliance-input-button")
+        allianceInputButton.addEventListener("click", () =>  {
+            requestPage(paths.allianceInput)
+            hideHighlight(hoverButton)
+        })
+    }
+
+    
+
+    const dataAccuracyButton = document.getElementById("data-accuracy-button")
+    consoleLog("got here")
+    dataAccuracyButton.addEventListener("click", () =>  {
+        requestPage(paths.dataAccuracy)
+        consoleLog("here clicked", paths.dataAccuracy)
         hideHighlight(hoverButton)
     })
     

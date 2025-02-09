@@ -1,8 +1,18 @@
-import { paths, consoleLog } from "./utility.js"
-const ctx = document.getElementById("chartForDA")
-const ctx2 = document.getElementById("chart2")
-
+import { paths, consoleLog, checkPage } from "./utility.js"
 consoleLog("yo bro you done not messed up")
+
+const observer = new MutationObserver(function (mutations_list) {
+    mutations_list.forEach(async function (mutation) {
+        for (const removed_node of mutation.removedNodes) {
+            if (removed_node.id == 'page-holder' && checkPage(paths.dataAccuracy)) {
+                main()
+                break
+            }
+        }
+    })
+})
+
+observer.observe(document.body, { subtree: false, childList: true });
 
 
 function backEndData() {
@@ -21,7 +31,9 @@ function backEndData() {
     })
 }
 
-async function loadChart() {//only initialize chart once window loads completely to avoid context issues            
+async function main() {//only initialize chart once window loads completely to avoid context issues    
+    const ctx = document.getElementById("chartForDA")
+    const ctx2 = document.getElementById("chart2")        
     const data = await backEndData()
     const somedata = []
 
@@ -46,7 +58,7 @@ async function loadChart() {//only initialize chart once window loads completely
             options: {
                 title: {
                     display: true,
-                    text: 'TOTAL SCORE - SCENARIO'
+                    text: 'RED TELEOP SPEAKER NOTE COUNT'
                 },
                 legend: { display: false },
         }
@@ -66,11 +78,9 @@ async function loadChart() {//only initialize chart once window loads completely
             options: {
                 title: {
                     display: true,
-                    text: 'TOTAL SCORE - SCENARIO'
+                    text: 'BLUE TELEOP SPEAKER NOTE COUNT'
                 },
                 legend: { display: false },
         }
     });
 }
-
-window.addEventListener("load", loadChart);
