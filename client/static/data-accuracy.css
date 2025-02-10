@@ -21,6 +21,15 @@
     border-radius: 5px; */
     overflow: auto;
 }
+#first-header {
+    font-size: 2rem; /* Adjust the size as necessary */
+    font-weight: bold;
+    margin-bottom: 400px; /*Space between the header and the graphs */
+    /* margin-top: 0px; */
+    padding-top: 0px;
+    vertical-align: top;    
+    text-align:center;
+}
 /* #chart1{
 
 } */

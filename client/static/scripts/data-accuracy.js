@@ -31,17 +31,55 @@ function backEndData() {
     })
 }
 
+
+/*work in progress*/
+
+function calculateRegression (data) {
+    const n = data.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+    data.forEach(point => {
+        sumX += point.x;
+        sumY += point.y;
+        sumXY += point.x * point.y;
+        sumX2 += point.x * point.x;
+    });
+
+    const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const a = (sumY - b * sumX) / n;
+    return {a, b};
+};
+const regressionLine = (data) => {
+    const {a, b} = calculateRegression(data.datasets[0].data);
+    const xValues = data.datasets[0].data.map(point => point.x);
+    const minX = Math.min(...xValues);
+    const maxX = Math.max(...xValues);
+
+    return {
+        label: 'Regression Line',
+        data: [{x: minX, y: a + b * minX}, {x: maxX, y: a + b * maxX}],
+        type: 'line',
+        borderColor: 'red',
+        borderWidth: 2,
+        pointRadius: 0,
+        
+    }
+}
+
+
 async function main() {//only initialize chart once window loads completely to avoid context issues    
     const ctx = document.getElementById("chart1")
     const ctx2 = document.getElementById("chart2")        
     const data = await backEndData()
     const somedata = []
+    const somedataBlue = []
     let maxht = 18
 
     for(let i = 1; i <= Object.keys(data).length; i++)
         {
             somedata.push({x:data[i].red.matchStats.teleopSpeakerNoteCount.TBA,
                 y: data[i].red.matchStats.teleopSpeakerNoteCount.DB})
+            somedataBlue.push({x:data[i].blue.matchStats.teleopSpeakerNoteCount.TBA,
+                y: data[i].blue.matchStats.teleopSpeakerNoteCount.DB})
         }
 
     
@@ -55,7 +93,8 @@ async function main() {//only initialize chart once window loads completely to a
                     pointRadius: 4,
                     pointBackgroundColor: "RED",
                 data: somedata
-                }]
+                }],
+                showLine: true,
             },
             options: {
                 title: {
@@ -66,13 +105,26 @@ async function main() {//only initialize chart once window loads completely to a
                 aspectRatio: 1,
                 scales: {
                     x: {
+                        title: {
+                            display: true,
+                            text: 'TBA DATA' // This will label the X axis
+                        },
                         max: maxht,
                     },
                     y: {
+                        title: {
+                            display: true,
+                            text: 'DB DATA' // This will label the X axis
+                        },
                         max: maxht,
-                    }
-                }
-        }
+                    },
+                },
+                plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  }
+            }
     });
 
     const DAChart1 = new Chart(
@@ -83,7 +135,7 @@ async function main() {//only initialize chart once window loads completely to a
                 datasets: [{
                     pointRadius: 4,
                     pointBackgroundColor: "BLUE",
-                data: somedata
+                data: somedataBlue
                 }]
             },
             options: {
@@ -91,16 +143,30 @@ async function main() {//only initialize chart once window loads completely to a
                     display: true,
                     text: 'BLUE TELEOP SPEAKER NOTE COUNT'
                 },
-                legend: { display: false },
+                legend: { display: false }, 
                 aspectRatio: 1,
                 scales: {
                     x: {
+                        title: {
+                            display: true,
+                            text: 'TBA DATA' // This will label the X axis
+                        },
                         max: maxht,
                     },
                     y: {
+                        title: {
+                            display: true,
+                            text: 'DB DATA' // This will label the X axis
+                        },
                         max: maxht,
-                    }
-                }
-        }
+                    },
+                },
+                plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  }
+            }                                                     
+
     });
 }
