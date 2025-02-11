@@ -174,10 +174,10 @@ async function drawCharts(data, selectedValue) {
 async function main() {  
     const data = await backEndData()
 
-    let dropdown = document.getElementById("dropdown")
+    const dropdown = document.getElementById("dropdown")
     let selectedValue = "teleopSpeakerNoteCount"
 
-    drawCharts(data, selectedValue)
+    drawCharts(data, dropdown.value)
 
     dropdown.addEventListener("change", (e) => {
         drawCharts(data, dropdown.value)
