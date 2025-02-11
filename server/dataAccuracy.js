@@ -1,6 +1,7 @@
+/* CHANGE LIST FOR FUTURE */
+/*https://docs.google.com/document/d/1w-YcnzkT_l2_xf54Eo3Zhlq_qcHbTWSIyyYcMkvZz-g/edit?usp=sharing*/
+
 /* TODO:
-- Make a way to show the data by graphing it (chart.js?)
-- Make sure the code works while in the middle of a match (eg. theres 49 matches played and we don't try accessing the 70th match)
 - Make code easier to change once API is updated by adding more constants (I think it's done but should still check in order for the migration to be easier)
 - Check the first two function which take the data from TBA and DB and make sure they aren't getting false matches like null and such
 */

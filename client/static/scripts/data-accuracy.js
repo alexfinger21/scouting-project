@@ -65,19 +65,19 @@ const regressionLine = (data) => {
     }
 }
 
-
-async function main() {//only initialize chart once window loads completely to avoid context issues    
+async function drawCharts(data, selectedValue) {
     const ctx = document.getElementById("chart1")
-    const ctx2 = document.getElementById("chart2")        
-    const data = await backEndData()
+    const ctx2 = document.getElementById("chart2")  
     const somedata = []
     const somedataBlue = []
     let maxht = 18
 
+
+    consoleLog(selectedValue)
     for(let i = 1; i <= Object.keys(data).length; i++)
         {
-            somedata.push({x:data[i].red.matchStats.teleopSpeakerNoteCount.TBA,
-                y: data[i].red.matchStats.teleopSpeakerNoteCount.DB})
+            somedata.push({x:data[i].red.matchStats[selectedValue].TBA,
+                y: data[i].red.matchStats[selectedValue].DB})
             somedataBlue.push({x:data[i].blue.matchStats.teleopSpeakerNoteCount.TBA,
                 y: data[i].blue.matchStats.teleopSpeakerNoteCount.DB})
         }
@@ -169,4 +169,20 @@ async function main() {//only initialize chart once window loads completely to a
             }                                                     
 
     });
+}
+
+async function main() {  
+    const data = await backEndData()
+
+    let dropdown = document.getElementById("dropdown")
+    let selectedValue = "teleopSpeakerNoteCount"
+
+    drawCharts(data, selectedValue)
+
+    dropdown.addEventListener("change", (e) => {
+        drawCharts(data, dropdown.value)
+    })
+
+    
+    
 }
