@@ -1,11 +1,18 @@
-import { paths, consoleLog, checkPage } from "./utility.js"
+import { paths, consoleLog, checkPage, socket } from "./utility.js"
 consoleLog("yo bro you done not messed up")
+
+socket.on("dataAccuracy", (match_num) => {
+    if (currentPage == paths.dataAccuracy) {
+        requestPage(paths.dataAccuracy)
+    }
+})
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(async function (mutation) {
         for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && checkPage(paths.dataAccuracy)) {
-                main()
+                //window.alert(0)
+                await main();
                 break
             }
         }
@@ -65,25 +72,35 @@ const regressionLine = (data) => {
     }
 }
 
-async function drawCharts(data, selectedValue) {
+function drawCharts(data, selectedValue) {
     const ctx = document.getElementById("chart1")
-    const ctx2 = document.getElementById("chart2")  
+    const ctx2 = document.getElementById("chart2")
+    const h1 = document.getElementById("first-header")
+
+    h1.textContent = selectedValue  
     const somedata = []
     const somedataBlue = []
     let maxht = 18
 
 
-    consoleLog(selectedValue)
+    //consoleLog(selectedValue)
     for(let i = 1; i <= Object.keys(data).length; i++)
-        {
-            somedata.push({x:data[i].red.matchStats[selectedValue].TBA,
-                y: data[i].red.matchStats[selectedValue].DB})
-            somedataBlue.push({x:data[i].blue.matchStats.teleopSpeakerNoteCount.TBA,
-                y: data[i].blue.matchStats.teleopSpeakerNoteCount.DB})
-        }
+    {
+        somedata.push({x:data[i].red.matchStats[selectedValue].TBA,
+            y: data[i].red.matchStats[selectedValue].DB})
+        somedataBlue.push({x:data[i].blue.matchStats.teleopSpeakerNoteCount.TBA,
+            y: data[i].blue.matchStats.teleopSpeakerNoteCount.DB})
+    }
 
-    
-    const DAChart = new Chart(
+    if (window.DAChart) {
+        window.DAChart.destroy();
+    }
+    if (window.DAChart1) {
+        window.DAChart1.destroy();
+    }
+        
+        
+    window.DAChart = new Chart(
         ctx, 
         {
             type: "scatter",
@@ -127,7 +144,7 @@ async function drawCharts(data, selectedValue) {
             }
     });
 
-    const DAChart1 = new Chart(
+    window.DAChart1 = new Chart(
         ctx2, 
         {
             type: "scatter",
@@ -171,18 +188,91 @@ async function drawCharts(data, selectedValue) {
     });
 }
 
+function testDrawCharts(data, selectedValue) {
+    const ctx = document.getElementById("chart1")
+    const ctx2 = document.getElementById("chart2")  
+    const somedata = []
+    const somedataBlue = []
+    let maxht = 18
+
+
+    //consoleLog(selectedValue)
+    for(let i = 1; i <= Object.keys(data).length; i++)
+    {
+        somedata.push({x:data[i].red.matchStats[selectedValue].TBA,
+            y: data[i].red.matchStats[selectedValue].DB})
+        somedataBlue.push({x:data[i].blue.matchStats.teleopSpeakerNoteCount.TBA,
+            y: data[i].blue.matchStats.teleopSpeakerNoteCount.DB})
+    }
+
+    const data1 = {
+        datasets: [
+            {
+            type: 'line',
+            label: 'Line Dataset',
+            data: [{x: 0, y: 0}, {x: 1, y: 1}, {x: 2, y: 2}],
+            backgroundColor: 'rgb(0, 0, 255)',
+            borderColor: 'rgb(0, 0, 255)'
+            },
+            {
+            type: 'scatter',
+            backgroundColor: 'rgb(0, 0, 0)',
+            borderColor: 'rgb(255, 0, 0)',
+            data: somedata
+            }
+    
+        ],
+    
+    };
+
+    new Chart(ctx, {
+        type: 'scatter',             
+        data: data1,  
+        options: {
+        }       
+    });
+}
+
 async function main() {  
     const data = await backEndData()
 
     const dropdown = document.getElementById("dropdown")
-    let selectedValue = "teleopSpeakerNoteCount"
+    let selectedValue = "autoSpeakerNoteCount"
 
-    drawCharts(data, dropdown.value)
+            // <option value="autoAmpNoteCount">autoAmpNoteCount</option>
+            // <option value="autoSpeakerNoteCount">autoSpeakerNoteCount</option>
+            // <option value="teleopSpeakerNoteCount">teleopSpeakerNoteCount</option>
+            // <option value="teleopAmpNoteCount">teleopAmpNoteCount</option>
+    const options = ["teleopAmpNoteCount", "teleopSpeakerNoteCount", "autoSpeakerNoteCount", "autoAmpNoteCount"];
+
+            // Loop through the array and create <option> elements
+    options.forEach((optionValue) => {
+        const option = document.createElement("option");
+        option.value = optionValue//.replace(" ", "_"); // Set the value for the option
+        option.textContent = optionValue; // Set the display text for the option
+        dropdown.appendChild(option); // Append the option to the dropdown
+    });
+
+    dropdown.value = "teleopSpeakerNoteCount"
+    drawCharts(data, selectedValue)
 
     dropdown.addEventListener("change", (e) => {
-        drawCharts(data, dropdown.value)
-    })
+        window.alert('change')
+        selectedValue = dropdown.value
+        
+        drawCharts(data, selectedValue)
+    })  
+    
+    
 
-    
-    
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            window.alert(dropdown.options)
+            drawCharts(data, dropdown.value)
+        }
+    });
+}
+
+window.test = function() {
+    window.alert('changed');
 }
