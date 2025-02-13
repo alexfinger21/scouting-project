@@ -17,7 +17,6 @@ function lerp(start, goal, percent) {
     return (goal-start)*percent + start
 }
 
-
 function moveToPage(ogPos, pos, btn) {
 
     if (!isHighlightVisible) {
