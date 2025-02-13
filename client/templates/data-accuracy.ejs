@@ -9,9 +9,27 @@
 <body>
     <div id="page-holder">
         <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-
+        <button id="test-button" type="button">Click Me!</button>
         <label for="dropdown">Choose an option:</label>
-        <select id="dropdown"></select>
+        <select id="dropdown">
+            <option value="autoAmpNoteCount">"teleopAmpNoteCount"</option>
+            <option value="teleopSpeakerNoteCount">"teleopSpeakerNoteCount"</option>
+            <option value="autoSpeakerNoteCount">"autoSpeakerNoteCount"</option>
+            <option value="autoAmpNoteCount">"autoAmpNoteCount"</option>
+        </select>
+
+        <!-- <ul>
+            <li>
+                <a href="#">Scoring Type</a>
+                <ul class="dropdown">
+                    <li><a href="a" data-value="autoAmpNoteCount">"teleopAmpNoteCount"</a></li>
+                    <li><a href="b" data-value="teleopSpeakerNoteCount">"teleopSpeakerNoteCount"</a></li>
+                    <li><a href="c" data-value="autoSpeakerNoteCount">"autoSpeakerNoteCount"</a></li>
+                    <li><a href="d" data-value="autoAmpNoteCount">"autoAmpNoteCount"</a></li>
+                </ul>
+            </li>
+        </ul>         -->
+        
 
         <div id="accuracy-graph-holder">
             <div id="accuracy-chart-area-wrapper">

@@ -237,39 +237,55 @@ async function main() {
     const data = await backEndData()
 
     const dropdown = document.getElementById("dropdown")
+    const button = document.getElementById("test-button")
     let selectedValue = "autoSpeakerNoteCount"
 
             // <option value="autoAmpNoteCount">autoAmpNoteCount</option>
             // <option value="autoSpeakerNoteCount">autoSpeakerNoteCount</option>
             // <option value="teleopSpeakerNoteCount">teleopSpeakerNoteCount</option>
             // <option value="teleopAmpNoteCount">teleopAmpNoteCount</option>
-    const options = ["teleopAmpNoteCount", "teleopSpeakerNoteCount", "autoSpeakerNoteCount", "autoAmpNoteCount"];
 
-            // Loop through the array and create <option> elements
-    options.forEach((optionValue) => {
-        const option = document.createElement("option");
-        option.value = optionValue//.replace(" ", "_"); // Set the value for the option
-        option.textContent = optionValue; // Set the display text for the option
-        dropdown.appendChild(option); // Append the option to the dropdown
-    });
 
-    dropdown.value = "teleopSpeakerNoteCount"
     drawCharts(data, selectedValue)
 
-    dropdown.addEventListener("change", (e) => {
+    dropdown.addEventListener("click", (e) => {
         window.alert('change')
-        selectedValue = dropdown.value
+        //selectedValue = dropdown.value
         
         drawCharts(data, selectedValue)
     })  
     
     
 
-    document.addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            window.alert(dropdown.options)
-            drawCharts(data, dropdown.value)
-        }
+    button.addEventListener("click", function(event) {
+        // if (event.key === "Enter") {
+        //     window.alert(dropdown.value)
+            if(selectedValue == "autoSpeakerNoteCount")
+            {
+                selectedValue = "teleopSpeakerNoteCount"
+                dropdown.value = selectedValue
+                drawCharts(data, selectedValue)
+            }
+            else if(selectedValue == "teleopSpeakerNoteCount")
+            {
+                selectedValue = "teleopAmpNoteCount"
+                dropdown.value = selectedValue
+                drawCharts(data, selectedValue)
+            }
+            else if(selectedValue == "teleopAmpNoteCount")
+            {
+                selectedValue = "autoAmpNoteCount"
+                dropdown.value = selectedValue
+                drawCharts(data, selectedValue)
+            }
+            else if(selectedValue == "autoAmpNoteCount")
+            {                    
+                selectedValue = "autoSpeakerNoteCount"
+                dropdown.value = selectedValue
+                drawCharts(data, selectedValue)
+            }
+
+        //}
     });
 }
 
