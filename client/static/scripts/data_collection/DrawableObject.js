@@ -81,7 +81,6 @@ export default class DrawableObject {
                 this.ctx.arc(0, 0, this.radius, 0, 2 * Math.PI, false)
                 this.ctx.fillStyle = this.color
                 this.ctx.fill()
-                this.ctx.fill()
                 this.ctx.translate(0, this.radius/3)
                 this.ctx.fillStyle = "#FFFFFF"
                 this.ctx.textAlign = "center"

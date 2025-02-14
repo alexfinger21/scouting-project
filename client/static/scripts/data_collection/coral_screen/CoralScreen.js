@@ -8,35 +8,28 @@ export default class CoralScreen {
         this.ctx = ctx
         this.canvasSize = canvasSize
 
+        const startX = canvasSize.x * 0.27
+        const padX = canvasSize.x * 0.035
+        const startY = canvasSize.y * 0.15
+        const padY = canvasSize.y * 0.05
+
         consoleLog(images)
 
-        this.reef = new Reef({ctx, renderQueue, allianceColor, img: images.reefImage, canvasSize: this.canvasSize })
-        this.clickAreas = [
-            new ClickArea({ctx, renderQueue, value: 1, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
-                pos: {
-                    x: canvasSize.x * 0.2,
-                    y: canvasSize.y * 0.3,
-                },
-            }),
-            new ClickArea({ctx, renderQueue, value: 2, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
-                pos: {
-                    x: canvasSize.x * 0.2,
-                    y: canvasSize.y * 0.45,
-                },
-            }),
-            new ClickArea({ctx, renderQueue, value: 3, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
-                pos: {
-                    x: canvasSize.x * 0.2,
-                    y: canvasSize.y * 0.6,
-                },
-            }),
-            new ClickArea({ctx, renderQueue, value: 4, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
-                pos: {
-                    x: canvasSize.x * 0.2,
-                    y: canvasSize.y * 0.75,
-                },
-            }),
-        ]
+        this.reef = new Reef({ctx, renderQueue, allianceColor, letter: "H", images, canvasSize: this.canvasSize, pos: {
+            x: startX,
+            y: startY
+        } })
+        this.clickAreas = []
+        for(let i = 0; i < 4; i++) {
+            this.clickAreas.push(
+                new ClickArea({ctx, renderQueue, value: i, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
+                    pos: {
+                        x: startX + padX,
+                        y: startY + padY + canvasSize.y * 0.142 * i,
+                    },
+                })
+            )
+        }
     }
 
     draw() {
@@ -47,7 +40,7 @@ export default class CoralScreen {
     }
 
     onClick({x, y}) {
-        for(area of this.clickAreas) {
+        for(const area of this.clickAreas) {
             const clicked = area.onClick({x, y})
             if(clicked) {
                 for(area of this.clickAreas) {

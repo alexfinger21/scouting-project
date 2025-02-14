@@ -10,17 +10,19 @@ export default class ClickArea extends DrawableObject {
         let x = 0
         let y = 0
         let r = 0
-        const sX = Math.floor(canvasSize.x * 0.13) 
-        const sY = Math.floor(canvasSize.x * 0.13) 
+        const sX = Math.floor(canvasSize.x * 0.38) 
+        const sY = Math.floor(canvasSize.x * 0.1) 
 
         if(pos) {
             x = pos.x ?? 0
             y = pos.y ?? 0
-            r = pos.r ?? 0
+            r = pos.r ?? 90
         }
 
+        
 
-        super({ctx, img, x, y, r, sX, sY})
+
+        super({ctx, renderQueue, img, x, y, r, sX, sY, zIndex: 20000,})
         
         this.isSelected = clickable ? (isSelected ?? false) : true
 

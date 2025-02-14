@@ -210,11 +210,13 @@ function loadData() {
         robotStartPosImage.src = `./static/images/data-collection/robot-starting-pos-container.png`
         const legendButton = new Image()
         legendButton.src = `./static/images/data-collection/legend-button.png`
-        const reefImage = new Image()
-        reefImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef.png`
+        const reefLeftImage = new Image()
+        reefLeftImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef-left.png`
+        const reefRightImage = new Image()
+        reefRightImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef-right.png`
         const clickAreaImage = new Image()
         clickAreaImage.src = `./static/images/data-collection/click-area.png`
-        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, reefImage, clickAreaImage }
+        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, reefLeftImage, reefRightImage, clickAreaImage }
 
         await waitUntilImagesLoaded(Object.values(images))
 
