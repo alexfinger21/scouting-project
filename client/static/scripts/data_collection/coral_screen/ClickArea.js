@@ -19,7 +19,7 @@ export default class ClickArea extends DrawableObject {
             r = pos.r ?? 90
         }
 
-        this.highlight = new DrawableObject({ctx, x, y, sX, sY, r: 90, img: "rectangle", renderQueue})
+        //this.highlight = new DrawableObject({ctx, x, y, sX, sY, r: 90, img: "rectangle", renderQueue})
 
         super({ctx, renderQueue, img, x, y, r, sX, sY, zIndex})
         
