@@ -4,7 +4,7 @@ import { consoleLog } from "../../utility.js"
 
 
 export default class CoralScreen {
-    constructor({ctx, allianceColor, images, canvasSize, renderQueue, zIndex}) {
+    constructor({ctx, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
 
@@ -15,7 +15,7 @@ export default class CoralScreen {
 
         consoleLog(images)
 
-        this.reef = new Reef({ctx, renderQueue, allianceColor, letter: "H", images, zIndex: zIndex+2, canvasSize: this.canvasSize, pos: {
+        this.reef = new Reef({ctx, renderQueue, allianceColor, letter, images, zIndex: zIndex+2, canvasSize: this.canvasSize, pos: {
                 x: startX,
                 y: startY
             } 
