@@ -140,7 +140,7 @@ function executeQuery(sql, callback=false) {
                     res(callback(null, results))
                 }
                 else {
-                    console.log(res([null, results]))
+                    res([null, results])
                 }
             }
         })

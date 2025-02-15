@@ -54,6 +54,7 @@ export default class Legend extends DrawableObject {
         this.ctx.fillStyle = "white"
         this.ctx.textAlign = "left"
         this.ctx.font = `${fontSize*this.dpr}px Arial`
+
         for(let i = 0; i < text.length; i++) {
             this.ctx.fillText(text[i], (x + padX)*this.dpr, (y + (fontSize+padY) * (i+1))*this.dpr)
         }
