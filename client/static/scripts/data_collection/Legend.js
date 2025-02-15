@@ -8,19 +8,19 @@ export default class Legend extends DrawableObject {
     */
    
     constructor({ctx, img, renderQueue, canvasSize, text}) {
-        const x = canvasSize.x * 0.87
-        const y = canvasSize.y * 0.05
+        const x = canvasSize.x * 0.86
+        const y = canvasSize.y * 0.10
 
-        super({ctx, renderQueue, img, x, y, r: 90, sX: Math.floor(canvasSize.y * 0.09), sY: Math.floor(canvasSize.y*0.09)})
+        super({ctx, renderQueue, img, x, y, r: 90, sX: Math.floor(canvasSize.y * 0.11), sY: Math.floor(canvasSize.y*0.11), zIndex: Infinity})
+
         this.isSelected = false
         this.text = text
-        this.x = x
-        this.y = y
         this.canvasSize = canvasSize
     }
 
     onClick({ x, y }) {
         if (super.inBoundingBox({ x, y })) {
+            consoleLog("pressed legend")
             this.isSelected = !this.isSelected
             return true
         }
@@ -29,11 +29,11 @@ export default class Legend extends DrawableObject {
 
     #getMaxLen(text) {
         let maxLen = 0
+
         text.forEach((line) => {
-            if(line.length > maxLen) {
-                maxLen = line.length
-            }
+            maxLen = Math.max(line.length, maxLen)
         })
+
         return maxLen
     }
 
@@ -45,17 +45,17 @@ export default class Legend extends DrawableObject {
         const padY = 10
         const padX = 15
         const width = this.canvasSize.x * 0.8
-        const x = this.x - width - padX
+        const x = this.x - width 
         const y = this.y
         const fontSize = Math.floor(width/this.#getMaxLen(text) * 2.1)
         const height = text.length * (fontSize + padY) + padY*2
         this.ctx.fillStyle = "rgba(0,0,0,0.8)"
-        this.ctx.fillRect(x, y, width, height)
+        this.ctx.fillRect(x*this.dpr, y*this.dpr, width*this.dpr, height*this.dpr)
         this.ctx.fillStyle = "white"
         this.ctx.textAlign = "left"
         this.ctx.font = `${fontSize}px Arial`
         for(let i = 0; i < text.length; i++) {
-            this.ctx.fillText(text[i], x + padX, y + (fontSize+padY) * (i+1))
+            this.ctx.fillText(text[i], (x + padX)*this.dpr, (y + (fontSize+padY) * (i+1))*this.dpr)
         }
 
         this.ctx.restore()
@@ -63,8 +63,13 @@ export default class Legend extends DrawableObject {
 
     draw() {
         super.draw()
-        if(this.isSelected) {
+    }
+
+    render() {
+        super.render()
+        if (this.isSelected) {
             this.#drawTextBox()
         }
+
     }
 }
