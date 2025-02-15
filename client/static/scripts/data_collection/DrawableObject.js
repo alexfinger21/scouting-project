@@ -1,7 +1,7 @@
 import { consoleLog } from "../utility.js"
 
 export default class DrawableObject {
-    constructor({ctx, x, y, sX, sY, r, img, text, renderQueue, radius, visible = true, zIndex = 0}) {
+    constructor({ctx, x, y, sX, sY, r, img, text, textSize, renderQueue, radius, visible = true, zIndex = 0}) {
         this.dpr = window.devicePixelRatio
         // dpr to increase render resolution
 
@@ -14,6 +14,7 @@ export default class DrawableObject {
         this.img = img        
         this.ctx = ctx
         this.zIndex = zIndex
+        this.textSize = textSize
 
         if (text) {
             this.text = text
@@ -88,7 +89,7 @@ export default class DrawableObject {
                 this.ctx.translate(0, this.radius*this.dpr/3)
                 this.ctx.fillStyle = "#FFFFFF"
                 this.ctx.textAlign = "center"
-                this.ctx.font = "20px 'Rubik', sans-serif"
+                this.ctx.font = `${this.textSize ?? 20}px 'Rubik', sans-serif`
                 this.ctx.fillText(this.text, 0, 0)
             } else {
                 this.rotate()
