@@ -14,7 +14,7 @@ export default class PiecesMap {
         if (isAuton) {
             const dist = canvasSize.x * 0.25
             const startAng = Math.PI/11
-            const ctr = [canvasSize.x * 0.54, canvasSize.y * 0.45]
+            const ctr = [canvasSize.x * 0.56, canvasSize.y * 0.47]
             for (let i = 0; i < 12; ++i) {
                 consoleLog(ctr[0] + dist*Math.cos(Math.PI/6*i), ctr[1] + dist*Math.sin(Math.PI/6*i))
                 this.pieces.push(new GamePiece({
@@ -24,7 +24,7 @@ export default class PiecesMap {
                     img,
                     renderQueue, 
                     isSelected: false,
-                    ge_key: 123,
+                    ge_key: 125,
                     text: String.fromCharCode(65+i),
                     isBlue,
                     zIndex: 2,
