@@ -1,7 +1,7 @@
 import { consoleLog } from "../utility.js"
 
 export default class DrawableObject {
-    constructor({ctx, x, y, sX, sY, r, img, text, textSize, renderQueue, radius, visible = true, zIndex = 0}) {
+    constructor({ctx, x, y, sX, sY, r, img, text, textSize, renderQueue, radius, visible = true, zIndex = 0, opacity=1}) {
         this.dpr = window.devicePixelRatio
         // dpr to increase render resolution
 
@@ -15,6 +15,7 @@ export default class DrawableObject {
         this.ctx = ctx
         this.zIndex = zIndex
         this.textSize = textSize
+        this.opacity = opacity
 
         if (text) {
             this.text = text
@@ -73,7 +74,7 @@ export default class DrawableObject {
     render() {
         if (this.visible) {
             this.ctx.save()
-            this.ctx.globalAlpha = this.opacity ?? 1
+            this.ctx.globalAlpha = this.opacity
             //drawImage(image, dx, dy, dWidth, dHeight)
             //drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 
@@ -91,6 +92,11 @@ export default class DrawableObject {
                 this.ctx.textAlign = "center"
                 this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
                 this.ctx.fillText(this.text, 0, 0)
+            } else if (this.img == "rectangle") {
+                this.ctx.beginPath()
+                this.ctx.rect(-this.sX/2*this.dpr, -this.sY/2*this.dpr, this.sX*this.dpr, this.sY*this.dpr)
+                this.ctx.fillStyle = this.color
+                this.ctx.fill()
             } else {
                 this.rotate()
                 this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation

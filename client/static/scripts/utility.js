@@ -72,6 +72,25 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
 
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
 
+
+function getColors(color) {
+    color = color.substring(4, color.length).split(", ")
+    color[2] = color[2].substring(0, color[2].length - 1)
+
+    return color.map(e => Number(e))
+}
+
+function lerpColor(current, goal, tickDiff, changePerS) {
+    const [c1, c2, c3] = getColors(current)
+    const [g1, g2, g3] = getColors(goal)
+
+    const l1 = Math.min(1, tickDiff/1000*changePerS)
+    const l2 = Math.min(1, tickDiff/1000*changePerS)
+    const l3 = Math.min(1, tickDiff/1000*changePerS)
+
+    return `rgb(${lerp(c1, g1, isNaN(l1) ? 0 : l1)}, ${lerp(c2, g2, isNaN(l2) ? 0 : l2)}, ${lerp(c3, g3, isNaN(l3) ? 0 : l3)})`
+}
+
 //selects a random value from an array
 function getMatch() {
     return new Promise((resolve) => {
@@ -234,4 +253,4 @@ function checkPage(path) {
 
 //console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
 
-export {consoleLog, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, lerpColor, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

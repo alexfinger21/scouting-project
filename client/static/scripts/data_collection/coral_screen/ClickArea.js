@@ -19,9 +19,10 @@ export default class ClickArea extends DrawableObject {
             r = pos.r ?? 90
         }
 
-        //this.highlight = new DrawableObject({ctx, x, y, sX, sY, r: 90, img: "rectangle", renderQueue})
-
         super({ctx, renderQueue, img, x, y, r, sX, sY, zIndex})
+
+        this.highlight = new DrawableObject({ctx, renderQueue, zIndex: zIndex-0.5, x, y, sX, sY, r: 90, img: "rectangle", opacity: 0.5})
+        this.highlight.color = "rgba(255,251,126)"
         
         this.isSelected = clickable ? (isSelected ?? false) : true
 
@@ -47,5 +48,8 @@ export default class ClickArea extends DrawableObject {
 
     draw() {
         super.draw()
+        if(this.isSelected) {
+            this.highlight.draw()
+        }
     }
 }

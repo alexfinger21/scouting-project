@@ -46,8 +46,10 @@ export default class CoralScreen {
         for(const area of this.clickAreas) {
             const clicked = area.onClick({x, y})
             if(clicked) {
-                for(area of this.clickAreas) {
-                    area.setIsSelected({value: false})
+                for(const a of this.clickAreas) {
+                    if(a != area) {
+                        a.setIsSelected({value: false})
+                    }
                 }
             }
         }
