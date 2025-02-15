@@ -15,7 +15,6 @@ export const readTBA = async (url) => {
 const getAlliances = async (eventId) => {
     const rawAlliances = await readTBA(/event/$,{ eventId } / alliances);
     const alliances = rawAlliances?.map((alliance, i) => {
-        console.log(alliance)
         return {
             rank: i + 1,
             teams: alliance?.picks?.map((pick) => parseInt(pick?.slice(3))),

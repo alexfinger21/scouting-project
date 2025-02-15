@@ -24,7 +24,7 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
-        this.coralScreen = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: "H", images, canvasSize: this.canvasSize, zIndex: 10})
+        //this.coralScreen = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: "H", images, canvasSize: this.canvasSize, zIndex: 10})
         
     }
 
@@ -61,6 +61,6 @@ export default class {
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.legend.draw()
-        this.coralScreen.draw()
+        //this.coralScreen.draw()
     }
 }

@@ -89,7 +89,7 @@ export default class DrawableObject {
                 this.ctx.translate(0, this.radius*this.dpr/3)
                 this.ctx.fillStyle = "#FFFFFF"
                 this.ctx.textAlign = "center"
-                this.ctx.font = `${this.textSize ?? 20}px 'Rubik', sans-serif`
+                this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
                 this.ctx.fillText(this.text, 0, 0)
             } else {
                 this.rotate()
