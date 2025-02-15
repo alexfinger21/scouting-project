@@ -43,17 +43,17 @@ export default class Legend extends DrawableObject {
         //calculate bg height
         const text = this.text.split("\n")
         const padY = 10
-        const padX = 15
+        const padX = 5
         const width = this.canvasSize.x * 0.8
         const x = this.x - width 
         const y = this.y
-        const fontSize = Math.floor(width/this.#getMaxLen(text) * 2.1)
+        const fontSize = Math.floor(width/this.#getMaxLen(text) * 2.3)
         const height = text.length * (fontSize + padY) + padY*2
         this.ctx.fillStyle = "rgba(0,0,0,0.8)"
         this.ctx.fillRect(x*this.dpr, y*this.dpr, width*this.dpr, height*this.dpr)
         this.ctx.fillStyle = "white"
         this.ctx.textAlign = "left"
-        this.ctx.font = `${fontSize}px Arial`
+        this.ctx.font = `${fontSize*this.dpr}px Arial`
         for(let i = 0; i < text.length; i++) {
             this.ctx.fillText(text[i], (x + padX)*this.dpr, (y + (fontSize+padY) * (i+1))*this.dpr)
         }

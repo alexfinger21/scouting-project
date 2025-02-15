@@ -6,8 +6,9 @@ import Legend from "./Legend.js"
 import RenderQueue from "./RenderQueue.js"
 import CoralScreen from "./coral_screen/CoralScreen.js"
 
-const helpText = `1. Tap square to approx. start pos
-2. Orange note: picked up by robot`
+const helpText = `1. Drag robot approx. start pos
+2. Click on reef to select where and which level piece was scored
+3. add or remove steps as necessary in the action queue below`
 
 export default class {
     /*ctx: canvas.getContext('2d')
