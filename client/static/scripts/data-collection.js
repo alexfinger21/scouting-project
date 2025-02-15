@@ -189,7 +189,7 @@ function loadData() {
         const autonCanvasContainer = autonCanvas.parentElement
         const autonCanvasCTX = autonCanvas.getContext("2d")
         const teleopCanvas = document.getElementById("teleop-canvas")
-        const teleopCanvasCTX = endgameCanvas.getContext("2d")
+        const teleopCanvasCTX = teleopCanvas.getContext("2d")
 
         const endgameCanvas = document.getElementById("endgame-canvas")
         const endgameCanvasCTX = endgameCanvas.getContext("2d")

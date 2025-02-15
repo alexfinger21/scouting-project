@@ -1,9 +1,9 @@
 import { consoleLog } from "../utility.js"
 
 export default class DrawableObject {
-    constructor({ctx, x, y, sX, sY, r, img, text, renderQueue, visible = true, zIndex = 0}) {
+    constructor({ctx, x, y, sX, sY, r, img, text, renderQueue, radius, visible = true, zIndex = 0}) {
         this.dpr = window.devicePixelRatio
-        // dpr necessary to increase render resolution
+        // dpr to increase render resolution
 
         this.x = x 
         this.y = y
@@ -17,6 +17,10 @@ export default class DrawableObject {
 
         if (text) {
             this.text = text
+        }
+
+        if (radius) {
+            this.radius = radius
         }
 
         this.renderQueue = renderQueue
@@ -74,14 +78,14 @@ export default class DrawableObject {
 
             //move here, so rotation doesnt affect x and y
 
-            this.ctx.translate((this.x+this.sX/2)*this.dpr, (this.y+this.sY/2)*this.dpr)
+            this.ctx.translate((this.x+(this.sX ?? this.radius*2)/2)*this.dpr, (this.y+(this.sY ?? this.radius*2)/2)*this.dpr)
 
             if (this.img == "circle") {
                 this.ctx.beginPath()
-                this.ctx.arc(0, 0, this.radius, 0, 2 * Math.PI, false)
+                this.ctx.arc(0, 0, this.radius*this.dpr, 0, 2 * Math.PI, false)
                 this.ctx.fillStyle = this.color
                 this.ctx.fill()
-                this.ctx.translate(0, this.radius/3)
+                this.ctx.translate(0, this.radius*this.dpr/3)
                 this.ctx.fillStyle = "#FFFFFF"
                 this.ctx.textAlign = "center"
                 this.ctx.font = "20px 'Rubik', sans-serif"

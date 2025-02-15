@@ -6,7 +6,7 @@ export default class ClickArea extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, clickable, value, img, renderQueue, containerImg, isSelected, canvasSize, pos}) {
+    constructor({ctx, clickable, value, img, renderQueue, containerImg, isSelected, canvasSize, pos, zIndex}) {
         let x = 0
         let y = 0
         let r = 0
@@ -22,7 +22,7 @@ export default class ClickArea extends DrawableObject {
         
 
 
-        super({ctx, renderQueue, img, x, y, r, sX, sY, zIndex: 20000,})
+        super({ctx, renderQueue, img, x, y, r, sX, sY, zIndex})
         
         this.isSelected = clickable ? (isSelected ?? false) : true
 

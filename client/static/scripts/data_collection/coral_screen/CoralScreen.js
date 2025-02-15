@@ -4,7 +4,7 @@ import { consoleLog } from "../../utility.js"
 
 
 export default class CoralScreen {
-    constructor({ctx, allianceColor, images, canvasSize, renderQueue}) {
+    constructor({ctx, allianceColor, images, canvasSize, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
 
@@ -15,14 +15,17 @@ export default class CoralScreen {
 
         consoleLog(images)
 
-        this.reef = new Reef({ctx, renderQueue, allianceColor, letter: "H", images, canvasSize: this.canvasSize, pos: {
-            x: startX,
-            y: startY
-        } })
+        this.reef = new Reef({ctx, renderQueue, allianceColor, letter: "H", images, zIndex: zIndex+2, canvasSize: this.canvasSize, pos: {
+                x: startX,
+                y: startY
+            } 
+        })
+
         this.clickAreas = []
+
         for(let i = 0; i < 4; i++) {
             this.clickAreas.push(
-                new ClickArea({ctx, renderQueue, value: i, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
+                new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: i, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
                     pos: {
                         x: startX + padX,
                         y: startY + padY + canvasSize.y * 0.142 * i,
