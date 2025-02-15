@@ -1,6 +1,7 @@
 import Reef from "./Reef.js"
 import ClickArea from "./ClickArea.js"
 import { consoleLog } from "../../utility.js"
+import ProceedBtn from "./ProceedBtn.js"
 
 
 export default class CoralScreen {
@@ -14,6 +15,8 @@ export default class CoralScreen {
         const padY = canvasSize.y * 0.05
 
         consoleLog(images)
+
+        this.proceedBtn = new ProceedBtn({x: canvasSize.x * 0.5, y: canvasSize.y * 0.5, sX: canvasSize.x * 0.5, sY: (canvasSize.x * 0.5)*76/368, zIndex: zIndex+4, imgs: images})
 
         this.reef = new Reef({ctx, renderQueue, allianceColor, letter, images, zIndex: zIndex+2, canvasSize: this.canvasSize, pos: {
                 x: startX,
