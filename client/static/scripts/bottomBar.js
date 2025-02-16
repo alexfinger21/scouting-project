@@ -1,4 +1,4 @@
-import {requestPage, paths, consoleLog, waitForElem} from "./utility.js"
+import {requestPage, paths, consoleLog} from "./utility.js"
 
 let globalPos = 0
 let selectedObj = document.getElementById("match-listing-btn")
@@ -16,6 +16,7 @@ function hideHighlight(btn) {
 function lerp(start, goal, percent) {
     return (goal-start)*percent + start
 }
+
 
 function moveToPage(ogPos, pos, btn) {
 
@@ -69,7 +70,7 @@ function setSelectedObject(value) {
     selectedObj = value
 }
 
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
     requestPage(paths.matchListing)
    
     selectedObj = document.getElementById("match-listing-btn")
@@ -94,15 +95,15 @@ window.addEventListener("load", async () => {
     let buttonUrls = []
     
     footerPageButtons.forEach((btn, index) => {
-        buttonUrls[btn.getAttribute("page")] = btn.getAttribute("page").replace(" ", "-").toLowerCase()
+        buttonUrls[btn.children[1].textContent] = btn.children[1].textContent.replaceAll(" ", "-").toLowerCase()
         
         btn.addEventListener("click", event => {
             if (!bottomBarDebounce) {
 
                 consoleLog("SET SelectedObj", btn)
                 bottomBarDebounce = true
-                consoleLog(buttonUrls[btn.getAttribute("page")])
-                requestPage("/" + buttonUrls[btn.getAttribute("page")], {})
+                consoleLog(buttonUrls[btn.children[1].textContent])
+                requestPage("/" + buttonUrls[btn.children[1].textContent], {})
                 moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
                 selectedObj = btn
 
@@ -111,34 +112,50 @@ window.addEventListener("load", async () => {
         })
     })  
 
-    const allianceSelectorButton = await waitForElem("#alliance-selector-button")
+    const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {
         requestPage(paths.allianceSelector)
         hideHighlight(hoverButton)
     })
 
-    const teamDetailsButton = await waitForElem("#team-details-button")
+    const teamDetailsButton = document.getElementById("team-details-button")
     teamDetailsButton.addEventListener("click", () =>  {
         requestPage(paths.teamDetails)
         hideHighlight(hoverButton)
     })
-
-    const adminPageButton = await waitForElem("#admin-page-button")
-    consoleLog(adminPageButton)
-    adminPageButton.addEventListener("click", () =>  {
-        requestPage(paths.adminPage)
+    
+    const pitScoutingButton = document.getElementById("pit-scouting-button")
+    pitScoutingButton.addEventListener("click", () =>  {
+        requestPage(paths.pitScouting)
         hideHighlight(hoverButton)
     })
+    const adminPageButton = document.getElementById("admin-page-button")
+    if (adminPageButton) {
+        adminPageButton.addEventListener("click", () =>  {
+            requestPage(paths.adminPage)
+            hideHighlight(hoverButton)
+        })
 
-    const matchVerifyButton = await waitForElem("#match-verify-button")
-    matchVerifyButton.addEventListener("click", () =>  {
-        requestPage(paths.matchVerify)
-        hideHighlight(hoverButton)
-    })
+        const matchVerifyButton = document.getElementById("match-verify-button")
+        matchVerifyButton.addEventListener("click", () =>  {
+            requestPage(paths.matchVerify)
+            hideHighlight(hoverButton)
+        })
 
-    const allianceInputButton = await waitForElem("#alliance-input-button")
-    allianceInputButton.addEventListener("click", () =>  {
-        requestPage(paths.allianceInput)
+        const allianceInputButton = document.getElementById("alliance-input-button")
+        allianceInputButton.addEventListener("click", () =>  {
+            requestPage(paths.allianceInput)
+            hideHighlight(hoverButton)
+        })
+    }
+
+    
+
+    const dataAccuracyButton = document.getElementById("data-accuracy-button")
+    consoleLog("got here")
+    dataAccuracyButton.addEventListener("click", () =>  {
+        requestPage(paths.dataAccuracy)
+        consoleLog("here clicked", paths.dataAccuracy)
         hideHighlight(hoverButton)
     })
     
