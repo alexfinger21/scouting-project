@@ -32,30 +32,6 @@ export default class RobotMap {
     }
 
     onClick({ x, y }) {
-        const startPositions = this.startPositions
-        startPositions.forEach(function (robot) {
-            const clicked = robot.onClick({ x, y })
-            if (clicked) { //unselect other startPositions robots
-                startPositions.forEach(function (otherRobot) {
-                    if (otherRobot !== robot) {
-                        otherRobot.setIsSelected({ value: false })
-                    }
-                })
-            }
-        })
-
-        const bargePositions = this.bargePositions
-
-        bargePositions.forEach(function (robot) {
-            const clicked = robot.onClick({ x, y })
-            if (clicked) { //unselect other startPositions robots
-                bargePositions.forEach(function (otherRobot) {
-                    if (otherRobot !== robot) {
-                        otherRobot.setIsSelected({ value: false })
-                    }
-                })
-            }
-        })
     }
 
     onMouseDown({ x, y }) {

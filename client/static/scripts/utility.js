@@ -84,11 +84,10 @@ function lerpColor(current, goal, tickDiff, changePerS) {
     const [c1, c2, c3] = getColors(current)
     const [g1, g2, g3] = getColors(goal)
 
-    const l1 = Math.min(1, tickDiff/1000*changePerS)
-    const l2 = Math.min(1, tickDiff/1000*changePerS)
-    const l3 = Math.min(1, tickDiff/1000*changePerS)
+    const l = Math.min(1, tickDiff/1000*changePerS)
+    consoleLog(l)
 
-    return `rgb(${lerp(c1, g1, isNaN(l1) ? 0 : l1)}, ${lerp(c2, g2, isNaN(l2) ? 0 : l2)}, ${lerp(c3, g3, isNaN(l3) ? 0 : l3)})`
+    return `rgb(${lerp(c1, g1, isNaN(l) ? 0 : l)}, ${lerp(c2, g2, isNaN(l) ? 0 : l)}, ${lerp(c3, g3, isNaN(l) ? 0 : l)})`
 }
 
 function lerpOpacity(current, goal, tickDiff, changePerS) {

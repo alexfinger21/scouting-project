@@ -24,16 +24,28 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
-        this.coralScreen = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: "H", images, canvasSize: this.canvasSize, zIndex: 10})
+        this.coralScreens = {}
+
+        for (let i = 0; i<12; ++i) {
+            this.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), images, canvasSize: this.canvasSize, zIndex: 10})
+        }
         
     }
 
     onClick({ x, y }) {
         // Collision detection between clicked offset and element.
-        this.clickable.pieces.onClick({x, y})
-        this.clickable.robots.onClick({x, y})
-        this.legend.onClick({x, y})
-        this.coralScreen.onClick({x, y})
+        
+        const menuOpen = Object.values(this.coralScreens).find(e => e.isSelected)
+        if (!menuOpen) {
+            this.clickable.robots.onClick({x, y})
+            this.legend.onClick({x, y})
+            const cRes = this.clickable.pieces.onClick({x, y})
+            if (cRes) {
+                this.coralScreens[cRes.text].isSelected = true
+            }
+        } else {
+            Object.values(this.coralScreens).forEach(e => e.onClick({x, y}))
+        }
     }
 
     onMouseDown({ x, y }) {
@@ -61,6 +73,13 @@ export default class {
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.legend.draw()
-        this.coralScreen.draw()
+        Object.values(this.coralScreens).forEach(e => {
+            e.draw()
+            const ltr = this.clickable.pieces.pieces.find(p => p.text == e.letter)
+            if (ltr.isSelected != e.isSelected) {
+                ltr.lastTick = Date.now()
+                ltr.isSelected = e.isSelected
+            }
+        })
     }
 }

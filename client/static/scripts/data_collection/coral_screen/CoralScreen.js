@@ -8,7 +8,8 @@ export default class CoralScreen {
     constructor({ctx, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
-        this.isSelected = true
+        this.isSelected = false
+        this.letter = letter
 
         const startX = canvasSize.x * 0.27
         const padX = canvasSize.x * 0.035
@@ -59,19 +60,21 @@ export default class CoralScreen {
     }
 
     onClick({x, y}) {
-        for(const area of this.clickAreas) {
-            const clicked = area.onClick({x, y})
-            if(clicked) {
-                for(const a of this.clickAreas) {
-                    if(a != area) {
-                        a.setIsSelected({value: false})
+        if (this.isSelected) {
+            for(const area of this.clickAreas) {
+                const clicked = area.onClick({x, y})
+                if(clicked) {
+                    for(const a of this.clickAreas) {
+                        if(a != area) {
+                            a.setIsSelected({value: false})
+                        }
                     }
                 }
             }
-        }
-        
-        if (this.proceedBtn.onClick({x, y})) {
-            this.isSelected = false 
+            
+            if (this.proceedBtn.onClick({x, y})) {
+                this.isSelected = false 
+            }
         }
     }
 }

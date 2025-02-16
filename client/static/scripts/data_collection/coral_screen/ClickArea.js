@@ -83,7 +83,7 @@ export default class ClickArea extends DrawableObject {
             Date.now() - this.lastTick,
             changePerS
         )
-        consoleLog(this.value,this.highlight.color)
+
         this.highlight.color = lerpColor(this.highlight.color,
             getColor(this.value),
             Date.now() - this.lastTick,

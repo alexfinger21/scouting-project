@@ -40,8 +40,11 @@ export default class GamePiece extends DrawableObject {
     onClick({ x, y }) {
         if (super.inBoundingRadius({ x, y })) {
             this.lastTick = Date.now()
-            this.isSelected = !this.isSelected
+            this.isSelected = true
+            consoleLog(this)
+            return true
         }
+        return false
     }
 
     draw() {

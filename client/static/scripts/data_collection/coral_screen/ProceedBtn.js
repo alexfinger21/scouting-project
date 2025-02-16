@@ -44,7 +44,6 @@ export default class ProceedBtn extends DrawableObject {
     render() {
         this.ctx.save()
         this.ctx.globalAlpha = this.opacity
-        consoleLog(this.isSelected)
         //drawImage(image, dx, dy, dWidth, dHeight)
         //drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 

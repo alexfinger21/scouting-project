@@ -16,7 +16,6 @@ export default class PiecesMap {
             const startAng = Math.PI/11
             const ctr = [canvasSize.x * 0.56, canvasSize.y * 0.47]
             for (let i = 0; i < 12; ++i) {
-                consoleLog(ctr[0] + dist*Math.cos(Math.PI/6*i), ctr[1] + dist*Math.sin(Math.PI/6*i))
                 this.pieces.push(new GamePiece({
                     x: ctr[0] + dist*Math.cos(startAng - Math.PI/6*i),
                     y: ctr[1] + dist*Math.sin(startAng - Math.PI/6*i),
@@ -80,9 +79,14 @@ export default class PiecesMap {
     }
 
     onClick({ x, y }) {
+        let res = null
         this.pieces.forEach(function(piece) {
-            piece.onClick({ x, y })
+            if (!res && piece.onClick({ x, y })) {
+                res = piece
+            }
         })
+
+        return res ?? false
     }
 
     sendData() {
