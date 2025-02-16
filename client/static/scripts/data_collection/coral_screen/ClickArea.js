@@ -58,7 +58,7 @@ export default class ClickArea extends DrawableObject {
             Date.now() - this.lastTick,
             changePerS
         )
-        console.log(this.highlight.opacity)
+        console.log(this.highlight.opacity) 
         super.draw()
         this.highlight.draw()
     }
