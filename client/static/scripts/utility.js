@@ -85,7 +85,6 @@ function lerpColor(current, goal, tickDiff, changePerS) {
     const [g1, g2, g3] = getColors(goal)
 
     const l = Math.min(1, tickDiff/1000*changePerS)
-    consoleLog(l)
 
     return `rgb(${lerp(c1, g1, isNaN(l) ? 0 : l)}, ${lerp(c2, g2, isNaN(l) ? 0 : l)}, ${lerp(c3, g3, isNaN(l) ? 0 : l)})`
 }
