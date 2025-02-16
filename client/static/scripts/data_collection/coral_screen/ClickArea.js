@@ -25,7 +25,7 @@ export default class ClickArea extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, value, img, renderQueue, containerImg, isSelected, canvasSize, pos, zIndex}) {
+    constructor({ctx, value, img, renderQueue, idx, scored = 0, missed = 0, containerImg, isSelected, canvasSize, pos, zIndex}) {
         let x = 0
         let y = 0
         let r = 0
@@ -46,7 +46,10 @@ export default class ClickArea extends DrawableObject {
         this.highlight = new DrawableObject({ctx, renderQueue, zIndex: zIndex-0.5, x, y, sX, sY, r: 90, img: "rectangle", opacity: 0.5})
         this.highlight.color = getColor(this.value)
         
-
+        this.idx = idx
+        this.scored = scored
+        this.missed = missed
+    
         this.renderQueue = renderQueue
 
         this.highlight.opacity = this.value ? 0 : .5
@@ -63,6 +66,12 @@ export default class ClickArea extends DrawableObject {
         return false
     }
 
+    sendData() {
+        return {
+            missed: this.missed,
+            scored: this.scored,
+        }
+    }
 
     setValue({value}) {
         this.value = Math.min(value, maxValue)

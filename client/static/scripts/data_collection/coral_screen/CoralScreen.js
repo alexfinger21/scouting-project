@@ -8,6 +8,7 @@ export default class CoralScreen {
     constructor({ctx, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
+        this.isSelected = true
 
         const startX = canvasSize.x * 0.27
         const padX = canvasSize.x * 0.035
@@ -26,7 +27,7 @@ export default class CoralScreen {
 
         for(let i = 0; i < 4; i++) {
             this.clickAreas.push(
-                new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: 0, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
+                new ClickArea({ctx, zIndex: zIndex+3, renderQueue, idx: i, scored: false, missing: 0, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
                     pos: {
                         x: startX + padX,
                         y: startY + padY + canvasSize.y * 0.142 * i,
@@ -37,15 +38,24 @@ export default class CoralScreen {
     }
 
     draw() {
-        this.reef.draw()
-        this.proceedBtn.draw()
-        for(const clickArea of this.clickAreas) {
-            clickArea.draw()
+        if (this.isSelected) {
+            this.reef.draw()
+            this.proceedBtn.draw()
+            for(const clickArea of this.clickAreas) {
+                clickArea.draw()
+            }
         }
     }
 
     sendData() {
+        const res = {}
 
+        res["L4"] = this.clickAreas[0].sendData()
+        res["L3"] = this.clickAreas[1].sendData()
+        res["L2"] = this.clickAreas[2].sendData()
+        res["L1"] = this.clickAreas[3].sendData()
+
+        return res
     }
 
     onClick({x, y}) {
@@ -61,7 +71,7 @@ export default class CoralScreen {
         }
         
         if (this.proceedBtn.onClick({x, y})) {
-            
+            this.isSelected = false 
         }
     }
 }
