@@ -2,13 +2,13 @@ import Reef from "./Reef.js"
 import ClickArea from "./ClickArea.js"
 import { consoleLog } from "../../utility.js"
 import ProceedBtn from "./ProceedBtn.js"
+import DrawableObject from "../DrawableObject.js"
 
 
 export default class CoralScreen {
     constructor({ctx, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
-        this.isSelected = false
         this.letter = letter
 
         const startX = canvasSize.x * 0.27
@@ -25,26 +25,34 @@ export default class CoralScreen {
         })
 
         this.clickAreas = []
+        this.scoreIndicators = []
+        this.data = [[0,0],[0,0],[0,0],[0,0]]
 
         for(let i = 0; i < 4; i++) {
-            this.clickAreas.push(
-                new ClickArea({ctx, zIndex: zIndex+3, renderQueue, idx: i, scored: false, missing: 0, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
-                    pos: {
-                        x: startX + padX,
-                        y: startY + padY + canvasSize.y * 0.142 * i,
-                    },
-                })
-            )
+            const cA = new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: 0, img: images.clickAreaImage, canvasSize: this.canvasSize,
+                pos: {
+                    x: startX + padX,
+                    y: startY + padY + canvasSize.y * 0.142 * i,
+                },
+            })
+            this.clickAreas.push(cA)
+            const sI = new DrawableObject({ctx, sX: 1, sY: 1, img: "text", text: `${this.data[i][0]}/${this.data[i][1]}`, textSize: canvasSize.x * 0.04, renderQueue, zIndex: 9999999,
+                x: startX + padX + cA.sX + canvasSize.x * 0.05,
+                y: startY + padY + canvasSize.y * 0.142 * i + canvasSize.x * 0.06,
+            })
+            sI.color = allianceColor == "B" ? "rgb(59, 134, 205)" : "rgb(255, 43, 43)"
+            this.scoreIndicators.push(sI)
         }
     }
 
     draw() {
-        if (this.isSelected) {
-            this.reef.draw()
-            this.proceedBtn.draw()
-            for(const clickArea of this.clickAreas) {
-                clickArea.draw()
-            }
+        this.reef.draw()
+        this.proceedBtn.draw()
+        for(const clickArea of this.clickAreas) {
+            clickArea.draw()
+        }
+        for(const sI of this.scoreIndicators) {
+            sI.draw()
         }
     }
 
@@ -66,14 +74,23 @@ export default class CoralScreen {
                 if(clicked) {
                     for(const a of this.clickAreas) {
                         if(a != area) {
-                            a.setIsSelected({value: false})
+                            a.setValue({value: 0})
                         }
                     }
                 }
             }
             
             if (this.proceedBtn.onClick({x, y})) {
-                this.isSelected = false 
+                for(let i = 0; i < 4; i++) {
+                    const a = this.clickAreas[i]
+                    if(a.value == 1) {
+                        this.data[i][0]++
+                    }
+                    if(a.value == 2) {
+                        this.data[i][1]++
+                    }
+                    a.setValue({value: 0})
+                }
             }
         }
     }

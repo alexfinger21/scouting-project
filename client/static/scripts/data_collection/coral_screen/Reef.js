@@ -4,7 +4,7 @@ import Letter from "./Letter.js"
 export default class Reef extends DrawableObject {
     constructor({ctx, allianceColor, renderQueue, images, letter, canvasSize, pos, visible = true, zIndex}) {
         const ch = letter.charCodeAt(0)
-        super({ctx, renderQueue, zIndex, img: (ch % 2) ? images.reefLeftImage : images.reefRightImage, x: pos.x, y: pos.y, r: 90, sX: canvasSize.x / 2.2, sY: canvasSize.x / 2.2 * 1.34260869565, visible})
+        super({ctx, renderQueue, zIndex, img: (ch % 2) ? images.reefLeftImage : images.reefRightImage, x: pos.x, y: pos.y, r: 90, sX: canvasSize.x / 1.84, sY: canvasSize.x / 1.84 * 1.111, visible})
         this.letters = []
         let idx = 0
         let leftAligned = (ch % 2)

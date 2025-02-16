@@ -61,7 +61,7 @@ export default class DrawableObject {
         const y = Math.sin(a) * 1/2 * this.sY*this.dpr + Math.sin(Math.PI/2 - a) * 1/2 * this.sX*this.dpr
 
         if (a == Math.PI/4) {
-            consoleLog(x, y)
+            //consoleLog(x, y)
         }
         this.ctx.translate(x, -y)
         this.ctx.rotate(-a + Math.PI/2) //add rotation
@@ -89,6 +89,11 @@ export default class DrawableObject {
                 this.ctx.fill()
                 this.ctx.translate(0, this.radius*this.dpr/3)
                 this.ctx.fillStyle = "#FFFFFF"
+                this.ctx.textAlign = "center"
+                this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
+                this.ctx.fillText(this.text, 0, 0)
+            } else if(this.img == "text") {
+                this.ctx.fillStyle = this.color
                 this.ctx.textAlign = "center"
                 this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
                 this.ctx.fillText(this.text, 0, 0)
