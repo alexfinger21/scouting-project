@@ -28,7 +28,7 @@ export default class CoralScreen {
 
         for(let i = 0; i < 4; i++) {
             this.clickAreas.push(
-                new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: i, clickable: true, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
+                new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: 0, isSelected: false, img: images.clickAreaImage, canvasSize: this.canvasSize,
                     pos: {
                         x: startX + padX,
                         y: startY + padY + canvasSize.y * 0.142 * i,
