@@ -1,75 +1,145 @@
+/* Wrapper for the chart area */
 #accuracy-chart-area-wrapper {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     display: flex;
     align-items: center;
-    overflow-y: scroll;
+    justify-content: center; /* This will center the content horizontally */
+    overflow-y: auto; /* Changed to auto to allow scrolling when necessary */
     overflow-x: hidden;
     transition: all 0.3s ease-in-out;
+    flex-direction: column; /* Changed to column to allow stacking of header and graph */
+    padding: 20px;
 }
- #accuracy-graph-holder {
-    margin-top: 1.5vh;
+
+/* Holder for the accuracy graph */
+#accuracy-graph-holder {
+    margin-top: 0.5vh;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     align-items: center;
+    justify-content: center; /* Center content horizontally */
     flex-direction: row;
-    height: 80vh;
-    width: 100vw;
+    height: 70vh;
+    width: 100%;
     background-color: #FFF;
-    /* box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px; */
     overflow: auto;
 }
-#first-header {
-    font-size: 2rem; /* Adjust the size as necessary */
-    font-weight: bold;
-    margin-bottom: 400px; /*Space between the header and the graphs */
-    /* margin-top: 0px; */
-    padding-top: 0px;
-    vertical-align: top;    
-    text-align:center;
-}
-/* *{
-    padding: 0;
-    margin: 0;
-    font-family: monospace;
-} */
-ul {
-    list-style: none;
-    background: #22438C;
-    padding: 0;
-    margin: 0;
-}
-ul li {
-    display: inline-block;
-    position: relative;
-}
-ul li a {
-    display: block;
-    padding: 20px 200px;
-    color: #FFF;
-    text-decoration: none;
-    text-align: center;
-    font-size: 20px;
-}
-ul li ul.dropdown li {
-    display: block;
-}
-ul li ul.dropdown {
+
+/* Style the header and dropdown container */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    background: #22438C;
+    margin-bottom: 0px;
+}
+
+/* Style the select box */
+#DataAccuracyDropdown {
+    background-color: #f4f4f9;
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    padding: 10px 40px 10px 12px; /* Padding on the left for space to show custom arrow */
+    font-size: 16px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    width: 200px; /* Default width */
+}
+
+/* Add a custom arrow */
+#DataAccuracyDropdown::after {
+    content: '▼';
     position: absolute;
-    z-index: 999;
-    display: none;
-}
-ul li a:hover {
-    background: #112C66;
-}
-ul li:hover ul.dropdown {
-    display: block;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 14px;
 }
 
-/* #chart1{
+/* Hover effect */
+#DataAccuracyDropdown:hover {
+    border-color: #666;
+    background-color: #e0e0e0;
+}
 
-} */
+/* Focus effect */
+#DataAccuracyDropdown:focus {
+    outline: none;
+    border-color: #3a3a3a;
+    box-shadow: 0 0 5px rgba(58, 58, 58, 0.5);
+}
+
+/* Style options inside the select */
+#DataAccuracyDropdown option {
+    background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Optional: Style the selected option */
+#DataAccuracyDropdown option:checked {
+    background-color: #88cc88;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For small screens, adjust the layout */
+@media (max-width: 600px) {
+    #accuracy-chart-area-wrapper {
+        width: 100%;  /* Ensure full width on small devices */
+        height: 100%;
+        flex-direction: column;  /* Stack header and graph vertically */
+        padding: 10px; /* Reduce padding */
+    }
+
+    #accuracy-graph-holder {
+        height: 50vh; /* Reduce graph height */
+        width: 100%;
+    }
+
+    #DataAccuracyDropdown {
+        width: 100%; /* Make the dropdown full-width on smaller screens */
+        font-size: 14px;  /* Smaller font for smaller screens */
+    }
+}
+
+/* For medium screens (tablets) */
+@media (max-width: 1024px) {
+    #accuracy-chart-area-wrapper {
+        width: 95%;
+        height: 95%;
+        flex-direction: column;  /* Stack header and graph vertically */
+    }
+
+    #accuracy-graph-holder {
+        height: 60vh;  /* Slightly reduced height */
+    }
+
+    #DataAccuracyDropdown {
+        width: 50%; /* Dropdown takes half width on medium screens */
+    }
+}
+
+/* For larger screens (desktop) */
+@media (min-width: 1025px) {
+    #accuracy-chart-area-wrapper {
+        width: 90%;
+        height: 90%;
+        flex-direction: row;  /* Stack header and graph horizontally */
+    }
+
+    #accuracy-graph-holder {
+        height: 80vh;  /* Default graph height */
+    }
+
+    #DataAccuracyDropdown {
+        width: 260px;  /* Default width for dropdown */
+    }
+}

@@ -9,31 +9,18 @@
 <body>
     <div id="page-holder">
         <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-        <button id="test-button" type="button">Click Me!</button>
-        <label for="dropdown">Choose an option:</label>
-        <select id="dropdown">
-            <option value="autoAmpNoteCount">"teleopAmpNoteCount"</option>
-            <option value="teleopSpeakerNoteCount">"teleopSpeakerNoteCount"</option>
-            <option value="autoSpeakerNoteCount">"autoSpeakerNoteCount"</option>
-            <option value="autoAmpNoteCount">"autoAmpNoteCount"</option>
-        </select>
-
-        <!-- <ul>
-            <li>
-                <a href="#">Scoring Type</a>
-                <ul class="dropdown">
-                    <li><a href="a" data-value="autoAmpNoteCount">"teleopAmpNoteCount"</a></li>
-                    <li><a href="b" data-value="teleopSpeakerNoteCount">"teleopSpeakerNoteCount"</a></li>
-                    <li><a href="c" data-value="autoSpeakerNoteCount">"autoSpeakerNoteCount"</a></li>
-                    <li><a href="d" data-value="autoAmpNoteCount">"autoAmpNoteCount"</a></li>
-                </ul>
-            </li>
-        </ul>         -->
+        <div class="header-container">
+            <select id="DataAccuracyDropdown">
+                <option value="teleopAmpNoteCount">Teleop Amp Note Count</option>
+                <option value="teleopSpeakerNoteCount">Teleop Speaker Note Count</option>
+                <option value="autoSpeakerNoteCount">Auto Speaker Note Count</option>
+                <option value="autoAmpNoteCount">Auto Amp Note Count</option>
+            </select>
+        </div>
         
 
         <div id="accuracy-graph-holder">
             <div id="accuracy-chart-area-wrapper">
-                <h1 id="first-header"></h1>
                 <canvas id="chart1"></canvas>
                 <canvas id="chart2"></canvas>
             </div>

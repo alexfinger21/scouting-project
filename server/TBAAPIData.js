@@ -12,7 +12,6 @@ const database = require("./database/database.js")
 const matchList = {
     "method": "GET",
     "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches',
-   // "url":  'https://www.thebluealliance.com/api/v3/event/2024ohcl/matches',
     'headers': {
         'X-TBA-Auth-Key': auth,
        'If-Modified-Since': ''

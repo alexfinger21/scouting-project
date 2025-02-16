@@ -41,9 +41,10 @@ function backEndData() {
 
 /*work in progress*/
 
-function calculateRegression (data) {
+function calculateRegression(data) {
     const n = data.length;
     let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+
     data.forEach(point => {
         sumX += point.x;
         sumY += point.y;
@@ -51,46 +52,55 @@ function calculateRegression (data) {
         sumX2 += point.x * point.x;
     });
 
-    const b = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-    const a = (sumY - b * sumX) / n;
-    return {a, b};
-};
-const regressionLine = (data) => {
-    const {a, b} = calculateRegression(data.datasets[0].data);
-    const xValues = data.datasets[0].data.map(point => point.x);
-    const minX = Math.min(...xValues);
-    const maxX = Math.max(...xValues);
+    const m = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX); // slope
+    const b = (sumY - m * sumX) / n; // y-intercept
+    return { m, b };
+}
 
-    return {
-        label: 'Regression Line',
-        data: [{x: minX, y: a + b * minX}, {x: maxX, y: a + b * maxX}],
-        type: 'line',
-        borderColor: 'red',
-        borderWidth: 2,
-        pointRadius: 0,
-        
+function generateRegressionLine(data, m, b, minX, maxX) {
+    const regressionData = [];
+    const step = (maxX - minX) / 100;  // Create more points for smooth line
+
+    for (let x = minX; x <= maxX; x += step) {
+        const y = m * x + b;  // y = mx + b
+        regressionData.push({ x, y });
     }
+
+    return regressionData;
+}
+
+function getRegressionData (data, maxht) {
+    let {m, b} = calculateRegression(data)
+    let regData = generateRegressionLine(data, m, b, 0, maxht)
+    return regData
 }
 
 function drawCharts(data, selectedValue) {
     const ctx = document.getElementById("chart1")
     const ctx2 = document.getElementById("chart2")
-    const h1 = document.getElementById("first-header")
-
-    h1.textContent = selectedValue  
-    const somedata = []
-    const somedataBlue = []
-    let maxht = 18
+    
+    const somedataR = []
+    const somedataB = []
+    let maxhtR = 0
+    let maxhtB = 0
 
 
     //consoleLog(selectedValue)
     for(let i = 1; i <= Object.keys(data).length; i++)
     {
-        somedata.push({x:data[i].red.matchStats[selectedValue].TBA,
+        somedataR.push({x:data[i].red.matchStats[selectedValue].TBA,
             y: data[i].red.matchStats[selectedValue].DB})
-        somedataBlue.push({x:data[i].blue.matchStats.teleopSpeakerNoteCount.TBA,
-            y: data[i].blue.matchStats.teleopSpeakerNoteCount.DB})
+        somedataB.push({x:data[i].blue.matchStats[selectedValue].TBA,
+            y: data[i].blue.matchStats[selectedValue].DB})
     }
+
+    const maxhtRX = Math.max(...somedataR.map(point => point.x)) + 1
+    const maxhtRY = Math.max(...somedataR.map(point => point.y)) + 1
+    maxhtR = maxhtRX > maxhtRY ? maxhtRX : maxhtRY
+
+    const maxhtBX = Math.max(...somedataB.map(point => point.x)) + 1
+    const maxhtBY = Math.max(...somedataB.map(point => point.y)) + 1  
+    maxhtB = maxhtBX > maxhtBY ? maxhtBX : maxhtBY
 
     if (window.DAChart) {
         window.DAChart.destroy();
@@ -101,24 +111,71 @@ function drawCharts(data, selectedValue) {
         
         
     window.DAChart = new Chart(
-        ctx, 
+        ctx,
         {
             type: "scatter",
             label: "hi",
             data: {
-                datasets: [{
-                    pointRadius: 4,
-                    pointBackgroundColor: "RED",
-                data: somedata
-                }],
-                showLine: true,
+                datasets: [
+                    {
+                        label: 'Data Points',
+                        pointRadius: 4,
+                        pointBackgroundColor: "RED",
+                        data: somedataR,
+                        pointRadius: function(context) { // (testing for production)
+                            // Dynamically adjust point radius based on overlap count 
+                            const dataIndex = context.dataIndex;
+                            const point = context.dataset.data[dataIndex];
+                            const overlapCount = somedataR.filter(p => p.x === point.x && p.y === point.y).length;
+                            
+                            const minRad = 3;
+                            const maxRad = 10;
+
+                            function returnValue () {
+                                if (overlapCount > maxRad)
+                                    return maxRad;
+                                else if (overlapCount < minRad)
+                                    return minRad;
+                                else 
+                                    return overlapCount;
+                            }
+
+                            // Increase radius for overlapping points
+                            return returnValue();
+                        }
+                    },
+                    {
+                        // 45-degree line
+                        label: '45-degree Line',
+                        data: [
+                            { x: 0, y: 0 },  // Starting point
+                            { x: maxhtR + 1, y: maxhtR + 1}  // End point (+1 to not show the arrow on the end of the line)
+                        ],
+                        borderColor: 'black',  // Color of the line
+                        borderWidth: 2,  // Thickness of the line
+                        fill: false,  // No fill for the line
+                        showLine: true,
+                        borderDash: [5, 5]  // Dashed line: [dashLength, gapLength]
+                    },
+                    {
+                        label: 'Regression-line',
+                        data: getRegressionData(somedataR, maxhtR),
+                        fill: false,
+                        borderColor: '#f803fc',
+                        borderWidth: 2,
+                        showLine: true,
+                        showPoints: false,
+                        borderDash: [5, 5],
+                        pointRadius: 0
+                    }
+                ]
             },
             options: {
                 title: {
                     display: true,
                     text: 'RED TELEOP SPEAKER NOTE COUNT'
                 },
-                legend: { display: false },
+                legend: { display: true },
                 aspectRatio: 1,
                 scales: {
                     x: {
@@ -126,21 +183,21 @@ function drawCharts(data, selectedValue) {
                             display: true,
                             text: 'TBA DATA' // This will label the X axis
                         },
-                        max: maxht,
+                        max: maxhtR,
                     },
                     y: {
                         title: {
                             display: true,
                             text: 'DB DATA' // This will label the X axis
                         },
-                        max: maxht,
+                        max: maxhtR,
                     },
                 },
                 plugins: {
                     legend: {
-                      display: false,
+                      display: true,
                     },
-                  }
+                }
             }
     });
 
@@ -149,11 +206,59 @@ function drawCharts(data, selectedValue) {
         {
             type: "scatter",
             data: {
-                datasets: [{
-                    pointRadius: 4,
-                    pointBackgroundColor: "BLUE",
-                data: somedataBlue
-                }]
+                datasets: [
+                    {
+                        label: "Data Points",
+                        pointRadius: 4,
+                        pointBackgroundColor: "BLUE",
+                        data: somedataB,
+                        pointRadius: function(context) { // (testing for production)
+                            // Dynamically adjust point radius based on overlap count 
+                            const dataIndex = context.dataIndex;
+                            const point = context.dataset.data[dataIndex];
+                            const overlapCount = somedataB.filter(p => p.x === point.x && p.y === point.y).length;
+                            
+                            const minRad = 3;
+                            const maxRad = 10;
+
+                            function returnValue () {
+                                if (overlapCount > maxRad)
+                                    return maxRad;
+                                else if (overlapCount < minRad)
+                                    return minRad;
+                                else 
+                                    return overlapCount;
+                            }
+
+                            // Increase radius for overlapping points
+                            return returnValue();
+                        }
+                    },
+                    {
+                        // 45-degree line
+                        label: '45-degree line',
+                        data: [
+                            { x: 0, y: 0 },  // Starting point
+                            { x: maxhtB + 1, y: maxhtB + 1}  // End point (+1 to not show the arrow on the end of the line)
+                        ],
+                        borderColor: 'black',  // Color of the line
+                        borderWidth: 2,  // Thickness of the line
+                        fill: false,  // No fill for the line
+                        showLine: true,
+                        borderDash: [5, 5]  // Dashed line: [dashLength, gapLength]
+                    },
+                    {
+                        label: 'Regression-line',
+                        data: getRegressionData(somedataB, maxhtB),
+                        fill: false,
+                        borderColor: '#f803fc',
+                        borderWidth: 2,
+                        showLine: true,
+                        showPoints: false,
+                        borderDash: [5, 5],
+                        pointRadius: 0
+                    }
+                ]
             },
             options: {
                 title: {
@@ -168,127 +273,33 @@ function drawCharts(data, selectedValue) {
                             display: true,
                             text: 'TBA DATA' // This will label the X axis
                         },
-                        max: maxht,
+                        max: maxhtB,
                     },
                     y: {
                         title: {
                             display: true,
                             text: 'DB DATA' // This will label the X axis
                         },
-                        max: maxht,
+                        max: maxhtB,
                     },
                 },
                 plugins: {
                     legend: {
-                      display: false,
+                      display: true,
                     },
-                  }
+                }
             }                                                     
 
-    });
-}
-
-function testDrawCharts(data, selectedValue) {
-    const ctx = document.getElementById("chart1")
-    const ctx2 = document.getElementById("chart2")  
-    const somedata = []
-    const somedataBlue = []
-    let maxht = 18
-
-
-    //consoleLog(selectedValue)
-    for(let i = 1; i <= Object.keys(data).length; i++)
-    {
-        somedata.push({x:data[i].red.matchStats[selectedValue].TBA,
-            y: data[i].red.matchStats[selectedValue].DB})
-        somedataBlue.push({x:data[i].blue.matchStats.teleopSpeakerNoteCount.TBA,
-            y: data[i].blue.matchStats.teleopSpeakerNoteCount.DB})
-    }
-
-    const data1 = {
-        datasets: [
-            {
-            type: 'line',
-            label: 'Line Dataset',
-            data: [{x: 0, y: 0}, {x: 1, y: 1}, {x: 2, y: 2}],
-            backgroundColor: 'rgb(0, 0, 255)',
-            borderColor: 'rgb(0, 0, 255)'
-            },
-            {
-            type: 'scatter',
-            backgroundColor: 'rgb(0, 0, 0)',
-            borderColor: 'rgb(255, 0, 0)',
-            data: somedata
-            }
-    
-        ],
-    
-    };
-
-    new Chart(ctx, {
-        type: 'scatter',             
-        data: data1,  
-        options: {
-        }       
     });
 }
 
 async function main() {  
     const data = await backEndData()
 
-    const dropdown = document.getElementById("dropdown")
-    const button = document.getElementById("test-button")
-    let selectedValue = "autoSpeakerNoteCount"
+    const dropdown = document.getElementById("DataAccuracyDropdown")
 
-            // <option value="autoAmpNoteCount">autoAmpNoteCount</option>
-            // <option value="autoSpeakerNoteCount">autoSpeakerNoteCount</option>
-            // <option value="teleopSpeakerNoteCount">teleopSpeakerNoteCount</option>
-            // <option value="teleopAmpNoteCount">teleopAmpNoteCount</option>
-
-
-    drawCharts(data, selectedValue)
-
-    dropdown.addEventListener("click", (e) => {
-        window.alert('change')
-        //selectedValue = dropdown.value
-        
-        drawCharts(data, selectedValue)
-    })  
-    
-    
-
-    button.addEventListener("click", function(event) {
-        // if (event.key === "Enter") {
-        //     window.alert(dropdown.value)
-            if(selectedValue == "autoSpeakerNoteCount")
-            {
-                selectedValue = "teleopSpeakerNoteCount"
-                dropdown.value = selectedValue
-                drawCharts(data, selectedValue)
-            }
-            else if(selectedValue == "teleopSpeakerNoteCount")
-            {
-                selectedValue = "teleopAmpNoteCount"
-                dropdown.value = selectedValue
-                drawCharts(data, selectedValue)
-            }
-            else if(selectedValue == "teleopAmpNoteCount")
-            {
-                selectedValue = "autoAmpNoteCount"
-                dropdown.value = selectedValue
-                drawCharts(data, selectedValue)
-            }
-            else if(selectedValue == "autoAmpNoteCount")
-            {                    
-                selectedValue = "autoSpeakerNoteCount"
-                dropdown.value = selectedValue
-                drawCharts(data, selectedValue)
-            }
-
-        //}
-    });
-}
-
-window.test = function() {
-    window.alert('changed');
+    drawCharts(data, dropdown.value)
+    dropdown.addEventListener("change", (e) => {
+        drawCharts(data, dropdown.value)
+    })
 }
