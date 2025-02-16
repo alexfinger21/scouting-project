@@ -91,6 +91,11 @@ function lerpColor(current, goal, tickDiff, changePerS) {
     return `rgb(${lerp(c1, g1, isNaN(l1) ? 0 : l1)}, ${lerp(c2, g2, isNaN(l2) ? 0 : l2)}, ${lerp(c3, g3, isNaN(l3) ? 0 : l3)})`
 }
 
+function lerpOpacity(current, goal, tickDiff, changePerS) {
+    const i = Math.min(1, tickDiff/1000*changePerS)
+    return lerp(current, goal, isNaN(i) ? 0: i)
+}
+
 //selects a random value from an array
 function getMatch() {
     return new Promise((resolve) => {
@@ -253,4 +258,4 @@ function checkPage(path) {
 
 //console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
 
-export {consoleLog, lerpColor, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, lerpColor, lerpOpacity, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

@@ -1,4 +1,4 @@
-import { consoleLog, lerp, lerpColor } from "../utility.js"
+import { consoleLog, lerpColor } from "../utility.js"
 import DrawableObject from "./DrawableObject.js"
 
 const changePerS = 5

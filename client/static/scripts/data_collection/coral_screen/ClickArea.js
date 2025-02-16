@@ -1,4 +1,7 @@
+import { lerpOpacity } from "../../utility.js"
 import DrawableObject from "../DrawableObject.js"
+
+const changePerS = 10
 
 export default class ClickArea extends DrawableObject {
     /* 
@@ -29,12 +32,15 @@ export default class ClickArea extends DrawableObject {
         this.renderQueue = renderQueue
 
         this.clickable = clickable ?? false 
+        this.highlight.opacity = this.isSelected ? 0 : .5
+        this.lastTick = Date.now()    
         
         this.value = value ?? 0
     }
 
     onClick({ x, y }) {
         if (this.clickable && super.inBoundingBox({ x, y })) {
+            this.lastTick = Date.now()    
             this.isSelected = !this.isSelected
             return true
         }
@@ -47,9 +53,13 @@ export default class ClickArea extends DrawableObject {
     }
 
     draw() {
+        this.highlight.opacity = lerpOpacity(this.highlight.opacity, 
+            (this.isSelected ? .5 : 0), 
+            Date.now() - this.lastTick,
+            changePerS
+        )
+        console.log(this.highlight.opacity)
         super.draw()
-        if(this.isSelected) {
-            this.highlight.draw()
-        }
+        this.highlight.draw()
     }
 }
