@@ -14,9 +14,7 @@ export default class CoralScreen {
         const startY = canvasSize.y * 0.15
         const padY = canvasSize.y * 0.05
 
-        consoleLog(images)
-
-        this.proceedBtn = new ProceedBtn({x: canvasSize.x * 0.5, y: canvasSize.y * 0.5, sX: canvasSize.x * 0.5, sY: (canvasSize.x * 0.5)*76/368, zIndex: zIndex+4, imgs: images})
+        this.proceedBtn = new ProceedBtn({ctx, x: canvasSize.x * 0.495, y: canvasSize.y * 0.85, sX: canvasSize.x * 0.4, sY: (canvasSize.x * 0.4)*76/368, zIndex: zIndex+4, imgs: images, renderQueue})
 
         this.reef = new Reef({ctx, renderQueue, allianceColor, letter, images, zIndex: zIndex+2, canvasSize: this.canvasSize, pos: {
                 x: startX,
@@ -40,9 +38,14 @@ export default class CoralScreen {
 
     draw() {
         this.reef.draw()
+        this.proceedBtn.draw()
         for(const clickArea of this.clickAreas) {
             clickArea.draw()
         }
+    }
+
+    sendData() {
+
     }
 
     onClick({x, y}) {
@@ -55,6 +58,10 @@ export default class CoralScreen {
                     }
                 }
             }
+        }
+        
+        if (this.proceedBtn.onClick({x, y})) {
+            
         }
     }
 }
