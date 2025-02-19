@@ -37,7 +37,8 @@ export default class CoralScreen {
                 },
             })
             this.clickAreas.push(cA)
-            const sI = new DrawableObject({ctx, sX: 1, sY: 1, img: "text", text: `${this.data[i][0]}/${this.data[i][1]}`, textSize: canvasSize.x * 0.04, renderQueue, zIndex: 9999999,
+            consoleLog("DATA: ", this.data[i])
+            const sI = new DrawableObject({ctx, sX: 1, sY: 1, img: "text", text: `${this.data[i][0]}/${this.data[i][1]+this.data[i][0]}`, textSize: canvasSize.x * 0.04, renderQueue, zIndex: 9999999,
                 x: startX + padX + cA.sX + canvasSize.x * 0.05,
                 y: startY + padY + canvasSize.y * 0.142 * i + canvasSize.x * 0.06,
             })
@@ -53,7 +54,10 @@ export default class CoralScreen {
             for(const clickArea of this.clickAreas) {
                 clickArea.draw()
             }
-            for(const sI of this.scoreIndicators) {
+            for(let i = 0; i < 4; i++) {
+                const sI = this.scoreIndicators[i]
+                const data = this.data[i]
+                sI.text = `${data[0]}/${data[1]+data[0]}`
                 sI.draw()
             }
         }
