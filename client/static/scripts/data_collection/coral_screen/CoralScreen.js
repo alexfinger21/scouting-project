@@ -10,6 +10,7 @@ export default class CoralScreen {
         this.ctx = ctx
         this.canvasSize = canvasSize
         this.letter = letter
+        this.isSelected = false
 
         const startX = canvasSize.x * 0.27
         const padX = canvasSize.x * 0.035
@@ -46,13 +47,15 @@ export default class CoralScreen {
     }
 
     draw() {
-        this.reef.draw()
-        this.proceedBtn.draw()
-        for(const clickArea of this.clickAreas) {
-            clickArea.draw()
-        }
-        for(const sI of this.scoreIndicators) {
-            sI.draw()
+        if(this.isSelected) {
+            this.reef.draw()
+            this.proceedBtn.draw()
+            for(const clickArea of this.clickAreas) {
+                clickArea.draw()
+            }
+            for(const sI of this.scoreIndicators) {
+                sI.draw()
+            }
         }
     }
 
@@ -91,6 +94,7 @@ export default class CoralScreen {
                     }
                     a.setValue({value: 0})
                 }
+                this.isSelected = false
             }
         }
     }
