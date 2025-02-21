@@ -293,13 +293,31 @@ function drawCharts(data, selectedValue) {
     });
 }
 
+// Function to convert camelCase to human-readable format
+function formatOptionText(text) {
+    // Add space before each uppercase letter, then convert the first letter to uppercase
+    return text.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase())
+}
+
 async function main() {  
     const data = await backEndData()
 
     const dropdown = document.getElementById("DataAccuracyDropdown")
 
-    drawCharts(data, dropdown.value)
+    data[0].forEach(optionText => {
+        // Create a new <option> element
+        const option = document.createElement("option")
+    
+        // Set the value and text content of the option
+        option.value = optionText
+        option.textContent = formatOptionText(optionText)
+    
+        // Append the <option> element to the dropdown
+        dropdown.appendChild(option)
+    })
+
+    drawCharts(data[1], dropdown.value)
     dropdown.addEventListener("change", (e) => {
-        drawCharts(data, dropdown.value)
+        drawCharts(data[1], dropdown.value)
     })
 }

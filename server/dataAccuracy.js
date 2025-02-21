@@ -226,8 +226,8 @@ async function combinedData() // combine data from TBA and DB
     // catch (err) {
     //     console.error(err)
     // }
-
-    return JSON.stringify(collectedData, null, 2)
+    const rtrData = [TBAAPINAMES, collectedData]
+    return JSON.stringify(rtrData, null, 2)
 }
 
 //combinedData();
