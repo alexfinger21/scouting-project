@@ -154,7 +154,7 @@ router.post("/", function (req, res) {
     const user_id = req.cookies["user_id"]
 
     body.username = req.cookies["username"]
-    consoleLog(body)
+    consoleLog(body, "2025 data")
 
     if (body.type == "scouting") {
         const seventhScouter = getSeventhScouter(body.username)
