@@ -75,7 +75,7 @@ function getRegressionData (data, maxht) {
     return regData
 }
 
-function drawCharts(data, selectedValue) {
+function drawCharts(data, selectedValue, scouter, team) {
     const ctx = document.getElementById("chart1")
     const ctx2 = document.getElementById("chart2")
     
@@ -85,13 +85,18 @@ function drawCharts(data, selectedValue) {
     let maxhtB = 0
 
 
-    //consoleLog(selectedValue)
+    
     for(let i = 1; i <= Object.keys(data).length; i++)
     {
-        somedataR.push({x:data[i].red.matchStats[selectedValue].TBA,
-            y: data[i].red.matchStats[selectedValue].DB})
-        somedataB.push({x:data[i].blue.matchStats[selectedValue].TBA,
-            y: data[i].blue.matchStats[selectedValue].DB})
+        if((data[i].red.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].red.teams.includes(team) || team == "--NO TEAM--")) {
+            somedataR.push({x:data[i].red.matchStats[selectedValue].TBA,
+                y: data[i].red.matchStats[selectedValue].DB, label: "Match #${i}"})
+        }
+        
+        if((data[i].blue.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].blue.teams.includes(team) || team == "--NO TEAM--")) {
+            somedataB.push({x:data[i].blue.matchStats[selectedValue].TBA,
+                y: data[i].blue.matchStats[selectedValue].DB})
+        }
     }
 
     const maxhtRX = Math.max(...somedataR.map(point => point.x)) + 1
@@ -197,7 +202,23 @@ function drawCharts(data, selectedValue) {
                     legend: {
                       display: true,
                     },
-                }
+                    tooltips: {
+                        enabled: true, // Enable the tooltips
+                        mode: 'nearest', // Show tooltip when the point is hovered
+                        callbacks: {
+                          // Custom tooltip callback to display the label
+                          title: function(tooltipItems) {
+                            // Tooltip title is empty
+                            return '';
+                          },
+                          label: function(tooltipItem) {
+                            // Display the label for the point
+                            const dataset = tooltipItem.dataset.data[tooltipItem.dataIndex];
+                            return dataset.label; // Show the label (A, B, C, etc.)
+                          }
+                        }
+                      }
+                },
             }
     });
 
@@ -287,6 +308,22 @@ function drawCharts(data, selectedValue) {
                     legend: {
                       display: true,
                     },
+                    tooltips: {
+                        enabled: true, // Enable the tooltips
+                        mode: 'nearest', // Show tooltip when the point is hovered
+                        callbacks: {
+                          // Custom tooltip callback to display the label
+                          title: function(tooltipItems) {
+                            // Tooltip title is empty
+                            return '';
+                          },
+                          label: function(tooltipItem) {
+                            // Display the label for the point
+                            const dataset = tooltipItem.dataset.data[tooltipItem.dataIndex];
+                            return dataset.label; // Show the label (A, B, C, etc.)
+                          }
+                        }
+                      }
                 }
             }                                                     
 
@@ -301,9 +338,9 @@ function formatOptionText(text) {
 
 async function main() {  
     const data = await backEndData()
-    const scouters = []
-    const teams = []
-    for(let i = 1; i <= Object.keys(data).length; i++)
+    const scouters = ["--NO SCOUTER--"]
+    const teams = ["--NO TEAM--"]
+    for(let i = 1; i <= Object.keys(data[1]).length; i++)
         {
             scouters.push(...data[1][i].red.scouters)
             scouters.push(...data[1][i].blue.scouters)
@@ -317,6 +354,8 @@ async function main() {
     const scoutersDrop = document.getElementById("DataAccuracyScoutersDropdown")
     const teamsDrop = document.getElementById("DataAccuracyTeamsDropdown")
 
+   
+    //Populate the dropdowns
     uniqueScoutersArray.forEach(optionText => {
         // Create a new <option> element
         const option = document.createElement("option")
@@ -334,12 +373,19 @@ async function main() {
     
         // Set the value and text content of the option
         option.value = optionText
-        option.textContent = optionText
+
+        if(optionText === "--NO TEAM--")
+        {
+            option.textContent = optionText
+        }
+        else
+        {
+            option.textContent = optionText.substring(3)
+        }
     
         // Append the <option> element to the dropdown
         teamsDrop.appendChild(option)
     })
-
     data[0].forEach(optionText => {
         // Create a new <option> element
         const option = document.createElement("option")
@@ -352,8 +398,16 @@ async function main() {
         dropdown.appendChild(option)
     })
 
-    drawCharts(data[1], dropdown.value)
+
+    //draw the charts
+    drawCharts(data[1], dropdown.value, scoutersDrop.value, teamsDrop.value)
     dropdown.addEventListener("change", (e) => {
-        drawCharts(data[1], dropdown.value)
+        drawCharts(data[1], dropdown.value, scoutersDrop.value, teamsDrop.value)
+    })
+    scoutersDrop.addEventListener("change", (e) => {
+        drawCharts(data[1], dropdown.value, scoutersDrop.value, teamsDrop.value)
+    })
+    teamsDrop.addEventListener("change", (e) => {
+        drawCharts(data[1], dropdown.value, scoutersDrop.value, teamsDrop.value)
     })
 }
