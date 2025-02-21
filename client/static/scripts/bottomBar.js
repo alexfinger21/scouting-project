@@ -95,22 +95,22 @@ window.addEventListener("load", () => {
     let buttonUrls = []
     
     footerPageButtons.forEach((btn, index) => {
-        buttonUrls[btn.children[1].textContent] = btn.children[1].textContent.replaceAll(" ", "-").toLowerCase()
+        buttonUrls[btn.getAttribute("page")] = btn.getAttribute("page").replace(" ", "-").toLowerCase()
         
         btn.addEventListener("click", event => {
             if (!bottomBarDebounce) {
 
                 consoleLog("SET SelectedObj", btn)
                 bottomBarDebounce = true
-                consoleLog(buttonUrls[btn.children[1].textContent])
-                requestPage("/" + buttonUrls[btn.children[1].textContent], {})
+                consoleLog(buttonUrls[btn.getAttribute("page")])
+                requestPage("/" + buttonUrls[btn.getAttribute("page")], {})
                 moveToPage(hoverButton.getBoundingClientRect().left, btn.getBoundingClientRect().left, hoverButton)
                 selectedObj = btn
 
             setTimeout(() => {bottomBarDebounce = false}, 300)
             }
         })
-    })  
+    })
 
     const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {

@@ -218,9 +218,13 @@ function loadData() {
         reefRightImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef-right.png`
         const clickAreaImage = new Image()
         clickAreaImage.src = `./static/images/data-collection/click-area.png`
+        const algaeImage = new Image()
+        algaeImage.src = `./static/images/data-collection/algae.png`
+        const algaeSelectedImage = new Image()
+        algaeSelectedImage.src = `./static/images/data-collection/algae-selected.png`
         const proceedBtnImage = new Image()
         proceedBtnImage.src = `./static/images/data-collection/proceed-btn-${allianceColor == 'B' ? "blue" : "red"}.png`
-        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
+        const images = { gamePieceImage, algaeImage, algaeSelectedImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
 
         await waitUntilImagesLoaded(Object.values(images))
 

@@ -5,6 +5,7 @@ import RobotMap from "./RobotMap.js"
 import Legend from "./Legend.js"
 import RenderQueue from "./RenderQueue.js"
 import CoralScreen from "./coral_screen/CoralScreen.js"
+import AlgaeMap from "./AlgaeMap.js"
 
 const helpText = `1. Drag robot approx. start pos
 2. Click on reef to select where and which level piece was scored
@@ -23,6 +24,7 @@ export default class {
         this.clickable = {}
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
+        this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.coralScreens = {}
 
@@ -43,6 +45,9 @@ export default class {
             if (cRes) {
                 this.coralScreens[cRes.text].isSelected = true
             }
+
+            const aRes = this.clickable.algae.onClick({x, y})
+            
         } else {
             Object.values(this.coralScreens).forEach(e => e.onClick({x, y}))
         }
@@ -72,6 +77,7 @@ export default class {
         this.map.draw()
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
+        this.clickable.algae.draw()
         this.legend.draw()
         Object.values(this.coralScreens).forEach(e => {
             e.draw()
