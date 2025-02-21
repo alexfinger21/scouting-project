@@ -119,7 +119,7 @@ async function DataBaseData()// Gets the data from the Database
     
         if(num < matchNum)
         {   
-            const otherMatchNum = i/(offset*2)
+            const otherMatchNum = Math.ceil(i/(offset*2))
 
             scouters[otherMatchNum] = {
                 red: [], 
@@ -161,7 +161,7 @@ async function combinedData() // combine data from TBA and DB
 
     const DBMatchData = fromDB[0] // our match data
     const DBScoutersData = fromDB[1] // the people who scouted for the respective matches
-
+    consoleLog(DBScoutersData)
     const TBAMatchData = fromTBA[0] // tba match data
     const TBAAllianceData = fromTBA[1] // the teams for the respective matches
 

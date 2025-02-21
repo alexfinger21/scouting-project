@@ -1,3 +1,68 @@
+/* Style the header and dropdown container */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0px;
+    gap: 10px; /* Space between dropdowns */
+}
+
+/* Apply to all dropdowns with a common class */
+.custom-dropdown {
+    background-color: #f4f4f9;
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    padding: 10px 40px 10px 12px; /* Padding for custom arrow */
+    font-size: 16px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    width: 200px; /* Default width */
+    max-height: 300px; /* Maximum height to prevent dropdown from becoming too large */
+    overflow-y: auto; /* Enable scrolling */
+    display: block;
+}
+
+/* Add a custom arrow */
+.custom-dropdown::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 14px;
+}
+
+/* Hover effect */
+.custom-dropdown:hover {
+    border-color: #666;
+    background-color: #e0e0e0;
+}
+
+/* Focus effect */
+.custom-dropdown:focus {
+    outline: none;
+    border-color: #3a3a3a;
+    box-shadow: 0 0 5px rgba(58, 58, 58, 0.5);
+}
+
+/* Style options inside the select */
+.custom-dropdown option {
+    background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Optional: Style the selected option */
+.custom-dropdown option:checked {
+    background-color: #88cc88;
+}
+
 /* Wrapper for the chart area */
 #accuracy-chart-area-wrapper {
     width: 90%;
@@ -26,68 +91,6 @@
     background-color: #FFF;
     overflow: auto;
 }
-
-/* Style the header and dropdown container */
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 0px;
-}
-
-/* Style the select box */
-#DataAccuracyDropdown {
-    background-color: #f4f4f9;
-    border: 2px solid #aaa;
-    border-radius: 8px;
-    padding: 10px 40px 10px 12px; /* Padding on the left for space to show custom arrow */
-    font-size: 16px;
-    color: #333;
-    font-family: 'Arial', sans-serif;
-    appearance: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 5px;
-    width: 200px; /* Default width */
-}
-
-/* Add a custom arrow */
-#DataAccuracyDropdown::after {
-    content: '▼';
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    font-size: 14px;
-}
-
-/* Hover effect */
-#DataAccuracyDropdown:hover {
-    border-color: #666;
-    background-color: #e0e0e0;
-}
-
-/* Focus effect */
-#DataAccuracyDropdown:focus {
-    outline: none;
-    border-color: #3a3a3a;
-    box-shadow: 0 0 5px rgba(58, 58, 58, 0.5);
-}
-
-/* Style options inside the select */
-#DataAccuracyDropdown option {
-    background-color: #fff;
-    padding: 10px;
-    font-size: 16px;
-}
-
-/* Optional: Style the selected option */
-#DataAccuracyDropdown option:checked {
-    background-color: #88cc88;
-}
-
 /* Media Queries for Responsiveness */
 
 /* For small screens, adjust the layout */

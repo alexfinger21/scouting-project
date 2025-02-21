@@ -301,8 +301,44 @@ function formatOptionText(text) {
 
 async function main() {  
     const data = await backEndData()
+    const scouters = []
+    const teams = []
+    for(let i = 1; i <= Object.keys(data).length; i++)
+        {
+            scouters.push(...data[1][i].red.scouters)
+            scouters.push(...data[1][i].blue.scouters)
+            teams.push(...data[1][i].red.teams)
+            teams.push(...data[1][i].blue.teams)
+        }
+    const uniqueScoutersArray = [...new Set(scouters)]
+    const uniqueTeamsArray = [...new Set(teams)]
 
     const dropdown = document.getElementById("DataAccuracyDropdown")
+    const scoutersDrop = document.getElementById("DataAccuracyScoutersDropdown")
+    const teamsDrop = document.getElementById("DataAccuracyTeamsDropdown")
+
+    uniqueScoutersArray.forEach(optionText => {
+        // Create a new <option> element
+        const option = document.createElement("option")
+    
+        // Set the value and text content of the option
+        option.value = optionText
+        option.textContent = optionText
+    
+        // Append the <option> element to the dropdown
+        scoutersDrop.appendChild(option)
+    })
+    uniqueTeamsArray.forEach(optionText => {
+        // Create a new <option> element
+        const option = document.createElement("option")
+    
+        // Set the value and text content of the option
+        option.value = optionText
+        option.textContent = optionText
+    
+        // Append the <option> element to the dropdown
+        teamsDrop.appendChild(option)
+    })
 
     data[0].forEach(optionText => {
         // Create a new <option> element
