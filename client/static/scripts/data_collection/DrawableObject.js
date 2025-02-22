@@ -102,7 +102,7 @@ export default class DrawableObject {
                 this.ctx.rect(-this.sX/2*this.dpr, -this.sY/2*this.dpr, this.sX*this.dpr, this.sY*this.dpr)
                 this.ctx.fillStyle = this.color
                 this.ctx.fill()
-            } else {
+            } else if(this.img != "none") {
                 this.rotate()
                 this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation
             }

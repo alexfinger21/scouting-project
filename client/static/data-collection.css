@@ -526,3 +526,37 @@ canvas {
     /*filter: hue*/  
 }
 
+#auton-scoring-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+}
+
+#auton-scoring-container .canvas-container {
+    width: 95.5%;
+}
+
+@media (min-aspect-ratio: 7/8) {
+    #auton-scoring-container {
+        flex-direction: row;
+        align-content: space-between;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #sortable {
+        width: 35vw !important;
+    }
+
+    #responsive-table {
+        margin-top: 2.2vh;
+    }
+
+
+    #auton-scoring-container .canvas-container {
+        width: 90% !important;
+    }
+
+}
