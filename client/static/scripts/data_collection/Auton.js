@@ -46,10 +46,10 @@ export default class {
             ]
         })
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
-        this.coralScreens = {}
+        this.clickable.coralScreens = {}
 
         for (let i = 0; i<12; ++i) {
-            this.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), images, canvasSize: this.canvasSize, zIndex: 10})
+            this.clickable.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), images, canvasSize: this.canvasSize, zIndex: 10})
         }
         
     }
@@ -57,7 +57,7 @@ export default class {
     onClick({ x, y }) {
         // Collision detection between clicked offset and element.
         
-        const menuOpen = Object.values(this.coralScreens).find(e => e.isSelected)
+        const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
             this.clickable.barge.onClick({x, y})
@@ -66,13 +66,13 @@ export default class {
             consoleLog("feeder bottom clicked: ", this.clickable.feederBottom.onClick({x, y}))
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
-                this.coralScreens[cRes.text].isSelected = true
+                this.clickable.coralScreens[cRes.text].isSelected = true
             }
 
             const aRes = this.clickable.algae.onClick({x, y})
             
         } else {
-            Object.values(this.coralScreens).forEach(e => e.onClick({x, y}))
+            Object.values(this.clickable.coralScreens).forEach(e => e.onClick({x, y}))
         }
     }
 
@@ -90,10 +90,14 @@ export default class {
 
 
     sendData() {
-        return {
-            //autonPieceData: this.clickable.pieces.sendData(),
-            "Starting Location": this.clickable.robots.sendData()["Starting Location"] ?? 0,
+        const res = {}
+        res["Starting Location"] = this.clickable.robots.sendData()["Starting Location"] ?? 0
+        
+        for (const k of Object.keys(this.clickable.coralScreens)) {
+            res[k] = this.clickable.coralScreens[k].sendData()
         }
+
+        return res
     }
 
     draw() {
@@ -107,7 +111,7 @@ export default class {
 
         consoleLog(this.clickable.feederBottom.opacity)
         this.legend.draw()
-        Object.values(this.coralScreens).forEach(e => {
+        Object.values(this.clickable.coralScreens).forEach(e => {
             e.draw()
             const ltr = this.clickable.pieces.pieces.find(p => p.text == e.letter)
             if (ltr.isSelected != e.isSelected) {

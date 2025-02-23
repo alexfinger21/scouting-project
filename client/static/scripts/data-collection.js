@@ -268,6 +268,10 @@ function loadData() {
 
         AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
         EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+        
+        setTimeout(() => {
+            consoleLog("sent data", AutonObject.sendData())
+        }, 5000)
 
         // HANDLE TOUCHES / MOUSE
 

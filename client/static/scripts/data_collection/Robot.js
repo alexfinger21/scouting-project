@@ -82,6 +82,10 @@ export default class Robot extends DrawableObject {
         }
     }
 
+    sendData() {
+        return {"Starting Position": this.getRobotPosition()}
+    }
+
 
     setIsSelected({value}) {
         this.isSelected = value
