@@ -5,9 +5,9 @@ const changePerS = 5
 
 export default class Barge extends DrawableObject {
     constructor({ x, y, ctx, renderQueue, canvasSize }) {
-        super({ ctx, renderQueue, img: "rectangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.4 })
+        super({ ctx, renderQueue, img: "rectangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.39 })
         this.color = "#FFF600"
-        this.opacity = 1
+        this.opacity = 0    
 
         this.lastTick = Date.now()    
 

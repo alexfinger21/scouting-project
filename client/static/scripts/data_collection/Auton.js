@@ -7,6 +7,7 @@ import RenderQueue from "./RenderQueue.js"
 import CoralScreen from "./coral_screen/CoralScreen.js"
 import AlgaeMap from "./AlgaeMap.js"
 import Barge from "./Barge.js"
+import FeederStation from "./FeederStation.js"
 
 const helpText = `1. Drag robot approx. start pos
 2. Click on reef to select where and which level piece was scored
@@ -30,6 +31,24 @@ export default class {
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
+        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, ctx, renderQueue: this.renderQueue,
+            x: this.canvasSize.x * 0.745,
+            y: this.canvasSize.y * -0.095,
+            points: [
+                {x: 0, y: 0},
+                {x: this.canvasSize.x * 0.18, y: 0},
+                {x: this.canvasSize.x * 0.18, y: this.canvasSize.y * 0.17 },
+            ]
+        })
+        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, ctx, renderQueue: this.renderQueue,
+            x: this.canvasSize.x * 0.745,
+            y: this.canvasSize.y * 0.765,
+            points: [
+                {x: 0, y: 0},
+                {x: this.canvasSize.x * 0.18, y: 0},
+                {x: this.canvasSize.x * 0.18, y: this.canvasSize.y * -0.17 },
+            ]
+        })
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.coralScreens = {}
 
@@ -47,6 +66,8 @@ export default class {
             this.clickable.robots.onClick({x, y})
             this.clickable.barge.onClick({x, y})
             this.legend.onClick({x, y})
+            this.clickable.feederTop.onClick({x, y})
+            this.clickable.feederBottom.onClick({x, y})
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
                 this.coralScreens[cRes.text].isSelected = true
@@ -85,6 +106,8 @@ export default class {
         this.clickable.pieces.draw()
         this.clickable.algae.draw()
         this.clickable.barge.draw()
+        this.clickable.feederTop.draw()
+        this.clickable.feederBottom.draw()
         this.legend.draw()
         Object.values(this.coralScreens).forEach(e => {
             e.draw()

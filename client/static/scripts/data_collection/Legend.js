@@ -8,7 +8,7 @@ export default class Legend extends DrawableObject {
     */
    
     constructor({ctx, img, renderQueue, canvasSize, text}) {
-        const x = canvasSize.x * 0.86
+        const x = canvasSize.x * 0.035   
         const y = canvasSize.y * 0.10
 
         super({ctx, renderQueue, img, x, y, r: 90, sX: Math.floor(canvasSize.y * 0.11), sY: Math.floor(canvasSize.y*0.11), zIndex: Infinity})
@@ -45,7 +45,7 @@ export default class Legend extends DrawableObject {
         const padY = 10
         const padX = 5
         const width = this.canvasSize.x * 0.8
-        const x = this.x - width 
+        const x = this.x + this.sX*1.2
         const y = this.y
         const fontSize = Math.floor(width/this.#getMaxLen(text) * 2.3)
         const height = text.length * (fontSize + padY) + padY*2

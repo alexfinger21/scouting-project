@@ -1,7 +1,7 @@
-import { consoleLog } from "../utility.js"
+import { consoleLog, insideTriangle } from "../utility.js"
 
 export default class DrawableObject {
-    constructor({ctx, x, y, sX, sY, r, img, text, textSize, renderQueue, radius, visible = true, zIndex = 0, opacity=1}) {
+    constructor({ctx, x, y, sX, sY, r, img, text, textSize, renderQueue, radius, visible = true, zIndex = 0, opacity=1, points}) {
         this.dpr = window.devicePixelRatio
         // dpr to increase render resolution
 
@@ -23,6 +23,10 @@ export default class DrawableObject {
 
         if (radius) {
             this.radius = radius
+        }
+
+        if(points) {
+            this.points = points
         }
 
         this.renderQueue = renderQueue
@@ -54,6 +58,16 @@ export default class DrawableObject {
         }
     }
 
+    inBoundingTriangle({x, y}) {
+        const translateX = (this.x+(this.sX ?? this.radius*2)/2)*this.dpr
+        const translateY = (this.y+(this.sY ?? this.radius*2)/2)*this.dpr
+        consoleLog("x: ", x, "y: ", y)
+        consoleLog('translateT: ', translateX)
+        consoleLog('translateY', translateY)
+        consoleLog("points: ", this.points)
+        return insideTriangle(x - translateX, y - translateY, this.points[0].x, this.points[0].y, this.points[1].x, this.points[1].y, this.points[2].x, this.points[2].y)
+    }
+
     rotate() {
         const a = this.r 
         //rotate code
@@ -79,32 +93,46 @@ export default class DrawableObject {
             //drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 
             //move here, so rotation doesnt affect x and y
-
+            
             this.ctx.translate((this.x+(this.sX ?? this.radius*2)/2)*this.dpr, (this.y+(this.sY ?? this.radius*2)/2)*this.dpr)
-
-            if (this.img == "circle") {
-                this.ctx.beginPath()
-                this.ctx.arc(0, 0, this.radius*this.dpr, 0, 2 * Math.PI, false)
-                this.ctx.fillStyle = this.color
-                this.ctx.fill()
-                this.ctx.translate(0, this.radius*this.dpr/3)
-                this.ctx.fillStyle = "#FFFFFF"
-                this.ctx.textAlign = "center"
-                this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
-                this.ctx.fillText(this.text, 0, 0)
-            } else if(this.img == "text") {
-                this.ctx.fillStyle = this.color
-                this.ctx.textAlign = "center"
-                this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
-                this.ctx.fillText(this.text, 0, 0)
-            } else if (this.img == "rectangle") {
-                this.ctx.beginPath()
-                this.ctx.rect(-this.sX/2*this.dpr, -this.sY/2*this.dpr, this.sX*this.dpr, this.sY*this.dpr)
-                this.ctx.fillStyle = this.color
-                this.ctx.fill()
-            } else if(this.img != "none") {
-                this.rotate()
-                this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation
+            
+            switch(this.img) {
+                case "circle":
+                    this.ctx.beginPath()
+                    this.ctx.arc(0, 0, this.radius*this.dpr, 0, 2 * Math.PI, false)
+                    this.ctx.fillStyle = this.color
+                    this.ctx.fill()
+                    this.ctx.translate(0, this.radius*this.dpr/3)
+                    this.ctx.fillStyle = "#FFFFFF"
+                    this.ctx.textAlign = "center"
+                    this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
+                    this.ctx.fillText(this.text, 0, 0)
+                    break
+                case "rectangle":
+                    this.ctx.beginPath()
+                    this.ctx.rect(-this.sX/2*this.dpr, -this.sY/2*this.dpr, this.sX*this.dpr, this.sY*this.dpr)
+                    this.ctx.fillStyle = this.color
+                    this.ctx.fill()
+                    
+                    break
+                case "triangle":
+                    this.ctx.fillStyle = this.color
+                    this.ctx.moveTo(this.points[0].x,this.points[0].y)
+                    this.ctx.lineTo(this.points[1].x,this.points[1].y)
+                    this.ctx.lineTo(this.points[2].x,this.points[2].y)
+                    this.ctx.fill()
+                    break
+                case "text":    
+                    this.ctx.fillStyle = this.color
+                    this.ctx.textAlign = "center"
+                    this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
+                    this.ctx.fillText(this.text, 0, 0)
+                    break
+                case "none":
+                    break
+                default:
+                    this.rotate()
+                    this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation
             }
             this.ctx.restore()
         }
