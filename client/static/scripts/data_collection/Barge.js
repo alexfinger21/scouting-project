@@ -9,7 +9,7 @@ export default class Barge extends DrawableObject {
         this.color = "#FFF600"
         this.opacity = 0    
 
-        this.lastTick = Date.now()    
+        this.lastTick = Math.max()   
 
     }
 

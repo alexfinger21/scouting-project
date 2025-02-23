@@ -1,5 +1,11 @@
 import { consoleLog } from "../utility.js"
 
+function wait() {
+    return new Promise((res, rej) => {
+        setTimeout(res, 500)
+    })
+}
+
 export default class RenderQueue {
     constructor({ctx, canvasSize, dpr}) {
         this.ctx = ctx
@@ -66,6 +72,7 @@ export default class RenderQueue {
         while (this.queue.length) {
             const rndr = this.pop()
             rndr.render() 
+            //const w = await wait()
         }
         //consoleLog("queue end")
         this.ctx.restore()

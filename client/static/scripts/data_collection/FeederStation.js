@@ -5,11 +5,11 @@ const changePerS = 5
 
 export default class FeederStation extends DrawableObject {
     constructor({ x, y, ctx, renderQueue, canvasSize, points }) {
-        super({ ctx, renderQueue, img: "triangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.39, points})
+        super({ ctx, renderQueue, img: "triangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.39, zIndex: 2, points})
         this.color = "#FFF600"
-        this.opacity = 1    
+        this.opacity = 0   
 
-        this.lastTick = Date.now()    
+        this.lastTick = Math.max()    
 
     }
 
