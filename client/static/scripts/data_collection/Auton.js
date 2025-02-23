@@ -109,7 +109,6 @@ export default class {
         this.clickable.feederBottom.draw()
         this.clickable.feederTop.draw()
 
-        consoleLog(this.clickable.feederBottom.opacity)
         this.legend.draw()
         Object.values(this.clickable.coralScreens).forEach(e => {
             e.draw()

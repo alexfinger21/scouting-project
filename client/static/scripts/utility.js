@@ -103,7 +103,6 @@ function insideTriangle(x1,y1,x2,y2,x3,y3,x,y) {
     const is_pos11 = (x_coeff_1 * x3 + y_coeff_1 * y3 + const_1 >= 0)
     const is_pos1p = (x_coeff_1 * x + y_coeff_1 * y + const_1 >= 0)
 
-
     const x_coeff_2 = y3-y2
     const y_coeff_2 = x2-x3
     const const_2 = (y3-y2)*(-x2)+(x3-x2)*(y2)

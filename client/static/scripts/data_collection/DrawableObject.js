@@ -109,7 +109,6 @@ export default class DrawableObject {
                     this.ctx.fill()
                     break
                 case "triangle":
-                    consoleLog(this.points[0].y,this.ctx.globalAlpha)
                     this.ctx.beginPath()
                     this.ctx.fillStyle = this.color
                     this.ctx.moveTo(this.points[0].x,this.points[0].y)
@@ -130,7 +129,7 @@ export default class DrawableObject {
                     this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation
                     break
             }
-            console.log("restore", this.text, this.globalAlpha)
+
             this.ctx.restore()
         }
     }
