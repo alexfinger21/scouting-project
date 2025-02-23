@@ -10,6 +10,7 @@ lerna-debug.log*
 #node & private stuff
 package-lock*
 certs
+server/certs
 
 node_modules
 dist
