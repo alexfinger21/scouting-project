@@ -164,7 +164,7 @@ router.post("/", function (req, res) {
             updateData(body)
         }
         else {
-            consoleLog("Seventh scouter :joy:")
+            consoleLog("Seventh scouter found")
         }
     } else if (body.type == "comments") {
         consoleLog("comments:")

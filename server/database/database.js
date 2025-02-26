@@ -158,30 +158,6 @@ function saveData(data, is7thScouter=false) {
         ${data.position},
         ${data.username}`
 
-    let autonScoringStr = new String()
-    let endgameScoringStr = new String()
-    let autonPickedUp = data["preloaded"] ? 1 : 0
-
-    for (const [i, v] of Object.entries(data.gameData.autonPieceData)) {
-        autonScoringStr += `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${data.matchNumber}, '${data.alliance}', ${data.position}, '${data.username}', 2, ${i}, ${v}),`  
-        if(v > 0) {
-            autonPickedUp++
-        }
-    }
-
-    console.log("AUTON PICKED UP:", autonPickedUp)
-
-    for (const [i, v] of Object.entries(data.gameData.spotlights)) {
-        autonScoringStr += `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${data.matchNumber}, '${data.alliance}', ${data.position}, '${data.username}', 4,  ${i}, ${(v == 2 && i == (402 + data.gameData["Instage Location"])) ? 3 : v}),`  
-    }
-
-
-    console.log(autonScoringStr, endgameScoringStr, "SCORING STRINGS")
-    //console.log(linkArray)
-    
-    //console.log("LINK COUNT: " + linkCount)
-
-    //const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.${is7thScouter ? "7th_scouter_details": "game_details"} (
     
         const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
