@@ -149,6 +149,7 @@ function executeQuery(sql, callback=false) {
 
 function saveData(data, is7thScouter=false) {
     //console.log(data)
+    // scouting spreadsheet - https://docs.google.com/spreadsheets/d/1hft7JK_27KZjTL4E_xL3k83UKppFILQj7WBnTqjRwD0/edit?gid=0#gid=0
     const params =
         `${gameConstants.YEAR}, 
         ${gameConstants.COMP}, 
