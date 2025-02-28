@@ -515,6 +515,7 @@ canvas {
     height: 20vh !important;
     background: linear-gradient(#e6646500, #e66465ff);
     right: 8vh;
+    z-index: 75;
 
 }
 

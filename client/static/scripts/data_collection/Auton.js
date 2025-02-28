@@ -8,6 +8,7 @@ import CoralScreen from "./coral_screen/CoralScreen.js"
 import AlgaeMap from "./AlgaeMap.js"
 import Barge from "./Barge.js"
 import FeederStation from "./FeederStation.js"
+import Processor from "./Processor.js"
 
 const helpText = `1. Drag robot approx. start pos
 2. Click on reef to select where and which level piece was scored
@@ -31,19 +32,23 @@ export default class {
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
-        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, ctx, renderQueue: this.renderQueue,
+        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
             points: [
                 {x: this.canvasSize.x*1.137, y: this.canvasSize.y * 0.12},
                 {x: this.canvasSize.x * .95, y: this.canvasSize.y * 0.12},
                 {x: this.canvasSize.x * 1.137, y: this.canvasSize.y * 0.3 },
             ]
         })
-        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, ctx, renderQueue: this.renderQueue,
+        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
             points: [
                 {x: this.canvasSize.x*1.137, y: this.canvasSize.y * 1.16},
                 {x: this.canvasSize.x * .95, y: this.canvasSize.y * 1.16},
                 {x: this.canvasSize.x * 1.137, y: this.canvasSize.y * 0.98 },
             ]
+        })
+        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+            x: this.canvasSize.x*0.135,
+            y: this.canvasSize.y * 0
         })
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.clickable.coralScreens = {}
@@ -62,8 +67,9 @@ export default class {
             this.clickable.robots.onClick({x, y})
             this.clickable.barge.onClick({x, y})
             this.legend.onClick({x, y})
-            consoleLog("feeder top clicked: ", this.clickable.feederTop.onClick({x, y}))
-            consoleLog("feeder bottom clicked: ", this.clickable.feederBottom.onClick({x, y}))
+            this.clickable.feederTop.onClick({x, y})
+            this.clickable.feederBottom.onClick({x, y})
+            this.clickable.processor.onClick({x, y})
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
                 this.clickable.coralScreens[cRes.text].isSelected = true
@@ -109,6 +115,7 @@ export default class {
         this.clickable.barge.draw()
         this.clickable.feederBottom.draw()
         this.clickable.feederTop.draw()
+        this.clickable.processor.draw()
 
         this.legend.draw()
         Object.values(this.clickable.coralScreens).forEach(e => {
