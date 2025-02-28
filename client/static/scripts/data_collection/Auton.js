@@ -92,9 +92,10 @@ export default class {
     sendData() {
         const res = {}
         res["Starting Location"] = this.clickable.robots.sendData()["Starting Location"] ?? 0
+        res.auton = {}
         
         for (const k of Object.keys(this.clickable.coralScreens)) {
-            res[k] = this.clickable.coralScreens[k].sendData()
+            res.auton[k] = this.clickable.coralScreens[k].sendData()
         }
 
         return res

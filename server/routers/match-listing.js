@@ -5,7 +5,6 @@ const database = require("../database/database.js")
 const { checkAdmin } = require("../utility")
 const {getMatchVideos } = require("../TBAAPIData.js")
 const socketManager = require("../sockets.js")
-const { data } = require("jquery")
 const { consoleLog } = require("../utility")
 const SQL = require('sql-template-strings')
 
@@ -74,8 +73,6 @@ router.get("/", async function (req, res) {
         const tmr = Date.now()
         const [err, results] = await database.query(database.getTeams())
         //get isAdmin
-        consoleLog("MATCHES")
-        consoleLog(database.getTeams())
         const isAdmin = await checkAdmin(req)
 
         //get running game
@@ -135,7 +132,7 @@ router.post("/", function (req, res) {
         })
 
         database.query(database.clearMatchStrategyTemp(), (err, results) => {
-            //console.log(err)
+            console.log(err)
             database.query(database.saveMatchStrategy(), (err, results) => {
                 consoleLog(err)
                 consoleLog("DID it")
