@@ -58,12 +58,21 @@ export default class {
             this.clickable.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), images, canvasSize: this.canvasSize, zIndex: 10})
         }
 
+        // Prevent text and image dragging globally
+        document.addEventListener("dragstart", (event) => {
+            if (event.target.tagName !== "TR") {
+            event.preventDefault() 
+            }
+        })
+
+        
         //create table
 
         this.trash = document.createElement("div")
         this.trash.id="trash"
         document.body.insertBefore(this.trash, document.getElementById("page-holder"))
         this.table = document.querySelectorAll("#responsive-table table")[0]
+        this.table.ondragover = e => e.preventDefault()
         this.trows = []
 
         this.dragDeb = false
@@ -72,14 +81,17 @@ export default class {
         this.trash.draggable = true
         this.trash.ondragover = e => e.preventDefault()
         this.trash.ondragenter = e => {
+            e.preventDefault()
             this.trash.classList.add("hover")
             this.dragRow.classList.add("remove")
         }
         this.trash.ondragleave = e => {
+            e.preventDefault()
             this.trash.classList.remove("hover")
             this.dragRow.classList.remove("remove")
         }
         this.trash.ondrop = e => {
+            e.preventDefault()
             this.dragRow.remove()
             this.dragDeb = true
         }
@@ -117,6 +129,7 @@ export default class {
             }
     
             row.ondragenter = e => {
+                e.preventDefault()
                 row.classList.add("hover")
                 const a =  this.dragRow.getElementsByTagName("td")[1]
                 const b =  row.getElementsByTagName("td")[1]
@@ -127,9 +140,11 @@ export default class {
                 this.dragRow = row
             }
             row.ondragleave = e => {
+                e.preventDefault()
                 row.classList.remove("hover")
             }
             row.ondragend = (e) => {
+                e.preventDefault()
                 if(!this.dragDeb) {
                     const a =  this.dragRow.getElementsByTagName("td")[1]
                     a.innerText = this.draggingText
