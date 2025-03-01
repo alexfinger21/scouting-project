@@ -200,6 +200,10 @@ function loadData() {
         const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         endgameCanvas.width = endgameCanvasSize
         endgameCanvas.height = endgameCanvasSize
+        const lockImage = new Image()
+        lockImage.src = "./static/images/lock.png"
+        const draggableImage = new Image()
+        draggableImage.src = "./static/images/dropdown.png"
         const gamePieceImage = new Image()
         gamePieceImage.src = "./static/images/data-collection/orange-note.png"
         const mapImage = new Image()
@@ -224,7 +228,7 @@ function loadData() {
         algaeSelectedImage.src = `./static/images/data-collection/algae-selected.png`
         const proceedBtnImage = new Image()
         proceedBtnImage.src = `./static/images/data-collection/proceed-btn-${allianceColor == 'B' ? "blue" : "red"}.png`
-        const images = { gamePieceImage, algaeImage, algaeSelectedImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
+        const images = { lockImage, draggableImage, gamePieceImage, algaeImage, algaeSelectedImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
 
         await waitUntilImagesLoaded(Object.values(images))
 
@@ -624,80 +628,4 @@ function main() {
         }, 100); //in milliseconds
     })
 
-
-    const trash = document.createElement("div")
-    trash.id="trash"
-    document.body.insertBefore(trash, document.getElementById("page-holder"))
-    const trows = document.querySelectorAll("#responsive-table tr:not(:first-of-type)") //exclude thead
-
-    let dragRow
-
-    let dragDeb = false
-    let draggingText = ""
-    
-    for (const tr of trows) {
-        if(tr.draggable) {
-            tr.ondragstart = e => {
-                dragRow = tr
-                draggingText = dragRow.getElementsByTagName("td")[1].innerText
-                e.dataTransfer.dropEffect = "move"
-                e.dataTransfer.effectAllowed = "move"
-                e.dataTransfer.setData("text/html", tr.innerHTML)
-                trash.classList.add("show")
-            }
-    
-            tr.ondragover = e => {
-                e.preventDefault()
-            }
-    
-            tr.ondrop = e => {
-                e.preventDefault()
-                tr.innerHTML = e.dataTransfer.getData("text/html")
-                dragDeb = true
-            }
-    
-            tr.ondragenter = e => {
-                consoleLog('enter!', tr.innerHTML)
-                tr.classList.add("hover")
-                const a =  dragRow.getElementsByTagName("td")[1]
-                const b =  tr.getElementsByTagName("td")[1]
-                a.innerText = b.innerText
-                b.innerText = ""
-                dragRow.getElementsByTagName("img")[0].style.visibility="visible"
-                tr.getElementsByTagName("img")[0].style.visibility="hidden"
-                dragRow = tr
-            }
-            tr.ondragleave = e => {
-                tr.classList.remove("hover")
-            }
-            tr.ondragend = (e) => {
-                if(!dragDeb) {
-                    const a =  dragRow.getElementsByTagName("td")[1]
-                    a.innerText = draggingText
-                    dragRow.getElementsByTagName("img")[0].style.visibility="visible"
-                }
-                dragDeb = false
-                for (const r of trows) {
-                    r.classList.remove("hover")
-                    trash.classList.remove("show")
-                    trash.classList.remove("hover")
-                }
-            }
-        }
-    }
-
-    trash.draggable = true
-    trash.ondragover = e => e.preventDefault()
-    trash.ondragenter = e => {
-        trash.classList.add("hover")
-        dragRow.classList.add("remove")
-    }
-    trash.ondragleave = e => {
-        trash.classList.remove("hover")
-        dragRow.classList.remove("remove")
-    }
-    trash.ondrop = e => {
-        dragRow.remove()
-        dragDeb = true
-    }
 }

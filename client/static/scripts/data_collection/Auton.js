@@ -22,6 +22,7 @@ export default class {
         this.dpr = window.devicePixelRatio
         consoleLog("CTX SIZE", images, this.canvasSize)
         this.ctx = ctx
+        this.images = images
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
@@ -56,7 +57,93 @@ export default class {
         for (let i = 0; i<12; ++i) {
             this.clickable.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), images, canvasSize: this.canvasSize, zIndex: 10})
         }
+
+        //create table
+
+        this.trash = document.createElement("div")
+        this.trash.id="trash"
+        document.body.insertBefore(this.trash, document.getElementById("page-holder"))
+        this.table = document.querySelectorAll("#responsive-table table")[0]
+        this.trows = []
+
+        this.dragDeb = false
+        this.draggingText = ""
         
+        this.trash.draggable = true
+        this.trash.ondragover = e => e.preventDefault()
+        this.trash.ondragenter = e => {
+            this.trash.classList.add("hover")
+            this.dragRow.classList.add("remove")
+        }
+        this.trash.ondragleave = e => {
+            this.trash.classList.remove("hover")
+            this.dragRow.classList.remove("remove")
+        }
+        this.trash.ondrop = e => {
+            this.dragRow.remove()
+            this.dragDeb = true
+        }
+    }
+
+    addTableRow(text, draggable) {
+        const row = this.table.insertRow(-1)
+        row.draggable = draggable
+        const cell0 = row.insertCell(0)
+        const img = document.createElement("img")
+        img.src = (draggable ? this.images.draggableImage : this.images.lockImage).src
+        img.draggable = false
+        cell0.appendChild(img)
+        const cell1 = row.insertCell(1)
+        cell1.appendChild(document.createTextNode(text))
+
+        if(draggable) {
+            row.ondragstart = e => {
+                this.dragRow = row
+                this.draggingText = this.dragRow.getElementsByTagName("td")[1].innerText
+                e.dataTransfer.dropEffect = "move"
+                e.dataTransfer.effectAllowed = "move"
+                e.dataTransfer.setData("text/html", row.innerHTML)
+                this.trash.classList.add("show")
+            }
+    
+            row.ondragover = e => {
+                e.preventDefault()
+            }
+    
+            row.ondrop = e => {
+                e.preventDefault()
+                row.innerHTML = e.dataTransfer.getData("text/html")
+                this.dragDeb = true
+            }
+    
+            row.ondragenter = e => {
+                row.classList.add("hover")
+                const a =  this.dragRow.getElementsByTagName("td")[1]
+                const b =  row.getElementsByTagName("td")[1]
+                a.innerText = b.innerText
+                b.innerText = ""
+                this.dragRow.getElementsByTagName("img")[0].style.visibility="visible"
+                row.getElementsByTagName("img")[0].style.visibility="hidden"
+                this.dragRow = row
+            }
+            row.ondragleave = e => {
+                row.classList.remove("hover")
+            }
+            row.ondragend = (e) => {
+                if(!this.dragDeb) {
+                    const a =  this.dragRow.getElementsByTagName("td")[1]
+                    a.innerText = this.draggingText
+                    this.dragRow.getElementsByTagName("img")[0].style.visibility="visible"
+                }
+                this.dragDeb = false
+                for (const r of this.trows) {
+                    r.classList.remove("hover")
+                    this.trash.classList.remove("show")
+                    this.trash.classList.remove("hover")
+                }
+            }
+        }
+        this.trows.push(row)
     }
 
     onClick({ x, y }) {
@@ -65,11 +152,16 @@ export default class {
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
-            this.clickable.barge.onClick({x, y})
+            if(this.clickable.barge.onClick({x, y})) {
+                this.addTableRow("Score Barge", true)
+            }
             this.legend.onClick({x, y})
-            this.clickable.feederTop.onClick({x, y})
-            this.clickable.feederBottom.onClick({x, y})
-            this.clickable.processor.onClick({x, y})
+            if(this.clickable.feederTop.onClick({x, y})) {
+                this.addTableRow("Feed Coral: Top", true)
+            }
+            if(this.clickable.feederBottom.onClick({x, y})) {
+                this.addTableRow("Feed Coral: Bottom", true)
+            }            this.clickable.processor.onClick({x, y})
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
                 this.clickable.coralScreens[cRes.text].isSelected = true
