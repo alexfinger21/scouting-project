@@ -6,11 +6,12 @@ import DrawableObject from "../DrawableObject.js"
 
 
 export default class CoralScreen {
-    constructor({ctx, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
+    constructor({ctx, ge_key, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
         this.letter = letter
         this.isSelected = false
+        this.ge_key = ge_key
 
         const startX = canvasSize.x * 0.27
         const padX = canvasSize.x * 0.035
@@ -99,7 +100,9 @@ export default class CoralScreen {
                     a.setValue({value: 0})
                 }
                 this.isSelected = false
+                return this.data
             }
         }
+        return false
     }
 }
