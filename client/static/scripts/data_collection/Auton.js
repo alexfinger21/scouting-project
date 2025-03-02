@@ -198,9 +198,13 @@ export default class {
                     this.trows.splice(i, 1)
                 }
             }
-            if(ge_key > 21000 && ge_key < 30000) { //if its a coral row
+            if(ge_key > 21000 && ge_key < 30000) { //if its coral
                 //update data in corresponding coralscreen
                 this.clickable.coralScreens[get_letter(ge_key)].data[get_row(ge_key)-1][get_scored(ge_key) == true ? 0 : 1] -= 1
+            }
+            if(ge_key >= 2008 && ge_key <= 2013) { //if its algae
+                //update corresponding algae
+                this.clickable.algae.algae[ge_key - 2008].isSelected = false
             }
             //delete row
             row.remove()
@@ -235,28 +239,33 @@ export default class {
 
             const aRes = this.clickable.algae.onClick({x, y})
             if(aRes != false) {
-                let label = ""
-                switch(aRes.ge_key) {
-                    case 2008:
-                        label="AB"
-                        break
-                    case 2009:
-                        label="CD"
-                        break
-                    case 2010:
-                        label="EF"
-                        break
-                    case 2011:
-                        label="GH"
-                        break
-                    case 2012:
-                        label="IJ"
-                        break
-                    case 2013:
-                        label="KL"
-                        break
+                if(aRes.isSelected) {
+                    let label = ""
+                    switch(aRes.ge_key) {
+                        case 2008:
+                            label="AB"
+                            break
+                        case 2009:
+                            label="CD"
+                            break
+                        case 2010:
+                            label="EF"
+                            break
+                        case 2011:
+                            label="GH"
+                            break
+                        case 2012:
+                            label="IJ"
+                            break
+                        case 2013:
+                            label="KL"
+                            break
+                    }
+                    this.addTableRow({text: "Dislodge " + label, ge_key: aRes.ge_key, draggable: true})
                 }
-                this.addTableRow({text: "Dislodge " + label, ge_key: aRes.ge_key, draggable: true})
+                else {
+                    this.removeTableRow({ge_key: aRes.ge_key})
+                }
             }
             
         } else {
