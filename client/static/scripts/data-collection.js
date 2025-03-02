@@ -339,6 +339,18 @@ function loadData() {
             EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
         })
 
+        const robotTaxiesButton = document.getElementById("robot-taxies")
+        robotTaxiesButton.addEventListener("change", () => { //when this button is pressed, add "robot leaves starting zone" to the auton table
+            if (robotTaxiesButton.checked == true) {
+                if(AutonObject.findTableRows({ge_key: 1001}).length == 0) { //if row is not already in the table
+                    AutonObject.addTableRow({text: "Leave Starting Zone", ge_key: 1001, draggable: false, position: 1})
+                }
+            }
+            else {
+                AutonObject.removeTableRow({ge_key: 1001})
+            }
+        })
+
         if (!localData) {
             return rej()
         }
@@ -374,6 +386,7 @@ function loadData() {
                     }
                 })
             })
+
 
             //load comments
             const commentsSection = document.getElementById("comments-container")

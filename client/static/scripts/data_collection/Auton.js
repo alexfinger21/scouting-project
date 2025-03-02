@@ -111,14 +111,14 @@ export default class {
         }
         this.trash.ondrop = e => {
             e.preventDefault()
-            consoleLog(this.dragRow.getAttribute("ge_key"))
             this.removeTableRow({ge_key: this.dragRow.getAttribute("ge_key")})
             this.dragDeb = true
+            this.trash.classList.remove("show")
         }
     }
 
-    addTableRow({text, ge_key, draggable}) {
-        const row = this.table.insertRow(-1)
+    addTableRow({text, ge_key, draggable, position=-1}) {
+        const row = this.table.insertRow(position)
         row.setAttribute("ge_key", ge_key)
         row.draggable = draggable
         const cell0 = row.insertCell(0)
