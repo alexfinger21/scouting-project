@@ -234,9 +234,30 @@ export default class {
             }
 
             const aRes = this.clickable.algae.onClick({x, y})
-            /*if(aRes != false) {
-                this.addTableRow(aRes.ge_key)
-            }*/
+            if(aRes != false) {
+                let label = ""
+                switch(aRes.ge_key) {
+                    case 2008:
+                        label="AB"
+                        break
+                    case 2009:
+                        label="CD"
+                        break
+                    case 2010:
+                        label="EF"
+                        break
+                    case 2011:
+                        label="GH"
+                        break
+                    case 2012:
+                        label="IJ"
+                        break
+                    case 2013:
+                        label="KL"
+                        break
+                }
+                this.addTableRow({text: "Dislodge " + label, ge_key: aRes.ge_key, draggable: true})
+            }
             
         } else {
             Object.values(this.clickable.coralScreens).forEach(e => {
