@@ -207,6 +207,18 @@ export default class {
         if(ge_key > 21000 && ge_key < 30000) { //if its coral
             //update data in corresponding coralscreen
             this.clickable.coralScreens[get_letter(ge_key)].data[get_row(ge_key)-1][get_scored(ge_key) == true ? 0 : 1] -= 1
+        }  
+        if(ge_key == 2004) {//processor
+            this.clickable.processor.data--
+        }
+        if(ge_key == 2005) {//net
+            this.clickable.barge.data--
+        }
+        if(ge_key == 2006) {//net
+            this.clickable.feederTop.data--
+        }
+        if(ge_key == 2007) {//net
+            this.clickable.feederBottom.data--
         }
         if(ge_key >= 2008 && ge_key <= 2013) { //if its algae
             //update corresponding algae
