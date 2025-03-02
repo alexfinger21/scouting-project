@@ -48,7 +48,7 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.clickable.barge = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
@@ -217,7 +217,7 @@ export default class {
             this.clickable.processor.count--
         }
         if(ge_key == 2005) {//net
-            this.clickable.barge.count--
+            this.clickable.net.count--
         }
         if(ge_key == 2006) {//net
             this.clickable.feederTop.count--
@@ -240,7 +240,7 @@ export default class {
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
-            if(this.clickable.barge.onClick({x, y})) {
+            if(this.clickable.net.onClick({x, y})) {
                 this.addTableRow({text: "Score Net", ge_key: 2005, draggable: true})
             }
             this.legend.onClick({x, y})
@@ -317,6 +317,7 @@ export default class {
         res["feederTop"] = this.clickable.feederTop.sendData() 
 
         res["autonPath"] = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
+        res["net"] = this.clickable.net.sendData()
 
         return res
     }
@@ -326,7 +327,7 @@ export default class {
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.clickable.algae.draw()
-        this.clickable.barge.draw()
+        this.clickable.net.draw()
         this.clickable.feederBottom.draw()
         this.clickable.feederTop.draw()
         this.clickable.processor.draw()
