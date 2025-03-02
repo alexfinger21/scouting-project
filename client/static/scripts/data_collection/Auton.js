@@ -6,7 +6,7 @@ import Legend from "./Legend.js"
 import RenderQueue from "./RenderQueue.js"
 import CoralScreen from "./coral_screen/CoralScreen.js"
 import AlgaeMap from "./AlgaeMap.js"
-import Barge from "./Barge.js"
+import Net from "./Net.js"
 import FeederStation from "./FeederStation.js"
 import Processor from "./Processor.js"
 
@@ -48,7 +48,7 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.clickable.barge = new Barge({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
+        this.clickable.barge = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
@@ -90,7 +90,7 @@ export default class {
         this.trash = document.createElement("div")
         this.trash.id="trash"
         document.body.insertBefore(this.trash, document.getElementById("page-holder"))
-        this.table = document.querySelectorAll("#responsive-table table")[0]
+        this.table = document.querySelector("#responsive-table table")
         this.table.ondragover = e => e.preventDefault()
         this.trows = []
 
@@ -241,14 +241,14 @@ export default class {
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
             if(this.clickable.barge.onClick({x, y})) {
-                this.addTableRow({text: "Score Barge", ge_key: 2005, draggable: true})
+                this.addTableRow({text: "Score Net", ge_key: 2005, draggable: true})
             }
             this.legend.onClick({x, y})
             if(this.clickable.feederTop.onClick({x, y})) {
-                this.addTableRow({text: "Feed Coral: Top", ge_key: 0, draggable: true})
+                this.addTableRow({text: "Feed Coral: Top", ge_key: 2006, draggable: true})
             }
             if(this.clickable.feederBottom.onClick({x, y})) {
-                this.addTableRow({text: "Feed Coral: Bottom", ge_key: 0, draggable: true})
+                this.addTableRow({text: "Feed Coral: Bottom", ge_key: 2007, draggable: true})
             }
             if(this.clickable.processor.onClick({x, y})) {
                 this.addTableRow({text: "Score Processor", ge_key: 2004, draggable: true})
@@ -261,27 +261,7 @@ export default class {
             const aRes = this.clickable.algae.onClick({x, y})
             if(aRes != false) {
                 if(aRes.isSelected) {
-                    let label = ""
-                    switch(aRes.ge_key) {
-                        case 2008:
-                            label="AB"
-                            break
-                        case 2009:
-                            label="CD"
-                            break
-                        case 2010:
-                            label="EF"
-                            break
-                        case 2011:
-                            label="GH"
-                            break
-                        case 2012:
-                            label="IJ"
-                            break
-                        case 2013:
-                            label="KL"
-                            break
-                    }
+                    const label = String.fromCharCode(65 + aRes.ge_key - 2008)*2 + String.fromCharCode(65 + (aRes.ge_key - 2008)*2 + 1)
                     this.addTableRow({text: "Dislodge " + label, ge_key: aRes.ge_key, draggable: true})
                 }
                 else {
@@ -303,6 +283,7 @@ export default class {
                             }
                         }
                     }
+                    consoleLog(this.sendData())
                 }
             })
         }
@@ -329,6 +310,13 @@ export default class {
         for (const k of Object.keys(this.clickable.coralScreens)) {
             res.auton[k] = this.clickable.coralScreens[k].sendData()
         }
+
+        res.algae = this.clickable.algae.sendData()
+        res["feederTop"] = this.clickable.feederTop.sendData() 
+        res["feederBottom"] = this.clickable.feederBottom.sendData() 
+        res["feederTop"] = this.clickable.feederTop.sendData() 
+
+        res["autonPath"] = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
 
         return res
     }

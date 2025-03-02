@@ -22,6 +22,12 @@ export default class Processor extends DrawableObject {
         return false
     }
 
+    sendData() {
+        return {
+            "count": this.count
+        }
+    }
+
     draw() {
         this.opacity = lerpOpacity(1, 
             0, 

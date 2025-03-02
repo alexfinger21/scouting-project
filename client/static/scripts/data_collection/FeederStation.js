@@ -23,6 +23,12 @@ export default class FeederStation extends DrawableObject {
         return false
     }
 
+    sendData() {
+        return {
+            "count": this.count
+        }
+    }
+
     draw() {
         this.opacity = lerpOpacity(1, 
             0, 

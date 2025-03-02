@@ -31,50 +31,6 @@ export default class PiecesMap {
                 }))  
             }
         }
-
-        //Splotlight notes moving top-down
-        if ("403" in pieceData && !isAuton) { //topmost spotlight
-            this.pieces.push(new GamePiece({
-                x: isBlue ? canvasSize.x * 0.51 : canvasSize.x * 0.25,
-                y: isBlue ? canvasSize.y * 0.37 : canvasSize.y * 0.44,
-                ctx,
-                img,
-                isSelected: pieceData["403"] > 0,
-                spotlightStatus: pieceData["403"] == 2,
-                ge_key: 403,
-                canSpotlight: true,
-                zIndex: 2,
-                canvasSize 
-            }))
-        }
-        if ("404" in pieceData && !isAuton) { //middle spotlight
-            this.pieces.push(new GamePiece({
-                x: isBlue ? canvasSize.x * 0.62 : canvasSize.x * 0.36,
-                y: isBlue ? canvasSize.y * 0.44 : canvasSize.y * 0.36,
-                ctx,
-                img,
-                isSelected: pieceData["404"] > 0,
-                spotlightStatus: pieceData["404"] == 2,
-                ge_key: 404,
-                canSpotlight: true,
-                canvasSize 
-            }))
-        }
-        if ("405" in pieceData && !isAuton) { //bottommost spotlight
-            this.pieces.push(new GamePiece({
-                x: isBlue? canvasSize.x * 0.51: canvasSize.x*0.37,
-                y: isBlue? canvasSize.y * 0.50: canvasSize.y*0.5,
-                ctx,
-                img,
-                isSelected: pieceData["405"] > 0,
-                spotlightStatus: pieceData["405"] == 2,
-                ge_key: 405,
-                canSpotlight: true,
-                canvasSize 
-            }))
-        }
-
-
         //console.log(this.pieces)
     }
 
@@ -87,17 +43,6 @@ export default class PiecesMap {
         })
 
         return res ?? false
-    }
-
-    sendData() {
-        const data = {}
-
-        for (const x of this.pieces) {
-            const val =  x.spotlightStatus ? 2 : (x.isSelected ? 1 : 0)
-            data[x.ge_key] = val            
-        }
-
-        return data
     }
 
     draw() {

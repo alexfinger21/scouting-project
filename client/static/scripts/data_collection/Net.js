@@ -3,7 +3,7 @@ import DrawableObject from "./DrawableObject.js"
 
 const changePerS = 5
 
-export default class Barge extends DrawableObject {
+export default class Net extends DrawableObject {
     constructor({ x, y, ctx, count=0, renderQueue, canvasSize }) {
         super({ ctx, count, renderQueue, img: "rectangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.39 })
         this.color = "#FFF600"
@@ -20,6 +20,12 @@ export default class Barge extends DrawableObject {
             return true
         }
         return false
+    }
+
+    sendData() {
+        return {
+            "score": this.count
+        }
     }
 
     draw() {

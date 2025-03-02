@@ -49,7 +49,7 @@ export default class AlgaeMap {
         const data = {}
 
         for (const x of this.algae) {
-            data[x.ge_key] = val
+            data[x.ge_key] = x.sendData()
         }
 
         return data

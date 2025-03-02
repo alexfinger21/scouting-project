@@ -14,6 +14,12 @@ export default class Algae extends DrawableObject {
         super.draw()
     }
 
+    sendData() {
+        return {
+            "isSelected": this.isSelected
+        }
+    }
+
     onClick({ x, y }) {
         if (super.inBoundingRadius({ x, y })) {
             this.isSelected = !this.isSelected
