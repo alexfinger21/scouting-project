@@ -90,12 +90,12 @@ function drawCharts(data, selectedValue, scouter, team) {
     {
         if((data[i].red.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].red.teams.includes(team) || team == "--NO TEAM--")) {
             somedataR.push({x:data[i].red.matchStats[selectedValue].TBA,
-                y: data[i].red.matchStats[selectedValue].DB, label: "Match #${i}"})
+                y: data[i].red.matchStats[selectedValue].DB, match: i}) // where z is the match number
         }
         
         if((data[i].blue.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].blue.teams.includes(team) || team == "--NO TEAM--")) {
             somedataB.push({x:data[i].blue.matchStats[selectedValue].TBA,
-                y: data[i].blue.matchStats[selectedValue].DB})
+                y: data[i].blue.matchStats[selectedValue].DB, match: i})
         }
     }
 
@@ -147,7 +147,8 @@ function drawCharts(data, selectedValue, scouter, team) {
 
                             // Increase radius for overlapping points
                             return returnValue();
-                        }
+                        },
+                        zIndex: 10
                     },
                     {
                         // 45-degree line
@@ -186,38 +187,39 @@ function drawCharts(data, selectedValue, scouter, team) {
                     x: {
                         title: {
                             display: true,
-                            text: 'TBA DATA' // This will label the X axis
+                            text: 'TBA DATA', // This will label the X axis
+                            zIndex: 5
                         },
                         max: maxhtR,
+                        //min: 0,
                     },
                     y: {
                         title: {
                             display: true,
-                            text: 'DB DATA' // This will label the X axis
+                            text: 'DB DATA', // This will label the X axis
+                            zIndex: 5
                         },
                         max: maxhtR,
+                        //min: 0,
                     },
                 },
                 plugins: {
                     legend: {
                       display: true,
                     },
-                    tooltips: {
-                        enabled: true, // Enable the tooltips
-                        mode: 'nearest', // Show tooltip when the point is hovered
+                    tooltip: {
                         callbacks: {
-                          // Custom tooltip callback to display the label
-                          title: function(tooltipItems) {
-                            // Tooltip title is empty
-                            return '';
-                          },
-                          label: function(tooltipItem) {
-                            // Display the label for the point
-                            const dataset = tooltipItem.dataset.data[tooltipItem.dataIndex];
-                            return dataset.label; // Show the label (A, B, C, etc.)
-                          }
+                            label: function(tooltipItem) {
+                                // Access the data point (x, y)
+                                const index = tooltipItem.raw.match; // yo i lowk dont know how this works so dont touch it
+        
+                                // Return a custom text for the tooltip
+                                return 'Match #: ' + index;
+                            }
                         }
-                      }
+                    }
+            
+         
                 },
             }
     });
@@ -295,6 +297,7 @@ function drawCharts(data, selectedValue, scouter, team) {
                             text: 'TBA DATA' // This will label the X axis
                         },
                         max: maxhtB,
+                        //min: 0,
                     },
                     y: {
                         title: {
@@ -302,28 +305,24 @@ function drawCharts(data, selectedValue, scouter, team) {
                             text: 'DB DATA' // This will label the X axis
                         },
                         max: maxhtB,
+                        //min: 0,
                     },
                 },
                 plugins: {
                     legend: {
                       display: true,
                     },
-                    tooltips: {
-                        enabled: true, // Enable the tooltips
-                        mode: 'nearest', // Show tooltip when the point is hovered
+                    tooltip: {
                         callbacks: {
-                          // Custom tooltip callback to display the label
-                          title: function(tooltipItems) {
-                            // Tooltip title is empty
-                            return '';
-                          },
-                          label: function(tooltipItem) {
-                            // Display the label for the point
-                            const dataset = tooltipItem.dataset.data[tooltipItem.dataIndex];
-                            return dataset.label; // Show the label (A, B, C, etc.)
-                          }
+                            label: function(tooltipItem) {
+                                // Access the data point (x, y)
+                                const index = tooltipItem.raw.match; // yo i lowk dont know how this works so dont touch it
+        
+                                // Return a custom text for the tooltip
+                                return 'Match #: ' + index;
+                            }
                         }
-                      }
+                    }
                 }
             }                                                     
 
