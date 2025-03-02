@@ -206,19 +206,24 @@ export default class {
         }
         if(ge_key > 21000 && ge_key < 30000) { //if its coral
             //update data in corresponding coralscreen
-            this.clickable.coralScreens[get_letter(ge_key)].data[get_row(ge_key)-1][get_scored(ge_key) == true ? 0 : 1] -= 1
+            if(get_scored(ge_key) == true) {
+                this.clickable.coralScreens[get_letter(ge_key)].clickAreas[get_row(ge_key)-1].scored -= 1
+            }
+            else {
+                this.clickable.coralScreens[get_letter(ge_key)].clickAreas[get_row(ge_key)-1].scored -= 1
+            }
         }  
         if(ge_key == 2004) {//processor
-            this.clickable.processor.data--
+            this.clickable.processor.count--
         }
         if(ge_key == 2005) {//net
-            this.clickable.barge.data--
+            this.clickable.barge.count--
         }
         if(ge_key == 2006) {//net
-            this.clickable.feederTop.data--
+            this.clickable.feederTop.count--
         }
         if(ge_key == 2007) {//net
-            this.clickable.feederBottom.data--
+            this.clickable.feederBottom.count--
         }
         if(ge_key >= 2008 && ge_key <= 2013) { //if its algae
             //update corresponding algae
@@ -287,14 +292,13 @@ export default class {
         } else {
             Object.values(this.clickable.coralScreens).forEach(e => {
                 if(e.isSelected) {
-                    const data = e.onClick({x, y}) 
-                    if(data != false) {//proceed button was clicked
-                        for(let i = 0; i < data.length; ++i) {
-                            consoleLog(data[i][0], this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length)
-                            if(data[i][0] > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length) { //if there are more scored in data than on the table
+                    const clicked = e.onClick({x, y}) 
+                    if(clicked ) {//proceed button was clicked
+                        for(let i = 0; i < e.clickAreas.length; ++i) {
+                            if(e.clickAreas[i].scored > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length) { //if there are more scored in data than on the table
                                 this.addTableRow({text: "Score Coral " + e.letter + "L" + (i+1), ge_key: coral_ge_key(i+1, e.letter, true), draggable: true})
                             }
-                            if(data[i][1] > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, false)}).length) { //if there are more scored in data than on the table
+                            if(e.clickAreas[i].missed > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, false)}).length) { //if there are more scored in data than on the table
                                 this.addTableRow({text: "Miss Coral " + e.letter + "L" + (i+1), ge_key: coral_ge_key(i+1, e.letter, false), draggable: true })
                             }
                         }

@@ -37,7 +37,7 @@ export default class CoralScreen {
                 },
             })
             this.clickAreas.push(cA)
-            const sI = new DrawableObject({ctx, sX: 1, sY: 1, img: "text", text: `${this.clickAreas[i].scored}/${this.clickAreas[i].scored+this.score[i][0].missed}`, textSize: canvasSize.x * 0.04, renderQueue, zIndex: 9999999,
+            const sI = new DrawableObject({ctx, sX: 1, sY: 1, img: "text", text: `${cA.scored}/${cA.scored+cA.missed}`, textSize: canvasSize.x * 0.04, renderQueue, zIndex: 9999999,
                 x: startX + padX + cA.sX + canvasSize.x * 0.05,
                 y: startY + padY + canvasSize.y * 0.142 * i + canvasSize.x * 0.06,
             })
@@ -55,8 +55,8 @@ export default class CoralScreen {
             }
             for(let i = 0; i < 4; i++) {
                 const sI = this.scoreIndicators[i]
-                const score = this.score[i]
-                sI.text = `${score[0]}/${score[1]+score[0]}`
+                const clickArea = this.clickAreas[i]
+                sI.text = `${clickArea.scored}/${clickArea.scored+clickArea.missed}`
                 sI.draw()
             }
         }
@@ -90,15 +90,15 @@ export default class CoralScreen {
                 for(let i = 0; i < 4; i++) {
                     const a = this.clickAreas[i]
                     if(a.value == 1) {
-                        this.score[i][0]++
+                        this.clickAreas[i].scored++
                     }
                     if(a.value == 2) {
-                        this.score[i][1]++
+                        this.clickAreas[i].missed++
                     }
                     a.setValue({value: 0})
                 }
                 this.isSelected = false
-                return this.score
+                return true
             }
         }
         return false
