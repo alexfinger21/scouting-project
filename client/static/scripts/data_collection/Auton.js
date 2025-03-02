@@ -111,7 +111,7 @@ export default class {
         }
         this.trash.ondrop = e => {
             e.preventDefault()
-            this.removeTableRow({ge_key: this.dragRow.getAttribute("ge_key")})
+            this.removeTableRow({row: this.dragRow, ge_key: this.dragRow.getAttribute("ge_key")})
             this.dragDeb = true
             this.trash.classList.remove("show")
         }
@@ -187,30 +187,34 @@ export default class {
         return [...this.trows].filter(e => e.getAttribute("ge_key") == ge_key)
     }
 
-    /*removes last table row matching ge_key*/
-    removeTableRow({ge_key}) {
-        const rows = this.findTableRows({ge_key})
-        if(rows.length > 0) {
-            const row = rows.pop() //get last matching row
-            //remove row from this.trows array
-            for(let i = 0; i < this.trows.length; ++i) {
-                if(this.trows[i] == row) {
-                    this.trows.splice(i, 1)
-                }
+    /*removes last table row matching ge_key, or specific row matching ge_key if row field is given*/
+    removeTableRow({row, ge_key}) {
+        if(row == null) {
+            const rows = this.findTableRows({ge_key})
+            if(rows.length > 0) {
+                row = rows.pop() //get last matching row
             }
-            if(ge_key > 21000 && ge_key < 30000) { //if its coral
-                //update data in corresponding coralscreen
-                this.clickable.coralScreens[get_letter(ge_key)].data[get_row(ge_key)-1][get_scored(ge_key) == true ? 0 : 1] -= 1
+            else {
+                return false
             }
-            if(ge_key >= 2008 && ge_key <= 2013) { //if its algae
-                //update corresponding algae
-                this.clickable.algae.algae[ge_key - 2008].isSelected = false
-            }
-            //delete row
-            row.remove()
-            return true
         }
-        return false
+        //remove row from this.trows array
+        for(let i = 0; i < this.trows.length; ++i) {
+            if(this.trows[i] == row) {
+                this.trows.splice(i, 1)
+            }
+        }
+        if(ge_key > 21000 && ge_key < 30000) { //if its coral
+            //update data in corresponding coralscreen
+            this.clickable.coralScreens[get_letter(ge_key)].data[get_row(ge_key)-1][get_scored(ge_key) == true ? 0 : 1] -= 1
+        }
+        if(ge_key >= 2008 && ge_key <= 2013) { //if its algae
+            //update corresponding algae
+            this.clickable.algae.algae[ge_key - 2008].isSelected = false
+        }
+        //delete row
+        row.remove()
+        return true
     }
 
     onClick({ x, y }) {

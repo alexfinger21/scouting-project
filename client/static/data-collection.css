@@ -542,17 +542,21 @@ canvas {
     #auton-scoring-container {
         flex-direction: row;
         align-content: space-between;
-        width: 90%;
+        width: 95%;
         margin-left: auto;
         margin-right: auto;
     }
 
     #sortable {
         width: 35vw !important;
+        margin-left: 5%;
     }
 
     #responsive-table {
         margin-top: 2.2vh;
+        height: 40vh;
+        overflow-y: auto;
+        width: 100vw;
     }
 
 
