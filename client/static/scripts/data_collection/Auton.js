@@ -210,7 +210,7 @@ export default class {
                 this.clickable.coralScreens[get_letter(ge_key)].clickAreas[get_row(ge_key)-1].scored -= 1
             }
             else {
-                this.clickable.coralScreens[get_letter(ge_key)].clickAreas[get_row(ge_key)-1].scored -= 1
+                this.clickable.coralScreens[get_letter(ge_key)].clickAreas[get_row(ge_key)-1].missed -= 1
             }
         }  
         if(ge_key == 2004) {//processor

@@ -189,17 +189,15 @@ function loadData() {
         const autonCanvasContainer = autonCanvas.parentElement
         const autonCanvasCTX = autonCanvas.getContext("2d")
         const teleopCanvas = document.getElementById("teleop-canvas")
+        const teleopCanvasContainer = teleopCanvas.parentElement
         const teleopCanvasCTX = teleopCanvas.getContext("2d")
-
-        const endgameCanvas = document.getElementById("endgame-canvas")
-        const endgameCanvasCTX = endgameCanvas.getContext("2d")
 
         const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         autonCanvas.height = autonCanvasSize
         autonCanvas.width = autonCanvasSize*763/595
-        const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-        endgameCanvas.width = endgameCanvasSize
-        endgameCanvas.height = endgameCanvasSize
+        const teleopCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
+        teleopCanvas.width = teleopCanvasSize
+        teleopCanvas.height = teleopCanvasSize
         const lockImage = new Image()
         lockImage.src = "./static/images/lock.png"
         const draggableImage = new Image()
@@ -271,7 +269,7 @@ function loadData() {
         }
 
         AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-        EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
+        EndgameObject = new Endgame({ ctx: teleopCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
         
         setTimeout(() => {
             consoleLog("sent data", AutonObject.sendData())
@@ -335,8 +333,8 @@ function loadData() {
         })
 
 
-        endgameCanvas.addEventListener("click", (event) => {
-            EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
+        teleopCanvas.addEventListener("click", (event) => {
+            EndgameObject.onClick({ event, leftOffset: teleopCanvas.getBoundingClientRect().left, topOffset: teleopCanvas.getBoundingClientRect().top + window.scrollY })
         })
 
         const robotTaxiesButton = document.getElementById("robot-taxies")

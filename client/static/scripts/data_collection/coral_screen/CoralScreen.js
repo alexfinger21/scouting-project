@@ -29,7 +29,7 @@ export default class CoralScreen {
         this.clickAreas = []
         this.scoreIndicators = []
 
-        for(let i = 0; i < 4; i++) {
+        for(let i = 3; i >= 0; i--) {
             const cA = new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: 0, img: images.clickAreaImage, canvasSize: this.canvasSize,
                 pos: {
                     x: startX + padX,
