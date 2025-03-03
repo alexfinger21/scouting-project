@@ -26,8 +26,23 @@ const fs = require('node:fs/promises'); // file-system for writing to other file
 
 /* TBAAPITNAMES[0] should be the value which correlates to DBNAMES[0] and etc, etc.
    If format isn't followed then the combined data will be wrong*/
-const TBAAPINAMES = ["autoAmpNoteCount", "autoSpeakerNoteCount", "teleopSpeakerNoteCount", "teleopAmpNoteCount"] 
-const DBNAMES = ['211', '210', '301+302', '303']
+
+/*use 2025 eventually
+const TBAAPINAMES = [
+"autoLineRobot1", "autoLineRobot2", "autoLineRobot3",
+"autoReef.tba_botRowCount", "autoReef.tba_midRowCount", "autoReef.tba_topRowCount", "autoReef.trough",
+"teleopReef.tba_botRowCount", "teleopReef.tba_midRowCount", "teleopReef.tba_topRowCount", "teleopReef.trough",
+"algaePoints", "endGameRobot1", "endGameRobot2", "endGameRobot3",
+]
+*/
+const TBAAPINAMES = [
+    "autoReef.trough", "autoReef.tba_botRowCount", "autoReef.tba_midRowCount", "autoReef.tba_topRowCount",
+    "teleopReef.trough", "teleopReef.tba_botRowCount", "teleopReef.tba_midRowCount", "teleopReef.tba_topRowCount",
+    ]
+
+//const TBAAPINAMES = ["autoAmpNoteCount", "autoSpeakerNoteCount", "teleopSpeakerNoteCount", "teleopAmpNoteCount"] 
+//const DBNAMES = ['211', '210', '301+302', '303']
+const DBNAMES = ['Auton L1','Auton L2','Auton L3','Auton L4','Teleop L1', 'Teleop L2', 'Teleop L3', 'Teleop L4']
 
 /* Offsets the the RowDataPacket to go from blue to red.
    Idk how it works, ask mayer*/
@@ -47,13 +62,13 @@ const OFFSET = TBAAPINAMES.length
 async function APIData() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
-    //const gametype = (gameConstants.GAME_TYPE.toLowerCase() === "qm" || gameConstants.GAME_TYPE.toLowerCase() === "q") ? "qm" : "";
+    
     const gametype = "qm" //only want qual matches
 
     const filteredData = {};
 
     //list of what we get from TBA
-    let input = TBAAPINAMES;
+    const input = TBAAPINAMES;
 
     // Loop through all match data
     for (let i = 0; i < matchData.length; i++) {
@@ -69,12 +84,28 @@ async function APIData() //gets the data from theBlueAlliance
         // Loop through each field in 'input'
         for (let j = 0; j < input.length; j++) {
             const key = input[j];
-            // Ensure that the key exists before assigning to filteredData
-            if (scoreBreakdown.red[key] !== undefined) {
-                filteredData[matchNumber].red[key] = scoreBreakdown.red[key];
+            
+            if (key.includes('.')) { // if key is an object within object (reef.column3)
+                const parts = key.split('.'); // split into parts
+                
+                // Check and assign for red
+                if (scoreBreakdown.red[parts[0]] && scoreBreakdown.red[parts[0]][parts[1]] !== undefined) {
+                    filteredData[matchNumber].red[parts[0]+parts[1]] = scoreBreakdown.red[parts[0]][parts[1]]; 
+                }
+                
+                // Check and assign for blue
+                if (scoreBreakdown.blue[parts[0]] && scoreBreakdown.blue[parts[0]][parts[1]] !== undefined) {
+                    filteredData[matchNumber].blue[parts[0]+parts[1]] = scoreBreakdown.blue[parts[0]][parts[1]];
+                }
             }
-            if (scoreBreakdown.blue[key] !== undefined) {
-                filteredData[matchNumber].blue[key] = scoreBreakdown.blue[key];
+            else {
+                // Ensure that the key exists before assigning to filteredData
+                if (scoreBreakdown.red[key] !== undefined) {
+                    filteredData[matchNumber].red[key] = scoreBreakdown.red[key];
+                }
+                if (scoreBreakdown.blue[key] !== undefined) {
+                    filteredData[matchNumber].blue[key] = scoreBreakdown.blue[key];
+                }
             }
         }
     }
@@ -101,7 +132,7 @@ async function APIData() //gets the data from theBlueAlliance
 //formerly legoat
 async function DataBaseData()// Gets the data from the Database
 {
-    const dbData = await getScoutifyMatchData()
+    const dbData = await getScoutifyMatchData() 
 
     const offset = OFFSET // offsets the the RowDataPacket to go from blue to red
 
@@ -109,8 +140,8 @@ async function DataBaseData()// Gets the data from the Database
     let scouters = {} // the returned obj of scouters
 
     let num = 0 // an iterator variable. Don't change
-
-
+    
+    //consoleLog(dbData)
     for (let i = 0; i < dbData[1].length; i++) {
         const matchNum = dbData[1][i].game_matchup_gm_number;
 
@@ -119,7 +150,7 @@ async function DataBaseData()// Gets the data from the Database
     
         if(num < matchNum)
         {   
-            const otherMatchNum = Math.ceil(i/(offset*2))
+            const otherMatchNum = Math.ceil(i/(offset*2)) // Bad explanation but here goes: i is the current iterator number, we divide by 2 because there is two teams (blue red), and divide by the offset which is the amount of variables which we store (this is a constant because it varies year to year and it is equal to TBAAPINAMES.length). Even I do not know how exactly the Math.ceil works but it is accounting for some sort of rounding error which occurs for only one type of competition (idk which). Good luck - Artiom
 
             scouters[otherMatchNum] = {
                 red: [], 
@@ -147,7 +178,7 @@ async function DataBaseData()// Gets the data from the Database
             filteredData[matchNum].red[key] = dbData[1][i].gd_value;
         }
     }
-    
+    //consoleLog(filteredData)
     return [filteredData, scouters]
 }
 
@@ -161,7 +192,7 @@ async function combinedData() // combine data from TBA and DB
 
     const DBMatchData = fromDB[0] // our match data
     const DBScoutersData = fromDB[1] // the people who scouted for the respective matches
-    consoleLog(DBScoutersData)
+    //consoleLog(DBScoutersData)
     const TBAMatchData = fromTBA[0] // tba match data
     const TBAAllianceData = fromTBA[1] // the teams for the respective matches
 
@@ -180,18 +211,23 @@ async function combinedData() // combine data from TBA and DB
         for (let nameNum in scatterpointsNames) { // a set of scatterpoints for each type of API key
             let name = scatterpointsNames[nameNum]
 
+            let dbPoitnRed = 0
+            let dbPointBlue = 0
+            if (typeof DBMatchData[i] !== 'undefined') {
+                dbPoitnRed = DBMatchData[i].red[apiNames[nameNum]]
+                dbPointBlue = DBMatchData[i].blue[apiNames[nameNum]]
+            }
             scatterpoints[i].red[name] = { // example of this object filled in would be: autoAmpNoteCount:{TBA: TBAMatchData[i].red.autoAmpNoteCount, DB: DBMatchData[i].red['211']}, 
-                TBA: TBAMatchData[i].red[name], // The x value of the scatterpoint
-                DB: DBMatchData[i].red[apiNames[nameNum]] // The y value of the scatter point
+                TBA: TBAMatchData[i].red[name] || 0, // The x value of the scatterpoint
+                DB: dbPoitnRed // The y value of the scatter point
             }
 
             scatterpoints[i].blue[name] = { // same as the above but for blue alliance
-                TBA: TBAMatchData[i].blue[name], 
-                DB: DBMatchData[i].blue[apiNames[nameNum]] 
+                TBA: TBAMatchData[i].blue[name] || 0, 
+                DB: dbPointBlue
             }
         }
     }
-   
 
     // scatterpoints has been initialized now we must collect all the data in collectedData
 
@@ -232,6 +268,6 @@ async function combinedData() // combine data from TBA and DB
 
 //combinedData();
 //APIData()
-//DataBaseData()
+DataBaseData()
 
 module.exports = {combinedData, TBAAPINAMES}
