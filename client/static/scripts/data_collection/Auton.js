@@ -6,7 +6,7 @@ import Legend from "./Legend.js"
 import RenderQueue from "./RenderQueue.js"
 import CoralScreen from "./coral_screen/CoralScreen.js"
 import AlgaeMap from "./AlgaeMap.js"
-import Barge from "./Barge.js"
+import Net from "./Net.js"
 import FeederStation from "./FeederStation.js"
 import Processor from "./Processor.js"
 
@@ -48,7 +48,7 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
         this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.clickable.barge = new Barge({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
@@ -90,7 +90,7 @@ export default class {
         this.trash = document.createElement("div")
         this.trash.id="trash"
         document.body.insertBefore(this.trash, document.getElementById("page-holder"))
-        this.table = document.querySelectorAll("#responsive-table table")[0]
+        this.table = document.querySelector("#responsive-table table")
         this.table.ondragover = e => e.preventDefault()
         this.trows = []
 
@@ -111,14 +111,14 @@ export default class {
         }
         this.trash.ondrop = e => {
             e.preventDefault()
-            consoleLog(this.dragRow.getAttribute("ge_key"))
-            this.removeTableRow({ge_key: this.dragRow.getAttribute("ge_key")})
+            this.removeTableRow({row: this.dragRow, ge_key: this.dragRow.getAttribute("ge_key")})
             this.dragDeb = true
+            this.trash.classList.remove("show")
         }
     }
 
-    addTableRow({text, ge_key, draggable}) {
-        const row = this.table.insertRow(-1)
+    addTableRow({text, ge_key, draggable, position=-1}) {
+        const row = this.table.insertRow(position)
         row.setAttribute("ge_key", ge_key)
         row.draggable = draggable
         const cell0 = row.insertCell(0)
@@ -187,26 +187,51 @@ export default class {
         return [...this.trows].filter(e => e.getAttribute("ge_key") == ge_key)
     }
 
-    /*removes last table row matching ge_key*/
-    removeTableRow({ge_key}) {
-        const rows = this.findTableRows({ge_key})
-        if(rows.length > 0) {
-            const row = rows.pop() //get last matching row
-            //remove row from this.trows array
-            for(let i = 0; i < this.trows.length; ++i) {
-                if(this.trows[i] == row) {
-                    this.trows.splice(i, 1)
-                }
+    /*removes last table row matching ge_key, or specific row matching ge_key if row field is given*/
+    removeTableRow({row, ge_key}) {
+        if(row == null) {
+            const rows = this.findTableRows({ge_key})
+            if(rows.length > 0) {
+                row = rows.pop() //get last matching row
             }
-            if(ge_key > 21000 && ge_key < 30000) { //if its a coral row
-                //update data in corresponding coralscreen
-                this.clickable.coralScreens[get_letter(ge_key)].data[get_row(ge_key)-1][get_scored(ge_key) == true ? 0 : 1] -= 1
+            else {
+                return false
             }
-            //delete row
-            row.remove()
-            return true
         }
-        return false
+        //remove row from this.trows array
+        for(let i = 0; i < this.trows.length; ++i) {
+            if(this.trows[i] == row) {
+                this.trows.splice(i, 1)
+            }
+        }
+        if(ge_key > 21000 && ge_key < 30000) { //if its coral
+            //update data in corresponding coralscreen
+            if(get_scored(ge_key) == true) {
+                this.clickable.coralScreens[get_letter(ge_key)].clickAreas[get_row(ge_key)-1].scored -= 1
+            }
+            else {
+                this.clickable.coralScreens[get_letter(ge_key)].clickAreas[get_row(ge_key)-1].missed -= 1
+            }
+        }  
+        if(ge_key == 2004) {//processor
+            this.clickable.processor.count--
+        }
+        if(ge_key == 2005) {//net
+            this.clickable.net.count--
+        }
+        if(ge_key == 2006) {//net
+            this.clickable.feederTop.count--
+        }
+        if(ge_key == 2007) {//net
+            this.clickable.feederBottom.count--
+        }
+        if(ge_key >= 2008 && ge_key <= 2013) { //if its algae
+            //update corresponding algae
+            this.clickable.algae.algae[ge_key - 2008].isSelected = false
+        }
+        //delete row
+        row.remove()
+        return true
     }
 
     onClick({ x, y }) {
@@ -215,15 +240,15 @@ export default class {
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
-            if(this.clickable.barge.onClick({x, y})) {
-                this.addTableRow({text: "Score Barge", ge_key: 2005, draggable: true})
+            if(this.clickable.net.onClick({x, y})) {
+                this.addTableRow({text: "Score Net", ge_key: 2005, draggable: true})
             }
             this.legend.onClick({x, y})
             if(this.clickable.feederTop.onClick({x, y})) {
-                this.addTableRow({text: "Feed Coral: Top", ge_key: 0, draggable: true})
+                this.addTableRow({text: "Feed Coral: Top", ge_key: 2006, draggable: true})
             }
             if(this.clickable.feederBottom.onClick({x, y})) {
-                this.addTableRow({text: "Feed Coral: Bottom", ge_key: 0, draggable: true})
+                this.addTableRow({text: "Feed Coral: Bottom", ge_key: 2007, draggable: true})
             }
             if(this.clickable.processor.onClick({x, y})) {
                 this.addTableRow({text: "Score Processor", ge_key: 2004, draggable: true})
@@ -234,25 +259,31 @@ export default class {
             }
 
             const aRes = this.clickable.algae.onClick({x, y})
-            /*if(aRes != false) {
-                this.addTableRow(aRes.ge_key)
-            }*/
+            if(aRes != false) {
+                if(aRes.isSelected) {
+                    const label = String.fromCharCode(65 + aRes.ge_key - 2008)*2 + String.fromCharCode(65 + (aRes.ge_key - 2008)*2 + 1)
+                    this.addTableRow({text: "Dislodge " + label, ge_key: aRes.ge_key, draggable: true})
+                }
+                else {
+                    this.removeTableRow({ge_key: aRes.ge_key})
+                }
+            }
             
         } else {
             Object.values(this.clickable.coralScreens).forEach(e => {
                 if(e.isSelected) {
-                    const data = e.onClick({x, y}) 
-                    if(data != false) {//proceed button was clicked
-                        for(let i = 0; i < data.length; ++i) {
-                            consoleLog(data[i][0], this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length)
-                            if(data[i][0] > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length) { //if there are more scored in data than on the table
+                    const clicked = e.onClick({x, y}) 
+                    if(clicked ) {//proceed button was clicked
+                        for(let i = 0; i < e.clickAreas.length; ++i) {
+                            if(e.clickAreas[i].scored > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length) { //if there are more scored in data than on the table
                                 this.addTableRow({text: "Score Coral " + e.letter + "L" + (i+1), ge_key: coral_ge_key(i+1, e.letter, true), draggable: true})
                             }
-                            if(data[i][1] > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, false)}).length) { //if there are more scored in data than on the table
+                            if(e.clickAreas[i].missed > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, false)}).length) { //if there are more scored in data than on the table
                                 this.addTableRow({text: "Miss Coral " + e.letter + "L" + (i+1), ge_key: coral_ge_key(i+1, e.letter, false), draggable: true })
                             }
                         }
                     }
+                    consoleLog(this.sendData())
                 }
             })
         }
@@ -280,6 +311,14 @@ export default class {
             res.auton[k] = this.clickable.coralScreens[k].sendData()
         }
 
+        res.algae = this.clickable.algae.sendData()
+        res["feederTop"] = this.clickable.feederTop.sendData() 
+        res["feederBottom"] = this.clickable.feederBottom.sendData() 
+        res["feederTop"] = this.clickable.feederTop.sendData() 
+
+        res["autonPath"] = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
+        res["net"] = this.clickable.net.sendData()
+
         return res
     }
 
@@ -288,7 +327,7 @@ export default class {
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.clickable.algae.draw()
-        this.clickable.barge.draw()
+        this.clickable.net.draw()
         this.clickable.feederBottom.draw()
         this.clickable.feederTop.draw()
         this.clickable.processor.draw()

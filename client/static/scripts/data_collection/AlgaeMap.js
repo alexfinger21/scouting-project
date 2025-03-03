@@ -4,7 +4,7 @@ import DrawableObject from "./DrawableObject.js"
 import GamePiece from "./GamePiece.js"
 
 export default class AlgaeMap {
-    constructor({ ctx, allianceColor, images, pieceData, renderQueue, canvasSize, isAuton}) {
+    constructor({ ctx, allianceColor, images, renderQueue, canvasSize, isAuton}) {
         this.renderQueue = renderQueue
         this.algae = []
         const isBlue = allianceColor == "B" 
@@ -22,7 +22,7 @@ export default class AlgaeMap {
                     images,
                     renderQueue, 
                     isSelected: false,
-                    ge_key: 125,
+                    ge_key: 2008 + i,
                     text: String.fromCharCode(65+i),
                     isBlue,
                     zIndex: 999999,
@@ -49,7 +49,7 @@ export default class AlgaeMap {
         const data = {}
 
         for (const x of this.algae) {
-            data[x.ge_key] = val
+            data[x.ge_key] = x.sendData()
         }
 
         return data

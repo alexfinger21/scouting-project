@@ -6,7 +6,7 @@ import DrawableObject from "../DrawableObject.js"
 
 
 export default class CoralScreen {
-    constructor({ctx, ge_key, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
+    constructor({ctx, ge_key, score, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
         this.letter = letter
@@ -28,9 +28,8 @@ export default class CoralScreen {
 
         this.clickAreas = []
         this.scoreIndicators = []
-        this.data = [[0,0],[0,0],[0,0],[0,0]]
 
-        for(let i = 0; i < 4; i++) {
+        for(let i = 3; i >= 0; i--) {
             const cA = new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: 0, img: images.clickAreaImage, canvasSize: this.canvasSize,
                 pos: {
                     x: startX + padX,
@@ -38,8 +37,7 @@ export default class CoralScreen {
                 },
             })
             this.clickAreas.push(cA)
-            consoleLog("DATA: ", this.data[i])
-            const sI = new DrawableObject({ctx, sX: 1, sY: 1, img: "text", text: `${this.data[i][0]}/${this.data[i][1]+this.data[i][0]}`, textSize: canvasSize.x * 0.04, renderQueue, zIndex: 9999999,
+            const sI = new DrawableObject({ctx, sX: 1, sY: 1, img: "text", text: `${cA.scored}/${cA.scored+cA.missed}`, textSize: canvasSize.x * 0.04, renderQueue, zIndex: 9999999,
                 x: startX + padX + cA.sX + canvasSize.x * 0.05,
                 y: startY + padY + canvasSize.y * 0.142 * i + canvasSize.x * 0.06,
             })
@@ -57,8 +55,8 @@ export default class CoralScreen {
             }
             for(let i = 0; i < 4; i++) {
                 const sI = this.scoreIndicators[i]
-                const data = this.data[i]
-                sI.text = `${data[0]}/${data[1]+data[0]}`
+                const clickArea = this.clickAreas[i]
+                sI.text = `${clickArea.scored}/${clickArea.scored+clickArea.missed}`
                 sI.draw()
             }
         }
@@ -92,15 +90,15 @@ export default class CoralScreen {
                 for(let i = 0; i < 4; i++) {
                     const a = this.clickAreas[i]
                     if(a.value == 1) {
-                        this.data[i][0]++
+                        this.clickAreas[i].scored++
                     }
                     if(a.value == 2) {
-                        this.data[i][1]++
+                        this.clickAreas[i].missed++
                     }
                     a.setValue({value: 0})
                 }
                 this.isSelected = false
-                return this.data
+                return true
             }
         }
         return false

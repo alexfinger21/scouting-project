@@ -3,25 +3,29 @@ import DrawableObject from "./DrawableObject.js"
 
 const changePerS = 5
 
-export default class Barge extends DrawableObject {
-    constructor({ x, y, ctx, renderQueue, canvasSize }) {
-        super({ ctx, renderQueue, img: "rectangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.39 })
+export default class Net extends DrawableObject {
+    constructor({ x, y, ctx, count=0, renderQueue, canvasSize }) {
+        super({ ctx, count, renderQueue, img: "rectangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.39 })
         this.color = "#FFF600"
         this.opacity = 0    
-
+        this.count = count
         this.lastTick = Math.max()   
 
     }
 
     onClick({ x, y }) {
-        consoleLog("onclick")
         if (super.inBoundingBox({ x, y })) {
-            consoleLog("onclick2")
-            this.lastTick = Date.now()
-            this.isSelected = true
+            this.count++
+            this.lastTick = Date.now()            
             return true
         }
         return false
+    }
+
+    sendData() {
+        return {
+            "score": this.count
+        }
     }
 
     draw() {
