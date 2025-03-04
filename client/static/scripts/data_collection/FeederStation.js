@@ -17,7 +17,7 @@ export default class FeederStation extends DrawableObject {
     onClick({ x, y }) {
         if (super.inBoundingTriangle({ x, y })) {
             this.lastTick = Date.now()
-            this.count--
+            ++this.count
             return true
         }
         return false
