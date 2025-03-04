@@ -320,6 +320,8 @@ export default class {
         res["algae"]= this.clickable.algae.sendData()
         res["net"] = this.clickable.net.sendData()
 
+        consoleLog(res)
+
         return res
     }
 

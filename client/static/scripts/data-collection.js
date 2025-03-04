@@ -2,11 +2,11 @@ import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog, c
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
-import Endgame from "./data_collection/Endgame.js"
+import Teleop from "./data_collection/Teleop.js"
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
-let EndgameObject
+let TeleopObject
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -195,9 +195,9 @@ function loadData() {
         const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         autonCanvas.height = autonCanvasSize
         autonCanvas.width = autonCanvasSize*763/595
-        const teleopCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-        teleopCanvas.width = teleopCanvasSize
+        const teleopCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, teleopCanvasContainer.clientWidth)
         teleopCanvas.height = teleopCanvasSize
+        teleopCanvas.width = teleopCanvasSize*763/595
         const lockImage = new Image()
         lockImage.src = "./static/images/lock.png"
         const draggableImage = new Image()
@@ -269,7 +269,7 @@ function loadData() {
         }
 
         AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-        EndgameObject = new Endgame({ ctx: teleopCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
+        TeleopObject = new Teleop({ ctx: teleopCanvasCTX, teleopPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
         
         setTimeout(() => {
             consoleLog("sent data", AutonObject.sendData())
@@ -329,12 +329,43 @@ function loadData() {
 
         autonCanvas.addEventListener("touchend", (event) => {
             event.preventDefault()
-            handleTouch(event, AutonObject, AutonObject.onMouseUp)
+            handleTouch(event, TeleopObject, TeleopObject.onMouseUp)
+        })
+
+        teleopCanvas.addEventListener("click", (event) => {
+            event.preventDefault()
+            handleMouse(event, TeleopObject, TeleopObject.onClick)
+        })
+
+        teleopCanvas.addEventListener("mousedown", (event) => {
+            event.preventDefault()
+            handleMouse(event, TeleopObject, TeleopObject.onMouseDown)
+        })
+
+        teleopCanvas.addEventListener("mousemove", (event) => {
+            event.preventDefault()
+            handleMouse(event, TeleopObject, TeleopObject.onMouseMove)
+        })
+
+        teleopCanvas.addEventListener("mouseup", (event) => {
+            event.preventDefault()
+            handleMouse(event, TeleopObject, TeleopObject.onMouseUp)
         })
 
 
-        teleopCanvas.addEventListener("click", (event) => {
-            EndgameObject.onClick({ event, leftOffset: teleopCanvas.getBoundingClientRect().left, topOffset: teleopCanvas.getBoundingClientRect().top + window.scrollY })
+        teleopCanvas.addEventListener("touchstart", (event) => {
+            event.preventDefault()
+            handleTouch(event, TeleopObject, TeleopObject.onMouseDown)
+        })
+
+        teleopCanvas.addEventListener("touchmove", (event) => {
+            event.preventDefault()
+            handleTouch(event, TeleopObject, TeleopObject.onMouseMove)
+        })
+
+        teleopCanvas.addEventListener("touchend", (event) => {
+            event.preventDefault()
+            handleTouch(event, TeleopObject, TeleopObject.onMouseUp)
         })
 
         const robotTaxiesButton = document.getElementById("robot-taxies")
@@ -405,7 +436,7 @@ async function saveData() {
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
 
 
-        data.gameData = { ...EndgameObject?.sendData(), ...AutonObject?.sendData() }
+        data.gameData = { ...TeleopObject?.sendData(), ...AutonObject?.sendData() }
         consoleLog(data.gameData)
 
         data.matchNumber = match
@@ -478,11 +509,12 @@ async function loadDataCollection() {
         consoleLog(e)
     }
     function animateCanvas() {
-        if (currentPage == paths.dataCollection && AutonObject) {
+        if (currentPage == paths.dataCollection && AutonObject && TeleopObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
                 AutonObject.draw()
                 AutonObject.renderQueue.render()
-                //EndgameObject.draw()
+                TeleopObject.draw()
+                TeleopObject.renderQueue.render()
                 lastFrame = Date.now()
             }
             window.requestAnimationFrame(animateCanvas)

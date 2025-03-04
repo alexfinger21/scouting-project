@@ -19,7 +19,6 @@ export default class Reef extends DrawableObject {
         let idx = 0
         let leftAligned = (ch % 2)
         for(let i = ch - (leftAligned ? 2 : 3); i < ch + (leftAligned ? 4 : 3); i++ ) {
-            console.log(String.fromCharCode(i))
             this.letters.push(new Letter({ctx, renderQueue, text: String.fromCharCode(getCharCode(i)), zIndex: zIndex+5, color: allianceColor == "B" ? "rgb(59, 134, 205)" : "rgb(255, 43, 43)", canvasSize, pos: {
                 x: pos.x + canvasSize.x * 0.055 * (i < (ch + leftAligned ?? 1) ? 1 : 1.95) + canvasSize.x * 0.05 * idx,
                 y: pos.y + canvasSize.y * 0.02 ,
