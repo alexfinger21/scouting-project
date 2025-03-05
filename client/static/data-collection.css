@@ -527,19 +527,19 @@ canvas {
     /*filter: hue*/  
 }
 
-#auton-scoring-container {
+.canvas-scoring-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 90%;
 }
 
-#auton-scoring-container .canvas-container {
+.canvas-scoring-container .canvas-container {
     width: 95.5%;
 }
 
 @media (min-aspect-ratio: 7/8) {
-    #auton-scoring-container {
+    .canvas-scoring-container {
         flex-direction: row;
         align-content: space-between;
         width: 95%;
@@ -560,7 +560,7 @@ canvas {
     }
 
 
-    #auton-scoring-container .canvas-container {
+    .canvas-scoring-container .canvas-container {
         width: 90% !important;
     }
 

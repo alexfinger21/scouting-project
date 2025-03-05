@@ -54,16 +54,16 @@ export default class {
         })
         this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
             points: [
-                {x: this.canvasSize.x*1.137, y: this.canvasSize.y * 0.12},
-                {x: this.canvasSize.x * .95, y: this.canvasSize.y * 0.12},
-                {x: this.canvasSize.x * 1.137, y: this.canvasSize.y * 0.3 },
+                {x: this.canvasSize.x * this.dpr * 0.8, y: this.canvasSize.y * this.dpr * 0.097},
+                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.097},
+                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.24},
             ]
         })
         this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
             points: [
-                {x: this.canvasSize.x*1.137, y: this.canvasSize.y * 1.16},
-                {x: this.canvasSize.x * .95, y: this.canvasSize.y * 1.16},
-                {x: this.canvasSize.x * 1.137, y: this.canvasSize.y * 0.98 },
+                {x: this.canvasSize.x * 0.8 * this.dpr , y: this.canvasSize.y * 0.962 * this.dpr},
+                {x: this.canvasSize.x * .945 * this.dpr, y: this.canvasSize.y * 0.962 * this.dpr},
+                {x: this.canvasSize.x * 0.945 * this.dpr, y: this.canvasSize.y * 0.82 * this.dpr},
             ]
         })
         this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
@@ -261,7 +261,7 @@ export default class {
             const aRes = this.clickable.algae.onClick({x, y})
             if(aRes != false) {
                 if(aRes.isSelected) {
-                    const label = String.fromCharCode(65 + aRes.ge_key - 2008)*2 + String.fromCharCode(65 + (aRes.ge_key - 2008)*2 + 1)
+                    const label = String.fromCharCode(65 + (aRes.ge_key - 2008)*2) + String.fromCharCode(65 + (aRes.ge_key - 2008)*2 + 1)
                     this.addTableRow({text: "Dislodge " + label, ge_key: aRes.ge_key, draggable: true})
                 }
                 else {
@@ -275,10 +275,10 @@ export default class {
                     const clicked = e.onClick({x, y}) 
                     if(clicked ) {//proceed button was clicked
                         for(let i = 0; i < e.clickAreas.length; ++i) {
-                            if(e.clickAreas[i].scored > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length) { //if there are more scored in data than on the table
+                            if (e.clickAreas[i].scored > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length) { //if there are more scored in data than on the table
                                 this.addTableRow({text: "Score Coral " + e.letter + "L" + (i+1), ge_key: coral_ge_key(i+1, e.letter, true), draggable: true})
                             }
-                            if(e.clickAreas[i].missed > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, false)}).length) { //if there are more scored in data than on the table
+                            if (e.clickAreas[i].missed > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, false)}).length) { //if there are more scored in data than on the table
                                 this.addTableRow({text: "Miss Coral " + e.letter + "L" + (i+1), ge_key: coral_ge_key(i+1, e.letter, false), draggable: true })
                             }
                         }
@@ -317,7 +317,10 @@ export default class {
         res["feederTop"] = this.clickable.feederTop.sendData() 
 
         res["autonPath"] = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
+        res["algae"]= this.clickable.algae.sendData()
         res["net"] = this.clickable.net.sendData()
+
+        consoleLog(res)
 
         return res
     }
