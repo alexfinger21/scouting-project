@@ -331,9 +331,13 @@ function drawCharts(data, selectedValue, scouter, team) {
 
 // Function to convert camelCase to human-readable format
 function formatOptionText(text) {
+    // Capitalize the letter after a non-alphanumeric character and remove the symbol
+    text = text.replace(/[^a-zA-Z0-9]+([a-zA-Z0-9])/g, (_, char) => char.toUpperCase());
+
     // Add space before each uppercase letter, then convert the first letter to uppercase
-    return text.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase())
+    return text.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, str => str.toUpperCase());
 }
+
 
 async function main() {  
     const data = await backEndData()

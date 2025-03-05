@@ -618,127 +618,128 @@ function addMatchData(matchInfo, matchTimes)
 }
 
 async function getScoutifyMatchData() {
-    /*
-        return await executeQuery(SQL `with score as
-            (
-                select
-                frc_season_master_sm_year,
-                competition_master_cm_event_code,
-                game_matchup_gm_game_type,
-                game_matchup_gm_number,
-                game_matchup_gm_alliance,
-                game_element_ge_key,
-                case
-                when game_element_ge_key in (301, 302) then '301+302'
-                else
-                cast(game_element_ge_key as char)
-                end as ge_key_group,
-                sum(gd_value) as gd_value,
-                sum(gd_score) as gd_score
-                FROM
-                game_details gd
-                where
-                frc_season_master_sm_year = ${gameConstants.YEAR} and
-                competition_master_cm_event_code = ${gameConstants.COMP} and
-                game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and
-                game_matchup_gm_alliance_position in (1, 2, 3) and
-                game_element_ge_key in (210, 211, 301, 302, 303)
-                group by
-                frc_season_master_sm_year,
-                competition_master_cm_event_code,
-                game_matchup_gm_game_type,
-                game_matchup_gm_number,
-                game_matchup_gm_alliance,
-                game_element_ge_key
-            ),
-            team_list as
-            (
-                SELECT
-                gm.frc_season_master_sm_year ,
-                gm.competition_master_cm_event_code ,
-                gm.gm_game_type,
-                gm.gm_number,
-                gm.gm_alliance,
-                GROUP_CONCAT(DISTINCT gm.team_master_tm_number order by gm.gm_alliance_position SEPARATOR ", ") as team_list
-                FROM
-                teamsixn_scouting_dev.game_matchup gm
-                WHERE
-                gm.frc_season_master_sm_year = ${gameConstants.YEAR} and
-                gm.competition_master_cm_event_code = ${gameConstants.COMP} and
-                gm.gm_game_type = ${gameConstants.GAME_TYPE}
-                GROUP BY
-                gm.frc_season_master_sm_year ,
-                gm.competition_master_cm_event_code ,
-                gm.frc_season_master_sm_year ,
-                gm.gm_game_type,
-                gm.gm_alliance,
-                gm.gm_number
-            ),
-            user_list as
-            (
-                SELECT
-                gd.frc_season_master_sm_year ,
-                gd.competition_master_cm_event_code,
-                gd.game_matchup_gm_game_type ,
-                gd.game_matchup_gm_number ,
-                gd.game_matchup_gm_alliance ,
-                GROUP_CONCAT(DISTINCT gd.gd_um_id order by gd.game_matchup_gm_alliance_position SEPARATOR ", ") as user_list
-                FROM
-                teamsixn_scouting_dev.game_details gd
-                WHERE
-                gd.frc_season_master_sm_year = ${gameConstants.YEAR} and
-                gd.competition_master_cm_event_code = ${gameConstants.COMP} and
-                gd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}
-                GROUP BY
-                gd.frc_season_master_sm_year ,
-                gd.competition_master_cm_event_code ,
-                gd.game_matchup_gm_game_type,
-                gd.game_matchup_gm_alliance,
-                gd.game_matchup_gm_number	
-            )
-            select
-            s.frc_season_master_sm_year,
-            s.competition_master_cm_event_code,
-            s.game_matchup_gm_game_type,
-            s.game_matchup_gm_number,
-            s.game_matchup_gm_alliance,
-            s.ge_key_group,
-            t.team_list,
-            u.user_list,
-            sum(s.gd_value) as gd_value,
-            sum(s.gd_score) as gd_score
-            FROM
-            score s
-            left join
-            team_list t
-            on	s.frc_season_master_sm_year = t.frc_season_master_sm_year and
-            s.competition_master_cm_event_code = t.competition_master_cm_event_code and
-            s.game_matchup_gm_game_type = t.gm_game_type and
-            s.game_matchup_gm_number = t.gm_number and
-            s.game_matchup_gm_alliance = t.gm_alliance
-            left join
-            user_list u
-            on	s.frc_season_master_sm_year = u.frc_season_master_sm_year and
-            s.competition_master_cm_event_code = u.competition_master_cm_event_code and
-            s.game_matchup_gm_game_type = u.game_matchup_gm_game_type and
-            s.game_matchup_gm_number = u.game_matchup_gm_number and
-            s.game_matchup_gm_alliance = u.game_matchup_gm_alliance
-            where
-            s.frc_season_master_sm_year = ${gameConstants.YEAR} and
-            s.competition_master_cm_event_code = ${gameConstants.COMP} and
-            s.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and
-            s.game_element_ge_key in (210, 211, 301, 302, 303)
-            group by
-            s.frc_season_master_sm_year,
-            s.competition_master_cm_event_code,
-            s.game_matchup_gm_game_type,
-            s.game_matchup_gm_number,
-            s.game_matchup_gm_alliance,
-            s.ge_key_group,
-            t.team_list,
-            u.user_list;`)
-    */
 
+        //for 2024
+        // return await executeQuery(SQL `with score as
+        //     (
+        //         select
+        //         frc_season_master_sm_year,
+        //         competition_master_cm_event_code,
+        //         game_matchup_gm_game_type,
+        //         game_matchup_gm_number,
+        //         game_matchup_gm_alliance,
+        //         game_element_ge_key,
+        //         case
+        //         when game_element_ge_key in (301, 302) then '301+302'
+        //         else
+        //         cast(game_element_ge_key as char)
+        //         end as ge_key_group,
+        //         sum(gd_value) as gd_value,
+        //         sum(gd_score) as gd_score
+        //         FROM
+        //         game_details gd
+        //         where
+        //         frc_season_master_sm_year = ${gameConstants.YEAR} and
+        //         competition_master_cm_event_code = ${gameConstants.COMP} and
+        //         game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and
+        //         game_matchup_gm_alliance_position in (1, 2, 3) and
+        //         game_element_ge_key in (210, 211, 301, 302, 303)
+        //         group by
+        //         frc_season_master_sm_year,
+        //         competition_master_cm_event_code,
+        //         game_matchup_gm_game_type,
+        //         game_matchup_gm_number,
+        //         game_matchup_gm_alliance,
+        //         game_element_ge_key
+        //     ),
+        //     team_list as
+        //     (
+        //         SELECT
+        //         gm.frc_season_master_sm_year ,
+        //         gm.competition_master_cm_event_code ,
+        //         gm.gm_game_type,
+        //         gm.gm_number,
+        //         gm.gm_alliance,
+        //         GROUP_CONCAT(DISTINCT gm.team_master_tm_number order by gm.gm_alliance_position SEPARATOR ", ") as team_list
+        //         FROM
+        //         teamsixn_scouting_dev.game_matchup gm
+        //         WHERE
+        //         gm.frc_season_master_sm_year = ${gameConstants.YEAR} and
+        //         gm.competition_master_cm_event_code = ${gameConstants.COMP} and
+        //         gm.gm_game_type = ${gameConstants.GAME_TYPE}
+        //         GROUP BY
+        //         gm.frc_season_master_sm_year ,
+        //         gm.competition_master_cm_event_code ,
+        //         gm.frc_season_master_sm_year ,
+        //         gm.gm_game_type,
+        //         gm.gm_alliance,
+        //         gm.gm_number
+        //     ),
+        //     user_list as
+        //     (
+        //         SELECT
+        //         gd.frc_season_master_sm_year ,
+        //         gd.competition_master_cm_event_code,
+        //         gd.game_matchup_gm_game_type ,
+        //         gd.game_matchup_gm_number ,
+        //         gd.game_matchup_gm_alliance ,
+        //         GROUP_CONCAT(DISTINCT gd.gd_um_id order by gd.game_matchup_gm_alliance_position SEPARATOR ", ") as user_list
+        //         FROM
+        //         teamsixn_scouting_dev.game_details gd
+        //         WHERE
+        //         gd.frc_season_master_sm_year = ${gameConstants.YEAR} and
+        //         gd.competition_master_cm_event_code = ${gameConstants.COMP} and
+        //         gd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}
+        //         GROUP BY
+        //         gd.frc_season_master_sm_year ,
+        //         gd.competition_master_cm_event_code ,
+        //         gd.game_matchup_gm_game_type,
+        //         gd.game_matchup_gm_alliance,
+        //         gd.game_matchup_gm_number	
+        //     )
+        //     select
+        //     s.frc_season_master_sm_year,
+        //     s.competition_master_cm_event_code,
+        //     s.game_matchup_gm_game_type,
+        //     s.game_matchup_gm_number,
+        //     s.game_matchup_gm_alliance,
+        //     s.ge_key_group,
+        //     t.team_list,
+        //     u.user_list,
+        //     sum(s.gd_value) as gd_value,
+        //     sum(s.gd_score) as gd_score
+        //     FROM
+        //     score s
+        //     left join
+        //     team_list t
+        //     on	s.frc_season_master_sm_year = t.frc_season_master_sm_year and
+        //     s.competition_master_cm_event_code = t.competition_master_cm_event_code and
+        //     s.game_matchup_gm_game_type = t.gm_game_type and
+        //     s.game_matchup_gm_number = t.gm_number and
+        //     s.game_matchup_gm_alliance = t.gm_alliance
+        //     left join
+        //     user_list u
+        //     on	s.frc_season_master_sm_year = u.frc_season_master_sm_year and
+        //     s.competition_master_cm_event_code = u.competition_master_cm_event_code and
+        //     s.game_matchup_gm_game_type = u.game_matchup_gm_game_type and
+        //     s.game_matchup_gm_number = u.game_matchup_gm_number and
+        //     s.game_matchup_gm_alliance = u.game_matchup_gm_alliance
+        //     where
+        //     s.frc_season_master_sm_year = ${gameConstants.YEAR} and
+        //     s.competition_master_cm_event_code = ${gameConstants.COMP} and
+        //     s.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and
+        //     s.game_element_ge_key in (210, 211, 301, 302, 303)
+        //     group by
+        //     s.frc_season_master_sm_year,
+        //     s.competition_master_cm_event_code,
+        //     s.game_matchup_gm_game_type,
+        //     s.game_matchup_gm_number,
+        //     s.game_matchup_gm_alliance,
+        //     s.ge_key_group,
+        //     t.team_list,
+        //     u.user_list;`)
+
+        //for 2025
         return await executeQuery(SQL `with score as
         (
             select

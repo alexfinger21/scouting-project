@@ -27,6 +27,12 @@ const fs = require('node:fs/promises'); // file-system for writing to other file
 /* TBAAPITNAMES[0] should be the value which correlates to DBNAMES[0] and etc, etc.
    If format isn't followed then the combined data will be wrong*/
 
+
+//for 2024
+// const TBAAPINAMES = ["autoAmpNoteCount", "autoSpeakerNoteCount", "teleopSpeakerNoteCount", "teleopAmpNoteCount"] 
+// const DBNAMES = ['211', '210', '301+302', '303']
+
+
 /*use 2025 eventually
 const TBAAPINAMES = [
 "autoLineRobot1", "autoLineRobot2", "autoLineRobot3",
@@ -35,13 +41,13 @@ const TBAAPINAMES = [
 "algaePoints", "endGameRobot1", "endGameRobot2", "endGameRobot3",
 ]
 */
+
+//for 2025
 const TBAAPINAMES = [
     "autoReef.trough", "autoReef.tba_botRowCount", "autoReef.tba_midRowCount", "autoReef.tba_topRowCount",
     "teleopReef.trough", "teleopReef.tba_botRowCount", "teleopReef.tba_midRowCount", "teleopReef.tba_topRowCount",
     ]
 
-//const TBAAPINAMES = ["autoAmpNoteCount", "autoSpeakerNoteCount", "teleopSpeakerNoteCount", "teleopAmpNoteCount"] 
-//const DBNAMES = ['211', '210', '301+302', '303']
 const DBNAMES = ['Auton L1','Auton L2','Auton L3','Auton L4','Teleop L1', 'Teleop L2', 'Teleop L3', 'Teleop L4']
 
 /* Offsets the the RowDataPacket to go from blue to red.
@@ -217,6 +223,7 @@ async function combinedData() // combine data from TBA and DB
                 dbPoitnRed = DBMatchData[i].red[apiNames[nameNum]] //if the match exists then it equals the data from the database
                 dbPointBlue = DBMatchData[i].blue[apiNames[nameNum]]
             }
+
             scatterpoints[i].red[name] = { // example of this object filled in would be: autoAmpNoteCount:{TBA: TBAMatchData[i].red.autoAmpNoteCount, DB: DBMatchData[i].red['211']}, 
                 TBA: TBAMatchData[i].red[name] || 0, // The x value of the scatterpoint
                 DB: dbPoitnRed // The y value of the scatter point
@@ -231,7 +238,12 @@ async function combinedData() // combine data from TBA and DB
 
     // scatterpoints has been initialized now we must collect all the data in collectedData
 
-    for (let i = 1; i <= Object.keys(TBAMatchData).length; i++) { // run through all 80 matches
+    for (let i = 1; i <= Object.keys(TBAMatchData).length; i++){// run through all 80 matches
+
+        if (typeof DBScoutersData[i] == 'undefined') {//checks if the match exists in the dataBase
+            continue
+        }
+
         collectedData[i] = {
             red: {
                 teams: TBAAllianceData[i].red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
@@ -268,6 +280,6 @@ async function combinedData() // combine data from TBA and DB
 
 //combinedData();
 //APIData()
-DataBaseData()
+//DataBaseData()
 
 module.exports = {combinedData, TBAAPINAMES}
