@@ -337,37 +337,6 @@ function loadData() {
             handleMouse(event, TeleopObject, TeleopObject.onClick)
         })
 
-        teleopCanvas.addEventListener("mousedown", (event) => {
-            event.preventDefault()
-            handleMouse(event, TeleopObject, TeleopObject.onMouseDown)
-        })
-
-        teleopCanvas.addEventListener("mousemove", (event) => {
-            event.preventDefault()
-            handleMouse(event, TeleopObject, TeleopObject.onMouseMove)
-        })
-
-        teleopCanvas.addEventListener("mouseup", (event) => {
-            event.preventDefault()
-            handleMouse(event, TeleopObject, TeleopObject.onMouseUp)
-        })
-
-
-        teleopCanvas.addEventListener("touchstart", (event) => {
-            event.preventDefault()
-            handleTouch(event, TeleopObject, TeleopObject.onMouseDown)
-        })
-
-        teleopCanvas.addEventListener("touchmove", (event) => {
-            event.preventDefault()
-            handleTouch(event, TeleopObject, TeleopObject.onMouseMove)
-        })
-
-        teleopCanvas.addEventListener("touchend", (event) => {
-            event.preventDefault()
-            handleTouch(event, TeleopObject, TeleopObject.onMouseUp)
-        })
-
         const robotTaxiesButton = document.getElementById("robot-taxies")
         robotTaxiesButton.addEventListener("change", () => { //when this button is pressed, add "robot leaves starting zone" to the auton table
             if (robotTaxiesButton.checked == true) {
