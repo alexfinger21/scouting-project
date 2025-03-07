@@ -13,15 +13,15 @@
     background-color: #f4f4f9;
     border: 2px solid #aaa;
     border-radius: 8px;
-    padding: 10px 40px 10px 12px; /* Padding for custom arrow */
-    font-size: 16px;
+    padding: 10px 0px 10px 12px; /* Padding for custom arrow */
+    font-size: 3vh;
     color: #333;
     font-family: 'Arial', sans-serif;
     appearance: none;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 5px;
-    width: 200px; /* Default width */
+    width: 30%; /* Default width */
     max-height: 300px; /* Maximum height to prevent dropdown from becoming too large */
     overflow-y: auto; /* Enable scrolling */
     display: block;
@@ -94,7 +94,7 @@
 /* Media Queries for Responsiveness */
 
 /* For small screens, adjust the layout */
-@media (max-width: 600px) {
+@media only screen and (max-aspect-ratio: .85) {
     #accuracy-chart-area-wrapper {
         width: 100%;  /* Ensure full width on small devices */
         height: 100%;
@@ -104,45 +104,9 @@
 
     #accuracy-graph-holder {
         height: 50vh; /* Reduce graph height */
-        width: 100%;
+        width: 50vh;
     }
-
-    #DataAccuracyDropdown {
-        width: 100%; /* Make the dropdown full-width on smaller screens */
-        font-size: 14px;  /* Smaller font for smaller screens */
-    }
-}
-
-/* For medium screens (tablets) */
-@media (max-width: 1024px) {
-    #accuracy-chart-area-wrapper {
-        width: 95%;
-        height: 95%;
-        flex-direction: column;  /* Stack header and graph vertically */
-    }
-
-    #accuracy-graph-holder {
-        height: 60vh;  /* Slightly reduced height */
-    }
-
-    #DataAccuracyDropdown {
-        width: 50%; /* Dropdown takes half width on medium screens */
-    }
-}
-
-/* For larger screens (desktop) */
-@media (min-width: 1025px) {
-    #accuracy-chart-area-wrapper {
-        width: 90%;
-        height: 90%;
-        flex-direction: row;  /* Stack header and graph horizontally */
-    }
-
-    #accuracy-graph-holder {
-        height: 80vh;  /* Default graph height */
-    }
-
-    #DataAccuracyDropdown {
-        width: 260px;  /* Default width for dropdown */
+    .custom-dropdown {
+        font-size: 3vw !important;
     }
 }
