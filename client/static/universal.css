@@ -107,7 +107,8 @@ input::-webkit-inner-spin-button {
 
 
 #dropdown {
-  height: 2vh;
+  height: 2vw;
+  min-height: 2vh;
   aspect-ratio: 1.2;
   background-color: transparent;
   border: none;
