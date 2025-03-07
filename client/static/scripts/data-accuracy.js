@@ -89,13 +89,21 @@ function drawCharts(data, selectedValue, scouter, team) {
     for(let i = 1; i <= Object.keys(data).length; i++)
     {
         if((data[i].red.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].red.teams.includes(team) || team == "--NO TEAM--")) {
-            somedataR.push({x:data[i].red.matchStats[selectedValue].TBA,
-                y: data[i].red.matchStats[selectedValue].DB, match: i}) // where z is the match number
+            somedataR.push({
+                x:data[i].red.matchStats[selectedValue].TBA,
+                y: data[i].red.matchStats[selectedValue].DB, 
+                match: i,
+                teams: data[i].red.teams
+            }) // where match is the match number and teams is the array of teams in the alliance
         }
         
         if((data[i].blue.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].blue.teams.includes(team) || team == "--NO TEAM--")) {
-            somedataB.push({x:data[i].blue.matchStats[selectedValue].TBA,
-                y: data[i].blue.matchStats[selectedValue].DB, match: i})
+            somedataB.push({
+                x:data[i].blue.matchStats[selectedValue].TBA,
+                y: data[i].blue.matchStats[selectedValue].DB,
+                match: i,
+                teams: data[i].blue.teams
+            })
         }
     }
 
@@ -211,10 +219,16 @@ function drawCharts(data, selectedValue, scouter, team) {
                         callbacks: {
                             label: function(tooltipItem) {
                                 // Access the data point (x, y)
-                                const index = tooltipItem.raw.match; // yo i lowk dont know how this works so dont touch it
-        
+                                const match = tooltipItem.raw.match; // yo i lowk dont know how this works so dont touch it
+                                const teams = tooltipItem.raw.teams;
+
                                 // Return a custom text for the tooltip
-                                return 'Match #: ' + index;
+                                const customText = () => {
+                                    let formattedTeams = teams.map(str => str.substring(3)).join(', ');
+                                    return `Match #${match} Teams: (${formattedTeams})`
+                                }
+
+                                return customText();
                             }
                         }
                     }
@@ -316,10 +330,16 @@ function drawCharts(data, selectedValue, scouter, team) {
                         callbacks: {
                             label: function(tooltipItem) {
                                 // Access the data point (x, y)
-                                const index = tooltipItem.raw.match; // yo i lowk dont know how this works so dont touch it
-        
+                                const match = tooltipItem.raw.match; // yo i lowk dont know how this works so dont touch it
+                                const teams = tooltipItem.raw.teams;
+
                                 // Return a custom text for the tooltip
-                                return 'Match #: ' + index;
+                                const customText = () => {
+                                    let formattedTeams = teams.map(str => str.substring(3)).join(', ');
+                                    return `Match #${match} Teams: (${formattedTeams})`
+                                }
+
+                                return customText();
                             }
                         }
                     }
