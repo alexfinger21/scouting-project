@@ -230,46 +230,264 @@ function loadData() {
 
         await waitUntilImagesLoaded(Object.values(images))
 
-        const robotStartingPercent = 0
+        const data = localData?.[match] ?? undefined
+        const gameData = {
+            "Starting Location": 0,
+            "auton": {
+                "A": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "B": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "C": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "D": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "E": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "F": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 1
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "G": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 1
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "H": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "I": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 1
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "J": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "K": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 1
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "L": {
+                    "L4": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L3": {
+                        "missed": 0,
+                        "scored": 1
+                    },
+                    "L2": {
+                        "missed": 0,
+                        "scored": 0
+                    },
+                    "L1": {
+                        "missed": 0,
+                        "scored": 0
+                    }
+                },
+                "path": "22111|23081|2007|2007|2007|2008|2009",
+                "net": {
+                    "score": 0
+                },
+                "processor": {
+                    "count": 4
+                }
+            },
+            "feederTop": {
+                "count": 2
+            },
+            "feederBottom": {
+                "count": 4
+            },
+            "algae": {
+                "2008": {
+                    "isSelected": true
+                },
+                "2009": {
+                    "isSelected": true
+                },
+                "2010": {
+                    "isSelected": false
+                },
+                "2011": {
+                    "isSelected": false
+                },
+                "2012": {
+                    "isSelected": true
+                },
+                "2013": {
+                    "isSelected": false
+                }
+            }
+        } 
 
-        const templatePieceData = {
-            //  Wing Notes
-            "202": false,
-            "203": false,
-            "204": false,
-            //  Center Notes
-            "205": false,
-            "206": false,
-            "207": false,
-            "208": false,
-            "209": false,
-            //  Endgame
-            "403": 0,
-            "404": 0,
-            "405": 0,
-        }
-        const data = localData ? localData[match] : undefined
-        const gameData = data?.gameData
-
-        consoleLog("localdata for match is:")
-        consoleLog(data)
-        
-        if(gameData && gameData["Starting Location"]) {
-            robotStartingPercent = gameData["Starting Location"]
-        }
-
-        const stagePositions = {
-            "1": false,
-            "2": false,
-            "3": false,
-        }
-
-        if(gameData && gameData["Instage Location"]) {
-            stagePositions[gameData["Instage Location"]] = true
-        }
-
-        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-        TeleopObject = new Teleop({ ctx: teleopCanvasCTX, teleopPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
+        AutonObject = new Auton({ ctx: autonCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        TeleopObject = new Teleop({ ctx: teleopCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
         
         setTimeout(() => {
             consoleLog("sent data", AutonObject.sendData())
@@ -317,17 +535,17 @@ function loadData() {
         })
 
 
-        autonCanvas.addEventListener("touchstart", (event) => {
+        teleopCanvas.addEventListener("touchstart", (event) => {
             event.preventDefault()
-            handleTouch(event, AutonObject, AutonObject.onMouseDown)
+            handleTouch(event, AutonObject, TeleopObject.onMouseDown)
         })
 
-        autonCanvas.addEventListener("touchmove", (event) => {
+        teleopCanvas.addEventListener("touchmove", (event) => {
             event.preventDefault()
-            handleTouch(event, AutonObject, AutonObject.onMouseMove)
+            handleTouch(event, AutonObject, TeleopObject.onMouseMove)
         })
 
-        autonCanvas.addEventListener("touchend", (event) => {
+        teleopCanvas.addEventListener("touchend", (event) => {
             event.preventDefault()
             handleTouch(event, TeleopObject, TeleopObject.onMouseUp)
         })

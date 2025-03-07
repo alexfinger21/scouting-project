@@ -4,31 +4,30 @@ import DrawableObject from "./DrawableObject.js"
 import GamePiece from "./GamePiece.js"
 
 export default class AlgaeMap {
-    constructor({ ctx, allianceColor, images, renderQueue, canvasSize, isAuton}) {
+    constructor({ ctx, allianceColor, images, renderQueue, data={}, canvasSize }) {
+        consoleLog("ALGAE DATA", data)
         this.renderQueue = renderQueue
         this.algae = []
         const isBlue = allianceColor == "B" 
         //Add Pickup Wing Notes ge_key 202-204
         //Wing Notes
-        if (isAuton) {
-            const dist = canvasSize.x * 0.1
-            const startAng = 0
-            const ctr = [canvasSize.x * 0.575, canvasSize.y * 0.49]
-            for (let i = 0; i < 6; ++i) {
-                this.algae.push(new Algae({
-                    x: ctr[0] + dist*Math.cos(startAng - Math.PI/3*i),
-                    y: ctr[1] + dist*Math.sin(startAng - Math.PI/3*i),
-                    ctx,
-                    images,
-                    renderQueue, 
-                    isSelected: false,
-                    ge_key: 2008 + i,
-                    text: String.fromCharCode(65+i),
-                    isBlue,
-                    zIndex: 999999,
-                    canvasSize
-                }))  
-            }
+        const dist = canvasSize.x * 0.1
+        const startAng = 0
+        const ctr = [canvasSize.x * 0.575, canvasSize.y * 0.49]
+        for (let i = 0; i < 6; ++i) {
+            this.algae.push(new Algae({
+                x: ctr[0] + dist*Math.cos(startAng - Math.PI/3*i),
+                y: ctr[1] + dist*Math.sin(startAng - Math.PI/3*i),
+                ctx,
+                images,
+                renderQueue, 
+                isSelected: data?.[String(2008+i)]?.isSelected,
+                ge_key: 2008 + i,
+                text: String.fromCharCode(65+i),
+                isBlue,
+                zIndex: 999999,
+                canvasSize
+            }))  
         }
 
         //console.log(this.pieces)

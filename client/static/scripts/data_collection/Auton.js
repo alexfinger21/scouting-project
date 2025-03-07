@@ -36,7 +36,7 @@ const get_scored = (ge_key) => {
 export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, autonPieceData, robotData, images, cX, cY}) {
+    constructor({ctx, allianceColor, data, images, cX, cY}) {
         this.canvasSize = {x: cX, y: cY}
         this.dpr = window.devicePixelRatio
         consoleLog("CTX SIZE", images, this.canvasSize)
@@ -45,28 +45,28 @@ export default class {
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
+        this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: data?.robotStartingPercent, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", canvasSize: this.canvasSize})
+        this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, data: data?.algae, canvasSize: this.canvasSize})
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, count: data?.auton?.net.count, canvasSize: this.canvasSize,
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
-        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederTop?.count, renderQueue: this.renderQueue,
             points: [
                 {x: this.canvasSize.x * this.dpr * 0.8, y: this.canvasSize.y * this.dpr * 0.097},
                 {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.097},
                 {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.24},
             ]
         })
-        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederBottom?.count, renderQueue: this.renderQueue,
             points: [
                 {x: this.canvasSize.x * 0.8 * this.dpr , y: this.canvasSize.y * 0.962 * this.dpr},
                 {x: this.canvasSize.x * .945 * this.dpr, y: this.canvasSize.y * 0.962 * this.dpr},
                 {x: this.canvasSize.x * 0.945 * this.dpr, y: this.canvasSize.y * 0.82 * this.dpr},
             ]
         })
-        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.auton?.processor?.count, renderQueue: this.renderQueue,
             x: this.canvasSize.x*0.135,
             y: this.canvasSize.y * 0
         })
@@ -74,7 +74,7 @@ export default class {
         this.clickable.coralScreens = {}
 
         for (let i = 0; i<12; ++i) {
-            this.clickable.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), images, canvasSize: this.canvasSize, zIndex: 10})
+            this.clickable.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), data: data?.auton?.[String.fromCharCode(65+i)], images, canvasSize: this.canvasSize, zIndex: 10})
         }
 
         // Prevent text and image dragging globally
@@ -240,17 +240,17 @@ export default class {
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
-            if(this.clickable.net.onClick({x, y})) {
+            if(this.clickable.net.onClick({x, y}, false)) {
                 this.addTableRow({text: "Score Net", ge_key: 2005, draggable: true})
             }
             this.legend.onClick({x, y})
-            if(this.clickable.feederTop.onClick({x, y})) {
+            if(this.clickable.feederTop.onClick({x, y}, false)) {
                 this.addTableRow({text: "Feed Coral: Top", ge_key: 2006, draggable: true})
             }
-            if(this.clickable.feederBottom.onClick({x, y})) {
+            if(this.clickable.feederBottom.onClick({x, y}, false)) {
                 this.addTableRow({text: "Feed Coral: Bottom", ge_key: 2007, draggable: true})
             }
-            if(this.clickable.processor.onClick({x, y})) {
+            if(this.clickable.processor.onClick({x, y}, false)) {
                 this.addTableRow({text: "Score Processor", ge_key: 2004, draggable: true})
             }
             const cRes = this.clickable.pieces.onClick({x, y})
@@ -311,14 +311,13 @@ export default class {
             res.auton[k] = this.clickable.coralScreens[k].sendData()
         }
 
-        res.algae = this.clickable.algae.sendData()
-        res["feederTop"] = this.clickable.feederTop.sendData() 
-        res["feederBottom"] = this.clickable.feederBottom.sendData() 
-        res["feederTop"] = this.clickable.feederTop.sendData() 
+        res.feederTop = this.clickable.feederTop.sendData() 
+        res.feederBottom = this.clickable.feederBottom.sendData() 
 
-        res["autonPath"] = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
-        res["algae"]= this.clickable.algae.sendData()
-        res["net"] = this.clickable.net.sendData()
+        res.auton.path = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
+        res.algae = this.clickable.algae.sendData()
+        res.auton.net = this.clickable.net.sendData()
+        res.auton.processor = this.clickable.processor.sendData()
 
         consoleLog(res)
 
