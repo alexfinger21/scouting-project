@@ -1,7 +1,6 @@
 import { consoleLog } from "../utility.js"
 import Map from "./Map.js"
 import PiecesMap from "./PiecesMap.js"
-import RobotMap from "./RobotMap.js"
 import Legend from "./Legend.js"
 import RenderQueue from "./RenderQueue.js"
 import CoralScreen from "./coral_screen/CoralScreen.js"
@@ -10,9 +9,9 @@ import Net from "./Net.js"
 import FeederStation from "./FeederStation.js"
 import Processor from "./Processor.js"
 
-const helpText = `1. Drag robot approx. start pos
-2. Click on reef to select where and which level piece was scored
-3. add or remove steps as necessary in the action queue below` 
+const helpText = `1. Click on reef to select where and which level piece was scored
+2 click on map items to score
+3. double click to remove scoring`
 
 //return correct coral ge_key
 const coral_ge_key = (level, letter, scored=true) => {
@@ -36,9 +35,9 @@ const get_scored = (ge_key) => {
 export default class {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, teleopPieceData, robotData, images, cX, cY}) {
+    constructor({ctx, allianceColor, teleopPieceData, images, cX, cY}) {
         consoleLog("START")
-        consoleLog(ctx, allianceColor, teleopPieceData, robotData, images, cX, cY)
+        consoleLog(ctx, allianceColor, teleopPieceData, images, cX, cY)
         this.canvasSize = {x: cX, y: cY}
         this.dpr = window.devicePixelRatio
         this.ctx = ctx
@@ -46,27 +45,30 @@ export default class {
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: teleopPieceData, canvasSize: this.canvasSize})
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize, showCounter: true,
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
-        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue, showCounter: true,
             points: [
                 {x: this.canvasSize.x * this.dpr * 0.8, y: this.canvasSize.y * this.dpr * 0.097},
                 {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.097},
                 {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.24},
-            ]
+            ],
+            counterX: this.canvasSize.x * 0.85,
+            counterY: this.canvasSize.y * 0.09
         })
-        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue, showCounter: true,
             points: [
                 {x: this.canvasSize.x * 0.8 * this.dpr , y: this.canvasSize.y * 0.962 * this.dpr},
                 {x: this.canvasSize.x * .945 * this.dpr, y: this.canvasSize.y * 0.962 * this.dpr},
                 {x: this.canvasSize.x * 0.945 * this.dpr, y: this.canvasSize.y * 0.82 * this.dpr},
-            ]
+            ],
+            counterX: this.canvasSize.x * 0.85,
+            counterY: this.canvasSize.y * 0.86
         })
-        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue, showCounter: true,
             x: this.canvasSize.x*0.135,
             y: this.canvasSize.y * 0
         })
@@ -83,16 +85,11 @@ export default class {
         
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
-            this.clickable.robots.onClick({x, y})
-            if(this.clickable.net.onClick({x, y})) {
-            }
             this.legend.onClick({x, y})
-            if(this.clickable.feederTop.onClick({x, y})) {
-            }
-            if(this.clickable.feederBottom.onClick({x, y})) {
-            }
-            if(this.clickable.processor.onClick({x, y})) {
-            }
+            this.clickable.feederTop.onClick({x, y})
+            this.clickable.feederBottom.onClick({x, y})
+            this.clickable.processor.onClick({x, y})
+            this.clickable.net.onClick({x, y})
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
                 this.clickable.coralScreens[cRes.text].isSelected = true
@@ -109,26 +106,13 @@ export default class {
         }
     }
 
-    onMouseDown({ x, y }) {
-        this.clickable.robots.onMouseDown({x, y})
-    }
-    
-    onMouseMove({ x, y }) {
-        this.clickable.robots.onMouseMove({x, y})
-    }
-
-    onMouseUp({ x, y }) {
-        this.clickable.robots.onMouseUp({x, y})
-    }
-
 
     sendData() {
         const res = {}
-        res["Starting Location"] = this.clickable.robots.sendData()["Starting Location"] ?? 0
-        res.auton = {}
+        res.teleop = {}
         
         for (const k of Object.keys(this.clickable.coralScreens)) {
-            res.auton[k] = this.clickable.coralScreens[k].sendData()
+            res.teleop[k] = this.clickable.coralScreens[k].sendData()
         }
 
         res["feederTop"] = this.clickable.feederTop.sendData() 
@@ -145,7 +129,6 @@ export default class {
 
     draw() {
         this.map.draw()
-        this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.clickable.net.draw()
         this.clickable.feederBottom.draw()
