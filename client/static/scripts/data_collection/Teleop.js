@@ -86,12 +86,10 @@ export default class {
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.legend.onClick({x, y})
-            if(this.clickable.feederTop.onClick({x, y})) {
-            }
-            if(this.clickable.feederBottom.onClick({x, y})) {
-            }
-            if(this.clickable.processor.onClick({x, y})) {
-            }
+            this.clickable.feederTop.onClick({x, y})
+            this.clickable.feederBottom.onClick({x, y})
+            this.clickable.processor.onClick({x, y})
+            this.clickable.net.onClick({x, y})
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
                 this.clickable.coralScreens[cRes.text].isSelected = true
