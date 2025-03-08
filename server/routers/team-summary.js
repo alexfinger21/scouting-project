@@ -14,6 +14,7 @@ router.get("/",  async function(req, res) { //only gets used if the url == team-
     else {
         const isAdmin = await checkAdmin(req)
         database.query(database.getChartData(), (err, chartData) => {
+            consoleLog(chartData)
             const len = JSON.parse(JSON.stringify(chartData)).length
             res.render("team-summary", {
                 isAdmin: isAdmin,

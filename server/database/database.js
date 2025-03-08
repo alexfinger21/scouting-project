@@ -498,7 +498,7 @@ async function getChartData() {
     return SQL`
     SELECT *
         FROM
-    teamsixn_scouting_dev.v_match_summary_api vmsa
+    teamsixn_scouting_dev.v_match_summary vmsa
     WHERE
     vmsa.frc_season_master_sm_year = ${gameConstants.YEAR} AND
     vmsa.competition_master_cm_event_code = ${gameConstants.COMP} AND
