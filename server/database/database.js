@@ -435,38 +435,44 @@ async function getMatchData(gameNumber) {
     return SQL`
     SELECT 
     gm.team_master_tm_number,
-        gm.gm_alliance, 
-        gm.gm_alliance_position, 
-        gm.frc_season_master_sm_year,
-        tm.tm_name, 
-        tms.nbr_games,
-        tms.total_game_score_avg,
-        tms.auton_total_score_avg,
-        tms.auton_notes_amp_avg,
-        tms.auton_notes_speaker_avg,
-        tms.auton_notes_pickup_avg,
-        tms.teleop_total_score_avg,
-        tms.teleop_notes_amp_avg,
-        tms.teleop_notes_speaker_not_amped_avg,
-        tms.teleop_notes_speaker_amped_avg,
-        tms.teleop_notes_amp_avg,
-        tms.teleop_coop_button_press_avg,
-        tms.teleop_notes_acquired_avg,
-        tms.endgame_notes_trap_avg,
-        tms.endgame_onstage_points_avg,
-        tms.endgame_high_notes_avg,
-        tms.endgame_total_score_avg,
-        tms.api_rank,
-        tms.api_win,
-        tms.api_loss,
-        tms.api_rank,
-        tms.api_tie,
-        tms.api_dq,
-        tms.api_dpr,
-        tms.api_opr,
-        tms.intake_location,
-        tms.api_opr_rank ,
-        tms.api_dpr_rank 
+    gm.gm_alliance, 
+    gm.gm_alliance_position, 
+    gm.frc_season_master_sm_year,
+    tm.tm_name, 
+    tms.tm_name,
+    tms.api_rank,
+    tms.nbr_games,
+    tms.total_game_score_avg,
+    tms.auton_algae_in_processor_avg,
+    tms.auton_algae_in_net_avg,
+    tms.auton_algae_dislodge_avg,
+    tms.auton_coral_scored_avg,
+    tms.auton_coral_scored_l1_avg,
+    tms.auton_coral_scored_l2_avg,
+    tms.auton_coral_scored_l3_avg,
+    tms.auton_coral_scored_l4_avg,
+    tms.auton_total_score_avg,
+    tms.teleop_total_score_avg,
+    tms.teleop_algae_in_processor_avg,
+    tms.teleop_algae_in_net_avg,
+    tms.teleop_coral_scored_avg,
+    tms.teleop_coral_scored_l1_avg,
+    tms.teleop_coral_scored_l2_avg,
+    tms.teleop_coral_scored_l3_avg,
+    tms.teleop_coral_scored_l4_avg,
+    tms.total_algae_dislodge_avg,
+    tms.total_foul_points_avg,
+    tms.api_rank,
+    tms.api_win,
+    tms.api_loss,
+    tms.api_rank,
+    tms.api_tie,
+    tms.api_dq,
+    tms.api_dpr,
+    tms.api_opr,
+    tms.intake_location,
+    tms.api_opr_rank ,
+    tms.api_dpr_rank 
     FROM 
     teamsixn_scouting_dev.game_matchup gm
     LEFT JOIN
@@ -498,7 +504,7 @@ async function getChartData() {
     return SQL`
     SELECT *
         FROM
-    teamsixn_scouting_dev.v_match_summary vmsa
+    teamsixn_scouting_dev.v_match_summary_api vmsa
     WHERE
     vmsa.frc_season_master_sm_year = ${gameConstants.YEAR} AND
     vmsa.competition_master_cm_event_code = ${gameConstants.COMP} AND
