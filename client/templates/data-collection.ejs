@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="input-container">
-                    <span>Auton - Tech Fouls</span>
+                    <span style="margin-top: 3%;">Auton - Tech Fouls</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="auton-tech-fouls" min="0" max="5" value="0">
@@ -157,7 +157,16 @@
                     <span>Human Player Shots in Net</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="hp-count" min="0" max="5" value="0">
+                        <input type="number" name="hp-count" min="0" max="18" value="0">
+                        <button type="button" class="big-button">-</button>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <span>Human Player Shots Missed</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">+</button>
+                        <input type="number" name="hp-missed" min="0" max="18" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
@@ -238,10 +247,21 @@
                 </div>
 
                 <div class="input-container">
-                    <span>Robot has ground pickup</span>
-                    <div class="NumberButtonContainer">
+                    <span>robot has coral ground pickup</span>
+                    <div class="numberbuttoncontainer">
                         <button type="button" class="big-button">x</button>
-                        <input name="ground-pickup">
+                        <input name="coral-ground-pickup">
+                        <button type="button" class="big-button">
+                            <img src="../static/images/checkmark.png" id="button-checkmark">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <span>robot has coral ground pickup</span>
+                    <div class="numberbuttoncontainer">
+                        <button type="button" class="big-button">x</button>
+                        <input name="algae-ground-pickup">
                         <button type="button" class="big-button">
                             <img src="../static/images/checkmark.png" id="button-checkmark">
                         </button>

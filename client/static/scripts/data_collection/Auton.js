@@ -37,7 +37,7 @@ const get_row = (ge_key) => {
 const get_scored = (ge_key) => {
     return ge_key % 2
 }
-export default class {
+export default class Auton {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
     constructor({ctx, allianceColor, data, images, cX, cY}) {
@@ -350,6 +350,9 @@ export default class {
         res.algae = this.clickable.algae.sendData()
         res.auton.net = this.clickable.net.sendData()
         res.auton.processor = this.clickable.processor.sendData()
+        res.auton["algae-count"] = this.algae.reduce((acc, cur) => {
+            return acc + cur.isSelected ? 1 : 0
+        }, 0)
 
         return res
     }
