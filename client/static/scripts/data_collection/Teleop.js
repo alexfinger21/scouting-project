@@ -35,7 +35,7 @@ const get_scored = (ge_key) => {
 export default class Teleop {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, teleopPieceData, images, cX, cY}) {
+    constructor({ctx, allianceColor, data, images, cX, cY}) {
         this.canvasSize = {x: cX, y: cY}
         this.dpr = window.devicePixelRatio
         this.ctx = ctx
@@ -43,14 +43,14 @@ export default class Teleop {
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.pieces = new PiecesMap({ctx, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: teleopPieceData, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, renderQueue: this.renderQueue, allianceColor, img: "circle",  canvasSize: this.canvasSize})
 
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize, showCounter: true,
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, count: data?.teleop?.net?.count, canvasSize: this.canvasSize, showCounter: true,
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
 
-        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue, showCounter: true,
+        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.teleop?.processor?.count, renderQueue: this.renderQueue, showCounter: true,
             x: this.canvasSize.x*0.135,
             y: this.canvasSize.y * 0
         })
@@ -79,9 +79,7 @@ export default class Teleop {
         } else {
             Object.values(this.clickable.coralScreens).forEach(e => {
                 if(e.isSelected) {
-                    const clicked = e.onClick({x, y}) 
-                    if(clicked ) {//proceed button was clicked
-                    }
+                    e.onClick({x, y}) 
                 }
             })
         }
@@ -96,9 +94,8 @@ export default class Teleop {
             res.teleop[k] = this.clickable.coralScreens[k].sendData()
         }
 
-        res.teleop["net"] = this.clickable.net.sendData()
-
-        consoleLog(res)
+        res.teleop.net = this.clickable.net.sendData()
+        res.teleop.processor = this.clickable.processor.sendData()
 
         return res
     }

@@ -111,13 +111,13 @@ async function sendComments() {
 
         error: function (jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
-        },
+        }
     })
 }
 
 async function sendData() {
     const data = await saveData()
-    consoleLog("-------CLIENT DATA------\n")
+    consoleLog("-------SCOUTING DATA------\n")
     consoleLog(data)
 
     $.ajax({
@@ -231,268 +231,11 @@ function loadData() {
         await waitUntilImagesLoaded(Object.values(images))
 
         const data = localData?.[match] ?? undefined
-        const gameData = {
-            "Starting Location": 0,
-            "auton": {
-                "A": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "B": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "C": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "D": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "E": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "F": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 1
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "G": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 1
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "H": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "I": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 1
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "J": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "K": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 1
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "L": {
-                    "L4": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L3": {
-                        "missed": 0,
-                        "scored": 1
-                    },
-                    "L2": {
-                        "missed": 0,
-                        "scored": 0
-                    },
-                    "L1": {
-                        "missed": 0,
-                        "scored": 0
-                    }
-                },
-                "path": "22111|23081|2007|2007|2007|2008|2009",
-                "net": {
-                    "score": 0
-                },
-                "processor": {
-                    "count": 4
-                }
-            },
-            "feederTop": {
-                "count": 2
-            },
-            "feederBottom": {
-                "count": 4
-            },
-            "algae": {
-                "2008": {
-                    "isSelected": true
-                },
-                "2009": {
-                    "isSelected": true
-                },
-                "2010": {
-                    "isSelected": false
-                },
-                "2011": {
-                    "isSelected": false
-                },
-                "2012": {
-                    "isSelected": true
-                },
-                "2013": {
-                    "isSelected": false
-                }
-            }
-        } 
+        const gameData = data?.gameData
 
         AutonObject = new Auton({ ctx: autonCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height })
         TeleopObject = new Teleop({ ctx: teleopCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
         
-        setTimeout(() => {
-            consoleLog("sent data", AutonObject.sendData())
-        }, 5000)
-
         // HANDLE TOUCHES / MOUSE
 
         function handleMouse(event, obj, func) {
@@ -532,22 +275,6 @@ function loadData() {
         autonCanvas.addEventListener("mouseup", (event) => {
             event.preventDefault()
             handleMouse(event, AutonObject, AutonObject.onMouseUp)
-        })
-
-
-        teleopCanvas.addEventListener("touchstart", (event) => {
-            event.preventDefault()
-            handleTouch(event, AutonObject, TeleopObject.onMouseDown)
-        })
-
-        teleopCanvas.addEventListener("touchmove", (event) => {
-            event.preventDefault()
-            handleTouch(event, AutonObject, TeleopObject.onMouseMove)
-        })
-
-        teleopCanvas.addEventListener("touchend", (event) => {
-            event.preventDefault()
-            handleTouch(event, TeleopObject, TeleopObject.onMouseUp)
         })
 
         teleopCanvas.addEventListener("click", (event) => {

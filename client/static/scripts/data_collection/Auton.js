@@ -19,6 +19,10 @@ const coral_ge_key = (level, letter, scored=true) => {
     return 20000 + level * 1000 + (letter.charCodeAt(0) - 65) * 10 + (scored == true ? 1 : 0)
 }
 
+const get_level = (ge_key) => {
+    return String(ge_key)[1]
+}
+
 //get letter from coral ge_key
 const get_letter = (ge_key) => {
     return String.fromCharCode(65 + Number(("" + ge_key).substring(2, 4)) )
@@ -31,7 +35,7 @@ const get_row = (ge_key) => {
 
 //get is scored from coral ge_key
 const get_scored = (ge_key) => {
-    return ge_key % 2 == 1
+    return ge_key % 2
 }
 export default class {
     /*ctx: canvas.getContext('2d')
@@ -48,10 +52,12 @@ export default class {
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: data?.robotStartingPercent, canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", canvasSize: this.canvasSize})
         this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, data: data?.algae, canvasSize: this.canvasSize})
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, count: data?.auton?.net.count, canvasSize: this.canvasSize,
+
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, count: data?.auton?.net?.count, canvasSize: this.canvasSize,
             x: this.canvasSize.x * 0.05,
             y: this.canvasSize.y * 0.55,
         })
+        
         this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederTop?.count, renderQueue: this.renderQueue,
             points: [
                 {x: this.canvasSize.x * this.dpr * 0.8, y: this.canvasSize.y * this.dpr * 0.097},
@@ -59,6 +65,7 @@ export default class {
                 {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.24},
             ]
         })
+
         this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederBottom?.count, renderQueue: this.renderQueue,
             points: [
                 {x: this.canvasSize.x * 0.8 * this.dpr , y: this.canvasSize.y * 0.962 * this.dpr},
@@ -66,10 +73,12 @@ export default class {
                 {x: this.canvasSize.x * 0.945 * this.dpr, y: this.canvasSize.y * 0.82 * this.dpr},
             ]
         })
+
         this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.auton?.processor?.count, renderQueue: this.renderQueue,
             x: this.canvasSize.x*0.135,
             y: this.canvasSize.y * 0
         })
+
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.clickable.coralScreens = {}
 
@@ -114,6 +123,29 @@ export default class {
             this.removeTableRow({row: this.dragRow, ge_key: this.dragRow.getAttribute("ge_key")})
             this.dragDeb = true
             this.trash.classList.remove("show")
+        }
+
+        if (data?.auton?.path) {
+            for (let step of data.auton.path.split("|")) {
+                step = Number(step)
+                if (step > 21000 && step < 30000) {
+                    const ltr = get_letter(step)
+                    const lvl = get_level(step)
+                    const scr = get_scored(step)
+                    this.addTableRow({text: `${scr ? "Score" : "Miss"} Coral ${ltr}L${lvl}`, ge_key: step, draggable: true}) 
+                } else if (step == 2004) {
+                    this.addTableRow({text: "Score Processor", ge_key: step, draggable: true})
+                } else if (step == 2005) {
+                    this.addTableRow({text: "Score Net", ge_key: step, draggable: true})
+                } else if (step == 2006) {
+                    this.addTableRow({text: "Feed Coral: Top", ge_key: step, draggable: true})
+                } else if (step == 2007) {
+                    this.addTableRow({text: "Feed Coral: Bottom", ge_key: step, draggable: true})
+                } else if (step >= 2008 && step <= 2013) {
+                    const label = String.fromCharCode(65 + (step - 2008)*2) + String.fromCharCode(65 + (step - 2008)*2 + 1)
+                    this.addTableRow({text: "Dislodge " + label, ge_key: step, draggable: true})
+                }
+            }
         }
     }
 
@@ -318,8 +350,6 @@ export default class {
         res.algae = this.clickable.algae.sendData()
         res.auton.net = this.clickable.net.sendData()
         res.auton.processor = this.clickable.processor.sendData()
-
-        consoleLog(res)
 
         return res
     }

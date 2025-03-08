@@ -45,7 +45,7 @@ export default class Net extends DrawableObject {
 
     sendData() {
         return {
-            "score": this.count
+            "count": this.count
         }
     }
 
