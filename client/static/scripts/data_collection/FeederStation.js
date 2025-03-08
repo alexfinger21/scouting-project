@@ -8,7 +8,7 @@ export default class FeederStation extends DrawableObject {
     constructor({ x, y, ctx, count=0, renderQueue, canvasSize, points, showCounter=false, counterX, counterY, }) {
         super({ ctx, renderQueue, img: "triangle", x, y, sX: canvasSize.x * 0.1, sY: canvasSize.y * 0.39, zIndex: 2, points})
         this.color = "#FFF600"
-        this.opacity = 0   
+        this.opacity = 0
         this.count = count
         this.dpr = window.devicePixelRatio
         this.counter = new Counter({ctx, renderQueue: this.renderQueue, canvasSize, count, show: showCounter,

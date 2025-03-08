@@ -11,7 +11,7 @@ export default class PiecesMap {
         //Wing Notes
         const dist = canvasSize.x * 0.25
         const startAng = Math.PI/11
-        const ctr = [canvasSize.x * 0.56, canvasSize.y * 0.47]
+        const ctr = isBlue ? [canvasSize.x * 0.56, canvasSize.y * 0.47] : [canvasSize.x * 0.43, canvasSize.y * 0.4235]
         for (let i = 0; i < 12; ++i) {
             this.pieces.push(new GamePiece({
                 x: ctr[0] + dist*Math.cos(startAng - Math.PI/6*i),

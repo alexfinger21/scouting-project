@@ -44,6 +44,7 @@ export default class Auton {
         this.canvasSize = {x: cX, y: cY}
         this.dpr = window.devicePixelRatio
         consoleLog("CTX SIZE", images, this.canvasSize)
+        const isBlue = allianceColor == "B"
         this.ctx = ctx
         this.images = images
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
@@ -53,30 +54,30 @@ export default class Auton {
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", canvasSize: this.canvasSize})
         this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, data: data?.algae, canvasSize: this.canvasSize})
 
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, count: data?.auton?.net?.count, canvasSize: this.canvasSize,
-            x: this.canvasSize.x * 0.05,
-            y: this.canvasSize.y * 0.55,
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, allianceColor, count: data?.auton?.net?.count, canvasSize: this.canvasSize,
+            x: isBlue ? this.canvasSize.x * 0.05 : this.canvasSize.x * 0.85,
+            y: isBlue ? this.canvasSize.y * 0.55 : this.canvasSize.y * 0.09  ,
         })
         
         this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederTop?.count, renderQueue: this.renderQueue,
             points: [
-                {x: this.canvasSize.x * this.dpr * 0.8, y: this.canvasSize.y * this.dpr * 0.097},
-                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.097},
-                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.24},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.8 : 0.21), y: this.canvasSize.y * this.dpr * (isBlue ? 0.097 : 0.035)},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.097 : 0.035)},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.24 : 0.18)},
             ]
         })
 
         this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederBottom?.count, renderQueue: this.renderQueue,
             points: [
-                {x: this.canvasSize.x * 0.8 * this.dpr , y: this.canvasSize.y * 0.962 * this.dpr},
-                {x: this.canvasSize.x * .945 * this.dpr, y: this.canvasSize.y * 0.962 * this.dpr},
-                {x: this.canvasSize.x * 0.945 * this.dpr, y: this.canvasSize.y * 0.82 * this.dpr},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.8 : 0.21) , y: this.canvasSize.y * this.dpr* (isBlue ? 0.962 : 0.9)},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.962 : 0.9) },
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.82 : 0.76)},
             ]
         })
 
         this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.auton?.processor?.count, renderQueue: this.renderQueue,
-            x: this.canvasSize.x*0.135,
-            y: this.canvasSize.y * 0
+            x: this.canvasSize.x*(isBlue ? 0.135 : 0.685),
+            y: this.canvasSize.y * (isBlue ? 0 : 0.89),
         })
 
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})

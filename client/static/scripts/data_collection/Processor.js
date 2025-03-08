@@ -12,8 +12,10 @@ export default class Processor extends DrawableObject {
         this.count = count
         this.counter = new Counter({ctx, renderQueue: this.renderQueue, canvasSize, count, show: showCounter,
             x: x + canvasSize.x * 0.03,
-            y: y + canvasSize.y * 0.007,
+            y: y,
         })
+
+        this.counter.color = "#212121"
 
         this.lastClickTick = Math.max()    
         this.lastAnimTick = Math.max()    

@@ -13,7 +13,7 @@ export default class AlgaeMap {
         //Wing Notes
         const dist = canvasSize.x * 0.1
         const startAng = 0
-        const ctr = [canvasSize.x * 0.575, canvasSize.y * 0.49]
+        const ctr = isBlue ? [canvasSize.x * 0.575, canvasSize.y * 0.49] : [canvasSize.x * 0.439, canvasSize.y * 0.4235]
         for (let i = 0; i < 6; ++i) {
             this.algae.push(new Algae({
                 x: ctr[0] + dist*Math.cos(startAng - Math.PI/3*i),

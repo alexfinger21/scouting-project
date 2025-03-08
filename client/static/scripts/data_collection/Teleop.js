@@ -43,16 +43,19 @@ export default class Teleop {
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
+        const isBlue = allianceColor == "B"
+
         this.clickable.pieces = new PiecesMap({ctx, renderQueue: this.renderQueue, allianceColor, img: "circle",  canvasSize: this.canvasSize})
 
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, count: data?.teleop?.net?.count, canvasSize: this.canvasSize, showCounter: true,
-            x: this.canvasSize.x * 0.05,
-            y: this.canvasSize.y * 0.55,
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, allianceColor, count: data?.auton?.net?.count, canvasSize: this.canvasSize, showCounter: true,
+            x: isBlue ? this.canvasSize.x * 0.05 : this.canvasSize.x * 0.85,
+            y: isBlue ? this.canvasSize.y * 0.55 : this.canvasSize.y * 0.09  ,
         })
 
-        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.teleop?.processor?.count, renderQueue: this.renderQueue, showCounter: true,
-            x: this.canvasSize.x*0.135,
-            y: this.canvasSize.y * 0
+
+        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.auton?.processor?.count, renderQueue: this.renderQueue, showCounter: true,
+            x: this.canvasSize.x*(isBlue ? 0.135 : 0.685),
+            y: this.canvasSize.y * (isBlue ? 0 : 0.89),
         })
 
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})

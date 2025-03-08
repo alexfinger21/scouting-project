@@ -163,7 +163,6 @@ async function waitUntilImagesLoaded(imgs) {
     }
 
     while (!checkIfTrue()) {
-        consoleLog(imgMap)
         await timer(10)
     }
 

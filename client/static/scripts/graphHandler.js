@@ -247,7 +247,7 @@ async function writeSpiderData(points) {
 
     const res = {
         labels: [
-            "OPR", "DPR", "Game Score", "Teleop Score", "Auton Notes", "Endgame Score"
+            "OPR", "DPR", "Game Score", "Teleop Score", "Auton Score", "Endgame Score"
         ],
         datasets: (await Promise.all(data)).sort((a, b) => a.label - b.label)
     }
