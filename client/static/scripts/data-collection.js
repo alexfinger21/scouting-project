@@ -348,6 +348,8 @@ async function saveData() {
 
         const form = document.getElementById("match-number-form")
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
+        const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+        const inputContainers = document.getElementsByClassName("input-container")
 
 
         data.gameData = { ...TeleopObject?.sendData(), ...AutonObject?.sendData() }
@@ -364,7 +366,7 @@ async function saveData() {
         //1st child is the number button holder
 
         //number buttons and also checkbox/x buttons
-        const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+        
         Array.from(numberButtonContainers).forEach((element) => {
             const input = element.getElementsByTagName("input")[0]
             if (input.type == "number") {
@@ -387,6 +389,29 @@ async function saveData() {
                     }
                 }
             })
+        })
+
+        Array.from(inputContainers).forEach(container => {
+            Array.from(container.children).forEach(element => {
+                if (element.tagName.toLowerCase() == "input") {
+                    if (element.type == "radio" && element.checked) {
+                        data[element.name] = element.value
+                    }
+                    else if (element.type == "checkbox") {
+                        data[element.id] = element.checked
+                    }
+                }
+            })
+        })
+
+        Array.from(numberButtonContainers).forEach((element) => {
+            const input = element.getElementsByTagName("input")[0]
+            if (input.type == "number") {
+                data[input.name] = Number(input.value)
+            }
+            else {
+                data[input.name] = element.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
+            }
         })
 
         //comments
