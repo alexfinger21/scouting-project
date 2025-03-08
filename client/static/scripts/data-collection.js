@@ -174,7 +174,7 @@ function loadData() {
         const match = await getMatch()
         const form = document.getElementById("match-number-form")
         
-        if (!form) {return}
+        if (!form) {return res()}
 
         const buttonContainers = form.querySelectorAll(".NumberButtonContainer")
         const matchNumber = document.getElementById("match-number")
@@ -293,9 +293,68 @@ function loadData() {
             }
         })
 
+
+        //load the radio buttons and checkboxes
+        let climbSuccess = false
+        const naButton = document.getElementById("no-position")
+        let oldBtn = naButton
+        consoleLog("nabutton", naButton)
+
+        Array.from(radioButtonContainers).forEach(container => {
+            Array.from(container.children).forEach(element => {
+                if (element.tagName.toLowerCase() == "input") {
+                    //selected radio button or selected checkbox
+                    if ( (element.type == "radio" && data?.[element.name] == element.value) || (element.type == "checkbox" && data?.[element.id])) {
+                        element.checked = true
+                        oldBtn = element
+                        if (element.id.includes("park") || element.id == "failed-climb") {
+                            climbSuccess = false
+                        } else {
+                            climbSuccess = true
+                        }
+                    }
+                }
+                if (element.name == "robot-endgame") {
+                    if (element.id.includes("park") || element.id == "failed-climb") {
+                        element.addEventListener("click", (event) => {
+                            climbSuccess = false
+                            oldBtn.checked = false
+                            naButton.checked = true
+                        })
+                    } else {
+                        element.addEventListener("click", (event) => {
+                            climbSuccess = true
+                            oldBtn.checked = true
+                            naButton.checked = false
+                        })
+                    }
+                } else if (element.name == "climb-position") {
+                    if (element != naButton) {
+                        element.addEventListener("click", (event) => {
+                            if (!climbSuccess) {
+                                element.checked = false
+                                naButton.checked = true
+                            } else {
+                                oldBtn = element
+                            }
+                        })
+                    }
+                }
+            })    
+        })
+
+        naButton.addEventListener("click", (event) => {
+            if (climbSuccess) {
+                naButton.checked = false
+                oldBtn.checked = true
+                naButton.checked = false
+            }
+        })
+
         if (!localData) {
-            return rej()
+            return rej("no data")
         }
+
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
@@ -317,17 +376,6 @@ function loadData() {
                 }
             })
 
-            //load the radio buttons and checkboxes
-            Array.from(radioButtonContainers).forEach(container => {
-                Array.from(container.children).forEach(element => {
-                    if (element.tagName.toLowerCase() == "input") {
-                        //selected radio button or selected checkbox
-                        if ( (element.type == "radio" && data[element.name] == element.value) || (element.type == "checkbox" && data[element.id])) {
-                            element.checked = true
-                        }
-                    }
-                })
-            })
 
 
             //load comments
@@ -443,8 +491,8 @@ async function loadDataCollection() {
 
     try {
         await loadData()
-    } catch (e) {
-        consoleLog(e)
+    } catch(e) {
+        consoleLog("err with loading data", e)
     }
     function animateCanvas() {
         if (currentPage == paths.dataCollection && AutonObject && TeleopObject) {

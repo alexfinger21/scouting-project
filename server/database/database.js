@@ -218,7 +218,7 @@ function saveData(data, is7thScouter=false) {
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 5003, ${convertToInt(data["entered-opponent-barge"])}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 5, 5004, ${convertToInt(data["plays-defense"])}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 5005, ${data["algae-ground-pickup"] ?? 0}),
-    (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 3006, ${data["coral-ground-pickup"] ?? 0})
+    (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 5006, ${data["coral-ground-pickup"] ?? 0})
     ;`)
 
     return sqlStr
