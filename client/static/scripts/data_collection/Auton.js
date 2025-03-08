@@ -350,7 +350,7 @@ export default class Auton {
         res.algae = this.clickable.algae.sendData()
         res.auton.net = this.clickable.net.sendData()
         res.auton.processor = this.clickable.processor.sendData()
-        res.auton["algae-count"] = this.algae.reduce((acc, cur) => {
+        res.auton["algae-count"] = Object.values(res.algae).reduce((acc, cur) => {
             return acc + cur.isSelected ? 1 : 0
         }, 0)
 
