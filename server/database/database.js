@@ -170,13 +170,10 @@ function saveData(data, is7thScouter=false) {
         }
     } 
 
-    for (let i = 0; i<12; ++i) {
-        const char = String.fromCharCode(65+i)
-        for (let j = 1; j<=4; ++j) {
-            teleopStr += `(${params}, 3, ${"31" + String(i+1).padStart(2, '0') + '0'}, ${data.gameData.auton[char]["L" + j].missed}),`
-            teleopStr += `(${params}, 3, ${"31" + String(i+1).padStart(2, '0') + '1'}, ${data.gameData.auton[char]["L" + j].scored}),`
-        }
+    for (let i = 0; i<6; ++i) {
+        teleopStr += `(${params}, 2, ${2008+i}, ${data?.gameData?.algae?.[2008+i].isSelected}),`
     } 
+
 
     /*
     for (const [i, v] of Object.entries(data.gameData.spotlights)) {
