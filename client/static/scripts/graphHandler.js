@@ -280,6 +280,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                         }
                     },
                     position: 'bottom',
+                    beginAtZero: true,
                 },
                 y: {
                     ticks: {
@@ -295,6 +296,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                         }
                     },
                     position: 'left',
+                    beginAtZero: true,
                 },
                 
             },
@@ -611,7 +613,7 @@ function createStackedBarGraph(points, orderBy, scoring, backgroundColor) {
                     },
                     formatter: function(value, context) {
                         if(context.datasetIndex == orderBy.length - 1) {
-                            consoleLog(scoring, "in", context.chart.data)
+                            //consoleLog(scoring, "in", context.chart.data)
                             return context.chart.data[scoring][context.dataIndex];
                         }
                         return ''

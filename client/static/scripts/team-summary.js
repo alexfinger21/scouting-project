@@ -83,7 +83,7 @@ async function getPoints(x, y, color) {
                 hidden = false
             }
 
-            if (!val[x]) {
+            if (val[x] == undefined) {
                 ++noVal
             }
 
@@ -131,7 +131,8 @@ async function getPoints(x, y, color) {
         }
     }
 
-    if (noVal == points.length) {return false;}
+    if (noVal == points.length) {console.log('womp wimp') 
+        return false}
 
     return points
 }
@@ -220,6 +221,7 @@ async function main() {
         consoleLog(number)
         switch (number) {
             case 0:
+                consoleLog("TRY TO SWITCH")
                 switchChart("scatter")
                 ctx = scatterPlotCanvas.getContext("2d")
                 points = await getPoints("api_rank", "total_game_score_avg")
@@ -242,7 +244,6 @@ async function main() {
 
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
 
-                consoleLog(points)
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
