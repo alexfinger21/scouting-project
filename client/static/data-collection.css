@@ -381,6 +381,7 @@ canvas {
     background-color: #3492EA;
     border: 0;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .NumberButtonContainer > .big-button {
