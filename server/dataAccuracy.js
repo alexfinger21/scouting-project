@@ -217,21 +217,18 @@ async function combinedData() // combine data from TBA and DB
         for (let nameNum in scatterpointsNames) { // a set of scatterpoints for each type of API key
             let name = scatterpointsNames[nameNum]
 
-            let dbPoitnRed = 0 //data point from dataBase for red
-            let dbPointBlue = 0
-            if (typeof DBMatchData[i] !== 'undefined') {//checks if the match exists in the dataBase
-                dbPoitnRed = DBMatchData[i].red[apiNames[nameNum]] //if the match exists then it equals the data from the database
-                dbPointBlue = DBMatchData[i].blue[apiNames[nameNum]]
+            if (typeof DBMatchData[i] === 'undefined') {//checks if the match exists in the dataBase
+                continue
             }
 
             scatterpoints[i].red[name] = { // example of this object filled in would be: autoAmpNoteCount:{TBA: TBAMatchData[i].red.autoAmpNoteCount, DB: DBMatchData[i].red['211']}, 
                 TBA: TBAMatchData[i].red[name] || 0, // The x value of the scatterpoint
-                DB: dbPoitnRed // The y value of the scatter point
+                DB: DBMatchData[i].red[apiNames[nameNum]] // The y value of the scatter point
             }
 
             scatterpoints[i].blue[name] = { // same as the above but for blue alliance
                 TBA: TBAMatchData[i].blue[name] || 0, 
-                DB: dbPointBlue
+                DB: DBMatchData[i].blue[apiNames[nameNum]]
             }
         }
     }
