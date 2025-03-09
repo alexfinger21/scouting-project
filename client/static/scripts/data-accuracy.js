@@ -122,7 +122,7 @@ function drawCharts(data, selectedValue, scouter, team) {
         window.DAChart1.destroy();
     }
         
-        
+
     window.DAChart = new Chart(
         ctx,
         {
@@ -196,7 +196,12 @@ function drawCharts(data, selectedValue, scouter, team) {
                         title: {
                             display: true,
                             text: 'TBA DATA', // This will label the X axis
-                            zIndex: 5
+                           
+                        },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
                         },
                         max: maxhtR,
                         //min: 0,
@@ -206,6 +211,11 @@ function drawCharts(data, selectedValue, scouter, team) {
                             display: true,
                             text: 'DB DATA', // This will label the X axis
                             zIndex: 5
+                        },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
                         },
                         max: maxhtR,
                         //min: 0,
@@ -310,6 +320,11 @@ function drawCharts(data, selectedValue, scouter, team) {
                             display: true,
                             text: 'TBA DATA' // This will label the X axis
                         },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
+                        },
                         max: maxhtB,
                         //min: 0,
                     },
@@ -317,6 +332,11 @@ function drawCharts(data, selectedValue, scouter, team) {
                         title: {
                             display: true,
                             text: 'DB DATA' // This will label the X axis
+                        },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
                         },
                         max: maxhtB,
                         //min: 0,
