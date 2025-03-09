@@ -6,7 +6,7 @@ import DrawableObject from "../DrawableObject.js"
 
 
 export default class CoralScreen {
-    constructor({ctx, ge_key, score, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
+    constructor({ctx, ge_key, data = {}, allianceColor, images, canvasSize, letter, renderQueue, zIndex}) {
         this.ctx = ctx
         this.canvasSize = canvasSize
         this.letter = letter
@@ -30,7 +30,7 @@ export default class CoralScreen {
         this.scoreIndicators = []
 
         for(let i = 3; i >= 0; i--) {
-            const cA = new ClickArea({ctx, zIndex: zIndex+3, renderQueue, value: 0, img: images.clickAreaImage, canvasSize: this.canvasSize,
+            const cA = new ClickArea({ctx, zIndex: zIndex+3, renderQueue, scored: data?.["L" + (i+1)]?.scored, missed: data?.["L" + (i+1)]?.missed, value: 0, img: images.clickAreaImage, canvasSize: this.canvasSize,
                 pos: {
                     x: startX + padX,
                     y: startY + padY + canvasSize.y * 0.142 * i,

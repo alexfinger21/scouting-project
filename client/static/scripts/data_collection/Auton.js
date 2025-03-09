@@ -19,6 +19,10 @@ const coral_ge_key = (level, letter, scored=true) => {
     return 20000 + level * 1000 + (letter.charCodeAt(0) - 65) * 10 + (scored == true ? 1 : 0)
 }
 
+const get_level = (ge_key) => {
+    return String(ge_key)[1]
+}
+
 //get letter from coral ge_key
 const get_letter = (ge_key) => {
     return String.fromCharCode(65 + Number(("" + ge_key).substring(2, 4)) )
@@ -31,50 +35,56 @@ const get_row = (ge_key) => {
 
 //get is scored from coral ge_key
 const get_scored = (ge_key) => {
-    return ge_key % 2 == 1
+    return ge_key % 2
 }
-export default class {
+export default class Auton {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, autonPieceData, robotData, images, cX, cY}) {
+    constructor({ctx, allianceColor, data, images, cX, cY}) {
         this.canvasSize = {x: cX, y: cY}
         this.dpr = window.devicePixelRatio
         consoleLog("CTX SIZE", images, this.canvasSize)
+        const isBlue = allianceColor == "B"
         this.ctx = ctx
         this.images = images
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: robotData, canvasSize: this.canvasSize})
-        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, pieceData: autonPieceData, canvasSize: this.canvasSize})
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize,
-            x: this.canvasSize.x * 0.05,
-            y: this.canvasSize.y * 0.55,
+        this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: data?.robotStartingPercent, canvasSize: this.canvasSize})
+        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", canvasSize: this.canvasSize})
+        this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, data: data?.algae, canvasSize: this.canvasSize})
+
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, allianceColor, count: data?.auton?.net?.count, canvasSize: this.canvasSize,
+            x: isBlue ? this.canvasSize.x * 0.05 : this.canvasSize.x * 0.85,
+            y: isBlue ? this.canvasSize.y * 0.55 : this.canvasSize.y * 0.09  ,
         })
-        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+        
+        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederTop?.count, renderQueue: this.renderQueue,
             points: [
-                {x: this.canvasSize.x * this.dpr * 0.8, y: this.canvasSize.y * this.dpr * 0.097},
-                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.097},
-                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.24},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.8 : 0.21), y: this.canvasSize.y * this.dpr * (isBlue ? 0.097 : 0.035)},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.097 : 0.035)},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.24 : 0.18)},
             ]
         })
-        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
+
+        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, count: data?.feederBottom?.count, renderQueue: this.renderQueue,
             points: [
-                {x: this.canvasSize.x * 0.8 * this.dpr , y: this.canvasSize.y * 0.962 * this.dpr},
-                {x: this.canvasSize.x * .945 * this.dpr, y: this.canvasSize.y * 0.962 * this.dpr},
-                {x: this.canvasSize.x * 0.945 * this.dpr, y: this.canvasSize.y * 0.82 * this.dpr},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.8 : 0.21) , y: this.canvasSize.y * this.dpr* (isBlue ? 0.962 : 0.9)},
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.962 : 0.9) },
+                {x: this.canvasSize.x * this.dpr * (isBlue ? 0.945 : 0.05), y: this.canvasSize.y * this.dpr * (isBlue ? 0.82 : 0.76)},
             ]
         })
-        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue,
-            x: this.canvasSize.x*0.135,
-            y: this.canvasSize.y * 0
+
+        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.auton?.processor?.count, renderQueue: this.renderQueue,
+            x: this.canvasSize.x*(isBlue ? 0.135 : 0.685),
+            y: this.canvasSize.y * (isBlue ? 0 : 0.89),
         })
+
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.clickable.coralScreens = {}
 
         for (let i = 0; i<12; ++i) {
-            this.clickable.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), images, canvasSize: this.canvasSize, zIndex: 10})
+            this.clickable.coralScreens[String.fromCharCode(65+i)] = new CoralScreen({ctx, renderQueue: this.renderQueue, allianceColor, letter: String.fromCharCode(65+i), data: data?.auton?.[String.fromCharCode(65+i)], images, canvasSize: this.canvasSize, zIndex: 10})
         }
 
         // Prevent text and image dragging globally
@@ -114,6 +124,29 @@ export default class {
             this.removeTableRow({row: this.dragRow, ge_key: this.dragRow.getAttribute("ge_key")})
             this.dragDeb = true
             this.trash.classList.remove("show")
+        }
+
+        if (data?.auton?.path) {
+            for (let step of data.auton.path.split("|")) {
+                step = Number(step)
+                if (step > 21000 && step < 30000) {
+                    const ltr = get_letter(step)
+                    const lvl = get_level(step)
+                    const scr = get_scored(step)
+                    this.addTableRow({text: `${scr ? "Score" : "Miss"} Coral ${ltr}L${lvl}`, ge_key: step, draggable: true}) 
+                } else if (step == 2004) {
+                    this.addTableRow({text: "Score Processor", ge_key: step, draggable: true})
+                } else if (step == 2005) {
+                    this.addTableRow({text: "Score Net", ge_key: step, draggable: true})
+                } else if (step == 2006) {
+                    this.addTableRow({text: "Feed Coral: Top", ge_key: step, draggable: true})
+                } else if (step == 2007) {
+                    this.addTableRow({text: "Feed Coral: Bottom", ge_key: step, draggable: true})
+                } else if (step >= 2008 && step <= 2013) {
+                    const label = String.fromCharCode(65 + (step - 2008)*2) + String.fromCharCode(65 + (step - 2008)*2 + 1)
+                    this.addTableRow({text: "Dislodge " + label, ge_key: step, draggable: true})
+                }
+            }
         }
     }
 
@@ -240,17 +273,17 @@ export default class {
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
-            if(this.clickable.net.onClick({x, y})) {
+            if(this.clickable.net.onClick({x, y}, false)) {
                 this.addTableRow({text: "Score Net", ge_key: 2005, draggable: true})
             }
             this.legend.onClick({x, y})
-            if(this.clickable.feederTop.onClick({x, y})) {
+            if(this.clickable.feederTop.onClick({x, y}, false)) {
                 this.addTableRow({text: "Feed Coral: Top", ge_key: 2006, draggable: true})
             }
-            if(this.clickable.feederBottom.onClick({x, y})) {
+            if(this.clickable.feederBottom.onClick({x, y}, false)) {
                 this.addTableRow({text: "Feed Coral: Bottom", ge_key: 2007, draggable: true})
             }
-            if(this.clickable.processor.onClick({x, y})) {
+            if(this.clickable.processor.onClick({x, y}, false)) {
                 this.addTableRow({text: "Score Processor", ge_key: 2004, draggable: true})
             }
             const cRes = this.clickable.pieces.onClick({x, y})
@@ -311,16 +344,16 @@ export default class {
             res.auton[k] = this.clickable.coralScreens[k].sendData()
         }
 
+        res.feederTop = this.clickable.feederTop.sendData() 
+        res.feederBottom = this.clickable.feederBottom.sendData() 
+
+        res.auton.path = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
         res.algae = this.clickable.algae.sendData()
-        res["feederTop"] = this.clickable.feederTop.sendData() 
-        res["feederBottom"] = this.clickable.feederBottom.sendData() 
-        res["feederTop"] = this.clickable.feederTop.sendData() 
-
-        res["autonPath"] = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
-        res["algae"]= this.clickable.algae.sendData()
-        res["net"] = this.clickable.net.sendData()
-
-        consoleLog(res)
+        res.auton.net = this.clickable.net.sendData()
+        res.auton.processor = this.clickable.processor.sendData()
+        res.auton["algae-count"] = Object.values(res.algae).reduce((acc, cur) => {
+            return acc + cur.isSelected ? 1 : 0
+        }, 0)
 
         return res
     }

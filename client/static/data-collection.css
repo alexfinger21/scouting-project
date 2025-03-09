@@ -400,7 +400,6 @@ canvas {
     display: flex;
     flex-direction: row;
     margin-top: 0.8vh;
-    margin-left: 1vw;
 }
 
 #data-submit {
@@ -432,6 +431,12 @@ canvas {
     margin-right: auto;
     box-shadow: 0 6px #3077b9;
     transition: all .1s ease-in-out;
+}
+
+#comments-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #comments-container textarea {

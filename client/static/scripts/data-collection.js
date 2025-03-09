@@ -111,13 +111,13 @@ async function sendComments() {
 
         error: function (jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
-        },
+        }
     })
 }
 
 async function sendData() {
     const data = await saveData()
-    consoleLog("-------CLIENT DATA------\n")
+    consoleLog("-------SCOUTING DATA------\n")
     consoleLog(data)
 
     $.ajax({
@@ -163,7 +163,6 @@ async function waitUntilImagesLoaded(imgs) {
     }
 
     while (!checkIfTrue()) {
-        consoleLog(imgMap)
         await timer(10)
     }
 
@@ -175,7 +174,7 @@ function loadData() {
         const match = await getMatch()
         const form = document.getElementById("match-number-form")
         
-        if (!form) {return}
+        if (!form) {return res()}
 
         const buttonContainers = form.querySelectorAll(".NumberButtonContainer")
         const matchNumber = document.getElementById("match-number")
@@ -230,51 +229,12 @@ function loadData() {
 
         await waitUntilImagesLoaded(Object.values(images))
 
-        const robotStartingPercent = 0
-
-        const templatePieceData = {
-            //  Wing Notes
-            "202": false,
-            "203": false,
-            "204": false,
-            //  Center Notes
-            "205": false,
-            "206": false,
-            "207": false,
-            "208": false,
-            "209": false,
-            //  Endgame
-            "403": 0,
-            "404": 0,
-            "405": 0,
-        }
-        const data = localData ? localData[match] : undefined
+        const data = localData?.[match] ?? undefined
         const gameData = data?.gameData
 
-        consoleLog("localdata for match is:")
-        consoleLog(data)
+        AutonObject = new Auton({ ctx: autonCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        TeleopObject = new Teleop({ ctx: teleopCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
         
-        if(gameData && gameData["Starting Location"]) {
-            robotStartingPercent = gameData["Starting Location"]
-        }
-
-        const stagePositions = {
-            "1": false,
-            "2": false,
-            "3": false,
-        }
-
-        if(gameData && gameData["Instage Location"]) {
-            stagePositions[gameData["Instage Location"]] = true
-        }
-
-        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-        TeleopObject = new Teleop({ ctx: teleopCanvasCTX, teleopPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
-        
-        setTimeout(() => {
-            consoleLog("sent data", AutonObject.sendData())
-        }, 5000)
-
         // HANDLE TOUCHES / MOUSE
 
         function handleMouse(event, obj, func) {
@@ -316,22 +276,6 @@ function loadData() {
             handleMouse(event, AutonObject, AutonObject.onMouseUp)
         })
 
-
-        autonCanvas.addEventListener("touchstart", (event) => {
-            event.preventDefault()
-            handleTouch(event, AutonObject, AutonObject.onMouseDown)
-        })
-
-        autonCanvas.addEventListener("touchmove", (event) => {
-            event.preventDefault()
-            handleTouch(event, AutonObject, AutonObject.onMouseMove)
-        })
-
-        autonCanvas.addEventListener("touchend", (event) => {
-            event.preventDefault()
-            handleTouch(event, TeleopObject, TeleopObject.onMouseUp)
-        })
-
         teleopCanvas.addEventListener("click", (event) => {
             event.preventDefault()
             handleMouse(event, TeleopObject, TeleopObject.onClick)
@@ -349,9 +293,68 @@ function loadData() {
             }
         })
 
+
+        //load the radio buttons and checkboxes
+        let climbSuccess = false
+        const naButton = document.getElementById("no-position")
+        let oldBtn = naButton
+        consoleLog("nabutton", naButton)
+
+        Array.from(radioButtonContainers).forEach(container => {
+            Array.from(container.children).forEach(element => {
+                if (element.tagName.toLowerCase() == "input") {
+                    //selected radio button or selected checkbox
+                    if ( (element.type == "radio" && data?.[element.name] == element.value) || (element.type == "checkbox" && data?.[element.id])) {
+                        element.checked = true
+                        oldBtn = element
+                        if (element.id.includes("park") || element.id == "failed-climb") {
+                            climbSuccess = false
+                        } else {
+                            climbSuccess = true
+                        }
+                    }
+                }
+                if (element.name == "robot-endgame") {
+                    if (element.id.includes("park") || element.id == "failed-climb") {
+                        element.addEventListener("click", (event) => {
+                            climbSuccess = false
+                            oldBtn.checked = false
+                            naButton.checked = true
+                        })
+                    } else {
+                        element.addEventListener("click", (event) => {
+                            climbSuccess = true
+                            oldBtn.checked = true
+                            naButton.checked = false
+                        })
+                    }
+                } else if (element.name == "climb-position") {
+                    if (element != naButton) {
+                        element.addEventListener("click", (event) => {
+                            if (!climbSuccess) {
+                                element.checked = false
+                                naButton.checked = true
+                            } else {
+                                oldBtn = element
+                            }
+                        })
+                    }
+                }
+            })    
+        })
+
+        naButton.addEventListener("click", (event) => {
+            if (climbSuccess) {
+                naButton.checked = false
+                oldBtn.checked = true
+                naButton.checked = false
+            }
+        })
+
         if (!localData) {
-            return rej()
+            return rej("no data")
         }
+
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
@@ -373,17 +376,6 @@ function loadData() {
                 }
             })
 
-            //load the radio buttons and checkboxes
-            Array.from(radioButtonContainers).forEach(container => {
-                Array.from(container.children).forEach(element => {
-                    if (element.tagName.toLowerCase() == "input") {
-                        //selected radio button or selected checkbox
-                        if ( (element.type == "radio" && data[element.name] == element.value) || (element.type == "checkbox" && data[element.id])) {
-                            element.checked = true
-                        }
-                    }
-                })
-            })
 
 
             //load comments
@@ -403,6 +395,8 @@ async function saveData() {
 
         const form = document.getElementById("match-number-form")
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
+        const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+        const inputContainers = document.getElementsByClassName("input-container")
 
 
         data.gameData = { ...TeleopObject?.sendData(), ...AutonObject?.sendData() }
@@ -419,7 +413,7 @@ async function saveData() {
         //1st child is the number button holder
 
         //number buttons and also checkbox/x buttons
-        const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+        
         Array.from(numberButtonContainers).forEach((element) => {
             const input = element.getElementsByTagName("input")[0]
             if (input.type == "number") {
@@ -442,6 +436,29 @@ async function saveData() {
                     }
                 }
             })
+        })
+
+        Array.from(inputContainers).forEach(container => {
+            Array.from(container.children).forEach(element => {
+                if (element.tagName.toLowerCase() == "input") {
+                    if (element.type == "radio" && element.checked) {
+                        data[element.name] = element.value
+                    }
+                    else if (element.type == "checkbox") {
+                        data[element.id] = element.checked
+                    }
+                }
+            })
+        })
+
+        Array.from(numberButtonContainers).forEach((element) => {
+            const input = element.getElementsByTagName("input")[0]
+            if (input.type == "number") {
+                data[input.name] = Number(input.value)
+            }
+            else {
+                data[input.name] = element.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
+            }
         })
 
         //comments
@@ -474,8 +491,8 @@ async function loadDataCollection() {
 
     try {
         await loadData()
-    } catch (e) {
-        consoleLog(e)
+    } catch(e) {
+        consoleLog("err with loading data", e)
     }
     function animateCanvas() {
         if (currentPage == paths.dataCollection && AutonObject && TeleopObject) {

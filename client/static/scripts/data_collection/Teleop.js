@@ -32,12 +32,10 @@ const get_row = (ge_key) => {
 const get_scored = (ge_key) => {
     return ge_key % 2 == 1
 }
-export default class {
+export default class Teleop {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
-    constructor({ctx, allianceColor, teleopPieceData, images, cX, cY}) {
-        consoleLog("START")
-        consoleLog(ctx, allianceColor, teleopPieceData, images, cX, cY)
+    constructor({ctx, allianceColor, data, images, cX, cY}) {
         this.canvasSize = {x: cX, y: cY}
         this.dpr = window.devicePixelRatio
         this.ctx = ctx
@@ -45,33 +43,21 @@ export default class {
         this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
         this.clickable = {}
-        this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", pieceData: teleopPieceData, canvasSize: this.canvasSize})
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, canvasSize: this.canvasSize, showCounter: true,
-            x: this.canvasSize.x * 0.05,
-            y: this.canvasSize.y * 0.55,
+        const isBlue = allianceColor == "B"
+
+        this.clickable.pieces = new PiecesMap({ctx, renderQueue: this.renderQueue, allianceColor, img: "circle",  canvasSize: this.canvasSize})
+
+        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, allianceColor, count: data?.auton?.net?.count, canvasSize: this.canvasSize, showCounter: true,
+            x: isBlue ? this.canvasSize.x * 0.05 : this.canvasSize.x * 0.85,
+            y: isBlue ? this.canvasSize.y * 0.55 : this.canvasSize.y * 0.09  ,
         })
-        this.clickable.feederTop = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue, showCounter: true,
-            points: [
-                {x: this.canvasSize.x * this.dpr * 0.8, y: this.canvasSize.y * this.dpr * 0.097},
-                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.097},
-                {x: this.canvasSize.x * this.dpr * 0.945, y: this.canvasSize.y * this.dpr * 0.24},
-            ],
-            counterX: this.canvasSize.x * 0.85,
-            counterY: this.canvasSize.y * 0.09
+
+
+        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.auton?.processor?.count, renderQueue: this.renderQueue, showCounter: true,
+            x: this.canvasSize.x*(isBlue ? 0.135 : 0.685),
+            y: this.canvasSize.y * (isBlue ? 0 : 0.89),
         })
-        this.clickable.feederBottom = new FeederStation({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue, showCounter: true,
-            points: [
-                {x: this.canvasSize.x * 0.8 * this.dpr , y: this.canvasSize.y * 0.962 * this.dpr},
-                {x: this.canvasSize.x * .945 * this.dpr, y: this.canvasSize.y * 0.962 * this.dpr},
-                {x: this.canvasSize.x * 0.945 * this.dpr, y: this.canvasSize.y * 0.82 * this.dpr},
-            ],
-            counterX: this.canvasSize.x * 0.85,
-            counterY: this.canvasSize.y * 0.86
-        })
-        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, renderQueue: this.renderQueue, showCounter: true,
-            x: this.canvasSize.x*0.135,
-            y: this.canvasSize.y * 0
-        })
+
         this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.clickable.coralScreens = {}
 
@@ -86,10 +72,8 @@ export default class {
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.legend.onClick({x, y})
-            this.clickable.feederTop.onClick({x, y})
-            this.clickable.feederBottom.onClick({x, y})
-            this.clickable.processor.onClick({x, y})
-            this.clickable.net.onClick({x, y})
+            this.clickable.processor.onClick({x, y}, true)
+            this.clickable.net.onClick({x, y}, true)
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
                 this.clickable.coralScreens[cRes.text].isSelected = true
@@ -98,9 +82,7 @@ export default class {
         } else {
             Object.values(this.clickable.coralScreens).forEach(e => {
                 if(e.isSelected) {
-                    const clicked = e.onClick({x, y}) 
-                    if(clicked ) {//proceed button was clicked
-                    }
+                    e.onClick({x, y}) 
                 }
             })
         }
@@ -115,14 +97,8 @@ export default class {
             res.teleop[k] = this.clickable.coralScreens[k].sendData()
         }
 
-        res["feederTop"] = this.clickable.feederTop.sendData() 
-        res["feederBottom"] = this.clickable.feederBottom.sendData() 
-        res["feederTop"] = this.clickable.feederTop.sendData() 
-
-        res["autonPath"] = Array.from(this.table.children[1].children).slice(1).map(tr => tr.getAttribute("ge_key")).join('|')
-        res["net"] = this.clickable.net.sendData()
-
-        consoleLog(res)
+        res.teleop.net = this.clickable.net.sendData()
+        res.teleop.processor = this.clickable.processor.sendData()
 
         return res
     }
@@ -131,8 +107,6 @@ export default class {
         this.map.draw()
         this.clickable.pieces.draw()
         this.clickable.net.draw()
-        this.clickable.feederBottom.draw()
-        this.clickable.feederTop.draw()
         this.clickable.processor.draw()
 
         this.legend.draw()

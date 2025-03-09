@@ -3,33 +3,29 @@ import DrawableObject from "./DrawableObject.js"
 import GamePiece from "./GamePiece.js"
 
 export default class PiecesMap {
-    constructor({ ctx, allianceColor, img, pieceData, renderQueue, canvasSize, isAuton}) {
-        console.log("Create pieces")
-        console.log(canvasSize)
+    constructor({ ctx, allianceColor, img, renderQueue, canvasSize }) {
         this.renderQueue = renderQueue
         this.pieces = []
         const isBlue = allianceColor == "B" 
         //Add Pickup Wing Notes ge_key 202-204
         //Wing Notes
-        if (isAuton) {
-            const dist = canvasSize.x * 0.25
-            const startAng = Math.PI/11
-            const ctr = [canvasSize.x * 0.56, canvasSize.y * 0.47]
-            for (let i = 0; i < 12; ++i) {
-                this.pieces.push(new GamePiece({
-                    x: ctr[0] + dist*Math.cos(startAng - Math.PI/6*i),
-                    y: ctr[1] + dist*Math.sin(startAng - Math.PI/6*i),
-                    ctx,
-                    img,
-                    renderQueue, 
-                    isSelected: false,
-                    ge_key: 125,
-                    text: String.fromCharCode(65+i),
-                    isBlue,
-                    zIndex: 2,
-                    canvasSize
-                }))  
-            }
+        const dist = canvasSize.x * 0.25
+        const startAng = Math.PI/11
+        const ctr = isBlue ? [canvasSize.x * 0.56, canvasSize.y * 0.47] : [canvasSize.x * 0.43, canvasSize.y * 0.4235]
+        for (let i = 0; i < 12; ++i) {
+            this.pieces.push(new GamePiece({
+                x: ctr[0] + dist*Math.cos(startAng - Math.PI/6*i),
+                y: ctr[1] + dist*Math.sin(startAng - Math.PI/6*i),
+                ctx,
+                img,
+                renderQueue, 
+                isSelected: false,
+                ge_key: 125,
+                text: String.fromCharCode(65+i),
+                isBlue,
+                zIndex: 2,
+                canvasSize
+            }))  
         }
         //console.log(this.pieces)
     }
