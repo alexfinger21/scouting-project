@@ -122,7 +122,7 @@ function drawCharts(data, selectedValue, scouter, team) {
         window.DAChart1.destroy();
     }
         
-        
+
     window.DAChart = new Chart(
         ctx,
         {
@@ -196,7 +196,12 @@ function drawCharts(data, selectedValue, scouter, team) {
                         title: {
                             display: true,
                             text: 'TBA DATA', // This will label the X axis
-                            zIndex: 5
+                           
+                        },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
                         },
                         max: maxhtR,
                         //min: 0,
@@ -206,6 +211,11 @@ function drawCharts(data, selectedValue, scouter, team) {
                             display: true,
                             text: 'DB DATA', // This will label the X axis
                             zIndex: 5
+                        },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
                         },
                         max: maxhtR,
                         //min: 0,
@@ -310,6 +320,11 @@ function drawCharts(data, selectedValue, scouter, team) {
                             display: true,
                             text: 'TBA DATA' // This will label the X axis
                         },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
+                        },
                         max: maxhtB,
                         //min: 0,
                     },
@@ -317,6 +332,11 @@ function drawCharts(data, selectedValue, scouter, team) {
                         title: {
                             display: true,
                             text: 'DB DATA' // This will label the X axis
+                        },
+                        ticks: {
+                            font: {
+                                size: 16 // X-axis labels font size
+                            }
                         },
                         max: maxhtB,
                         //min: 0,
@@ -370,8 +390,15 @@ async function main() {
             teams.push(...data[1][i].red.teams)
             teams.push(...data[1][i].blue.teams)
         }
-    const uniqueScoutersArray = [...new Set(scouters)]
+    const uniqueScoutersArray = [...new Set(scouters)].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
     const uniqueTeamsArray = [...new Set(teams)]
+
+    uniqueTeamsArray.sort((a, b) => {
+        const numA = parseInt(a.substring(3), 10); // Get the number after the first 3 characters of team 'a'
+        const numB = parseInt(b.substring(3), 10); // Get the number after the first 3 characters of team 'b'
+        
+        return numA - numB; // Sort from smallest to largest number
+    })
 
     const dropdown = document.getElementById("DataAccuracyDropdown")
     const scoutersDrop = document.getElementById("DataAccuracyScoutersDropdown")
