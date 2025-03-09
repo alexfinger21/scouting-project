@@ -16,7 +16,7 @@
     padding: 10px 40px 10px 12px; /* Padding for custom arrow */
     font-size: 16px;
     color: #333;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Rubik', sans-serif;
     appearance: none;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -99,9 +99,19 @@
 
     .custom-dropdown {
         font-size: 3vw !important;
+        width: 75% !important; /* Make dropdowns take full width on mobile */
+        height: 3vh !important;
+        text-align: center !important; /* Center the dropdown text */
+        margin: 0 auto !important; /* Center the dropdown itself */
     }
     #accuracy-chart-area-wrapper {
         flex-direction: column !important; /* Changed to column to allow stacking of header and graph */
         justify-content: flex-start !important; /* This will center the content horizontally */
+    }
+    .header-container {
+        flex-direction: column;
+        align-items: stretch !important; /* Ensure full width */
+        gap: 1vh !important;
+        padding-top: 1vh;
     }
 }
