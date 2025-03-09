@@ -63,7 +63,7 @@ canvas {
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     height: 92%;
     overflow: scroll;
     background-color: #FFF;
