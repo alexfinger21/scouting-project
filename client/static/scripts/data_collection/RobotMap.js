@@ -4,30 +4,28 @@ import GamePiece from "./GamePiece.js"
 import Robot from "./Robot.js"
 
 export default class RobotMap {
-    constructor({ ctx, allianceColor, images, robotStartingPercent, renderQueue, stagePositions, canvasSize }) {
+    constructor({ ctx, allianceColor, images, robotStartingPercent, renderQueue, canvasSize }) {
         this.renderQueue = renderQueue
         this.startPositions = []
         this.bargePositions = []
         const isBlue = allianceColor == "B"
         //Stage robots
-        if (robotStartingPercent) {
-            this.startPositions.push(new Robot({
-                ctx,
-                draggable: true,
-                clickable: true,
-                value: robotStartingPercent,
-                img: images.robotImage,
-                containerImg: images.robotStartPosImage,
-                renderQueue,
-                canvasSize,
-                pos: {
-                    x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.84,
-                    y: isBlue ? canvasSize.y * 0.145 : canvasSize.y * 0.145,
-                    r: isBlue ? 0 : 180 //150,
-                },
-            }))
+        this.startPositions.push(new Robot({
+            ctx,
+            draggable: true,
+            clickable: true,
+            value: robotStartingPercent ?? 0,
+            img: images.robotImage,
+            containerImg: images.robotStartPosImage,
+            renderQueue,
+            canvasSize,
+            pos: {
+                x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.84,
+                y: isBlue ? canvasSize.y * 0.145 : canvasSize.y * 0.145,
+                r: isBlue ? 0 : 180 //150,
+            },
+        }))
 
-        }
 
     }
 

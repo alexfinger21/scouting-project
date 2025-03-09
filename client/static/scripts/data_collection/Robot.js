@@ -36,6 +36,12 @@ export default class Robot extends DrawableObject {
         
         this.value = value ?? 0
 
+        if (this.draggable && this.value) {
+            consoleLog("VALUE: ", this.y)
+            this.y = this.dragLimits.y[0] + this.value * (this.dragLimits.y[1] - this.dragLimits.y[0])
+            consoleLog(this.y)
+        }
+
         if(this.clickable) {
             this.mask = new DrawableObject({ctx, renderQueue, img: containerImg, x, y: y - canvasSize.y * 0.005, r: 90, sX, sY: this.dragLimHeight})
         }
