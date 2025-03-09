@@ -686,7 +686,8 @@ async function createSpiderChart(points, showLegend=true) {
                         font: {
                             size: 10 * CHART_SIZE_CONST,
                         }
-                    }
+                    },
+                    beginAtZero: true,
                 },
                 x: {
                     grid: {
