@@ -56,8 +56,6 @@ export default class RobotMap {
         }
     }
 
-
-
     sendData() {
         let data = {}
         this.startPositions.forEach((robot) => {
