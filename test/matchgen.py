@@ -7,7 +7,6 @@ year="2024"
 datestring="2024-09-23"
 comp="temp"
 gametype="Q"
-
 inputpath="/home/dotandana/Documents/Code/scouting-project/test/input.txt"
 
 with open(inputpath) as input:
