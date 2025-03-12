@@ -35,6 +35,18 @@ async function main() {
         requestPage(paths.matchStrategy + "?match=" + select.value, {}, paths.matchStrategy)
     }
 
+    for(const b of document.getElementsByClassName("help-button")) {
+        b.addEventListener("click", () => {
+            b.classList.toggle("active")
+            for(const a of document.getElementsByClassName("help-button")) {
+                if(b!=a) {
+
+                    a.classList.remove("active")
+                }
+            }
+        })
+    }
+
     data = JSON.parse(await requestData(paths.matchStrategy + "?getData=1&match=" + select.value))
 
     consoleLog("strat data:", data)

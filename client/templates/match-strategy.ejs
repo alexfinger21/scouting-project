@@ -37,18 +37,25 @@
                         </td>
                     </tr>
                     <tr id="coopertition-expected">
-                        <td>Co-op Expected:</td>
+                        <td>Alliance Can Dislodge:</td>
                         <td class="R">
-                            
+                            <%=matchup.slice(0, 3).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) > 1 ? "True" : "False";%>
                         </td>
                         <td class="B">
-                            
+                            <%=matchup.slice(3, 6).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) > 1 ? "True" : "False";%>
                         </td>
                     </tr>
                     <tr id="stockpile-suggested">
-                        <td>Stockpiling Suggested:</td>
-                        <td>
-                            
+                        <td>Recommended Play:</td>
+                        <td class="B">
+                            <%=matchup.slice(0, 3).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) >= 3 ?
+                                (Math.abs(matchup.slice(0, 3).reduce((a, b) => a + b.total_game_score_avg, 0) - matchup.slice(3, 6).reduce((a, b) => a + b.total_game_score_avg, 0)) >= 22 ? "Coral RP" : "Max Pts")
+                                : "Max Pts"%>
+                        </td>
+                        <td class="R">
+                            <%=matchup.slice(0, 3).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) >= 3 ?
+                                (Math.abs(matchup.slice(0, 3).reduce((a, b) => a + b.total_game_score_avg, 0) - matchup.slice(3, 6).reduce((a, b) => a + b.total_game_score_avg, 0)) >= 22 ? "Coral RP" : "Max Pts")
+                                : "Max Pts"%>
                         </td>
                     </tr>
                 </table>
@@ -66,32 +73,10 @@
                     <th></th>
                     <% for(let i = 0; i < 3; i++) { %>
                         <th <%- `class="${matchup[i].gm_alliance} team${matchup[i].team_master_tm_number}"` %> >
-                            <%= matchup[i].team_master_tm_number %>
+                            <%=  `(${matchup[i].api_rank}) ${matchup[i].tm_name} ${matchup[i].team_master_tm_number}` %>
                         </th>
                     <% } %>
-                </tr>
-                <!--NAME-->
-                <tr>
-                    <td>
-                        Name
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%= matchup[i].tm_name %>
-                        </th>
-                    <% } %>
-                </tr>
-                <!--RANK-->
-                <tr>
-                    <td>
-                        Rank
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%=matchup[i].api_rank%>
-                        </td>
-                    <% } %>
-                </tr>
+                </tr> 
                 <!--Win/Loss/Tie-->
                 <tr>
                     <td>
@@ -106,7 +91,7 @@
                 <!--AVG SCORE-->
                 <tr>
                     <td>
-                        Avg Score
+                        Score
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
@@ -114,58 +99,100 @@
                         </td>
                     <% } %>
                 </tr>
-                <!--GAMES PLAYED-->
+                <!--AUTON BREAKDOWN-->
                 <tr>
                     <td>
-                        Games
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>Total Score- #coral, #algae dislodged, #algae scored</p>
+                            </div>
+                        </button>
+                        <p>Auton</p>
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].games_played || "N/A"%>
+                            <%=matchup[i].auton_total_score_avg + "- "
+                            + (matchup[i].auton_coral_scored_avg > 0 ? matchup[i].auton_coral_scored_avg + "c" : "")
+                            + (matchup[i].auton_algae_dislodge_avg > 0 ? ", " + matchup[i].auton_algae_dislodge_avg + "a.d": "")
+                            + (matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg > 0 ? 
+                                ", " + matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg + "a.s"
+                                : "")
+                            %>
                         </td>
                     <% } %>
                 </tr>
-                <!--TELEOP AVG PTS-->
+                <!--TELEOP CORAL-->
                 <tr>
                     <td>
-                        Teleop Amp
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>#Coral Total Score in Teleop- # in L1/L2/L3/L4</p>
+                            </div>
+                        </button>
+                        <p>T. Coral</p>
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].teleop_notes_amp_avg ? matchup[i].teleop_notes_amp_avg.toFixed(1) : "N/A"%>
+                            <%=matchup[i].teleop_coral_scored_l1_avg * 2  + matchup[i].teleop_coral_scored_l1_avg * 3 + matchup[i].teleop_coral_scored_l3_avg * 4 + matchup[i].teleop_coral_scored_l4_avg * 5 + "- "
+                            + matchup[i].teleop_coral_scored_l1_avg + "/"
+                            + matchup[i].teleop_coral_scored_l2_avg + "/"
+                            + matchup[i].teleop_coral_scored_l3_avg + "/"
+                            + matchup[i].teleop_coral_scored_l4_avg
+                            %>
                         </td>
                     <% } %>
                 </tr>
-                <!--TELEOP AVG PTS-->
+                <!--TELEOP Algae-->
                 <tr>
                     <td>
-                        Teleop Speaker
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>#Avg Algae Total Score in Teleop- # in processor avg, <br> # in net avg</p>
+                            </div>
+                        </button>
+                        <p>T. Algae</p>
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].teleop_notes_speaker_not_amped_avg && matchup[i].teleop_notes_speaker_amped_avg ? (matchup[i].teleop_notes_speaker_not_amped_avg + matchup[i].teleop_notes_speaker_amped_avg).toFixed(1) : "N/A"%>
+                            <%=matchup[i].teleop_algae_in_processor_avg * 2 + matchup[i].teleop_algae_in_net_avg * 4
+                            + (matchup[i].teleop_algae_in_processor_avg > 0 ? "- " + matchup[i].teleop_algae_in_processor_avg + "p" : "")
+                            + (matchup[i].teleop_algae_in_net_avg > 0 ? ", " + matchup[i].teleop_algae_in_net_avg + "n": "")
+                            %>
                         </td>
                     <% } %>
                 </tr>
-                <!--AUTON AVG PTS-->
-                <tr>
-                    <td>
-                        Auton Score Avg
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%=matchup[i].auton_total_score_avg ? matchup[i].auton_total_score_avg.toFixed(1) : "N/A"%>
-                        </td>
-                    <% } %>
                 </tr>
                 <!--ENDGAME-->
                 <tr>
                     <td>
-                        Endgame Score Avg
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>#Successful climbs for Park/Shallow/Deep Climb</p>
+                            </div>
+                        </button>
+                        <p>Endgame</p>
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
+                        <td class= <%= matchup[i].team_master_tm_number%>
+                            <p>
+                                <%=matchup[i].endgame_park_avg + "/" + matchup[i].endgame_shallow_climb_avg + "/" + matchup[i].endgame_deep_climb_avg%>
+                            </p>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--Ground Pickup-->
+                <tr>
+                    <td>
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>Has ground pickup</p>
+                            </div>
+                        </button>
+                        <p>Gnd Pick</p>
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>
+                            
                         </td>
                     <% } %>
                 </tr>
@@ -226,113 +253,138 @@
                 <colgroup>
                     <col span="1" style="width:33%">
                 <!--HEADINGS-->
-                <ktr>
+                <tr>
                     <th></th>
                     <% for(let i = 3; i < 6; i++) { %>
-                        <th <%- `class="${matchup[i].gm_alliance} team${matchup[i].team_master_tm_number}"` %> >
-                            <%= matchup[i].team_master_tm_number %>
-                        </th>
-                    <% } %>
-                </tr>
-                
-                <!--NAME-->
-                <tr>
-                    <td>
-                        Name
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%= matchup[i].tm_name %>
-                        </th>
-                    <% } %>
-                </tr>
-                <!--RANK-->
-                <tr>
-                    <td>
-                        Rank
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%=matchup[i].api_rank%>
-                        </td>
-                    <% } %>
-                </tr>
 
+                        <th <%- `class="${matchup[i].gm_alliance} team${matchup[i].team_master_tm_number}"` %> >
+                            <%=  `(${matchup[i].api_rank}) ${matchup[i].tm_name} ${matchup[i].team_master_tm_number}` %>
+                        </th>
+                    <% } %>
+                </tr> 
                 <!--Win/Loss/Tie-->
                 <tr>
                     <td>
                         Win/Loss/Tie
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
+
                         <td >
                             <%=(matchup[i].api_win || 0) + "/" + (matchup[i].api_loss || 0) + "/" + (matchup[i].api_tie || 0)%>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--GAMES PLAYED-->
-                <tr>
-                    <td>
-                        Games
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%=matchup[i].nbr_games || "N/A"%>
                         </td>
                     <% } %>
                 </tr>
                 <!--AVG SCORE-->
                 <tr>
                     <td>
-                        Avg Score
+                        Score
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
+
                         <td >
                             <%= Math.round(matchup[i].total_game_score_avg) %>
                         </td>
                     <% } %>
                 </tr>
-                
-                <!--TELEOP AVG PTS-->
+                <!--AUTON BREAKDOWN-->
                 <tr>
                     <td>
-                        Teleop Amp
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>Total Score- #coral, #algae dislodged, #algae scored</p>
+                            </div>
+                        </button>
+                        <p>Auton</p>
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
+
                         <td >
-                            <%=matchup[i].teleop_notes_amp_avg ? matchup[i].teleop_notes_amp_avg.toFixed(1) : "N/A"%>
+                            <%=matchup[i].auton_total_score_avg + "- "
+                            + (matchup[i].auton_coral_scored_avg > 0 ? matchup[i].auton_coral_scored_avg + "c" : "")
+                            + (matchup[i].auton_algae_dislodge_avg > 0 ? ", " + matchup[i].auton_algae_dislodge_avg + "a.d": "")
+                            + (matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg > 0 ? 
+                                ", " + matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg + "a.s"
+                                : "")
+                            %>
                         </td>
                     <% } %>
                 </tr>
-                <!--TELEOP AVG PTS-->
+                <!--TELEOP CORAL-->
                 <tr>
                     <td>
-                        Teleop Speaker
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>#Coral Total Score in Teleop- # in L1/L2/L3/L4</p>
+                            </div>
+                        </button>
+                        <p>T. Coral</p>
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
+
                         <td >
-                            <%=matchup[i].teleop_notes_speaker_not_amped_avg && matchup[i].teleop_notes_speaker_amped_avg ? (matchup[i].teleop_notes_speaker_not_amped_avg + matchup[i].teleop_notes_speaker_amped_avg).toFixed(1) : "N/A"%>
+                            <%=matchup[i].teleop_coral_scored_l1_avg * 2  + matchup[i].teleop_coral_scored_l1_avg * 3 + matchup[i].teleop_coral_scored_l3_avg * 4 + matchup[i].teleop_coral_scored_l4_avg * 5 + "- "
+                            + matchup[i].teleop_coral_scored_l1_avg + "/"
+                            + matchup[i].teleop_coral_scored_l2_avg + "/"
+                            + matchup[i].teleop_coral_scored_l3_avg + "/"
+                            + matchup[i].teleop_coral_scored_l4_avg
+                            %>
                         </td>
                     <% } %>
                 </tr>
-                <!--AUTON AVG PTS-->
+                <!--TELEOP Algae-->
                 <tr>
                     <td>
-                        Auton Score Avg
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>#Avg Algae Total Score in Teleop- # in processor avg, <br> # in net avg</p>
+                            </div>
+                        </button>
+                        <p>T. Algae</p>
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
+
                         <td >
-                            <%=matchup[i].auton_notes_amp_avg && matchup[i].auton_notes_speaker_avg && matchup[i].auton_notes_pickup_avg ? `${matchup[i].auton_notes_amp_avg + matchup[i].auton_notes_speaker_avg}+${matchup[i].auton_notes_pickup_avg - matchup[i].auton_notes_amp_avg - matchup[i].auton_notes_speaker_avg}` : "N/A"%>
+                            <%=matchup[i].teleop_algae_in_processor_avg * 2 + matchup[i].teleop_algae_in_net_avg * 4
+                            + (matchup[i].teleop_algae_in_processor_avg > 0 ? "- " + matchup[i].teleop_algae_in_processor_avg + "p" : "")
+                            + (matchup[i].teleop_algae_in_net_avg > 0 ? ", " + matchup[i].teleop_algae_in_net_avg + "n": "")
+                            %>
                         </td>
                     <% } %>
+                </tr>
                 </tr>
                 <!--ENDGAME-->
                 <tr>
                     <td>
-                        Endgame Score Avg
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>#Successful climbs for Park/Shallow/Deep Climb</p>
+                            </div>
+                        </button>
+                        <p>Endgame</p>
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
+
+                        <td class= <%= matchup[i].team_master_tm_number%>
+                            <p>
+                                <%=matchup[i].endgame_park_avg + "/" + matchup[i].endgame_shallow_climb_avg + "/" + matchup[i].endgame_deep_climb_avg%>
+                            </p>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--Ground Pickup-->
+                <tr>
+                    <td>
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>Has ground pickup</p>
+                            </div>
+                        </button>
+                        <p>Gnd Pick</p>
+                    </td>
+                    <% for(let i = 3; i < 6; i++) { %>
+
+                        <td class= <%= matchup[i].team_master_tm_number%>
+                            
                         </td>
                     <% } %>
                 </tr>
@@ -343,6 +395,7 @@
                         OPR (Rank)
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
+
                         <td >
                             <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" %>
                         </td>
@@ -354,6 +407,7 @@
                         DPR (Rank)
                     </td>
                     <% for(let i = 3; i < 6; i++) { %>
+
                         <td >
                             <%= Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
                         </td>

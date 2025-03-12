@@ -114,7 +114,7 @@ async function getPoints(x, y, color) {
                 teleopL3: val.teleop_coral_scored_l3_avg,
                 teleopL4: val.teleop_coral_scored_l4_avg,
                 teleopAccuracy: val.teleop_coral_scored_avg / (val.teleop_coral_placed_avg != 0 ? val.teleop_coral_placed_avg : 1),
-                endgameScore: val.endgame_park_avg + val.endgame_shallow_climb_avg + val.endgame_deep_climb_avg,
+                endgameScore: val.endgame_park_avg * 2 + val.endgame_shallow_climb_avg * 6 + val.endgame_deep_climb_avg * 12,
                 dislodgeTotal: val.total_algae_dislodge_avg,
                 foulPoints: val.total_foul_points_avg,
                 coralScore: val.auton_coral_scored_l1_avg * 3 + val.auton_coral_scored_l2_avg * 4 + val.auton_coral_scored_l3_avg * 6 + val.auton_coral_scored_l4_avg * 7
