@@ -276,6 +276,21 @@ function loadData() {
             handleMouse(event, AutonObject, AutonObject.onMouseUp)
         })
 
+        autonCanvas.addEventListener("touchstart", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseDown)
+        })
+
+        autonCanvas.addEventListener("touchmove", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseMove)
+        })
+
+        autonCanvas.addEventListener("touchend", (event) => {
+            event.preventDefault()
+            handleTouch(event, AutonObject, AutonObject.onMouseUp)
+        })
+
         teleopCanvas.addEventListener("click", (event) => {
             event.preventDefault()
             handleMouse(event, TeleopObject, TeleopObject.onClick)

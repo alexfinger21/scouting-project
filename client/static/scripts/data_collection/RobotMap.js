@@ -30,6 +30,7 @@ export default class RobotMap {
     }
 
     onClick({ x, y }) {
+        this.startPositions.forEach(e => e.onClick({ x, y }))
     }
 
     onMouseDown({ x, y }) {
@@ -55,6 +56,8 @@ export default class RobotMap {
             }
         }
     }
+
+
 
     sendData() {
         let data = {}
