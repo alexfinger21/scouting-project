@@ -14,7 +14,7 @@ export default class RobotMap {
             ctx,
             draggable: true,
             clickable: true,
-            value: robotStartingPercent ?? 0,
+            value: Math.max(Math.min(robotStartingPercent ?? 0, 100), 0),
             img: images.robotImage,
             containerImg: images.robotStartPosImage,
             renderQueue,
