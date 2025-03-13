@@ -20,8 +20,8 @@ export default class RobotMap {
             renderQueue,
             canvasSize,
             pos: {
-                x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.84,
-                y: isBlue ? canvasSize.y * 0.145 : canvasSize.y * 0.145,
+                x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.67,
+                y: isBlue ? canvasSize.y * 0.145 : canvasSize.y * 0.08,
                 r: isBlue ? 0 : 180 //150,
             },
         }))
