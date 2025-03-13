@@ -281,6 +281,7 @@ function loadData() {
             event.preventDefault()
             consoleLog("herherherere")
             handleTouch(event, AutonObject, AutonObject.onClick)
+            handleTouch(event, AutonObject, AutonObject.onMouseDown)
         })
 
         autonCanvas.addEventListener("touchmove", (event) => {
