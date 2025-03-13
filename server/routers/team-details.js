@@ -51,6 +51,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
     results = JSON.parse(JSON.stringify(results))
 
+    consoleLog("TEAM DETAILS: ", team_results.map(e => e.team_master_tm_number))
     consoleLog("TEAM: " + teamNumber, results)
 
     let [err3, pictures] = await database.query(database.getTeamPictures(teamNumber))
@@ -106,7 +107,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         index = urls.indexOf(undefined)
     }
 
-    consoleLog("TEAM INFO", teamInfo)
+    consoleLog("TEAM INFO", results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number))
 
     consoleLog("URLS: ", urls)
 
