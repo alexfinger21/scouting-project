@@ -247,6 +247,7 @@ function loadData() {
         function handleTouch(event, obj, func) {
             const touches = event.touches
             if (touches.length) {
+                consoleLog(touches[0])
                 const x = touches[0].clientX - event.target.getBoundingClientRect().left - window.scrollX
                 const y = touches[0].clientY - event.target.getBoundingClientRect().top - window.scrollY
 
@@ -278,7 +279,8 @@ function loadData() {
 
         autonCanvas.addEventListener("touchstart", (event) => {
             event.preventDefault()
-            handleTouch(event, AutonObject, AutonObject.onMouseDown)
+            consoleLog("herherherere")
+            handleTouch(event, AutonObject, AutonObject.onClick)
         })
 
         autonCanvas.addEventListener("touchmove", (event) => {

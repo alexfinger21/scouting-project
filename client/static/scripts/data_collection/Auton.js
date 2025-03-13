@@ -271,6 +271,7 @@ export default class Auton {
         // Collision detection between clicked offset and element.
         
         const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
+        consoleLog("menu open", menuOpen)
         if (!menuOpen) {
             this.clickable.robots.onClick({x, y})
             if(this.clickable.net.onClick({x, y}, false)) {
@@ -288,6 +289,7 @@ export default class Auton {
             }
             const cRes = this.clickable.pieces.onClick({x, y})
             if (cRes) {
+                consoleLog("here hello")
                 this.clickable.coralScreens[cRes.text].isSelected = true
             }
 
@@ -306,6 +308,7 @@ export default class Auton {
             Object.values(this.clickable.coralScreens).forEach(e => {
                 if(e.isSelected) {
                     const clicked = e.onClick({x, y}) 
+                    consoleLog("clicked", clicked)
                     if(clicked ) {//proceed button was clicked
                         for(let i = 0; i < e.clickAreas.length; ++i) {
                             if (e.clickAreas[i].scored > this.findTableRows({ge_key: coral_ge_key(i+1, e.letter, true)}).length) { //if there are more scored in data than on the table
