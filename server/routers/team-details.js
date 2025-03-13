@@ -21,7 +21,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     let [err1, team_results] = await database.query(database.getTeamDetailsTeamData())
 
     team_results = JSON.parse(JSON.stringify(team_results))
-    const teamNumber = req.query.team || 695
+    let teamNumber = req.query.team || 695
     const selectedPage = req.query.selectedPage || "game-data-page"
 
     let matchVideos
@@ -36,6 +36,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
     if(teamInfo == null || teamInfo == undefined) {
         teamInfo = team_results[0]
+        teamNumber = team_results[0].team_master_tm_number
     }
 
 
@@ -51,7 +52,6 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
 
     results = JSON.parse(JSON.stringify(results))
 
-    consoleLog("TEAM DETAILS: ", team_results.map(e => e.team_master_tm_number))
     consoleLog("TEAM: " + teamNumber, results)
 
     let [err3, pictures] = await database.query(database.getTeamPictures(teamNumber))
