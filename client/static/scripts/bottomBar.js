@@ -124,11 +124,6 @@ window.addEventListener("load", () => {
         hideHighlight(hoverButton)
     })
     
-    const pitScoutingButton = document.getElementById("pit-scouting-button")
-    pitScoutingButton.addEventListener("click", () =>  {
-        requestPage(paths.pitScouting)
-        hideHighlight(hoverButton)
-    })
     const adminPageButton = document.getElementById("admin-page-button")
     if (adminPageButton) {
         adminPageButton.addEventListener("click", () =>  {
