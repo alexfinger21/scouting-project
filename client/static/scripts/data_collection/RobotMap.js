@@ -18,6 +18,7 @@ export default class RobotMap {
             img: images.robotImage,
             containerImg: images.robotStartPosImage,
             renderQueue,
+            allianceColor,
             canvasSize,
             pos: {
                 x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.67,

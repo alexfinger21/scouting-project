@@ -7,7 +7,7 @@ export default class Robot extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, clickable, img, renderQueue, containerImg, value, draggable, isSelected, canvasSize, pos}) {
+    constructor({ctx, clickable, img, renderQueue, allianceColor, containerImg, value, draggable, isSelected, canvasSize, pos}) {
         let x = 0
         let y = 0
         let r = 0
@@ -29,7 +29,7 @@ export default class Robot extends DrawableObject {
 
         if (this.draggable) {
             this.dragOffset = [0, 0]
-            this.dragLimits = {y: [pos.y, Math.floor(this.dragLimHeight - sX*0.14)]}
+            this.dragLimits = {y: [pos.y, Math.floor(this.dragLimHeight - sX*(allianceColor == "B" ? 0.14 : 0.56))]}
         }
 
         this.clickable = clickable ?? false 
