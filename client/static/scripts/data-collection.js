@@ -258,7 +258,8 @@ function loadData() {
         }
 
         autonCanvas.addEventListener("click", (event) => {
-            event.preventDefault()
+            consoleLog("herherherere")
+            //event.preventDefault()
             handleMouse(event, AutonObject, AutonObject.onClick)
         })
 
@@ -278,19 +279,19 @@ function loadData() {
         })
 
         autonCanvas.addEventListener("touchstart", (event) => {
-            event.preventDefault()
-            consoleLog("herherherere")
-            handleTouch(event, AutonObject, AutonObject.onClick)
+            consoleLog(event)
+            //event.preventDefault()
+            //handleTouch(event, AutonObject, AutonObject.onClick)
             handleTouch(event, AutonObject, AutonObject.onMouseDown)
         })
 
         autonCanvas.addEventListener("touchmove", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleTouch(event, AutonObject, AutonObject.onMouseMove)
         })
 
         autonCanvas.addEventListener("touchend", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleTouch(event, AutonObject, AutonObject.onMouseUp)
         })
 
