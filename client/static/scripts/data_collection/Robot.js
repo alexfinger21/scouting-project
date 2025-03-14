@@ -47,7 +47,7 @@ export default class Robot extends DrawableObject {
         }
     }
 
-    onClick({ x, y }) {
+    onClick({ x, y, event }) {
         if (this.clickable && super.inBoundingBox({ x, y })) {
             if (!this.draggable) {
                 this.isSelected = !this.isSelected
@@ -58,25 +58,28 @@ export default class Robot extends DrawableObject {
         return false
     }
 
-    onMouseDown({ x, y }) {
+    onMouseDown({ x, y, event }) {
         consoleLog(x, y, super.inBoundingBox({ x, y }))
         if (this.draggable && super.inBoundingBox({ x, y })) {
+            event.preventDefault()
             this.dragOffset[0] = this.x - x 
             this.dragOffset[1] = this.y - y 
             this.isSelected = true
         } 
     }
 
-    onMouseUp({ x, y }) {
+    onMouseUp({ x, y, event }) {
         if (this.draggable) {
+            event.preventDefault()
             this.isSelected = false
         } 
     }
 
 
-    onMouseMove({ x, y }) {
+    onMouseMove({ x, y, event }) {
         if (this.isSelected && this.draggable) {
             //consoleLog("PERCENT", Math.round((this.y-this.dragLimits.y[0])/(this.dragLimits.y[1] - this.dragLimits.y[0]) * 100)/100)
+            event.preventDefault()
             this.y = Math.max(Math.min(this.dragLimits.y[1], y + this.dragOffset[1]), this.dragLimits.y[0])
         }
     }

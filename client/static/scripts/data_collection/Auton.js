@@ -325,16 +325,16 @@ export default class Auton {
         }
     }
 
-    onMouseDown({ x, y }) {
-        this.clickable.robots.onMouseDown({x, y})
+    onMouseDown({ x, y, event }) {
+        this.clickable.robots.onMouseDown({x, y, event})
     }
     
-    onMouseMove({ x, y }) {
-        this.clickable.robots.onMouseMove({x, y})
+    onMouseMove({ x, y, event}) {
+        this.clickable.robots.onMouseMove({x, y, event})
     }
 
-    onMouseUp({ x, y }) {
-        this.clickable.robots.onMouseUp({x, y})
+    onMouseUp({ x, y, event }) {
+        this.clickable.robots.onMouseUp({x, y, event})
     }
 
 

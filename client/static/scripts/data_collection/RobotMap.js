@@ -34,26 +34,26 @@ export default class RobotMap {
         this.startPositions.forEach(e => e.onClick({ x, y }))
     }
 
-    onMouseDown({ x, y }) {
+    onMouseDown({ x, y, event }) {
         for (const r of [...this.startPositions, ...this.bargePositions]) {
             if (r.draggable) {
-                r.onMouseDown({ x, y })
+                r.onMouseDown({ x, y, event })
             }
         }
     }
 
-    onMouseMove({ x, y }) {
+    onMouseMove({ x, y, event }) {
         for (const r of [...this.startPositions, ...this.bargePositions]) {
             if (r.draggable) {
-                r.onMouseMove({ x, y })
+                r.onMouseMove({ x, y, event })
             }
         }
     }
 
-    onMouseUp({ x, y }) {
+    onMouseUp({ x, y, event }) {
         for (const r of [...this.startPositions, ...this.bargePositions]) {
             if (r.draggable) {
-                r.onMouseUp({ x, y })
+                r.onMouseUp({ x, y, event })
             }
         }
     }

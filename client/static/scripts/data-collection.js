@@ -241,19 +241,19 @@ function loadData() {
             const x = event.pageX - event.target.getBoundingClientRect().left - window.scrollX
             const y = event.pageY - event.target.getBoundingClientRect().top - window.scrollY
 
-            func.call(obj, { x, y })
+            func.call(obj, { x, y, event })
         }
 
         function handleTouch(event, obj, func) {
             const touches = event.touches
             if (touches.length) {
-                consoleLog(touches[0])
+                //consoleLog(touches[0])
                 const x = touches[0].clientX - event.target.getBoundingClientRect().left - window.scrollX
                 const y = touches[0].clientY - event.target.getBoundingClientRect().top - window.scrollY
 
-                func.call(obj, { x, y })
+                func.call(obj, { x, y, event })
             } else {
-                func.call(obj, { Infinity, Infinity })
+                func.call(obj, { Infinity, Infinity, event   })
             }
         }
 
@@ -281,7 +281,7 @@ function loadData() {
         autonCanvas.addEventListener("touchstart", (event) => {
             consoleLog(event)
             //event.preventDefault()
-            //handleTouch(event, AutonObject, AutonObject.onClick)
+            handleTouch(event, AutonObject, AutonObject.onClick)
             handleTouch(event, AutonObject, AutonObject.onMouseDown)
         })
 
