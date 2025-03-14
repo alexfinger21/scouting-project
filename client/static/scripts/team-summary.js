@@ -83,7 +83,7 @@ async function getPoints(x, y, color) {
                 hidden = false
             }
 
-            if (!val[x]) {
+            if (val[x] == undefined) {
                 ++noVal
             }
 
@@ -91,21 +91,35 @@ async function getPoints(x, y, color) {
                 teamNumber: val.team_master_tm_number,
                 hidden: hidden,
                 teamName: val.tm_name,
-                rank: val.api_rank,
+                rank: val.api_rank ?? 1,
                 gamesPlayed: val.nbr_games,
                 gameScore: val.total_game_score_avg,
-                autonPickup: val.auton_notes_pickup_avg,
-                autonSpeaker: val.auton_notes_speaker_avg,
-                autonAmp: val.auton_notes_amp_avg,
-                autonNotes: val.auton_notes_amp_avg + val.auton_notes_speaker_avg,
-                autonUnused: Math.max(val.auton_notes_pickup_avg - val.auton_notes_amp_avg - val.auton_notes_speaker_avg, 0),
-                autonScore: val.auton_notes_amp_avg * 2 + val.auton_notes_speaker_avg * 5,
+                autonProcessor: val.auton_algae_in_processor_avg,
+                autonNet: val.auton_algae_in_net_avg,
+                autonDislodge: val.auton_algae_dislodge_avg,
+                autonCoral: val.auton_coral_scored_avg,
+                autonL1: val.auton_coral_scored_l1_avg,
+                autonL2: val.auton_coral_scored_l2_avg,
+                autonL3: val.auton_coral_scored_l3_avg,
+                autonL4: val.auton_coral_scored_l4_avg,
+                autonAccuracy: val.auton_coral_scored_avg/(val.auton_coral_placed_avg != 0 ? val.auton_coral_placed_avg : 1),
+                autonScore: val.auton_total_score_avg,
                 teleopScore: val.teleop_total_score_avg,
-                teleopSpeakerAmped: val.teleop_notes_speaker_amped_avg,
-                teleopSpeaker: val.teleop_notes_speaker_not_amped_avg,
-                teleopAmp: val.teleop_notes_amp_avg,
-                onstage: val.endgame_onstage_points_avg,
-                endgameScore: val.endgame_total_score_avg,
+                teleopProcessor: val.teleop_algae_in_processor_avg,
+                teleopNet: val.teleop_algae_in_net_avg,
+                teleopCoral: val.teleop_coral_scored_avg,
+                teleopHPAccuracy: val.teleop_algae_hp_in_net_success_avg / ((val.teleop_algae_hp_in_net_success_avg + val.teleop_algae_hp_in_net_miss_avg) > 0 ? (val.teleop_algae_hp_in_net_success_avg + val.teleop_algae_hp_in_net_miss_avg) : 1),
+                teleopL1: val.teleop_coral_scored_l1_avg,
+                teleopL2: val.teleop_coral_scored_l2_avg,
+                teleopL3: val.teleop_coral_scored_l3_avg,
+                teleopL4: val.teleop_coral_scored_l4_avg,
+                teleopAccuracy: val.teleop_coral_scored_avg / (val.teleop_coral_placed_avg != 0 ? val.teleop_coral_placed_avg : 1),
+                endgameScore: val.endgame_park_avg * 2 + val.endgame_shallow_climb_avg * 6 + val.endgame_deep_climb_avg * 12,
+                dislodgeTotal: val.total_algae_dislodge_avg,
+                foulPoints: val.total_foul_points_avg,
+                coralScore: val.auton_coral_scored_l1_avg * 3 + val.auton_coral_scored_l2_avg * 4 + val.auton_coral_scored_l3_avg * 6 + val.auton_coral_scored_l4_avg * 7
+                    + val.teleop_coral_scored_l1_avg * 2  + val.teleop_coral_scored_l1_avg * 3 + val.teleop_coral_scored_l3_avg * 4 + val.teleop_coral_scored_l4_avg * 5,
+                algaeScore: val.auton_algae_in_processor_avg * 2 + val.auton_algae_in_net_avg * 4 + val.teleop_algae_in_processor_avg * 2 + val.teleop_algae_in_net_avg * 4,
                 rank: val.api_rank ?? 0,
                 opr: val.api_opr ?? 0,
                 dpr: val.api_dpr ?? 0,
@@ -117,7 +131,8 @@ async function getPoints(x, y, color) {
         }
     }
 
-    if (noVal == points.length) {return false;}
+    if (noVal == points.length) {console.log('womp wimp') 
+        return false}
 
     return points
 }
@@ -163,26 +178,28 @@ async function main() {
                 scatterPlotCanvas.removeAttribute("hidden")
                 scatterPlotCanvas.removeAttribute("style")
                 barGraphCanvas.setAttribute("hidden", "hidden")
-                barGraphCanvas.setAttribute("style", "display: hidden !important")
+                barGraphCanvas.setAttribute("style", "display: none !important")
                 spiderCanvas.setAttribute("hidden", "hidden")
-                spiderCanvas.setAttribute("style", "display: hidden !important")
+                spiderCanvas.setAttribute("style", "display: none !important")
                 ctx = scatterPlotCanvas.getContext("2d")
                 break
             case "bar":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
-                scatterPlotCanvas.setAttribute("style", "display: hidden !important")
+                scatterPlotCanvas.setAttribute("style", "display: none !important")
                 barGraphCanvas.removeAttribute("hidden")
                 barGraphCanvas.removeAttribute("style")
                 spiderCanvas.setAttribute("hidden", "hidden")
-                spiderCanvas.setAttribute("style", "display: hidden !important")
+                spiderCanvas.setAttribute("style", "display: none !important")
                 ctx = barGraphCanvas.getContext("2d")
-                barGraphCanvas.height = Math.round(350 * chartAreaWrapper.clientHeight / chartAreaWrapper.clientWidth)
+                barGraphCanvas.height = 900
+                barGraphCanvas.width = 1000
+                consoleLog("SET IT TO: ", chartAreaWrapper.clientWidth)
                 break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
-                scatterPlotCanvas.setAttribute("style", "display: hidden !important")
+                scatterPlotCanvas.setAttribute("style", "display: none !important")
                 barGraphCanvas.setAttribute("hidden", "hidden")
-                barGraphCanvas.setAttribute("style", "display: hidden !important")
+                barGraphCanvas.setAttribute("style", "display: none !important")
                 spiderCanvas.removeAttribute("hidden")
                 spiderCanvas.removeAttribute("style")
                 console.trace()
@@ -204,6 +221,7 @@ async function main() {
         consoleLog(number)
         switch (number) {
             case 0:
+                consoleLog("TRY TO SWITCH")
                 switchChart("scatter")
                 ctx = scatterPlotCanvas.getContext("2d")
                 points = await getPoints("api_rank", "total_game_score_avg")
@@ -226,14 +244,13 @@ async function main() {
 
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
 
-                consoleLog(points)
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
-                        graphHandler.createBarGraph(
+                        graphHandler.createStackedBarGraph(
                             points,
+                            ["autonScore", "teleopScore", "endgameScore"],
                             "gameScore",
-                            15
                         )
                     )
                 } else if (!points) {
@@ -244,7 +261,6 @@ async function main() {
             case 2:
                 switchChart("spider")
                 points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
-                consoleLog(points)
 
                 if (oldCurrentChart == currentChart && points) {
                     const config = await graphHandler.createSpiderChart(
@@ -252,8 +268,6 @@ async function main() {
                         "gameScore",
                         15
                     )
-                    consoleLog("CONF:")
-                    consoleLog(config)
                     chart = new Chart(ctx,
                         config
                     )
@@ -271,8 +285,9 @@ async function main() {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
-                            ["autonUnused", "autonAmp", "autonSpeaker"],
+                            ["autonProcessor", "autonNet", "autonL1","autonL2","autonL3","autonL4"],
                             "autonScore",
+                            ["rgb(75,192,192)", "rgb(99, 255, 203)", "rgb(255, 255, 255)", "rgb(207, 207, 207)", "rgb(123, 123, 123)", "rgb(93, 93, 93)"]
                         )
                     )
                 } else if (!points) {
@@ -289,8 +304,9 @@ async function main() {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
-                            ["teleopAmp", "teleopSpeaker"],
+                            ["teleopNet", "teleopProcessor", "teleopL1","teleopL2","teleopL3","teleopL4"],
                             "teleopScore",
+                            ["rgb(75,192,192)", "rgb(99, 255, 203)", "rgb(255, 255, 255)", "rgb(207, 207, 207)", "rgb(123, 123, 123)", "rgb(93, 93, 93)"]   
                         )
                     )
                 } else if (!points) {
@@ -318,13 +334,14 @@ async function main() {
             case 6:
                 switchChart("bar")
 
-                points = await getPoints("team_master_tm_number", "games_played", POINT_COLOR)
+                points = await getPoints("team_master_tm_number", "total_game_score_avg", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
-                        graphHandler.createBarGraph(
+                        graphHandler.createStackedBarGraph(
                             points,
-                            "gamesPlayed"
+                            ["coralScore", "algaeScore", "endgameScore"],
+                            "gameScore",
                         )
                     )
                 } else if (!points) {

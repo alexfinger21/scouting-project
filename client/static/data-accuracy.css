@@ -1,0 +1,117 @@
+/* Style the header and dropdown container */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 0px;
+    gap: 10px; /* Space between dropdowns */
+}
+
+/* Apply to all dropdowns with a common class */
+.custom-dropdown {
+    background-color: #f4f4f9;
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    padding: 10px 40px 10px 12px; /* Padding for custom arrow */
+    font-size: 16px;
+    color: #333;
+    font-family: 'Rubik', sans-serif;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+    width: 200px; /* Default width */
+    max-height: 300px; /* Maximum height to prevent dropdown from becoming too large */
+    overflow-y: auto; /* Enable scrolling */
+    display: block;
+}
+
+/* Add a custom arrow */
+.custom-dropdown::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 14px;
+}
+
+/* Hover effect */
+.custom-dropdown:hover {
+    border-color: #666;
+    background-color: #e0e0e0;
+}
+
+/* Focus effect */
+.custom-dropdown:focus {
+    outline: none;
+    border-color: #3a3a3a;
+    box-shadow: 0 0 5px rgba(58, 58, 58, 0.5);
+}
+
+/* Style options inside the select */
+.custom-dropdown option {
+    background-color: #fff;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Optional: Style the selected option */
+.custom-dropdown option:checked {
+    background-color: #88cc88;
+}
+
+/* Wrapper for the chart area */
+#accuracy-chart-area-wrapper {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* This will center the content horizontally */
+    overflow-y: auto; /* Changed to auto to allow scrolling when necessary */
+    overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
+    flex-direction: row; /* Changed to column to allow stacking of header and graph */
+    padding: 20px;
+}
+
+/* Holder for the accuracy graph */
+#accuracy-graph-holder {
+    margin-top: 0.5vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    flex-direction: row;
+    height: 70vh;
+    width: 100%;
+    background-color: #FFF;
+    overflow: auto;
+}
+/* Media Queries for Responsiveness */
+
+/* For small screens, adjust the layout */
+@media only screen and (max-aspect-ratio: .85) {
+   
+
+    .custom-dropdown {
+        font-size: 3vw !important;
+        width: 75% !important; /* Make dropdowns take full width on mobile */
+        height: 3vh !important;
+        text-align: center !important; /* Center the dropdown text */
+        margin: 0 auto !important; /* Center the dropdown itself */
+    }
+    #accuracy-chart-area-wrapper {
+        flex-direction: column !important; /* Changed to column to allow stacking of header and graph */
+        justify-content: flex-start !important; /* This will center the content horizontally */
+    }
+    .header-container {
+        flex-direction: column;
+        align-items: stretch !important; /* Ensure full width */
+        gap: 1vh !important;
+        padding-top: 1vh;
+    }
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/universal.css">
+    <title>Data Accuracy bro</title>
+</head>
+<body>
+    <div id="page-holder">
+        <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+        <div class="header-container">
+            <!-- Apply the 'custom-dropdown' class to all dropdowns -->
+            <select class="custom-dropdown" id="DataAccuracyDropdown"></select>
+            <select class="custom-dropdown" id="DataAccuracyScoutersDropdown"></select>
+            <select class="custom-dropdown" id="DataAccuracyTeamsDropdown"></select>
+        </div>
+
+        <div id="accuracy-graph-holder">
+            <div id="accuracy-chart-area-wrapper">
+                <canvas id="chart1"></canvas>
+                <canvas id="chart2"></canvas>
+            </div>
+            <!--Chart.js-->
+        </div>
+
+        <script type="module" src="../static/scripts/data-accuracy.js"></script>
+    </div>
+</body>
+</html>

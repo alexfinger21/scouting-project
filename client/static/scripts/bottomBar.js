@@ -1,4 +1,4 @@
-import {requestPage, paths, consoleLog, waitForElem} from "./utility.js"
+import {requestPage, paths, consoleLog} from "./utility.js"
 
 let globalPos = 0
 let selectedObj = document.getElementById("match-listing-btn")
@@ -70,7 +70,7 @@ function setSelectedObject(value) {
     selectedObj = value
 }
 
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
     requestPage(paths.matchListing)
    
     selectedObj = document.getElementById("match-listing-btn")
@@ -110,36 +110,47 @@ window.addEventListener("load", async () => {
             setTimeout(() => {bottomBarDebounce = false}, 300)
             }
         })
-    })  
+    })
 
-    const allianceSelectorButton = await waitForElem("#alliance-selector-button")
+    const allianceSelectorButton = document.getElementById("alliance-selector-button")
     allianceSelectorButton.addEventListener("click", () =>  {
         requestPage(paths.allianceSelector)
         hideHighlight(hoverButton)
     })
 
-    const teamDetailsButton = await waitForElem("#team-details-button")
+    const teamDetailsButton = document.getElementById("team-details-button")
     teamDetailsButton.addEventListener("click", () =>  {
         requestPage(paths.teamDetails)
         hideHighlight(hoverButton)
     })
+    
+    const adminPageButton = document.getElementById("admin-page-button")
+    if (adminPageButton) {
+        adminPageButton.addEventListener("click", () =>  {
+            requestPage(paths.adminPage)
+            hideHighlight(hoverButton)
+        })
 
-    const adminPageButton = await waitForElem("#admin-page-button")
-    consoleLog(adminPageButton)
-    adminPageButton.addEventListener("click", () =>  {
-        requestPage(paths.adminPage)
-        hideHighlight(hoverButton)
-    })
+        const matchVerifyButton = document.getElementById("match-verify-button")
+        matchVerifyButton.addEventListener("click", () =>  {
+            requestPage(paths.matchVerify)
+            hideHighlight(hoverButton)
+        })
 
-    const matchVerifyButton = await waitForElem("#match-verify-button")
-    matchVerifyButton.addEventListener("click", () =>  {
-        requestPage(paths.matchVerify)
-        hideHighlight(hoverButton)
-    })
+        const allianceInputButton = document.getElementById("alliance-input-button")
+        allianceInputButton.addEventListener("click", () =>  {
+            requestPage(paths.allianceInput)
+            hideHighlight(hoverButton)
+        })
+    }
 
-    const allianceInputButton = await waitForElem("#alliance-input-button")
-    allianceInputButton.addEventListener("click", () =>  {
-        requestPage(paths.allianceInput)
+    
+
+    const dataAccuracyButton = document.getElementById("data-accuracy-button")
+    consoleLog("got here")
+    dataAccuracyButton.addEventListener("click", () =>  {
+        requestPage(paths.dataAccuracy)
+        consoleLog("here clicked", paths.dataAccuracy)
         hideHighlight(hoverButton)
     })
     

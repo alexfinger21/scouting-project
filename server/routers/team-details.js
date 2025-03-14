@@ -21,7 +21,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     let [err1, team_results] = await database.query(database.getTeamDetailsTeamData())
 
     team_results = JSON.parse(JSON.stringify(team_results))
-    const teamNumber = req.query.team || 695
+    let teamNumber = req.query.team || 695
     const selectedPage = req.query.selectedPage || "game-data-page"
 
     let matchVideos
@@ -36,6 +36,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     let teamInfo = team_results.find(element => element.team_master_tm_number == teamNumber)
     if(teamInfo == null || teamInfo == undefined) {
         teamInfo = team_results[0]
+        teamNumber = team_results[0].team_master_tm_number
     }
 
 
@@ -106,7 +107,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         index = urls.indexOf(undefined)
     }
 
-    consoleLog("TEAM INFO", teamInfo)
+    consoleLog("TEAM INFO", results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number))
 
     consoleLog("URLS: ", urls)
 

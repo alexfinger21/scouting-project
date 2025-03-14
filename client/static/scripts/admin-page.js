@@ -36,7 +36,7 @@ function assignUsers(data) {
 }
 
 function main() {
-    var selections = Array.from(document.getElementsByClassName("select-user"))
+    const selections = Array.from(document.getElementsByClassName("select-user"))
     const submitButton = document.getElementById("admin-submit")
 
     submitButton.addEventListener("click", () => {

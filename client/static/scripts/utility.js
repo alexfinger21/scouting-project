@@ -18,6 +18,7 @@ const paths = {
     rankings: "/rankings",
     pitScouting: "/pit-scout",
     logout: "/logout",
+    dataAccuracy: "/data-accuracy"
     //eventData: "/event-data"
 }
 
@@ -71,6 +72,52 @@ const socket = io.connect(`${window.location.hostname}:5000`, {
 
 
 const clamp = (num, min, max) => Math.min(Math.max(min, num), max)
+
+
+function getColors(color) {
+    color = color.substring(4, color.length).split(", ")
+    color[2] = color[2].substring(0, color[2].length - 1)
+
+    return color.map(e => Number(e))
+}
+
+function lerpColor(current, goal, tickDiff, changePerS) {
+    const [c1, c2, c3] = getColors(current)
+    const [g1, g2, g3] = getColors(goal)
+
+    const l = Math.min(1, tickDiff/1000*changePerS)
+
+    return `rgb(${lerp(c1, g1, isNaN(l) ? 0 : l)}, ${lerp(c2, g2, isNaN(l) ? 0 : l)}, ${lerp(c3, g3, isNaN(l) ? 0 : l)})`
+}
+
+function lerpOpacity(current, goal, tickDiff, changePerS) {
+    const i = Math.min(1, tickDiff/1000*changePerS)
+    return lerp(current, goal, isNaN(i) ? 0: i)
+}
+
+//decides whether point (x,y) is inside a triangle with vertices (x1,y1), (x2,y2), and (x3,y3)
+function insideTriangle(x1,y1,x2,y2,x3,y3,x,y) {
+    const x_coeff_1 = y2-y1
+    const y_coeff_1 = x1-x2
+    const const_1 = (y2-y1)*(-x1)+(x2-x1)*(y1)
+    const is_pos11 = (x_coeff_1 * x3 + y_coeff_1 * y3 + const_1 >= 0)
+    const is_pos1p = (x_coeff_1 * x + y_coeff_1 * y + const_1 >= 0)
+
+    const x_coeff_2 = y3-y2
+    const y_coeff_2 = x2-x3
+    const const_2 = (y3-y2)*(-x2)+(x3-x2)*(y2)
+    const is_pos21 = (x_coeff_2 * x1 + y_coeff_2 * y1 + const_2 >= 0)
+    const is_pos2p = (x_coeff_2 * x + y_coeff_2 * y + const_2 >= 0)
+
+    const x_coeff_3 = y1-y3
+    const y_coeff_3 = x3-x1
+    const const_3 = (y1-y3)*(-x3)+(x1-x3)*(y3)
+    const is_pos31 = (x_coeff_3 * x2 + y_coeff_3 * y2 + const_3 >= 0)
+    const is_pos3p = (x_coeff_3 * x + y_coeff_3 * y + const_3 >= 0)
+
+    return is_pos11 == is_pos1p && is_pos21 == is_pos2p && is_pos31 == is_pos3p
+}
+
 
 //selects a random value from an array
 function getMatch() {
@@ -234,4 +281,4 @@ function checkPage(path) {
 
 //console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
 
-export {consoleLog, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, lerpColor, lerpOpacity, insideTriangle, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

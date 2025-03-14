@@ -4,56 +4,34 @@ import GamePiece from "./GamePiece.js"
 import Robot from "./Robot.js"
 
 export default class RobotMap {
-    constructor({ ctx, allianceColor, images, robotStartingPercent, stagePositions, canvasSize }) {
+    constructor({ ctx, allianceColor, images, robotStartingPercent, renderQueue, canvasSize }) {
+        this.renderQueue = renderQueue
         this.startPositions = []
         this.bargePositions = []
         const isBlue = allianceColor == "B"
         //Stage robots
-        if (robotStartingPercent) {
-            this.startPositions.push(new Robot({
-                ctx,
-                draggable: true,
-                clickable: true,
-                value: robotStartingPercent,
-                img: images.robotImage,
-                containerImg: images.robotStartPosImage,
-                canvasSize,
-                pos: {
-                    x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.84,
-                    y: isBlue ? canvasSize.y * 0.145 : canvasSize.y * 0.145,
-                    r: isBlue ? 0 : 180 //150,
-                },
-            }))
+        this.startPositions.push(new Robot({
+            ctx,
+            draggable: true,
+            clickable: true,
+            value: Math.max(Math.min(robotStartingPercent ?? 0, 100), 0),
+            img: images.robotImage,
+            containerImg: images.robotStartPosImage,
+            renderQueue,
+            allianceColor,
+            canvasSize,
+            pos: {
+                x: isBlue ? canvasSize.x * 0.16 : canvasSize.x * 0.67,
+                y: isBlue ? canvasSize.y * 0.145 : canvasSize.y * 0.08,
+                r: isBlue ? 0 : 180 //150,
+            },
+        }))
 
-        }
 
     }
 
     onClick({ x, y }) {
-        const startPositions = this.startPositions
-        startPositions.forEach(function (robot) {
-            const clicked = robot.onClick({ x, y })
-            if (clicked) { //unselect other startPositions robots
-                startPositions.forEach(function (otherRobot) {
-                    if (otherRobot !== robot) {
-                        otherRobot.setIsSelected({ value: false })
-                    }
-                })
-            }
-        })
-
-        const bargePositions = this.bargePositions
-
-        bargePositions.forEach(function (robot) {
-            const clicked = robot.onClick({ x, y })
-            if (clicked) { //unselect other startPositions robots
-                bargePositions.forEach(function (otherRobot) {
-                    if (otherRobot !== robot) {
-                        otherRobot.setIsSelected({ value: false })
-                    }
-                })
-            }
-        })
+        this.startPositions.forEach(e => e.onClick({ x, y }))
     }
 
     onMouseDown({ x, y }) {

@@ -35,18 +35,24 @@ async function main() {
         requestPage(paths.matchStrategy + "?match=" + select.value, {}, paths.matchStrategy)
     }
 
+    for(const b of document.getElementsByClassName("help-button")) {
+        b.addEventListener("click", () => {
+            b.classList.toggle("active")
+            for(const a of document.getElementsByClassName("help-button")) {
+                if(b!=a) {
+
+                    a.classList.remove("active")
+                }
+            }
+        })
+    }
+
     data = JSON.parse(await requestData(paths.matchStrategy + "?getData=1&match=" + select.value))
 
     consoleLog("strat data:", data)
 
     const red = data.slice(0, 3)
     const blue = data.slice(3)
-    
-    consoleLog("BLUE:", blue)
-
-    consoleLog("RED AUTON: ", sumParam(red, "auton_notes_amp_avg") + sumParam(red, "auton_notes_speaker_avg"))
-    consoleLog("BLUE AUTON: ", sumParam(blue, "auton_notes_amp_avg") + sumParam(blue, "auton_notes_speaker_avg"))
-
 
     const config = await graphHandler.createSpiderChart(
         [
@@ -55,9 +61,7 @@ async function main() {
                 teamName: "Red Alliance",
                 color: "rgb(255,0,0)",
                 hidden: false,
-                autonNotes: sumParam(red, "auton_notes_amp_avg") + sumParam(red, "auton_notes_speaker_avg"),
-                autonAmp: sumParam(red, "auton_notes_amp_avg"),
-                autonSpeaker: sumParam(red, "auton_notes_speaker_avg"),
+                autonScore: sumParam(red, "auton_total_score_avg"),
                 gamesPlayed: sumParam(red, "nbr_games"),
                 gameScore: sumParam(red, "total_game_score_avg"),
                 teleopScore: sumParam(red, "teleop_total_score_avg"),
@@ -71,9 +75,7 @@ async function main() {
                 teamName: "Blue Alliance",
                 color: "rgb(0,0,255)",
                 hidden: false,
-                autonNotes: sumParam(blue, "auton_notes_amp_avg") + sumParam(blue, "auton_notes_speaker_avg"),
-                autonAmp: sumParam(blue, "auton_notes_amp_avg"),
-                autonSpeaker: sumParam(blue, "auton_notes_speaker_avg"),
+                autonScore: sumParam(blue, "auton_total_score_avg"),
                 gamesPlayed: sumParam(blue, "nbr_games"),
                 gameScore: sumParam(blue, "total_game_score_avg"),
                 teleopScore: sumParam(blue, "teleop_total_score_avg"),

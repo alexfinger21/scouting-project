@@ -13,7 +13,7 @@ const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
 const { gameStart, gameEnd } = require("./game.js")
-const { returnAPIDATA } = require("./getRanks")
+const { returnAPIDATA } = require("./getRanks.js")
 const gameConstants = require("./game.js")
 const socketManager = require("./sockets.js")
 const SQL = require('sql-template-strings')
@@ -47,6 +47,7 @@ const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "all
 const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
 const pitScouting = require(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
 const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
+const dataAccuracy = require(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))
 
 //CONSTANTS
 const corsOptions = {
@@ -192,6 +193,10 @@ app.use("/game-strategy", gameStrategy)
 //PIT SCOUTING PAGE
 app.use("/pit-scout", pitScouting)
 
+//DATA ACCURACY PAGE
+app.use("/data-accuracy", dataAccuracy)
+
+//LOGOUT
 app.post("/logout", (req, res) => {
    res.cookie("user_id", "", {
             maxAge: 24 * 60 * 60 * 1000,

@@ -2,11 +2,11 @@ import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog, c
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
-import Endgame from "./data_collection/Endgame.js"
+import Teleop from "./data_collection/Teleop.js"
 
 const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
-let EndgameObject
+let TeleopObject
 
 const observer = new MutationObserver(function (mutations_list) {
     mutations_list.forEach(function (mutation) {
@@ -111,13 +111,13 @@ async function sendComments() {
 
         error: function (jqXHR, textStatus, errorThrown) {
             //consoleLog("Error\n" + errorThrown, jqXHR)
-        },
+        }
     })
 }
 
 async function sendData() {
     const data = await saveData()
-    consoleLog("-------CLIENT DATA------\n")
+    consoleLog("-------SCOUTING DATA------\n")
     consoleLog(data)
 
     $.ajax({
@@ -163,7 +163,6 @@ async function waitUntilImagesLoaded(imgs) {
     }
 
     while (!checkIfTrue()) {
-        consoleLog(imgMap)
         await timer(10)
     }
 
@@ -175,7 +174,7 @@ function loadData() {
         const match = await getMatch()
         const form = document.getElementById("match-number-form")
         
-        if (!form) {return}
+        if (!form) {return res()}
 
         const buttonContainers = form.querySelectorAll(".NumberButtonContainer")
         const matchNumber = document.getElementById("match-number")
@@ -188,16 +187,20 @@ function loadData() {
         const autonCanvas = document.getElementById("auton-canvas")
         const autonCanvasContainer = autonCanvas.parentElement
         const autonCanvasCTX = autonCanvas.getContext("2d")
-
-        const endgameCanvas = document.getElementById("endgame-canvas")
-        const endgameCanvasCTX = endgameCanvas.getContext("2d")
+        const teleopCanvas = document.getElementById("teleop-canvas")
+        const teleopCanvasContainer = teleopCanvas.parentElement
+        const teleopCanvasCTX = teleopCanvas.getContext("2d")
 
         const autonCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
         autonCanvas.height = autonCanvasSize
         autonCanvas.width = autonCanvasSize*763/595
-        const endgameCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, autonCanvasContainer.clientWidth)
-        endgameCanvas.width = endgameCanvasSize
-        endgameCanvas.height = endgameCanvasSize
+        const teleopCanvasSize = Math.min(document.getElementById("input-scroller").clientHeight, teleopCanvasContainer.clientWidth)
+        teleopCanvas.height = teleopCanvasSize
+        teleopCanvas.width = teleopCanvasSize*763/595
+        const lockImage = new Image()
+        lockImage.src = "./static/images/lock.png"
+        const draggableImage = new Image()
+        draggableImage.src = "./static/images/dropdown.png"
         const gamePieceImage = new Image()
         gamePieceImage.src = "./static/images/data-collection/orange-note.png"
         const mapImage = new Image()
@@ -210,52 +213,28 @@ function loadData() {
         robotStartPosImage.src = `./static/images/data-collection/robot-starting-pos-container.png`
         const legendButton = new Image()
         legendButton.src = `./static/images/data-collection/legend-button.png`
-        
-        const images = { gamePieceImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage }
+        const reefLeftImage = new Image()
+        reefLeftImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef-left.png`
+        const reefRightImage = new Image()
+        reefRightImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef-right.png`
+        const clickAreaImage = new Image()
+        clickAreaImage.src = `./static/images/data-collection/click-area.png`
+        const algaeImage = new Image()
+        algaeImage.src = `./static/images/data-collection/algae.png`
+        const algaeSelectedImage = new Image()
+        algaeSelectedImage.src = `./static/images/data-collection/algae-selected.png`
+        const proceedBtnImage = new Image()
+        proceedBtnImage.src = `./static/images/data-collection/proceed-btn-${allianceColor == 'B' ? "blue" : "red"}.png`
+        const images = { lockImage, draggableImage, gamePieceImage, algaeImage, algaeSelectedImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
 
         await waitUntilImagesLoaded(Object.values(images))
 
-        const robotStartingPercent = 0
-
-        const templatePieceData = {
-            //  Wing Notes
-            "202": false,
-            "203": false,
-            "204": false,
-            //  Center Notes
-            "205": false,
-            "206": false,
-            "207": false,
-            "208": false,
-            "209": false,
-            //  Endgame
-            "403": 0,
-            "404": 0,
-            "405": 0,
-        }
-        const data = localData ? localData[match] : undefined
+        const data = localData?.[match] ?? undefined
         const gameData = data?.gameData
 
-        consoleLog("localdata for match is:")
-        consoleLog(data)
+        AutonObject = new Auton({ ctx: autonCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: autonCanvas.width, cY: autonCanvas.height })
+        TeleopObject = new Teleop({ ctx: teleopCanvasCTX, data: gameData ?? {}, allianceColor, images, cX: teleopCanvas.width, cY: teleopCanvas.height })
         
-        if(gameData && gameData["Starting Location"]) {
-            robotStartingPercent = gameData["Starting Location"]
-        }
-
-        const stagePositions = {
-            "1": false,
-            "2": false,
-            "3": false,
-        }
-
-        if(gameData && gameData["Instage Location"]) {
-            stagePositions[gameData["Instage Location"]] = true
-        }
-
-        AutonObject = new Auton({ ctx: autonCanvasCTX, autonPieceData: gameData?.autonPieceData ?? templatePieceData, robotData: {robotStartingPercent}, allianceColor, alliancePosition, images, cX: autonCanvas.width, cY: autonCanvas.height })
-        EndgameObject = new Endgame({ ctx: endgameCanvasCTX, endgamePieceData: gameData?.spotlights ?? templatePieceData, allianceColor, robotData: stagePositions, alliancePosition, images, cX: endgameCanvas.width, cY: endgameCanvas.height })
-
         // HANDLE TOUCHES / MOUSE
 
         function handleMouse(event, obj, func) {
@@ -268,6 +247,7 @@ function loadData() {
         function handleTouch(event, obj, func) {
             const touches = event.touches
             if (touches.length) {
+                consoleLog(touches[0])
                 const x = touches[0].clientX - event.target.getBoundingClientRect().left - window.scrollX
                 const y = touches[0].clientY - event.target.getBoundingClientRect().top - window.scrollY
 
@@ -278,7 +258,8 @@ function loadData() {
         }
 
         autonCanvas.addEventListener("click", (event) => {
-            event.preventDefault()
+            consoleLog("herherherere")
+            //event.preventDefault()
             handleMouse(event, AutonObject, AutonObject.onClick)
         })
 
@@ -297,30 +278,102 @@ function loadData() {
             handleMouse(event, AutonObject, AutonObject.onMouseUp)
         })
 
-
         autonCanvas.addEventListener("touchstart", (event) => {
-            event.preventDefault()
+            consoleLog(event)
+            //event.preventDefault()
+            //handleTouch(event, AutonObject, AutonObject.onClick)
             handleTouch(event, AutonObject, AutonObject.onMouseDown)
         })
 
         autonCanvas.addEventListener("touchmove", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleTouch(event, AutonObject, AutonObject.onMouseMove)
         })
 
         autonCanvas.addEventListener("touchend", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleTouch(event, AutonObject, AutonObject.onMouseUp)
         })
 
+        teleopCanvas.addEventListener("click", (event) => {
+            event.preventDefault()
+            handleMouse(event, TeleopObject, TeleopObject.onClick)
+        })
 
-        endgameCanvas.addEventListener("click", (event) => {
-            EndgameObject.onClick({ event, leftOffset: endgameCanvas.getBoundingClientRect().left, topOffset: endgameCanvas.getBoundingClientRect().top + window.scrollY })
+        const robotTaxiesButton = document.getElementById("robot-taxies")
+        robotTaxiesButton.addEventListener("change", () => { //when this button is pressed, add "robot leaves starting zone" to the auton table
+            if (robotTaxiesButton.checked == true) {
+                if(AutonObject.findTableRows({ge_key: 1001}).length == 0) { //if row is not already in the table
+                    AutonObject.addTableRow({text: "Leave Starting Zone", ge_key: 1001, draggable: false, position: 1})
+                }
+            }
+            else {
+                AutonObject.removeTableRow({ge_key: 1001})
+            }
+        })
+
+
+        //load the radio buttons and checkboxes
+        let climbSuccess = false
+        const naButton = document.getElementById("no-position")
+        let oldBtn = naButton
+        consoleLog("nabutton", naButton)
+
+        Array.from(radioButtonContainers).forEach(container => {
+            Array.from(container.children).forEach(element => {
+                if (element.tagName.toLowerCase() == "input") {
+                    //selected radio button or selected checkbox
+                    if ( (element.type == "radio" && data?.[element.name] == element.value) || (element.type == "checkbox" && data?.[element.id])) {
+                        element.checked = true
+                        oldBtn = element
+                        if (element.id.includes("park") || element.id == "failed-climb") {
+                            climbSuccess = false
+                        } else {
+                            climbSuccess = true
+                        }
+                    }
+                }
+                if (element.name == "robot-endgame") {
+                    if (element.id.includes("park") || element.id == "failed-climb") {
+                        element.addEventListener("click", (event) => {
+                            climbSuccess = false
+                            oldBtn.checked = false
+                            naButton.checked = true
+                        })
+                    } else {
+                        element.addEventListener("click", (event) => {
+                            climbSuccess = true
+                            oldBtn.checked = true
+                            naButton.checked = false
+                        })
+                    }
+                } else if (element.name == "climb-position") {
+                    if (element != naButton) {
+                        element.addEventListener("click", (event) => {
+                            if (!climbSuccess) {
+                                element.checked = false
+                                naButton.checked = true
+                            } else {
+                                oldBtn = element
+                            }
+                        })
+                    }
+                }
+            })    
+        })
+
+        naButton.addEventListener("click", (event) => {
+            if (climbSuccess) {
+                naButton.checked = false
+                oldBtn.checked = true
+                naButton.checked = false
+            }
         })
 
         if (!localData) {
-            return rej()
+            return rej("no data")
         }
+
 
         if (data && data.COMP == COMP && data.YEAR == YEAR && data.GAME_TYPE == GAME_TYPE) {
 
@@ -342,17 +395,7 @@ function loadData() {
                 }
             })
 
-            //load the radio buttons and checkboxes
-            Array.from(radioButtonContainers).forEach(container => {
-                Array.from(container.children).forEach(element => {
-                    if (element.tagName.toLowerCase() == "input") {
-                        //selected radio button or selected checkbox
-                        if ( (element.type == "radio" && data[element.name] == element.value) || (element.type == "checkbox" && data[element.id])) {
-                            element.checked = true
-                        }
-                    }
-                })
-            })
+
 
             //load comments
             const commentsSection = document.getElementById("comments-container")
@@ -371,9 +414,11 @@ async function saveData() {
 
         const form = document.getElementById("match-number-form")
         const radioButtonContainers = form.querySelectorAll(".radio-button-container")
+        const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+        const inputContainers = document.getElementsByClassName("input-container")
 
 
-        data.gameData = { ...EndgameObject?.sendData(), ...AutonObject?.sendData() }
+        data.gameData = { ...TeleopObject?.sendData(), ...AutonObject?.sendData() }
         consoleLog(data.gameData)
 
         data.matchNumber = match
@@ -387,7 +432,7 @@ async function saveData() {
         //1st child is the number button holder
 
         //number buttons and also checkbox/x buttons
-        const numberButtonContainers = document.getElementsByClassName("NumberButtonContainer")
+        
         Array.from(numberButtonContainers).forEach((element) => {
             const input = element.getElementsByTagName("input")[0]
             if (input.type == "number") {
@@ -410,6 +455,29 @@ async function saveData() {
                     }
                 }
             })
+        })
+
+        Array.from(inputContainers).forEach(container => {
+            Array.from(container.children).forEach(element => {
+                if (element.tagName.toLowerCase() == "input") {
+                    if (element.type == "radio" && element.checked) {
+                        data[element.name] = element.value
+                    }
+                    else if (element.type == "checkbox") {
+                        data[element.id] = element.checked
+                    }
+                }
+            })
+        })
+
+        Array.from(numberButtonContainers).forEach((element) => {
+            const input = element.getElementsByTagName("input")[0]
+            if (input.type == "number") {
+                data[input.name] = Number(input.value)
+            }
+            else {
+                data[input.name] = element.children[0].style.backgroundColor == "rgb(217, 217, 217)" ? true : false
+            }
         })
 
         //comments
@@ -442,14 +510,16 @@ async function loadDataCollection() {
 
     try {
         await loadData()
-    } catch (e) {
-        consoleLog(e)
+    } catch(e) {
+        consoleLog("err with loading data", e)
     }
     function animateCanvas() {
-        if (currentPage == paths.dataCollection && AutonObject) {
+        if (currentPage == paths.dataCollection && AutonObject && TeleopObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
                 AutonObject.draw()
-                //EndgameObject.draw()
+                AutonObject.renderQueue.render()
+                TeleopObject.draw()
+                TeleopObject.renderQueue.render()
                 lastFrame = Date.now()
             }
             window.requestAnimationFrame(animateCanvas)
@@ -530,6 +600,7 @@ async function loadDataCollection() {
         }, 100); //in milliseconds
     })
 
+    consoleLog("animating")
     animateCanvas()
 }
 
@@ -605,64 +676,4 @@ function main() {
         }, 100); //in milliseconds
     })
 
-
-    const trash = document.getElementById("trash")
-    const trows = document.querySelectorAll(".responsive-table tr:not(:first-of-type)") //exclude thead
-
-    let dragRow;
-    
-    for (let tr of trows) {
-        if(tr.draggable) {
-            tr.ondragstart = e => {
-                dragRow = tr
-                e.dataTransfer.dropEffect = "move"
-                e.dataTransfer.effectAllowed = "move"
-                e.dataTransfer.setData("text/html", tr.innerHTML)
-                trash.classList.add("show")
-            }
-    
-            tr.ondragover = e => {
-                e.preventDefault()
-            }
-    
-            tr.ondrop = e => {
-                trash.classList.remove("show")
-                trash.classList.remove("hover")
-                e.preventDefault()
-            };
-    
-            tr.ondragenter = e => {
-                consoleLog('enter!', tr.innerHTML)
-                tr.classList.add("hover")
-                const a =  dragRow.getElementsByTagName("td")[1]
-                const b =  tr.getElementsByTagName("td")[1]
-                const tmp = a.innerText
-                a.innerText = b.innerText
-                b.innerText = tmp
-                dragRow = tr
-            }
-            tr.ondragleave = e => {
-                tr.classList.remove("hover")
-            }
-            tr.ondragend = () => {
-                for (let r of trows) {
-                    r.classList.remove("hover")
-                }
-            }
-        }
-    }
-
-    trash.draggable = true
-    trash.ondragover = e => e.preventDefault()
-    trash.ondragenter = e => {
-        trash.classList.add("hover")
-        dragRow.classList.add("remove")
-    }
-    trash.ondragleave = e => {
-        trash.classList.remove("hover")
-        dragRow.classList.remove("remove")
-    }
-    trash.ondrop = e => {
-        dragRow.remove()
-    }
 }

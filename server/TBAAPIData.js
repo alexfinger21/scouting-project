@@ -70,18 +70,18 @@ async function getMatchVideos(specificTeam=false)
         {
             if (specificTeam)
             {
-            for (let f = 0; f <= 2; f++)
-            {
-            if (specificTeam == alliancesForBlue[f]|| specificTeam == alliancesForRed[f])
-            {
-                matchVideos.push([matchNumber, video])
-                break
-            }
-            }
+                for (let f = 0; f <= 2; f++)
+                {
+                    if (specificTeam == alliancesForBlue[f]|| specificTeam == alliancesForRed[f])
+                    {
+                        matchVideos.push([matchNumber, video])
+                        break
+                    }
+                }
             }
             else
             {
-            matchVideos.push([matchNumber, video])
+                matchVideos.push([matchNumber, video])
             }
         }
         else
@@ -95,4 +95,4 @@ async function getMatchVideos(specificTeam=false)
     return matchVideos
 }
 
-module.exports = {getMatchVideos}
+module.exports = {getMatchVideos, getData}

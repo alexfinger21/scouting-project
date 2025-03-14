@@ -23,7 +23,7 @@
 
     <%- include("../static/partials/header") %>
 
-        <div id="page-holder">            
+        <div id="page-holder">          
 
             <%if(assignment != null) {%> <!--Check if user has access-->
                 <div id="data-collection-tabs">
@@ -89,52 +89,28 @@
                     </div>
                 </div>
 
-                <div class="canvas-container">
-                    <canvas id="auton-canvas"></canvas>
-                </div>
-
-                <div class="responsive-table">
-                    <table id="sortable">
-                        <colgroup>
-                            <col style="width: 18%">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>Drag Row</th>
-                                <th>Action</th>
-                            </tr>
-                            <tr draggable="true">
-                                <td>
-                                    <img id="dropdownImg" src="../static/images/dropdown.png">
-                                </td>
-                                <td>L4 Coral</td>
-                            </tr>
-                            <tr draggable="true">
-                                <td>
-                                    <img id="dropdownImg" src="../static/images/dropdown.png">
-                                </td>
-                                <td>Intake Algae</td>
-                            </tr>
-                            <tr draggable="true">
-                                <td>
-                                    <img id="dropdownImg" src="../static/images/dropdown.png">
-                                </td>
-                                <td>Feeder Station</td>
-                            </tr>
-                            <tr draggable="true">
-                                <td>
-                                    <img id="dropdownImg" src="../static/images/dropdown.png">
-                                </td>
-                                <td>Processor</td>
-                            </tr>
-                        </thead>
-                    </table>
-                    <img id="trash" src="../static/images/trash.png">
-
+                <div class="canvas-scoring-container">
+                    <div class="canvas-container">
+                        <canvas id="auton-canvas"></canvas>
+                    </div>
+    
+                    <div id="responsive-table">
+                        <table id="sortable">
+                            <colgroup>
+                                <col style="width: 18%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Drag Row</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="input-container">
-                    <span>Auton - Tech Fouls</span>
+                    <span style="margin-top: 3%;">Auton - Tech Fouls</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
                         <input type="number" name="auton-tech-fouls" min="0" max="5" value="0">
@@ -153,76 +129,93 @@
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div> -->
+                <div class="canvas-scoring-container">
+                    <div class="canvas-container">
+                        <canvas id="teleop-canvas"></canvas>
+                    </div>
+                </div>
 
                 <div class="input-container">
-                    <span>Teleop - L4 Coral</span>
+                    <span>Algae Dislodged</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="L4=coral" min="0" max="25" value="0">
+                        <input type="number" name="algae-dislodge-count" min="0" max="18" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
+
                 <div class="input-container">
-                    <span>Teleop - L3 Coral</span>
+                    <span>Algae in Opposite Alliance Processor</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="L3-coral" min="0" max="25" value="0">
+                        <input type="number" name="opposite-processor-count" min="0" max="18" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
+
                 <div class="input-container">
-                    <span>Teleop - L2 Coral</span>
+                    <span>Human Player Scored in Net</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="L2-coral" min="0" max="25" value="0">
+                        <input type="number" name="hp-count" min="0" max="18" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
+
                 <div class="input-container">
-                    <span>Teleop - L1 Coral</span>
+                    <span>Human Player Shots Missed</span>
                     <div class="NumberButtonContainer">
                         <button type="button" class="big-button">+</button>
-                        <input type="number" name="L1-coral" min="0" max="25" value="0">
+                        <input type="number" name="hp-missed" min="0" max="18" value="0">
                         <button type="button" class="big-button">-</button>
                     </div>
                 </div>
-                <div class="input-container">
-                    <span>Scored in Processor</span>
-                    <div class="NumberButtonContainer">
-                        <button type="button" class="big-button">+</button>
-                        <input type="number" name="p" min="0" max="25" value="0">
-                        <button type="button" class="big-button">-</button>
-                    </div>
-                </div>
+                        
                         
                 <!--ENDGAME-->
                 <div class="line" id="endgame">ㅤ</div>
 
                 <span>Stage Position</span>
-                <div class="canvas-container">
-                    <canvas id="endgame-canvas"></canvas>
-                </div>
 
                 <div class="input-container">
                     <span>Robot Endgame</span>
                     <div class="radio-button-container">
-                        <input type="radio" id="not-parked" name="not-parked" value="not-parked">
+                        <input type="radio" id="not-parked" name="robot-endgame" value="not-parked">
                         <label for="not-parked">Robot Not Parked</label>
                         <br>
-                        <input type="radio" id="parked" name="parked" value="parked">
+                        <input type="radio" id="parked" name="robot-endgame" value="parked">
                         <label for="parked">Robot Parked</label>
                         <br>
-                        <input type="radio" id="shallow-climb" name="shallow-climb" value="on-stage">
-                        <label for="on-stage">Robot Shallow Climb</label>
+                        <input type="radio" id="shallow-climb" name="robot-endgame" value="shallow-climb">
+                        <label for="shallow-climb">Robot Shallow Climb</label>
                         <br>
-                        <input type="radio" id="deep-climb" name="deep-climb" value="harmony">
-                        <label for="harmony">Robot Deep Climb</label>
+                        <input type="radio" id="deep-climb" name="robot-endgame" value="deep-climb">
+                        <label for="deep-climb">Robot Deep Climb</label>
                         <br>
-                        <input type="radio" id="failed-climb" name="failed-climb" value="harmony">
-                        <label for="harmharmonyony">Robot Deep Climb</label>
+                        <input type="radio" id="failed-climb" name="robot-endgame" value="failed-climb">
+                        <label for="failed-climb">Robot Failed Climb</label>
                         <br>
                     </div>
                 </div>
+
+                <div class="input-container">
+                    <span>Climb Position</span>
+                    <div class="radio-button-container">
+                        <input type="radio" id="outer-position" name="climb-position" value="outer-position">
+                        <label for="outer-position">Outer (Towards Processor)</label>
+                        <br>
+                        <input type="radio" id="middle-position" name="climb-position" value="middle-position">
+                        <label for="middle-position">Middle</label>
+                        <br>
+                        <input type="radio" id="inner-position" name="climb-position" value="inner-position">
+                        <label for="inner-position">Inner (Away From Processor)</label>
+                        <br>
+                        <input type="radio" id="no-position" name="climb-position" value="no-position">
+                        <label for="no-position">Not Applicable</label>
+                        <br>
+                    </div>
+                </div>
+                
                 
                 <div class="input-container">
                     <span>Teleop + Endgame - Fouls</span>
@@ -252,9 +245,49 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="input-container">
+                    <span>Robot plays defense</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">x</button>
+                        <input name="plays-defense">
+                        <button type="button" class="big-button">
+                            <img src="../static/images/checkmark.png" id="button-checkmark">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <span>robot has coral ground pickup</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">x</button>
+                        <input name="coral-ground-pickup">
+                        <button type="button" class="big-button">
+                            <img src="../static/images/checkmark.png" id="button-checkmark">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <span>robot has algae ground pickup</span>
+                    <div class="NumberButtonContainer">
+                        <button type="button" class="big-button">x</button>
+                        <input name="algae-ground-pickup">
+                        <button type="button" class="big-button">
+                            <img src="../static/images/checkmark.png" id="button-checkmark">
+                        </button>
+                    </div>
+                </div>
                 
+                <div class="input-container">
+                    <span>Comments</span>
+                    <div id="comments-container">
+                        <textarea rows="5" cols="33"></textarea>
+                    </div>
+                </div>
             </div>
-            
+
+
             <button type="submit" id="data-submit" class="big-button">Save</button>
 
         </form>

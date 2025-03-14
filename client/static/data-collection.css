@@ -63,7 +63,7 @@ canvas {
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
     height: 92%;
     overflow: scroll;
     background-color: #FFF;
@@ -381,6 +381,7 @@ canvas {
     background-color: #3492EA;
     border: 0;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .NumberButtonContainer > .big-button {
@@ -400,7 +401,6 @@ canvas {
     display: flex;
     flex-direction: row;
     margin-top: 0.8vh;
-    margin-left: 1vw;
 }
 
 #data-submit {
@@ -434,6 +434,12 @@ canvas {
     transition: all .1s ease-in-out;
 }
 
+#comments-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #comments-container textarea {
     width: 77vw;
     border-radius: 5px;
@@ -451,7 +457,7 @@ canvas {
 
 
 
-.responsive-table {
+#responsive-table {
     table {
         width: 80vw;
         border-spacing: 0;
@@ -500,28 +506,68 @@ canvas {
         background-color: #e38484 !important;
     }
 
-    #trash {
-        position: absolute;
-        visibility: hidden;
-        bottom: 0;
-        width: 30vw !important;
-        height: auto !important;
-        opacity: 0.5;
-        bottom: 0;
-        right: 8vh;
-
-    }
-
-    #trash.show {
-        visibility: visible;
-    }
-
-    #trash.hover {
-        /*filter: hue*/
-    }
-
-
     .fa-bars{
         cursor: move;
     } 
+}
+
+
+#trash {
+    position: absolute;
+    visibility: hidden;
+    bottom: 0;
+    left: 0;
+    width: 100vw !important;
+    height: 20vh !important;
+    background: linear-gradient(#e6646500, #e66465ff);
+    right: 8vh;
+    z-index: 75;
+
+}
+
+#trash.show {
+    visibility: visible;
+}
+
+#trash.hover {
+    /*filter: hue*/  
+}
+
+.canvas-scoring-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+}
+
+.canvas-scoring-container .canvas-container {
+    width: 95.5%;
+}
+
+@media (min-aspect-ratio: 7/8) {
+    .canvas-scoring-container {
+        flex-direction: row;
+        align-content: space-between;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #sortable {
+        width: 35vw !important;
+        margin-left: 5%;
+    }
+
+    #responsive-table {
+        margin-top: 2.2vh;
+        height: 40vh;
+        overflow-y: auto;
+        width: 100vw;
+    }
+
+
+    .canvas-scoring-container .canvas-container {
+        width: 90% !important;
+    }
+
 }

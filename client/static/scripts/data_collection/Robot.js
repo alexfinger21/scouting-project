@@ -7,7 +7,7 @@ export default class Robot extends DrawableObject {
     y: pixels from top
     */
    
-    constructor({ctx, clickable, img, containerImg, value, draggable, isSelected, canvasSize, pos}) {
+    constructor({ctx, clickable, img, renderQueue, allianceColor, containerImg, value, draggable, isSelected, canvasSize, pos}) {
         let x = 0
         let y = 0
         let r = 0
@@ -21,7 +21,7 @@ export default class Robot extends DrawableObject {
         }
 
 
-        super({ctx, img, x, y, r, sX, sY})
+        super({ctx, img, renderQueue, x, y, r, sX, sY})
         
         this.draggable = draggable ?? false
         this.isSelected = clickable ? (isSelected ?? false) : true
@@ -29,16 +29,21 @@ export default class Robot extends DrawableObject {
 
         if (this.draggable) {
             this.dragOffset = [0, 0]
-            this.dragLimits = {y: [pos.y, Math.floor(this.dragLimHeight - sX*0.14)]}
+            this.dragLimits = {y: [pos.y, Math.floor(this.dragLimHeight - sX*(allianceColor == "B" ? 0.14 : 0.56))]}
         }
 
         this.clickable = clickable ?? false 
         
         this.value = value ?? 0
 
+        if (this.draggable && this.value) {
+            consoleLog("VALUE: ", this.y)
+            this.y = this.dragLimits.y[0] + this.value * (this.dragLimits.y[1] - this.dragLimits.y[0])
+            consoleLog(this.y)
+        }
 
         if(this.clickable) {
-            this.mask = new DrawableObject({ctx, img: containerImg, x, y: y - canvasSize.y * 0.005, r: 90, sX, sY: this.dragLimHeight})
+            this.mask = new DrawableObject({ctx, renderQueue, img: containerImg, x, y: y - canvasSize.y * 0.005, r: 90, sX, sY: this.dragLimHeight})
         }
     }
 
@@ -81,6 +86,10 @@ export default class Robot extends DrawableObject {
             const p = Math.round((this.y-this.dragLimits.y[0])/(this.dragLimits.y[1] - this.dragLimits.y[0]) * 100)/100
             return p
         }
+    }
+
+    sendData() {
+        return {"Starting Position": this.getRobotPosition()}
     }
 
 

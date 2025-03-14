@@ -1,0 +1,1 @@
+//this class will make everything behind the coral screen darker

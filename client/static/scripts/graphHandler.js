@@ -51,18 +51,23 @@ function createTooltip(context) {
 
     // Set Text
     if (tooltipModel.body) {
+        const gs = Number(data.gameScore) > 0 ? Number(data.gameScore) : 1
         let titleLines = tooltipModel.title || []
+        const coralScore = Number(data.coralScore) / gs
+        const algaeScore = (Number(data.algaeScore)) / gs
+
         let bodyLines = {
             "Game Score": data.gameScore,
+            "Games Played": data.gamesPlayed,
             "Rank": data.rank,
             "OPR": data.opr,
             "Teleop Score": data.teleopScore,
-            "Auton Notes": data.autonNotes,
-            "Games Played": data.gamesPlayed,
-            "Auton Scored": data.autonNotes,
-            "Auton Amp": data.autonAmp,
-            "Auton Speaker": data.autonSpeaker,
-            "Auton Pickup": data.autonPickup,
+            "Auton Score": data.autonScore,
+            "Endgame Score": data.endgameScore,
+            "Can Dislodge": data.dislodgeTotal > 1,
+            "Coral % of Score": coralScore.toFixed(1),
+            "Algae % of Score": algaeScore.toFixed(1),
+            "Coral Accuracy": data.autonAccuracy * 100 + "% (a) " + data.teleopAccuracy * 100 + "% (t)"
         }
 
         let innerHtml = '<thead>'
@@ -125,28 +130,49 @@ function createTooltip(context) {
         }
     }
 }
-
 function writeDataLists(points) {
+    consoleLog("POINTS");
+    consoleLog(points);
+    
     return {
         teamNumber: points.map(p => p.teamNumber),
         teamName: points.map(p => p.teamName),
-        rank: points.map(p => p.rank),
+        rank: points.map(p => p.rank ?? 0),
         gamesPlayed: points.map(p => p.gamesPlayed),
         gameScore: points.map(p => p.gameScore.toFixed(1)),
         opr: points.map(p => p.opr.toFixed(1)),
-        teleopScore: points.map(p => p.teleopScore.toFixed(1)),
-        autonNotes: points.map(p => p.autonNotes.toFixed(1)),
-        autonAmp: points.map(p => p.autonAmp.toFixed(1)),
-        autonSpeaker: points.map(p => p.autonSpeaker.toFixed(1)),
-        autonPickup: points.map(p => p.autonPickup.toFixed(1)),
-        autonUnused: points.map(p => p.autonUnused.toFixed(1)),
+        dpr: points.map(p => p.dpr.toFixed(1)),
+        autonProcessor: points.map(p => p.autonProcessor.toFixed(1)),
+        autonNet: points.map(p => p.autonNet.toFixed(1)),
+        autonDislodge: points.map(p => p.autonDislodge.toFixed(1)),
+        autonCoral: points.map(p => p.autonCoral.toFixed(1)),
+        autonL1: points.map(p => p.autonL1.toFixed(1)),
+        autonL2: points.map(p => p.autonL2.toFixed(1)),
+        autonL3: points.map(p => p.autonL3.toFixed(1)),
+        autonL4: points.map(p => p.autonL4.toFixed(1)),
+        autonAccuracy: points.map(p => p.autonAccuracy.toFixed(2)),
         autonScore: points.map(p => p.autonScore.toFixed(1)),
-        teleopSpeakerAmped: points.map(p => p.teleopSpeakerAmped.toFixed(1)),
-        teleopSpeaker: points.map(p => p.teleopSpeaker.toFixed(1)),
-        teleopAmp: points.map(p => p.teleopAmp.toFixed(1)),
-        onstage: points.map(p => p.onstage.toFixed(1)),
-    }
+        teleopScore: points.map(p => p.teleopScore.toFixed(1)),
+        teleopProcessor: points.map(p => p.teleopProcessor.toFixed(1)),
+        teleopNet: points.map(p => p.teleopNet.toFixed(1)),
+        teleopCoral: points.map(p => p.teleopCoral.toFixed(1)),
+        teleopHPAccuracy: points.map(p => p.teleopHPAccuracy.toFixed(2)),
+        teleopL1: points.map(p => p.teleopL1.toFixed(1)),
+        teleopL2: points.map(p => p.teleopL2.toFixed(1)),
+        teleopL3: points.map(p => p.teleopL3.toFixed(1)),
+        teleopL4: points.map(p => p.teleopL4.toFixed(1)),
+        teleopAccuracy: points.map(p => p.teleopAccuracy.toFixed(2)),
+        endgameScore: points.map(p => p.endgameScore.toFixed(1)),
+        dislodgeTotal: points.map(p => p.dislodgeTotal.toFixed(1)),
+        foulPoints: points.map(p => p.foulPoints.toFixed(1)),
+        coralScore: points.map(p => p.coralScore),
+        algaeScore: points.map(p => p.algaeScore),
+        x: points.map(p => p.x),
+        y: points.map(p => p.y.toFixed(1)),
+        color: points.map(p => p.color)
+    };
 }
+
 
 function writeData(points) {
     consoleLog("From write data:")
@@ -168,10 +194,10 @@ function writeData(points) {
 async function getTeamData(team, records, existingColors) {
     return new Promise((resolve, reject) => {
         consoleLog("team is", team)
-        consoleLog(team.autonNotes / records.autonNotes,)
         getTeamColor(team.teamNumber.toString(), team.teamName, existingColors).then((color) => {
             consoleLog(team.teamNumber, "-", color)
             existingColors.push(color)
+            consoleLog("TEAM DATA: ", team)
             return resolve({
                 label: team.teamNumber,
                 hidden: team.hidden,
@@ -181,7 +207,7 @@ async function getTeamData(team, records, existingColors) {
                     team.dpr / records.dpr,
                     team.gameScore / records.gameScore,
                     team.teleopScore / records.teleopScore,
-                    team.autonNotes / records.autonNotes,
+                    team.autonScore / records.autonScore,
                     team.endgameScore / records.endgameScore,
                 ],
                 fill: true,
@@ -204,7 +230,7 @@ async function writeSpiderData(points) {
     const records = {
         gamesPlayed: Math.max(...points.map(p => p.gamesPlayed)),
         gameScore: Math.max(...points.map(p => p.gameScore)),
-        autonNotes: Math.max(...points.map(p => p.autonSpeaker + p.autonAmp)),
+        autonScore: Math.max(...points.map(p => p.autonScore)),
         teleopScore: Math.max(...points.map(p => p.teleopScore)),
         endgameScore: Math.max(...points.map(p => p.endgameScore)),
         //rank: Math.max(...points.map(p => Math.round(p.rank))),
@@ -221,7 +247,7 @@ async function writeSpiderData(points) {
 
     const res = {
         labels: [
-            "OPR", "DPR", "Game Score", "Teleop Score", "Auton Notes", "Endgame Score"
+            "OPR", "DPR", "Game Score", "Teleop Score", "Auton Score", "Endgame Score"
         ],
         datasets: (await Promise.all(data)).sort((a, b) => a.label - b.label)
     }
@@ -254,6 +280,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                         }
                     },
                     position: 'bottom',
+                    beginAtZero: true,
                 },
                 y: {
                     ticks: {
@@ -269,6 +296,7 @@ function createScatterChart(points, xAxisTitle, yAxisTitle) {
                         }
                     },
                     position: 'left',
+                    beginAtZero: true,
                 },
                 
             },
@@ -338,7 +366,7 @@ function createBarGraph(points, orderBy) {
         gameScore: points.map(p => Math.round(p.gameScore)),
         opr: points.map(p => Math.round(p.opr)),
         teleopScore: points.map(p => Math.round(p.teleopScore)),
-        autonNotes: points.map(p => Math.round(p.autonNotes)),
+        autonScore: points.map(p => Math.round(p.autonScore)),
         labels: points.map(p => p.teamNumber),})
     consoleLog("TYPE B", writeDataLists(points))
 
@@ -480,7 +508,7 @@ function createBarGraph(points, orderBy) {
     }
 }
 
-function createStackedBarGraph(points, orderBy, scoring) {
+function createStackedBarGraph(points, orderBy, scoring, backgroundColor) {
     points = points.sort( (a, b) => b[scoring] - a[scoring])
     let max = Math.max(...points.map((p) => {
         let sum = 0
@@ -498,7 +526,7 @@ function createStackedBarGraph(points, orderBy, scoring) {
             datasets: orderBy.map((category, index) => ({
                 label: category,
                 data: points.map(p => p[category] ? p[category].toFixed(2) : 0),
-                backgroundColor: ["rgb(75,192,192)", "rgb(255,99,132)", "rgb(54,162,235)"][index],
+                backgroundColor: backgroundColor ? backgroundColor[index] : ["rgb(75,192,192)", "rgb(255,99,132)", "rgb(54,162,235)" ][index],
                 borderColor: points.map(p => p.color),
                 borderWidth: 5
             })),
@@ -585,7 +613,7 @@ function createStackedBarGraph(points, orderBy, scoring) {
                     },
                     formatter: function(value, context) {
                         if(context.datasetIndex == orderBy.length - 1) {
-                            consoleLog(scoring, "in", context.chart.data)
+                            //consoleLog(scoring, "in", context.chart.data)
                             return context.chart.data[scoring][context.dataIndex];
                         }
                         return ''
@@ -658,7 +686,8 @@ async function createSpiderChart(points, showLegend=true) {
                         font: {
                             size: 10 * CHART_SIZE_CONST,
                         }
-                    }
+                    },
+                    beginAtZero: true,
                 },
                 x: {
                     grid: {

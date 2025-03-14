@@ -1,9 +1,9 @@
-import { consoleLog } from "../utility.js"
+import { consoleLog, insideTriangle } from "../utility.js"
 
 export default class DrawableObject {
-    constructor({ctx, x, y, sX, sY, r, img, text, visible = true}) {
+    constructor({ctx, x, y, sX, sY, r, img, text, textSize, renderQueue, radius, visible = true, zIndex = 0, opacity=1, points}) {
         this.dpr = window.devicePixelRatio
-        // dpr necessary to increase render resolution
+        // dpr to increase render resolution
 
         this.x = x 
         this.y = y
@@ -13,13 +13,25 @@ export default class DrawableObject {
 
         this.img = img        
         this.ctx = ctx
+        this.zIndex = zIndex
+        this.textSize = textSize
+        this.opacity = opacity
 
         if (text) {
             this.text = text
         }
 
+        if (radius) {
+            this.radius = radius
+        }
+
+        if(points) {
+            this.points = points
+        }
+
+        this.renderQueue = renderQueue
         this.visible = visible
-        this.r = (r ?? 91) * Math.PI / 180
+        this.r = (r ?? 90) * Math.PI / 180
         this.prevTick = Date.now()
 
     }
@@ -38,6 +50,18 @@ export default class DrawableObject {
         return false
     }
 
+    inBoundingRadius({x, y}) {
+        if (this.radius) {
+            const rad = Math.sqrt(Math.pow((y - this.y-this.radius), 2) + Math.pow((x - this.x-this.radius), 2))
+            
+            return rad <= this.radius
+        }
+    }
+
+    inBoundingTriangle({x, y}) {
+        return insideTriangle(this.points[0].x, this.points[0].y, this.points[1].x, this.points[1].y, this.points[2].x, this.points[2].y, x*this.dpr, y*this.dpr,)
+    }
+
     rotate() {
         const a = this.r 
         //rotate code
@@ -45,37 +69,67 @@ export default class DrawableObject {
         const y = Math.sin(a) * 1/2 * this.sY*this.dpr + Math.sin(Math.PI/2 - a) * 1/2 * this.sX*this.dpr
 
         if (a == Math.PI/4) {
-            consoleLog(x, y)
+            //consoleLog(x, y)
         }
         this.ctx.translate(x, -y)
         this.ctx.rotate(-a + Math.PI/2) //add rotation
     }
 
     draw() {
+        this.renderQueue.insert(this)
+    }
+
+    render() {
         if (this.visible) {
             this.ctx.save()
-            this.ctx.globalAlpha = this.opacity ?? 1
+            this.ctx.globalAlpha = this.opacity
             //drawImage(image, dx, dy, dWidth, dHeight)
             //drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
 
             //move here, so rotation doesnt affect x and y
-
-            this.ctx.translate((this.x+this.sX/2)*this.dpr, (this.y+this.sY/2)*this.dpr)
-
-            if (this.img == "circle") {
-                this.ctx.beginPath()
-                this.ctx.arc(0, 0, this.size/2, 0, 2 * Math.PI, false)
-                this.ctx.fillStyle = this.color
-                this.ctx.fill()
-                this.ctx.fill()
-                this.ctx.translate(-this.size/5, this.size/4)
-                this.ctx.fillStyle = "#FFFFFF"
-                this.ctx.font = "20px 'Rubik', sans-serif"
-                this.ctx.fillText(this.text, 0, 0)
-            } else {
-                this.rotate()
-                this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation
+            
+            this.ctx.translate((this.x+(this.sX ?? this.radius*2)/2)*this.dpr, (this.y+(this.sY ?? this.radius*2)/2)*this.dpr)
+            
+            switch(this.img) {
+                case "circle":
+                    this.ctx.beginPath()
+                    this.ctx.arc(0, 0, this.radius*this.dpr, 0, 2 * Math.PI, false)
+                    this.ctx.fillStyle = this.color
+                    this.ctx.fill()
+                    this.ctx.translate(0, this.radius*this.dpr/3)
+                    this.ctx.fillStyle = "#FFFFFF"
+                    this.ctx.textAlign = "center"
+                    this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
+                    this.ctx.fillText(this.text, 0, 0)
+                    break
+                case "rectangle":
+                    this.ctx.beginPath()
+                    this.ctx.rect(-this.sX/2*this.dpr, -this.sY/2*this.dpr, this.sX*this.dpr, this.sY*this.dpr)
+                    this.ctx.fillStyle = this.color
+                    this.ctx.fill()
+                    break
+                case "triangle":
+                    this.ctx.beginPath()
+                    this.ctx.fillStyle = this.color
+                    this.ctx.moveTo(this.points[0].x,this.points[0].y)
+                    this.ctx.lineTo(this.points[1].x,this.points[1].y)
+                    this.ctx.lineTo(this.points[2].x,this.points[2].y)
+                    this.ctx.fill()
+                    break
+                case "text":    
+                    this.ctx.fillStyle = this.color
+                    this.ctx.textAlign = "center"
+                    this.ctx.font = `${(this.textSize ?? 14)*this.dpr}px 'Rubik', sans-serif`
+                    this.ctx.fillText(this.text, 0, 0)
+                    break
+                case "none":
+                    break
+                default:
+                    this.rotate()
+                    this.ctx.drawImage(this.img, 0, 0, this.sX*this.dpr, this.sY*this.dpr) //do not use x and y here to support rotation
+                    break
             }
+
             this.ctx.restore()
         }
     }
