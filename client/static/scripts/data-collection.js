@@ -264,17 +264,17 @@ function loadData() {
         })
 
         autonCanvas.addEventListener("mousedown", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleMouse(event, AutonObject, AutonObject.onMouseDown)
         })
 
         autonCanvas.addEventListener("mousemove", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleMouse(event, AutonObject, AutonObject.onMouseMove)
         })
 
         autonCanvas.addEventListener("mouseup", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleMouse(event, AutonObject, AutonObject.onMouseUp)
         })
 
@@ -296,7 +296,7 @@ function loadData() {
         })
 
         teleopCanvas.addEventListener("click", (event) => {
-            event.preventDefault()
+            //event.preventDefault()
             handleMouse(event, TeleopObject, TeleopObject.onClick)
         })
 
