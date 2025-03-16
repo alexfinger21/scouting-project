@@ -21,7 +21,7 @@ export default class PiecesMap {
                 renderQueue, 
                 isSelected: false,
                 ge_key: 125,
-                text: String.fromCharCode(65+i),
+                text: String.fromCharCode(allianceColor == "B" ? 65+i : 76-i),
                 isBlue,
                 zIndex: 2,
                 canvasSize
