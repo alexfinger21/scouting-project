@@ -46,7 +46,7 @@
                             <th>T. Coral</th>
                             <th>T. Processor</th>
                             <th>T. Net</th>
-                            <th>Climb</th>
+                            <th>End Game</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,17 +70,29 @@
                                     <%= teamData[i].auton_total_score %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_notes_speaker_amped + teamData[i].teleop_notes_speaker_not_amped %>
+                                    <%= teamData[i].teleop_coral_scored %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_notes_amp %>
+                                    <%= teamData[i].teleop_algae_in_processor %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].endgame_onstage_points %>
+                                    <%= teamData[i].teleop_algae_in_net %>
                                 </td>
+                                
+
                                 <td>
-                                    <%= teamData[i].endgame_notes_trap %>
+                                    <% if (teamData[i].endgame_park) { %>
+                                        parked
+                                    <% } else if (teamData[i].endgame_shallow_climb) { %>
+                                        shallow climb
+                                    <% } else if (teamData[i].endgame_deep_climb) { %>
+                                        deep climb
+                                    <% } else { %>
+                                        none
+                                    <% } %>
                                 </td>
+                                       
+                               
                             </tr>
                         <% } %>
                     </tbody>
