@@ -65,10 +65,10 @@ export default class CoralScreen {
     sendData() {
         const res = {}
 
-        res["L4"] = this.clickAreas[0].sendData()
-        res["L3"] = this.clickAreas[1].sendData()
-        res["L2"] = this.clickAreas[2].sendData()
-        res["L1"] = this.clickAreas[3].sendData()
+        res["L4"] = this.clickAreas[3].sendData()
+        res["L3"] = this.clickAreas[2].sendData()
+        res["L2"] = this.clickAreas[1].sendData()
+        res["L1"] = this.clickAreas[0].sendData()
 
         return res
     }

@@ -3,7 +3,7 @@ const router = express.Router()
 const crypto = require("crypto")
 require('dotenv').config()
 const database = require("../database/database.js")
-const { consoleLog } = require("../utility")
+const { consoleLog, logoutMS } = require("../utility")
 //SQL 
 const SQL = require('sql-template-strings')
 
@@ -61,7 +61,6 @@ router.post("/", async function (req, res) {
 
     const success = await checkUser(body)
 
-
     if (success) { //successful login
 
         let [err, sessionResult] = await database.query(SQL`SELECT * from teamsixn_scouting_dev.user_master WHERE team_master_tm_number = ${body.team_number} and 
@@ -85,14 +84,14 @@ router.post("/", async function (req, res) {
 
         res.cookie("user_id", sessionId, {
             sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: logoutMS,
             // expires works the same as the maxAge
             httpOnly: true,
         })
 
         res.cookie("username", body.username, {
             sameSite: "lax",
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: logoutMS,
             // expires works the same as the maxAge
             httpOnly: true,
         })

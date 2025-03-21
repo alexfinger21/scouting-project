@@ -1,6 +1,7 @@
 const log = true
 const debugLog = false //shows where console logs came from
 const canvasFPS = 50
+let reqId = 0
 
 let currentPage = "/match-listing"
 
@@ -210,7 +211,7 @@ function arrHasDuplicates(arr) {
 }
 
 async function requestPage(url, data, pageVal) {
-    const oldCurrentPage = currentPage 
+    const reqIdOld = ++reqId
     consoleLog("\nURL: " + url)
     $.ajax({
         type: "GET",
@@ -218,18 +219,21 @@ async function requestPage(url, data, pageVal) {
         url: url,
         data: JSON.stringify(data),
         success: function(response) {
-            if (oldCurrentPage == currentPage) {
-                consoleLog(currentPage)
+            if (reqIdOld == reqId) {
+                consoleLog(response, "PAGE RES")
                 currentPage = pageVal ? pageVal : url
 
                 let temp
+
+                if (response["logout"]) {
+                    return window.location.replace("/login")
+                }
 
                 $(response).each(function() {
                 if ($(this).attr('id') == "page-holder") {
                     temp = $(this)
                 }
                 })
-                consoleLog(temp)
 
                 document.body.removeChild(document.getElementById("page-holder"))
 

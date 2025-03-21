@@ -170,9 +170,13 @@ function saveData(data, is7thScouter=false) {
         }
     } 
 
+    console.log("TELEOP:", teleopStr)
     for (let i = 0; i<12; ++i) {
         const char = String.fromCharCode(65+i)
         for (let j = 1; j<=4; ++j) {
+            if (data.gameData.teleop[char]["L" + j].scored > 0) {
+                console.log(`(${params}, 3, ${"3" + j + String(i+1).padStart(2, '0') + '0'}, ${data.gameData.teleop[char]["L" + j].scored}),`)
+            }
             teleopStr += `(${params}, 3, ${"3" + j + String(i+1).padStart(2, '0') + '0'}, ${data.gameData.teleop[char]["L" + j].missed}),`
             teleopStr += `(${params}, 3, ${"3" + j + String(i+1).padStart(2, '0') + '1'}, ${data.gameData.teleop[char]["L" + j].scored}),`
         }
