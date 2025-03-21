@@ -7,7 +7,7 @@ function arrAvg(...args) {
     return args.reduce((total, val) => total + val) / args.length
 }
 
-const logoutMS = 4 * 24 * 60 * 60 * 1000 
+const logoutMS = 7 * 24 * 60 * 60 * 1000 
 
 function consoleLog(...args) {
     if (log) {
