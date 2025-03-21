@@ -7,6 +7,8 @@ function arrAvg(...args) {
     return args.reduce((total, val) => total + val) / args.length
 }
 
+const logoutMS = 4 * 24 * 60 * 60 * 1000 
+
 function consoleLog(...args) {
     if (log) {
         console.log(...args)
@@ -54,4 +56,4 @@ function parseData(info) {
     return JSON.parse(JSON.stringify(info))
 }
 
-module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData }
+module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData, logoutMS }
