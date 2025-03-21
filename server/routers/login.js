@@ -61,7 +61,6 @@ router.post("/", async function (req, res) {
 
     const success = await checkUser(body)
 
-
     if (success) { //successful login
 
         let [err, sessionResult] = await database.query(SQL`SELECT * from teamsixn_scouting_dev.user_master WHERE team_master_tm_number = ${body.team_number} and 

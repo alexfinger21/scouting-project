@@ -143,8 +143,8 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
         } else {
             res.clearCookie('user_id');
             res.clearCookie('username');
-            consoleLog("redirect")
-            res.redirect("/login")
+            consoleLog("session timeout")
+            return res.json({"logout": true})
         }
     } else {
         consoleLog("next")
