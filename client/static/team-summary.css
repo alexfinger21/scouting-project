@@ -214,6 +214,13 @@ h1 {
     margin-left: 2vw;
 }
 
+#bar-graph-chart {
+    width: 100%;
+    height: 100%;
+}
+
+
+
 #update-graph {
     display: block;
     margin-left: auto;
@@ -223,8 +230,15 @@ h1 {
     transition: all .1s ease-in-out;
 }
 
-@media only screen and (min-aspect-ratio: .85) {
+@media only screen and (max-aspect-ratio: .85) {
     #graph-holder {
         height: 65vh;
+    }
+
+}
+
+@media only screen and (max-aspect-ratio: .85) {
+    #chart-area-wrapper {
+        height: 200vh !important;
     }
 }

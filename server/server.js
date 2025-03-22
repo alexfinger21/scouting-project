@@ -260,6 +260,12 @@ app.use((req, res, next) => {
     res.redirect("/app")
 })
 
+//local EJS functions
+app.locals.columnSummary = (...args) => {
+    let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
+    return ejs.render(t, ...args)
+}
+
 //PORT
 app.listen(3000) //goes to localhost 3000
 

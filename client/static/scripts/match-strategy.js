@@ -24,6 +24,16 @@ function sumParam(data, param) {
     return sum
 }
 
+function sumParams(data, ...params) {
+    let sum = 0
+    for (const t of data) {
+        for(const p of params) {
+            sum += t[p[0]] ? t[p[0]] * p[1] : 0
+        }
+    }
+    return sum
+}
+
 
 observer.observe(document.body, { subtree: false, childList: true });
 
@@ -65,7 +75,7 @@ async function main() {
                 gamesPlayed: sumParam(red, "nbr_games"),
                 gameScore: sumParam(red, "total_game_score_avg"),
                 teleopScore: sumParam(red, "teleop_total_score_avg"),
-                endgameScore: sumParam(red, "endgame_total_score_avg"),
+                endgameScore: sumParams(red, ["endgame_park_avg", 2], ["endgame_shallow_climb_avg", 6], ["endgame_deep_climb_avg", 12]),
                 rank: sumParam(red, "api_rank"),
                 opr: sumParam(red, "api_opr"),
                 dpr: sumParam(red, "api_dpr")
@@ -79,7 +89,7 @@ async function main() {
                 gamesPlayed: sumParam(blue, "nbr_games"),
                 gameScore: sumParam(blue, "total_game_score_avg"),
                 teleopScore: sumParam(blue, "teleop_total_score_avg"),
-                endgameScore: sumParam(blue, "endgame_total_score_avg"),
+                endgameScore: sumParams(blue, ["endgame_park_avg", 2], ["endgame_shallow_climb_avg", 6], ["endgame_deep_climb_avg", 12]),
                 rank: sumParam(blue, "api_rank"),
                 opr: sumParam(blue, "api_opr"),
                 dpr: sumParam(blue, "api_dpr")

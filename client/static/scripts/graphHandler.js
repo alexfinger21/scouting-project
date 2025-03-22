@@ -238,7 +238,7 @@ async function writeSpiderData(points) {
         dpr: Math.max(...points.map(p => p.dpr)),
     }
 
-    consoleLog("REC AUTON: ", records.autonNotes)
+    consoleLog("REC ENDGAME: ", records.endgameScore)
     
     for (let i = 0; i < points.length; i++) {
         const team = points[i]
@@ -398,7 +398,8 @@ function createBarGraph(points, orderBy) {
             }]
         },
         options: {
-            //maintainAspectRatio: false,
+            responsive: true,
+            maintainAspectRatio: false,
             events: ["click"],
             indexAxis: "y",
             scales: {

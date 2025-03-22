@@ -127,6 +127,7 @@ async function getPoints(x, y, color) {
                 y: val[y] ? val[y] : 0,
                 color: color
             })
+            consoleLog("END SCORE:", val.endgame_park_avg * 2 + val.endgame_shallow_climb_avg * 6 + val.endgame_deep_climb_avg * 12)
             ind++
         }
     }
@@ -191,9 +192,6 @@ async function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: none !important")
                 ctx = barGraphCanvas.getContext("2d")
-                barGraphCanvas.height = 900
-                barGraphCanvas.width = 1000
-                consoleLog("SET IT TO: ", chartAreaWrapper.clientWidth)
                 break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")

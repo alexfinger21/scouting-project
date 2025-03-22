@@ -111,13 +111,14 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].auton_total_score_avg + "- "
-                            + (matchup[i].auton_coral_scored_avg > 0 ? matchup[i].auton_coral_scored_avg + "c" : "")
-                            + (matchup[i].auton_algae_dislodge_avg > 0 ? ", " + matchup[i].auton_algae_dislodge_avg + "a.d": "")
-                            + (matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg > 0 ? 
-                                ", " + matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg + "a.s"
-                                : "")
-                            %>
+                            <%-columnSummary({
+                                header: matchup[i].auton_total_score_avg,
+                                list: [
+                                    [matchup[i].auton_coral_scored_avg, "c"],
+                                    [matchup[i].auton_algae_dislodge_avg, "d"],
+                                    [matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg, "a.s"],
+                                ]
+                            })%>
                         </td>
                     <% } %>
                 </tr>
@@ -133,12 +134,15 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].teleop_coral_scored_l1_avg * 2  + matchup[i].teleop_coral_scored_l1_avg * 3 + matchup[i].teleop_coral_scored_l3_avg * 4 + matchup[i].teleop_coral_scored_l4_avg * 5 + "- "
-                            + matchup[i].teleop_coral_scored_l1_avg + "/"
-                            + matchup[i].teleop_coral_scored_l2_avg + "/"
-                            + matchup[i].teleop_coral_scored_l3_avg + "/"
-                            + matchup[i].teleop_coral_scored_l4_avg
-                            %>
+                            <%-columnSummary({
+                                header: matchup[i].teleop_coral_scored_l1_avg * 2  + matchup[i].teleop_coral_scored_l1_avg * 3 + matchup[i].teleop_coral_scored_l3_avg * 4 + matchup[i].teleop_coral_scored_l4_avg * 5 ,
+                                list: [
+                                    [matchup[i].teleop_coral_scored_l1_avg,""],
+                                    [matchup[i].teleop_coral_scored_l2_avg, ""],
+                                    [matchup[i].teleop_coral_scored_l3_avg, ""],
+                                    [matchup[i].teleop_coral_scored_l4_avg, ""],
+                                ]
+                            })%>
                         </td>
                     <% } %>
                 </tr>
@@ -154,10 +158,14 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%=matchup[i].teleop_algae_in_processor_avg * 2 + matchup[i].teleop_algae_in_net_avg * 4
-                            + (matchup[i].teleop_algae_in_processor_avg > 0 ? "- " + matchup[i].teleop_algae_in_processor_avg + "p" : "")
-                            + (matchup[i].teleop_algae_in_net_avg > 0 ? ", " + matchup[i].teleop_algae_in_net_avg + "n": "")
-                            %>
+                            <%-columnSummary({
+                                header: matchup[i].teleop_algae_in_processor_avg * 2 + matchup[i].teleop_algae_in_net_avg * 4,
+                                list: [
+                                    [matchup[i].teleop_algae_in_processor_avg, "p"],
+                                    [matchup[i].auton_algae_dislodge_avg, "d"],
+                                    [matchup[i].teleop_algae_in_net_avg, "n"],
+                                ]
+                            })%>
                         </td>
                     <% } %>
                 </tr>
@@ -167,7 +175,7 @@
                     <td>
                         <button class="help-button">?
                             <div class="help-box">
-                                <p>#Successful climbs for Park/Shallow/Deep Climb</p>
+                                <p>Avg Score- #Successful climbs for Park/Shallow/Deep</p>
                             </div>
                         </button>
                         <p>Endgame</p>
@@ -175,7 +183,16 @@
                     <% for(let i = 0; i < 3; i++) { %>
                         <td class= <%= matchup[i].team_master_tm_number%>
                             <p>
-                                <%=matchup[i].endgame_park_avg + "/" + matchup[i].endgame_shallow_climb_avg + "/" + matchup[i].endgame_deep_climb_avg%>
+                                <%-columnSummary({
+                                    header: matchup[i].endgame_park_avg*2 + matchup[i].endgame_shallow_climb_avg*6 + matchup[i].endgame_deep_climb_avg*12,
+                                    list: [
+                                        [matchup[i].endgame_park_sum, ""],
+                                        [matchup[i].endgame_shallow_climb_sum, ""],
+                                        [matchup[i].endgame_deep_climb_sum, ""],
+                                    ],
+                                    alwaysShow: true
+                                })%>
+                                
                             </p>
                         </td>
                     <% } %>
@@ -299,13 +316,14 @@
                     <% for(let i = 3; i < 6; i++) { %>
 
                         <td >
-                            <%=matchup[i].auton_total_score_avg + "- "
-                            + (matchup[i].auton_coral_scored_avg > 0 ? matchup[i].auton_coral_scored_avg + "c" : "")
-                            + (matchup[i].auton_algae_dislodge_avg > 0 ? ", " + matchup[i].auton_algae_dislodge_avg + "a.d": "")
-                            + (matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg > 0 ? 
-                                ", " + matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg + "a.s"
-                                : "")
-                            %>
+                            <%-columnSummary({
+                                header: matchup[i].auton_total_score_avg,
+                                list: [
+                                    [matchup[i].auton_coral_scored_avg, "c"],
+                                    [matchup[i].auton_algae_dislodge_avg, "d"],
+                                    [matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg, "a.s"],
+                                ]
+                            })%>
                         </td>
                     <% } %>
                 </tr>
@@ -322,12 +340,15 @@
                     <% for(let i = 3; i < 6; i++) { %>
 
                         <td >
-                            <%=matchup[i].teleop_coral_scored_l1_avg * 2  + matchup[i].teleop_coral_scored_l1_avg * 3 + matchup[i].teleop_coral_scored_l3_avg * 4 + matchup[i].teleop_coral_scored_l4_avg * 5 + "- "
-                            + matchup[i].teleop_coral_scored_l1_avg + "/"
-                            + matchup[i].teleop_coral_scored_l2_avg + "/"
-                            + matchup[i].teleop_coral_scored_l3_avg + "/"
-                            + matchup[i].teleop_coral_scored_l4_avg
-                            %>
+                            <%-columnSummary({
+                                header: matchup[i].teleop_coral_scored_l1_avg * 2  + matchup[i].teleop_coral_scored_l1_avg * 3 + matchup[i].teleop_coral_scored_l3_avg * 4 + matchup[i].teleop_coral_scored_l4_avg * 5 ,
+                                list: [
+                                    [matchup[i].teleop_coral_scored_l1_avg,""],
+                                    [matchup[i].teleop_coral_scored_l2_avg, ""],
+                                    [matchup[i].teleop_coral_scored_l3_avg, ""],
+                                    [matchup[i].teleop_coral_scored_l4_avg, ""],
+                                ]
+                            })%>
                         </td>
                     <% } %>
                 </tr>
@@ -344,10 +365,14 @@
                     <% for(let i = 3; i < 6; i++) { %>
 
                         <td >
-                            <%=matchup[i].teleop_algae_in_processor_avg * 2 + matchup[i].teleop_algae_in_net_avg * 4
-                            + (matchup[i].teleop_algae_in_processor_avg > 0 ? "- " + matchup[i].teleop_algae_in_processor_avg + "p" : "")
-                            + (matchup[i].teleop_algae_in_net_avg > 0 ? ", " + matchup[i].teleop_algae_in_net_avg + "n": "")
-                            %>
+                            <%-columnSummary({
+                                header: matchup[i].teleop_algae_in_processor_avg * 2 + matchup[i].teleop_algae_in_net_avg * 4,
+                                list: [
+                                    [matchup[i].teleop_algae_in_processor_avg, "p"],
+                                    [matchup[i].auton_algae_dislodge_avg, "d"],
+                                    [matchup[i].teleop_algae_in_net_avg, "n"],
+                                ]
+                            })%>
                         </td>
                     <% } %>
                 </tr>
@@ -357,7 +382,7 @@
                     <td>
                         <button class="help-button">?
                             <div class="help-box">
-                                <p>#Successful climbs for Park/Shallow/Deep Climb</p>
+                                <p>Avg Score- #Successful climbs for Park/Shallow/Deep</p>
                             </div>
                         </button>
                         <p>Endgame</p>
@@ -365,9 +390,15 @@
                     <% for(let i = 3; i < 6; i++) { %>
 
                         <td class= <%= matchup[i].team_master_tm_number%>
-                            <p>
-                                <%=matchup[i].endgame_park_avg + "/" + matchup[i].endgame_shallow_climb_avg + "/" + matchup[i].endgame_deep_climb_avg%>
-                            </p>
+                            <%-columnSummary({
+                                header: matchup[i].endgame_park_avg*2 + matchup[i].endgame_shallow_climb_avg*6 + matchup[i].endgame_deep_climb_avg*12,
+                                list: [
+                                    [matchup[i].endgame_park_sum, ""],
+                                    [matchup[i].endgame_shallow_climb_sum, ""],
+                                    [matchup[i].endgame_deep_climb_sum, ""],
+                                ],
+                                alwaysShow: true
+                            })%>
                         </td>
                     <% } %>
                 </tr>
