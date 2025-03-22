@@ -139,6 +139,14 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
             splitResult = [result.um_session_id]
         }
         if (splitResult.indexOf(req.cookies["user_id"]) != -1) {
+            const userAgent = req.headers["user-agent"] || ""
+            res.locals.isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent) //pass in if mobile browser to EJS
+
+//local EJS functions
+res.locals.columnSummary = (...args) => {
+    let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
+    return ejs.render(t, ...args)
+}
             next() //goes to the next middleware function (login or data collection)
         } else {
             res.clearCookie('user_id');
@@ -260,11 +268,6 @@ app.use((req, res, next) => {
     res.redirect("/app")
 })
 
-//local EJS functions
-app.locals.columnSummary = (...args) => {
-    let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
-    return ejs.render(t, ...args)
-}
 
 //PORT
 app.listen(3000) //goes to localhost 3000

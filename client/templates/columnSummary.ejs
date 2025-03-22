@@ -5,10 +5,10 @@ for(const p of list) {
         arr.push((p[0] % 1 === 0 ? p[0] : p[0].toFixed(1)) + p[1])
     }
 }
+
 %>
 
 <b>
     <%=(header % 1 === 0 ? header : header.toFixed(1)) + (arr.length > 0 ? "- " : "")%>
 </b>
 <%=arr.length > 0 ? arr.join("/") : ""%>
-%>
