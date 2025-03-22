@@ -220,7 +220,6 @@ async function requestPage(url, data, pageVal) {
         data: JSON.stringify(data),
         success: function(response) {
             if (reqIdOld == reqId) {
-                consoleLog(response, "PAGE RES")
                 currentPage = pageVal ? pageVal : url
 
                 let temp

@@ -9,6 +9,7 @@ import AlgaeMap from "./AlgaeMap.js"
 import Net from "./Net.js"
 import FeederStation from "./FeederStation.js"
 import Processor from "./Processor.js"
+import Path from "./Path.js"
 
 const helpText = `1. Drag robot approx. start pos
 2. Click on reef to select where and which level piece was scored
@@ -47,12 +48,13 @@ export default class Auton {
         const isBlue = allianceColor == "B"
         this.ctx = ctx
         this.images = images
-        this.renderQueue = new RenderQueue({ctx: this.ctx, canvasSize: this.canvasSize, dpr: this.dpr})
+        this.renderQueue = new RenderQueue({ctx, canvasSize: this.canvasSize, dpr: this.dpr})
         this.map = new Map({ctx, renderQueue: this.renderQueue, allianceColor, img: images.mapImage, canvasSize: this.canvasSize})
+        this.path = new Path({ ctx, path: {}, renderQueue: this.renderQueue, canvasSize: this.canvasSize })
         this.clickable = {}
         this.clickable.robots = new RobotMap({ctx, renderQueue: this.renderQueue, allianceColor, images, robotStartingPercent: data?.["Starting Location"], canvasSize: this.canvasSize})
         this.clickable.pieces = new PiecesMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, img: "circle", canvasSize: this.canvasSize})
-        this.clickable.algae =  new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, data: data?.algae, canvasSize: this.canvasSize})
+        this.clickable.algae = new AlgaeMap({ctx, isAuton: true, renderQueue: this.renderQueue, allianceColor, images: images, data: data?.algae, canvasSize: this.canvasSize})
 
         this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, allianceColor, count: data?.auton?.net?.count, canvasSize: this.canvasSize,
             x: isBlue ? this.canvasSize.x * 0.05 : this.canvasSize.x * 0.85,
@@ -361,8 +363,40 @@ export default class Auton {
         return res
     }
 
+    #constructPosPath() {
+        const path = Array.from(this.table.children[1].children).slice(1).map(tr => {
+            const step = Number(tr.getAttribute("ge_key"))
+            if (step > 21000 && step < 30000) {
+                const ltr = get_letter(step)
+                const ret = this.clickable.pieces.pieces.find(e => e.text == ltr)
+                return {x: ret.x + ret.radius, y: ret.y + ret.radius}
+            } else if (step == 2004) {
+                const ret = this.clickable.processor
+                return {x: ret.x + ret.sX/2, y: ret.y + ret.sY/2}
+            } else if (step == 2005) {
+                const ret = this.clickable.net
+                return {x: ret.x + ret.sX/2, y: ret.y + ret.sY/2}
+            } else if (step == 2006) {
+                const ret = this.clickable.feederTop
+                return {x: (ret.points[0].x + ret.points[2].x)/2/this.dpr, y: (ret.points[0].y + ret.points[2].y)/2/this.dpr}
+            } else if (step == 2007) {
+                const ret = this.clickable.feederBottom
+                return {x: (ret.points[0].x + ret.points[2].x)/2/this.dpr, y: (ret.points[0].y + ret.points[2].y)/2/this.dpr}
+            } else if (step >= 2008 && step <= 2013) {
+                const ret = this.clickable.algae.algae.find(e => e.ge_key == step)
+                return {x: ret.x + ret.sX/2, y: ret.y + ret.sY/2}
+            }
+        })
+
+        path.unshift({x: this.clickable.robots.startPositions[0].x, y: this.clickable.robots.startPositions[0].y})
+        return path
+
+    }
+
     draw() {
         this.map.draw()
+        this.path.path = this.#constructPosPath()
+        this.path.draw()
         this.clickable.robots.draw()
         this.clickable.pieces.draw()
         this.clickable.algae.draw()
