@@ -182,6 +182,7 @@ async function main() {
                 barGraphCanvas.setAttribute("style", "display: none !important")
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: none !important")
+                scatterPlotCanvas.parentElement.style.height = "100%"
                 ctx = scatterPlotCanvas.getContext("2d")
                 break
             case "bar":
@@ -192,6 +193,9 @@ async function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: none !important")
                 ctx = barGraphCanvas.getContext("2d")
+                const height = `${Math.round(points.length * 35)}px` //adjust height based on data
+                barGraphCanvas.parentElement.style.height = height
+                barGraphCanvas.style.height=height
                 break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -200,7 +204,7 @@ async function main() {
                 barGraphCanvas.setAttribute("style", "display: none !important")
                 spiderCanvas.removeAttribute("hidden")
                 spiderCanvas.removeAttribute("style")
-                console.trace()
+                spiderCanvas.parentElement.style.height = "100%"
                 ctx = spiderCanvas.getContext("2d")
                 break
         }

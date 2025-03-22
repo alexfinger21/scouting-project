@@ -565,6 +565,18 @@ canvas {
         width: 100vw;
     }
 
+    #match-number-form {
+        height: 100%;
+    }
+
+    #page-holder {
+        height: 85vh !important
+    }
+
+    #input-scroller {
+        height: 55vh
+    }
+
 
     .canvas-scoring-container .canvas-container {
         width: 90% !important;

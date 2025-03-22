@@ -513,11 +513,11 @@ async function getChartData() {
     return SQL`
     SELECT *
         FROM
-    teamsixn_scouting_dev.v_match_summary_api vmsa
+    teamsixn_scouting_dev.tmp_match_strategy
     WHERE
-    vmsa.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-    vmsa.competition_master_cm_event_code = ${gameConstants.COMP} AND
-    ( vmsa.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} or vmsa.game_matchup_gm_game_type IS NULL);
+    frc_season_master_sm_year = ${gameConstants.YEAR} AND
+    competition_master_cm_event_code = ${gameConstants.COMP} AND
+    ( game_matchup_gm_game_type = ${gameConstants.GAME_TYPE});
     `
 
 }

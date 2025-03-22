@@ -1,7 +1,7 @@
 import { selectRandom, getColor, consoleLog, requestPage, paths, deepMerge } from "./utility.js"
 import { darkenRGBString, getTeamColor } from "./teamColor.js"
 
-const CHART_SIZE_CONST = Math.max(screen.height/screen.width * 1.3, 1.2)
+const CHART_SIZE_CONST = 1.7
 
 function createTooltip(context) {
     consoleLog("context", context)
@@ -533,7 +533,8 @@ function createStackedBarGraph(points, orderBy, scoring, backgroundColor) {
             })),
         },
         options: {
-            //maintainAspectRatio: false,
+            maintainAspectRatio: false,
+            responsive: true,
             indexAxis: "y",
             events: ["click"],
             scales: {
@@ -636,6 +637,7 @@ async function createSpiderChart(points, showLegend=true) {
         data: await writeSpiderData(points),
         options: {
             maintainAspectRatio: false,
+            responsive: true,
             elements: {
                 line: {
                     borderWidth: 3,
