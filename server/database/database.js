@@ -419,6 +419,17 @@ function getGameNumbers(eventCode, gameNumber) {
     `
 }
 
+async function getScouter(gm_number, alliance_color,alliance_position){
+    SQL`SELECT DISTINCT gd_um_id from game_details gd where
+        (gd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
+        gd.competition_master_cm_event_code = "${gameConstants.COMP}" AND
+        gd.game_matchup_gm_game_type = "${gameConstants.GAME_TYPE}" AND
+        gd.game_matchup_gm_number = ${gm_number} AND
+        gd.game_matchup_gm_alliance = "${alliance_color}"
+        AND gd.game_matchup_gm_alliance_position = ${alliance_number}`
+        
+}
+
 function checkTempMatchStrategy() {
     return new Promise(async (res, rej) => {
         let [err1, checkCreated] = await executeQuery(SQL`SHOW TABLES LIKE 'tmp_match_strategy'`)
@@ -905,4 +916,5 @@ module.exports = {
     getTeamDetailsTeamData: getTeamDetailsTeamData,
     deleteMatchDataX: deleteMatchDataX,
     getScoutifyMatchData: getScoutifyMatchData,
+    getScouter:getScouter,
 }

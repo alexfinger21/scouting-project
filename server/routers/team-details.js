@@ -40,17 +40,27 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
     }
 
 
-    let [err2, results] = await database.query(SQL`SELECT 
-        * 
+    let [err2, results] = await database.query(SQL`SELECT DISTINCT gd.gd_um_id, vmd.*
+FROM teamsixn_scouting_dev.game_details gd
+INNER JOIN (
+SELECT
+        *
         FROM 
             teamsixn_scouting_dev.v_match_detail vmd
-        WHERE
+         WHERE
             vmd.frc_season_master_sm_year = ${gameConstants.YEAR} AND
             vmd.competition_master_cm_event_code = ${gameConstants.COMP} AND 
             vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
-            vmd.team_master_tm_number = ${teamNumber};`)
-
+            vmd.team_master_tm_number = ${teamNumber}
+) AS vmd ON vmd.frc_season_master_sm_year = gd.frc_season_master_sm_year AND
+        	vmd.competition_master_cm_event_code = gd.competition_master_cm_event_code
+        	AND
+        	vmd.game_matchup_gm_game_type = gd.game_matchup_gm_game_type AND
+        	vmd.game_matchup_gm_number = gd.game_matchup_gm_number AND
+        	vmd.game_matchup_gm_alliance = gd.game_matchup_gm_alliance AND
+        	vmd.game_matchup_gm_alliance_position = gd.game_matchup_gm_alliance_position; `)
     results = JSON.parse(JSON.stringify(results))
+    
 
     consoleLog("TEAM: " + teamNumber, results)
 
@@ -119,7 +129,7 @@ router.get("/", async function (req, res) { //only gets used if the url == team-
         selectedTeam: teamNumber,
         teamPictures: urls,
         comments: comments,
-        selectedPage: selectedPage
+        selectedPage: selectedPage,
     })
 })
 
