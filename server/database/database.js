@@ -476,8 +476,11 @@ async function getMatchData(gameNumber) {
     tms.total_algae_dislodge_avg,
     tms.total_foul_points_avg,
     tms.endgame_park_avg,
+    tms.endgame_park_sum,
     tms.endgame_shallow_climb_avg,
+    tms.endgame_shallow_climb_sum,
     tms.endgame_deep_climb_avg,
+    tms.endgame_deep_climb_sum,
     tms.total_algae_dislodge_avg,
     tms.api_rank,
     tms.api_win,
@@ -521,11 +524,11 @@ async function getChartData() {
     return SQL`
     SELECT *
         FROM
-    teamsixn_scouting_dev.v_match_summary_api vmsa
+    teamsixn_scouting_dev.tmp_match_strategy
     WHERE
-    vmsa.frc_season_master_sm_year = ${gameConstants.YEAR} AND
-    vmsa.competition_master_cm_event_code = ${gameConstants.COMP} AND
-    ( vmsa.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} or vmsa.game_matchup_gm_game_type IS NULL);
+    frc_season_master_sm_year = ${gameConstants.YEAR} AND
+    competition_master_cm_event_code = ${gameConstants.COMP} AND
+    ( game_matchup_gm_game_type = ${gameConstants.GAME_TYPE});
     `
 
 }

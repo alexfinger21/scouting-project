@@ -1,5 +1,4 @@
 import { paths, consoleLog, checkPage, socket } from "./utility.js"
-consoleLog("yo bro you done not messed up")
 
 socket.on("dataAccuracy", (match_num) => {
     if (currentPage == paths.dataAccuracy) {

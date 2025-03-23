@@ -127,6 +127,7 @@ async function getPoints(x, y, color) {
                 y: val[y] ? val[y] : 0,
                 color: color
             })
+            consoleLog("END SCORE:", val.endgame_park_avg * 2 + val.endgame_shallow_climb_avg * 6 + val.endgame_deep_climb_avg * 12)
             ind++
         }
     }
@@ -181,6 +182,7 @@ async function main() {
                 barGraphCanvas.setAttribute("style", "display: none !important")
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: none !important")
+                scatterPlotCanvas.parentElement.style.height = "100%"
                 ctx = scatterPlotCanvas.getContext("2d")
                 break
             case "bar":
@@ -191,9 +193,9 @@ async function main() {
                 spiderCanvas.setAttribute("hidden", "hidden")
                 spiderCanvas.setAttribute("style", "display: none !important")
                 ctx = barGraphCanvas.getContext("2d")
-                barGraphCanvas.height = 900
-                barGraphCanvas.width = 1000
-                consoleLog("SET IT TO: ", chartAreaWrapper.clientWidth)
+                const height = `${Math.round(points.length * 35)}px` //adjust height based on data
+                barGraphCanvas.parentElement.style.height = height
+                barGraphCanvas.style.height=height
                 break
             case "spider":
                 scatterPlotCanvas.setAttribute("hidden", "hidden")
@@ -202,7 +204,7 @@ async function main() {
                 barGraphCanvas.setAttribute("style", "display: none !important")
                 spiderCanvas.removeAttribute("hidden")
                 spiderCanvas.removeAttribute("style")
-                console.trace()
+                spiderCanvas.parentElement.style.height = "100%"
                 ctx = spiderCanvas.getContext("2d")
                 break
         }
