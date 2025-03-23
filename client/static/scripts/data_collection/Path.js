@@ -23,6 +23,7 @@ export default class Path {
 
             lines.push(new QuadraticLine({
                 ctx: this.ctx, 
+                canvasSize: this.canvasSize,
                 p0: this.path[i-1],
                 p1,
                 p2: this.path[i]

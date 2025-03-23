@@ -388,7 +388,7 @@ export default class Auton {
             }
         })
 
-        path.unshift({x: this.clickable.robots.startPositions[0].x, y: this.clickable.robots.startPositions[0].y})
+        path.unshift({x: this.clickable.robots.startPositions[0].x + this.clickable.robots.startPositions[0].sX/2, y: this.clickable.robots.startPositions[0].y + this.clickable.robots.startPositions[0].sY/2})
         return path
 
     }
