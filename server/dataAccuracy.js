@@ -47,6 +47,14 @@ const TBAAPINAMES = [
     "autoReef.trough", "autoReef.tba_botRowCount", "autoReef.tba_midRowCount", "autoReef.tba_topRowCount",
     "teleopReef.trough", "teleopReef.tba_botRowCount", "teleopReef.tba_midRowCount", "teleopReef.tba_topRowCount",
     ]
+const NewTBANAMES = ["autoReeftrough",
+    "autoReeftba_botRowCount",
+    "autoReeftba_midRowCount",
+    "autoReeftba_topRowCount",
+    "teleopReeftrough",
+    "teleopReeftba_botRowCount",
+    "teleopReeftba_midRowCount",
+    "teleopReeftba_topRowCount"] //Temp fix
 
 const DBNAMES = ['Auton L1','Auton L2','Auton L3','Auton L4','Teleop L1', 'Teleop L2', 'Teleop L3', 'Teleop L4']
 
@@ -140,8 +148,6 @@ async function DataBaseData()// Gets the data from the Database
 {
     const dbData = await getScoutifyMatchData() 
 
-    const offset = OFFSET // offsets the the RowDataPacket to go from blue to red
-
     const filteredData = {}// the returned obj of filtered match data
     let scouters = {} // the returned obj of scouters
 
@@ -156,7 +162,7 @@ async function DataBaseData()// Gets the data from the Database
     
         if(num < matchNum)
         {   
-            const otherMatchNum = Math.ceil(i/(offset*2)) // Bad explanation but here goes: i is the current iterator number, we divide by 2 because there is two teams (blue red), and divide by the offset which is the amount of variables which we store (this is a constant because it varies year to year and it is equal to TBAAPINAMES.length). Even I do not know how exactly the Math.ceil works but it is accounting for some sort of rounding error which occurs for only one type of competition (idk which). Good luck - Artiom
+            const otherMatchNum = Math.ceil(i/(OFFSET*2)) // Bad explanation but here goes: i is the current iterator number, we divide by 2 because there is two teams (blue red), and divide by the offset which is the amount of variables which we store (this is a constant because it varies year to year and it is equal to TBAAPINAMES.length). Even I do not know how exactly the Math.ceil works but it is accounting for some sort of rounding error which occurs for only one type of competition (idk which). Good luck - Artiom
 
             scouters[otherMatchNum] = {
                 red: [], 
@@ -164,7 +170,11 @@ async function DataBaseData()// Gets the data from the Database
             }
 
             scouters[otherMatchNum].blue = dbData[1][i].user_list
-            scouters[otherMatchNum].red = dbData[1][i+offset].user_list
+            let newOffset = 1
+            while(dbData[1][i+newOffset].game_matchup_gm_alliance !== "R")
+                newOffset++;
+
+            scouters[otherMatchNum].red = dbData[1][i+newOffset].user_list
 
             num = matchNum
         }
@@ -203,7 +213,7 @@ async function combinedData() // combine data from TBA and DB
     const TBAAllianceData = fromTBA[1] // the teams for the respective matches
 
     let collectedData = {}; // return object, holds all the organized data in the format which can be found at: https://docs.google.com/document/d/1NK2FcjZGP_nJxAf9On0Mf55u8Ig7DmbRmSeLbrkwQI0/edit?tab=t.0
-    const scatterpointsNames = TBAAPINAMES;
+    const scatterpointsNames = NewTBANAMES;
     let scatterpoints = {}; // will compare the different data from TBA and our DB 
     const apiNames = DBNAMES;
 
@@ -216,19 +226,23 @@ async function combinedData() // combine data from TBA and DB
 
         for (let nameNum in scatterpointsNames) { // a set of scatterpoints for each type of API key
             let name = scatterpointsNames[nameNum]
+            let DBMatchDataR = 0
+            let DBMatchDataB = 0
 
-            if (typeof DBMatchData[i] === 'undefined') {//checks if the match exists in the dataBase
-                continue
+
+            if (typeof DBMatchData[i] !== 'undefined') {//checks if the match exists in the dataBase
+                DBMatchDataR = DBMatchData[i].red[apiNames[nameNum]]
+                DBMatchDataB = DBMatchData[i].blue[apiNames[nameNum]]
             }
 
             scatterpoints[i].red[name] = { // example of this object filled in would be: autoAmpNoteCount:{TBA: TBAMatchData[i].red.autoAmpNoteCount, DB: DBMatchData[i].red['211']}, 
-                TBA: TBAMatchData[i].red[name] || 0, // The x value of the scatterpoint
-                DB: DBMatchData[i].red[apiNames[nameNum]] // The y value of the scatter point
+                TBA: TBAMatchData[i].red[name], // The x value of the scatterpoint
+                DB: DBMatchDataR // The y value of the scatter point
             }
 
             scatterpoints[i].blue[name] = { // same as the above but for blue alliance
-                TBA: TBAMatchData[i].blue[name] || 0, 
-                DB: DBMatchData[i].blue[apiNames[nameNum]]
+                TBA: TBAMatchData[i].blue[name], 
+                DB: DBMatchDataB
             }
         }
     }
@@ -237,19 +251,23 @@ async function combinedData() // combine data from TBA and DB
 
     for (let i = 1; i <= Object.keys(TBAMatchData).length; i++){// run through all 80 matches
 
-        if (typeof DBScoutersData[i] == 'undefined') {//checks if the match exists in the dataBase
-            continue
+        let scoutersR = ""
+        let scoutersB = ""
+
+        if (typeof DBScoutersData[i] !== 'undefined') {//checks if the match exists in the dataBase
+            scoutersR = DBScoutersData[i].red.split(', ')
+            scoutersB = DBScoutersData[i].blue.split(', ')
         }
 
         collectedData[i] = {
             red: {
                 teams: TBAAllianceData[i].red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
-                scouters: DBScoutersData[i].red.split(', '), // we split because currently it is a string like 'aaron, alex, artiom'
+                scouters: scoutersR, // we split because currently it is a string like 'aaron, alex, artiom'
                 matchStats: {} // to be populated later on
             },
             blue: {
                 teams: TBAAllianceData[i].blue,
-                scouters: DBScoutersData[i].blue.split(', '),
+                scouters: scoutersB,
                 matchStats: {}
             }
         }
@@ -271,11 +289,11 @@ async function combinedData() // combine data from TBA and DB
     // catch (err) {
     //     console.error(err)
     // }
-    const rtrData = [TBAAPINAMES, collectedData]
+    // const rtrData = [NewTBANAMES, collectedData]
     return JSON.stringify(rtrData, null, 2)
 }
 
-//combinedData();
+//combinedData()
 //APIData()
 //DataBaseData()
 

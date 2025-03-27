@@ -60,14 +60,14 @@ function getData () {
             consoleLog(matchOutput)
             consoleLog("Times")
             consoleLog(qTimes)
-            // database.query(database.deleteMatchDataX(), (err, res) => {
-            //     consoleLog(err)
-            //     //consoleLog(res)
-            //     database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
-            //         consoleLog(err)
-            //         //consoleLog(res)
-            //     })
-            // })
+            database.query(database.deleteMatchDataX(), (err, res) => {
+                consoleLog(err)
+                //consoleLog(res)
+                database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
+                    consoleLog(err)
+                    //consoleLog(res)
+                })
+            })
             resolve(matchData)
          
         })
