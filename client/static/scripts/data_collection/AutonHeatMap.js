@@ -32,7 +32,7 @@ const get_row = (ge_key) => {
 const get_scored = (ge_key) => {
     return ge_key % 2 == 1
 }
-export default class Teleop {
+export default class AutonHeatMap {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
     constructor({ctx, allianceColor, data, images, cX, cY}) {
@@ -69,7 +69,7 @@ export default class Teleop {
     onClick({ x, y }) {
         // Collision detection between clicked offset and element.
         
-        const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
+        /*const menuOpen = Object.values(this.clickable.coralScreens).find(e => e.isSelected)
         if (!menuOpen) {
             this.legend.onClick({x, y})
             this.clickable.processor.onClick({x, y}, true)
@@ -85,7 +85,7 @@ export default class Teleop {
                     e.onClick({x, y}) 
                 }
             })
-        }
+        }*/
     }
 
 

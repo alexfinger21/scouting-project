@@ -108,6 +108,7 @@ export default class Auton {
 
         this.dragDeb = false
         this.draggingText = ""
+        this.draggingKey = ""
         
         this.trash.draggable = true
         this.trash.ondragover = e => e.preventDefault()
@@ -168,6 +169,8 @@ export default class Auton {
             row.ondragstart = e => {
                 this.dragRow = row
                 this.draggingText = this.dragRow.getElementsByTagName("td")[1].innerText
+                this.draggingKey = this.dragRow.getAttribute("ge_key")
+                consoleLog("DRAGGING KEY IS", this.draggingKey)
                 e.dataTransfer.dropEffect = "move"
                 e.dataTransfer.effectAllowed = "move"
                 e.dataTransfer.setData("text/html", row.innerHTML)
@@ -181,6 +184,7 @@ export default class Auton {
             row.ondrop = e => {
                 e.preventDefault()
                 row.innerHTML = e.dataTransfer.getData("text/html")
+                row.setAttribute("ge_key", this.draggingKey)
                 this.dragDeb = true
             }
     
@@ -190,7 +194,9 @@ export default class Auton {
                 const a =  this.dragRow.getElementsByTagName("td")[1]
                 const b =  row.getElementsByTagName("td")[1]
                 a.innerText = b.innerText
+                this.dragRow.setAttribute("ge_key", row.getAttribute("ge_key"))
                 b.innerText = ""
+                b.setAttribute("ge_key", "")
                 this.dragRow.getElementsByTagName("img")[0].style.visibility="visible"
                 row.getElementsByTagName("img")[0].style.visibility="hidden"
                 this.dragRow = row
@@ -200,10 +206,14 @@ export default class Auton {
                 row.classList.remove("hover")
             }
             row.ondragend = (e) => {
+                consoleLog("GOT HERE")
                 e.preventDefault()
                 if(!this.dragDeb) {
+                    consoleLog("GOT HERE 1")
                     const a =  this.dragRow.getElementsByTagName("td")[1]
                     a.innerText = this.draggingText
+                    this.dragRow.setAttribute("ge_key", this.draggingKey)
+                    consoleLog("SET TO ", this.draggingKey)
                     this.dragRow.getElementsByTagName("img")[0].style.visibility="visible"
                 }
                 this.dragDeb = false
