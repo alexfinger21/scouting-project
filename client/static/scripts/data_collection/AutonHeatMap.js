@@ -46,19 +46,6 @@ export default class AutonHeatMap {
         const isBlue = allianceColor == "B"
 
         this.clickable.pieces = new PiecesMap({ctx, renderQueue: this.renderQueue, allianceColor, img: "circle",  canvasSize: this.canvasSize})
-
-        this.clickable.net = new Net({ctx, renderQueue: this.renderQueue, allianceColor, count: data?.teleop?.net?.count, canvasSize: this.canvasSize, showCounter: true,
-            x: isBlue ? this.canvasSize.x * 0.05 : this.canvasSize.x * 0.85,
-            y: isBlue ? this.canvasSize.y * 0.55 : this.canvasSize.y * 0.09  ,
-        })
-
-
-        this.clickable.processor = new Processor({ctx, canvasSize: this.canvasSize, count: data?.teleop?.processor?.count, renderQueue: this.renderQueue, showCounter: true,
-            x: this.canvasSize.x*(isBlue ? 0.135 : 0.685),
-            y: this.canvasSize.y * (isBlue ? 0 : 0.89),
-        })
-
-        this.legend = new Legend({ctx, renderQueue: this.renderQueue, img: images.legendButton, canvasSize: this.canvasSize, text: helpText})
         this.clickable.coralScreens = {}
 
         for (let i = 0; i<12; ++i) {
@@ -91,25 +78,13 @@ export default class AutonHeatMap {
 
     sendData() {
         const res = {}
-        res.teleop = {}
-        
-        for (const k of Object.keys(this.clickable.coralScreens)) {
-            res.teleop[k] = this.clickable.coralScreens[k].sendData()
-        }
-
-        res.teleop.net = this.clickable.net.sendData()
-        res.teleop.processor = this.clickable.processor.sendData()
-
         return res
     }
 
     draw() {
         this.map.draw()
         this.clickable.pieces.draw()
-        this.clickable.net.draw()
-        this.clickable.processor.draw()
 
-        this.legend.draw()
         Object.values(this.clickable.coralScreens).forEach(e => {
             e.draw()
             const ltr = this.clickable.pieces.pieces.find(p => p.text == e.letter)

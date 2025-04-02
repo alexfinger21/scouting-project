@@ -1,4 +1,7 @@
-import {paths, requestData, requestPage, currentPage, consoleLog} from "./utility.js"
+import AutonHeatMap from "./data_collection/AutonHeatMap.js"
+import {paths, requestData, requestPage, currentPage, consoleLog, waitUntilImagesLoaded, canvasFPS} from "./utility.js"
+
+let heatMapObject
 
 //template url: https://www.thebluealliance.com/team/6964/2023
 
@@ -50,7 +53,7 @@ const observer = new MutationObserver(function (mutations_list) {
 
 observer.observe(document.body, { subtree: false, childList: true });
 
-function main() {
+async function main() {
     const teamSelector = document.querySelector("#team-display-selector")
     const pitScoutingButton = document.getElementById("pit-scouting-button")
     const pictureContainer = document.getElementById("team-pictures-container")
@@ -110,4 +113,76 @@ function main() {
         pic += 1
         switchImage()
     })
+
+    const canvas = document.getElementById("heat-map")
+    const canvasContainer = canvas.parentElement
+    const canvasCTX = canvas.getContext("2d")
+    const allianceColor = "B"
+
+    const canvasSize = canvasContainer.clientWidth
+    canvas.width = canvasSize
+    canvas.height = canvasSize*595/763
+    const lockImage = new Image()
+    lockImage.src = "./static/images/lock.png"
+    const draggableImage = new Image()
+    draggableImage.src = "./static/images/dropdown.png"
+    const gamePieceImage = new Image()
+    gamePieceImage.src = "./static/images/data-collection/orange-note.png"
+    const mapImage = new Image()
+    mapImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-map.png`
+    const robotImage = new Image()
+    robotImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-robot.png`
+    const robotContainerImage = new Image()
+    robotContainerImage.src = `./static/images/data-collection/robot-container.png`
+    const robotStartPosImage = new Image()
+    robotStartPosImage.src = `./static/images/data-collection/robot-starting-pos-container.png`
+    const legendButton = new Image()
+    legendButton.src = `./static/images/data-collection/legend-button.png`
+    const reefLeftImage = new Image()
+    reefLeftImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef-left.png`
+    const reefRightImage = new Image()
+    reefRightImage.src = `./static/images/data-collection/${allianceColor == 'B' ? "blue" : "red"}-reef-right.png`
+    const clickAreaImage = new Image()
+    clickAreaImage.src = `./static/images/data-collection/click-area.png`
+    const algaeImage = new Image()
+    algaeImage.src = `./static/images/data-collection/algae.png`
+    const algaeSelectedImage = new Image()
+    algaeSelectedImage.src = `./static/images/data-collection/algae-selected.png`
+    const proceedBtnImage = new Image()
+    proceedBtnImage.src = `./static/images/data-collection/proceed-btn-${allianceColor == 'B' ? "blue" : "red"}.png`
+    const images = { lockImage, draggableImage, gamePieceImage, algaeImage, algaeSelectedImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
+
+    await waitUntilImagesLoaded(Object.values(images))
+
+    heatMapObject = new AutonHeatMap({ ctx: canvasCTX, data: {}, allianceColor, images, cX: canvas.width, cY: canvas.height })
+    
+    // HANDLE TOUCHES / MOUSE
+
+    function handleMouse(event, obj, func) {
+        const x = event.pageX - event.target.getBoundingClientRect().left - window.scrollX
+        const y = event.pageY - event.target.getBoundingClientRect().top - window.scrollY
+
+        func.call(obj, { x, y, event })
+    }
+
+    canvas.addEventListener("click", (event) => {
+        consoleLog("herherherere")
+        //event.preventDefault()
+        handleMouse(event, heatMapObject, heatMapObject.onClick)
+    })
+
+    let lastFrame = 0
+
+    function animateCanvas() {
+        if (currentPage == paths.teamDetails && heatMapObject) {
+            if ((Date.now() - lastFrame) > 1000/canvasFPS) {
+                heatMapObject.draw()
+                heatMapObject.renderQueue.render()
+                lastFrame = Date.now()
+            }
+            window.requestAnimationFrame(animateCanvas)
+        }
+    }
+    animateCanvas()
+    
 }

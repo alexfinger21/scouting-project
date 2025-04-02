@@ -101,11 +101,26 @@
                     </tbody>
                 </table>
             </div>
-            <div class="canvas-scoring-container">
+            <label id="select-match" for="select-match"><b>Show Auton Path for Match:</b></label>
+            <select id="available-matches" name="select-match">
+                <% for(let i = 0; i < teamData.length; i++) { %>
+                    <%if(teamData[i].game_matchup_gm_number == match) {%>
+                        <option selected>
+                            <%= teamData[i].game_matchup_gm_number%>
+                        </option>
+                    <%} else {%>
+                        <option>
+                            <%= teamData[i].game_matchup_gm_number %>
+                        </option>
+                    <%}%>
+                <% } %>
+            </select>
+            <div class="heatmap-container">
                 <div class="canvas-container">
                     <canvas id="heat-map"></canvas>
                 </div>
             </div>
+
         </div>
         
         <% if(selectedPage == "pit-data-page") {%>

@@ -117,19 +117,18 @@ SELECT
         index = urls.indexOf(undefined)
     }
 
-    consoleLog("TEAM INFO", results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number))
-
-    consoleLog("URLS: ", urls)
+    const teamData = results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number)
 
     res.render("team-details", {
         teams: team_results.map(e => e.team_master_tm_number).sort((a, b) => a - b),
-        teamData: results.slice().sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number),
+        teamData: teamData,
         teamInfo: teamInfo,
         matchVideos: matchVideos,
         selectedTeam: teamNumber,
         teamPictures: urls,
         comments: comments,
         selectedPage: selectedPage,
+        match: teamData[0].game_matchup_gm_number,
     })
 })
 

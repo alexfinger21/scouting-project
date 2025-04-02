@@ -32,6 +32,9 @@ function consoleLog(...args) {
     }
 }
 
+const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
+
+
 function waitForElem(query) {
     return new Promise((res, rej) => {
         consoleLog(query)
@@ -282,6 +285,34 @@ function checkPage(path) {
     return currentPage.split("?")[0] == path
 }
 
+async function waitUntilImagesLoaded(imgs) {
+    const imgMap = new Map()
+
+    imgs.forEach((e, i) => {
+        e.onload = () => {
+            imgMap.set(i, true)
+        }
+        imgMap.set(i, false)
+    })
+
+    function checkIfTrue() {
+        for (const [k, v] of imgMap) {
+            if (!v) {
+                return false
+            }
+
+        }
+
+        return true
+    }
+
+    while (!checkIfTrue()) {
+        await timer(10)
+    }
+
+    return true
+}
+
 //console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
 
-export {consoleLog, lerpColor, lerpOpacity, insideTriangle, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export {consoleLog, waitUntilImagesLoaded, lerpColor, lerpOpacity, insideTriangle, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}

@@ -1,10 +1,9 @@
-import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog, canvasFPS } from "./utility.js"
+import { clamp, currentPage, paths, requestPage, socket, getMatch, consoleLog, canvasFPS, waitUntilImagesLoaded } from "./utility.js"
 import { moveToPage, setSelectedObject } from "./bottomBar.js"
 import { YEAR, COMP, GAME_TYPE } from "./game.js"
 import Auton from "./data_collection/Auton.js"
 import Teleop from "./data_collection/Teleop.js"
 
-const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 let AutonObject
 let TeleopObject
 
@@ -141,33 +140,7 @@ async function sendData() {
     })
 }
 
-async function waitUntilImagesLoaded(imgs) {
-    const imgMap = new Map()
 
-    imgs.forEach((e, i) => {
-        e.onload = () => {
-            imgMap.set(i, true)
-        }
-        imgMap.set(i, false)
-    })
-
-    function checkIfTrue() {
-        for (const [k, v] of imgMap) {
-            if (!v) {
-                return false
-            }
-
-        }
-
-        return true
-    }
-
-    while (!checkIfTrue()) {
-        await timer(10)
-    }
-
-    return true
-}
 
 function loadData() {
     return new Promise(async (res, rej) => {

@@ -177,6 +177,7 @@ canvas {
 
 .input-container input:not([type="radio"]) {
     -moz-appearance: textfield;
+    appearance: textfield;
     /* removes the arrows/spinners */
     color: #5B6671;
     text-align: center;
