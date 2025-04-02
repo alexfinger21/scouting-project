@@ -134,9 +134,9 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
         }
         
         const result = JSON.parse(JSON.stringify(results))[0]
-        let splitResult = result.um_session_id ? result.um_session_id.split(",") : new Array()
+        let splitResult = result?.um_session_id ? result?.um_session_id.split(",") : new Array()
         if (splitResult.length == 0) {
-            splitResult = [result.um_session_id]
+            splitResult = [result?.um_session_id]
         }
         if (splitResult.indexOf(req.cookies["user_id"]) != -1) {
             const userAgent = req.headers["user-agent"] || ""
