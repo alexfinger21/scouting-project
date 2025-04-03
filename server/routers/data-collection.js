@@ -91,11 +91,13 @@ async function updateData(info, isSeventh) {
     consoleLog("GOT TO SAVING DATA")
 
     const [err2, saved] = await database.query(database.saveData(info))
+    const [err3, savedPath] = await database.query(database.saveAutonPath(info))
+
 
     if (err2) {
         consoleLog.log("ERROR SAVING DATA: " + err2)
     }
-    const [err3, update] = await database.query(SQL`update teamsixn_scouting_dev.game_details gd
+    const [err4, update] = await database.query(SQL`update teamsixn_scouting_dev.game_details gd
             set gd.gd_score = gd_score(gd.game_element_ge_key, gd.gd_value)
             WHERE 
                 gd.frc_season_master_sm_year = ${gameConstants.YEAR} and

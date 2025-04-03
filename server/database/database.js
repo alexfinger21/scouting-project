@@ -193,6 +193,7 @@ function saveData(data, is7thScouter=false) {
     }
     */
 
+
     const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.game_details (
         frc_season_master_sm_year,
         competition_master_cm_event_code,
@@ -213,7 +214,6 @@ function saveData(data, is7thScouter=false) {
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2003, ${data.gameData.auton["algae-count"] ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2004, ${data.gameData.auton["processor"]?.count ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2005, ${data.gameData.auton["net"]?.count ?? 0}),
-    (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2102, ${data.gameData.auton.path ?? ""}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 3, 3003, ${data["algae-dislodge"] ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 3, 3004, ${data.gameData.teleop["processor"]?.count ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 3, 3005, ${data.gameData.teleop["net"]?.count ?? 0}),
@@ -230,8 +230,26 @@ function saveData(data, is7thScouter=false) {
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 5005, ${data["algae-ground-pickup"] ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 1, 5006, ${data["coral-ground-pickup"] ?? 0})
     ;`)
-
+    
     return sqlStr
+}
+function saveAutonPath(data) {
+    return SQL`
+    INSERT INTO teamsixn_scouting_dev.game_details (
+        frc_season_master_sm_year,
+        competition_master_cm_event_code,
+        game_matchup_gm_game_type,
+        game_matchup_gm_number,
+        game_matchup_gm_alliance,
+        game_matchup_gm_alliance_position,
+        gd_um_id,
+        game_element_group_geg_grp_key,
+        game_element_ge_key,
+        gd_value,
+        gd_auton_path
+    )
+    VALUES 
+        (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2102, 0, ${data.gameData.auton.path ?? ""});`
 }
 
 function getTeams() {
@@ -900,6 +918,7 @@ module.exports = {
     addMatchup: addMatchup,
     removeMatchup: removeMatchup,
     getCollectedData: getCollectedData,
+    saveAutonPath: saveAutonPath,
     saveData: saveData,
     deleteData: deleteData,
     getAssignedTeam: getAssignedTeam,
