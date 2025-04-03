@@ -434,7 +434,7 @@ async function getScouter(gm_number, alliance_color,alliance_position){
 function checkTempMatchStrategy() {
     return new Promise(async (res, rej) => {
         let [err1, checkCreated] = await executeQuery(SQL`SHOW TABLES LIKE 'tmp_match_strategy'`)
-
+        
         if (checkCreated?.length < 1) {
             await executeQuery(saveMatchStrategy())
         }
@@ -491,7 +491,6 @@ async function getMatchData(gameNumber) {
     tms.api_dq,
     tms.api_dpr,
     tms.api_opr,
-    tms.intake_location,
     tms.api_opr_rank ,
     tms.api_dpr_rank 
     FROM 
