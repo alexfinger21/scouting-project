@@ -1,7 +1,7 @@
 const YEAR = 2025
-const COMP = "nyro"
-const GAME_TYPE = "Q"
-const gameStart = new Date("March 12, 2025")
+const COMP = "ohcl"
+const GAME_TYPE = "P"
+const gameStart = new Date("April 1, 2025")
 const gameEnd = new Date("April 17, 2025")
 const sch_constants =
     [[1, 9, '2025-03-', '09:00:00', 600000],
