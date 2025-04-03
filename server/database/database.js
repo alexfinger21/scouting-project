@@ -213,6 +213,7 @@ function saveData(data, is7thScouter=false) {
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2003, ${data.gameData.auton["algae-count"] ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2004, ${data.gameData.auton["processor"]?.count ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2005, ${data.gameData.auton["net"]?.count ?? 0}),
+    (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 2, 2102, ${data.gameData.auton.path ?? ""}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 3, 3003, ${data["algae-dislodge"] ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 3, 3004, ${data.gameData.teleop["processor"]?.count ?? 0}),
     (${gameConstants.YEAR}, ${gameConstants.COMP}, ${gameConstants.GAME_TYPE}, ${data.matchNumber}, ${data.alliance}, ${data.position}, ${data.username}, 3, 3005, ${data.gameData.teleop["net"]?.count ?? 0}),

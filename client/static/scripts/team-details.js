@@ -172,7 +172,7 @@ async function main() {
     })
 
     let lastFrame = 0
-
+ 
     function animateCanvas() {
         if (currentPage == paths.teamDetails && heatMapObject) {
             if ((Date.now() - lastFrame) > 1000/canvasFPS) {
