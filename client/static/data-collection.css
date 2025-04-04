@@ -202,6 +202,10 @@ canvas {
     height: auto !important;
 }
 
+.input-container span {
+    width: 90%
+}
+
 .radio-button-container {
     display: inline-block;
     width: 80vw;
