@@ -87,7 +87,7 @@ function drawCharts(data, selectedValue, scouter, team) {
     
     for(let i = 1; i <= Object.keys(data).length; i++)
     {
-        if((data[i].red.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].red.teams.includes(team) || team == "--NO TEAM--")) {
+        if((data[i]?.red?.scouters?.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i]?.red?.teams?.includes(team) || team == "--NO TEAM--")) {
             somedataR.push({
                 x:data[i].red.matchStats[selectedValue].TBA,
                 y: data[i].red.matchStats[selectedValue].DB, 
@@ -96,7 +96,7 @@ function drawCharts(data, selectedValue, scouter, team) {
             }) // where match is the match number and teams is the array of teams in the alliance
         }
         
-        if((data[i].blue.scouters.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i].blue.teams.includes(team) || team == "--NO TEAM--")) {
+        if((data[i]?.blue?.scouters?.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i]?.blue?.teams?.includes(team) || team == "--NO TEAM--")) {
             somedataB.push({
                 x:data[i].blue.matchStats[selectedValue].TBA,
                 y: data[i].blue.matchStats[selectedValue].DB,
@@ -384,10 +384,12 @@ async function main() {
     const teams = ["--NO TEAM--"]
     for(let i = 1; i <= Object.keys(data[1]).length; i++)
         {
-            scouters.push(...data[1][i].red.scouters)
-            scouters.push(...data[1][i].blue.scouters)
-            teams.push(...data[1][i].red.teams)
-            teams.push(...data[1][i].blue.teams)
+            if (data?.[1]?.[i]?.blue?.scouters && data?.[1]?.[i]?.blue?.teams && data?.[1]?.[i]?.red?.scouters && data?.[1]?.[i]?.red?.teams) {
+                scouters.push(...data[1][i].red.scouters)
+                scouters.push(...data[1][i].blue.scouters)
+                teams.push(...data[1][i].red.teams)
+                teams.push(...data[1][i].blue.teams)
+            }
         }
     const uniqueScoutersArray = [...new Set(scouters)].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
     const uniqueTeamsArray = [...new Set(teams)]

@@ -68,6 +68,7 @@ const OFFSET = TBAAPINAMES.length
 async function APIData() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
+    consoleLog(matchData, "match data")
     
     const gametype = "qm" //only want qual matches
 
@@ -92,24 +93,25 @@ async function APIData() //gets the data from theBlueAlliance
             const key = input[j];
             
             if (key.includes('.')) { // if key is an object within object (reef.column3)
-                const parts = key.split('.'); // split into parts
+                const parts = key?.split('.'); // split into parts
                 
                 // Check and assign for red
-                if (scoreBreakdown.red[parts[0]] && scoreBreakdown.red[parts[0]][parts[1]] !== undefined) {
+                if (scoreBreakdown?.red?.[parts?.[0]] && scoreBreakdown?.red[parts?.[0]]?.[parts?.[1]]) {
+
                     filteredData[matchNumber].red[parts[0]+parts[1]] = scoreBreakdown.red[parts[0]][parts[1]]; 
                 }
                 
                 // Check and assign for blue
-                if (scoreBreakdown.blue[parts[0]] && scoreBreakdown.blue[parts[0]][parts[1]] !== undefined) {
+                if (scoreBreakdown?.blue?.[parts?.[0]] && scoreBreakdown?.blue?.[parts?.[0]]?.[parts?.[1]]) {
                     filteredData[matchNumber].blue[parts[0]+parts[1]] = scoreBreakdown.blue[parts[0]][parts[1]];
                 }
             }
             else {
                 // Ensure that the key exists before assigning to filteredData
-                if (scoreBreakdown.red[key] !== undefined) {
+                if (scoreBreakdown?.red?.[key]) {
                     filteredData[matchNumber].red[key] = scoreBreakdown.red[key];
                 }
-                if (scoreBreakdown.blue[key] !== undefined) {
+                if (scoreBreakdown?.blue?.[key]) {
                     filteredData[matchNumber].blue[key] = scoreBreakdown.blue[key];
                 }
             }
@@ -243,13 +245,13 @@ async function combinedData() // combine data from TBA and DB
 
         collectedData[i] = {
             red: {
-                teams: TBAAllianceData[i].red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
-                scouters: DBScoutersData[i].red.split(', '), // we split because currently it is a string like 'aaron, alex, artiom'
+                teams: TBAAllianceData[i]?.red, // Note that the index of teams and scouters match up, so scouters[0] was scouting teams[0] and etc.
+                scouters: DBScoutersData[i]?.red?.split(', '), // we split because currently it is a string like 'aaron, alex, artiom'
                 matchStats: {} // to be populated later on
             },
             blue: {
-                teams: TBAAllianceData[i].blue,
-                scouters: DBScoutersData[i].blue.split(', '),
+                teams: TBAAllianceData[i]?.blue,
+                scouters: DBScoutersData[i]?.blue?.split(', '),
                 matchStats: {}
             }
         }
