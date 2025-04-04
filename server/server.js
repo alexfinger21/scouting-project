@@ -255,6 +255,7 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
     setInterval(runAPICall, 240000)
 }
 
+
 //DEFAULT PATH
 app.use((req, res, next) => {
     //pit-scouting
@@ -273,3 +274,5 @@ app.use((req, res, next) => {
 app.listen(3000) //goes to localhost 3000
 
 server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
+
+consoleLog("RUNNING API CALL", runAPICall())
