@@ -9,6 +9,7 @@ export default class QuadraticLine extends DrawableObject {
         this.p2 = p2
         this.ctx = ctx
         this.canvasSize = canvasSize
+        this.scale = this.canvasSize.x * window.devicePixelRatio / 100
         this.zIndex = 10
     }
 
@@ -16,10 +17,10 @@ export default class QuadraticLine extends DrawableObject {
         this.ctx.save()
         this.ctx.fillStyle = "orange"
         this.ctx.beginPath()
-        this.ctx.arc(this.p0.x * this.dpr, this.p0.y * this.dpr, this.canvasSize.y * 0.035, 0, 2 * Math.PI) // Start point
-        this.ctx.arc(this.p2.x * this.dpr, this.p2.y * this.dpr, this.canvasSize.y * 0.035, 0, 2 * Math.PI) // End point
+        this.ctx.arc(this.p0.x * this.dpr, this.p0.y * this.dpr, this.canvasSize.y * this.scale / 250, 0, 2 * Math.PI) // Start point
+        this.ctx.arc(this.p2.x * this.dpr, this.p2.y * this.dpr, this.canvasSize.y * this.scale / 250, 0, 2 * Math.PI) // End point
         this.ctx.fill()
-        this.ctx.lineWidth = 15
+        this.ctx.lineWidth = this.scale
         this.ctx.globalAlpha = this.opacity
         this.ctx.strokeStyle = "white"
         this.ctx.beginPath()

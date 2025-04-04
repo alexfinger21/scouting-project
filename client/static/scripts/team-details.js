@@ -60,6 +60,7 @@ async function main() {
     const arrowLeft = document.getElementById("arrow-left")
     const arrowRight = document.getElementById("arrow-right")
     const tabs = Array.from(document.getElementsByClassName("team-details-tab"))
+    const select = document.getElementById("auton-path-select")
 
     let selectedPage = ""
     tabs.forEach((tab) => {
@@ -118,8 +119,9 @@ async function main() {
     const canvasContainer = canvas.parentElement
     const canvasCTX = canvas.getContext("2d")
     const allianceColor = "B"
-
-    const canvasSize = canvasContainer.clientWidth
+    const loadpath = select.children[select.selectedIndex].getAttribute("auton_path")
+    
+    const canvasSize = Math.min(canvasContainer.clientWidth, canvasContainer.clientHeight)
     canvas.width = canvasSize
     canvas.height = canvasSize*595/763
     const lockImage = new Image()
@@ -151,10 +153,10 @@ async function main() {
     const proceedBtnImage = new Image()
     proceedBtnImage.src = `./static/images/data-collection/proceed-btn-${allianceColor == 'B' ? "blue" : "red"}.png`
     const images = { lockImage, draggableImage, gamePieceImage, algaeImage, algaeSelectedImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
-
+    
     await waitUntilImagesLoaded(Object.values(images))
 
-    heatMapObject = new AutonHeatMap({ ctx: canvasCTX, data: {}, allianceColor, images, cX: canvas.width, cY: canvas.height })
+    heatMapObject = new AutonHeatMap({ ctx: canvasCTX, data: {auton: {path: loadpath }}, allianceColor, images, cX: canvas.width, cY: canvas.height })
     
     // HANDLE TOUCHES / MOUSE
 
@@ -184,5 +186,12 @@ async function main() {
         }
     }
     animateCanvas()
+
+    select.onchange = () => {
+        consoleLog("replace")
+        heatMapObject = new AutonHeatMap({ ctx: canvasCTX, data: {auton: {path: select.children[select.selectedIndex].getAttribute("auton_path")}}, allianceColor, images, cX: canvas.width, cY: canvas.height })
+    }
+
+    
     
 }

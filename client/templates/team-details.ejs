@@ -102,14 +102,14 @@
                 </table>
             </div>
             <label id="select-match" for="select-match"><b>Show Auton Path for Match:</b></label>
-            <select id="available-matches" name="select-match">
+            <select id="auton-path-select" name="select-match">
                 <% for(let i = 0; i < teamData.length; i++) { %>
                     <%if(teamData[i].game_matchup_gm_number == match) {%>
-                        <option selected>
+                        <option auton_path="<%=teamData[i].gd_auton_path%>" selected>
                             <%= teamData[i].game_matchup_gm_number%>
                         </option>
                     <%} else {%>
-                        <option>
+                        <option auton_path="<%=teamData[i].gd_auton_path%>" >
                             <%= teamData[i].game_matchup_gm_number %>
                         </option>
                     <%}%>
