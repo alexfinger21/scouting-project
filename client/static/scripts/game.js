@@ -1,6 +1,6 @@
 const YEAR = 2025
 const COMP = "ohcl"
-const GAME_TYPE = "P"
+const GAME_TYPE = "Q"
 const gameStart = new Date("April 1, 2025")
 const gameEnd = new Date("April 17, 2025")
 const sch_constants =
