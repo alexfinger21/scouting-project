@@ -1,5 +1,4 @@
 require("dotenv").config()
-
 //const csv = require('fast-csv')
 const request = require("request")
 const auth = process.env.TBA_AUTH

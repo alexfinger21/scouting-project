@@ -403,7 +403,7 @@ function getAssignedTeam(username) {
 }
 
 function saveMatchStrategy() {
-    return SQL`CREATE TABLE teamsixn_scouting_dev.tmp_match_strategy AS
+    return SQL`CREATE TABLE IF NOT EXISTS teamsixn_scouting_dev.tmp_match_strategy AS
     SELECT
         *, 
         rank() OVER (ORDER BY vmsa.api_opr desc) AS api_opr_rank, 
@@ -451,11 +451,7 @@ async function getScouter(gm_number, alliance_color,alliance_position){
 
 function checkTempMatchStrategy() {
     return new Promise(async (res, rej) => {
-        let [err1, checkCreated] = await executeQuery(`SHOW TABLES LIKE 'tmp_match_strategy'`)
-        
-        if (checkCreated?.length < 1) {
-            await executeQuery(saveMatchStrategy())
-        }
+        await executeQuery(saveMatchStrategy())
 
         return res(true)
     })
