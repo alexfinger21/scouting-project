@@ -119,8 +119,8 @@ async function updateData(info, isSeventh) {
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
     const username = req.cookies["username"]
-    consoleLog("SELECTED PAGE " + req.query.selectedPage)
-    const selectedPage = req.query.selectedPage || "scouting-page"
+    const selectedPage = req.query.selectedPage ?? "scouting-page"
+    consoleLog("SELECTED PAGE " + selectedPage)
     const match = req.query.match ? req.query.match : process.env.lastPlayedMatch
     const runningMatch = await getRunningMatch()
     let assignment = null

@@ -51,7 +51,6 @@ function writeAPIData(teamRankings) {
     let counter = 0
     const time = new Date()
     //console.log(time)
-    console.log("team rankings", teamRankings)
 
     for (const [k, team] of Object.entries(teamRankings)) {
         counter++
@@ -71,8 +70,6 @@ function writeAPIData(teamRankings) {
 
         valuesStr += a
     }
-
-    console.log(valuesStr)
 
     const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_rankings
     (

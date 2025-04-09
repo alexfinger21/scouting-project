@@ -376,6 +376,9 @@ export default class Auton {
     #constructPosPath() {
         const path = Array.from(this.table.children[1].children).slice(1).map(tr => {
             const step = Number(tr.getAttribute("ge_key"))
+            if (step === 21011) {
+                return
+            }
             if (step > 21000 && step < 30000) {
                 const ltr = get_letter(step)
                 const ret = this.clickable.pieces.pieces.find(e => e.text == ltr)
@@ -399,7 +402,8 @@ export default class Auton {
         })
 
         path.unshift({x: this.clickable.robots.startPositions[0].x + this.clickable.robots.startPositions[0].sX/2, y: this.clickable.robots.startPositions[0].y + this.clickable.robots.startPositions[0].sY/2})
-        return path
+        const res = path.filter(e => e)
+        return res
 
     }
 
