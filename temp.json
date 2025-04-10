@@ -389,8 +389,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -577,16 +576,14 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
-          "DB": -1
+          "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
@@ -1047,8 +1044,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 5
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -1422,16 +1418,14 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
-          "DB": -1
+          "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
@@ -1900,8 +1894,7 @@
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
@@ -1986,12 +1979,10 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 3
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "TBA": 0,
-          "DB": -3
+          "DB": 0
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
@@ -2181,8 +2172,7 @@
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
@@ -3018,16 +3008,14 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
@@ -3116,8 +3104,7 @@
           "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "TBA": 0,
-          "DB": 2
+          "DB": 0
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
@@ -3204,8 +3191,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -3306,8 +3292,7 @@
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
@@ -3498,8 +3483,7 @@
           "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "TBA": 0,
-          "DB": 2
+          "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 3,
@@ -3584,8 +3568,7 @@
           "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
@@ -3956,8 +3939,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -4148,8 +4130,7 @@
           "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
@@ -5177,8 +5158,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 2
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5271,8 +5251,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5940,8 +5919,7 @@
           "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 4,
@@ -7525,8 +7503,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -7618,8 +7595,7 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -8003,8 +7979,7 @@
           "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 5,
@@ -8554,7 +8529,6 @@
       ],
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
@@ -8562,7 +8536,6 @@
           "DB": 1
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -8652,16 +8625,13 @@
           "DB": 1
         },
         "autoReeftba_botRowCount": {
-          "TBA": 0,
-          "DB": -1
+          "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "TBA": 0,
-          "DB": 2
+          "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "TBA": 0,
-          "DB": -1
+          "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -8738,12 +8708,10 @@
       "scouters": "",
       "matchStats": {
         "autoReeftrough": {
-          "TBA": 0,
-          "DB": 4
+          "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "TBA": 0,
-          "DB": 1
+          "DB": 0
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
