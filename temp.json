@@ -6,19 +6,26 @@
         "frc10208",
         "frc1308"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
@@ -26,14 +33,16 @@
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -43,11 +52,15 @@
         "frc4269",
         "frc3193"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -59,7 +72,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -67,15 +80,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -87,18 +100,26 @@
         "frc3015",
         "frc3484"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
@@ -106,15 +127,16 @@
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 8
         }
       }
     },
@@ -124,7 +146,11 @@
         "frc695",
         "frc9194"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -140,7 +166,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": -2
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -152,11 +178,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 12
         }
       }
     }
@@ -168,18 +194,26 @@
         "frc291",
         "frc48"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
@@ -188,15 +222,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 12
         }
       }
     },
@@ -206,11 +240,15 @@
         "frc2399",
         "frc9139"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -222,7 +260,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": -1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -230,7 +268,7 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 0,
@@ -238,7 +276,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 9
         }
       }
     }
@@ -250,24 +288,31 @@
         "frc7717",
         "frc4601"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
@@ -279,7 +324,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 1
         }
       }
     },
@@ -289,7 +334,11 @@
         "frc8222",
         "frc9545"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -321,7 +370,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -333,34 +382,43 @@
         "frc3954",
         "frc6964"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 3,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -370,7 +428,11 @@
         "frc1787",
         "frc4145"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -386,23 +448,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 8
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -414,36 +476,43 @@
         "frc8145",
         "frc3173"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 9
         }
       }
     },
@@ -453,7 +522,11 @@
         "frc2228",
         "frc7165"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -469,7 +542,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -477,15 +550,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -497,25 +570,34 @@
         "frc1559",
         "frc2172"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": -1
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
@@ -534,7 +616,11 @@
         "frc4121",
         "frc10582"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -550,7 +636,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 2,
@@ -566,7 +652,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         }
       }
     }
@@ -578,27 +664,38 @@
         "frc128",
         "frc3260"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
@@ -613,11 +710,15 @@
         "frc4085",
         "frc10207"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -633,7 +734,7 @@
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -645,7 +746,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -657,33 +758,43 @@
         "frc9622",
         "frc2603"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -693,7 +804,11 @@
         "frc9653",
         "frc120"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -713,7 +828,7 @@
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -721,7 +836,7 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
@@ -737,35 +852,43 @@
         "frc4611",
         "frc1511"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -775,7 +898,11 @@
         "frc1405",
         "frc3193"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -799,15 +926,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -819,35 +946,43 @@
         "frc8222",
         "frc4601"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -857,7 +992,11 @@
         "frc4050",
         "frc9194"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -873,15 +1012,15 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
@@ -889,7 +1028,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 2
         }
       }
     }
@@ -901,35 +1040,43 @@
         "frc9545",
         "frc9139"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 5
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": -2
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -939,7 +1086,11 @@
         "frc3954",
         "frc3173"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -955,7 +1106,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 6,
@@ -963,15 +1114,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 1
         }
       }
     }
@@ -983,34 +1134,43 @@
         "frc10208",
         "frc3015"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "karinak"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -1020,7 +1180,11 @@
         "frc2228",
         "frc2172"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -1036,7 +1200,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -1044,15 +1208,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -1064,34 +1228,42 @@
         "frc3777",
         "frc5740"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -1101,11 +1273,15 @@
         "frc3484",
         "frc8243"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -1121,19 +1297,19 @@
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -1145,19 +1321,26 @@
         "frc4991",
         "frc7165"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
@@ -1165,6 +1348,7 @@
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
@@ -1173,7 +1357,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -1183,7 +1367,11 @@
         "frc2399",
         "frc8718"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -1215,7 +1403,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 11
         }
       }
     }
@@ -1227,34 +1415,43 @@
         "frc48",
         "frc9767"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": -1
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -1264,7 +1461,11 @@
         "frc3260",
         "frc5413"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -1280,7 +1481,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -1288,7 +1489,7 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 0,
@@ -1296,7 +1497,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 9
         }
       }
     }
@@ -1308,36 +1509,43 @@
         "frc4085",
         "frc6964"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -1347,7 +1555,11 @@
         "frc128",
         "frc9643"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -1367,11 +1579,11 @@
         },
         "teleopReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
@@ -1379,7 +1591,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         }
       }
     }
@@ -1391,37 +1603,43 @@
         "frc7885",
         "frc1405"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 7,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -1431,7 +1649,11 @@
         "frc9653",
         "frc1559"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -1447,7 +1669,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 3,
@@ -1463,7 +1685,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -1475,34 +1697,43 @@
         "frc10582",
         "frc2228"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -1512,7 +1743,11 @@
         "frc120",
         "frc4611"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -1520,7 +1755,7 @@
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
@@ -1528,23 +1763,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 8
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -1556,37 +1791,43 @@
         "frc2252",
         "frc1787"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -1596,7 +1837,11 @@
         "frc6181",
         "frc1511"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -1628,7 +1873,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -1640,35 +1885,43 @@
         "frc10208",
         "frc4601"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -1678,7 +1931,11 @@
         "frc7165",
         "frc3777"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -1698,7 +1955,7 @@
         },
         "teleopReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -1706,11 +1963,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -1722,35 +1979,43 @@
         "frc5413",
         "frc48"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 3
         },
         "autoReeftba_botRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": -3
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 10
         }
       }
     },
@@ -1760,11 +2025,15 @@
         "frc5740",
         "frc4050"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -1776,7 +2045,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -1788,11 +2057,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -1804,35 +2073,43 @@
         "frc8222",
         "frc2603"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "kevinz",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -1842,7 +2119,11 @@
         "frc10303",
         "frc3015"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -1858,11 +2139,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -1870,11 +2151,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 8
         }
       }
     }
@@ -1886,36 +2167,42 @@
         "frc7885",
         "frc4991"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -1925,11 +2212,15 @@
         "frc9139",
         "frc4085"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -1941,7 +2232,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -1957,7 +2248,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 9
         }
       }
     }
@@ -1969,34 +2260,42 @@
         "frc9194",
         "frc128"
       ],
-      "scouters": "",
+      "scouters": [
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 8
         }
       }
     },
@@ -2006,7 +2305,11 @@
         "frc1559",
         "frc8243"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "ethand",
+        "amberz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -2022,7 +2325,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 2,
@@ -2038,7 +2341,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -2050,18 +2353,26 @@
         "frc2172",
         "frc6964"
       ],
-      "scouters": "",
+      "scouters": [
+        "karinak",
+        "mayer",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
@@ -2078,7 +2389,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -2088,7 +2399,11 @@
         "frc3484",
         "frc8145"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "ethand",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -2112,15 +2427,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -2132,33 +2447,43 @@
         "frc9767",
         "frc1405"
       ],
-      "scouters": "",
+      "scouters": [
+        "karinak",
+        "mayer",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -2168,11 +2493,15 @@
         "frc10207",
         "frc9643"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "ethand",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -2184,11 +2513,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 6,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
@@ -2212,37 +2541,43 @@
         "frc9653",
         "frc2399"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "mayer",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -2252,11 +2587,15 @@
         "frc4269",
         "frc3954"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "ethand",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -2272,19 +2611,19 @@
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         }
       }
     }
@@ -2296,20 +2635,27 @@
         "frc3193",
         "frc2252"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "mayer",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -2317,15 +2663,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -2335,7 +2681,11 @@
         "frc4601",
         "frc10303"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -2367,7 +2717,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -2379,36 +2729,43 @@
         "frc1787",
         "frc2228"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "mayer",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_midRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 8
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -2418,7 +2775,11 @@
         "frc1511",
         "frc4085"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -2434,11 +2795,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -2446,11 +2807,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 9
         }
       }
     }
@@ -2462,36 +2823,43 @@
         "frc4145",
         "frc5740"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "mayer",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_midRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 11
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -2501,11 +2869,15 @@
         "frc2603",
         "frc1559"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -2517,7 +2889,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -2533,7 +2905,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -2545,37 +2917,43 @@
         "frc8140",
         "frc8718"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -2585,7 +2963,11 @@
         "frc7885",
         "frc3260"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -2617,7 +2999,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -2629,35 +3011,43 @@
         "frc3777",
         "frc677"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -2667,11 +3057,15 @@
         "frc4991",
         "frc695"
       ],
-      "scouters": "",
+      "scouters": [
+        "moorel",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 3
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -2683,7 +3077,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -2691,15 +3085,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -2711,21 +3105,30 @@
         "frc5413",
         "frc10582"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 2
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
@@ -2734,11 +3137,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -2748,7 +3151,10 @@
         "frc4269",
         "frc7165"
       ],
-      "scouters": "",
+      "scouters": [
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -2764,7 +3170,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -2792,32 +3198,42 @@
         "frc9653",
         "frc9139"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -2827,7 +3243,11 @@
         "frc2172",
         "frc9545"
       ],
-      "scouters": "",
+      "scouters": [
+        "karinak",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -2843,7 +3263,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -2871,20 +3291,27 @@
         "frc4121",
         "frc4611"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 5,
@@ -2892,15 +3319,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_midRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -2910,7 +3337,11 @@
         "frc2399",
         "frc8243"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -2926,7 +3357,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 4,
@@ -2934,7 +3365,7 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
@@ -2954,36 +3385,43 @@
         "frc3015",
         "frc9643"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -2993,11 +3431,15 @@
         "frc8713",
         "frc1308"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -3009,11 +3451,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -3021,11 +3463,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -3037,35 +3479,43 @@
         "frc8718",
         "frc291"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         }
       }
     },
@@ -3075,7 +3525,11 @@
         "frc5740",
         "frc9622"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3091,11 +3545,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
@@ -3103,11 +3557,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 8
         }
       }
     }
@@ -3119,33 +3573,43 @@
         "frc695",
         "frc1559"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -3155,7 +3619,11 @@
         "frc8393",
         "frc6181"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3171,11 +3639,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
@@ -3183,11 +3651,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -3199,35 +3667,43 @@
         "frc1787",
         "frc4269"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -3237,11 +3713,15 @@
         "frc3260",
         "frc3193"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -3253,7 +3733,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -3265,11 +3745,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -3281,33 +3761,43 @@
         "frc8222",
         "frc9653"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -3317,7 +3807,11 @@
         "frc3777",
         "frc8145"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3329,7 +3823,7 @@
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
@@ -3337,19 +3831,19 @@
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -3361,34 +3855,42 @@
         "frc9545",
         "frc8243"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         }
       }
@@ -3399,7 +3901,11 @@
         "frc6964",
         "frc2228"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3415,7 +3921,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -3423,15 +3929,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -3443,20 +3949,27 @@
         "frc4121",
         "frc1405"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -3464,15 +3977,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -3482,7 +3995,11 @@
         "frc3173",
         "frc5413"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -3498,23 +4015,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -3526,36 +4043,43 @@
         "frc2603",
         "frc3484"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 8
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -3565,11 +4089,15 @@
         "frc7717",
         "frc9767"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -3593,7 +4121,7 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 0,
@@ -3609,36 +4137,43 @@
         "frc1308",
         "frc3015"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -3648,7 +4183,11 @@
         "frc10207",
         "frc4050"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3672,11 +4211,11 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 2,
@@ -3692,36 +4231,43 @@
         "frc677",
         "frc9622"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -3731,7 +4277,11 @@
         "frc2252",
         "frc4601"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3747,15 +4297,15 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 0,
@@ -3763,7 +4313,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 2
         }
       }
     }
@@ -3775,35 +4325,43 @@
         "frc7165",
         "frc3193"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 2,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -3813,11 +4371,15 @@
         "frc8713",
         "frc8222"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -3833,7 +4395,7 @@
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -3841,11 +4403,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -3857,20 +4419,27 @@
         "frc3260",
         "frc10208"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -3882,11 +4451,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -3896,7 +4465,11 @@
         "frc6181",
         "frc120"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3908,11 +4481,11 @@
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -3928,7 +4501,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -3940,33 +4513,43 @@
         "frc8718",
         "frc8145"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -3976,7 +4559,11 @@
         "frc695",
         "frc1787"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -3992,23 +4579,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 9
         },
         "teleopReeftba_midRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 9
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -4020,21 +4607,27 @@
         "frc8393",
         "frc8140"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 2,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 8,
@@ -4042,15 +4635,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -4060,11 +4653,15 @@
         "frc9139",
         "frc3777"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -4072,11 +4669,11 @@
         },
         "autoReeftba_midRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -4092,7 +4689,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -4104,33 +4701,43 @@
         "frc9767",
         "frc3484"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "vyas"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -4140,11 +4747,15 @@
         "frc48",
         "frc4269"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -4156,23 +4767,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 2
         }
       }
     }
@@ -4184,37 +4795,43 @@
         "frc1511",
         "frc5413"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "ethand"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -4224,7 +4841,11 @@
         "frc3173",
         "frc2603"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -4240,23 +4861,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 8
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -4268,23 +4889,31 @@
         "frc7165",
         "frc4050"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "junbow",
+        "ethand"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
@@ -4292,11 +4921,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -4306,7 +4935,11 @@
         "frc1559",
         "frc2252"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -4330,15 +4963,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -4350,37 +4983,43 @@
         "frc9643",
         "frc1308"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "karinak",
+        "ethand"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -4390,7 +5029,11 @@
         "frc10303",
         "frc2172"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -4406,7 +5049,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -4414,15 +5057,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -4434,35 +5077,43 @@
         "frc3954",
         "frc4991"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "karinak",
+        "ethand"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_midRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 8
         }
       }
     },
@@ -4472,11 +5123,15 @@
         "frc10207",
         "frc9622"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -4492,7 +5147,7 @@
         },
         "teleopReeftrough": {
           "TBA": 9,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -4516,15 +5171,21 @@
         "frc4145",
         "frc8713"
       ],
-      "scouters": "",
+      "scouters": [
+        "karinak",
+        "ethand"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -4537,15 +5198,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -4555,7 +5216,11 @@
         "frc4085",
         "frc677"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "nimishak"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -4571,7 +5236,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 2,
@@ -4579,7 +5244,7 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 0,
@@ -4599,20 +5264,27 @@
         "frc2228",
         "frc4121"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "karinak",
+        "ethand"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 2,
@@ -4624,7 +5296,7 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
@@ -4638,7 +5310,11 @@
         "frc291",
         "frc3484"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "tony"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -4654,23 +5330,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -4682,35 +5358,43 @@
         "frc6964",
         "frc1511"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "karinak",
+        "ethand"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -4720,7 +5404,10 @@
         "frc9767",
         "frc9653"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -4740,7 +5427,7 @@
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -4752,7 +5439,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -4764,34 +5451,43 @@
         "frc9545",
         "frc1787"
       ],
-      "scouters": "",
+      "scouters": [
+        "aaronk",
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -4801,7 +5497,11 @@
         "frc1405",
         "frc120"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "tony"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -4817,7 +5517,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -4833,7 +5533,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -4845,32 +5545,42 @@
         "frc9643",
         "frc7885"
       ],
-      "scouters": "",
+      "scouters": [
+        "charlotteb",
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         }
       }
@@ -4881,7 +5591,11 @@
         "frc4050",
         "frc6181"
       ],
-      "scouters": "",
+      "scouters": [
+        "mayer",
+        "chrish",
+        "evaz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -4905,11 +5619,11 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
@@ -4925,25 +5639,31 @@
         "frc10207",
         "frc1559"
       ],
-      "scouters": "",
+      "scouters": [
+        "charlotteb",
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 8,
-          "DB": 0
+          "DB": 11
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
@@ -4951,11 +5671,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -4965,11 +5685,15 @@
         "frc10303",
         "frc4611"
       ],
-      "scouters": "",
+      "scouters": [
+        "tony",
+        "chrish",
+        "evaz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -4985,11 +5709,11 @@
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
@@ -5009,20 +5733,27 @@
         "frc3193",
         "frc48"
       ],
-      "scouters": "",
+      "scouters": [
+        "charlotteb",
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 2,
@@ -5030,15 +5761,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -5048,11 +5779,15 @@
         "frc8145",
         "frc4145"
       ],
-      "scouters": "",
+      "scouters": [
+        "tony",
+        "chrish",
+        "evaz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 3
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5064,7 +5799,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": -1
         },
         "teleopReeftrough": {
           "TBA": 4,
@@ -5072,15 +5807,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -5092,33 +5827,43 @@
         "frc9194",
         "frc3954"
       ],
-      "scouters": "",
+      "scouters": [
+        "charlotteb",
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 9
         }
       }
     },
@@ -5128,11 +5873,15 @@
         "frc677",
         "frc8713"
       ],
-      "scouters": "",
+      "scouters": [
+        "tony",
+        "chrish",
+        "evaz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": -5
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5144,7 +5893,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -5160,7 +5909,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 8
         }
       }
     }
@@ -5172,7 +5921,11 @@
         "frc8140",
         "frc3777"
       ],
-      "scouters": "",
+      "scouters": [
+        "charlotteb",
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -5183,14 +5936,16 @@
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
@@ -5212,11 +5967,15 @@
         "frc2252",
         "frc7717"
       ],
-      "scouters": "",
+      "scouters": [
+        "tony",
+        "chrish",
+        "evaz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5228,11 +5987,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
@@ -5240,11 +5999,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -5256,34 +6015,43 @@
         "frc5740",
         "frc128"
       ],
-      "scouters": "",
+      "scouters": [
+        "charlotteb",
+        "karinak",
+        "nicholasc"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         }
       }
     },
@@ -5293,11 +6061,15 @@
         "frc9622",
         "frc695"
       ],
-      "scouters": "",
+      "scouters": [
+        "tony",
+        "chrish",
+        "evaz"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5309,11 +6081,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -5321,7 +6093,7 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
@@ -5337,35 +6109,43 @@
         "frc7885",
         "frc8393"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -5375,11 +6155,15 @@
         "frc6964",
         "frc9545"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5391,7 +6175,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -5407,7 +6191,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -5419,37 +6203,42 @@
         "frc4611",
         "frc6181"
       ],
-      "scouters": "",
+      "scouters": [
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 9
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -5459,7 +6248,11 @@
         "frc3484",
         "frc7165"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -5475,7 +6268,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -5483,15 +6276,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -5503,15 +6296,22 @@
         "frc8145",
         "frc9139"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -5523,14 +6323,16 @@
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -5540,7 +6342,11 @@
         "frc4269",
         "frc10303"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -5556,7 +6362,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -5564,15 +6370,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -5584,15 +6390,22 @@
         "frc9194",
         "frc677"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -5601,7 +6414,7 @@
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
@@ -5609,11 +6422,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -5623,7 +6436,11 @@
         "frc3173",
         "frc8718"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -5639,23 +6456,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -5667,16 +6484,22 @@
         "frc7717",
         "frc3260"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -5685,18 +6508,19 @@
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -5706,7 +6530,11 @@
         "frc4145",
         "frc8222"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -5722,7 +6550,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 2,
@@ -5730,15 +6558,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -5750,35 +6578,43 @@
         "frc120",
         "frc8140"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -5788,7 +6624,11 @@
         "frc4601",
         "frc4121"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -5804,7 +6644,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -5816,11 +6656,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 9
         }
       }
     }
@@ -5832,21 +6672,27 @@
         "frc5740",
         "frc9653"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -5854,15 +6700,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 9
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -5872,11 +6718,15 @@
         "frc1308",
         "frc2399"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5888,7 +6738,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -5900,11 +6750,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 10
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 11
         }
       }
     }
@@ -5916,35 +6766,43 @@
         "frc4085",
         "frc9622"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -5954,11 +6812,15 @@
         "frc8243",
         "frc9767"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -5970,11 +6832,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -5982,11 +6844,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 1
         }
       }
     }
@@ -5998,33 +6860,42 @@
         "frc10582",
         "frc291"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "moorel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         }
       }
@@ -6035,7 +6906,11 @@
         "frc3954",
         "frc128"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6063,7 +6938,7 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 0,
@@ -6079,36 +6954,43 @@
         "frc4050",
         "frc10208"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 8
         }
       }
     },
@@ -6118,7 +7000,11 @@
         "frc1405",
         "frc8145"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -6134,23 +7020,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 11
         }
       }
     }
@@ -6162,36 +7048,43 @@
         "frc8718",
         "frc4269"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         }
       }
     },
@@ -6201,7 +7094,11 @@
         "frc4611",
         "frc4145"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6217,7 +7114,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -6225,15 +7122,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 4
         }
       }
     }
@@ -6245,34 +7142,43 @@
         "frc6181",
         "frc10207"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -6282,7 +7188,11 @@
         "frc8140",
         "frc9545"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -6302,7 +7212,7 @@
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
@@ -6314,7 +7224,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -6326,20 +7236,27 @@
         "frc9194",
         "frc2399"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 2,
@@ -6347,15 +7264,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 9
         }
       }
     },
@@ -6365,7 +7282,11 @@
         "frc1787",
         "frc8393"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6381,23 +7302,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 7
         },
         "teleopReeftba_midRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 9
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -6409,18 +7330,26 @@
         "frc5413",
         "frc7717"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
@@ -6429,15 +7358,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -6447,7 +7376,11 @@
         "frc48",
         "frc8713"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6463,7 +7396,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 3,
@@ -6471,15 +7404,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -6491,32 +7424,39 @@
         "frc8243",
         "frc9643"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "ethand",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 1,
@@ -6530,7 +7470,11 @@
         "frc291",
         "frc3015"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6550,7 +7494,7 @@
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -6558,11 +7502,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         }
       }
     }
@@ -6574,15 +7518,22 @@
         "frc2603",
         "frc4121"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -6590,6 +7541,7 @@
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
@@ -6598,11 +7550,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 5
         }
       }
     },
@@ -6612,7 +7564,11 @@
         "frc1308",
         "frc10582"
       ],
-      "scouters": "",
+      "scouters": [
+        "nimishak",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6636,7 +7592,7 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 0,
@@ -6644,7 +7600,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -6656,15 +7612,21 @@
         "frc128",
         "frc4991"
       ],
-      "scouters": "",
+      "scouters": [
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -6677,11 +7639,11 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
@@ -6695,7 +7657,10 @@
         "frc9767",
         "frc7885"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6711,11 +7676,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -6723,11 +7688,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 9
         }
       }
     }
@@ -6739,17 +7704,22 @@
         "frc2172",
         "frc3954"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -6757,19 +7727,20 @@
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -6779,7 +7750,11 @@
         "frc10303",
         "frc4085"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -6795,11 +7770,11 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 0,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 4,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 0,
@@ -6807,11 +7782,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 5
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -6823,25 +7798,33 @@
         "frc3193",
         "frc3777"
       ],
-      "scouters": "",
+      "scouters": [
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
@@ -6850,7 +7833,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 10
         }
       }
     },
@@ -6860,7 +7843,10 @@
         "frc3173",
         "frc4050"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6876,23 +7862,23 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -6904,33 +7890,43 @@
         "frc8393",
         "frc7717"
       ],
-      "scouters": "",
+      "scouters": [
+        "kevinz",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
           "TBA": 3,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 7
         }
       }
     },
@@ -6940,7 +7936,11 @@
         "frc677",
         "frc5413"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -6956,7 +7956,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 4,
@@ -6984,24 +7984,31 @@
         "frc8243",
         "frc8140"
       ],
-      "scouters": "",
+      "scouters": [
+        "vyas",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 5,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
@@ -7009,11 +8016,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -7023,11 +8030,15 @@
         "frc9643",
         "frc1511"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 3
         },
         "autoReeftba_botRowCount": {
           "TBA": 0,
@@ -7043,7 +8054,7 @@
         },
         "teleopReeftrough": {
           "TBA": 6,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_botRowCount": {
           "TBA": 6,
@@ -7051,11 +8062,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         }
       }
     }
@@ -7067,19 +8078,26 @@
         "frc9139",
         "frc10207"
       ],
-      "scouters": "",
+      "scouters": [
+        "vyas",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
@@ -7088,13 +8106,14 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         }
       }
@@ -7105,7 +8124,11 @@
         "frc6181",
         "frc5740"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -7121,7 +8144,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -7129,15 +8152,15 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -7149,34 +8172,43 @@
         "frc10208",
         "frc2228"
       ],
-      "scouters": "",
+      "scouters": [
+        "vyas",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 11,
-          "DB": 0
+          "DB": 10
         }
       }
     },
@@ -7186,7 +8218,11 @@
         "frc9622",
         "frc2252"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -7202,7 +8238,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -7210,7 +8246,7 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_midRowCount": {
           "TBA": 0,
@@ -7218,7 +8254,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 9
         }
       }
     }
@@ -7230,36 +8266,42 @@
         "frc2603",
         "frc695"
       ],
-      "scouters": "",
+      "scouters": [
+        "vyas",
+        "chrish"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 8
         },
         "teleopReeftba_topRowCount": {
           "TBA": 10,
-          "DB": 0
+          "DB": 4
         }
       }
     },
@@ -7269,7 +8311,11 @@
         "frc2172",
         "frc4611"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
@@ -7285,7 +8331,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftrough": {
           "TBA": 0,
@@ -7297,11 +8343,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 9,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 12,
-          "DB": 0
+          "DB": 7
         }
       }
     }
@@ -7313,21 +8359,30 @@
         "frc120",
         "frc3173"
       ],
-      "scouters": "",
+      "scouters": [
+        "vyas",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
@@ -7336,11 +8391,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 3,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -7350,7 +8405,11 @@
         "frc4991",
         "frc8222"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -7374,11 +8433,11 @@
         },
         "teleopReeftba_botRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
@@ -7394,36 +8453,43 @@
         "frc2399",
         "frc10303"
       ],
-      "scouters": "",
+      "scouters": [
+        "alex",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 2
         }
       }
     },
@@ -7433,7 +8499,11 @@
         "frc3015",
         "frc7885"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -7449,15 +8519,15 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftba_botRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_midRowCount": {
           "TBA": 0,
@@ -7465,7 +8535,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         }
       }
     }
@@ -7477,27 +8547,38 @@
         "frc1308",
         "frc9194"
       ],
-      "scouters": "",
+      "scouters": [
+        "alex",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_botRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "teleopReeftrough": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
@@ -7512,7 +8593,11 @@
         "frc6964",
         "frc291"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -7528,7 +8613,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 2
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -7540,11 +8625,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 7,
-          "DB": 0
+          "DB": 5
         }
       }
     }
@@ -7556,35 +8641,43 @@
         "frc4601",
         "frc1405"
       ],
-      "scouters": "",
+      "scouters": [
+        "alex",
+        "chrish",
+        "jiahel"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "autoReeftba_botRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": -1
         },
         "autoReeftba_midRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 2
         },
         "autoReeftba_topRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": -1
         },
         "teleopReeftrough": {
           "TBA": 1,
           "DB": 0
         },
         "teleopReeftba_botRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_midRowCount": {
           "TBA": 2,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_topRowCount": {
           "TBA": 8,
-          "DB": 0
+          "DB": 8
         }
       }
     },
@@ -7594,7 +8687,11 @@
         "frc10582",
         "frc48"
       ],
-      "scouters": "",
+      "scouters": [
+        "evaz",
+        "amberz",
+        "charlotteb"
+      ],
       "matchStats": {
         "autoReeftrough": {
           "TBA": 0,
@@ -7610,7 +8707,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 3,
@@ -7626,7 +8723,7 @@
         },
         "teleopReeftba_topRowCount": {
           "TBA": 6,
-          "DB": 0
+          "DB": 6
         }
       }
     }
@@ -7641,12 +8738,15 @@
       "scouters": "",
       "matchStats": {
         "autoReeftrough": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 4
         },
         "autoReeftba_botRowCount": {
-          "DB": 0
+          "TBA": 0,
+          "DB": 1
         },
         "autoReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "autoReeftba_topRowCount": {
@@ -7655,18 +8755,19 @@
         },
         "teleopReeftrough": {
           "TBA": 2,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftba_botRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         },
         "teleopReeftba_midRowCount": {
+          "TBA": 0,
           "DB": 0
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 3
         }
       }
     },
@@ -7692,7 +8793,7 @@
         },
         "autoReeftba_topRowCount": {
           "TBA": 1,
-          "DB": 0
+          "DB": 1
         },
         "teleopReeftrough": {
           "TBA": 1,
@@ -7704,11 +8805,11 @@
         },
         "teleopReeftba_midRowCount": {
           "TBA": 4,
-          "DB": 0
+          "DB": 4
         },
         "teleopReeftba_topRowCount": {
           "TBA": 5,
-          "DB": 0
+          "DB": 2
         }
       }
     }

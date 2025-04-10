@@ -78,7 +78,7 @@ async function APIData() //gets the data from theBlueAlliance
 {
     const matchData = await getData(); // Make sure to call getData()
 
-    // consoleLog(matchData, "match data")
+    //console.log(matchData[86].score_breakdown)
     
     const gametype = "qm" //only want qual matches
 
@@ -94,7 +94,7 @@ async function APIData() //gets the data from theBlueAlliance
 
         const matchNumber = m.match_number
         const scoreBreakdown = m.score_breakdown
-
+        //console.log(scoreBreakdown)
         // Initialize filteredData for this match number if it doesn't exist
         filteredData[matchNumber] = { red: {}, blue: {} }
 
@@ -106,13 +106,13 @@ async function APIData() //gets the data from theBlueAlliance
                 const parts = key?.split('.'); // split into parts
                 
                 // Check and assign for red
-                if (scoreBreakdown?.red?.[parts?.[0]] && scoreBreakdown?.red[parts?.[0]]?.[parts?.[1]]) {
+                if (scoreBreakdown?.red?.[parts?.[0]] != null && scoreBreakdown?.red[parts?.[0]]?.[parts?.[1]] != null) {
 
                     filteredData[matchNumber].red[parts[0]+parts[1]] = scoreBreakdown.red[parts[0]][parts[1]]; 
                 }
                 
                 // Check and assign for blue
-                if (scoreBreakdown?.blue?.[parts?.[0]] && scoreBreakdown?.blue?.[parts?.[0]]?.[parts?.[1]]) {
+                if (scoreBreakdown?.blue?.[parts?.[0]] != null && scoreBreakdown?.blue?.[parts?.[0]]?.[parts?.[1]] != null) {
                     filteredData[matchNumber].blue[parts[0]+parts[1]] = scoreBreakdown.blue[parts[0]][parts[1]];
                 }
             }
@@ -194,10 +194,16 @@ async function DataBaseData()// Gets the data from the Database
         const alliance = dbData[1][i].game_matchup_gm_alliance;
     
         if (alliance === "B" && DBNAMES.includes(key)) {
-            filteredData[matchNum].blue[key] = dbData[1][i].gd_value;
+            if(dbData[1][i].gd_value >= 0)
+                filteredData[matchNum].blue[key] = dbData[1][i].gd_value;
+            else
+                filteredData[matchNum].blue[key] = 0      
         } 
         else if (alliance === "R"  && DBNAMES.includes(key)) {
-            filteredData[matchNum].red[key] = dbData[1][i].gd_value;
+            if(dbData[1][i].gd_value >= 0)
+                filteredData[matchNum].red[key] = dbData[1][i].gd_value;
+            else
+                filteredData[matchNum].red[key] = 0 
         }
     }
     //consoleLog(filteredData)
@@ -224,12 +230,13 @@ async function combinedData() // combine data from TBA and DB
     const apiNames = DBNAMES;
 
     //console.log(TBAMatchData)
-    for (let i = 1; i <= Object.keys(TBAMatchData).length; i++) { // 1-80 inclusive matches, using DBMatchData.length should allow viewing the data while in the midst of a match as it won't try to load nonexistent matches
+    for (let j in Object.keys(TBAMatchData)) { // 1-80 inclusive matches, using DBMatchData.length should allow viewing the data while in the midst of a match as it won't try to load nonexistent matches
+        const i =   parseInt(j)+1
         scatterpoints[i] = { // each match has red/blue alliance
             red: {},
             blue: {}
         }
-
+        console.log(i + "\n")
         for (let nameNum in scatterpointsNames) { // a set of scatterpoints for each type of API key
             let name = scatterpointsNames[nameNum]
             let DBMatchDataR = 0
@@ -246,7 +253,7 @@ async function combinedData() // combine data from TBA and DB
             }
 
             scatterpoints[i].blue[name] = { // same as the above but for blue alliance
-                TBA: TBAMatchData[i].blue[name] || 0, 
+                TBA: TBAMatchData[i].blue[name], 
                 DB: DBMatchDataB
             }
         }
@@ -285,20 +292,20 @@ async function combinedData() // combine data from TBA and DB
         }
     }
 
-    try { // Write the collectedData to temp.json in root to view
-        let json = JSON.stringify(collectedData, null, 2); // convert js object (collectedData) to json with an indentation of 2
-        await fs.writeFile('./temp.json', json); // write the new json to temp.json
+    // try { // Write the collectedData to temp.json in root to view
+    //     let json = JSON.stringify(collectedData, null, 2); // convert js object (collectedData) to json with an indentation of 2
+    //     await fs.writeFile('./temp.json', json); // write the new json to temp.json
 
-        console.log("Successfully wrote collectedData to ./temp.json")
-    }
-    catch (err) {
-        console.error(err)
-    }
+    //     console.log("Successfully wrote collectedData to ./temp.json")
+    // }
+    // catch (err) {
+    //     console.error(err)
+    // }
     const rtrData = [NewTBANAMES, collectedData]
     return JSON.stringify(rtrData, null, 2)
 }
 
-combinedData();
+//combinedData(); 
 //APIData()
 //DataBaseData()
 
