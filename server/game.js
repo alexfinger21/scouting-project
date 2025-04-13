@@ -1,5 +1,5 @@
 const YEAR = 2025
-const COMP = "ohcl"
+const COMP = "test"
 const GAME_TYPE = "Q"
 const gameStart = new Date("April 1, 2025")
 const gameEnd = new Date("April 17, 2025")
