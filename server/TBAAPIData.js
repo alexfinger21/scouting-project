@@ -18,7 +18,6 @@ const matchList = {
     }
 }
 function getData () {
-    
     return new Promise((resolve, reject) => {
         if(gameConstants.COMP == "test")
         {
