@@ -83,7 +83,7 @@ async function runAPICall() {
     consoleLog(startTick)
     if (startTick <= currentTick && currentTick <= endTick) {
         const apiData = await returnAPIDATA()
-        consoleLog(apiData)
+        //consoleLog(apiData)
     }
 }
 
