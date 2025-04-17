@@ -26,10 +26,10 @@ function getData () {
         request(matchList, function(error, response) {
             if (error) throw new Error(error)
             consoleLog("Status Code", response.statusCode)
-            consoleLog("Response")
-            consoleLog(response.body)
+            //consoleLog("Response")
+            //consoleLog(response.body)
             const matchData = (JSON.parse(response.body))
-            consoleLog(JSON.stringify(matchData, null, "\t")) // makes text look nice
+            //consoleLog(JSON.stringify(matchData, null, "\t")) // makes text look nice
             //consoleLog(matchData)
             const gametype = (gameConstants.GAME_TYPE == "qm" || gameConstants.GAME_TYPE == "Q")? "qm":""
             const matchOutput = {}
@@ -59,14 +59,14 @@ function getData () {
             consoleLog(matchOutput)
             consoleLog("Times")
             consoleLog(qTimes)
-            // database.query(database.deleteMatchDataX(), (err, res) => {
-            //     consoleLog(err)
-            //     //consoleLog(res)
-            //     database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
-            //         consoleLog(err)
-            //         //consoleLog(res)
-            //     })
-            // })
+            database.query(database.deleteMatchDataX(), (err, res) => {
+                consoleLog(err)
+                //consoleLog(res)
+                database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
+                    consoleLog(err)
+                    //consoleLog(res)
+                })
+            })
             resolve(matchData)
          
         })
