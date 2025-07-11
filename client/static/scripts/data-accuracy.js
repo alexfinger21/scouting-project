@@ -87,7 +87,7 @@ function drawCharts(data, selectedValue, scouter, team) {
     
     for(let i = 1; i <= Object.keys(data).length; i++)
     {
-        if((data[i]?.red?.scouters?.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i]?.red?.teams?.includes(team) || team == "--NO TEAM--")) {
+        if((data[i]?.red?.scouters?.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i]?.red?.teams?.includes(team) || team == "--NO TEAM--") && data[i]?.red?.matchStats?.[selectedValue]?.TBA &&  data[i]?.red?.matchStats[selectedValue]?.DB) {
             somedataR.push({
                 x:data[i].red.matchStats[selectedValue].TBA,
                 y: data[i].red.matchStats[selectedValue].DB, 
@@ -96,7 +96,7 @@ function drawCharts(data, selectedValue, scouter, team) {
             }) // where match is the match number and teams is the array of teams in the alliance
         }
         
-        if((data[i]?.blue?.scouters?.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i]?.blue?.teams?.includes(team) || team == "--NO TEAM--")) {
+        if((data[i]?.blue?.scouters?.includes(scouter) || scouter == "--NO SCOUTER--") && (data[i]?.blue?.teams?.includes(team) || team == "--NO TEAM--")&& data[i]?.blue?.matchStats?.[selectedValue]?.TBA &&  data[i]?.blue?.matchStats[selectedValue]?.DB) {
             somedataB.push({
                 x:data[i].blue.matchStats[selectedValue].TBA,
                 y: data[i].blue.matchStats[selectedValue].DB,
