@@ -13,7 +13,7 @@ const database = require("./database/database.js")
 const { gameStart, gameEnd } = require("./game.js")
 const { returnAPIDATA } = require("./getRanks.js")
 const socketManager = require("./sockets.js")
-const SQL = require('sql-template-strings')
+const SQL = require("sql-template-strings")
 const gameConstants = require("./game.js")
 
 const { Server } = require("socket.io")
