@@ -129,7 +129,7 @@ function getMatch() {
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: "/getMatch",
+            url: "/api/getMatch",
             success: function (response) {
                 consoleLog(response.match)
                 resolve(response.match)
@@ -146,7 +146,7 @@ function getMatch() {
     return new Promise(resolve => {
         $.ajax({
             type: "GET",
-            url: "/getUsername",
+            url: "/api/getUsername",
             success: function(response) {
                 consoleLog("CURRENT PAGE", currentPage)
                 if (Object.values(paths).includes(currentPage)) {
