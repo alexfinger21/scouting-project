@@ -6,17 +6,15 @@ const app = express()
 const ejs = require("ejs")
 const cookieParser = require('cookie-parser')
 const cors = require("cors")
-const mysql = require("mysql")
 const { consoleLog } = require("./utility")
 const fs = require("fs")
-const crypto = require("crypto")
 require("dotenv").config()
 const database = require("./database/database.js")
 const { gameStart, gameEnd } = require("./game.js")
 const { returnAPIDATA } = require("./getRanks.js")
-const gameConstants = require("./game.js")
 const socketManager = require("./sockets.js")
-const SQL = require('sql-template-strings')
+const SQL = require("sql-template-strings")
+const gameConstants = require("./game.js")
 
 const { Server } = require("socket.io")
 
@@ -48,6 +46,7 @@ const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game
 const pitScouting = require(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
 const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
 const dataAccuracy = require(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))
+const apiRouter = require(path.resolve(serverDirectory, routeDirectory, "api.js"))
 
 //CONSTANTS
 const corsOptions = {
@@ -83,7 +82,9 @@ async function runAPICall() {
     consoleLog(startTick)
     if (startTick <= currentTick && currentTick <= endTick) {
         const apiData = await returnAPIDATA()
-        //consoleLog(apiData)
+        return apiData
+    } else {
+        return {"error": "game time is out of date"}
     }
 }
 
@@ -216,45 +217,7 @@ app.post("/logout", (req, res) => {
     return res.redirect("/login")
 })
 
-//GET MATCH
-app.get("/getMatch", function (req, res) {
-    consoleLog(req.body)
-    database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
-        if (runningMatchResults[0]) { //if a match is running
-            runningMatch = runningMatchResults[0].cg_gm_number
-            res.status(200).send({ match: runningMatch })
-        } else {
-            res.status(200).send({ match: 0 })
-        }
-    })
-})
-
-//GET USERNAME
-app.get("/getUsername", async (req, res) => {
-    consoleLog("COOKIES", req.cookies)
-    let [err, dbRes] = await database.query(SQL`SELECT * FROM teamsixn_scouting_dev.user_master um WHERE um.um_id = ${req.cookies["username"]};`)
-    
-    consoleLog("DB RES", dbRes)
-    const user = JSON.parse(JSON.stringify(dbRes))
-    if (user?.length > 0) {
-        return res.send({username: user[0]["um_name"], comp: gameConstants.COMP})
-    }
-
-    return res.send("unknown")
-})
-
-app.get("/getMatchTeams", function (req, res) {
-    consoleLog("request recieved!")
-    database.query(database.getTeams(), (err, runningMatchResults) => {
-        //consoleLog(JSON.parse(JSON.stringify(runningMatchResults)))
-        res.status(200).send(JSON.parse(JSON.stringify(runningMatchResults)))
-    })
-})
-
-if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runAPICall, 240000)
-}
-
+app.use("/api", apiRouter)
 
 //DEFAULT PATH
 app.use((req, res, next) => {
@@ -269,10 +232,16 @@ app.use((req, res, next) => {
     res.redirect("/app")
 })
 
+if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
+    setInterval(runAPICall, 240000)
+}
 
 //PORT
 app.listen(3000) //goes to localhost 3000
 
 server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
 
-consoleLog("RUNNING API CALL", runAPICall())
+;(async function firstCall() {
+    const apiRes = await runAPICall()
+    consoleLog("RUNNING API CALL", apiRes)
+})()

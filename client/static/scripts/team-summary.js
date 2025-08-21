@@ -28,7 +28,7 @@ const observer = new MutationObserver(function (mutations_list) {
 
 observer.observe(document.body, { subtree: false, childList: true });
 
-let matchTeams = (await requestData("/getMatchTeams")).map((e) => {
+let matchTeams = (await requestData("/api/getMatchTeams")).map((e) => {
     return {
         gm_number: e.gm_number,
         r1: e.r1_team_number,

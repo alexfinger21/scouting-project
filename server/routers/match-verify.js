@@ -54,7 +54,6 @@ router.get("/", async function (req, res) {
 })
 
 router.post("/", function (req, res) { //admin presses save button
-    consoleLog("hi!")
     database.query(database.removeMatchup(), (err, results) => {
         consoleLog("removed matchup")
         database.query(database.addMatchup(), (err, results) => {
