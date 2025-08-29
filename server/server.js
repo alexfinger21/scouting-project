@@ -1,5 +1,6 @@
 //MODULES
 const https = require("https")
+const {SDK, SdkConfig} = require("casdoor-js-sdk")
 const express = require("express")
 const path = require("path")
 const app = express()
@@ -104,6 +105,18 @@ io.on("connection", (socket) => {
 
     consoleLog(socketManager.getSockets())
 })
+
+/*
+const sdkConfig  = {
+    serverUrl: "https://sso.team695.com",
+    clientId: "8f4953fcb962d4f7c823",
+    appName: "695_scoutify_webapp",
+    organizationName: "Team695",
+    redirectPath: "/callback",
+    signinPath: "/api/signin",
+}
+const sdk = new SDK(sdkConfig)
+*/
 
 app.use("/static", express.static("./client/static"))
 
