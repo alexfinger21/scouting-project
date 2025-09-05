@@ -1,6 +1,6 @@
 //MODULES
 const https = require("https")
-const {SDK, SdkConfig} = require("casdoor-js-sdk")
+const {SDK, SdkConfig} = require("casdoor-nodejs-sdk")
 const express = require("express")
 const path = require("path")
 const app = express()
@@ -56,11 +56,11 @@ const corsOptions = {
 }
 
 const allowCrossDomain = function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    res.header('Access-Control-Allow-Headers', 'Content-Type')
 
-    next();
+    next()
 }
 
 
@@ -106,7 +106,6 @@ io.on("connection", (socket) => {
     consoleLog(socketManager.getSockets())
 })
 
-/*
 const sdkConfig  = {
     serverUrl: "https://sso.team695.com",
     clientId: "8f4953fcb962d4f7c823",
@@ -116,11 +115,10 @@ const sdkConfig  = {
     signinPath: "/api/signin",
 }
 const sdk = new SDK(sdkConfig)
-*/
 
 app.use("/static", express.static("./client/static"))
 
-app.use(allowCrossDomain);
+app.use(allowCrossDomain)
 //sets variables to be used later
 app.set("views", "./client/templates")
 app.set("view engine", "ejs")
@@ -142,11 +140,11 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
         consoleLog(req.path)
         const username = req.cookies["username"]
         const [err, results] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${username} AND um.um_timeout_ts > current_timestamp();`)
-        
+
         if (err) {
             consoleLog("LOGIN ERROR: " + err)
         }
-        
+
         const result = JSON.parse(JSON.stringify(results))[0]
         let splitResult = result?.um_session_id ? result?.um_session_id.split(",") : new Array()
         if (splitResult.length == 0) {
@@ -156,15 +154,15 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
             const userAgent = req.headers["user-agent"] || ""
             res.locals.isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent) //pass in if mobile browser to EJS
 
-//local EJS functions
-res.locals.columnSummary = (...args) => {
-    let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
-    return ejs.render(t, ...args)
-}
+            //local EJS functions
+            res.locals.columnSummary = (...args) => {
+                let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
+                return ejs.render(t, ...args)
+            }
             next() //goes to the next middleware function (login or data collection)
         } else {
-            res.clearCookie('user_id');
-            res.clearCookie('username');
+            res.clearCookie('user_id')
+            res.clearCookie('username')
             consoleLog("session timeout")
             return res.json({"logout": true})
         }

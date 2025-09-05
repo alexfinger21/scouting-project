@@ -5,6 +5,7 @@
     "blueimp-md5": "^2.19.0",
     "buffer": "^6.0.3",
     "casdoor-js-sdk": "^0.16.0",
+    "casdoor-nodejs-sdk": "^1.29.0",
     "chartjs-plugin-annotation": "^2.1.0",
     "chartjs-plugin-datalabels": "^2.2.0",
     "chartjs-plugin-zoom": "^2.0.0",
