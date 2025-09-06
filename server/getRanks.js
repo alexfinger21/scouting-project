@@ -1,11 +1,13 @@
-require("dotenv").config()
+import dotenv from "dotenv"
 
-const request = require("request")
+import request from "request"
+import database from "./database/database.js"
+import gameConstants from "./game.js" 
+import { consoleLog } from "./utility.js"
+
+dotenv.config()
 const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
-const database = require("./database/database.js")
-const gameConstants = require('./game.js') 
-const { consoleLog } = require("./utility.js")
 
 const optionsRankings = {
     'method': 'GET',
@@ -137,4 +139,4 @@ console.log("Function took " + (Date.now() - t) + " ms")
 
 //returnAPIDATA()
 
-module.exports = {returnAPIDATA}
+export { returnAPIDATA }

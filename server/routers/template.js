@@ -1,5 +1,6 @@
-const express = require("express")
-const { checkAdmin } = require("../utility")
+import express from "express"
+import { checkAdmin } from "../utility.js"
+
 const router = express.Router()
 
 router.get("/", async (req, res) => {
@@ -7,4 +8,4 @@ router.get("/", async (req, res) => {
     return res.render("template", {isAdmin: isAdmin})
 })
 
-module.exports = router
+export default router

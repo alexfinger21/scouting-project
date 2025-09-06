@@ -1,9 +1,10 @@
-const database = require("../database/database.js")
-const express = require("express")
-const { checkAdmin, consoleLog, parseData } = require("../utility")
-const gameConstants = require("../game.js")
+import database from "../database/database.js"
+import express from "express"
+import { checkAdmin, consoleLog, parseData } from "../utility.js"
+import gameConstants from "../game.js"
+import SQL from "sql-template-strings"
+
 const router = express.Router()
-const SQL = require('sql-template-strings')
 
 async function getMatchup(match) {
     const [err, matchup] = await database.query(database.getMatchData(match))
@@ -183,4 +184,4 @@ router.post("/", function (req, res) {
     return res.send("req recieved")
 })
 
-module.exports = router
+export default router

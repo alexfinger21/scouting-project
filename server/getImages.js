@@ -1,12 +1,11 @@
-require("dotenv").config()
 
-const request = require("request")
+import request from "request"
+import gameConstants from "./game.js"
+import { consoleLog } from "./utility.js"
+
 const auth = process.env.TBA_AUTH
-const gameConstants = require('./game.js')
-const { consoleLog } = require("./utility")
-const { map } = require("jquery")
-
-consoleLog(auth)
+import dotenv from "dotenv"
+dotenv.config()
 
 function imageRequest(team) {
     return {

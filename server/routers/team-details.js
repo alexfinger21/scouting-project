@@ -1,11 +1,12 @@
-const database = require("../database/database.js")
-const express = require("express")
-const gameConstants = require("../game.js")
-const { consoleLog } = require("../utility")
+import database from "../database/database.js"
+import express from "express"
+import gameConstants from "../game.js"
+import { consoleLog } from "../utility.js"
+import { getImageData } from "../getImages.js"
+import {getMatchVideos } from "../TBAAPIData.js"
+import SQL from "sql-template-strings"
+
 const router = express.Router()
-const { getImageData } = require("../getImages.js")
-const {getMatchVideos } = require("../TBAAPIData.js")
-const SQL = require('sql-template-strings')
 
 function mergeDicts(dict1, dict2) {
     if (dict1 && dict2) {
@@ -136,4 +137,4 @@ router.post("/", function (req, res) {
     return res.send("req recieved")
 })
 
-module.exports = router
+export default router

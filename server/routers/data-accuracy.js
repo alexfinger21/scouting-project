@@ -1,7 +1,8 @@
-const express = require("express")
+import express from "express"
+import { consoleLog } from "../utility.js"
+import { combinedData } from "../dataAccuracy"
+
 const router = express.Router()
-const { consoleLog } = require("../utility")
-const { combinedData } = require("../dataAccuracy")
 
 router.get("/", async function (req, res) {
     consoleLog("RENDERING DATA ACCURACY")
@@ -14,4 +15,4 @@ router.get("/", async function (req, res) {
     }
 })
 
-module.exports = router
+export default router

@@ -1,7 +1,9 @@
-require('dotenv').config()
+import dotenv from "dotenv"
+import SQL from "sql-template-strings"
+
 const log = Number(process.env.LOG)
 const debugLog = Number(process.env.TRACE_LOG) //shows where console logs came from
-const SQL = require('sql-template-strings')
+dotenv.config()
 
 function arrAvg(...args) {
     return args.reduce((total, val) => total + val) / args.length
@@ -56,4 +58,4 @@ function parseData(info) {
     return JSON.parse(JSON.stringify(info))
 }
 
-module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData, logoutMS }
+export { checkAdmin, consoleLog, suggestTeam, parseData, logoutMS }

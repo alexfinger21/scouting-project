@@ -1,13 +1,13 @@
-const database = require("../database/database.js")
-const express = require("express")
-const gameConstants = require("../game.js")
-const { consoleLog } = require("../utility")
-const router = express.Router()
-const SQL = require('sql-template-strings')
-const socketManager = require("../sockets.js")
-const Team = require("../alliance-suggester/team.js")
-const Alliance = require("../alliance-suggester/alliance.js")
+import database from "../database/database.js"
+import express from "express"
+import gameConstants from "../game.js"
+import { consoleLog } from "../utility.js"
+import socketManager from "../sockets.js"
+import Team from "../alliance-suggester/team.js"
+import SQL from "sql-template-strings"
+import Alliance from "../alliance-suggester/alliance.js"
 
+const router = express.Router()
 
 //returns an array where the team is substituted for the rank
 function rank(arr) {
@@ -278,4 +278,4 @@ router.post("/", async function (req, res) {
     return res.status(200).send(ranks)
 })
 
-module.exports = router
+export default router

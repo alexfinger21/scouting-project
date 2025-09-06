@@ -1,6 +1,7 @@
-const express = require("express")
-const database = require("../database/database.js")
-const { checkAdmin, consoleLog } = require("../utility")
+import express from "express"
+import database from "../database/database.js"
+import { checkAdmin, consoleLog } from "../utility.js"
+
 const router = express.Router()
 
 router.get("/",  async function(req, res) { //only gets used if the url == team-summary
@@ -35,4 +36,4 @@ router.post("/", function(req, res) {
     
 })
 
-module.exports = router
+export default router

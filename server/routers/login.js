@@ -1,11 +1,12 @@
-const express = require("express")
+import express from "express"
+import crypto from "crypto"
+import database from "../database/database.js"
+import { consoleLog, logoutMS } from "../utility.js"
+import SQL from "sql-template-strings"
+import dotenv from "dotenv"
 const router = express.Router()
-const crypto = require("crypto")
-require('dotenv').config()
-const database = require("../database/database.js")
-const { consoleLog, logoutMS } = require("../utility")
-//SQL 
-const SQL = require('sql-template-strings')
+
+dotenv.config()
 
 async function checkUser(body) {
     const [err, dbRes] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${body.username} AND team_master_tm_number = ${body.team_number};`)
@@ -112,4 +113,4 @@ router.post("/", async function (req, res) {
     return res.status(200).send({ result: 'redirect', url: '/login?error=visible' })
 })
 
-module.exports = router
+export default router

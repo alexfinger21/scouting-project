@@ -1,9 +1,9 @@
-const express = require("express")
-const database = require("../database/database")
-const router = express.Router()
-const { consoleLog, checkAdmin } = require("../utility")
-const SQL = require('sql-template-strings')
+import express from "express"
+import database from "../database/database"
+import { consoleLog, checkAdmin } from "../utility.js"
+import SQL from "sql-template-strings"
 
+const router = express.Router()
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 function addZero(num) {
@@ -62,4 +62,4 @@ router.post("/", function (req, res) { //admin presses save button
     })
 })
 
-module.exports = router
+export default router

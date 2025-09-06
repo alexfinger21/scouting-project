@@ -1,5 +1,7 @@
-const mysql = require("mysql")
-require("dotenv").config()
+import mysql from "mysql"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const dbConfig = {
     host           : process.env.DATABASE_HOST,
@@ -34,4 +36,4 @@ pool.getConnection((err, connection) => {
   }
 })
 
-module.exports = pool
+export default pool

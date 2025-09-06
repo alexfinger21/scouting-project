@@ -1,4 +1,4 @@
-const {SDK, SdkConfig} = require("casdoor-nodejs-sdk")
+const { SDK } = require("casdoor-nodejs-sdk")
 
 const sdkConfig  = {
     serverUrl: "https://sso.team695.com",

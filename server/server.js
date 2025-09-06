@@ -1,23 +1,44 @@
 //MODULES
-const https = require("https")
-const {SDK, SdkConfig} = require("casdoor-nodejs-sdk")
-const express = require("express")
-const path = require("path")
-const app = express()
-const ejs = require("ejs")
-const cookieParser = require('cookie-parser')
-const cors = require("cors")
-const { consoleLog } = require("./utility")
-const fs = require("fs")
-require("dotenv").config()
-const database = require("./database/database.js")
-const { gameStart, gameEnd } = require("./game.js")
-const { returnAPIDATA } = require("./getRanks.js")
-const socketManager = require("./sockets.js")
-const SQL = require("sql-template-strings")
-const gameConstants = require("./game.js")
+import https from "https"
+import express from "express"
+import path from "path"
+import ejs from "ejs"
+import cookieParser from "cookie-parser"
+import cors from "cors"
+import { consoleLog } from "./utility.js"
+import fs from "fs"
+import database from "./database/database.js"
+import { returnAPIDATA } from "./getRanks.js"
+import socketManager from "./sockets.js"
+import SQL from "sql-template-strings"
+import gameConstants from "./game.js"
+import dotenv from "dotenv"
+import { Server } from "socket.io"
 
-const { Server } = require("socket.io")
+//DIRECTORIES
+const serverDirectory = "./server"
+const routeDirectory = "routers"
+
+//ROUTERS
+const login = await import(path.resolve(serverDirectory, routeDirectory, "login.js"))
+const dataCollection = await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))
+const teamSummary = await import(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))
+const matchStrategy = await import(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
+const allianceSelector = await import(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
+const matchListing = await import(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
+const matchVerify = await import(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))
+const adminPage = await import(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
+const teamRankings = await import(path.resolve(serverDirectory, routeDirectory, "rankings.js"))
+const teamDetails = await import(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
+const allianceInput = await import(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
+const gameStrategy = await import(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
+const pitScouting = await import(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
+const template = await import(path.resolve(serverDirectory, routeDirectory, "template.js"))
+const dataAccuracy = await import(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))
+const apiRouter = await import(path.resolve(serverDirectory, routeDirectory, "api.js"))
+
+const app = express()
+dotenv.config()
 
 const credentials = {
     key: fs.readFileSync("./server/certs/privkey.pem"),
@@ -25,29 +46,6 @@ const credentials = {
 }
 
 const server = https.createServer(credentials, app)
-
-//DIRECTORIES
-const serverDirectory = "./server"
-const routeDirectory = "routers"
-
-//ROUTERS
-
-const login = require(path.resolve(serverDirectory, routeDirectory, "login.js"))
-const dataCollection = require(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))
-const teamSummary = require(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))
-const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
-const allianceSelector = require(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
-const matchListing = require(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
-const matchVerify = require(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))
-const adminPage = require(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
-const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "rankings.js"))
-const teamDetails = require(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
-const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
-const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
-const pitScouting = require(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
-const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
-const dataAccuracy = require(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))
-const apiRouter = require(path.resolve(serverDirectory, routeDirectory, "api.js"))
 
 //CONSTANTS
 const corsOptions = {
@@ -76,8 +74,8 @@ const io = new Server(server, {
 
 //FUNCTIONS
 async function runAPICall() {
-    const startTick = gameStart.getTime()
-    const endTick = gameEnd.getTime()
+    const startTick = gameConstants.gameStart.getTime()
+    const endTick = gameConstants.gameEnd.getTime()
     const currentTick = Date.now()
     consoleLog(currentTick)
     consoleLog(startTick)
@@ -105,16 +103,6 @@ io.on("connection", (socket) => {
 
     consoleLog(socketManager.getSockets())
 })
-
-const sdkConfig  = {
-    serverUrl: "https://sso.team695.com",
-    clientId: "8f4953fcb962d4f7c823",
-    appName: "695_scoutify_webapp",
-    organizationName: "Team695",
-    redirectPath: "/callback",
-    signinPath: "/api/signin",
-}
-const sdk = new SDK(sdkConfig)
 
 app.use("/static", express.static("./client/static"))
 

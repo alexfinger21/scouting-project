@@ -1,9 +1,10 @@
-const express = require("express")
-const gameConstants = require("../game.js")
+import express from "express"
+import gameConstants from "../game.js"
+import { consoleLog } from "../utility.js"
+import database from "../database/database.js"
+import SQL from "sql-template-strings"
+
 const router = express.Router()
-const { consoleLog } = require("../utility")
-const database = require("../database/database.js")
-const SQL = require("sql-template-strings")
 
 //GET MATCH
 router.get("/getMatch", function (req, res) {
@@ -40,4 +41,4 @@ router.get("/getMatchTeams", function (req, res) {
     })
 })
 
-module.exports = router
+export default router

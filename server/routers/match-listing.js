@@ -1,15 +1,16 @@
-const express = require("express")
+import express from "express"
 const router = express.Router()
-require('dotenv').config()
-const database = require("../database/database.js")
-const { checkAdmin } = require("../utility")
-const {getMatchVideos } = require("../TBAAPIData.js")
-const socketManager = require("../sockets.js")
-const { consoleLog } = require("../utility")
-const SQL = require('sql-template-strings')
+import database from "../database/database.js"
+import { checkAdmin } from "../utility.js"
+import {getMatchVideos } from "../TBAAPIData.js"
+import socketManager from "../sockets.js"
+import { consoleLog } from "../utility.js"
+import SQL from "sql-template-strings"
+
+import dotenv from "dotenv"
+dotenv.config()
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
 process.env.lastPlayedMatch = 1
 
 function addZero(num) {
@@ -164,4 +165,4 @@ router.post("/", function (req, res) {
     }
 })
 
-module.exports = router
+export default router
