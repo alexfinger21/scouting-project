@@ -8,7 +8,7 @@ const ignoredParams = [
 ]
 
 const customWeights = {
-    "total_game_score_avg": 1.1
+    "total_game_score_avg":1.1
 }
 
 module.exports = class Alliance {

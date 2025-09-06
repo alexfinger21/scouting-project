@@ -27,7 +27,7 @@ function getTeamsFromTr(tr) {
 function getTeamRankings(pickedAlliance, teams) {
     consoleLog("PICKED: ", pickedAlliance)
     return new Promise(resolve => {
-
+        consoleLog("GOT HERE")
         $.ajax({
             type: "POST",
             contentType: "application/json",
@@ -39,7 +39,8 @@ function getTeamRankings(pickedAlliance, teams) {
             },
 
             error: function (jqXHR, textStatus, errorThrown) {
-
+                console.error("Error getting alliance picks", errorThrown)
+                resolve(false)
             },
         })
     })

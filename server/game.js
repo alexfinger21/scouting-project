@@ -2,7 +2,7 @@ const YEAR = 2025
 const COMP = "joh"
 const GAME_TYPE = "Q"
 const gameStart = new Date("April 16, 2025")
-const gameEnd = new Date("April 22, 2025")
+const gameEnd = new Date("November 22, 2025")
 const sch_constants =
     [[1, 30, '2025-04-17', '08:15:00', 480000],
      [31, 62, '2025-04-17', '13:50:00', 480000],
