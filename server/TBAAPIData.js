@@ -1,5 +1,3 @@
-
-//const csv = require('fast-csv')
 import request from "request"
 import gameConstants from "./game.js"
 import { consoleLog } from "./utility.js"

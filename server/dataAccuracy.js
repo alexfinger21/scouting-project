@@ -8,7 +8,6 @@
 
 import dotenv from "dotenv"
 
-//const csv = require('fast-csv')
 import { getScoutifyMatchData } from "./database/database.js"
 import { getData } from "./TBAAPIData.js"
 
