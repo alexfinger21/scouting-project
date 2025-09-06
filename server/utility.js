@@ -20,22 +20,23 @@ function consoleLog(...args) {
     }
 }
 
-function checkAdmin(req) {
-    const database = require("./database/database.js")
+async function checkAdmin(req) {
+    const database = await import("./database/database.js")
     const username = req.cookies["username"]
-    return new Promise((resolve) => {
-        database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`, function (error, results) {
-            if (error)
-                throw error;
 
-            consoleLog(results[0].um_admin_f == true)
-            if (results[0].um_admin_f == 1) { //is admin
-                resolve(true)
-            }
+    try {
+        const [err, dbR] = await database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`)
+        
+        if (err) throw err
 
-            resolve(false)
-        })
-    })
+        if (dbR[0].um_admin_f == 1) { //is admin
+            return true
+        }
+    } catch(err) {
+        console.log("err while checking if admin: ", err)
+    }
+    
+    return false
 }
 
 function suggestTeam(currentAlliance, otherAlliances) {

@@ -6,20 +6,14 @@
 - Check the first two function which take the data from TBA and DB and make sure they aren't getting false matches like null and such
 */
 
-require("dotenv").config()
+import dotenv from "dotenv"
 
 //const csv = require('fast-csv')
-const request = require("request")
-const auth = process.env.TBA_AUTH
-const gameConstants = require("./game.js")
-const { consoleLog, parseData } = require("./utility.js")
-const { default: jsPDF } = require("jspdf")
-const { json } = require("express")
-const { getScoutifyMatchData, database } = require("./database/database.js")
-const { getData } = require("./TBAAPIData.js")
+import { getScoutifyMatchData } from "./database/database.js"
+import { getData } from "./TBAAPIData.js"
 
 //make sure you 'git install' so that you have the updated node_modules
-const fs = require('node:fs/promises'); // file-system for writing to other files
+dotenv.config()
 
 
 // CONSTANTS TO BE CHANGED EVERY YEAR
@@ -309,4 +303,4 @@ async function combinedData() // combine data from TBA and DB
 //APIData()
 //DataBaseData()
 
-module.exports = {combinedData, TBAAPINAMES}
+export { combinedData, TBAAPINAMES }

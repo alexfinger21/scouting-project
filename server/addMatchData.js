@@ -1,12 +1,11 @@
-require("dotenv").config()
-//const csv = require('fast-csv')
-const request = require("request")
+import request from "request"
 const auth = process.env.TBA_AUTH
-const gameConstants = require("./game.js")
-const { consoleLog, parseData } = require("./utility.js")
-const { default: jsPDF } = require("jspdf")
-const { json } = require("express")
-const database = require("./database/database.js")
+import gameConstants from "./game.js"
+import { consoleLog } from "./utility.js"
+import database fr om "./database/database.js"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const matchList = {
     "method": "GET",
@@ -72,7 +71,7 @@ function getData () {
         })
     })
 } 
-function gameTimes (matchNum) 
+function gameTimes(matchNum) 
 {
     let gameArray = []
     let date = ''
@@ -95,4 +94,5 @@ function gameTimes (matchNum)
 
 }
 getData()
-module.exports = {getData}
+
+export { getData }

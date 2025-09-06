@@ -20,22 +20,22 @@ const serverDirectory = "./server"
 const routeDirectory = "routers"
 
 //ROUTERS
-const login = await import(path.resolve(serverDirectory, routeDirectory, "login.js"))
-const dataCollection = await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))
-const teamSummary = await import(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))
-const matchStrategy = await import(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
-const allianceSelector = await import(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
-const matchListing = await import(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
-const matchVerify = await import(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))
-const adminPage = await import(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
-const teamRankings = await import(path.resolve(serverDirectory, routeDirectory, "rankings.js"))
-const teamDetails = await import(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
-const allianceInput = await import(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
-const gameStrategy = await import(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
-const pitScouting = await import(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
-const template = await import(path.resolve(serverDirectory, routeDirectory, "template.js"))
-const dataAccuracy = await import(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))
-const apiRouter = await import(path.resolve(serverDirectory, routeDirectory, "api.js"))
+const login = (await import(path.resolve(serverDirectory, routeDirectory, "login.js"))).default
+const dataCollection = (await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))).default
+const teamSummary = (await import(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))).default
+const matchStrategy = (await import(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))).default
+const allianceSelector = (await import(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))).default
+const matchListing = (await import(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))).default
+const matchVerify = (await import(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))).default
+const adminPage = (await import(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))).default
+const teamRankings = (await import(path.resolve(serverDirectory, routeDirectory, "rankings.js"))).default
+const teamDetails = (await import(path.resolve(serverDirectory, routeDirectory, "team-details.js"))).default
+const allianceInput = (await import(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))).default
+const gameStrategy = (await import(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))).default
+const pitScouting = (await import(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))).default
+const template = (await import(path.resolve(serverDirectory, routeDirectory, "template.js"))).default
+const dataAccuracy = (await import(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))).default
+const apiRouter = (await import(path.resolve(serverDirectory, routeDirectory, "api.js"))).default
 
 const app = express()
 dotenv.config()

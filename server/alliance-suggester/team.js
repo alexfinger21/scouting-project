@@ -20,7 +20,7 @@ const props = {
     endgame_total_score_avg: "total endgame score",
 }
 
-module.exports = class Team {
+export default class Team {
     constructor(props) {
         this.name = props.tm_name
         this.tm_num = props.team_master_tm_number
@@ -42,9 +42,9 @@ module.exports = class Team {
                 for (const p of Object.keys(t.props)) {
                     if (!isNaN(t.props[p])) {
                         if (!res[p]) {
-                            res[p] = t.props[p]/tlen
+                            res[p] = t.props[p] / tlen
                         } else {
-                            res[p] += t.props[p]/tlen
+                            res[p] += t.props[p] / tlen
                         }
                     }
                 }
@@ -55,26 +55,26 @@ module.exports = class Team {
     }
 
     getRank(comp, weights) {
-        let res = 0 
+        let res = 0
         let maxStat = -1
 
         for (const i of Object.keys(comp)) {
             if (weights?.[i]) {
-                const addR = this.props[i]/comp[i] * weights[i]
+                const addR = this.props[i] / comp[i] * weights[i]
                 if (isNaN(addR)) {
                     res += this.props[i] ? (this.props[i] * weights[i]) : 0
                 } else {
                     res += addR
                 }
 
-                if (this.props[i]/comp[i] > maxStat) {
+                if (this.props[i] / comp[i] > maxStat) {
                     this.suggestions.best = `best stat is ${props[i]}`
-                    maxStat = this.props[i]/comp[i] 
+                    maxStat = this.props[i] / comp[i]
                 }
-                if (this.props[i]/comp[i] <= UNSUCCESSFUL_THRESHHOLD) {
+                if (this.props[i] / comp[i] <= UNSUCCESSFUL_THRESHHOLD) {
                     this.suggestions.unsuccessful.push(`unsuccessful at ${props[i]}`)
                 }
-                if (this.props[i]/comp[i] >= SUCCESSFUL_THRESHHOLD) {
+                if (this.props[i] / comp[i] >= SUCCESSFUL_THRESHHOLD) {
                     this.suggestions.successful.push(`good at ${props[i]}`)
                 }
             }
@@ -86,5 +86,5 @@ module.exports = class Team {
 
 
         return res
-    }    
+    }
 }

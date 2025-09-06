@@ -1,6 +1,6 @@
 import express from "express"
 import { checkAdmin, consoleLog } from "../utility.js"
-import database from "../database/database"
+import database from "../database/database.js"
 import gameConstants from "../game.js"
 import game from "../game.js"
 import SQL from "sql-template-strings"

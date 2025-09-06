@@ -1,5 +1,5 @@
 import express from "express"
-import database from "../database/database"
+import database from "../database/database.js"
 import { consoleLog, checkAdmin } from "../utility.js"
 import SQL from "sql-template-strings"
 

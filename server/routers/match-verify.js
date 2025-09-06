@@ -1,7 +1,6 @@
 import express from "express"
-import database from "../database/database"
+import database from "../database/database.js"
 import { consoleLog, checkAdmin } from "../utility.js"
-import SQL from "sql-template-strings"
 
 const router = express.Router()
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]

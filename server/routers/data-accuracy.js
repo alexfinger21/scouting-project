@@ -1,6 +1,6 @@
 import express from "express"
 import { consoleLog } from "../utility.js"
-import { combinedData } from "../dataAccuracy"
+import { combinedData } from "../dataAccuracy.js"
 
 const router = express.Router()
 

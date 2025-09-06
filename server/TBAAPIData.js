@@ -1,13 +1,12 @@
-require("dotenv").config()
 
 //const csv = require('fast-csv')
-const request = require("request")
+import request from "request"
+import gameConstants from "./game.js"
+import { consoleLog } from "./utility.js"
+import dotenv from "dotenv"
+
 const auth = process.env.TBA_AUTH
-const gameConstants = require("./game.js")
-const { consoleLog, parseData } = require("./utility.js")
-const { default: jsPDF } = require("jspdf")
-const { json } = require("express")
-const database = require("./database/database.js")
+dotenv.config()
 
 const matchList = {
     "method": "GET",
@@ -94,4 +93,4 @@ async function getMatchVideos(specificTeam=false)
     return matchVideos
 }
 
-module.exports = {getMatchVideos, getData}
+export { getMatchVideos, getData }
