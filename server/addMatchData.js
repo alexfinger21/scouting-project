@@ -2,7 +2,7 @@ import request from "request"
 const auth = process.env.TBA_AUTH
 import gameConstants from "./game.js"
 import { consoleLog } from "./utility.js"
-import database fr om "./database/database.js"
+import database from "./database/database.js"
 import dotenv from "dotenv"
 
 dotenv.config()
