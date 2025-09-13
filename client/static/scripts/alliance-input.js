@@ -1,5 +1,6 @@
 import { socket, paths, requestData, requestPage, currentPage, consoleLog} from "./utility.js"
 
+
 socket.on("allianceSelection", (match_num) => {
     consoleLog("nice")
     consoleLog(currentPage)
