@@ -8,6 +8,7 @@ const sdkConfig  = {
     redirectPath: "/callback",
     signinPath: "/api/signin",
 }
+
 const sdk = new SDK(sdkConfig)
 
 module.exports = { sdk }
