@@ -143,21 +143,7 @@ function getMatch() {
 }
 
 (function getUsername() {
-    return new Promise(resolve => {
-        $.ajax({
-            type: "GET",
-            url: "/api/getUsername",
-            success: function(response) {
-                consoleLog("CURRENT PAGE", currentPage)
-                if (Object.values(paths).includes(currentPage)) {
-                    document.getElementById("username-holder").innerText = response.comp.toUpperCase() + " - " + response.username
-
-                    socket.emit("username", {name: response})
-                    resolve(response)
-                }   
-            }
-        })
-    })
+    return sessionStorage.getItem("u_token") 
 })()
 
 function requestData(url, data) {
