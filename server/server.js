@@ -14,7 +14,7 @@ import SQL from "sql-template-strings"
 import gameConstants from "./game.js"
 import dotenv from "dotenv"
 import { Server } from "socket.io"
-import sdk from "./auth/auth.js"
+import casdoorSdk from "./auth/auth.js"
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -122,13 +122,10 @@ app.use(cookieParser())
 //middleware for anyone on the site, checking whether they're logged in or not
 
 app.use(async (req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
-    console.log(req.cookies)
-    if (!req.cookies?.u_token && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
+    if (!req.cookies.u_token && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else if (req.path != "/login") {
-        consoleLog(req.path)
-        const user = sdk.parseJwtToken(req.cookies?.u_token)
-        consoleLog(user)
+        const user = casdoorSdk.parseJwtToken(req.cookies.u_token)
 
         if (user) {
             const userAgent = req.headers["user-agent"] || ""

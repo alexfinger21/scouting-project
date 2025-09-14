@@ -26,7 +26,7 @@ const paths = {
 function consoleLog(...args) {
     if (log) {
         console.log(...args)
-        if(debugLog) {
+        if (debugLog) {
             console.trace()
         }
     }
@@ -38,15 +38,15 @@ const timer = ms => new Promise((res, rej) => setTimeout(res, ms))
 function waitForElem(query) {
     return new Promise((res, rej) => {
         consoleLog(query)
-        const ogQuery = document.querySelector(query) 
+        const ogQuery = document.querySelector(query)
         if (ogQuery) {
             return res(ogQuery)
         }
         const observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
-                if (!mutation.addedNodes) {continue;}
+                if (!mutation.addedNodes) { continue; }
 
-                const queryRes = document.querySelector(query) 
+                const queryRes = document.querySelector(query)
                 if (queryRes) {
                     observer.disconnect()
                     return res(queryRes)
@@ -61,7 +61,7 @@ function hexToRgb(hex) {
 }
 
 function lerp(a, b, c) {
-    return a + (b-a) * c
+    return a + (b - a) * c
 }
 
 const highlightColors = {
@@ -89,33 +89,33 @@ function lerpColor(current, goal, tickDiff, changePerS) {
     const [c1, c2, c3] = getColors(current)
     const [g1, g2, g3] = getColors(goal)
 
-    const l = Math.min(1, tickDiff/1000*changePerS)
+    const l = Math.min(1, tickDiff / 1000 * changePerS)
 
     return `rgb(${lerp(c1, g1, isNaN(l) ? 0 : l)}, ${lerp(c2, g2, isNaN(l) ? 0 : l)}, ${lerp(c3, g3, isNaN(l) ? 0 : l)})`
 }
 
 function lerpOpacity(current, goal, tickDiff, changePerS) {
-    const i = Math.min(1, tickDiff/1000*changePerS)
-    return lerp(current, goal, isNaN(i) ? 0: i)
+    const i = Math.min(1, tickDiff / 1000 * changePerS)
+    return lerp(current, goal, isNaN(i) ? 0 : i)
 }
 
 //decides whether point (x,y) is inside a triangle with vertices (x1,y1), (x2,y2), and (x3,y3)
-function insideTriangle(x1,y1,x2,y2,x3,y3,x,y) {
-    const x_coeff_1 = y2-y1
-    const y_coeff_1 = x1-x2
-    const const_1 = (y2-y1)*(-x1)+(x2-x1)*(y1)
+function insideTriangle(x1, y1, x2, y2, x3, y3, x, y) {
+    const x_coeff_1 = y2 - y1
+    const y_coeff_1 = x1 - x2
+    const const_1 = (y2 - y1) * (-x1) + (x2 - x1) * (y1)
     const is_pos11 = (x_coeff_1 * x3 + y_coeff_1 * y3 + const_1 >= 0)
     const is_pos1p = (x_coeff_1 * x + y_coeff_1 * y + const_1 >= 0)
 
-    const x_coeff_2 = y3-y2
-    const y_coeff_2 = x2-x3
-    const const_2 = (y3-y2)*(-x2)+(x3-x2)*(y2)
+    const x_coeff_2 = y3 - y2
+    const y_coeff_2 = x2 - x3
+    const const_2 = (y3 - y2) * (-x2) + (x3 - x2) * (y2)
     const is_pos21 = (x_coeff_2 * x1 + y_coeff_2 * y1 + const_2 >= 0)
     const is_pos2p = (x_coeff_2 * x + y_coeff_2 * y + const_2 >= 0)
 
-    const x_coeff_3 = y1-y3
-    const y_coeff_3 = x3-x1
-    const const_3 = (y1-y3)*(-x3)+(x1-x3)*(y3)
+    const x_coeff_3 = y1 - y3
+    const y_coeff_3 = x3 - x1
+    const const_3 = (y1 - y3) * (-x3) + (x1 - x3) * (y3)
     const is_pos31 = (x_coeff_3 * x2 + y_coeff_3 * y2 + const_3 >= 0)
     const is_pos3p = (x_coeff_3 * x + y_coeff_3 * y + const_3 >= 0)
 
@@ -130,12 +130,12 @@ function getMatch() {
             type: "GET",
             contentType: "application/json",
             url: "/api/getMatch",
-            success: function (response) {
+            success: function(response) {
                 consoleLog(response.match)
                 resolve(response.match)
             },
 
-            error: function (jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR, textStatus, errorThrown) {
                 //consoleLog("Error\n" + errorThrown, jqXHR)
             },
         })
@@ -143,7 +143,20 @@ function getMatch() {
 }
 
 (function getUsername() {
-    return sessionStorage.getItem("u_token") 
+    return new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: "/api/getUserInfo",
+            success: function(response) {
+                if (Object.values(paths).includes(currentPage)) {
+                    document.getElementById("username-holder").innerText = response.comp.toUpperCase() + " - " + response.user.preferred_username
+
+                    socket.emit("username", {name: response.user.preferred_username})
+                    resolve(response)
+                }   
+            }
+        })
+    })
 })()
 
 function requestData(url, data) {
@@ -153,45 +166,40 @@ function requestData(url, data) {
             contentType: "application/json",
             url: url,
             data: JSON.stringify(data),
-            success: function (response) {
+            success: function(response) {
                 consoleLog(response)
                 resolve(response)
             },
 
-            error: function (jqXHR, textStatus, errorThrown) {
+            error: function(jqXHR, textStatus, errorThrown) {
                 consoleLog("Error\n" + errorThrown, jqXHR)
             },
         })
     })
 }
 
-function selectRandom(obj)
-{
-    let num =  obj[Math.round(Math.random() * (obj.length - 1))]
+function selectRandom(obj) {
+    let num = obj[Math.round(Math.random() * (obj.length - 1))]
     return num
 }
 
 //returns the rgb value given a color
-function getColor(color)
-{
-    if(color == "red")
-    {
+function getColor(color) {
+    if (color == "red") {
         return "rgb(255,0,0)"
     }
-    else if(color == "yellow")
-    {
+    else if (color == "yellow") {
         return "rgb(255,245,0)"
     }
-    else
-    {
+    else {
         return "rgb(0,255,0)"
     }
-}   
+}
 
 function arrHasDuplicates(arr) {
-    for(let i = 0; i < arr.length; i++) {
-        for(let j = i+1; j < arr.length; j++) {
-            if(arr[i] == arr[j]) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] == arr[j]) {
                 return true
             }
         }
@@ -218,9 +226,9 @@ async function requestPage(url, data, pageVal) {
                 }
 
                 $(response).each(function() {
-                if ($(this).attr('id') == "page-holder") {
-                    temp = $(this)
-                }
+                    if ($(this).attr('id') == "page-holder") {
+                        temp = $(this)
+                    }
                 })
 
                 document.body.removeChild(document.getElementById("page-holder"))
@@ -229,8 +237,7 @@ async function requestPage(url, data, pageVal) {
             }
         },
 
-        error: function(jqXHR, textStatus, errorThrown)
-        {
+        error: function(jqXHR, textStatus, errorThrown) {
             consoleLog("Error loading page (h)\n" + errorThrown, jqXHR)
             consoleLog(textStatus)
             consoleLog("debug trace: \nurl: " + url + "\ndata " + data + "\npageVal: " + pageVal)
@@ -239,7 +246,7 @@ async function requestPage(url, data, pageVal) {
 }
 
 function isObject(o) {
-    return o && typeof(o) == "object" && !Array.isArray(o)
+    return o && typeof (o) == "object" && !Array.isArray(o)
 }
 
 function deepMerge(target, ...sources) {
@@ -255,7 +262,7 @@ function deepMerge(target, ...sources) {
                 }
                 else {
                     if (isObject(target[k])) {
-                        Object.assign(target[k], {[k]: s[k]})
+                        Object.assign(target[k], { [k]: s[k] })
                     } else {
                         target[k] = s[k]
                     }
@@ -301,4 +308,4 @@ async function waitUntilImagesLoaded(imgs) {
 
 //console.dir(deepMerge({a: 1, b: {x: 69}}, { b : { c: { d: { e: 12345}}}}))
 
-export {consoleLog, waitUntilImagesLoaded, lerpColor, lerpOpacity, insideTriangle, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors}
+export { consoleLog, waitUntilImagesLoaded, lerpColor, lerpOpacity, insideTriangle, checkPage, isObject, waitForElem, deepMerge, canvasFPS, lerp, socket, currentPage, clamp, selectRandom, getColor, requestPage, paths, arrHasDuplicates, getMatch, requestData, highlightColors }

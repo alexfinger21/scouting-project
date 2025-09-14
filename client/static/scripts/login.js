@@ -1,9 +1,9 @@
-import casdoorSDK from "./casdoor-config.js"
+import casdoorSdk from "./casdoor-config.js"
 import { paths } from "./utility.js"
 
 window.addEventListener("load", () => {
     if (!window.location.search?.length) {
-        window.location.href = casdoorSDK.getSigninUrl() 
+        window.location.href = casdoorSdk.getSigninUrl() 
     } else {
         $.ajax({
             type: "POST",
@@ -13,9 +13,6 @@ window.addEventListener("load", () => {
                 code: window.location.search.length > 6 ? window.location.search.slice(6, window.location.search.indexOf("&")) : null
             }),
             success: function (response) {
-                console.log(response)
-                console.log(response.token.length)
-                window.u_token = response.token
                 window.location.href = "/"
             },
 
