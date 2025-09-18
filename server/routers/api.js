@@ -1,9 +1,11 @@
-const express = require("express")
-const gameConstants = require("../game.js")
+import express from "express"
+import gameConstants from "../game.js"
+import { consoleLog } from "../utility.js"
+import database from "../database/database.js"
+import SQL from "sql-template-strings"
+import casdoorSdk from "../auth/auth.js"
+
 const router = express.Router()
-const { consoleLog } = require("../utility")
-const database = require("../database/database.js")
-const SQL = require("sql-template-strings")
 
 //GET MATCH
 router.get("/getMatch", function (req, res) {
@@ -18,18 +20,13 @@ router.get("/getMatch", function (req, res) {
     })
 })
 
-//GET USERNAME
-router.get("/getUsername", async (req, res) => {
-    consoleLog("COOKIES", req.cookies)
-    let [err, dbRes] = await database.query(SQL`SELECT * FROM teamsixn_scouting_dev.user_master um WHERE um.um_id = ${req.cookies["username"]};`)
-    
-    consoleLog("DB RES", dbRes)
-    const user = JSON.parse(JSON.stringify(dbRes))
-    if (user?.length > 0) {
-        return res.send({username: user[0]["um_name"], comp: gameConstants.COMP})
-    }
+router.get("/getUserInfo", function (req, res) {
+    const user = casdoorSdk.parseJwtToken(req.cookies.u_token)
 
-    return res.send("unknown")
+    return res.send({
+        user, 
+        comp: gameConstants.COMP
+    })
 })
 
 router.get("/getMatchTeams", function (req, res) {
@@ -40,4 +37,4 @@ router.get("/getMatchTeams", function (req, res) {
     })
 })
 
-module.exports = router
+export default router

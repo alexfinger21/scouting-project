@@ -1,22 +1,45 @@
 //MODULES
-const https = require("https")
-const express = require("express")
-const path = require("path")
-const app = express()
-const ejs = require("ejs")
-const cookieParser = require('cookie-parser')
-const cors = require("cors")
-const { consoleLog } = require("./utility")
-const fs = require("fs")
-require("dotenv").config()
-const database = require("./database/database.js")
-const { gameStart, gameEnd } = require("./game.js")
-const { returnAPIDATA } = require("./getRanks.js")
-const socketManager = require("./sockets.js")
-const SQL = require("sql-template-strings")
-const gameConstants = require("./game.js")
+import https from "https"
+import express from "express"
+import path from "path"
+import ejs from "ejs"
+import cookieParser from "cookie-parser"
+import cors from "cors"
+import { consoleLog } from "./utility.js"
+import fs from "fs"
+import database from "./database/database.js"
+import { returnAPIDATA } from "./getRanks.js"
+import socketManager from "./sockets.js"
+import SQL from "sql-template-strings"
+import gameConstants from "./game.js"
+import dotenv from "dotenv"
+import { Server } from "socket.io"
+import casdoorSdk from "./auth/auth.js"
 
-const { Server } = require("socket.io")
+//DIRECTORIES
+const serverDirectory = "./server"
+const routeDirectory = "routers"
+
+//ROUTERS
+const login = (await import(path.resolve(serverDirectory, routeDirectory, "login.js"))).default
+const dataCollection = (await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))).default
+const teamSummary = (await import(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))).default
+const matchStrategy = (await import(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))).default
+const allianceSelector = (await import(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))).default
+const matchListing = (await import(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))).default
+const matchVerify = (await import(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))).default
+const adminPage = (await import(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))).default
+const teamRankings = (await import(path.resolve(serverDirectory, routeDirectory, "rankings.js"))).default
+const teamDetails = (await import(path.resolve(serverDirectory, routeDirectory, "team-details.js"))).default
+const allianceInput = (await import(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))).default
+const gameStrategy = (await import(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))).default
+const pitScouting = (await import(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))).default
+const template = (await import(path.resolve(serverDirectory, routeDirectory, "template.js"))).default
+const dataAccuracy = (await import(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))).default
+const apiRouter = (await import(path.resolve(serverDirectory, routeDirectory, "api.js"))).default
+
+const app = express()
+dotenv.config()
 
 const credentials = {
     key: fs.readFileSync("./server/certs/privkey.pem"),
@@ -25,29 +48,6 @@ const credentials = {
 
 const server = https.createServer(credentials, app)
 
-//DIRECTORIES
-const serverDirectory = "./server"
-const routeDirectory = "routers"
-
-//ROUTERS
-
-const login = require(path.resolve(serverDirectory, routeDirectory, "login.js"))
-const dataCollection = require(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))
-const teamSummary = require(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))
-const matchStrategy = require(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))
-const allianceSelector = require(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))
-const matchListing = require(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))
-const matchVerify = require(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))
-const adminPage = require(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))
-const teamRankings = require(path.resolve(serverDirectory, routeDirectory, "rankings.js"))
-const teamDetails = require(path.resolve(serverDirectory, routeDirectory, "team-details.js"))
-const allianceInput = require(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))
-const gameStrategy = require(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))
-const pitScouting = require(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))
-const template = require(path.resolve(serverDirectory, routeDirectory, "template.js"))
-const dataAccuracy = require(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))
-const apiRouter = require(path.resolve(serverDirectory, routeDirectory, "api.js"))
-
 //CONSTANTS
 const corsOptions = {
     origin: '*',
@@ -55,11 +55,11 @@ const corsOptions = {
 }
 
 const allowCrossDomain = function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    res.header('Access-Control-Allow-Headers', 'Content-Type')
 
-    next();
+    next()
 }
 
 
@@ -75,8 +75,8 @@ const io = new Server(server, {
 
 //FUNCTIONS
 async function runAPICall() {
-    const startTick = gameStart.getTime()
-    const endTick = gameEnd.getTime()
+    const startTick = gameConstants.gameStart.getTime()
+    const endTick = gameConstants.gameEnd.getTime()
     const currentTick = Date.now()
     consoleLog(currentTick)
     consoleLog(startTick)
@@ -107,7 +107,7 @@ io.on("connection", (socket) => {
 
 app.use("/static", express.static("./client/static"))
 
-app.use(allowCrossDomain);
+app.use(allowCrossDomain)
 //sets variables to be used later
 app.set("views", "./client/templates")
 app.set("view engine", "ejs")
@@ -122,37 +122,22 @@ app.use(cookieParser())
 //middleware for anyone on the site, checking whether they're logged in or not
 
 app.use(async (req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
-    consoleLog(req.path)
-    if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
+    if (!req.cookies.u_token && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else if (req.path != "/login") {
-        consoleLog(req.path)
-        const username = req.cookies["username"]
-        const [err, results] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${username} AND um.um_timeout_ts > current_timestamp();`)
-        
-        if (err) {
-            consoleLog("LOGIN ERROR: " + err)
-        }
-        
-        const result = JSON.parse(JSON.stringify(results))[0]
-        let splitResult = result?.um_session_id ? result?.um_session_id.split(",") : new Array()
-        if (splitResult.length == 0) {
-            splitResult = [result?.um_session_id]
-        }
-        if (splitResult.indexOf(req.cookies["user_id"]) != -1) {
+        const user = casdoorSdk.parseJwtToken(req.cookies.u_token)
+
+        if (user) {
             const userAgent = req.headers["user-agent"] || ""
             res.locals.isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent) //pass in if mobile browser to EJS
 
-//local EJS functions
-res.locals.columnSummary = (...args) => {
-    let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
-    return ejs.render(t, ...args)
-}
+            //local EJS functions
+            res.locals.columnSummary = (...args) => {
+                let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
+                return ejs.render(t, ...args)
+            }
             next() //goes to the next middleware function (login or data collection)
         } else {
-            res.clearCookie('user_id');
-            res.clearCookie('username');
-            consoleLog("session timeout")
             return res.json({"logout": true})
         }
     } else {

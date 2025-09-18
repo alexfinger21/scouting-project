@@ -1,10 +1,11 @@
-const express = require("express")
-const { checkAdmin, consoleLog } = require("../utility")
-const database = require("../database/database")
+import express from "express"
+import { checkAdmin, consoleLog } from "../utility.js"
+import database from "../database/database.js"
+import gameConstants from "../game.js"
+import game from "../game.js"
+import SQL from "sql-template-strings"
+
 const router = express.Router()
-const gameConstants = require("../game.js")
-const game = require("../game.js")
-const SQL = require('sql-template-strings')
 
 function addZero(num) {
     return num < 10 ? "0" + num : num
@@ -40,4 +41,4 @@ router.post("/", function (req, res) {
     consoleLog(body)
 })
 
-module.exports = router
+export default router

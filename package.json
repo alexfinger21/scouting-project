@@ -1,39 +1,42 @@
 {
-  "dependencies": {
-    "@json2csv/plainjs": "^7.0.4",
-    "@types/crypto-js": "^4.1.1",
-    "blueimp-md5": "^2.19.0",
-    "buffer": "^6.0.3",
-    "chartjs-plugin-annotation": "^2.1.0",
-    "chartjs-plugin-datalabels": "^2.2.0",
-    "chartjs-plugin-zoom": "^2.0.0",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "crypto-js": "^4.1.1",
-    "dotenv": "^16.0.3",
-    "ejs": "^3.1.8",
-    "express": "^4.18.2",
-    "express-rate-limit": "^6.7.0",
-    "fast-csv": "^5.0.0",
-    "favicon": "^0.0.2",
-    "http": "^0.0.1-security",
-    "https": "^1.0.0",
-    "https-server": "^0.1.2",
-    "jquery": "^3.6.1",
-    "jspdf": "^2.5.1",
-    "mysql": "^2.18.1",
-    "nodemon": "^3.0.3",
-    "request": "^2.88.2",
-    "serve-favicon": "^2.5.0",
-    "socket.io": "^4.5.4",
-    "sql-template-strings": "^2.2.2"
-  },
-  "devDependencies": {
-    "http-server": "^14.1.1",
-    "httpserver": "^0.0.5"
-  },
-  "scripts": {
-    "start": "node server/server.js"
-  }
+    "type": "module",
+    "dependencies": {
+        "@json2csv/plainjs": "^7.0.4",
+        "@types/crypto-js": "^4.1.1",
+        "blueimp-md5": "^2.19.0",
+        "buffer": "^6.0.3",
+        "casdoor-js-sdk": "^0.16.0",
+        "casdoor-nodejs-sdk": "^1.29.0",
+        "chartjs-plugin-annotation": "^2.1.0",
+        "chartjs-plugin-datalabels": "^2.2.0",
+        "chartjs-plugin-zoom": "^2.0.0",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "crypto": "^1.0.1",
+        "crypto-js": "^4.1.1",
+        "dotenv": "^16.0.3",
+        "ejs": "^3.1.8",
+        "express": "^4.18.2",
+        "express-rate-limit": "^6.7.0",
+        "fast-csv": "^5.0.0",
+        "favicon": "^0.0.2",
+        "http": "^0.0.1-security",
+        "https": "^1.0.0",
+        "https-server": "^0.1.2",
+        "jquery": "^3.6.1",
+        "jspdf": "^2.5.1",
+        "mysql": "^2.18.1",
+        "nodemon": "^3.0.3",
+        "request": "^2.88.2",
+        "serve-favicon": "^2.5.0",
+        "socket.io": "^4.5.4",
+        "sql-template-strings": "^2.2.2"
+    },
+    "devDependencies": {
+        "http-server": "^14.1.1",
+        "httpserver": "^0.0.5"
+    },
+    "scripts": {
+        "start": "node server/server.js"
+    }
 }

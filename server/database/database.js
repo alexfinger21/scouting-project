@@ -1,8 +1,7 @@
-const pool = require('./dbconfig')
-const gameConstants = require('../game.js')
-const game = require('../game.js')
+import pool from "./dbconfig.js"
+import gameConstants from "../game.js"
+import SQL from "sql-template-strings"
 
-const SQL = require('sql-template-strings')
 
 function getUsers() {
     const returnStr = SQL`
@@ -902,34 +901,66 @@ async function getScoutifyMatchData() {
             u.user_list;`)
 }
 
-module.exports = {
-    getMatchData: getMatchData,
-    getGameNumbers: getGameNumbers,
+export default {
+    getMatchData,
+    getGameNumbers,
     query: executeQuery,
-    getTeams: getTeams,
-    getMatchVerify: getMatchVerify,
-    addMatchup: addMatchup,
-    removeMatchup: removeMatchup,
-    getCollectedData: getCollectedData,
-    saveAutonPath: saveAutonPath,
-    saveData: saveData,
-    deleteData: deleteData,
-    getAssignedTeam: getAssignedTeam,
-    writeAPIData: writeAPIData,
-    deleteAPIData: deleteAPIData,
-    getChartData: getChartData,
-    insertAllianceSelection: insertAllianceSelection,
-    deleteAllianceSelection: deleteAllianceSelection,
-    getTeamPictures: getTeamPictures,
-    saveMatchStrategy: saveMatchStrategy,
-    clearMatchStrategyTemp: clearMatchStrategyTemp,
-    saveComment: saveComment,
-    getMatchComments: getMatchComments,
-    getSeventhScouter: getSeventhScouter,
-    getRandomTeam: getRandomTeam,
-    addMatchData: addMatchData,
-    getTeamDetailsTeamData: getTeamDetailsTeamData,
-    deleteMatchDataX: deleteMatchDataX,
-    getScoutifyMatchData: getScoutifyMatchData,
-    getScouter:getScouter,
+    getTeams,
+    getMatchVerify,
+    addMatchup,
+    removeMatchup,
+    getCollectedData,
+    saveAutonPath,
+    saveData,
+    deleteData,
+    getAssignedTeam,
+    writeAPIData,
+    deleteAPIData,
+    getChartData,
+    insertAllianceSelection,
+    deleteAllianceSelection,
+    getTeamPictures,
+    saveMatchStrategy,
+    clearMatchStrategyTemp,
+    saveComment,
+    getMatchComments,
+    getSeventhScouter,
+    getRandomTeam,
+    addMatchData,
+    getTeamDetailsTeamData,
+    deleteMatchDataX,
+    getScoutifyMatchData,
+    getScouter
+}
+
+export {
+    getMatchData,
+    getGameNumbers,
+    executeQuery as query,
+    getTeams,
+    getMatchVerify,
+    addMatchup,
+    removeMatchup,
+    getCollectedData,
+    saveAutonPath,
+    saveData,
+    deleteData,
+    getAssignedTeam,
+    writeAPIData,
+    deleteAPIData,
+    getChartData,
+    insertAllianceSelection,
+    deleteAllianceSelection,
+    getTeamPictures,
+    saveMatchStrategy,
+    clearMatchStrategyTemp,
+    saveComment,
+    getMatchComments,
+    getSeventhScouter,
+    getRandomTeam,
+    addMatchData,
+    getTeamDetailsTeamData,
+    deleteMatchDataX,
+    getScoutifyMatchData,
+    getScouter
 }

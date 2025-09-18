@@ -1,5 +1,6 @@
-const { consoleLog } = require("../utility.js")
-const Team = require("./team.js")
+import { consoleLog } from "../utility.js"
+import Team from "./team.js"
+
 const ignoredParams = [
   "frc_season_master_sm_year",
   "team_master_tm_number",
@@ -8,10 +9,10 @@ const ignoredParams = [
 ]
 
 const customWeights = {
-    "total_game_score_avg": 1.1
+    "total_game_score_avg":1.1
 }
 
-module.exports = class Alliance {
+export default class Alliance {
     constructor(teams) {
         this.teams = teams
     }

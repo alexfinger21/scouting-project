@@ -1,8 +1,9 @@
-const express = require("express")
-const database = require("../database/database")
+import express from "express"
+import database from "../database/database.js"
+import { consoleLog, checkAdmin } from "../utility.js"
+import SQL from "sql-template-strings"
+
 const router = express.Router()
-const { consoleLog, checkAdmin } = require("../utility")
-const SQL = require('sql-template-strings')
 
 router.get("/", async function (req, res) {
     const isAdmin = await checkAdmin(req)
@@ -102,4 +103,4 @@ router.post("/", async function (req, res) { //admin presses save button
     }
 })
 
-module.exports = router
+export default router

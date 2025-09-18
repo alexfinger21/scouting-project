@@ -1,7 +1,7 @@
-const database = require("../database/database.js")
-const express = require("express")
-const { query } = require("express")
-const { consoleLog } = require("../utility")
+import database from "../database/database.js"
+import express from "express"
+import { consoleLog } from "../utility.js"
+
 const router = express.Router()
 
 router.get("/",  function(req, res) { //only gets used if the url == match-strategy
@@ -38,4 +38,4 @@ router.post("/", function(req, res) {
     const body = req.body
 })
 
-module.exports = router
+export default router

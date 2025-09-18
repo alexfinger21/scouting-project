@@ -1,7 +1,10 @@
-require('dotenv').config()
+import dotenv from "dotenv"
+import SQL from "sql-template-strings"
+import casdoorSDK from "./auth/auth.js"
+
 const log = Number(process.env.LOG)
 const debugLog = Number(process.env.TRACE_LOG) //shows where console logs came from
-const SQL = require('sql-template-strings')
+dotenv.config()
 
 function arrAvg(...args) {
     return args.reduce((total, val) => total + val) / args.length
@@ -18,22 +21,23 @@ function consoleLog(...args) {
     }
 }
 
-function checkAdmin(req) {
-    const database = require("./database/database.js")
-    const username = req.cookies["username"]
-    return new Promise((resolve) => {
-        database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`, function (error, results) {
-            if (error)
-                throw error;
+async function checkAdmin(req) {
+    const database = await import("./database/database.js")
+    const username = casdoorSDK.parseJwtToken(req.cookies.u_token)?.preferred_username
 
-            consoleLog(results[0].um_admin_f == true)
-            if (results[0].um_admin_f == 1) { //is admin
-                resolve(true)
-            }
+    try {
+        const [err, dbR] = await database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`)
+        
+        if (err) throw err
 
-            resolve(false)
-        })
-    })
+        if (dbR[0].um_admin_f == 1) { //is admin
+            return true
+        }
+    } catch(err) {
+        console.log("err while checking if admin: ", err)
+    }
+    
+    return false
 }
 
 function suggestTeam(currentAlliance, otherAlliances) {
@@ -56,4 +60,4 @@ function parseData(info) {
     return JSON.parse(JSON.stringify(info))
 }
 
-module.exports = { checkAdmin: checkAdmin, consoleLog: consoleLog, suggestTeam: suggestTeam, parseData: parseData, logoutMS }
+export { checkAdmin, consoleLog, suggestTeam, parseData, logoutMS }

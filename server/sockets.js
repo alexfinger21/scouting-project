@@ -1,5 +1,3 @@
-const { consoleLog } = require("./utility.js")
-
 let sockets = {
     socketArray: [],
     addSocket: function(socket) {
@@ -34,4 +32,4 @@ let sockets = {
     }
 }
 
-module.exports = sockets
+export default sockets

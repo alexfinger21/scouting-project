@@ -1,13 +1,13 @@
-const database = require("../database/database.js")
-const express = require("express")
-const gameConstants = require("../game.js")
-const { consoleLog } = require("../utility")
-const router = express.Router()
-const SQL = require('sql-template-strings')
-const socketManager = require("../sockets.js")
-const Team = require("../alliance-suggester/team.js")
-const Alliance = require("../alliance-suggester/alliance.js")
+import database from "../database/database.js"
+import express from "express"
+import gameConstants from "../game.js"
+import { consoleLog } from "../utility.js"
+import socketManager from "../sockets.js"
+import Team from "../alliance-suggester/team.js"
+import SQL from "sql-template-strings"
+import Alliance from "../alliance-suggester/alliance.js"
 
+const router = express.Router()
 
 //returns an array where the team is substituted for the rank
 function rank(arr) {
@@ -101,15 +101,16 @@ router.get("/", async function (req, res) { //only gets used if the url == allia
 })
 
 router.post("/", async function (req, res) {
+    console.log("POST")
     const body = req.body
-
     let [err1, alliances] = await database.query(SQL`select * from teamsixn_scouting_dev.v_alliance_selection_display`)
-    
+    console.log("1")    
     alliances = JSON.parse(JSON.stringify(alliances))    
     alliances.sort((a, b) => a - b)
 
     const disallowedTeams = alliances.map(a => Object.values(a).slice(1)).flat().filter(t => t)
 
+    console.log("2")    
    
     let [err2, teamData] = await database.query(SQL`select * from teamsixn_scouting_dev.v_match_summary_api vmd 
         WHERE vmd.frc_season_master_sm_year = ${gameConstants.YEAR} AND 
@@ -117,21 +118,26 @@ router.post("/", async function (req, res) {
             vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}`)
 
 
+console.log("3")    
     teamData = Array.from(JSON.parse(JSON.stringify(teamData)))
 
     const teams = teamData.map(t => new Team(t))
     alliances = JSON.parse(JSON.stringify(alliances)).map(t => new Alliance(Object.values(t).slice(1).map(t => teams.find(tt => tt.tm_num  == t))))
 
+console.log("4") 
+    console.log(alliances)
     if(!alliances.length) {
+        console.log("EXIT")
         return res.status(200).send([])
     }
 
     const remainingTeams = teams.filter(t => !disallowedTeams.includes(t.tm_num))
         
     // alliance 2 is the one we are on and we want to rank our picks based on alliance 1
+    console.log("ALLIANCE NUM: ", body.alliance)
     const pickedAlliance = alliances[Math.min(body?.alliance ? Number(body.alliance) - 1 : 0, alliances.length-1) ]
     console.log("PICKED ALLIANCE: ", pickedAlliance)
-    const weights = Alliance.getWeights(pickedAlliance, alliances.filter(a => a != pickedAlliance)) 
+    const weights = Alliance.getWeights(pickedAlliance, body?.pickStrengths ? alliances : alliances.filter(a => a != pickedAlliance))
     const allAvg = Team.getAverage(...remainingTeams)
     const ranks = remainingTeams.map(t => [t, t.getRank(allAvg, weights)])
     ranks.sort((a, b) => b[1] - a[1])
@@ -278,4 +284,4 @@ router.post("/", async function (req, res) {
     return res.status(200).send(ranks)
 })
 
-module.exports = router
+export default router
