@@ -120,7 +120,7 @@ async function updateData(info, isSeventh) {
 
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
-    const username = casdoorSdk.parseJwtToken(req.cookies.u_token)?.preffered_username
+    const username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
     const selectedPage = req.query.selectedPage ?? "scouting-page"
     consoleLog("SELECTED PAGE " + selectedPage)
     const match = req.query.match ? req.query.match : process.env.lastPlayedMatch
@@ -156,7 +156,7 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 router.post("/", function (req, res) {
     const body = req.body
 
-    body.username = casdoorSdk.parseJwtToken(req.cookies.u_token)?.preferred_username
+    body.username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
 
     if (body.type == "scouting") {
         const seventhScouter = getSeventhScouter(body.username)

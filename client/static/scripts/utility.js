@@ -149,9 +149,9 @@ function getMatch() {
             url: "/api/getUserInfo",
             success: function(response) {
                 if (Object.values(paths).includes(currentPage)) {
-                    document.getElementById("username-holder").innerText = response.comp.toUpperCase() + " - " + response.user.preferred_username
+                    document.getElementById("username-holder").innerText = response.comp.toUpperCase() + " - " + response.user.name
 
-                    socket.emit("username", {name: response.user.preferred_username})
+                    socket.emit("username", {name: response.user.name})
                     resolve(response)
                 }   
             }

@@ -23,7 +23,7 @@ function consoleLog(...args) {
 
 async function checkAdmin(req) {
     const database = await import("./database/database.js")
-    const username = casdoorSDK.parseJwtToken(req.cookies.u_token)?.preferred_username
+    const username = casdoorSDK.parseJwtToken(req.cookies.u_token).name
 
     try {
         const [err, dbR] = await database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`)

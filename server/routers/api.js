@@ -12,7 +12,7 @@ router.get("/getMatch", function (req, res) {
     consoleLog(req.body)
     database.query(SQL`select * from teamsixn_scouting_dev.current_game;`, (err, runningMatchResults) => {
         if (runningMatchResults[0]) { //if a match is running
-            runningMatch = runningMatchResults[0].cg_gm_number
+            const runningMatch = runningMatchResults[0].cg_gm_number
             res.status(200).send({ match: runningMatch })
         } else {
             res.status(200).send({ match: 0 })
