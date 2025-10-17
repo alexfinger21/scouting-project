@@ -1,9 +1,10 @@
 import dotenv from "dotenv"
 import SQL from "sql-template-strings"
 
+dotenv.config()
+
 const log = Number(process.env.LOG)
 const debugLog = Number(process.env.TRACE_LOG) //shows where console logs came from
-dotenv.config()
 
 function arrAvg(...args) {
     return args.reduce((total, val) => total + val) / args.length
