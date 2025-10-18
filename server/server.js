@@ -77,8 +77,9 @@ async function runAPICall() {
     const startTick = gameConstants.gameStart.getTime()
     const endTick = gameConstants.gameEnd.getTime()
     const currentTick = Date.now()
-    consoleLog(currentTick)
     consoleLog(startTick)
+    consoleLog(currentTick)
+    consoleLog(endTick)
     if (startTick <= currentTick && currentTick <= endTick) {
         const apiData = await returnAPIDATA()
         return apiData

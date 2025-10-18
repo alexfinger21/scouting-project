@@ -12,7 +12,7 @@ const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 const optionsRankings = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/rankings',
+    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
     //'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
     'headers': {
         'X-TBA-Auth-Key': auth,
@@ -23,7 +23,7 @@ const optionsRankings = {
 const optionsOPRS = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/oprs',
+    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/oprs',
     'headers': {
         'X-TBA-Auth-Key': auth,
         'If-Modified-Since': ''
