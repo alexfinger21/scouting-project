@@ -75,7 +75,6 @@ router.get("/", async function (req, res) {
         const [err, results] = await database.query(database.getTeams())
         //get isAdmin
         const isAdmin = await checkAdmin(req)
-        consoleLog(results)
 
         //get running game
         let runningMatch = -1
@@ -85,7 +84,6 @@ router.get("/", async function (req, res) {
             runningMatch = runningMatchResults[0].cg_gm_number
             process.env.lastPlayedMatch = runningMatchResults[0].cg_gm_number
         }
-        consoleLog("TIME", Date.now() - tmr)
 
         //get teams 
         const teams = {}
@@ -108,8 +106,6 @@ router.get("/", async function (req, res) {
         teams.length = Object.keys(teams).length
 
 
-        consoleLog("TIME", Date.now() - tmr)
-        consoleLog("Rendering match listing")
         //consoleLog(matchVideos)
 
         res.render("match-listing", {
