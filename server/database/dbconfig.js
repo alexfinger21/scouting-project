@@ -1,14 +1,27 @@
-import mysql from "mysql"
+import mysql from "mysql2"
 import dotenv from "dotenv"
 
 dotenv.config()
 
+function mysqlCast(field, next) {
+    switch (field.type) {
+        case "NEWDECIMAL":
+        case "DECIMAL":
+        case "LONGLONG":
+            const str = field.string()
+            return str != null ? Number(str) : null
+    }
+    return next()
+}
+
 const dbConfig = {
-    host           : process.env.DATABASE_HOST,
-    database       : process.env.DATABASE,
-    user           : process.env.DB_USER,
-    password       : process.env.DB_PASS,
-    connectTimeout : 1 * 60 * 1000
+    host             : process.env.DATABASE_HOST,
+    database         : process.env.DATABASE,
+    user             : process.env.DB_USER,
+    password         : process.env.DB_PASS,
+    connectTimeout   : 1 * 60 * 1000,
+    bigNumberStrings : false,
+    typeCast         : mysqlCast
 }
 
 let pool = mysql.createPool(dbConfig)
