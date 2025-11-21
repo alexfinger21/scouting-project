@@ -8,9 +8,7 @@ const dbConfig = {
     database       : process.env.DATABASE,
     user           : process.env.DB_USER,
     password       : process.env.DB_PASS,
-    connectTimeout : 1 * 60 * 1000,
-    acquireTimeout : 1 * 60 * 1000,
-    timeout        : 1 * 60 * 1000,
+    connectTimeout : 1 * 60 * 1000
 }
 
 let pool = mysql.createPool(dbConfig)

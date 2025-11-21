@@ -26,6 +26,7 @@
         "jquery": "^3.6.1",
         "jspdf": "^2.5.1",
         "mysql": "^2.18.1",
+        "mysql2": "^3.15.3",
         "nodemon": "^3.0.3",
         "request": "^2.88.2",
         "serve-favicon": "^2.5.0",
