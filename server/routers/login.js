@@ -4,6 +4,8 @@ import database from "../database/database.js"
 import { consoleLog, logoutMS } from "../utility.js"
 import SQL from "sql-template-strings"
 import dotenv from "dotenv"
+import argon2 from "argon2"
+
 const router = express.Router()
 
 dotenv.config()
@@ -17,14 +19,13 @@ async function checkUser(body) {
     if (dbRes.length == 1) {
         const result = dbRes[0]
 
-        if (result.um_password == body.password) {
-
+        if (argon2.verify(result.um_password, body.password)) {
             return true
         }
 
     }
 
-    return false;
+    return false
 }
 
 function strongRandomString(chars, maxLen) {
@@ -52,8 +53,6 @@ router.get("/", function (req, res) {
 })
 
 router.post("/", async function (req, res) {
-    //TO DO - SQL QUERY TO RETRIEVE THE USER
-
     const body = req.body
     consoleLog(body)
 
