@@ -11,7 +11,12 @@ const router = express.Router()
 dotenv.config()
 
 async function checkUser(body) {
-    const [err, dbRes] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${body.username} AND team_master_tm_number = ${body.team_number};`)
+    const [err, dbRes] = await database.query(SQL`
+        SELECT * 
+        FROM user_master um 
+        WHERE um.um_id = ${body.username} 
+            AND team_master_tm_number = ${body.team_number};
+        `)
     if (err)
         throw err;
 
@@ -57,7 +62,6 @@ router.post("/", async function (req, res) {
     consoleLog(body)
 
     const date = new Date()
-    consoleLog(date)
 
     const success = await checkUser(body)
 
@@ -68,9 +72,6 @@ router.post("/", async function (req, res) {
 
 
         sessionResult = sessionResult[0].um_session_id ? (sessionResult[0].um_session_id.indexOf(',') != -1 ? sessionResult[0].um_session_id.split(',') : [sessionResult[0].um_session_id]) : []
-
-        consoleLog("success for " + body.username)
-        //const sessionId = decodeURI(crypto.randomBytes(32).toString())
         
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~./'
 
