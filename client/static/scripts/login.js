@@ -1,5 +1,3 @@
-const SHA256 = CryptoJS.SHA256
-
 window.addEventListener("load", () => {
     const form = document.getElementsByClassName("centerform")[0]
 
@@ -28,8 +26,6 @@ window.addEventListener("load", () => {
             }
         }
         
-        data.password = SHA256(data.password).toString(CryptoJS.enc.Hex)
-
         $.ajax({
             type: "POST",
             contentType: "application/json",   

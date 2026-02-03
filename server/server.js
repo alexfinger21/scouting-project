@@ -237,7 +237,13 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
 }
 
 //PORT
-app.listen(3000) //goes to localhost 3000
+app.listen(3000, "0.0.0.0", (error) => {
+    if (error) {
+        throw new Error("Can't connect to port 3000")
+    }
+
+    console.log("Listening on port 3000")
+}) //goes to localhost 3000
 
 server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
 

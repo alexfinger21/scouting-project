@@ -4,12 +4,19 @@ import database from "../database/database.js"
 import { consoleLog, logoutMS } from "../utility.js"
 import SQL from "sql-template-strings"
 import dotenv from "dotenv"
+import argon2 from "argon2"
+
 const router = express.Router()
 
 dotenv.config()
 
 async function checkUser(body) {
-    const [err, dbRes] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${body.username} AND team_master_tm_number = ${body.team_number};`)
+    const [err, dbRes] = await database.query(SQL`
+        SELECT * 
+        FROM user_master um 
+        WHERE um.um_id = ${body.username} 
+            AND team_master_tm_number = ${body.team_number};
+        `)
     if (err)
         throw err;
 
@@ -17,14 +24,13 @@ async function checkUser(body) {
     if (dbRes.length == 1) {
         const result = dbRes[0]
 
-        if (result.um_password == body.password) {
-
+        if (argon2.verify(result.um_password, body.password)) {
             return true
         }
 
     }
 
-    return false;
+    return false
 }
 
 function strongRandomString(chars, maxLen) {
@@ -52,13 +58,10 @@ router.get("/", function (req, res) {
 })
 
 router.post("/", async function (req, res) {
-    //TO DO - SQL QUERY TO RETRIEVE THE USER
-
     const body = req.body
     consoleLog(body)
 
     const date = new Date()
-    consoleLog(date)
 
     const success = await checkUser(body)
 
@@ -69,9 +72,6 @@ router.post("/", async function (req, res) {
 
 
         sessionResult = sessionResult[0].um_session_id ? (sessionResult[0].um_session_id.indexOf(',') != -1 ? sessionResult[0].um_session_id.split(',') : [sessionResult[0].um_session_id]) : []
-
-        consoleLog("success for " + body.username)
-        //const sessionId = decodeURI(crypto.randomBytes(32).toString())
         
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~./'
 
