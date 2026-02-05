@@ -21,7 +21,11 @@ const routeDirectory = "routers"
 
 //ROUTERS
 const login = (await import(path.resolve(serverDirectory, routeDirectory, "login.js"))).default
-const dataCollection = (await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))).default
+
+
+//const dataCollection = (await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))).default
+
+
 const teamSummary = (await import(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))).default
 const matchStrategy = (await import(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))).default
 const allianceSelector = (await import(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))).default
@@ -167,8 +171,12 @@ app.use("/app", template)
 //LOGIN
 app.use("/login", login) //it makes the app use the login router's get and post methods. its a replacement for get and post for the specific path
 
+
+/******* */
 //DATA COLLECTION
-app.use("/data-collection", dataCollection)
+//app.use("/data-collection", dataCollection)
+/******* */
+
 
 //TEAM SUMMARY
 app.use("/team-summary", teamSummary)
