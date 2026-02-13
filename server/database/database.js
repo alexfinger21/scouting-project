@@ -901,6 +901,28 @@ async function getScoutifyMatchData() {
             u.user_list;`)
 }
 
+function getAppMatches() {
+	return SQL`
+		SELECT * FROM teamsixn_scouting_dev.v_match_listing_display
+		WHERE
+			frc_season_master_sm_year = ${gameConstants.YEAR} and
+		        competition_master_cm_event_code = ${gameConstants.COMP} and
+       			gm_game_type = ${gameConstants.GAME_TYPE};
+		`
+}
+
+function getAppTasks(user_id) {
+	return SQL`
+		SELECT * FROM teamsixn_scouting_dev.event_checkin_tracker
+		WHERE 
+			um_id = ${user_id} and
+			sm_year = ${gameConstants.YEAR} and
+		        cm_event_code = ${gameConstants.COMP} and
+			gm_game_type = ${gameConstants.GAME_TYPE};
+		`		
+}
+
+
 export default {
     getMatchData,
     getGameNumbers,
@@ -930,7 +952,10 @@ export default {
     getTeamDetailsTeamData,
     deleteMatchDataX,
     getScoutifyMatchData,
-    getScouter
+    getScouter,
+	getAppMatches,
+	getAppTasks,
+
 }
 
 export {
@@ -962,5 +987,5 @@ export {
     getTeamDetailsTeamData,
     deleteMatchDataX,
     getScoutifyMatchData,
-    getScouter
+    getScouter,
 }

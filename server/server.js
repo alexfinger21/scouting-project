@@ -36,6 +36,8 @@ const pitScouting = (await import(path.resolve(serverDirectory, routeDirectory, 
 const template = (await import(path.resolve(serverDirectory, routeDirectory, "template.js"))).default
 const dataAccuracy = (await import(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))).default
 const apiRouter = (await import(path.resolve(serverDirectory, routeDirectory, "api.js"))).default
+const appMatchesRouter = (await import(path.resolve(serverDirectory, routeDirectory, "app/matches.js"))).default
+const appTasksRouter = (await import(path.resolve(serverDirectory, routeDirectory, "app/tasks.js"))).default
 
 const app = express()
 dotenv.config()
@@ -161,6 +163,19 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
     }
 })
 
+//error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+
+  const statusCode = err.status || 500
+
+  res.status(statusCode).json({
+    status: "error",
+    statusCode: statusCode,
+    message: err.message || "Internal Server Error"
+  })
+})
+
 //MAIN
 app.use("/app", template)
 
@@ -217,7 +232,16 @@ app.post("/logout", (req, res) => {
     return res.redirect("/login")
 })
 
+//API
 app.use("/api", apiRouter)
+
+//APP MATCHES ENDPOINT
+app.use("/app-matches", appMatchesRouter)
+
+
+//APP TASKS ENDPOINT
+app.use("/app-tasks", appTasksRouter)
+
 
 //DEFAULT PATH
 app.use((req, res, next) => {
