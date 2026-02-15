@@ -24,7 +24,7 @@ const routeDirectory = "routers"
 const login = (await import(path.resolve(serverDirectory, routeDirectory, "login.js"))).default
 
 
-//const dataCollection = (await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))).default
+const dataCollection = (await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))).default
 
 
 const teamSummary = (await import(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))).default
@@ -179,7 +179,7 @@ app.use("/login", login) //it makes the app use the login router's get and post 
 
 /******* */
 //DATA COLLECTION
-//app.use("/data-collection", dataCollection)
+app.use("/data-collection", dataCollection)
 /******* */
 
 

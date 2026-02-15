@@ -21,12 +21,6 @@ async function getGameNumbers() {
     return parseData(gameNumbers)
 }
 
-async function getSeventhScouter(username) {
-    const [error, dbRes] = await database.query(database.getSeventhScouter(username))
-    const seventhScouterRes = parseData(dbRes)
-    return seventhScouterRes[0].cgua_user_id
-}
-
 async function getRunningMatch() {
     const [error, dbres] = await database.query(SQL`select * from teamsixn_scouting_dev.current_game;`)
     const runningMatchResults = parseData(dbres)
@@ -34,6 +28,13 @@ async function getRunningMatch() {
         return runningMatchResults[0].cg_gm_number
     }
     return 1
+}
+
+/*
+async function getSeventhScouter(username) {
+    const [error, dbRes] = await database.query(database.getSeventhScouter(username))
+    const seventhScouterRes = parseData(dbRes)
+    return seventhScouterRes[0].cgua_user_id
 }
 
 async function getAssignment(username) {
@@ -118,7 +119,9 @@ async function updateData(info, isSeventh) {
         }
     }
 }
+*/
 
+///*
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
     const username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
@@ -127,48 +130,38 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
     const runningMatch = await getRunningMatch()
     let assignment = null
 
-    const seventhScouter = await getSeventhScouter(username)
+    // const seventhScouter = 1 //await getSeventhScouter(username)
 
-    if (seventhScouter == username) { //assign user a random team
-        assignment = await getRandomAssignment(username, runningMatch)
-    }
-    else { //not a seventh scouter
-        assignment = await getAssignment(username)
-    }
+    // if (seventhScouter == username) { //assign user a random team
+    //     assignment = await getRandomAssignment(username, runningMatch)
+    // }
+    // else { //not a seventh scouter
+    //     assignment = await getAssignment(username)
+    // }
 
     const gameNumbers = await getGameNumbers()
     const matchup = await getMatchup(match)
-    consoleLog("\nMATCH DATA: ")
-    consoleLog(matchup)
+    //consoleLog("\nMATCH DATA: ")
+    //consoleLog(matchup)
 
     return res.render("data-collection", {
         matches: gameNumbers,
         lastMatch: match,
         runningMatch: runningMatch,
-        assignment: assignment,
+        assignment: "false",
         isAdmin: isAdmin,
         matchup: matchup,
         selectedPage: selectedPage
     })
 })
-
+//*/
 
 router.post("/", function (req, res) {
     const body = req.body
 
     body.username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
 
-    if (body.type == "scouting") {
-        const seventhScouter = getSeventhScouter(body.username)
-        if(seventhScouter != body.username) {
-            consoleLog("Received:")
-            consoleLog(body)
-            updateData(body)
-        }
-        else {
-            consoleLog("Seventh scouter found")
-        }
-    } else if (body.type == "comments") {
+    if (body.type == "comments") {
         consoleLog("comments:")
         consoleLog(body.comments)
         for (const [team, comment] of Object.entries(body.comments)) {

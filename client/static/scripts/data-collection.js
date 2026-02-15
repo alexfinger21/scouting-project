@@ -18,6 +18,8 @@ const observer = new MutationObserver(function (mutations_list) {
     })
 })
 
+
+/*
 window.onunload = saveData
 
 socket.on("changeMatch", () => {
@@ -27,93 +29,16 @@ socket.on("changeMatch", () => {
         requestPage(paths.dataCollection)
     }
 })
-
+*/
+/*
 //given a TD's id and index in the auton-scoring table, it returns the corresponding TD in the teleop-scoring table
 function getCorrespondingTd(id, index) {
     const teleopConeButtons = document.getElementById("teleop-scoring").getElementsByClassName(id) //get all cone buttons in teleop
     const correspondingTd = teleopConeButtons.item(index) //the corresponding TD under teleop-scoring
     return correspondingTd //return the image in the TD
 }
-
-async function saveComments() {
-    return new Promise(async resolve => {
-        const match = document.getElementById("match-comment-selector").value
-        consoleLog("MATCH NUMBER: " + match)
-        const ogData = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments")) : {}
-        const data = {}
-
-        data.matchNumber = match
-        data.GAME_TYPE = GAME_TYPE
-        data.YEAR = YEAR
-        data.COMP = COMP
-        data.type = "comments"
-        data.comments = {}
-
-        Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
-            let info = e.querySelector(".comments-team")
-            let title = info.innerText
-            let team = title.split(" ")[0]
-            let text = e.querySelector("textarea").value
-            data.comments[team] = {
-                text: text,
-                alliance: info.getAttribute("alliance"),
-                position: info.getAttribute("pos")
-            }
-        })
-
-        ogData[match] = data
-
-        consoleLog("DATA: ")
-        consoleLog(data)
-
-        resolve(data)
-    })
-}
-
-
-async function loadComments() {
-    return new Promise(async resolve => {
-        const data = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments"))[match] : {}
-        consoleLog("DATA: ")
-        consoleLog(data)
-
-        Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
-            let title = e.querySelector(".comments-team").innerText
-            let team = title.split(" ")[0]
-            //e.querySelector("textarea").value = data.comments[team]
-        })
-
-        resolve(true)
-    })
-}
-
-async function sendComments() {
-    const data = await saveComments()
-
-    consoleLog("-------CLIENT DATA------\n")
-    consoleLog(data)
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: paths.dataCollection,
-        data: JSON.stringify(data),
-        success: function (response) {
-            consoleLog(response)
-            alert("Comments saved")
-            requestPage(paths.matchListing)
-            const hoverButton = document.getElementById("hover-button")
-            const matchListingButton = document.getElementById("match-listing-btn")
-            moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
-            setSelectedObject(matchListingButton)
-        },
-
-        error: function (jqXHR, textStatus, errorThrown) {
-            //consoleLog("Error\n" + errorThrown, jqXHR)
-        }
-    })
-}
-
+*/
+/*
 async function sendData() {
     const data = await saveData()
     consoleLog("-------SCOUTING DATA------\n")
@@ -139,9 +64,8 @@ async function sendData() {
         },
     })
 }
-
-
-
+*/
+/*
 function loadData() {
     return new Promise(async (res, rej) => {
         const match = await getMatch()
@@ -378,7 +302,8 @@ function loadData() {
         return res()
     })
 }
-
+*/
+/*
 async function saveData() {
     return new Promise(async resolve => {
         const match = await getMatch()
@@ -466,10 +391,8 @@ async function saveData() {
         resolve(data)
     })
 }
-
-observer.observe(document.body, { subtree: false, childList: true });
-
-
+*/
+/*
 async function loadDataCollection() {
 
     const form = document.getElementById("match-number-form")
@@ -576,6 +499,88 @@ async function loadDataCollection() {
     consoleLog("animating")
     animateCanvas()
 }
+*/
+
+
+async function saveComments() {
+    return new Promise(async resolve => {
+        const match = document.getElementById("match-comment-selector").value
+        consoleLog("MATCH NUMBER: " + match)
+        const ogData = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments")) : {}
+        const data = {}
+
+        data.matchNumber = match
+        data.GAME_TYPE = GAME_TYPE
+        data.YEAR = YEAR
+        data.COMP = COMP
+        data.type = "comments"
+        data.comments = {}
+
+        Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
+            let info = e.querySelector(".comments-team")
+            let title = info.innerText
+            let team = title.split(" ")[0]
+            let text = e.querySelector("textarea").value
+            data.comments[team] = {
+                text: text,
+                alliance: info.getAttribute("alliance"),
+                position: info.getAttribute("pos")
+            }
+        })
+
+        ogData[match] = data
+
+        consoleLog("DATA: ")
+        consoleLog(data)
+
+        resolve(data)
+    })
+}
+
+
+async function loadComments() {
+    return new Promise(async resolve => {
+        const data = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments"))[match] : {}
+        consoleLog("DATA: ")
+        consoleLog(data)
+
+        Array.from(document.getElementById("comments-scroller").getElementsByClassName("input-container")).forEach(e => {
+            let title = e.querySelector(".comments-team").innerText
+            let team = title.split(" ")[0]
+            //e.querySelector("textarea").value = data.comments[team]
+        })
+
+        resolve(true)
+    })
+}
+async function sendComments() {
+    const data = await saveComments()
+
+    consoleLog("-------CLIENT DATA------\n")
+    consoleLog(data)
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: paths.dataCollection,
+        data: JSON.stringify(data),
+        success: function (response) {
+            consoleLog(response)
+            alert("Comments saved")
+            requestPage(paths.matchListing)
+            const hoverButton = document.getElementById("hover-button")
+            const matchListingButton = document.getElementById("match-listing-btn")
+            moveToPage(hoverButton.getBoundingClientRect().left, matchListingButton.getBoundingClientRect().left, hoverButton)
+            setSelectedObject(matchListingButton)
+        },
+
+        error: function (jqXHR, textStatus, errorThrown) {
+            //consoleLog("Error\n" + errorThrown, jqXHR)
+        }
+    })
+}
+
+observer.observe(document.body, { subtree: false, childList: true });
 
 function loadCommentsPage() {
     const form = document.getElementById("comments-page")
@@ -588,7 +593,7 @@ function loadCommentsPage() {
         sendComments()
     }
 }
-
+/*
 function onTabClick() {
     const currentPage = document.getElementsByClassName("selected")[0].getAttribute("page")
     const newPage = this.getAttribute("page")
@@ -609,18 +614,20 @@ function onTabClick() {
         }
     }
 }
+*/
 
 function main() {
+    //alert("main called")
     consoleLog("selected page:")
-    consoleLog(document.getElementsByClassName("selected"))
-    if (document.getElementById("match-number-form")) {
-        loadDataCollection()
-    }
+    //consoleLog(document.getElementsByClassName("selected"))
+    // if (document.getElementById("match-number-form")) {
+    //     loadDataCollection()
+    // }
 
-    if (document.getElementsByClassName("selected")[0].getAttribute("page") == "comments-page") {
+    //if (document.getElementsByClassName("selected")[0].getAttribute("page") == "comments-page") {
         loadCommentsPage()
         loadComments()
-    }
+    //}
 
     const matchSelector = document.getElementById("match-comment-selector")
 
@@ -628,11 +635,11 @@ function main() {
         requestPage(paths.dataCollection + "?match=" + matchSelector.value + "&selectedPage=comments-page", {}, paths.dataCollection)
     })
 
-    document.querySelector(`[page="scouting-page"]`).addEventListener("click", loadDataCollection)
-    document.querySelector(`[page="comments-page"]`).addEventListener("click", loadCommentsPage)
+    //document.querySelector(`[page="scouting-page"]`).addEventListener("click", loadDataCollection)
+    //document.querySelector(`[page="comments-page"]`).addEventListener("click", loadCommentsPage)
 
-    document.querySelector(`[page="scouting-page"]`).addEventListener("click", onTabClick)
-    document.querySelector(`[page="comments-page"]`).addEventListener("click", onTabClick)
+    //document.querySelector(`[page="scouting-page"]`).addEventListener("click", onTabClick)
+    //document.querySelector(`[page="comments-page"]`).addEventListener("click", onTabClick)
 
     const saveCommentsButton = document.getElementById("save-comments")
     saveCommentsButton.addEventListener("click", () => {
