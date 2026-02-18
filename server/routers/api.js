@@ -32,9 +32,7 @@ router.get("/getUserInfo", async function (req, res) {
         
         if (err) throw err
 
-        if (dbR[0].um_admin_f == 1) { //is admin
-            return true
-        }
+        scoutifyUser = dbR[0]
     } catch(err) {
         console.log("err while trying to access user: ", err)
     }
