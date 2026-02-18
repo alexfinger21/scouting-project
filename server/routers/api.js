@@ -20,14 +20,29 @@ router.get("/getMatch", function (req, res) {
     })
 })
 
-router.get("/getUserInfo", function (req, res) {
+router.get("/getUserInfo", async function (req, res) {
     const cookieToken = req.cookies.u_token
     const headerToken = req.get("Authorization")
 
     const user = casdoorSdk.parseJwtToken(cookieToken.length > 0 ? cookieToken : headerToken) 
+    let scoutifyUser = null
+
+    try {
+        const [err, dbR] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${user?.name};`)
+        
+        if (err) throw err
+
+        if (dbR[0].um_admin_f == 1) { //is admin
+            return true
+        }
+    } catch(err) {
+        console.log("err while trying to access user: ", err)
+    }
+
 
     return res.send({
         user, 
+        scoutifyUser,
         comp: gameConstants.COMP
     })
 })
