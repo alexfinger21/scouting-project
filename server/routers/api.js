@@ -21,7 +21,10 @@ router.get("/getMatch", function (req, res) {
 })
 
 router.get("/getUserInfo", function (req, res) {
-    const user = casdoorSdk.parseJwtToken(req.cookies.u_token)
+    const cookieToken = req.cookies.u_token
+    const headerToken = req.get("Authorization")
+
+    const user = casdoorSdk.parseJwtToken(cookieToken.length > 0 ? cookieToken : headerToken) 
 
     return res.send({
         user, 
