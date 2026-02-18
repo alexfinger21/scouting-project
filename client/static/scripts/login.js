@@ -1,48 +1,24 @@
+import casdoorSdk from "./casdoor-config.js"
+import { paths } from "./utility.js"
+
 window.addEventListener("load", () => {
-    const form = document.getElementsByClassName("centerform")[0]
-
-    form.onsubmit = (event) => {
-        event.preventDefault()
-
-        const children = document.getElementsByClassName("login-input-container")
-        
-        let tempChildArr = []
-
-        for (const child of children) {
-            tempChildArr.push(child.children[1])
-        }
-
-        const data = {}
-
-        tempChildArr.forEach((child) => {
-            data[child.name] = child.value.length <= 30 ? child.value : child.value.substring(0, 30)
-        })
-
-        for (const key in data) {
-            const value = data[key]
-            
-            if (value == "") {
-                return false;
-            }
-        }
-        
+    if (!window.location.search?.length) {
+        //window.location.href = casdoorSdk.getSigninUrl() 
+    } else {
         $.ajax({
             type: "POST",
-            contentType: "application/json",   
-            url: "/login",
-            data: JSON.stringify(data),
-            success: function(response) {
-                if (response.result == 'redirect') {
-                    //redirect from the login to data collection if successful, otherwise refresh
-                    window.location.replace(response.url);
-                }
+            contentType: "application/json",
+            url: paths.login,
+            data: JSON.stringify({
+                code: window.location.search.length > 6 ? window.location.search.slice(6, window.location.search.indexOf("&")) : null
+            }),
+            success: function (response) {
+                window.location.href = "/"
             },
 
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-                console.log("Error\n" + errorThrown, jqXHR)
-            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //consoleLog("Error\n" + errorThrown, jqXHR)
+            }
         })
-        
-     }
+    }
 })

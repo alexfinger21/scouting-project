@@ -1,13 +1,17 @@
 import { SDK } from "casdoor-nodejs-sdk"
+import fs from "fs"
+import dotenv from "dotenv"
 
-const sdkConfig  = {
-    serverUrl: "https://sso.team695.com",
+dotenv.config()
+
+export const config = {
+    endpoint: "https://sso.team695.com",
     clientId: "8f4953fcb962d4f7c823",
+    clientSecret: process.env.CASDOOR_SECRET,
+    certificate: fs.readFileSync("./server/certs/casdoor.pem"),
+    orgName: "Team695",
     appName: "695_scoutify_webapp",
-    organizationName: "Team695",
-    redirectPath: "/callback",
-    signinPath: "/api/signin",
 }
-const sdk = new SDK(sdkConfig)
 
-module.exports = { sdk }
+const casdoorSdk = new SDK(config)
+export default casdoorSdk

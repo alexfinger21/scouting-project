@@ -14,6 +14,7 @@ import SQL from "sql-template-strings"
 import gameConstants from "./game.js"
 import dotenv from "dotenv"
 import { Server } from "socket.io"
+import casdoorSdk from "./auth/auth.js"
 
 //DIRECTORIES
 const serverDirectory = "./server"
@@ -124,24 +125,12 @@ app.use(cookieParser())
 //middleware for anyone on the site, checking whether they're logged in or not
 
 app.use(async (req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
-    consoleLog(req.path)
-    if (!req.cookies["user_id"] && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
+    if (!req.cookies.u_token && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else if (req.path != "/login") {
-        consoleLog(req.path)
-        const username = req.cookies["username"]
-        const [err, results] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${username} AND um.um_timeout_ts > current_timestamp();`)
+        const user = casdoorSdk.parseJwtToken(req.cookies.u_token)
 
-        if (err) {
-            consoleLog("LOGIN ERROR: " + err)
-        }
-
-        const result = JSON.parse(JSON.stringify(results))[0]
-        let splitResult = result?.um_session_id ? result?.um_session_id.split(",") : new Array()
-        if (splitResult.length == 0) {
-            splitResult = [result?.um_session_id]
-        }
-        if (splitResult.indexOf(req.cookies["user_id"]) != -1) {
+        if (user) {
             const userAgent = req.headers["user-agent"] || ""
             res.locals.isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent) //pass in if mobile browser to ejsres
 	    res.locals.authUserId = result.um_id
@@ -152,9 +141,6 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
             }
             next() //goes to the next middleware function (login or data collection)
         } else {
-            res.clearCookie('user_id')
-            res.clearCookie('username')
-            consoleLog("session timeout")
             return res.json({"logout": true})
         }
     } else {

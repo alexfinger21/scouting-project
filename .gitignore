@@ -9,9 +9,15 @@ lerna-debug.log*
 
 #node & private stuff
 package-lock*
+node_modules
+
+# DONT LOOK
 certs
 server/certs
+<<<<<<< HEAD
 node_modules
+=======
+>>>>>>> casdoor-feat
 dist
 dist-ssr
 *.local

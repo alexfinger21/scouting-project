@@ -3,6 +3,7 @@ import express from "express"
 import { checkAdmin, consoleLog, parseData } from "../utility.js"
 import gameConstants from "../game.js"
 import SQL from "sql-template-strings"
+import casdoorSdk from "../auth/auth.js"
 
 const router = express.Router()
 
@@ -119,7 +120,7 @@ async function updateData(info, isSeventh) {
 
 router.get("/", async function (req, res) { //only gets used if the url == data-collection
     const isAdmin = await checkAdmin(req)
-    const username = req.cookies["username"]
+    const username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
     const selectedPage = req.query.selectedPage ?? "scouting-page"
     consoleLog("SELECTED PAGE " + selectedPage)
     const match = req.query.match ? req.query.match : process.env.lastPlayedMatch
@@ -154,10 +155,8 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 
 router.post("/", function (req, res) {
     const body = req.body
-    const user_id = req.cookies["user_id"]
 
-    body.username = req.cookies["username"]
-    consoleLog(body, "2025 data")
+    body.username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
 
     if (body.type == "scouting") {
         const seventhScouter = getSeventhScouter(body.username)

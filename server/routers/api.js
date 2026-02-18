@@ -3,6 +3,7 @@ import gameConstants from "../game.js"
 import { consoleLog } from "../utility.js"
 import database from "../database/database.js"
 import SQL from "sql-template-strings"
+import casdoorSdk from "../auth/auth.js"
 
 const router = express.Router()
 
@@ -19,18 +20,29 @@ router.get("/getMatch", function (req, res) {
     })
 })
 
-//GET USERNAME
-router.get("/getUsername", async (req, res) => {
-    consoleLog("COOKIES", req.cookies)
-    let [err, dbRes] = await database.query(SQL`SELECT * FROM teamsixn_scouting_dev.user_master um WHERE um.um_id = ${req.cookies["username"]};`)
-    
-    consoleLog("DB RES", dbRes)
-    const user = JSON.parse(JSON.stringify(dbRes))
-    if (user?.length > 0) {
-        return res.send({username: user[0]["um_name"], comp: gameConstants.COMP})
+router.get("/getUserInfo", async function (req, res) {
+    const cookieToken = req.cookies.u_token
+    const headerToken = req.get("Authorization")
+
+    const user = casdoorSdk.parseJwtToken(cookieToken.length > 0 ? cookieToken : headerToken) 
+    let scoutifyUser = null
+
+    try {
+        const [err, dbR] = await database.query(SQL`SELECT * FROM user_master um WHERE um.um_id = ${user?.name};`)
+        
+        if (err) throw err
+
+        scoutifyUser = dbR[0]
+    } catch(err) {
+        console.log("err while trying to access user: ", err)
     }
 
-    return res.send("unknown")
+
+    return res.send({
+        user, 
+        scoutifyUser,
+        comp: gameConstants.COMP
+    })
 })
 
 router.get("/getMatchTeams", function (req, res) {
