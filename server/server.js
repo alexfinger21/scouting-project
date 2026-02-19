@@ -124,7 +124,11 @@ app.use(cookieParser())
 
 //middleware for anyone on the site, checking whether they're logged in or not
 
-app.use(async (req, res, next) => { //if you don't provide a path, app.use will run before ANY request is processed
+app.use(async (req, res, next) => { 
+    if (req.path.substring(0, 4) == "/api") {
+        return next()
+    }
+
     if (!req.cookies.u_token && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
         res.redirect("/login")
     } else if (req.path != "/login") {
