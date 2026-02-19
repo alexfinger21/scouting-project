@@ -27,7 +27,7 @@ async function checkAdmin(req) {
     const username = casdoorSDK.parseJwtToken(req.cookies.u_token).name
 
     try {
-        const [err, dbR] = await database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_id = ${username};`)
+        const [err, dbR] = await database.query(SQL`SELECT um.um_admin_f FROM user_master um WHERE um.um_casdoor_userid = ${username};`)
         
         if (err) throw err
 

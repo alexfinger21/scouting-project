@@ -102,6 +102,7 @@ router.get("/", async function (req, res) {
 
             //consoleLog(teams[i])
         }
+        console.log(teams)
 
         teams.length = Object.keys(teams).length
 
