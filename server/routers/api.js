@@ -40,9 +40,6 @@ router.get("/getUserInfo", async function (req, res) {
     } catch(err) {
         console.log("err while trying to access user: ", err)
     }
-    
-    console.log(user)
-
 
     return res.send({
         name: user.name,
