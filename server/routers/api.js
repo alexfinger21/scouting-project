@@ -42,12 +42,12 @@ router.get("/getUserInfo", async function (req, res) {
     }
 
     return res.send({
-        name: user.name,
-        display_name: user.displayName,
-        preferred_username: user.preferred_username,
-        picture: user.picture,
-        email: user.email,
-        android_id: scoutifyUser.um_android_device_id,
+        name: user?.name,
+        display_name: user?.displayName,
+        preferred_username: user?.preferred_username,
+        picture: user?.picture,
+        email: user?.email,
+        android_id: scoutifyUser?.um_android_device_id,
     })
 })
 
