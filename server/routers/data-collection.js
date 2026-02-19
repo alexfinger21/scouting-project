@@ -38,7 +38,7 @@ async function getRunningMatch() {
 
 async function getAssignment(username) {
     const [err, userRes] = await database.query(database.getUserFromCasdoorId(username))
-    const [error, dbres] = await database.query(database.getAssignedTeam(userRes[0].name))
+    const [error, dbres] = await database.query(database.getAssignedTeam(userRes[0].um_id))
     const assignment = parseData(dbres)[0]
 
     if (assignment != undefined) { //user is assigned a team
@@ -123,7 +123,6 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
     const isAdmin = await checkAdmin(req)
     const username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
     const selectedPage = req.query.selectedPage ?? "scouting-page"
-    consoleLog("SELECTED PAGE " + selectedPage)
     const match = req.query.match ? req.query.match : process.env.lastPlayedMatch
     const runningMatch = await getRunningMatch()
     let assignment = null
