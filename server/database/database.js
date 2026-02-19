@@ -922,6 +922,14 @@ function getAppTasks(user_id) {
 		`		
 }
 
+function getUserFromCasdoorId(casdoorId) {
+    return SQL`
+        SELECT * FROM teamsixn_scouting_dev.user_master um
+        WHERE
+            um.um_casdoor_userid = ${casdoorId};
+        `
+}
+
 
 export default {
     getMatchData,
@@ -955,7 +963,7 @@ export default {
     getScouter,
 	getAppMatches,
 	getAppTasks,
-
+    getUserFromCasdoorId,
 }
 
 export {
@@ -988,4 +996,5 @@ export {
     deleteMatchDataX,
     getScoutifyMatchData,
     getScouter,
+    getUserFromCasdoorId,
 }

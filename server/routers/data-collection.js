@@ -37,7 +37,8 @@ async function getRunningMatch() {
 }
 
 async function getAssignment(username) {
-    const [error, dbres] = await database.query(database.getAssignedTeam(username))
+    const [err, userRes] = await database.query(database.getUserFromCasdoorId(username))
+    const [error, dbres] = await database.query(database.getAssignedTeam(userRes[0].name))
     const assignment = parseData(dbres)[0]
 
     if (assignment != undefined) { //user is assigned a team
