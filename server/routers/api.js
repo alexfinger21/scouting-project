@@ -22,9 +22,12 @@ router.get("/getMatch", function (req, res) {
 
 router.get("/getUserInfo", async function (req, res) {
     const cookieToken = req.cookies.u_token
-    const headerToken = req.get("Authorization")
+    const authHeader = req.get("Authorization")
 
-    console.log(headerToken, req.headers)
+    const headerToken = authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : authHeader
+
     const user = casdoorSdk.parseJwtToken(cookieToken?.length > 0 ? cookieToken : headerToken) 
     let scoutifyUser = null
 
