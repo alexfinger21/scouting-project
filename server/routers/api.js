@@ -46,6 +46,7 @@ router.get("/getUserInfo", async function (req, res) {
 
     return res.send({
         name: user.name,
+        display_name: user.displayName,
         preferred_username: user.preferred_username,
         picture: user.picture,
         email: user.email,
