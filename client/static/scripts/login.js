@@ -3,7 +3,7 @@ import { paths } from "./utility.js"
 
 window.addEventListener("load", () => {
     if (!window.location.search?.length) {
-        //window.location.href = casdoorSdk.getSigninUrl() 
+        window.location.href = casdoorSdk.getSigninUrl() 
     } else {
         $.ajax({
             type: "POST",
