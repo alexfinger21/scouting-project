@@ -133,7 +133,7 @@ app.use(async (req, res, next) => { //if you don't provide a path, app.use will 
         if (user) {
             const userAgent = req.headers["user-agent"] || ""
             res.locals.isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent) //pass in if mobile browser to ejsres
-	    res.locals.authUserId = result.um_id
+            //res.locals.authUserId = result.um_id
             //local EJS functions
             res.locals.columnSummary = (...args) => {
                 let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
