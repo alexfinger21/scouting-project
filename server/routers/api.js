@@ -21,6 +21,7 @@ router.get("/getMatch", function (req, res) {
 })
 
 router.get("/getUserInfo", async function (req, res) {
+	console.log(req.cookies)
     const cookieToken = req.cookies.u_token
     const authHeader = req.get("Authorization")
 

@@ -31,7 +31,7 @@ async function checkUser(body) {
 
     }
 
-    return false //MAKE SURE TO CHANGE THIS BACK TO FALSE
+    return false
 }
 
 function strongRandomString(chars, maxLen) {
@@ -48,6 +48,7 @@ function strongRandomString(chars, maxLen) {
 router.post("/", function (req, res) {
     const body = req.body
     const code = body.code
+    
     casdoorSdk.getAuthToken(code).then(sdk_res => {
         const accessToken = sdk_res.access_token || null
 

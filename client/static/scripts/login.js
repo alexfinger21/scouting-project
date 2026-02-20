@@ -1,5 +1,6 @@
 import casdoorSdk from "./casdoor-config.js"
-import { paths } from "./utility.js"
+
+const loginPath = "/login"
 
 window.addEventListener("load", () => {
     if (!window.location.search?.length) {
@@ -8,7 +9,7 @@ window.addEventListener("load", () => {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: paths.login,
+            url: loginPath,
             data: JSON.stringify({
                 code: window.location.search.length > 6 ? window.location.search.slice(6, window.location.search.indexOf("&")) : null
             }),
