@@ -80,9 +80,7 @@ async function runAPICall() {
     const startTick = gameConstants.gameStart.getTime()
     const endTick = gameConstants.gameEnd.getTime()
     const currentTick = Date.now()
-    consoleLog(startTick)
-    consoleLog(currentTick)
-    consoleLog(endTick)
+
     if (startTick <= currentTick && currentTick <= endTick) {
         const apiData = await returnAPIDATA()
         return apiData
@@ -99,9 +97,7 @@ io.on("connection", (socket) => {
     })
 
     socket.on("disconnect", (reason) => {
-        consoleLog(`SOCKET ${socket?.username} DISCONNECTED: ` + reason)
         const res = socketManager.removeSocket(socketObj)
-        consoleLog("SOCKET DELETE RES: " + String(res), socketManager.getSockets())
     })
 
 
@@ -125,6 +121,7 @@ app.use(cookieParser())
 //middleware for anyone on the site, checking whether they're logged in or not
 
 app.use(async (req, res, next) => { 
+    consoleLog(req.path)
     if (req.path.substring(0, 4) == "/api") {
         return next()
     }

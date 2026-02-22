@@ -35,6 +35,7 @@ const getAlliances = async (eventId) => {
     const rawAlliances = await readTBA(`/event/${eventId}/alliances`);
     consoleLog("\n\nGET ALLIANCE DATA TEST")
     consoleLog(JSON.stringify(rawAlliances, null, 2))
+
     const alliances = rawAlliances?.map((alliance, i) => {
         //console.log(alliance)
         return {
@@ -50,9 +51,6 @@ const getAlliances = async (eventId) => {
 
 router.get("/", async function (req, res) {
     //getAlliances("2023ohcl") //include for testing purposes
-
-    consoleLog("GET request for match listing")
-    consoleLog("Get collected data: " + req.query.getCollectedData)
     if ("" + req.query?.getCollectedData == "true") {
         database.query(database.getCollectedData(req.query.matchNumber), (err, results) => {
             //consoleLog("COLLECTED DATA RESULTS")
@@ -102,7 +100,8 @@ router.get("/", async function (req, res) {
 
             //consoleLog(teams[i])
         }
-        console.log(teams)
+
+        //console.log(teams)
 
         teams.length = Object.keys(teams).length
 

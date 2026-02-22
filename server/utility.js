@@ -25,8 +25,6 @@ function consoleLog(...args) {
 async function checkAdmin(req) {
     const database = await import("./database/database.js")
     const user = casdoorSDK.parseJwtToken(req.cookies.u_token)
-    
-    console.log(user)
 
     if (!user) {
         return false
