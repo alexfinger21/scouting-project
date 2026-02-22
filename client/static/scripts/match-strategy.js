@@ -38,6 +38,7 @@ function sumParams(data, ...params) {
 observer.observe(document.body, { subtree: false, childList: true });
 
 async function main() {
+    console.log("hello")
     const select = document.getElementById("available-matches")
     const canvas = document.getElementById("spider-chart")
     const ctx = canvas.getContext("2d")
@@ -63,43 +64,44 @@ async function main() {
 
     const red = data.slice(0, 3)
     const blue = data.slice(3)
-
-    // const config = await graphHandler.createSpiderChart(
-    //     [
-    //         {
-    //             teamNumber: 0,
-    //             teamName: "Red Alliance",
-    //             color: "rgb(255,0,0)",
-    //             hidden: false,
-    //             autonScore: sumParam(red, "auton_total_score_avg"),
-    //             gamesPlayed: sumParam(red, "nbr_games"),
-    //             gameScore: sumParam(red, "total_game_score_avg"),
-    //             teleopScore: sumParam(red, "teleop_total_score_avg"),
-    //             endgameScore: sumParams(red, ["endgame_park_avg", 2], ["endgame_shallow_climb_avg", 6], ["endgame_deep_climb_avg", 12]),
-    //             rank: sumParam(red, "api_rank"),
-    //             opr: sumParam(red, "api_opr"),
-    //             dpr: sumParam(red, "api_dpr")
-    //         },
-    //         {
-    //             teamNumber: 1,
-    //             teamName: "Blue Alliance",
-    //             color: "rgb(0,0,255)",
-    //             hidden: false,
-    //             autonScore: sumParam(blue, "auton_total_score_avg"),
-    //             gamesPlayed: sumParam(blue, "nbr_games"),
-    //             gameScore: sumParam(blue, "total_game_score_avg"),
-    //             teleopScore: sumParam(blue, "teleop_total_score_avg"),
-    //             endgameScore: sumParams(blue, ["endgame_park_avg", 2], ["endgame_shallow_climb_avg", 6], ["endgame_deep_climb_avg", 12]),
-    //             rank: sumParam(blue, "api_rank"),
-    //             opr: sumParam(blue, "api_opr"),
-    //             dpr: sumParam(blue, "api_dpr")
-    //         }
-    //     ],
-    //     false
-    // )
-    // consoleLog("CONF:")
-    // consoleLog(config)
-    // chart = new Chart(ctx,
-    //     config
-    // )
+    
+    consoleLog("HELLO")
+    const config = await graphHandler.createSpiderChart(
+        [
+            {
+                teamNumber: 0,
+                teamName: "Red Alliance",
+                color: "rgb(255,0,0)",
+                hidden: false,
+                autonFuel: sumParam(red, "auton_fuel_score_avg"),
+                autonClimb: sumParam(red, "auton_climb_attempt_avg"),
+                teleopFuel: sumParam(red, "teleop_fuel_score_avg"),
+                teleopClimb: sumParam(red, "endgame_climb_attempt_avg"),
+                gamesPlayed: sumParam(red, "nbr_games"),
+                defendingTime: sumParams(red, "teleop_defense_time_avg")/(140*3),
+                //endgameScore: sumParams(red, ["endgame_park_avg", 2], ["endgame_shallow_climb_avg", 6], ["endgame_deep_climb_avg", 12]),
+                dpr: sumParam(red, "api_dpr")
+            },
+            {
+                teamNumber: 1,
+                teamName: "Blue Alliance",
+                color: "rgb(0,0,255)",
+                hidden: false,
+                autonFuel: sumParam(blue, "auton_fuel_score_avg"),
+                autonClimb: sumParam(blue, "auton_climb_attempt_avg"),
+                teleopFuel: sumParam(blue, "teleop_fuel_score_avg"),
+                teleopClimb: sumParam(blue, "endgame_climb_attempt_avg"),
+                gamesPlayed: sumParam(blue, "nbr_games"),
+                defendingTime: sumParams(blue, "teleop_defense_time_avg")/(140*3),
+                //endgameScore: sumParams(red, ["endgame_park_avg", 2], ["endgame_shallow_climb_avg", 6], ["endgame_deep_climb_avg", 12]),
+                dpr: sumParam(blue, "api_dpr")
+            }
+        ],
+        false
+    )
+    consoleLog("CONF:")
+    consoleLog(config)
+    chart = new Chart(ctx,
+        config
+    )
 }
