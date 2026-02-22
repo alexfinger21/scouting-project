@@ -91,7 +91,13 @@
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].total_game_score_avg) %>
+                            <%-columnSummary({
+                                header: Math.round(matchup[i].total_game_score_avg),
+                                list: [
+                                [matchup[i].auto_score_avg, "A"],
+                                [matchup[i].teleop_score_avg, "T"]
+                                ] 
+                            }) %>
                         </td>
                     <% } %>
                 </tr>
@@ -100,7 +106,7 @@
                     <td>
                         <button class="help-button">?
                             <div class="help-box">
-                                <p>Total Score- #coral, #algae dislodged, #algae scored</p>
+                                <p>Total Score- #fuel, #climb attempts</p>
                             </div>
                         </button>
                         <p>Auton</p>
@@ -110,69 +116,35 @@
                             <%-columnSummary({
                                 header: matchup[i].auton_total_score_avg,
                                 list: [
-                                    [matchup[i].auton_coral_scored_avg, "c"],
-                                    [matchup[i].auton_algae_dislodge_avg, "d"],
-                                    [matchup[i].auton_algae_in_net_avg + matchup[i].auton_algae_in_processor_avg, "a.s"],
+                                    [matchup[i].auton_fuel_scored_avg, "f"],
+                                    [(matchup[i].auton_climb_atmp_success + "/" + matchup[i].auton_climb_atmp), "c"],
                                 ]
                             })%>
                         </td>
                     <% } %>
                 </tr>
-                <!--TELEOP CORAL-->
+                <!--TELEOP FUEL-->
                 <tr>
                     <td>
                         <button class="help-button">?
                             <div class="help-box">
-                                <p>#Coral Total Score in Teleop- # in L1/L2/L3/L4</p>
+                                <p>#Fuel scored in Teleop</p>
                             </div>
                         </button>
-                        <p>T. Coral</p>
+                        <p>T. Fuel</p>
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%-columnSummary({
-                                header: matchup[i].teleop_coral_scored_l1_avg * 2  + matchup[i].teleop_coral_scored_l1_avg * 3 + matchup[i].teleop_coral_scored_l3_avg * 4 + matchup[i].teleop_coral_scored_l4_avg * 5 ,
-                                list: [
-                                    [matchup[i].teleop_coral_scored_l1_avg,""],
-                                    [matchup[i].teleop_coral_scored_l2_avg, ""],
-                                    [matchup[i].teleop_coral_scored_l3_avg, ""],
-                                    [matchup[i].teleop_coral_scored_l4_avg, ""],
-                                ],
-                                alwaysShow: true
-                            })%>
+                            <%=matchup[i].teleop_fuel_scored_avg%>
                         </td>
                     <% } %>
                 </tr>
-                <!--TELEOP Algae-->
+                <!--CLIMB-->
                 <tr>
                     <td>
                         <button class="help-button">?
                             <div class="help-box">
-                                <p>#Avg Algae Total Score in Teleop- # in processor avg, <br> # in net avg</p>
-                            </div>
-                        </button>
-                        <p>T. Algae</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%-columnSummary({
-                                header: matchup[i].teleop_algae_in_processor_avg * 2 + matchup[i].teleop_algae_in_net_avg * 4,
-                                list: [
-                                    [matchup[i].teleop_algae_in_processor_avg, "p"],
-                                    [matchup[i].auton_algae_dislodge_avg, "d"],
-                                    [matchup[i].teleop_algae_in_net_avg, "n"],
-                                ]
-                            })%>
-                        </td>
-                    <% } %>
-                </tr>
-                </tr>
-                <!--ENDGAME-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>Avg Score- #Successful climbs for Park/Shallow/Deep</p>
+                                <p>Avg Score- #Successful climbs for L1/L2/L3</p>
                             </div>
                         </button>
                         <p>Endgame</p>
@@ -181,11 +153,11 @@
                         <td class= <%= matchup[i].team_master_tm_number%>
                             <p>
                                 <%-columnSummary({
-                                    header: matchup[i].endgame_park_avg*2 + matchup[i].endgame_shallow_climb_avg*6 + matchup[i].endgame_deep_climb_avg*12,
+                                    header: matchup[i].climb_score_avg,
                                     list: [
-                                        [matchup[i].endgame_park_sum, ""],
-                                        [matchup[i].endgame_shallow_climb_sum, ""],
-                                        [matchup[i].endgame_deep_climb_sum, ""],
+                                        [matchup[i].endgame_climb_l1, ""],
+                                        [matchup[i].endgame_climb_l2, ""],
+                                        [matchup[i].endgame_climb_l3, ""],
                                     ],
                                     alwaysShow: true
                                 })%>
@@ -194,69 +166,35 @@
                         </td>
                     <% } %>
                 </tr>
-                <!--Ground Pickup-->
+                <!--PERCENT FOULS-->
                 <tr>
                     <td>
                         <button class="help-button">?
                             <div class="help-box">
-                                <p>Has ground pickup</p>
+                                <p>#Percent fouls throughout matches</p>
                             </div>
                         </button>
-                        <p>Gnd Pick</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>
-                            
-                        </td>
-                    <% } %>
-                </tr>
-
-                <!--OPR-->
-                <tr>
-                    <td>
-                        OPR (Rank)
+                        <p>Foul Percent</p>
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" %>
+                            <%=((matchup[i].total_fouls_commit/matchup[i].total_match_played)*100)%>
                         </td>
                     <% } %>
                 </tr>
-                <!--DPR-->
+                <!--OPR/DPR-->
                 <tr>
                     <td>
-                        DPR (Rank)
+                        OPR (Rank)/DPR (Rank)
                     </td>
                     <% for(let i = 0; i < 3; i++) { %>
                         <td >
-                            <%= Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
+                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" + "/" 
+                            + Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
                         </td>
                     <% } %>
                 </tr>
-
-                <!-- misc 
-                <tr>
-                    <td>
-                        Has Ground Intake
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%= Math.round(matchup[i].total_game_score_avg) %>
-                        </td>
-                    <% } %>
-                </tr>
-
-                                <tr>
-                    <td>
-                        Trap Success Rate
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>>
-                            <%=matchup[i].endgame_total_score_avg ? matchup[i].endgame_total_score_avg.toFixed(1) : "N/A"%>
-                        </td>
-                    <% } %>
-                </tr>
-                -->
+                
                 
             </table>
 
