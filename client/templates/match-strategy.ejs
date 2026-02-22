@@ -4,7 +4,7 @@
 <body>
     <script type="module" src="../static/scripts/bottomBar.js" defer></script>
     <div id="page-holder">
-        <div class="small-input-container" id="select-match">
+        <div class="small-input-container" id="select-x">
             <label id="select-match" for="select-match"><b>Select Match:</b></label>
             <select id="available-matches" name="select-match">
                 <% for(let i = 0; i < gameNumbers.length; i++) { %>
@@ -39,23 +39,19 @@
                     <tr id="coopertition-expected">
                         <td>Alliance Can Dislodge:</td>
                         <td class="R">
-                            <%=matchup.slice(0, 3).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) > 1 ? "True" : "False";%>
+                            <%=matchup.slice(0, 3).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) >= 1 ? "True" : "False";%>
                         </td>
                         <td class="B">
-                            <%=matchup.slice(3, 6).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) > 1 ? "True" : "False";%>
+                            <%=matchup.slice(3, 6).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) >= 1 ? "True" : "False";%>
                         </td>
                     </tr>
                     <tr id="stockpile-suggested">
                         <td>Recommended Play:</td>
-                        <td class="B">
-                            <%=matchup.slice(0, 3).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) >= 3 ?
-                                (Math.abs(matchup.slice(0, 3).reduce((a, b) => a + b.total_game_score_avg, 0) - matchup.slice(3, 6).reduce((a, b) => a + b.total_game_score_avg, 0)) >= 22 ? "Coral RP" : "Max Pts")
-                                : "Max Pts"%>
-                        </td>
                         <td class="R">
-                            <%=matchup.slice(0, 3).reduce((a, b) => a + b.total_algae_dislodge_avg, 0) >= 3 ?
-                                (Math.abs(matchup.slice(0, 3).reduce((a, b) => a + b.total_game_score_avg, 0) - matchup.slice(3, 6).reduce((a, b) => a + b.total_game_score_avg, 0)) >= 22 ? "Coral RP" : "Max Pts")
-                                : "Max Pts"%>
+                            <%="WIN THE MATCH"%>
+                        </td>
+                        <td class="B">
+                            <%="WIN THE MATCH"%>
                         </td>
                     </tr>
                 </table>

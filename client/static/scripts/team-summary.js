@@ -10,7 +10,7 @@ let data = { 0: "dummy data" }
 let debounce = false
 
 const observer = new MutationObserver(function (mutations_list) {
-    mutations_list.forEach(async function (mutation) {
+    mutations_list.forEach(async function (mutation) {data
         consoleLog("Hello from mutation observer")
         for (const removed_node of mutation.removedNodes) {
             consoleLog("hey")
