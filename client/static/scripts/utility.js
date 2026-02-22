@@ -69,7 +69,7 @@ const highlightColors = {
     2399: "rgb(255,189,241)"
 }
 
-const socket = io.connect(`${window.location.hostname}:5000`, {
+const socket = io.connect(`${window.location.hostname}:5001`, {
     forceNew: true,
     transports: ["polling"],
 })

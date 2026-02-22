@@ -258,7 +258,7 @@ app.listen(3000, "0.0.0.0", (error) => {
     console.log("Listening on port 3000")
 }) //goes to localhost 3000
 
-server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
+server.listen(5001, { pingTimeout: 60000, pingInterval: 15000 })
 
 ;(async function firstCall() {
     const apiRes = await runAPICall()
