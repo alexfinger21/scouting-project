@@ -1,4 +1,4 @@
-const YEAR = 2025
+const YEAR = 2026
 const COMP = "test"
 const GAME_TYPE = "Q"
 const gameStart = new Date("April 1, 2025")
