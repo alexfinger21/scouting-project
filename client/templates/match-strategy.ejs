@@ -165,6 +165,35 @@
                         </td>
                     <% } %>
                 </tr>
+                <!--ROBOT TYPE-->
+                <tr>
+                    <td>
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>What is robot most likely to do</p>
+                            </div>
+                        </button>
+                        <p>Robot Type</p>
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>
+                            <p>
+                                <% if (matchup[i].teleop_cycling_time_avg >= (46) ) { %>
+                                    <p>Cycler</p>
+    
+                                <% } %>
+                                <% if (matchup[i].teleop_stockpiling_time_avg >= (46) ) { %>
+                                    <p>Stockpiler</p>
+    
+                                <% } %>
+                                <% if (matchup[i].teleop_broken_time_avg >= (46) ) { %>
+                                    <p>Often Broken</p>
+    
+                                <% } %>
+                            </p>
+                        </td>
+                    <% } %>
+                </tr>
                 <!--PERCENT FOULS-->
                 <!-- <tr>
                     <td>
@@ -303,6 +332,35 @@
                                     alwaysShow: true
                                 })%>
                                 
+                            </p>
+                        </td>
+                    <% } %>
+                </tr>
+                <!--ROBOT TYPE-->
+                <tr>
+                    <td>
+                        <button class="help-button">?
+                            <div class="help-box">
+                                <p>What is robot most likely to do</p>
+                            </div>
+                        </button>
+                        <p>Robot Type</p>
+                    </td>
+                    <% for(let i = 0; i < 3; i++) { %>
+                        <td class= <%= matchup[i].team_master_tm_number%>
+                            <p>
+                                <% if (matchup[i].teleop_cycling_time_avg >= (46) ) { %>
+                                    <p>Cycler</p>
+    
+                                <% } %>
+                                <% if (matchup[i].teleop_stockpiling_time_avg >= (46) ) { %>
+                                    <p>Stockpiler</p>
+    
+                                <% } %>
+                                <% if (matchup[i].teleop_broken_time_avg >= (46) ) { %>
+                                    <p>Often Broken</p>
+    
+                                <% } %>
                             </p>
                         </td>
                     <% } %>
