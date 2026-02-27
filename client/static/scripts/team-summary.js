@@ -87,47 +87,78 @@ async function getPoints(x, y, color) {
                 ++noVal
             }
 
-            points.push({
+		const endgameClimbScoreAvg = val.endgame_climb_l1_success_avg * 10 + val.endgame_climb_l2_success_avg * 20 + val.endgame_climb_l3_success_avg * 30
+points.push({
+                // Identifiers & Meta
                 teamNumber: val.team_master_tm_number,
-                hidden: hidden,
                 teamName: val.tm_name,
-                rank: val.api_rank ?? 1,
+                seasonYear: val.frc_season_master_sm_year,
+                eventCode: val.competition_master_cm_event_code,
+                gameType: val.game_matchup_gm_game_type,
                 gamesPlayed: val.nbr_games,
-                gameScore: val.total_game_score_avg,
-                autonProcessor: val.auton_algae_in_processor_avg,
-                autonNet: val.auton_algae_in_net_avg,
-                autonDislodge: val.auton_algae_dislodge_avg,
-                autonCoral: val.auton_coral_scored_avg,
-                autonL1: val.auton_coral_scored_l1_avg,
-                autonL2: val.auton_coral_scored_l2_avg,
-                autonL3: val.auton_coral_scored_l3_avg,
-                autonL4: val.auton_coral_scored_l4_avg,
-                autonAccuracy: val.auton_coral_scored_avg/(val.auton_coral_placed_avg != 0 ? val.auton_coral_placed_avg : 1),
-                autonScore: val.auton_total_score_avg,
-                teleopScore: val.teleop_total_score_avg,
-                teleopProcessor: val.teleop_algae_in_processor_avg,
-                teleopNet: val.teleop_algae_in_net_avg,
-                teleopCoral: val.teleop_coral_scored_avg,
-                teleopHPAccuracy: val.teleop_algae_hp_in_net_success_avg / ((val.teleop_algae_hp_in_net_success_avg + val.teleop_algae_hp_in_net_miss_avg) > 0 ? (val.teleop_algae_hp_in_net_success_avg + val.teleop_algae_hp_in_net_miss_avg) : 1),
-                teleopL1: val.teleop_coral_scored_l1_avg,
-                teleopL2: val.teleop_coral_scored_l2_avg,
-                teleopL3: val.teleop_coral_scored_l3_avg,
-                teleopL4: val.teleop_coral_scored_l4_avg,
-                teleopAccuracy: val.teleop_coral_scored_avg / (val.teleop_coral_placed_avg != 0 ? val.teleop_coral_placed_avg : 1),
-                endgameScore: val.endgame_park_avg * 2 + val.endgame_shallow_climb_avg * 6 + val.endgame_deep_climb_avg * 12,
-                dislodgeTotal: val.total_algae_dislodge_avg,
-                foulPoints: val.total_foul_points_avg,
-                coralScore: val.auton_coral_scored_l1_avg * 3 + val.auton_coral_scored_l2_avg * 4 + val.auton_coral_scored_l3_avg * 6 + val.auton_coral_scored_l4_avg * 7
-                    + val.teleop_coral_scored_l1_avg * 2  + val.teleop_coral_scored_l1_avg * 3 + val.teleop_coral_scored_l3_avg * 4 + val.teleop_coral_scored_l4_avg * 5,
-                algaeScore: val.auton_algae_in_processor_avg * 2 + val.auton_algae_in_net_avg * 4 + val.teleop_algae_in_processor_avg * 2 + val.teleop_algae_in_net_avg * 4,
+                hidden: hidden,
+				
+		// Calculated Stats
+		gameScore: val.auton_fuel_score_avg + val.auton_climb_successful_avg * 15 + val.teleop_fuel_score_avg + endgameClimbScoreAvg,
+		autonScore: val.auton_fuel_score_avg + val.auton_climb_successful_avg * 15,
+		teleopScore: val.teleop_fuel_count_avg,
+		endgameClimbScoreAvg: endgameClimbScoreAvg,	
+		defensiveEffect: val.api_dpr * (val.teleop_defense_time_avg + val.teleop_stockpiling_time_avg),
+		totalClimbScoreAvg: val.auton_climb_successful_avg * 15 + endgameClimbScoreAvg,
+		totalFuelScoreAvg: val.auton_fuel_score_avg + val.teleop_fuel_score_avg,
+		reliabilityIndex: 150 - val.teleop_broken_time_avg,
+		fieldTraversalIndex: 0,
+		defenseResistance: val.robot_drive_under_trench_avg + val.robot_drive_over_bump_avg + val.robot_shoot_while_moving_avg + val.robot_shoot_from_anywhere_avg + val.auton_climb_successful_avg + 5* (endgameClimbScoreAvg + val.auton_fuel_score_avg)/val.total_score_avg,
+                // Auton Stats
+                autonFuelCountSum: val.auton_fuel_count_sum,
+                autonFuelCountAvg: val.auton_fuel_count_avg,
+                autonFuelScoreSum: val.auton_fuel_score_sum,
+                autonFuelScoreAvg: val.auton_fuel_score_avg,
+                autonClimbAttemptSum: val.auton_climb_attempt_sum,
+                autonClimbAttemptAvg: val.auton_climb_attempt_avg,
+                autonClimbSuccessSum: val.auton_climb_successful_sum,
+                autonClimbSuccessAvg: val.auton_climb_successful_avg,
+
+                // Teleop Stats
+                teleopCyclingTimeSum: val.teleop_cycling_time_sum,
+                teleopCyclingTimeAvg: val.teleop_cycling_time_avg,
+                teleopStockpilingTimeSum: val.teleop_stockpiling_time_sum,
+                teleopStockpilingTimeAvg: val.teleop_stockpiling_time_avg,
+                teleopDefenseTimeSum: val.teleop_defense_time_sum,
+                teleopDefenseTimeAvg: val.teleop_defense_time_avg,
+                teleopBrokenTimeSum: val.teleop_broken_time_sum,
+                teleopBrokenTimeAvg: val.teleop_broken_time_avg,
+                teleopFuelCountSum: val.teleop_fuel_count_sum,
+                teleopFuelCountAvg: val.teleop_fuel_count_avg,
+                teleopFuelScoreSum: val.teleop_fuel_score_sum,
+                teleopFuelScoreAvg: val.teleop_fuel_score_avg,
+
+                // Endgame Stats
+                endgameClimbAttemptSum: val.endgame_climb_attempt_sum,
+                endgameClimbAttemptAvg: val.endgame_climb_attempt_avg,
+                endgameClimbL1SuccessSum: val.endgame_climb_l1_success_sum,
+                endgameClimbL1SuccessAvg: val.endgame_climb_l1_success_avg,
+                endgameClimbL2SuccessSum: val.endgame_climb_l2_success_sum,
+                endgameClimbL2SuccessAvg: val.endgame_climb_l2_success_avg,
+                endgameClimbL3SuccessSum: val.endgame_climb_l3_success_sum,
+                endgameClimbL3SuccessAvg: val.endgame_climb_l3_success_avg,
+
+                // API/Ranking Stats
                 rank: val.api_rank ?? 0,
+                win: val.api_win ?? 0,
+                loss: val.api_loss ?? 0,
+                tie: val.api_tie ?? 0,
+                dq: val.api_dq ?? 0,
                 opr: val.api_opr ?? 0,
                 dpr: val.api_dpr ?? 0,
+                oprRank: val.api_opr_rank ?? 0,
+                dprRank: val.api_dpr_rank ?? 0,
+
+                // Graph Plotting
                 x: val[x],
                 y: val[y] ? val[y] : 0,
                 color: color
             })
-            consoleLog("END SCORE:", val.endgame_park_avg * 2 + val.endgame_shallow_climb_avg * 6 + val.endgame_deep_climb_avg * 12)
             ind++
         }
     }
@@ -226,7 +257,7 @@ async function main() {
                 consoleLog("TRY TO SWITCH")
                 switchChart("scatter")
                 ctx = scatterPlotCanvas.getContext("2d")
-                points = await getPoints("api_rank", "total_game_score_avg")
+                points = await getPoints("api_rank", "total_score_avg")
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
@@ -244,14 +275,14 @@ async function main() {
             case 1:
                 switchChart("bar")
 
-                points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
+                points = await getPoints("team_master_tm_number", "total_score_avg`", POINT_COLOR)
 
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
-                            ["autonScore", "teleopScore", "endgameScore"],
+                            ["autonScore", "teleopScore", "endgameClimbScoreAvg",],
                             "gameScore",
                         )
                     )
@@ -262,14 +293,13 @@ async function main() {
                 break
             case 2:
                 switchChart("spider")
-                points = await getPoints("team_master_tm_number", "avg_gm_score", POINT_COLOR)
+                points = await getPoints("team_master_tm_number", "total_game_score_avg", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart && points) {
                     const config = await graphHandler.createSpiderChart(
                         points,
-                        "gameScore",
-                        15
                     )
+			console.log("SPIDER CHART CONFIG", config)
                     chart = new Chart(ctx,
                         config
                     )
@@ -278,62 +308,7 @@ async function main() {
                 }
                 
                 break
-            case 3:
-                switchChart("bar")
-
-                points = await getPoints("team_master_tm_number", "auton_total_score_avg", POINT_COLOR)
-
-                if (oldCurrentChart == currentChart && points) {
-                    chart = new Chart(ctx,
-                        graphHandler.createStackedBarGraph(
-                            points,
-                            ["autonProcessor", "autonNet", "autonL1","autonL2","autonL3","autonL4"],
-                            "autonScore",
-                            ["rgb(75,192,192)", "rgb(99, 255, 203)", "rgb(255, 255, 255)", "rgb(207, 207, 207)", "rgb(123, 123, 123)", "rgb(93, 93, 93)"]
-                        )
-                    )
-                } else if (!points) {
-                   arrowRight.click() 
-                }
-                
-                break
-            case 4:
-                switchChart("bar")
-
-                points = await getPoints("team_master_tm_number", "teleop_total_score_avg", POINT_COLOR)
-
-                if (oldCurrentChart == currentChart && points) {
-                    chart = new Chart(ctx,
-                        graphHandler.createStackedBarGraph(
-                            points,
-                            ["teleopNet", "teleopProcessor", "teleopL1","teleopL2","teleopL3","teleopL4"],
-                            "teleopScore",
-                            ["rgb(75,192,192)", "rgb(99, 255, 203)", "rgb(255, 255, 255)", "rgb(207, 207, 207)", "rgb(123, 123, 123)", "rgb(93, 93, 93)"]   
-                        )
-                    )
-                } else if (!points) {
-                    return false
-                }
-
-                break
-            case 5:
-                switchChart("bar")
-
-                points = await getPoints("team_master_tm_number", "endgame_total_score_avg", POINT_COLOR)
-
-                if (oldCurrentChart == currentChart && points) {
-                    chart = new Chart(ctx,
-                        graphHandler.createBarGraph(
-                            points,
-                            "endgameScore"
-                        )
-                    )
-                } else if (!points) {
-                    return false
-                }
-                
-                break
-            case 6:
+            case 3: //defensive shift breakdown
                 switchChart("bar")
 
                 points = await getPoints("team_master_tm_number", "total_game_score_avg", POINT_COLOR)
@@ -342,7 +317,62 @@ async function main() {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
-                            ["coralScore", "algaeScore", "endgameScore"],
+                            ["teleopDefenseTimeAvg", "offensiveStockpilingTimeAvg", "offensiveDefendingTimeAvg","offensiveBrokenTimeAvg"],
+                            "gameScore",
+                            ["rgb(47, 237, 174)", "rgb(239, 220, 112)", "rgb(128, 193, 255)", "rgb(255, 113, 91)"]   
+                        )
+                    )
+                } else if (!points) {
+                    return false
+                }               
+                break
+            case 4: //offensive shift breakdown
+                switchChart("bar")
+
+                points = await getPoints("team_master_tm_number", "total_game_score_avg", POINT_COLOR)
+
+                if (oldCurrentChart == currentChart && points) {
+                    chart = new Chart(ctx,
+                        graphHandler.createStackedBarGraph(
+                            points,
+                            ["offensiveCyclingTimeAvg", "offensiveStockpilingTimeAvg", "offensiveDefendingTimeAvg","offensiveBrokenTimeAvg"],
+                            "gameScore",
+                            ["rgb(47, 237, 174)", "rgb(239, 220, 112)", "rgb(128, 193, 255)", "rgb(255, 113, 91)"]   
+                        )
+                    )
+                } else if (!points) {
+                    return false
+                }
+
+                break
+            case 5: //total time breakdown
+                switchChart("bar")
+
+                points = await getPoints("team_master_tm_number", "total_score_avg", POINT_COLOR)
+
+                if (oldCurrentChart == currentChart && points) {
+                    chart = new Chart(ctx,
+                        graphHandler.createStackedBarGraph(
+                            points,
+                            ["teleopCyclingTimeAvg", "teleopStockpilingTimeAvg", "teleopDefenseTimeAvg", "teleopBrokenTimeAvg"],
+				"gameScore"
+                        )
+                    )
+                } else if (!points) {
+                    return false
+                }
+                
+                break
+            case 6: // Total game points on average by section
+                switchChart("bar")
+
+                points = await getPoints("team_master_tm_number", "total_game_score_avg", POINT_COLOR)
+
+                if (oldCurrentChart == currentChart && points) {
+                    chart = new Chart(ctx,
+                        graphHandler.createStackedBarGraph(
+                            points,
+                            ["autonFuelScoreAvg", "teleopFuelScoreAvg", "endgameClimbScoreAvg"],
                             "gameScore",
                         )
                     )

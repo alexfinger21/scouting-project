@@ -1,5 +1,5 @@
 const log = true
-const debugLog = true //shows where console logs came from
+const debugLog = false //shows where console logs came from
 const canvasFPS = 50
 let reqId = 0
 
