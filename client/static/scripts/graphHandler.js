@@ -157,8 +157,20 @@ function writeDataLists(points) {
 		defensiveEffect: points.map(p => (p.defensiveEffect ?? 0).toFixed(1)),
 		fieldTraversalIndex: points.map(p => (p.fieldTraversalIndex ?? 0).toFixed(1)),
 		defenseResistance: points.map(p => (p.defenseResistance ?? 0).toFixed(1)),
-
 		endgameClimbScoreAvg: points.map(p => (p.endgameClimbScoreAvg ?? 0).toFixed(1)),
+
+
+		defensiveShiftCyclingTime: points.map(p => (p.defensiveShiftStockpilingTime ?? 0).toFixed(1)),
+		defensiveShiftStockpilingTime: points.map(p => (p.defensiveShiftStockpilingTime ?? 0).toFixed(1)),
+		defensiveShiftDefenseTime: points.map(p => (p.defensiveShiftDefenseTime ?? 0).toFixed(1)),
+		defensiveShiftBrokenTime: points.map(p => (p.defensiveShiftBrokenTime ?? 0).toFixed(1)),
+
+		offensiveShiftCyclingTime: points.map(p => (p.defensiveShiftStockpilingTime ?? 0).toFixed(1)),
+		offensiveShiftStockpilingTime: points.map(p => (p.defensiveShiftStockpilingTime ?? 0).toFixed(1)),
+		offensiveShiftDefenseTime: points.map(p => (p.defensiveShiftDefenseTime ?? 0).toFixed(1)),
+		offensiveShiftBrokenTime: points.map(p => (p.defensiveShiftBrokenTime ?? 0).toFixed(1)),
+
+
 		// Auton Stats
 		autonFuelCountSum: points.map(p => (p.autonFuelCountSum ?? 0).toFixed(1)),
 		autonFuelCountAvg: points.map(p => (p.autonFuelCountAvg ?? 0).toFixed(1)),
@@ -271,6 +283,7 @@ async function writeSpiderData(points) {
 	}
 
 
+
 	for (let i = 0; i < points.length; i++) {
 		const team = points[i]
 		data.push(getTeamData(team, records, existingColors))
@@ -282,7 +295,6 @@ async function writeSpiderData(points) {
 		],
 		datasets: (await Promise.all(data)).sort((a, b) => a.label - b.label)
 	}
-	consoleLog("RES: ", res)
 	return res
 }
 
@@ -649,7 +661,6 @@ function createStackedBarGraph(points, orderBy, scoring, backgroundColor) {
 						if(context.datasetIndex == orderBy.length - 1) {
 							//consoleLog(scoring, "in", context.chart.data)
 
-							console.log("DATA", context.chart.data)
 							return context.chart.data[scoring][context.dataIndex];
 						}
 						return ''
