@@ -10,7 +10,7 @@ dotenv.config()
 function imageRequest(team) {
     return {
         'method': 'GET',
-        'url': `https://www.thebluealliance.com/api/v3/team/${"frc" + String(team)}/media/${gameConstants.YEAR}`,
+        'url': `https://www.thebluealliance.com/api/v3/team/${"frc" + String(team)}/media/2025`,
         'headers': {
             'X-TBA-Auth-Key': auth,
             'If-Modified-Since': ''
@@ -47,5 +47,5 @@ function getImageData(filter = "image", team) {
         })
     })
 }
-
+//getImageData("image" ,695)
 export { getImageData }

@@ -25,37 +25,41 @@ const TEAM_API_ACCESS_SECRET = process.env.TEAM_API_ACCESS_SECRET
 
 // Optional query parameters
 const params = new URLSearchParams({
-    eventId: "2025johnson",
+    eventId: "2025_ohcl",
     //   formId: "",
     //   teamNumber: "695",
 })
 
-fetch(`${API}` + "/survey/query" + `?${params.toString()}`, {
-    method: "GET",
-    headers: {
-        "X-API-Key": TEAM_API_ACCESS_KEY,
-        "X-API-Secret": TEAM_API_ACCESS_SECRET,
-        "Content-Type": "application/json",
-    },
-})
-    .then((res) => res.json())
-    .then((data) => {
-        if (data.success) {
-            for(let i=0;i<10;++i)console.log(".")
-            console.log("Survey responses:", data.data)
+// fetch(`${API}` + "/survey/query" + `?${params.toString()}`, {
+//     method: "GET",
+//     headers: {
+//         "X-API-Key": TEAM_API_ACCESS_KEY,
+//         "X-API-Secret": TEAM_API_ACCESS_SECRET,
+//         "Content-Type": "application/json",
+//     },
+// })
+//     .then((res) => {
+//                     console.log(res)
+//                     res.json()
+//                     console.log("HELLO 03/01/2026")
+//     })
+//     .then((data) => {
+//         console.log(data)
+//         if (data && typeof data === 'object'){
+//             for(let i=0;i<10;++i) console.log("******")
+//             console.log("Survey responses:", data.data)
 
 
-            console.log("Survey responses:", data.data[0])
+//             console.log("Survey responses:", data.data[0])
 
-            for(let i=0;i<10;++i)console.log(".")
-
-        } else {
-            console.error("API error:", data.error || data.message)
-        }
-    })
-    .catch((err) => {
-        console.error("Network error:", err)
-    })
+//             for(let i=0;i<10;++i)console.log("*******")
+//         } else {
+//             console.error("API error:", data.error || data.message)
+//         }
+//     })
+//     .catch((err) => {
+//         console.error("Network error:", err)
+//     })
 
 
 // --------------------------------------
@@ -114,40 +118,40 @@ router.get("/", async function (req, res) {
 
     // consoleLog("TEAM: " + teamNumber, results)
 
-    let [err3, pictures] = await database.query(
-        database.getTeamPictures(teamNumber),
-    )
+    // let [err3, pictures] = await database.query(
+    //     database.getTeamPictures(teamNumber),
+    // )
 
-    pictures = JSON.parse(JSON.stringify(pictures))
+    // pictures = JSON.parse(JSON.stringify(pictures))
     // consoleLog("PICTURES: ")
     // consoleLog(pictures)
 
-    const websiteURLs = await getImageData("image", teamNumber)
+    const websiteURLs = await getImageData("image", teamNumber) //array
 
     let urls = []
-    if (pictures.length > 0) {
-        teamInfo = mergeDicts(teamInfo, pictures[0])
-        // consoleLog("MERGED: ")
-        // consoleLog(teamInfo)
-        if (
-            teamInfo.ps_picture_full_robot != null &&
-            teamInfo.ps_picture_full_robot.length > 0
-        ) {
-            urls.push(
-                "https://drive.google.com/uc?export=view&id=" +
-                teamInfo.ps_picture_full_robot.split("id=").pop(),
-            )
-        }
-        if (
-            teamInfo.ps_picture_drivetrain != null &&
-            teamInfo.ps_picture_drivetrain.length > 0
-        ) {
-            urls.push(
-                "https://drive.google.com/uc?export=view&id=" +
-                teamInfo.ps_picture_drivetrain.split("id=").pop(),
-            )
-        }
-    }
+    // if (pictures.length > 0) {
+    //     teamInfo = mergeDicts(teamInfo, pictures[0])
+    //     // consoleLog("MERGED: ")
+    //     // consoleLog(teamInfo)
+    //     if (
+    //         teamInfo.ps_picture_full_robot != null &&
+    //         teamInfo.ps_picture_full_robot.length > 0
+    //     ) {
+    //         urls.push(
+    //             "https://drive.google.com/uc?export=view&id=" +
+    //             teamInfo.ps_picture_full_robot.split("id=").pop(),
+    //         )
+    //     }
+    //     if (
+    //         teamInfo.ps_picture_drivetrain != null &&
+    //         teamInfo.ps_picture_drivetrain.length > 0
+    //     ) {
+    //         urls.push(
+    //             "https://drive.google.com/uc?export=view&id=" +
+    //             teamInfo.ps_picture_drivetrain.split("id=").pop(),
+    //         )
+    //     }
+    // }
 
     let [err4, comments] = await database.query(
         database.getMatchComments(teamNumber),
@@ -159,22 +163,22 @@ router.get("/", async function (req, res) {
 
     // consoleLog("the request took " + (Date.now() - start) / 1000)
 
-    let [err5, pitData] =
-        await database.query(SQL`SELECT * FROM survey_responses sr WHERE 
-            sr.Team_Number = ${teamNumber}`);
+    // let [err5, pitData] =
+    //     await database.query(SQL`SELECT * FROM survey_responses sr WHERE 
+    //         sr.Team_Number = ${teamNumber}`);
 
-    pitData = JSON.parse(JSON.stringify(pitData))
+    // pitData = JSON.parse(JSON.stringify(pitData))
 
-    // consoleLog("PIT DATA", pitData)
+    // // consoleLog("PIT DATA", pitData)
 
-    if (pitData?.length > 0) {
-        // consoleLog(teamInfo)
-        Object.assign(teamInfo, pitData[0])
-    }
+    // if (pitData?.length > 0) {
+    //     // consoleLog(teamInfo)
+    //     Object.assign(teamInfo, pitData[0])
+    // }
 
     urls = [
-        teamInfo.picture_full_robot,
-        teamInfo.picture_drive_train,
+        // teamInfo.picture_full_robot,
+        // teamInfo.picture_drive_train,
         ...websiteURLs,
         ...urls,
     ]
