@@ -29,9 +29,69 @@ const optionsOPRS = {
         'If-Modified-Since': ''
     }
 }
+/// Function to pull match details using TBA API
+const GAME_TYPE_PREFIX = { 'Q': 'qm', 'SF': 'sf', 'F': 'f' }
+const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "week0" : gameConstants.COMP)
+
+function returnMatchData(matchNumber) {
+    const matchKey = eventCode + '_' + (GAME_TYPE_PREFIX[gameConstants.GAME_TYPE] ?? gameConstants.GAME_TYPE.toLowerCase()) + matchNumber
+    const options = {
+        'method': 'GET',
+        'url': 'https://www.thebluealliance.com/api/v3/match/' + matchKey,
+        'headers': {
+            'X-TBA-Auth-Key': auth,
+            'If-Modified-Since': ''
+        }
+    }
+    return new Promise((resolve, reject) => {
+         if (gameConstants.COMP == "xx") {
+             resolve({})
+             return
+         }
+        consoleLog(options)
+        request(options, function(error, response) {
+            if (error) reject(new Error(error))
+            resolve(JSON.parse(response.body))
+        })
+    })
+}
+
+function parseMatchData(matchData) {
+    const blue = matchData?.alliances?.blue
+    const red = matchData?.alliances?.red
+    const blueBreakdown = matchData?.score_breakdown?.blue
+    const redBreakdown = matchData?.score_breakdown?.red
+
+    const blue_team_1 = blue?.team_keys?.[0]?.substring(3)
+    const blue_team_2 = blue?.team_keys?.[1]?.substring(3)
+    const blue_team_3 = blue?.team_keys?.[2]?.substring(3)
+
+    const red_team_1 = red?.team_keys?.[0]?.substring(3)
+    const red_team_2 = red?.team_keys?.[1]?.substring(3)
+    const red_team_3 = red?.team_keys?.[2]?.substring(3)
+
+    const blue_auto = blueBreakdown?.autoPoints
+    const blue_teleop = blueBreakdown?.teleopPoints
+    const red_auto = redBreakdown?.autoPoints
+    const red_teleop = redBreakdown?.teleopPoints
+
+    consoleLog(blue_auto)
+
+    return {
+        blue_team_1, blue_team_2, blue_team_3,
+        blue_auto, blue_teleop,
+        red_team_1, red_team_2, red_team_3,
+        red_auto, red_teleop
+    }
+}
 
 consoleLog(optionsOPRS)
 consoleLog(optionsRankings)
+consoleLog("Variables")
+console.log(JSON.stringify(parseMatchData(await returnMatchData(5)), null, 2))
+const raw = await returnMatchData(5)
+console.log(JSON.stringify(raw?.score_breakdown, null, 2))
+
 
 function printMessage(title, msg) {
     consoleLog("------ " + title + " ------")
@@ -139,4 +199,4 @@ console.log("Function took " + (Date.now() - t) + " ms")
 
 //returnAPIDATA()
 
-export { returnAPIDATA }
+export { returnAPIDATA, returnMatchData, parseMatchData }
