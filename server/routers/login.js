@@ -31,7 +31,7 @@ async function checkUser(body) {
 
     }
 
-    return false
+    return false //MAKE SURE TO CHANGE THIS BACK TO FALSE
 }
 
 function strongRandomString(chars, maxLen) {
