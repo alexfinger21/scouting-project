@@ -2,7 +2,6 @@ import pool from "./dbconfig.js"
 import gameConstants from "../game.js"
 import SQL from "sql-template-strings"
 
-
 function getUsers() {
     const returnStr = SQL`
     SELECT um_id, um_name
@@ -891,6 +890,11 @@ function getUserFromCasdoorId(casdoorId) {
         `
 }
 
+function getGameConstants() {
+    return SQL`
+        SELECT * FROM teamsixn_scouting_dev.game_constants gc
+    `
+}
 
 export default {
     getMatchData,
@@ -925,6 +929,7 @@ export default {
 	getAppMatches,
 	getAppTasks,
     getUserFromCasdoorId,
+    getGameConstants,
 }
 
 export {
@@ -958,4 +963,5 @@ export {
     getScoutifyMatchData,
     getScouter,
     getUserFromCasdoorId,
+    getGameConstants,
 }
