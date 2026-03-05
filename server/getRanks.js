@@ -43,6 +43,7 @@ function returnMatchData(matchNumber) {
             'If-Modified-Since': ''
         }
     }
+    console.log(options)
     return new Promise((resolve, reject) => {
          if (gameConstants.COMP == "xx") {
              resolve({})
@@ -57,6 +58,7 @@ function returnMatchData(matchNumber) {
 }
 
 function parseMatchData(matchData) {
+    console.log("API DATA", matchData)
     const blue = matchData?.alliances?.blue
     const red = matchData?.alliances?.red
     const blueBreakdown = matchData?.score_breakdown?.blue
@@ -102,7 +104,7 @@ function parseMatchData(matchData) {
 consoleLog(optionsOPRS)
 consoleLog(optionsRankings)
 consoleLog("Here")
-console.log(JSON.stringify(parseMatchData(await returnMatchData(5)), null, 2))
+console.log("PARSED DATA", JSON.stringify(parseMatchData(await returnMatchData(5)), null, 2))
 const raw = await returnMatchData(5)
 console.log(JSON.stringify(raw?.score_breakdown, null, 2))
 
