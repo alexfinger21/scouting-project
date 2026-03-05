@@ -31,7 +31,7 @@ const optionsOPRS = {
 }
 /// Function to pull match details using TBA API
 const GAME_TYPE_PREFIX = { 'Q': 'qm', 'SF': 'sf', 'F': 'f' }
-const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "week0" : gameConstants.COMP)
+const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "tuis" : gameConstants.COMP)
 
 function returnMatchData(matchNumber) {
     const matchKey = eventCode + '_' + (GAME_TYPE_PREFIX[gameConstants.GAME_TYPE] ?? gameConstants.GAME_TYPE.toLowerCase()) + matchNumber
@@ -71,23 +71,37 @@ function parseMatchData(matchData) {
     const red_team_3 = red?.team_keys?.[2]?.substring(3)
 
     const blue_auto = blueBreakdown?.autoPoints
+    const blue_auto_climb_1 = blueBreakdown?.autoTowerRobot1
+    const blue_auto_climb_2 = blueBreakdown?.autoTowerRobot2
+    const blue_auto_climb_3 = blueBreakdown?.autoTowerRobot3
     const blue_teleop = blueBreakdown?.teleopPoints
+    const blue_teleop_climb_1 = blueBreakdown?.endGameTowerRobot1
+    const blue_teleop_climb_2 = blueBreakdown?.endGameTowerRobot2
+    const blue_teleop_climb_3 = blueBreakdown?.endGameTowerRobot3
     const red_auto = redBreakdown?.autoPoints
+    const red_auto_climb_1 = redBreakdown?.autoTowerRobot1
+    const red_auto_climb_2 = redBreakdown?.autoTowerRobot2
+    const red_auto_climb_3 = redBreakdown?.autoTowerRobot3
     const red_teleop = redBreakdown?.teleopPoints
+    const red_teleop_climb_1 = redBreakdown?.endGameTowerRobot1
+    const red_teleop_climb_2 = redBreakdown?.endGameTowerRobot2
+    const red_teleop_climb_3 = redBreakdown?.endGameTowerRobot3
 
     consoleLog(blue_auto)
 
     return {
         blue_team_1, blue_team_2, blue_team_3,
-        blue_auto, blue_teleop,
+        blue_auto, blue_auto_climb_1, blue_auto_climb_2, blue_auto_climb_3,
+        blue_teleop, blue_teleop_climb_1, blue_teleop_climb_2, blue_teleop_climb_3,
         red_team_1, red_team_2, red_team_3,
-        red_auto, red_teleop
+        red_auto, red_auto_climb_1, red_auto_climb_2, red_auto_climb_3,
+        red_teleop, red_teleop_climb_1, red_teleop_climb_2, red_teleop_climb_3
     }
 }
 
 consoleLog(optionsOPRS)
 consoleLog(optionsRankings)
-consoleLog("Variables")
+consoleLog("Here")
 console.log(JSON.stringify(parseMatchData(await returnMatchData(5)), null, 2))
 const raw = await returnMatchData(5)
 console.log(JSON.stringify(raw?.score_breakdown, null, 2))
