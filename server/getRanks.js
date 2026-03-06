@@ -30,14 +30,12 @@ const optionsOPRS = {
     }
 }
 /// Function to pull match details using TBA API
-const GAME_TYPE_PREFIX = { 'Q': 'qm', 'SF': 'sf', 'F': 'f' }
 const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "tuis" : gameConstants.COMP)
 
-function returnMatchData(matchNumber) {
-    const matchKey = eventCode + '_' + (GAME_TYPE_PREFIX[gameConstants.GAME_TYPE] ?? gameConstants.GAME_TYPE.toLowerCase()) + matchNumber
+function fetchMatchData() {
     const options = {
         'method': 'GET',
-        'url': 'https://www.thebluealliance.com/api/v3/match/' + matchKey,
+        'url': 'https://www.thebluealliance.com/api/v3/event/' + eventCode + '/matches',
         'headers': {
             'X-TBA-Auth-Key': auth,
             'If-Modified-Since': ''
@@ -56,55 +54,56 @@ function returnMatchData(matchNumber) {
     })
 }
 
-function parseMatchData(matchData) {
-    const blue = matchData?.alliances?.blue
-    const red = matchData?.alliances?.red
-    const blueBreakdown = matchData?.score_breakdown?.blue
-    const redBreakdown = matchData?.score_breakdown?.red
+function parseAllianceData(data, weights, teamKeys) {
 
-    const blue_team_1 = blue?.team_keys?.[0]?.substring(3)
-    const blue_team_2 = blue?.team_keys?.[1]?.substring(3)
-    const blue_team_3 = blue?.team_keys?.[2]?.substring(3)
+	const teams = teamKeys.map(i => i.slice(3))
 
-    const red_team_1 = red?.team_keys?.[0]?.substring(3)
-    const red_team_2 = red?.team_keys?.[1]?.substring(3)
-    const red_team_3 = red?.team_keys?.[2]?.substring(3)
-
-    const blue_auto = blueBreakdown?.autoPoints
-    const blue_auto_climb_1 = blueBreakdown?.autoTowerRobot1
-    const blue_auto_climb_2 = blueBreakdown?.autoTowerRobot2
-    const blue_auto_climb_3 = blueBreakdown?.autoTowerRobot3
-    const blue_teleop = blueBreakdown?.teleopPoints
-    const blue_teleop_climb_1 = blueBreakdown?.endGameTowerRobot1
-    const blue_teleop_climb_2 = blueBreakdown?.endGameTowerRobot2
-    const blue_teleop_climb_3 = blueBreakdown?.endGameTowerRobot3
-    const red_auto = redBreakdown?.autoPoints
-    const red_auto_climb_1 = redBreakdown?.autoTowerRobot1
-    const red_auto_climb_2 = redBreakdown?.autoTowerRobot2
-    const red_auto_climb_3 = redBreakdown?.autoTowerRobot3
-    const red_teleop = redBreakdown?.teleopPoints
-    const red_teleop_climb_1 = redBreakdown?.endGameTowerRobot1
-    const red_teleop_climb_2 = redBreakdown?.endGameTowerRobot2
-    const red_teleop_climb_3 = redBreakdown?.endGameTowerRobot3
-
-    consoleLog(blue_auto)
-
-    return {
-        blue_team_1, blue_team_2, blue_team_3,
-        blue_auto, blue_auto_climb_1, blue_auto_climb_2, blue_auto_climb_3,
-        blue_teleop, blue_teleop_climb_1, blue_teleop_climb_2, blue_teleop_climb_3,
-        red_team_1, red_team_2, red_team_3,
-        red_auto, red_auto_climb_1, red_auto_climb_2, red_auto_climb_3,
-        red_teleop, red_teleop_climb_1, red_teleop_climb_2, red_teleop_climb_3
-    }
+	return {
+		teams: teams,
+		autonWeights: teams.map(i => weights[i].autonWeight),
+		teleopWeights: teams.map(i => weights[i].teleopWeight),
+		teleopFuel: data.hubScore.totalTeleopPoints,
+		autoFuel: data.hubScore.autoPoints,
+		endgameClimbLevel: [data.endgameTowerRobot1, data.endgameTowerRobot2, data.endgameTowerRobot3],
+		autonClimbLevel: [data.autoTowerRobot1, data.autoTowerRobot2, data.autoTowerRobot3],
+		
+	}
 }
 
-consoleLog(optionsOPRS)
-consoleLog(optionsRankings)
-consoleLog("Here")
-console.log(JSON.stringify(parseMatchData(await returnMatchData(5)), null, 2))
-const raw = await returnMatchData(5)
-console.log(JSON.stringify(raw?.score_breakdown, null, 2))
+function parseMatchData(matchDataPacket, OPRWeights) {
+	const data = []
+	const matchData = JSON.parse(JSON.stringify(matchDataPacket))
+	for(const match of matchData) {
+		if(match.comp_level != "qm") { //qualification match
+			continue
+		}
+		data.push(parseAllianceData(matchData.score_breakdown.blue), OPRWeights, matchData.alliances.red.team_keys)
+		data.push(parseAllianceData(matchData.score_breakdown.red, OPRWeights, matchData.alliances.red.team_keys))
+	}
+}
+
+function parseOPRWeights(weightsPacket) {
+	const OPRWeights = JSON.parse(JSON.stringify(weightsPacket))
+
+	console.log("OPR WEIGHTS", weightsPacket)
+	return OPRWeights.reduce((accumulator, currentValue) => {
+		accumulator[currentValue.team_master_tm_number] = {
+			autonWeight: currentValue.auton_time_weight,
+			teleopWeight: currentValue.teleop_time_weight / 210000, //fraction of total time spent cycling or stockpiling
+		}
+		return accumulator
+	}, {})
+}
+
+
+const weightsPromise = database.query(database.getOPRWeights())
+const matchDataPromise = fetchMatchData(5)
+Promise.all([weightsPromise, matchDataPromise]).then(([weightsPacket, matchDataPacket]) => {
+	const OPRWeights = parseOPRWeights(weightsPacket)
+	const data = parseMatchData(matchDataPacket, OPRWeights)
+	console.log("PARSED DATA", data)
+})
+
 
 
 function printMessage(title, msg) {
@@ -126,74 +125,6 @@ let showObj = function () {
         //   consoleLog(teamData[prop])
     }
 }
-
-function returnAPIDATA() {
-    return new Promise((resolve, reject) => {
-        if (gameConstants.COMP == "test") {
-            resolve({})
-            return
-        }
-        request(optionsOPRS, function(error, response) {
-            if (error) throw new Error(error)
-            printMessage("Status Code", response.statusCode)
-            //consoleLog(response.body)
-            const oprData = JSON.parse(response.body)
-            
-            //consoleLog(oprData)
-
-            for (const [rankings, _] of Object.entries(oprData)) {
-                for (const [i, val] of Object.entries(oprData[rankings])) {
-                    oprData[rankings][i.substring(3)] = oprData[rankings][i] //remove the first 3 chars in front 'frc'
-                    delete oprData[rankings][i]
-                }
-
-            }
-
-            request(optionsRankings, function(error, response) {
-                const rankingsData = JSON.parse(response.body).rankings
-                //consoleLog(rankingsData)
-                const combinedTeamData = {}
-                if (rankingsData) {
-
-                    for (let i = 0; i<rankingsData.length; i++) {
-                        combinedTeamData[rankingsData[i].team_key.substring(3)] = rankingsData[i]
-                        combinedTeamData[rankingsData[i].team_key.substring(3)].opr = oprData?.["oprs"]?.[rankingsData[i].team_key.substring(3)]
-                        combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData?.["dprs"]?.[rankingsData[i].team_key.substring(3)]
-                    }
-
-                    //consoleLog(database.writeAPIData(combinedTeamData))
-                    //consoleLog(combinedTeamData)    
-                    if (Object.keys(combinedTeamData).length) { 
-                        database.query(database.deleteAPIData(), (err, res) => {
-                            consoleLog(err)
-                            //consoleLog(res)
-                            database.query(database.writeAPIData(combinedTeamData), (err, res) => {
-                                consoleLog(err)
-                                //consoleLog(res)
-                            })
-                        })
-                    }
-        
-                    
-                    //consoleLog(combinedTeamData)
-                }
-                resolve(combinedTeamData)
-            })
-
-
-            //consoleLog(teamData)
-            //printMessage('Type of Data', typeof teamData)
-            // teamData.teams.forEach((team) => {
-            //   printMessage('Team Info', team)
-            // }
-            // showObj()
-            // printMessage('Length of Teams array', team_data.teams.teamNumber)
-            //printMessage('Data', teamData)
-            //consoleLog(teamData.Rankings[0].teamNumber)
-        })
-    })
-}
-
 /*
 function bigLoop() {
     return Promise.resolve().then(() => {
@@ -213,4 +144,4 @@ console.log("Function took " + (Date.now() - t) + " ms")
 
 //returnAPIDATA()
 
-export { returnAPIDATA, returnMatchData, parseMatchData }
+export {parseMatchData }
