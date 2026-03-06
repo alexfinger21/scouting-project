@@ -17,6 +17,7 @@ const observer = new MutationObserver(function (mutations_list) {
             if (removed_node.id == 'page-holder' && currentPage == paths.teamSummary) {
                 consoleLog("hello from removed node")
                 data = JSON.parse(await requestData(paths.teamSummary + "?getData=1"))
+                console.log("loaded data as", data)
                 consoleLog(data)
                 main()
                 debounce = false
@@ -137,6 +138,7 @@ function getPoints(x, y, color) {
     let points = []
     const gameTeams = getMatchTeams(document.getElementById("highlight-match").value)
     let noVal = 0
+    console.log("data is ", data)
     let ind = 0
 
     for (const val of data) {
@@ -283,6 +285,7 @@ async function main() {
                         )
                     )
                 } else if (!points) {
+                    consoleLog("POINTS NOT FOUND!")
                     return false
                 }
                 
@@ -423,7 +426,7 @@ async function main() {
 
         if (chartRes === false) {
             debounce = false
-            arrowLeft.click()
+            //arrowLeft.click()
         }
     })
 
@@ -446,7 +449,7 @@ async function main() {
 
         if (chartRes === false) {
             debounce = false
-            arrowRight.click()
+            //arrowRight.click()
         }
     })
 
@@ -454,8 +457,8 @@ async function main() {
     while (chartRes === false) {
         consoleLog("CHART RES")
         debounce = false
-        arrowRight.click()
-        chartRes = await drawChart(currentChart)
+        //arrowRight.click()
+        //chartRes = await drawChart(currentChart)
     }
     //update graph when highlight team value changes
     const highlightTeam = document.getElementById("highlight-team")
@@ -491,7 +494,7 @@ async function main() {
                 const res = await drawChart(currentChart)
                 if (res === false) {
                     debounce = false
-                    arrowRight.click()
+                    //arrowRight.click()
                 }
             }
         })

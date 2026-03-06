@@ -11,6 +11,7 @@ router.get("/",  async function(req, res) { //only gets used if the url == team-
     if(getData == 1) {
         database.query(database.getChartData(), (err, chartData) => {
             consoleLog("time to wait: ", Date.now() - t1 + "ms")
+            console.log("Chart data",chartData)
             consoleLog(err)
             res.status(200).send(JSON.stringify(chartData))
         })

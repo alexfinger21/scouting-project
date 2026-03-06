@@ -125,6 +125,125 @@ let showObj = function () {
         //   consoleLog(teamData[prop])
     }
 }
+
+function returnAPIDATA() {
+    return new Promise((resolve, reject) => {
+        if (gameConstants.COMP == "test") {
+            resolve({})
+            return
+        }
+        request(optionsOPRS, function(error, response) {
+            if (error) throw new Error(error)
+            printMessage("Status Code", response.statusCode)
+            //consoleLog(response.body)
+            const oprData = JSON.parse(response.body)
+            
+            //consoleLog(oprData)
+
+            for (const [rankings, _] of Object.entries(oprData)) {
+                for (const [i, val] of Object.entries(oprData[rankings])) {
+                    oprData[rankings][i.substring(3)] = oprData[rankings][i] //remove the first 3 chars in front 'frc'
+                    delete oprData[rankings][i]
+                }
+
+            }
+
+            request(optionsRankings, function(error, response) {
+                const rankingsData = JSON.parse(response.body).rankings
+                //consoleLog(rankingsData)
+                const combinedTeamData = {}
+                if (rankingsData) {
+
+                    for (let i = 0; i<rankingsData.length; i++) {
+                        combinedTeamData[rankingsData[i].team_key.substring(3)] = rankingsData[i]
+                        combinedTeamData[rankingsData[i].team_key.substring(3)].opr = oprData?.["oprs"]?.[rankingsData[i].team_key.substring(3)]
+                        combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData?.["dprs"]?.[rankingsData[i].team_key.substring(3)]
+                    }
+
+                    //consoleLog(database.writeAPIData(combinedTeamData))
+                    //consoleLog(combinedTeamData)    
+                    if (Object.keys(combinedTeamData).length) { 
+                        database.query(database.deleteAPIData(), (err, res) => {
+                            consoleLog(err)
+                            //consoleLog(res)
+                            database.query(database.writeAPIData(combinedTeamData), (err, res) => {
+                                consoleLog(err)
+                                //consoleLog(res)
+                            })
+                        })
+                    }
+        
+                    
+                    //consoleLog(combinedTeamData)
+                }
+                resolve(combinedTeamData)
+            })
+
+
+            //consoleLog(teamData)
+            //printMessage('Type of Data', typeof teamData)
+            // teamData.teams.forEach((team) => {
+            //   printMessage('Team Info', team)
+            // }
+            // showObj()
+            // printMessage('Length of Teams array', team_data.teams.teamNumber)
+            //printMessage('Data', teamData)
+            //consoleLog(teamData.Rankings[0].teamNumber)
+        })
+    })
+}
+
+function calculateOPR(matches) {
+    const alliances = new Array(matches.length * 2)
+    const teams = new Set()
+    const scores = new Array(alliances.length)
+
+    for (idx in alliances) {
+        alliances[idx] = new Array(matches.length * 6).fill()
+    }
+
+
+
+    let m_idx = 0;
+    for (const match of matches) {
+        [...match.red.teams, ...match.blue.teams].forEach(t => {
+            teams.add(t)
+        })
+
+        scores[m_idx] = []
+        scores[m_idx][0] = teams.red.autonFuel + teams.red.teleopFuel
+        scores[m_idx + 1][0] = teams.blue.autonFuel + teams.blue.teleopFuel
+
+        m_idx += 2
+    }
+
+    const teamIdx = {}
+    
+    for (let i = 0; i<teams.length; ++i) {
+        teamIdx[teams[i]] = i
+    }
+
+    m_idx = 0;
+    for (const match of matches) {
+        let t_idx = 0
+        for (const t of match.red.teams) {
+            alliances[m_idx][teamIdx[t]] = match.red.weights[t_idx] 
+            ++t_idx
+        }
+
+        t_idx = 0
+        for (const t of match.blue.teams) {
+            alliances[m_idx+1][teamIdx[t]] = match.blue.weights[t_idx] 
+            ++t_idx
+        }
+
+        m_idx += 2
+    }
+
+
+    // TODO: add matrix calculation to map opr
+    
+}
 /*
 function bigLoop() {
     return Promise.resolve().then(() => {
