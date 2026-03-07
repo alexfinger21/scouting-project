@@ -952,6 +952,12 @@ function updateGameDetails(matchData) {
 				const endgameClimbPoints = endgameClimbLevel
 
 
+function getGameConstants() {
+    return SQL`
+        SELECT * FROM teamsixn_scouting_dev.game_constants gc
+    `
+}
+
 export {
 	getMatchData,
 	getGameNumbers,
@@ -984,13 +990,9 @@ export {
 	getScouter,
 	getUserFromCasdoorId,
 	getOPRWeights,
+    getGameConstants
 }
 
-function getGameConstants() {
-    return SQL`
-        SELECT * FROM teamsixn_scouting_dev.game_constants gc
-    `
-}
 
 export default {
 	getMatchData,
@@ -1030,36 +1032,3 @@ export default {
     getGameConstants,
 }
 
-export {
-    getMatchData,
-    getGameNumbers,
-    executeQuery as query,
-    getTeams,
-    getMatchVerify,
-    addMatchup,
-    removeMatchup,
-    getCollectedData,
-    saveAutonPath,
-    saveData,
-    deleteData,
-    getAssignedTeam,
-    writeAPIData,
-    deleteAPIData,
-    getChartData,
-    insertAllianceSelection,
-    deleteAllianceSelection,
-    getTeamPictures,
-    saveMatchStrategy,
-    clearMatchStrategyTemp,
-    saveComment,
-    getMatchComments,
-    getSeventhScouter,
-    getRandomTeam,
-    addMatchData,
-    getTeamDetailsTeamData,
-    deleteMatchDataX,
-    getScoutifyMatchData,
-    getScouter,
-    getUserFromCasdoorId,
-    getGameConstants,
-}
