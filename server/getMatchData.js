@@ -95,6 +95,7 @@ function parseAllianceData(data, weights, teamKeys) {
 function parseMatchData(matchDataPacket, OPRWeights) {
 	const data = []
 	const matchData = JSON.parse(JSON.stringify(matchDataPacket))
+		.sort( (a, b) => {a.match_number - b.match_number} )
 	for(const match of matchData) {
 		if(match.comp_level != "qm" || match.score_breakdown == null) { //not a qualification match or not scored yet
 			continue

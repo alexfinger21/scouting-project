@@ -942,15 +942,40 @@ function writeApiCalc(teleopOpr, autonOpr) {
 	return sqlStr
 
 }
-
+/*
 function updateGameDetails(matchData) {
 	let valuesStr = ""
-	for(const match of matchData) {
-		for(const alliance of match) {
+	for(let m = 0; i < matchData.length; ++i) {
+		const match = matchData[i]
+		for(let a = 0; a < 2; ++a) {
+			const alliance = match[a]
 			for(let t = 0; t < 3; ++t) {
 				const endgameClimbLevel = alliance.endgameClimbLevels[i]
-				const endgameClimbPoints = endgameClimbLevel
+				let endgameClimbPoints = 0 
+				switch(endgameClimbLevel) {
+					case 3:
+						endgameClimbPoints = 30 
+						break
+					case 2:
+						endgameClimbPoints = 20
+						break
+					case 1:	
+						endgameClimbPoints = 10 
+						break
+					case default:
+						break
+				}
+				
+				
+				const autonClimbLevel = alliance.autonClimbLevels[i]
+				const autonClimbPoints = autonClimbLevel == 1 ? 15 : 0
+				const allianceColor = a == 0 ? "R" : "B	
+				//auton climb
+				valuesStr += `${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${i}, ${allianceColor}, ${t}, 2, 2103, 0, ${autonClimbLevel}, ${autonClimbPoints}, userId, '');`
+				//endgame climb
+				valuesStr += `${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${i}, ${allianceColor}, ${t}, 2, 2103, 0, ${autonClimbLevel}, ${autonClimbPoints}, userId, '');`
 
+*/
 
 function getGameConstants() {
     return SQL`
@@ -990,7 +1015,9 @@ export {
 	getScouter,
 	getUserFromCasdoorId,
 	getOPRWeights,
-    getGameConstants
+    getGameConstants,
+	writeApiCalc,
+	deleteApiCalc
 }
 
 
@@ -1030,5 +1057,7 @@ export default {
 	getOPRWeights,
     getUserFromCasdoorId,
     getGameConstants,
+	writeApiCalc,
+	deleteApiCalc
 }
 
