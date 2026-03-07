@@ -8,7 +8,7 @@ import cors from "cors"
 import { consoleLog } from "./utility.js"
 import fs from "fs"
 import database from "./database/database.js"
-import { returnAPIDATA } from "./getRanks.js"
+import { syncServer } from "./getRanks.js"
 import socketManager from "./sockets.js"
 import SQL from "sql-template-strings"
 import gameConstants from "./game.js"
@@ -76,13 +76,13 @@ const io = new Server(server, {
 })
 
 //FUNCTIONS
-async function runAPICall() {
+async function runApiCall() {
     const startTick = gameConstants.gameStart.getTime()
     const endTick = gameConstants.gameEnd.getTime()
     const currentTick = Date.now()
 
     if (startTick <= currentTick && currentTick <= endTick) {
-        const apiData = await returnAPIDATA()
+        const apiData = await syncServer()
         return apiData
     } else {
         return {"error": "game time is out of date"}
@@ -262,6 +262,6 @@ app.listen(3000, "0.0.0.0", (error) => {
 server.listen(5001, { pingTimeout: 60000, pingInterval: 15000 })
 
 ;(async function firstCall() {
-    const apiRes = await runAPICall()
+    const apiRes = await runApiCall()
     consoleLog("RUNNING API CALL", apiRes)
 })()
