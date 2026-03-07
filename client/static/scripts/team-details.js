@@ -114,7 +114,7 @@ async function main() {
         pic += 1
         switchImage()
     })
-
+/************* *
     const canvas = document.getElementById("heat-map")
     const canvasContainer = canvas.parentElement
     const canvasCTX = canvas.getContext("2d")
@@ -191,6 +191,7 @@ async function main() {
         consoleLog("replace")
         heatMapObject = new AutonHeatMap({ ctx: canvasCTX, data: {auton: {path: select.children[select.selectedIndex].getAttribute("auton_path")}}, allianceColor, images, cX: canvas.width, cY: canvas.height })
     }
+********* */
 
     
     

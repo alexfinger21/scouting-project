@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 import SQL from "sql-template-strings"
 import casdoorSDK from "./auth/auth.js"
+import gameConstants from "./game.js"
 
 dotenv.config()
 
@@ -44,6 +45,27 @@ async function checkAdmin(req) {
     
     return false
 }
+
+(async function getGameConstants() {
+    const database = await import("./database/database.js")
+
+    const [err, dbRes] = await database.query(database.getGameConstants())
+
+    if (err) {
+        console.log(`Error when getting game constants: ${err}`)
+        return 
+    }
+
+    if (dbRes.length) {
+        gameConstants.updateConstants(
+            dbRes[0].frc_season_master_sm_year,
+            dbRes[0].competition_master_cm_event_code,
+            dbRes[0].game_matchup_gm_game_type
+        )
+    } else {
+        return null
+    }
+}());
 
 function suggestTeam(currentAlliance, otherAlliances) {
     const teamStats = {

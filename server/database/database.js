@@ -2,7 +2,6 @@ import pool from "./dbconfig.js"
 import gameConstants from "../game.js"
 import SQL from "sql-template-strings"
 
-
 function getUsers() {
 	const returnStr = SQL`
     SELECT um_id, um_name
@@ -987,6 +986,11 @@ export {
 	getOPRWeights,
 }
 
+function getGameConstants() {
+    return SQL`
+        SELECT * FROM teamsixn_scouting_dev.game_constants gc
+    `
+}
 
 export default {
 	getMatchData,
@@ -1022,5 +1026,40 @@ export default {
 	getAppTasks,
 	getUserFromCasdoorId,
 	getOPRWeights,
-	
+    getUserFromCasdoorId,
+    getGameConstants,
+}
+
+export {
+    getMatchData,
+    getGameNumbers,
+    executeQuery as query,
+    getTeams,
+    getMatchVerify,
+    addMatchup,
+    removeMatchup,
+    getCollectedData,
+    saveAutonPath,
+    saveData,
+    deleteData,
+    getAssignedTeam,
+    writeAPIData,
+    deleteAPIData,
+    getChartData,
+    insertAllianceSelection,
+    deleteAllianceSelection,
+    getTeamPictures,
+    saveMatchStrategy,
+    clearMatchStrategyTemp,
+    saveComment,
+    getMatchComments,
+    getSeventhScouter,
+    getRandomTeam,
+    addMatchData,
+    getTeamDetailsTeamData,
+    deleteMatchDataX,
+    getScoutifyMatchData,
+    getScouter,
+    getUserFromCasdoorId,
+    getGameConstants,
 }

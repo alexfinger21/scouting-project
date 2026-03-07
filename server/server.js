@@ -122,6 +122,7 @@ app.use(cookieParser())
 
 app.use(async (req, res, next) => { 
     consoleLog(req.path)
+
     if (req.path.substring(0, 4) == "/api") {
         return next()
     }

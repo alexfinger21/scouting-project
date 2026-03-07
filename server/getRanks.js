@@ -196,5 +196,4 @@ async function syncServer() {
 	database.query(database.writeAPICalc(teleopOpr, autonOpr))
 }
 
-export { returnAPIRankings, syncServer } 
-
+export { returnAPIRankings, syncServer }

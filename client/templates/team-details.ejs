@@ -43,10 +43,11 @@
                             <th>Match #</th>
                             <th>Game Score</th>
                             <th>Auton</th>
-                            <th>T. Coral</th>
-                            <th>T. Proc.</th>
-                            <th>T. Net</th>
-                            <th>End Game</th>
+                            <th>T. Fuel</th>
+                            <th>T. Cycle Time</th>
+                            <th>T. Stockpiling Time</th>
+                            <th>T. Defense Time</th>
+                            <th>End Game Climb</th>
                             <th>Scouter</th>
                         </tr>
                     </thead>
@@ -68,26 +69,29 @@
                                     <%= teamData[i].total_game_score %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].auton_total_score %>
+                                    <%= (teamData[i].auton_fuel_score + (teamData[i].auton_climb_successful*15)) %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_coral_scored %>
+                                    <%= teamData[i].teleop_fuel_score %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_algae_in_processor %>
+                                    <%= teamData[i].teleop_cycling_time %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_algae_in_net %>
+                                    <%= teamData[i].teleop_stockpiling_time %>
+                                </td>
+                                <td>
+                                    <%= teamData[i].teleop_defense_time %>
                                 </td>
                                 
 
                                 <td>
-                                    <% if (teamData[i].endgame_park) { %>
-                                        parked
-                                    <% } else if (teamData[i].endgame_shallow_climb) { %>
-                                        shallow climb
-                                    <% } else if (teamData[i].endgame_deep_climb) { %>
-                                        deep climb
+                                    <% if (teamData[i].endgame_climb_l1_success) { %>
+                                        L1
+                                    <% } else if (teamData[i].endgame_climb_l2_success) { %>
+                                        L2
+                                    <% } else if (teamData[i].endgame_climb_l3_success) { %>
+                                        L3
                                     <% } else { %>
                                         none
                                     <% } %>
@@ -101,7 +105,8 @@
                     </tbody>
                 </table>
             </div>
-            <label id="select-match" for="select-match"><b>Show Auton Path for Match:</b></label>
+
+            <!-- <label id="select-match" for="select-match"><b>Show Auton Path for Match:</b></label>
             <select id="auton-path-select" name="select-match">
                 <% for(let i = 0; i < teamData.length; i++) { %>
                     <%if(teamData[i].game_matchup_gm_number == match) {%>
@@ -119,7 +124,8 @@
                 <div class="canvas-container">
                     <canvas id="heat-map"></canvas>
                 </div>
-            </div>
+            </div> -->
+
 
         </div>
         
