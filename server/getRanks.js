@@ -52,7 +52,7 @@ let showObj = function () {
         //   consoleLog(teamData[prop])
     }
 }
-function calculateTeleopOPR(matches) {
+function calculateOpr(matches, scoreProperty) {
     const alliances = new Array(matches.length * 2)
     const teams = new Set()
     const scores = new Array(alliances.length)
@@ -66,8 +66,8 @@ function calculateTeleopOPR(matches) {
 
         scores[m_idx] = []
         scores[m_idx + 1] = []
-        scores[m_idx][0] = match.red.teleopFuel
-        scores[m_idx + 1][0] = match.blue.teleopFuel
+        scores[m_idx][0] = match.red[scoreProperty]
+        scores[m_idx + 1][0] = match.blue[scoreProperty]
 
         m_idx += 2
     }
@@ -112,96 +112,11 @@ function calculateTeleopOPR(matches) {
     for (let i = 0; i<teamArr.length; ++i) {
         oprMap[teamArr[i]] = oprMatrix.get(i, 0)
     }
-   
-    return Object.fromEntries(
-        Object.entries(oprMap).sort(([,a],[,b]) => a-b)
-    )
-}
-
-
-function calculateAutonOPR(matches) {
-    const alliances = new Array(matches.length * 2)
-    const teams = new Set()
-    const scores = new Array(alliances.length)
-
-
-    let m_idx = 0;
-    for (const match of matches) {
-        [...match.red.teams, ...match.blue.teams].forEach(t => {
-            teams.add(t)
-        })
-
-        scores[m_idx] = []
-        scores[m_idx + 1] = []
-        scores[m_idx][0] = match.red.teleopFuel
-        scores[m_idx + 1][0] = match.blue.teleopFuel
-
-        m_idx += 2
-    }
-
-    const teamArr = Array.from(teams)
-    const teamIdx = {}
     
-    for (let i = 0; i<teams.size; ++i) {
-        teamIdx[teamArr[i]] = i
-    }
-
-    console.log(teamIdx)
-
-    for (let idx = 0; idx<alliances.length; ++idx) {
-        alliances[idx] = new Array(teamArr.length).fill(0)
-    }
-
-    m_idx = 0;
-    for (const match of matches) {
-        let t_idx = 0
-        for (const t of match.red.teams) {
-	    console.log(t, alliances[m_idx])
-            alliances[m_idx][teamIdx[t]] = match.red.autonWeights[t_idx] 
-            ++t_idx
-        }
-
-        t_idx = 0
-        for (const t of match.blue.teams) {
-            alliances[m_idx+1][teamIdx[t]] = match.blue.teleopWeights[t_idx] 
-            ++t_idx
-        }
-
-        m_idx += 2
-    }
-
-    const AMatrix = new Matrix(alliances)
-    const bMatrix = new Matrix(scores)
-
-    const oprMatrix = solve(AMatrix, bMatrix)
-    const oprMap = {} 
-
-    for (let i = 0; i<teamArr.length; ++i) {
-        oprMap[teamArr[i]] = oprMatrix.get(i, 0)
-    }
-   
-    return Object.fromEntries(
-        Object.entries(oprMap).sort(([,a],[,b]) => a-b)
-    )
-}
-/*
-function bigLoop() {
-    return Promise.resolve().then(() => {
-        for (let i = 0; i<1000000000; i++) {
-        
-        }
-
-    })
+    return oprMap
 }
 
-const t = Date.now()
-
-bigLoop()
-
-console.log("Function took " + (Date.now() - t) + " ms")
-*/
-
-function returnAPIDATA() {
+function returnAPIRankings() {
     return new Promise((resolve, reject) => {
         if (gameConstants.COMP == "test") {
             resolve({})
@@ -235,13 +150,13 @@ function returnAPIDATA() {
                         combinedTeamData[rankingsData[i].team_key.substring(3)].dpr = oprData?.["dprs"]?.[rankingsData[i].team_key.substring(3)]
                     }
 
-                    //consoleLog(database.writeAPIData(combinedTeamData))
+                    //consoleLog(database.writeAPIRankings(combinedTeamData))
                     //consoleLog(combinedTeamData)    
                     if (Object.keys(combinedTeamData).length) { 
-                        database.query(database.deleteAPIData(), (err, res) => {
+                        database.query(database.deleteAPIRankings(), (err, res) => {
                             consoleLog(err)
                             //consoleLog(res)
-                            database.query(database.writeAPIData(combinedTeamData), (err, res) => {
+                            database.query(database.writeAPIRankings(combinedTeamData), (err, res) => {
                                 consoleLog(err)
                                 //consoleLog(res)
                             })
@@ -270,9 +185,16 @@ function returnAPIDATA() {
 
 async function syncServer() {
 	const data = await getMatchData()
+	const rankings = await returnAPIRankings()
 	console.log(data)
-	const opr = calculateTeleopOPR(data)
-	console.log("OPR DATA", opr)
+	const teleopOpr = calculateOpr(data, "teleopFuel")
+	const autonOpr = calculateOpr(data, "autonFuel")
+	console.log("OPR DATA", teleopFuel)
+	//write to server
+	
+	database.query(database.deleteAPICalc())
+	database.query(database.writeAPICalc(teleopOpr, autonOpr))
 }
 
-syncServer()
+export { returnAPIRankings, syncServer } 
+

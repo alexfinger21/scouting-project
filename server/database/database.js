@@ -38,14 +38,14 @@ function deleteData(data) {
 	AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
-function deleteAPIData() {
+function deleteApiRankings() {
 	return SQL`DELETE FROM teamsixn_scouting_dev.api_rankings
     WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
 	AND api_rankings.competition_master_cm_event_code = ${gameConstants.COMP};`
 
 }
 
-function writeAPIData(teamRankings) {
+function writeApiRankings(teamRankings) {
 	let valuesStr = ""
 	let counter = 0
 	const time = new Date()
@@ -910,6 +910,49 @@ WHERE
 }
 
 
+function deleteApiCalc() {
+	return SQL`DELETE FROM teamsixn_scouting_dev.api_calc
+    WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
+	AND api_rankings.competition_master_cm_event_code = ${gameConstants.COMP};`
+}
+
+
+function writeApiCalc(teleopOpr, autonOpr) {
+	let valuesStr = ""
+	let counter = 0
+	const time = new Date()
+	//console.log(time)
+
+	for (const [team, teleopFuel] of Object.entries(teleopOpr)) {
+		counter++
+		const autonFuel = autonOpr[team]
+		const timestamp = Sting(time)
+		const str = `(${gameConstants.YEAR}, '${gameConstants.COMP}', ${team}, ${timestamp}, ${autonFuel}, ${teleopFuel})`
+		const comma = Object.keys(teamRankings).length != counter ? "," : ""
+
+		valuesStr += str + comma
+	}
+
+	const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.api_calc
+
+	(frc_season_master_sm_year, competition_master_cm_event_code, team_master_tm_number, api_calc_ts, api_auton_opr_calc, api_teleop_opr_calc)
+	VALUES ${valuesStr};`
+
+	console.log(valuesStr)
+
+	return sqlStr
+
+}
+
+function updateGameDetails(matchData) {
+	let valuesStr = ""
+	for(const match of matchData) {
+		for(const alliance of match) {
+			for(let t = 0; t < 3; ++t) {
+				const endgameClimbLevel = alliance.endgameClimbLevels[i]
+				const endgameClimbPoints = endgameClimbLevel
+
+
 export {
 	getMatchData,
 	getGameNumbers,
@@ -923,8 +966,8 @@ export {
 	saveData,
 	deleteData,
 	getAssignedTeam,
-	writeAPIData,
-	deleteAPIData,
+	writeApiRankings,
+	deleteApiRankings,
 	getChartData,
 	insertAllianceSelection,
 	deleteAllianceSelection,
@@ -958,8 +1001,8 @@ export default {
 	saveData,
 	deleteData,
 	getAssignedTeam,
-	writeAPIData,
-	deleteAPIData,
+	writeApiRankings,
+	deleteApiRankings,
 	getChartData,
 	insertAllianceSelection,
 	deleteAllianceSelection,
@@ -979,6 +1022,5 @@ export default {
 	getAppTasks,
 	getUserFromCasdoorId,
 	getOPRWeights,
+	
 }
-
-
