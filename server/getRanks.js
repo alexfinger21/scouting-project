@@ -4,22 +4,11 @@ import database from "./database/database.js"
 import gameConstants from "./game.js" 
 import { consoleLog } from "./utility.js"
 import { Matrix, solve } from 'ml-matrix'
+import getMatchData from "./getMatchData.js"
 
 dotenv.config()
 const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
-
-const optionsRankings = {
-    'method': 'GET',
-    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
-    //'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-        'If-Modified-Since': ''
-    }
-}
-
 const optionsOPRS = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
@@ -29,58 +18,7 @@ const optionsOPRS = {
         'If-Modified-Since': ''
     }
 }
-/// Function to pull match details using TBA API
-const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "tuis" : gameConstants.COMP)
 
-function fetchMatchData() {
-    const options = {
-        'method': 'GET',
-        'url': 'https://www.thebluealliance.com/api/v3/event/' + eventCode + '/matches',
-        'headers': {
-            'X-TBA-Auth-Key': auth,
-            'If-Modified-Since': ''
-        }
-    }
-    return new Promise((resolve, reject) => {
-         if (gameConstants.COMP == "xx") {
-             resolve({})
-             return
-         }
-        consoleLog(options)
-        request(options, function(error, response) {
-            if (error) reject(new Error(error))
-            resolve(JSON.parse(response.body))
-        })
-    })
-}
-
-function parseAllianceData(data, weights, teamKeys) {
-
-	const teams = teamKeys.map(i => i.slice(3))
-
-	return {
-		teams: teams,
-		autonWeights: teams.map(i => weights[i].autonWeight),
-		teleopWeights: teams.map(i => weights[i].teleopWeight),
-		teleopFuel: data.hubScore.totalTeleopPoints,
-		autoFuel: data.hubScore.autoPoints,
-		endgameClimbLevel: [data.endgameTowerRobot1, data.endgameTowerRobot2, data.endgameTowerRobot3],
-		autonClimbLevel: [data.autoTowerRobot1, data.autoTowerRobot2, data.autoTowerRobot3],
-		
-	}
-}
-
-function parseMatchData(matchDataPacket, OPRWeights) {
-	const data = []
-	const matchData = JSON.parse(JSON.stringify(matchDataPacket))
-	for(const match of matchData) {
-		if(match.comp_level != "qm") { //qualification match
-			continue
-		}
-		data.push(parseAllianceData(matchData.score_breakdown.blue), OPRWeights, matchData.alliances.red.team_keys)
-		data.push(parseAllianceData(matchData.score_breakdown.red, OPRWeights, matchData.alliances.red.team_keys))
-	}
-}
 
 function parseOPRWeights(weightsPacket) {
 	const OPRWeights = JSON.parse(JSON.stringify(weightsPacket))
@@ -94,17 +32,6 @@ function parseOPRWeights(weightsPacket) {
 		return accumulator
 	}, {})
 }
-
-
-const weightsPromise = database.query(database.getOPRWeights())
-const matchDataPromise = fetchMatchData(5)
-Promise.all([weightsPromise, matchDataPromise]).then(([weightsPacket, matchDataPacket]) => {
-	const OPRWeights = parseOPRWeights(weightsPacket)
-	const data = parseMatchData(matchDataPacket, OPRWeights)
-	console.log("PARSED DATA", data)
-})
-
-
 
 function printMessage(title, msg) {
     consoleLog("------ " + title + " ------")
@@ -125,6 +52,154 @@ let showObj = function () {
         //   consoleLog(teamData[prop])
     }
 }
+function calculateTeleopOPR(matches) {
+    const alliances = new Array(matches.length * 2)
+    const teams = new Set()
+    const scores = new Array(alliances.length)
+
+
+    let m_idx = 0;
+    for (const match of matches) {
+        [...match.red.teams, ...match.blue.teams].forEach(t => {
+            teams.add(t)
+        })
+
+        scores[m_idx] = []
+        scores[m_idx + 1] = []
+        scores[m_idx][0] = match.red.teleopFuel
+        scores[m_idx + 1][0] = match.blue.teleopFuel
+
+        m_idx += 2
+    }
+
+    const teamArr = Array.from(teams)
+    const teamIdx = {}
+    
+    for (let i = 0; i<teams.size; ++i) {
+        teamIdx[teamArr[i]] = i
+    }
+
+    console.log(teamIdx)
+
+    for (let idx = 0; idx<alliances.length; ++idx) {
+        alliances[idx] = new Array(teamArr.length).fill(0)
+    }
+
+    m_idx = 0;
+    for (const match of matches) {
+        let t_idx = 0
+        for (const t of match.red.teams) {
+	    console.log(t, alliances[m_idx])
+            alliances[m_idx][teamIdx[t]] = match.red.teleopWeights[t_idx] 
+            ++t_idx
+        }
+
+        t_idx = 0
+        for (const t of match.blue.teams) {
+            alliances[m_idx+1][teamIdx[t]] = match.blue.teleopWeights[t_idx] 
+            ++t_idx
+        }
+
+        m_idx += 2
+    }
+
+    const AMatrix = new Matrix(alliances)
+    const bMatrix = new Matrix(scores)
+
+    const oprMatrix = solve(AMatrix, bMatrix)
+    const oprMap = {} 
+
+    for (let i = 0; i<teamArr.length; ++i) {
+        oprMap[teamArr[i]] = oprMatrix.get(i, 0)
+    }
+   
+    return Object.fromEntries(
+        Object.entries(oprMap).sort(([,a],[,b]) => a-b)
+    )
+}
+
+
+function calculateAutonOPR(matches) {
+    const alliances = new Array(matches.length * 2)
+    const teams = new Set()
+    const scores = new Array(alliances.length)
+
+
+    let m_idx = 0;
+    for (const match of matches) {
+        [...match.red.teams, ...match.blue.teams].forEach(t => {
+            teams.add(t)
+        })
+
+        scores[m_idx] = []
+        scores[m_idx + 1] = []
+        scores[m_idx][0] = match.red.teleopFuel
+        scores[m_idx + 1][0] = match.blue.teleopFuel
+
+        m_idx += 2
+    }
+
+    const teamArr = Array.from(teams)
+    const teamIdx = {}
+    
+    for (let i = 0; i<teams.size; ++i) {
+        teamIdx[teamArr[i]] = i
+    }
+
+    console.log(teamIdx)
+
+    for (let idx = 0; idx<alliances.length; ++idx) {
+        alliances[idx] = new Array(teamArr.length).fill(0)
+    }
+
+    m_idx = 0;
+    for (const match of matches) {
+        let t_idx = 0
+        for (const t of match.red.teams) {
+	    console.log(t, alliances[m_idx])
+            alliances[m_idx][teamIdx[t]] = match.red.autonWeights[t_idx] 
+            ++t_idx
+        }
+
+        t_idx = 0
+        for (const t of match.blue.teams) {
+            alliances[m_idx+1][teamIdx[t]] = match.blue.teleopWeights[t_idx] 
+            ++t_idx
+        }
+
+        m_idx += 2
+    }
+
+    const AMatrix = new Matrix(alliances)
+    const bMatrix = new Matrix(scores)
+
+    const oprMatrix = solve(AMatrix, bMatrix)
+    const oprMap = {} 
+
+    for (let i = 0; i<teamArr.length; ++i) {
+        oprMap[teamArr[i]] = oprMatrix.get(i, 0)
+    }
+   
+    return Object.fromEntries(
+        Object.entries(oprMap).sort(([,a],[,b]) => a-b)
+    )
+}
+/*
+function bigLoop() {
+    return Promise.resolve().then(() => {
+        for (let i = 0; i<1000000000; i++) {
+        
+        }
+
+    })
+}
+
+const t = Date.now()
+
+bigLoop()
+
+console.log("Function took " + (Date.now() - t) + " ms")
+*/
 
 function returnAPIDATA() {
     return new Promise((resolve, reject) => {
@@ -193,82 +268,11 @@ function returnAPIDATA() {
     })
 }
 
-function calculateOPR(matches) {
-    const alliances = new Array(matches.length * 2)
-    const teams = new Set()
-    const scores = new Array(alliances.length)
-
-
-    let m_idx = 0;
-    for (const match of matches) {
-        [...match.red.teams, ...match.blue.teams].forEach(t => {
-            teams.add(t)
-        })
-
-        scores[m_idx] = []
-        scores[m_idx][0] = match.red.autonFuel + match.red.teleopFuel
-        scores[m_idx + 1][0] = match.blue.autonFuel + match.blue.teleopFuel
-
-        m_idx += 2
-    }
-
-    const teamArr = new Array(teams)
-    const teamIdx = {}
-    
-    for (let i = 0; i<teams.size; ++i) {
-        teamIdx[teamArr[i]] = i
-    }
-
-    for (idx in alliances) {
-        alliances[idx] = new Array(teamArr.length).fill(0)
-    }
-
-    m_idx = 0;
-    for (const match of matches) {
-        let t_idx = 0
-        for (const t of match.red.teams) {
-            alliances[m_idx][teamIdx[t]] = match.red.weights[t_idx] 
-            ++t_idx
-        }
-
-        t_idx = 0
-        for (const t of match.blue.teams) {
-            alliances[m_idx+1][teamIdx[t]] = match.blue.weights[t_idx] 
-            ++t_idx
-        }
-
-        m_idx += 2
-    }
-
-    const AMatrix = new Matrix(alliances)
-    const bMatrix = new Matrix(scores)
-
-    const oprMatrix = solve(AMatrix, bMatrix)
-    const oprMap = {} 
-
-    for (let i = 0; i<teamArr.length; ++i) {
-        oprMap[i] = oprMatrix.get(i, 0)
-    }
-   
-    return oprMap
-}
-/*
-function bigLoop() {
-    return Promise.resolve().then(() => {
-        for (let i = 0; i<1000000000; i++) {
-        
-        }
-
-    })
+async function syncServer() {
+	const data = await getMatchData()
+	console.log(data)
+	const opr = calculateTeleopOPR(data)
+	console.log("OPR DATA", opr)
 }
 
-const t = Date.now()
-
-bigLoop()
-
-console.log("Function took " + (Date.now() - t) + " ms")
-*/
-
-//returnAPIDATA()
-
-export {parseMatchData }
+syncServer()

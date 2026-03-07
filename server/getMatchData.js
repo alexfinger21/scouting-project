@@ -12,48 +12,48 @@ const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 
 
 const optionsRankings = {
-    'method': 'GET',
-    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
-    //'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-        'If-Modified-Since': ''
-    }
+	'method': 'GET',
+	//'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
+	'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
+	//'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
+	'headers': {
+		'X-TBA-Auth-Key': auth,
+		'If-Modified-Since': ''
+	}
 }
 
 const optionsOPRS = {
-    'method': 'GET',
-    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/oprs',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-        'If-Modified-Since': ''
-    }
+	'method': 'GET',
+	//'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
+	'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/oprs',
+	'headers': {
+		'X-TBA-Auth-Key': auth,
+		'If-Modified-Since': ''
+	}
 }
 /// Function to pull match details using TBA API
 const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "tuis" : gameConstants.COMP)
 
 function fetchMatchData() {
-    const options = {
-        'method': 'GET',
-        'url': 'https://www.thebluealliance.com/api/v3/event/' + eventCode + '/matches',
-        'headers': {
-            'X-TBA-Auth-Key': auth,
-            'If-Modified-Since': ''
-        }
-    }
-    return new Promise((resolve, reject) => {
-         if (gameConstants.COMP == "xx") {
-             resolve({})
-             return
-         }
-        consoleLog(options)
-        request(options, function(error, response) {
-            if (error) reject(new Error(error))
-            resolve(JSON.parse(response.body))
-        })
-    })
+	const options = {
+		'method': 'GET',
+		'url': 'https://www.thebluealliance.com/api/v3/event/' + eventCode + '/matches',
+		'headers': {
+			'X-TBA-Auth-Key': auth,
+			'If-Modified-Since': ''
+		}
+	}
+	return new Promise((resolve, reject) => {
+		if (gameConstants.COMP == "xx") {
+			resolve({})
+			return
+		}
+		consoleLog(options)
+		request(options, function(error, response) {
+			if (error) reject(new Error(error))
+			resolve(JSON.parse(response.body))
+		})
+	})
 }
 
 function parseClimbLevel(climbLevel) {
@@ -74,7 +74,7 @@ function parseAllianceData(data, weights, teamKeys) {
 		data.endGameTowerRobot2, 
 		data.endGameTowerRobot3
 	].map(climbLevel => parseClimbLevel(climbLevel))
- 
+
 	const autoClimbLevels = [
 		data.autoTowerRobot1,
 		data.autoTowerRobot2, 
@@ -99,8 +99,10 @@ function parseMatchData(matchDataPacket, OPRWeights) {
 		if(match.comp_level != "qm" || match.score_breakdown == null) { //not a qualification match or not scored yet
 			continue
 		}
-		data.push(parseAllianceData(match.score_breakdown.blue, OPRWeights, match.alliances.blue.team_keys))
-		data.push(parseAllianceData(match.score_breakdown.red, OPRWeights, match.alliances.red.team_keys))
+		data.push({
+			blue: parseAllianceData(match.score_breakdown.blue, OPRWeights, match.alliances.blue.team_keys),
+			red: parseAllianceData(match.score_breakdown.red, OPRWeights, match.alliances.red.team_keys),
+		})
 	}
 	return data
 }
@@ -117,16 +119,17 @@ function parseOPRWeights(weightsPacket) {
 	}, {})
 }
 
-function getMatchData() {
+async function getMatchData() {
 	const weightsPromise = database.query(database.getOPRWeights())
 	const matchDataPromise = fetchMatchData(5)
-	Promise.all([weightsPromise, matchDataPromise]).then(([weightsPacket, matchDataPacket]) => {
-		const OPRWeights = parseOPRWeights(weightsPacket)
-		const data = parseMatchData(matchDataPacket, OPRWeights)
-		console.log("PARSED DATA", data)
-	})
+	const [weightsPacket, matchDataPacket] = await Promise.all([weightsPromise, matchDataPromise])
+
+	const OPRWeights = parseOPRWeights(weightsPacket)
+	const data = parseMatchData(matchDataPacket, OPRWeights)
+	console.log("PARSED DATA", data)
+	return data
 }
 
 
-export default {
-	getMatchData()
+export default getMatchData
+
