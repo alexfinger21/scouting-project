@@ -1,9 +1,9 @@
 import dotenv from "dotenv"
-
 import request from "request"
 import database from "./database/database.js"
 import gameConstants from "./game.js" 
 import { consoleLog } from "./utility.js"
+import { Matrix, solve } from 'ml-matrix'
 
 dotenv.config()
 const auth = process.env.TBA_AUTH
@@ -198,11 +198,6 @@ function calculateOPR(matches) {
     const teams = new Set()
     const scores = new Array(alliances.length)
 
-    for (idx in alliances) {
-        alliances[idx] = new Array(matches.length * 6).fill()
-    }
-
-
 
     let m_idx = 0;
     for (const match of matches) {
@@ -211,16 +206,21 @@ function calculateOPR(matches) {
         })
 
         scores[m_idx] = []
-        scores[m_idx][0] = teams.red.autonFuel + teams.red.teleopFuel
-        scores[m_idx + 1][0] = teams.blue.autonFuel + teams.blue.teleopFuel
+        scores[m_idx][0] = match.red.autonFuel + match.red.teleopFuel
+        scores[m_idx + 1][0] = match.blue.autonFuel + match.blue.teleopFuel
 
         m_idx += 2
     }
 
+    const teamArr = new Array(teams)
     const teamIdx = {}
     
-    for (let i = 0; i<teams.length; ++i) {
-        teamIdx[teams[i]] = i
+    for (let i = 0; i<teams.size; ++i) {
+        teamIdx[teamArr[i]] = i
+    }
+
+    for (idx in alliances) {
+        alliances[idx] = new Array(teamArr.length).fill(0)
     }
 
     m_idx = 0;
@@ -240,9 +240,17 @@ function calculateOPR(matches) {
         m_idx += 2
     }
 
+    const AMatrix = new Matrix(alliances)
+    const bMatrix = new Matrix(scores)
 
-    // TODO: add matrix calculation to map opr
-    
+    const oprMatrix = solve(AMatrix, bMatrix)
+    const oprMap = {} 
+
+    for (let i = 0; i<teamArr.length; ++i) {
+        oprMap[i] = oprMatrix.get(i, 0)
+    }
+   
+    return oprMap
 }
 /*
 function bigLoop() {
