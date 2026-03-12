@@ -29,6 +29,9 @@
             <button <%- `class= "team-details-tab ${(selectedPage == "comments-display-page" ? "selected" : "")}"`%> page="comments-display-page">
                 Comments
             </button>
+            <button <%- `class= "team-details-tab ${(selectedPage == "auton-display-page" ? "selected" : "")}"`%> page="auton-display-page">
+                Auton
+            </button>
         </div>
         <% if(selectedPage == "game-data-page") {%>
             <div id="game-data-page" class="team-details-scroller" selected>
@@ -168,10 +171,44 @@
             </div>
         </div>
 
-        <% if(selectedPage == "comments-display-page") {%>
+        
+                <% if(selectedPage == "comments-display-page") {%>
             <div id="comments-display-page" class="team-details-scroller" selected>
         <% } else {%>
             <div id="comments-display-page" class="team-details-scroller" style="display:none;">
+        <% } %>
+            <div class="team-display-table-container">
+                <table class="team-display-table">
+                    <colgroup>
+                        <col span="1" style="width: 25%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Match</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%for(let i = 0; i < comments.length; i++) { %> 
+                            <tr>
+                                <td>
+                                    <%= comments[i].game_matchup_gm_number %>
+                                </td>
+                                <td>
+                                    <%= comments[i].gc_comment %>
+                                </td>
+                            </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+
+        <% if(selectedPage == "auton-display-page") {%>
+            <div id="auton-display-page" class="team-details-scroller" selected>
+        <% } else {%>
+            <div id="auton-display-page" class="team-details-scroller" style="display:none;">
         <% } %>
             <div class="team-display-table-container">
                 <table class="team-display-table">
