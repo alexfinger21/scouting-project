@@ -64,10 +64,8 @@ function calculateOpr(matches, scoreProperty) {
             teams.add(t)
         })
 
-        scores[m_idx] = []
-        scores[m_idx + 1] = []
-        scores[m_idx][0] = match.red[scoreProperty]
-        scores[m_idx + 1][0] = match.blue[scoreProperty]
+        scores[m_idx] = [match.red[scoreProperty]]
+        scores[m_idx + 1] = [match.blue[scoreProperty]]
 
         m_idx += 2
     }
@@ -80,6 +78,73 @@ function calculateOpr(matches, scoreProperty) {
     }
 
     console.log(teamIdx)
+
+    for (let idx = 0; idx<alliances.length; ++idx) {
+        alliances[idx] = new Array(teamArr.length).fill(0)
+    }
+
+    m_idx = 0;
+    for (const match of matches) {
+        let t_idx = 0
+        for (const t of match.red.teams) {
+	    console.log(t, alliances[m_idx])
+            alliances[m_idx][teamIdx[t]] = match.red.teleopWeights[t_idx] 
+            ++t_idx
+        }
+
+        t_idx = 0
+        for (const t of match.blue.teams) {
+            alliances[m_idx+1][teamIdx[t]] = match.blue.teleopWeights[t_idx] 
+            ++t_idx
+        }
+
+        m_idx += 2
+    }
+
+    const AMatrix = new Matrix(alliances)
+    const bMatrix = new Matrix(scores)
+
+    const oprMatrix = solve(AMatrix, bMatrix)
+    const oprMap = {} 
+
+    for (let i = 0; i<teamArr.length; ++i) {
+        oprMap[teamArr[i]] = oprMatrix.get(i, 0)
+    }
+    
+    return oprMap
+}
+
+function calculateDpr(matches, scoreProperty, opr) {
+    const alliances = new Array(matches.length * 2)
+    const teams = new Set()
+    const scores = new Array(alliances.length)
+
+
+    let m_idx = 0;
+    for (const match of matches) {
+        [...match.red.teams, ...match.blue.teams].forEach(t => {
+            teams.add(t)
+        })
+
+        scores[m_idx] = [match.red[scoreProperty] - match.red.teams.reduce(
+            (p, a) => {
+                a + opr[p]
+            }, 0)]
+
+        scores[m_idx] = [match.blue[scoreProperty] - match.blue.teams.reduce(
+            (p, a) => {
+                a + opr[p]
+            }, 0)]
+
+        m_idx += 2
+    }
+
+    const teamArr = Array.from(teams)
+    const teamIdx = {}
+    
+    for (let i = 0; i<teams.size; ++i) {
+        teamIdx[teamArr[i]] = i
+    }
 
     for (let idx = 0; idx<alliances.length; ++idx) {
         alliances[idx] = new Array(teamArr.length).fill(0)
@@ -190,6 +255,8 @@ async function syncServer() {
 	const teleopOpr = calculateOpr(data, "teleopFuel")
 	const autonOpr = calculateOpr(data, "autonFuel")
 	console.log("OPR DATA", teleopFuel)
+    // TODO: implement DPR and figure out how to use the defensive weights
+    const dpr = calculateDpr(data, teleopOpr, "teleopFuel") 
 	//write to server
 	
 	database.query(database.deleteAPICalc())
