@@ -1,77 +1,85 @@
-/* 1. Global Reset to ensure scrolling works */
+/* 1. Global Scrolling Reset */
 html, body {
     height: auto;
-    overflow-y: auto; 
+    overflow-y: auto;
     margin: 0;
     padding: 0;
 }
 
-/* 2. Page Holder - Make sure it doesn't clip content */
-#page-holder {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* 3. The Container Fix: Removed fixed height and scroll trap */
+/* 2. Container: Allows horizontal swiping for wide tables and vertical scrolling for the page */
 #match-strategy-container {
     width: 100%;
-    height: auto; /* Changed from 90% */
-    overflow-x: auto; /* Allows horizontal swipe for the wide tables */
+    height: auto; 
+    overflow-x: auto; 
+    padding: 20px 0;
     display: flex;
     flex-direction: column;
-    padding-bottom: 50px; /* Space at the bottom */
+    align-items: center;
 }
 
-/* 4. Table Design: Rounded Corners and Shadows */
+/* 3. The Table Structure */
 .alliance-table {
     width: 95%;
-    min-width: 1000px; /* Forces a minimum width so 11 columns aren't squashed */
-    margin: 20px auto;
-    border-collapse: separate; 
+    min-width: 1100px; /* Prevents 11 columns from squishing */
+    margin-bottom: 50px;
+    border-collapse: separate;
     border-spacing: 0;
-    border-radius: 12px;
-    overflow: hidden; 
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     font-size: 1.6vh;
-    table-layout: fixed; /* Keeps column widths consistent */
+}
+
+/* 4. Pastel Border and Header Logic */
+
+/* RED ALLIANCE (Pastel) */
+.red-alliance {
+    border: 4px solid #FF7676; /* Soft Pastel Red */
+}
+.red-alliance thead th {
+    background-color: #FF7676;
+    color: white;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* BLUE ALLIANCE (Pastel) */
+.blue-alliance {
+    border: 4px solid #8ECAFA; /* Soft Pastel Blue */
+}
+.blue-alliance thead th {
+    background-color: #8ECAFA;
+    color: #003366; /* Darker blue text for readability on light blue */
+    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 /* 5. Cell Styling */
 .alliance-table th, .alliance-table td {
-    border-right: 1px solid rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     padding: 12px 8px;
     text-align: center;
-    word-wrap: break-word;
-    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
 }
 
-/* Header Backgrounds */
-.alliance-table thead th {
-    background-color: rgba(255, 255, 255, 0.3);
-    font-weight: bold;
-    text-transform: uppercase;
+/* Clean up borders on the final edges */
+.alliance-table th:last-child, 
+.alliance-table td:last-child {
+    border-right: none;
+}
+.alliance-table tr:last-child td {
+    border-bottom: none;
 }
 
-/* Alliance Colors */
-.red-alliance {
-    background-color: #FF7676; /* Matches image */
-}
-
-.blue-alliance {
-    background-color: #8ECAFA; /* Matches image */
-}
-
-/* First Column Bold (Team Numbers) */
+/* 6. Highlighting Team Names */
 .alliance-table td:first-child {
     font-weight: bold;
-    font-size: 1.1em;
-    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 1.8vh;
+    background-color: #fafafa;
 }
 
-/* 6. Clean up internal P tags from EJS */
+/* 7. Clean up internal EJS P tags */
 .alliance-table p {
-    margin: 2px 0;
-    display: block;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
 }
