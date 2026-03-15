@@ -40,62 +40,62 @@ observer.observe(document.body, { subtree: false, childList: true });
 
 async function main() {
     const select = document.getElementById("available-matches")
-    const canvas = document.getElementById("spider-chart")
-    const ctx = canvas.getContext("2d")
+    // const canvas = document.getElementById("spider-chart")
+    // const ctx = canvas.getContext("2d")
     select.onchange = () => {
         requestPage(paths.matchStrategy + "?match=" + select.value, {}, paths.matchStrategy)
     }
 
-    for(const b of document.getElementsByClassName("help-button")) {
-        b.addEventListener("click", () => {
-            b.classList.toggle("active")
-            for(const a of document.getElementsByClassName("help-button")) {
-                if(b!=a) {
+    // for(const b of document.getElementsByClassName("help-button")) {
+    //     b.addEventListener("click", () => {
+    //         b.classList.toggle("active")
+    //         for(const a of document.getElementsByClassName("help-button")) {
+    //             if(b!=a) {
 
-                    a.classList.remove("active")
-                }
-            }
-        })
-    }
+    //                 a.classList.remove("active")
+    //             }
+    //         }
+    //     })
+    // }
 
-    data = JSON.parse(await requestData(paths.matchStrategy + "?getData=1&match=" + select.value))
+    // data = JSON.parse(await requestData(paths.matchStrategy + "?getData=1&match=" + select.value))
 
 
-	data = data.map(i => getTeamProperties(i))
+	// data = data.map(i => getTeamProperties(i))
 
-    const red = data.slice(0, 3)
-    const blue = data.slice(3)
+    // const red = data.slice(0, 3)
+    // const blue = data.slice(3)
     
-    const config = await graphHandler.createSpiderChart(
-        [
-            {
-                teamNumber: 0,
-                teamName: "Red Alliance",
-                color: "rgb(255,0,0)",
-                hidden: false,
-                teleopStockpilingTimeAvg: sumParam(red, "teleopStockpilingTimeAvg"),
-                defensiveEffect: sumParam(red, "defensiveEffect"),
-                totalClimbScoreAvg: sumParam(red, "totalClimbScoreAvg"),
-                totalFuelScoreAvg: sumParam(red, "totalFuelScoreAvg"),
-                reliabilityIndex: sumParam(red, "reliabilityIndex"),
-                defenseResistance: sumParam(red, "defenseResistance"),
-            },
-            {
-                teamNumber: 1,
-                teamName: "Blue Alliance",
-                color: "rgb(0,0,255)",
-                hidden: false,
-                teleopStockpilingTimeAvg: sumParam(blue, "teleopStockpilingTimeAvg"),
-                defensiveEffect: sumParam(blue, "defensiveEffect"),
-                totalClimbScoreAvg: sumParam(blue, "totalClimbScoreAvg"),
-                totalFuelScoreAvg: sumParam(blue, "totalFuelScoreAvg"),
-                reliabilityIndex: sumParam(blue, "reliabilityIndex"),
-                defenseResistance: sumParam(blue, "defenseResistance"),
-            }
-        ],
-        false
-    )
-       chart = new Chart(ctx,
-        config
-    )
+    // const config = await graphHandler.createSpiderChart(
+    //     [
+    //         {
+    //             teamNumber: 0,
+    //             teamName: "Red Alliance",
+    //             color: "rgb(255,0,0)",
+    //             hidden: false,
+    //             teleopStockpilingTimeAvg: sumParam(red, "teleopStockpilingTimeAvg"),
+    //             defensiveEffect: sumParam(red, "defensiveEffect"),
+    //             totalClimbScoreAvg: sumParam(red, "totalClimbScoreAvg"),
+    //             totalFuelScoreAvg: sumParam(red, "totalFuelScoreAvg"),
+    //             reliabilityIndex: sumParam(red, "reliabilityIndex"),
+    //             defenseResistance: sumParam(red, "defenseResistance"),
+    //         },
+    //         {
+    //             teamNumber: 1,
+    //             teamName: "Blue Alliance",
+    //             color: "rgb(0,0,255)",
+    //             hidden: false,
+    //             teleopStockpilingTimeAvg: sumParam(blue, "teleopStockpilingTimeAvg"),
+    //             defensiveEffect: sumParam(blue, "defensiveEffect"),
+    //             totalClimbScoreAvg: sumParam(blue, "totalClimbScoreAvg"),
+    //             totalFuelScoreAvg: sumParam(blue, "totalFuelScoreAvg"),
+    //             reliabilityIndex: sumParam(blue, "reliabilityIndex"),
+    //             defenseResistance: sumParam(blue, "defenseResistance"),
+    //         }
+    //     ],
+    //     false
+    // )
+    //    chart = new Chart(ctx,
+    //     config
+    // )
 }

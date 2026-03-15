@@ -22,7 +22,7 @@ const gameConsts = {
 
 function updateConstants(year, comp, gameType) {
     gameConsts.YEAR = year
-    gameConsts.COMP = comp
+    gameConsts.COMP = "mnwi"//comp
     gameConsts.GAME_TYPE = gameType
 }
 

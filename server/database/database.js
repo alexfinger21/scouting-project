@@ -398,15 +398,18 @@ function getAssignedTeam(username) {
 }
 
 function saveMatchStrategy() {
-    return SQL`CREATE TABLE IF NOT EXISTS teamsixn_scouting_dev.tmp_match_strategy AS
-    SELECT
-        *, 
-        rank() OVER (ORDER BY vmsa.api_opr desc) AS api_opr_rank, 
-        rank() OVER (ORDER BY vmsa.api_dpr desc) AS api_dpr_rank
-    FROM 
-    teamsixn_scouting_dev.v_match_summary_api vmsa 
-    where 
-    frc_season_master_sm_year = ${gameConstants.YEAR} and 
+    return SQL`
+    CREATE TABLE IF NOT EXISTS teamsixn_scouting_dev.tmp_match_strategy AS
+SELECT
+	*,
+	rank() OVER (ORDER BY vmsa.api_opr desc) AS api_opr_rank,
+	rank() OVER (ORDER BY vmsa.api_dpr desc) AS api_dpr_rank,
+	rank() OVER (ORDER BY vmsa.api_auton_opr_calc desc) AS api_auton_opr_calc_rank,
+	rank() OVER (ORDER BY vmsa.api_teleop_opr_calc desc) AS api_teleop_opr_calc_rank
+FROM
+	teamsixn_scouting_dev.v_match_summary_api vmsa
+where
+	frc_season_master_sm_year = ${gameConstants.YEAR} and 
     competition_master_cm_event_code = ${gameConstants.COMP} and 
     game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} and 
     team_master_tm_number is not NULL;`

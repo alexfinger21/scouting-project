@@ -1,223 +1,77 @@
-#select-match {
-    margin-left: 8vw;
-}
-
-#available-matches {
-    background-color: #FFF;
-    text-align: center;
-    font-size: 2.5vh;
-    width: 20vw;
-    border: 2px solid #5B6671;
-    border-radius: 2px;
-}
-
-#available-matches option {
-    font-size: 1.8vh;
-}
-
-#alliance-properties {
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-    margin-left: auto;
-    margin-right: auto;
-    width: 95%;
-    table-layout: fixed;
-    background-color: transparent;
-    padding: 2px;
-    font-size: 2vh;
-    text-align: center;
-    border: 1px solid #5B6671;
-    border-radius: 6px;
-    flex: 1;
-}
-
-#alliance-properties tr {
-    background-color: transparent !important;
-}
-
-#alliance-properties td:nth-child(1) {
-    text-align: right;
-}
-
-#match-strategy-container {
-    width: 99.5%;
-    height: 90%;
-    overflow: scroll;
-}
-
-.stats {
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 2vh;
-    width: 95%;
-    table-layout: fixed;
-    background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 2px;
-    font-size: 1.8vh;
-}
-
-.stats td, .stats th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    font-weight: normal;
-    word-wrap:break-word;
-    text-align: center;
-}
-
-.stats td:nth-child(1) {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-.preferred-game-piece {
-    width: 5vw;
+/* 1. Global Reset to ensure scrolling works */
+html, body {
     height: auto;
+    overflow-y: auto; 
+    margin: 0;
+    padding: 0;
 }
 
-tr:nth-child(even) { /* copied from w3schools lol*/
-    background-color: #dddddd;
-}
-#red-score {
-    padding: 2vh;
-    color:#FF2A2A;
-    text-align: center;
-    font-style: normal;
-    font-size: 2vh;
-}
-
-#blue-score {
-    padding: 2vh;
-    color:#3492EA;
-    font-style: normal;
-    text-align: center;
-    font-size: 2vh;
-}
-
-.strategy-display {
-    width: 95%;
-    margin-bottom: 2vh;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 1vh;
-    font-size: 1.8vh;
-}
-
-.strategy-display p {
-    font-size: 2vh;
-    margin-bottom: 0.5vh;
-}
-
-.strategy-display p  b {
-    color: #3492EA;
-    font-weight: normal;
-}
-
-.strategy-display p em {
-    color: #FF2A2A;
-    font-style: normal;
-}
-
-.strategy-header {
-    font-size: 2.5vh !important;
-    text-align: center;
-    font-weight: normal;
-}
-
-.strategy-divider {
-    background-color: #dddddd;
-    width: 50%;
-    height: 2px;
-    margin-top: 0.5vh !important;
-    margin-bottom: 1vh !important;
-    margin: auto;
-}
-
-
-
-#match-strategy-graph-container {
-    display: flex;
-    flex-direction: row;
-    width: 95%;
-    overflow: hidden;
-    margin-top: 1.5vh;
-    background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    overflow: auto;
-    margin-bottom: 2vh;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-#match-strategy-graph-wrapper {
-    flex: 2;
+/* 2. Page Holder - Make sure it doesn't clip content */
+#page-holder {
+    width: 100%;
+    height: auto;
     display: block;
-    height: 30vh;
-    max-width: 100%;
-    aspect-ratio: 1.5;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    transition: all 0.3s ease-in-out;
-    margin-left: auto;
-    margin-right: auto;
 }
 
-
-@media only screen and (max-aspect-ratio: .85) {
-    #match-strategy-graph-container {
-        flex-direction: column;
-        height: 50vh;
-    }
-
-    #match-strategy-graph-wrapper {
-        flex: 5
-    }
-
-}
-
-.help-button {
-    height: 2.5vh;
-    width: 2.5vh;
-    background-color: #007bff;
-    color: white;
-    font-size: 1.5vh;
-    font-weight: bold;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
+/* 3. The Container Fix: Removed fixed height and scroll trap */
+#match-strategy-container {
+    width: 100%;
+    height: auto; /* Changed from 90% */
+    overflow-x: auto; /* Allows horizontal swipe for the wide tables */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+    flex-direction: column;
+    padding-bottom: 50px; /* Space at the bottom */
 }
-.help-box {
-    display: none;
-    position: absolute;
-    transform: translateX(55%);
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: auto;
-    white-space: nowrap;
+
+/* 4. Table Design: Rounded Corners and Shadows */
+.alliance-table {
+    width: 95%;
+    min-width: 1000px; /* Forces a minimum width so 11 columns aren't squashed */
+    margin: 20px auto;
+    border-collapse: separate; 
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    font-size: 1.6vh;
+    table-layout: fixed; /* Keeps column widths consistent */
+}
+
+/* 5. Cell Styling */
+.alliance-table th, .alliance-table td {
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 12px 8px;
     text-align: center;
-    z-index: 10000,
+    word-wrap: break-word;
+    color: #333;
 }
 
-.help-box p {
-    color: #000
+/* Header Backgrounds */
+.alliance-table thead th {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-.active .help-box {
-    display: inline-block;
+/* Alliance Colors */
+.red-alliance {
+    background-color: #FF7676; /* Matches image */
+}
+
+.blue-alliance {
+    background-color: #8ECAFA; /* Matches image */
+}
+
+/* First Column Bold (Team Numbers) */
+.alliance-table td:first-child {
+    font-weight: bold;
+    font-size: 1.1em;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 6. Clean up internal P tags from EJS */
+.alliance-table p {
+    margin: 2px 0;
+    display: block;
 }

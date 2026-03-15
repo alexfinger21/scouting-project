@@ -20,384 +20,232 @@
                 <% } %>
             </select>
         </div>
-
-        <div id="match-strategy-container">
-            <div id="match-strategy-graph-container">
-                <table id="alliance-properties">
-                    <colgroup>
-                        <col span="1" style="width:60%">
-                    </colgroup>
-                    <tr id="predicted-score">
-                        <td>Predicted Score:</td>
-                        <td class="R">
-                            <%= Math.round(matchup[0].auton_fuel_score_avg + (matchup[0].auton_climb_successful_avg * 15) + matchup[0].teleop_fuel_score_avg + (matchup[0].endgame_climb_l1_success_avg*10) + (matchup[0].endgame_climb_l2_success_avg*20) + (matchup[0].endgame_climb_l3_success_avg*30)) + 
-                                Math.round(matchup[1].auton_fuel_score_avg + (matchup[1].auton_climb_successful_avg * 15) + matchup[1].teleop_fuel_score_avg + (matchup[1].endgame_climb_l1_success_avg*10) + (matchup[1].endgame_climb_l2_success_avg*20) + (matchup[1].endgame_climb_l3_success_avg*30)) + 
-                                Math.round(matchup[2].auton_fuel_score_avg + (matchup[2].auton_climb_successful_avg * 15) + matchup[2].teleop_fuel_score_avg + (matchup[2].endgame_climb_l1_success_avg*10) + (matchup[2].endgame_climb_l2_success_avg*20) + (matchup[2].endgame_climb_l3_success_avg*30)) 
-                            %>
-                        </td>
-                        <td class="B">
-                            <%= Math.round(matchup[3].auton_fuel_score_avg + (matchup[3].auton_climb_successful_avg * 15) + matchup[3].teleop_fuel_score_avg + (matchup[3].endgame_climb_l1_success_avg*10) + (matchup[3].endgame_climb_l2_success_avg*20) + (matchup[3].endgame_climb_l3_success_avg*30)) + 
-                                Math.round(matchup[4].auton_fuel_score_avg + (matchup[4].auton_climb_successful_avg * 15) + matchup[4].teleop_fuel_score_avg + (matchup[4].endgame_climb_l1_success_avg*10) + (matchup[4].endgame_climb_l2_success_avg*20) + (matchup[4].endgame_climb_l3_success_avg*30)) + 
-                                Math.round(matchup[5].auton_fuel_score_avg + (matchup[5].auton_climb_successful_avg * 15) + matchup[5].teleop_fuel_score_avg + (matchup[5].endgame_climb_l1_success_avg*10) + (matchup[5].endgame_climb_l2_success_avg*20) + (matchup[5].endgame_climb_l3_success_avg*30)) 
-                            %>
-                        </td>
-                    </tr>
-                    <tr id="stockpile-suggested">
-                        <td>Recommended Play:</td>
-                        <td class="R">
-                            <%="WIN THE MATCH"%>
-                        </td>
-                        <td class="B">
-                            <%="WIN THE MATCH"%>
-                        </td>
-                    </tr>
-                </table>
-                <div id="match-strategy-graph-wrapper">
-                    <canvas id="spider-chart" display="false" ></canvas>
-                </div>
-                <!--Chart.js-->
-            </div>
             <!--RED TEAM TABLE-->
-            <table class="stats">
-                <colgroup>
-                    <col span="1" style="width:33%">
-                </colgroup>
-                <!--HEADINGS-->
-                <tr>
-                    <th></th>
+        <div id="match-strategy-container">
+            <table class="alliance-table red-alliance">
+                <!-- HEADINGS -->
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Rank/Win/Loss/Tie</th>
+                        <th>Avg Score</th>
+                        <th>DPR</th>
+                        <th>Robot Type (%)</th>
+                        <th>Shooting Range</th>
+                        <th>Climb (A/E, Level)</th>
+                        <th>Shooting Status</th>
+                        <th>Drive Base</th>
+                        <th>Drive Practice Time</th>
+                        <th>Go Over Bump/Trench</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <% for(let i = 0; i < 3; i++) { %>
-                        <th <%- `class="${matchup[i].gm_alliance} team${matchup[i].team_master_tm_number}"` %> >
-                            <%=  `(${matchup[i].api_rank}) ${matchup[i].tm_name} ${matchup[i].team_master_tm_number}` %>
-                        </th>
-                    <% } %>
-                </tr> 
-                <!--Win/Loss/Tie-->
-                <tr>
-                    <td>
-                        Win/Loss/Tie
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%=(matchup[i].api_win || 0) + "/" + (matchup[i].api_loss || 0) + "/" + (matchup[i].api_tie || 0)%>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--AVG SCORE-->
-                <tr>
-                    <td>
-                        Score
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%-columnSummary({
-                                header: Math.round(matchup[i].auton_fuel_score_avg + (matchup[i].auton_climb_successful_avg * 15) + matchup[i].teleop_fuel_score_avg + (matchup[i].endgame_climb_l1_success_avg*10) + (matchup[i].endgame_climb_l2_success_avg*20) + (matchup[i].endgame_climb_l3_success_avg*30)),
-                                list: [
-                                [Math.round(matchup[i].auton_fuel_score_avg + (matchup[i].auton_climb_successful_avg * 15)), "A"],
-                                [Math.round(matchup[i].teleop_fuel_score_avg + (matchup[i].endgame_climb_l1_success_avg*10) + (matchup[i].endgame_climb_l2_success_avg*20) + (matchup[i].endgame_climb_l3_success_avg*30)), "T"]
-                                ] 
-                            }) %>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--AUTON BREAKDOWN-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>Total Score- #fuel, #climb attempts</p>
-                            </div>
-                        </button>
-                        <p>Auton</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td>
-                            <%-columnSummary({
-                                header: Math.round(matchup[i].auton_fuel_score_avg + (matchup[i].auton_climb_successful_avg * 15)),
-                                list: [
-                                    [matchup[i].auton_fuel_score_avg, " F"],
-                                    [" (" + matchup[i].auton_climb_successful_sum + "/" + matchup[i].auton_climb_attempt_sum + ")", " C"],
-                                ],
-                                alwaysShow: true
-                            })%>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--TELEOP FUEL-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>#Fuel scored points in Teleop</p>
-                            </div>
-                        </button>
-                        <p>T. Fuel Pts</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%= matchup[i].teleop_fuel_score_avg||0%>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--CLIMB-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>Avg Score- #Successful climbs for L1/L2/L3</p>
-                            </div>
-                        </button>
-                        <p>Endgame</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>
+                        <tr>
+                            <td>
+                                <%= `${matchup[i].tm_name} ${matchup[i].team_master_tm_number}`%>
+                            </td>
+                            <td>
+                                <%= `${matchup[i].api_rank}/${matchup[i].api_win}/${matchup[i].api_loss}/${matchup[i].api_tie}`%>
+                            </td>
+                            <td>
+                                <%= (
+                                    matchup[i].api_auton_opr_calc +
+                                    matchup[i].auton_climb_successful_avg*15 + 
+                                    matchup[i].api_teleop_opr_calc + 
+                                    matchup[i].endgame_climb_l1_success_avg * 10 +
+                                    matchup[i].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[i].endgame_climb_l3_success_avg * 30
+                                ).toFixed(1) %>
+                            </td>
+                            <td>
+                                DPR GOES HERE
+                            </td>
+                            <td>
+                                <%=
+                                `
+                                Cylcing: ${(matchup[i].teleop_cycling_time_avg/1400).toFixed(1)}%\n
+                                Stockpiling: ${(matchup[i].teleop_stockpiling_time_avg/1400).toFixed(1)}%\n
+                                Defense: ${(matchup[i].teleop_defense_time_avg/1400).toFixed(1)}%\n
+                                Broken: ${(matchup[i].teleop_broken_time_avg/1400).toFixed(1)}%\n
+                                `
+                                %>
+                            </td>
+                            <td>
+                                Need to get from Pit Scouting
+                            </td>
+                            <td>
+                                <%= `
+                                Auton: ${(matchup[i].auton_climb_successful_avg)}\n
+                                Endgame: L1: ${(matchup[i].endgame_climb_l1_success_avg)}, 
+                                         L2: ${(matchup[i].endgame_climb_l2_success_avg)},
+                                         L3: ${(matchup[i].endgame_climb_l3_success_avg)},
+                                `%>
+                            </td>
+                            <td>
+                            
                             <p>
-                                <%-columnSummary({
-                                    header: Math.round(matchup[i].endgame_climb_l1_success_avg*10) + (matchup[i].endgame_climb_l2_success_avg*20) + (matchup[i].endgame_climb_l3_success_avg*30),
-                                    list: [
-                                        [matchup[i].endgame_climb_l1_success_sum, ""],
-                                        [matchup[i].endgame_climb_l2_success_sum, ""],
-                                        [matchup[i].endgame_climb_l3_success_sum, ""],
-                                    ],
-                                    alwaysShow: true
-                                })%>
-                                
+                                Shoot 
+                                <% if (matchup[i].robot_shoot_from_anywhere_avg > 0) { %>
+                                    <p> from anywhere</p>
+    
+                                <% } %>
+                                <% if (matchup[i].robot_shoot_while_moving_avg > (0) ) { %>
+                                    <p> while moving</p>
+    
+                                <% } %>
+                                <% if (matchup[i].robot_shoot_while_moving_avg == (0) &&  matchup[i].robot_shoot_from_anywhere_avg == 0) { %>
+                                    <p> from specific locations only</p>
+    
+                                <% } %>
+
                             </p>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--ROBOT TYPE-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>What is robot most likely to do</p>
-                            </div>
-                        </button>
-                        <p>Robot Type</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>
+                            
+                            </td>
+                            <td>
+                                Need to get from Pit Scouting
+                            </td>
+                            <td>
+                                Need to get from Pit Scouting
+                            </td>
+                            <td>
+                            
                             <p>
-                                <% if (matchup[i].teleop_cycling_time_avg >= (46) ) { %>
-                                    <p>Cycler</p>
+                                Robot goes 
+                                <% if (matchup[i].robot_drive_over_bump_avg > 0) { %>
+                                    <p>over bump</p>
     
                                 <% } %>
-                                <% if (matchup[i].teleop_stockpiling_time_avg >= (46) ) { %>
-                                    <p>Stockpiler</p>
+                                <% if (matchup[i].robot_drive_under_trench_avg > (0)  &&  matchup[i].robot_drive_over_bump_avg > 0) { %>
+                                    <p>/</p>
     
                                 <% } %>
-                                <% if (matchup[i].teleop_broken_time_avg >= (46) ) { %>
-                                    <p>Often Broken</p>
+                                <% if (matchup[i].robot_drive_under_trench_avg > (0) ) { %>
+                                    <p>under trench</p>
     
                                 <% } %>
+
                             </p>
-                        </td>
+                            
+                            </td>
+                        </tr>
                     <% } %>
-                </tr>
-                <!--PERCENT FOULS-->
-                <!-- <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>#Percent fouls throughout matches</p>
-                            </div>
-                        </button>
-                        <p>Foul Percent</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%=((matchup[i].total_fouls_commit/matchup[i].total_match_played)*100)%>
-                        </td>
-                    <% } %>
-                </tr> -->
-                <!--OPR/DPR-->
-                <tr>
-                    <td>
-                        OPR (Rank)/DPR (Rank)
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" + "/" 
-                            + Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
-                        </td>
-                    <% } %>
-                </tr>
-                
-                
+                </tbody>
             </table>
 
-            <!-------------------------------------------------------------------------------------->
+            <table class="alliance-table blue-alliance">
+                <!-- HEADINGS -->
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Rank/Win/Loss/Tie</th>
+                        <th>Avg Score</th>
+                        <th>DPR</th>
+                        <th>Robot Type (%)</th>
+                        <th>Shooting Range</th>
+                        <th>Climb (A/E, Level)</th>
+                        <th>Shooting Status</th>
+                        <th>Drive Base</th>
+                        <th>Drive Practice Time</th>
+                        <th>Go Over Bump/Trench</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i = 3; i < 6; i++) { %>
+                        <tr>
+                            <td>
+                                <%= `${matchup[i].tm_name} ${matchup[i].team_master_tm_number}`%>
+                            </td>
+                            <td>
+                                <%= `${matchup[i].api_rank}/${matchup[i].api_win}/${matchup[i].api_loss}/${matchup[i].api_tie}`%>
+                            </td>
+                            <td>
+                                <%= (
+                                    matchup[i].api_auton_opr_calc +
+                                    matchup[i].auton_climb_successful_avg*15 + 
+                                    matchup[i].api_teleop_opr_calc + 
+                                    matchup[i].endgame_climb_l1_success_avg * 10 +
+                                    matchup[i].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[i].endgame_climb_l3_success_avg * 30
+                                ).toFixed(1) %>
+                            </td>
+                            <td>
+                                DPR GOES HERE
+                            </td>
+                            <td>
+                                <%=
+                                `
+                                Cylcing: ${(matchup[i].teleop_cycling_time_avg/1400).toFixed(1)}%\n
+                                Stockpiling: ${(matchup[i].teleop_stockpiling_time_avg/1400).toFixed(1)}%\n
+                                Defense: ${(matchup[i].teleop_defense_time_avg/1400).toFixed(1)}%\n
+                                Broken: ${(matchup[i].teleop_broken_time_avg/1400).toFixed(1)}%\n
+                                `
+                                %>
+                            </td>
+                            <td>
+                                Need to get from Pit Scouting
+                            </td>
+                            <td>
+                                <%= `
+                                Auton: ${(matchup[i].auton_climb_successful_avg)}\n
+                                Endgame: L1: ${(matchup[i].endgame_climb_l1_success_avg)}, 
+                                         L2: ${(matchup[i].endgame_climb_l2_success_avg)},
+                                         L3: ${(matchup[i].endgame_climb_l3_success_avg)},
+                                `%>
+                            </td>
+                            <td>
+                            
+                            <p>
+                                Shoot 
+                                <% if (matchup[i].robot_shoot_from_anywhere_avg > 0) { %>
+                                    <p> from anywhere</p>
+    
+                                <% } %>
+                                <% if (matchup[i].robot_shoot_while_moving_avg > (0) ) { %>
+                                    <p> while moving</p>
+    
+                                <% } %>
+                                <% if (matchup[i].robot_shoot_while_moving_avg == (0) &&  matchup[i].robot_shoot_from_anywhere_avg == 0) { %>
+                                    <p> from specific locations only</p>
+    
+                                <% } %>
 
-            <!--BLUE TEAM TABLE-->
-            <table class="stats">
-                <colgroup>
-                    <col span="1" style="width:33%">
-                </colgroup>
-                <!--HEADINGS-->
-                <tr>
-                    <th></th>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <th <%- `class="${matchup[i].gm_alliance} team${matchup[i].team_master_tm_number}"` %> >
-                            <%=  `(${matchup[i].api_rank}) ${matchup[i].tm_name} ${matchup[i].team_master_tm_number}` %>
-                        </th>
-                    <% } %>
-                </tr> 
-                <!--Win/Loss/Tie-->
-                <tr>
-                    <td>
-                        Win/Loss/Tie
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%=(matchup[i].api_win || 0) + "/" + (matchup[i].api_loss || 0) + "/" + (matchup[i].api_tie || 0)%>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--AVG SCORE-->
-                <tr>
-                    <td>
-                        Score
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%-columnSummary({
-                                header: Math.round(matchup[i].auton_fuel_score_avg + (matchup[i].auton_climb_successful_avg * 15) + matchup[i].teleop_fuel_score_avg + (matchup[i].endgame_climb_l1_success_avg*10) + (matchup[i].endgame_climb_l2_success_avg*20) + (matchup[i].endgame_climb_l3_success_avg*30)),
-                                list: [
-                                [Math.round(matchup[i].auton_fuel_score_avg + (matchup[i].auton_climb_successful_avg * 15)), "A"],
-                                [Math.round(matchup[i].teleop_fuel_score_avg + (matchup[i].endgame_climb_l1_success_avg*10) + (matchup[i].endgame_climb_l2_success_avg*20) + (matchup[i].endgame_climb_l3_success_avg*30)), "T"]
-                                ] 
-                            }) %>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--AUTON BREAKDOWN-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>Total Score- #fuel, #climb attempts</p>
-                            </div>
-                        </button>
-                        <p>Auton</p>
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td>
-                            <%-columnSummary({
-                                header: Math.round(matchup[i].auton_fuel_score_avg + (matchup[i].auton_climb_successful_avg * 15)),
-                                list: [
-                                    [matchup[i].auton_fuel_score_avg, " F"],
-                                    [" (" + matchup[i].auton_climb_successful_sum + "/" + matchup[i].auton_climb_attempt_sum + ")", " C"],
-                                ],
-                                alwaysShow: true
-                            })%>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--TELEOP FUEL-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>#Fuel scored points in Teleop</p>
-                            </div>
-                        </button>
-                        <p>T. Fuel Pts</p>
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%=matchup[i].teleop_fuel_score_avg||0%>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--CLIMB-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>Avg Score- #Successful climbs for L1/L2/L3</p>
-                            </div>
-                        </button>
-                        <p>Endgame</p>
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>
-                            <p>
-                                <%-columnSummary({
-                                    header: Math.round(matchup[i].endgame_climb_l1_success_avg*10) + (matchup[i].endgame_climb_l2_success_avg*20) + (matchup[i].endgame_climb_l3_success_avg*30),
-                                    list: [
-                                        [matchup[i].endgame_climb_l1_success_sum, ""],
-                                        [matchup[i].endgame_climb_l2_success_sum, ""],
-                                        [matchup[i].endgame_climb_l3_success_sum, ""],
-                                    ],
-                                    alwaysShow: true
-                                })%>
-                                
                             </p>
-                        </td>
-                    <% } %>
-                </tr>
-                <!--ROBOT TYPE-->
-                <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>What is robot most likely to do</p>
-                            </div>
-                        </button>
-                        <p>Robot Type</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td class= <%= matchup[i].team_master_tm_number%>
+                            
+                            </td>
+                            <td>
+                                Need to get from Pit Scouting
+                            </td>
+                            <td>
+                                Need to get from Pit Scouting
+                            </td>
+                            <td>
+                            
                             <p>
-                                <% if (matchup[i].teleop_cycling_time_avg >= (46) ) { %>
-                                    <p>Cycler</p>
+                                Robot goes 
+                                <% if (matchup[i].robot_drive_over_bump_avg > 0) { %>
+                                    <p>over bump</p>
     
                                 <% } %>
-                                <% if (matchup[i].teleop_stockpiling_time_avg >= (46) ) { %>
-                                    <p>Stockpiler</p>
+                                <% if (matchup[i].robot_drive_under_trench_avg > (0)  &&  matchup[i].robot_drive_over_bump_avg > 0) { %>
+                                    <p>/</p>
     
                                 <% } %>
-                                <% if (matchup[i].teleop_broken_time_avg >= (46) ) { %>
-                                    <p>Often Broken</p>
+                                <% if (matchup[i].robot_drive_under_trench_avg > (0) ) { %>
+                                    <p>under trench</p>
     
                                 <% } %>
+
                             </p>
-                        </td>
+                            
+                            </td>
+                        </tr>
                     <% } %>
-                </tr>
-                <!--PERCENT FOULS-->
-                <!-- <tr>
-                    <td>
-                        <button class="help-button">?
-                            <div class="help-box">
-                                <p>#Percent fouls throughout matches</p>
-                            </div>
-                        </button>
-                        <p>Foul Percent</p>
-                    </td>
-                    <% for(let i = 0; i < 3; i++) { %>
-                        <td >
-                            <%=((matchup[i].total_fouls_commit/matchup[i].total_match_played)*100)%>
-                        </td>
-                    <% } %>
-                </tr> -->
-                <!--OPR/DPR-->
-                <tr>
-                    <td>
-                        OPR (Rank)/DPR (Rank)
-                    </td>
-                    <% for(let i = 3; i < 6; i++) { %>
-                        <td >
-                            <%= Math.round(matchup[i].api_opr) + " (" + matchup[i].api_opr_rank + ")" + "/" 
-                            + Math.round(matchup[i].api_dpr) + " (" + matchup[i].api_dpr_rank + ")" %>
-                        </td>
-                    <% } %>
-                </tr>
-                
-                
+                </tbody>
             </table>
         </div>
-        <canvas id="strategy-chart" display="false" ></canvas>
+            
+        </div>
         
         <!--
         <div class="strategy-display">
