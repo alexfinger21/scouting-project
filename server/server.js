@@ -247,7 +247,7 @@ app.use((req, res, next) => {
 })
 
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runAPICall, 240000)
+    setInterval(syncServer, 240000)
 }
 
 //PORT

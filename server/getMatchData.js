@@ -11,125 +11,123 @@ const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 
 
-const optionsRankings = {
-	'method': 'GET',
-	//'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-	'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
-	//'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
-	'headers': {
-		'X-TBA-Auth-Key': auth,
-		'If-Modified-Since': ''
-	}
-}
-
-const optionsOPRS = {
-	'method': 'GET',
-	//'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-	'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/oprs',
-	'headers': {
-		'X-TBA-Auth-Key': auth,
-		'If-Modified-Since': ''
-	}
-}
 /// Function to pull match details using TBA API
 const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "tuis" : gameConstants.COMP)
 
+// This function finds the latest match in the database with blue alliance data loaded for it
+async function getLatestMatchWithData() {
+  let [err, res] = await database.query(database.getLatestMatchWithData())
+  if(err) {
+    console.log("Error getting latest match with blue alliance data:", err)
+    return 0 
+  }
+  res = JSON.parse(JSON.stringify(res))
+  if(res.length == 0) {
+    return 0 
+  }
+  const latestMatch = res[0].game_matchup_gm_number
+  return latestMatch
+}
+
 function fetchMatchData() {
-	const options = {
-		'method': 'GET',
-		'url': 'https://www.thebluealliance.com/api/v3/event/' + eventCode + '/matches',
-		'headers': {
-			'X-TBA-Auth-Key': auth,
-			'If-Modified-Since': ''
-		}
-	}
-	return new Promise((resolve, reject) => {
-		if (gameConstants.COMP == "xx") {
-			resolve({})
-			return
-		}
-		consoleLog(options)
-		request(options, function(error, response) {
-			if (error) reject(new Error(error))
-			resolve(JSON.parse(response.body))
-		})
-	})
+  const options = {
+    'method': 'GET',
+    'url': 'https://www.thebluealliance.com/api/v3/event/' + eventCode + '/matches',
+    'headers': {
+      'X-TBA-Auth-Key': auth,
+      'If-Modified-Since': ''
+    }
+  }
+  return new Promise((resolve, reject) => {
+    if (gameConstants.COMP == "xx") {
+      resolve({})
+      return
+    }
+    consoleLog(options)
+    request(options, function(error, response) {
+      if (error) reject(new Error(error))
+      resolve(JSON.parse(response.body))
+    })
+  })
 }
 
 function parseClimbLevel(climbLevel) {
-	if(climbLevel == "None") {
-		return 0 
-	}
+  if(climbLevel == "None") {
+    return 0 
+  }
 
-	const level = climbLevel.replace("Level", "")
+  const level = climbLevel.replace("Level", "")
 
-	return level != "" ? parseInt(level) : 0
+  return level != "" ? parseInt(level) : 0
 }
 
 function parseAllianceData(data, weights, teamKeys) {
 
-	const teams = teamKeys.map(i => i.slice(3))
-	const endgameClimbLevels = [
-		data.endGameTowerRobot1,
-		data.endGameTowerRobot2, 
-		data.endGameTowerRobot3
-	].map(climbLevel => parseClimbLevel(climbLevel))
+  const teams = teamKeys.map(i => i.slice(3))
+  const endgameClimbLevels = [
+    data.endGameTowerRobot1,
+    data.endGameTowerRobot2, 
+    data.endGameTowerRobot3
+  ].map(climbLevel => parseClimbLevel(climbLevel))
 
-	const autoClimbLevels = [
-		data.autoTowerRobot1,
-		data.autoTowerRobot2, 
-		data.autoTowerRobot3
-	].map(climbLevel => parseClimbLevel(climbLevel))
+  const autonClimbLevels = [
+    data.autoTowerRobot1,
+    data.autoTowerRobot2, 
+    data.autoTowerRobot3
+  ].map(climbLevel => parseClimbLevel(climbLevel))
 
-	return {
-		teams: teams,
-		autonWeights: teams.map(i => weights[i]?.autonWeight ?? 1),
-		teleopWeights: teams.map(i => weights[i]?.teleopWeight ?? 1),
-		teleopFuel: data.hubScore.teleopPoints,
-		autoFuel: data.hubScore.autoPoints,
-		endgameClimbLevels: endgameClimbLevels,
-		autoClimbLevels: autoClimbLevels,		
-	}
+  return {
+    teams: teams,
+    autonWeights: teams.map(i => weights[i]?.autonWeight ?? 1),
+    teleopWeights: teams.map(i => weights[i]?.teleopWeight ?? 1),
+    teleopFuel: data.hubScore.teleopPoints,
+    autonFuel: data.hubScore.autoPoints,
+    endgameClimbLevels: endgameClimbLevels,
+    autonClimbLevels: autonClimbLevels,		
+  }
 }
 
 function parseMatchData(matchDataPacket, OPRWeights) {
-	const data = []
-	const matchData = JSON.parse(JSON.stringify(matchDataPacket))
-		.sort( (a, b) => {a.match_number - b.match_number} )
-	for(const match of matchData) {
-		if(match.comp_level != "qm" || match.score_breakdown == null) { //not a qualification match or not scored yet
-			continue
-		}
-		data.push({
-			blue: parseAllianceData(match.score_breakdown.blue, OPRWeights, match.alliances.blue.team_keys),
-			red: parseAllianceData(match.score_breakdown.red, OPRWeights, match.alliances.red.team_keys),
-		})
-	}
-	return data
+  const data = []
+  const matchData = JSON.parse(JSON.stringify(matchDataPacket))
+    .sort( (a, b) => {a.match_number - b.match_number} )
+  for(const match of matchData) {
+    if(match.comp_level != "qm" || match.score_breakdown == null) { //not a qualification match or not scored yet
+      continue
+    }
+    data.push({
+      blue: parseAllianceData(match.score_breakdown.blue, OPRWeights, match.alliances.blue.team_keys),
+      red: parseAllianceData(match.score_breakdown.red, OPRWeights, match.alliances.red.team_keys),
+    })
+  }
+  return data
 }
 
 function parseOPRWeights(weightsPacket) {
-	const OPRWeights = JSON.parse(JSON.stringify(weightsPacket))[1] //stringify returns [null, [data]]
+  const OPRWeights = JSON.parse(JSON.stringify(weightsPacket))[1] //stringify returns [null, [data]]
 
-	return OPRWeights.reduce((accumulator, currentValue) => {
-		accumulator[currentValue.team_master_tm_number] = {
-			autonWeight: currentValue.auton_time_weight,
-			teleopWeight: currentValue.teleop_time_weight / 210000, //fraction of total time spent cycling or stockpiling
-		}
-		return accumulator
-	}, {})
+  return OPRWeights.reduce((accumulator, currentValue) => {
+    accumulator[currentValue.team_master_tm_number] = {
+      autonWeight: currentValue.auton_time_weight,
+      teleopWeight: currentValue.teleop_time_weight / 210000, //fraction of total time spent cycling or stockpiling
+    }
+    return accumulator
+  }, {})
 }
 
 async function getMatchData() {
-	const weightsPromise = database.query(database.getOPRWeights())
-	const matchDataPromise = fetchMatchData(5)
-	const [weightsPacket, matchDataPacket] = await Promise.all([weightsPromise, matchDataPromise])
+  const latestMatchWithData = await	getLatestMatchWithData()
+  const weightsPromise = database.query(database.getOPRWeights())
+  const matchDataPromise = fetchMatchData(5)
+  const [weightsPacket, matchDataPacket] = await Promise.all([weightsPromise, matchDataPromise])
 
-	const OPRWeights = parseOPRWeights(weightsPacket)
-	const data = parseMatchData(matchDataPacket, OPRWeights)
-	console.log("PARSED DATA", data)
-	return data
+  const OPRWeights = parseOPRWeights(weightsPacket)
+  const data = parseMatchData(matchDataPacket, OPRWeights)
+  console.log("PARSED DATA", data)
+  return data 
 }
+
+getMatchData()
 
 
 export default getMatchData

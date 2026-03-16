@@ -2,6 +2,18 @@ import pool from "./dbconfig.js"
 import gameConstants from "../game.js"
 import SQL from "sql-template-strings"
 
+function getLatestMatchWithData() {
+	return SQL`
+SELECT game_matchup_gm_number
+FROM
+teamsixn_scouting_dev.game_details
+WHERE game_element_ge_key = 4103 AND
+frc_season_master_sm_year = ${gameConstants.YEAR} AND 
+competition_master_cm_event_code = ${gameConstants.COMP} AND
+game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}
+ORDER BY game_matchup_gm_number DESC
+LIMIT 1;`
+}
 function getUsers() {
 	const returnStr = SQL`
     SELECT um_id, um_name
@@ -37,14 +49,14 @@ function deleteData(data) {
 	AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
-function deleteApiRankings() {
+function deleteAPIRankings() {
 	return SQL`DELETE FROM teamsixn_scouting_dev.api_rankings
     WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
 	AND api_rankings.competition_master_cm_event_code = ${gameConstants.COMP};`
 
 }
 
-function writeApiRankings(teamRankings) {
+function writeAPIRankings(teamRankings) {
 	let valuesStr = ""
 	let counter = 0
 	const time = new Date()
@@ -909,30 +921,29 @@ WHERE
 }
 
 
-function deleteApiCalc() {
+function deleteAPICalc() {
 	return SQL`DELETE FROM teamsixn_scouting_dev.api_calc
-    WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
-	AND api_rankings.competition_master_cm_event_code = ${gameConstants.COMP};`
+    WHERE api_calc.frc_season_master_sm_year = ${gameConstants.YEAR}
+	AND api_calc.competition_master_cm_event_code = ${gameConstants.COMP};`
 }
 
 
-function writeApiCalc(teleopOpr, autonOpr) {
+function writeAPICalc(teleopOpr, autonOpr) {
 	let valuesStr = ""
 	let counter = 0
-	const time = new Date()
+	const timestamp = new Date()
 	//console.log(time)
 
 	for (const [team, teleopFuel] of Object.entries(teleopOpr)) {
 		counter++
 		const autonFuel = autonOpr[team]
-		const timestamp = Sting(time)
-		const str = `(${gameConstants.YEAR}, '${gameConstants.COMP}', ${team}, ${timestamp}, ${autonFuel}, ${teleopFuel})`
-		const comma = Object.keys(teamRankings).length != counter ? "," : ""
+		const str = `(${gameConstants.YEAR}, '${gameConstants.COMP}', ${team}, NOW(), ${autonFuel}, ${teleopFuel})`
+		const comma = Object.keys(teleopOpr).length != counter ? "," : ""
 
-		valuesStr += str + comma
+		valuesStr += str + comma 
 	}
 
-	const sqlStr = SQL`INSERT INTO teamsixn_scouting_dev.api_calc
+	const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_calc
 
 	(frc_season_master_sm_year, competition_master_cm_event_code, team_master_tm_number, api_calc_ts, api_auton_opr_calc, api_teleop_opr_calc)
 	VALUES ${valuesStr};`
@@ -996,8 +1007,8 @@ export {
 	saveData,
 	deleteData,
 	getAssignedTeam,
-	writeApiRankings,
-	deleteApiRankings,
+	writeAPIRankings,
+	deleteAPIRankings,
 	getChartData,
 	insertAllianceSelection,
 	deleteAllianceSelection,
@@ -1016,8 +1027,8 @@ export {
 	getUserFromCasdoorId,
 	getOPRWeights,
     getGameConstants,
-	writeApiCalc,
-	deleteApiCalc
+	writeAPICalc,
+	deleteAPICalc
 }
 
 
@@ -1034,8 +1045,8 @@ export default {
 	saveData,
 	deleteData,
 	getAssignedTeam,
-	writeApiRankings,
-	deleteApiRankings,
+	writeAPIRankings,
+	deleteAPIRankings,
 	getChartData,
 	insertAllianceSelection,
 	deleteAllianceSelection,
@@ -1057,7 +1068,8 @@ export default {
 	getOPRWeights,
     getUserFromCasdoorId,
     getGameConstants,
-	writeApiCalc,
-	deleteApiCalc
+	writeAPICalc,
+	deleteAPICalc,
+	getLatestMatchWithData
 }
 

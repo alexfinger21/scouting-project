@@ -1,5 +1,5 @@
 let YEAR = 2026
-let COMP = "test"
+let COMP = "mnwi"
 let GAME_TYPE = "Q"
 let gameStart = new Date("April 16, 2025")
 let gameEnd = new Date("December 22, 2027")
