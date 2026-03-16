@@ -116,7 +116,6 @@ function parseOPRWeights(weightsPacket) {
 }
 
 async function getMatchData() {
-  const latestMatchWithData = await	getLatestMatchWithData()
   const weightsPromise = database.query(database.getOPRWeights())
   const matchDataPromise = fetchMatchData(5)
   const [weightsPacket, matchDataPacket] = await Promise.all([weightsPromise, matchDataPromise])
@@ -130,5 +129,5 @@ async function getMatchData() {
 getMatchData()
 
 
-export default getMatchData
+export {getMatchData, getLatestMatchWithData}
 

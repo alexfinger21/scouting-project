@@ -4,7 +4,7 @@ import database from "./database/database.js"
 import gameConstants from "./game.js" 
 import { consoleLog } from "./utility.js"
 import { Matrix, solve } from 'ml-matrix'
-import getMatchData from "./getMatchData.js"
+import {getMatchData, getLatestMatchWithData} from "./getMatchData.js"
 
 dotenv.config()
 const auth = process.env.TBA_AUTH
@@ -233,9 +233,21 @@ function returnAPIRankings() {
   })
 }
 
+async function writeBlueAllianceData(matchData) {
+  const startingIndex = await getLatestMatchWithData()
+  const [err, res] = database.query(database.updateGameDetails(matchData, startingIndex))
+  if(err) {
+    consoleLog("Error writing blue alliance data: ", err)
+  }
+  else {
+    consoleLog("Saved blue alliance data successfully")
+  }
+}
+
+
 async function syncServer() {
   const data = await getMatchData()
-  const rankings = await returnAPIRankings()
+  /*const rankings = await returnAPIRankings()
   console.log(data)
   const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeight")
   const autoOpr = calculateOpr(data, "autonFuel", "autoWeight")
@@ -255,7 +267,7 @@ async function syncServer() {
         }
       }))
     }
-  }) 
+  }) */
 }
 
 export { returnAPIRankings, syncServer }

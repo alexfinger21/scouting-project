@@ -953,47 +953,67 @@ function writeAPICalc(teleopOpr, autonOpr) {
 	return sqlStr
 
 }
-/*
-function updateGameDetails(matchData) {
+
+function gameDetailsValue(
+  match,
+  alliance,
+  alliance_position,
+  ge_key,
+  gd_value,
+  gd_score,
+  user_id,
+  includeComma
+) {
+  return `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${match}, ${allianceColor}, ${alliancePosition}, ${ge_key.toString()[0]}, ${ge_key}, ${gd_value}, ${gd_score}, ${user_id}, ''),`
+}
+
+function updateGameDetails(matchData, startingIndex) {
 	let valuesStr = ""
-	for(let m = 0; i < matchData.length; ++i) {
-		const match = matchData[i]
+	for(let m = startingIndex; m < matchData.length; ++m) {
+		const match = matchData[m]
 		for(let a = 0; a < 2; ++a) {
 			const alliance = match[a]
 			for(let t = 0; t < 3; ++t) {
-				const endgameClimbLevel = alliance.endgameClimbLevels[i]
-				let endgameClimbPoints = 0 
-				switch(endgameClimbLevel) {
-					case 3:
-						endgameClimbPoints = 30 
-						break
-					case 2:
-						endgameClimbPoints = 20
-						break
-					case 1:	
-						endgameClimbPoints = 10 
-						break
-					case default:
-						break
-				}
-				
-				
-				const autonClimbLevel = alliance.autonClimbLevels[i]
-				const autonClimbPoints = autonClimbLevel == 1 ? 15 : 0
-				const allianceColor = a == 0 ? "R" : "B	
-				//auton climb
-				valuesStr += `${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${i}, ${allianceColor}, ${t}, 2, 2103, 0, ${autonClimbLevel}, ${autonClimbPoints}, userId, '');`
-				//endgame climb
-				valuesStr += `${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${i}, ${allianceColor}, ${t}, 2, 2103, 0, ${autonClimbLevel}, ${autonClimbPoints}, userId, '');`
+				const endgameClimbLevel = alliance.endgameClimbLevels[t]
+				const autonClimbLevel = alliance.autonClimbLevels[t]
+        const autonFuel = alliance.autonFuel[t]
+        const teleopFuel = alliance.teleopFuel[t]
+				const allianceColor = a == 0 ? "R" : "B"
 
-*/
+				//auton climbs successfully
+				valuesStr += gameDetailsValue(m, allianceColor, t, 2103, autonClimbLevel, autonClimbLevel, "TBA")
+        //auton climb position
+				valuesStr += gameDetailsValue(m, allianceColor, t, 2104, autonClimbLevel, autonClimbLevel, "TBA")
+				//endgame climb position
+				valuesStr += gameDetailsValue(m, allianceColor, t, 4102, endgameClimbLevel, endgameClimbLevel, "TBA")
+        //auton fuel
+				valuesStr += gameDetailsValue(m, allianceColor, t, 2201, autonFuel, autonFuel, "TBA")
+        //teleop fuel
+				valuesStr += gameDetailsValue(m, allianceColor, t, 2201, teleopFuel, teleopFuel, "TBA")
+      }
+    }
+  }
+
+	const sqlStr = `INSERT OR REPLACE INTO teamsixn_scouting_dev.api_calc
+
+	(frc_season_master_sm_year, competition_master_cm_event_code, game_matchup_gm_game_type, game_matchup_gm_number, game_matchup_gm_alliance, game_matchup_gm_alliance_position, game_element_group_geg_grp_key, game_element_ge_key, gd_value, gd_score, gd_um_id, gd_auton_path)
+	VALUES ${valuesStr};`
+
+	console.log(valuesStr)
+
+	return sqlStr
+}
+
+  
+
+
 
 function getGameConstants() {
     return SQL`
         SELECT * FROM teamsixn_scouting_dev.game_constants gc
     `
 }
-
+;
 export {
 	getMatchData,
 	getGameNumbers,
