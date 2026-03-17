@@ -459,11 +459,10 @@ async function getMatchData(gameNumber) {
     await checkTempMatchStrategy()
     return SQL`
         SELECT 
-            gm.team_master_tm_number,
+            tms.*,
             gm.gm_alliance, 
             gm.gm_alliance_position, 
             gm.frc_season_master_sm_year,
-            tms.*,
             tm.tm_name,
             gm.team_master_tm_number
         FROM 
