@@ -905,18 +905,24 @@ function getUserFromCasdoorId(casdoorId) {
 function getOPRWeights() {
 	return SQL`
 	SELECT
-	vmd.frc_season_master_sm_year,
-	vmd.competition_master_cm_event_code,
-	vmd.game_matchup_gm_game_type,
-	vmd.team_master_tm_number,
+	vmd.game_matchup_gm_number,
+  vmd.team_master_tm_number,
 	1 as auton_time_weight,
-	(vmd.teleop_cycling_time + vmd.teleop_stockpiling_time ) as teleop_time_weight
+	(vmd.teleop_cycling_time + vmd.teleop_stockpiling_time ) as teleop_time_weight,
+(
+		vmd.transition_defense_time  + 
+		vmd.shift_1_defense_time  + 
+		vmd.shift_2_defense_time  + 
+		vmd.shift_3_defense_time  + 
+		vmd.shift_4_defense_time  + 
+		vmd.end_game_defense_time
+	) as defense_time_weight
 FROM
 	teamsixn_scouting_dev.v_match_detail vmd
 WHERE
 	vmd.frc_season_master_sm_year = ${gameConstants.YEAR} and
-	vmd.competition_master_cm_event_code = '${gameConstants.COMP}' and
-	vmd.game_matchup_gm_game_type = '${gameConstants.GAME_TYPE}';
+	vmd.competition_master_cm_event_code = ${gameConstants.COMP} and
+	vmd.game_matchup_gm_game_type = ${gameConstants.GAME_TYPE};
 	`
 }
 

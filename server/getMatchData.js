@@ -61,7 +61,7 @@ function parseClimbLevel(climbLevel) {
   return level != "" ? parseInt(level) : 0
 }
 
-function parseAllianceData(data, weights, teamKeys) {
+function parseAllianceData(matchNumber, data, weights, teamKeys) {
 
   const teams = teamKeys.map(i => i.slice(3))
   const endgameClimbLevels = [
@@ -78,8 +78,9 @@ function parseAllianceData(data, weights, teamKeys) {
 
   return {
     teams: teams,
-    autonWeights: teams.map(i => weights[i]?.autonWeight ?? 1),
-    teleopWeights: teams.map(i => weights[i]?.teleopWeight ?? 1),
+    autonWeights: teams.map(i => weights[matchNumber]?.[i]?.autonWeight ?? 1),
+    teleopWeights: teams.map(i => weights[matchNumber]?.[i]?.teleopWeight ?? 1),
+    defenseWeights: teams.map(i => weights[matchNumber]?.[i]?.defenseWeight ?? 1),
     teleopFuel: data.hubScore.teleopPoints,
     autonFuel: data.hubScore.autoPoints,
     endgameClimbLevels: endgameClimbLevels,
@@ -90,14 +91,16 @@ function parseAllianceData(data, weights, teamKeys) {
 function parseMatchData(matchDataPacket, OPRWeights) {
   const data = []
   const matchData = JSON.parse(JSON.stringify(matchDataPacket))
-    .sort( (a, b) => {a.match_number - b.match_number} )
+    .sort( (a, b) => a.match_number - b.match_number )
+
+  console.log(OPRWeights)
   for(const match of matchData) {
     if(match.comp_level != "qm" || match.score_breakdown == null) { //not a qualification match or not scored yet
       continue
     }
     data.push({
-      blue: parseAllianceData(match.score_breakdown.blue, OPRWeights, match.alliances.blue.team_keys),
-      red: parseAllianceData(match.score_breakdown.red, OPRWeights, match.alliances.red.team_keys),
+      blue: parseAllianceData(match.match_number, match.score_breakdown.blue, OPRWeights, match.alliances.blue.team_keys),
+      red: parseAllianceData(match.match_number, match.score_breakdown.red, OPRWeights, match.alliances.red.team_keys),
     })
   }
   return data
@@ -105,28 +108,28 @@ function parseMatchData(matchDataPacket, OPRWeights) {
 
 function parseOPRWeights(weightsPacket) {
   const OPRWeights = JSON.parse(JSON.stringify(weightsPacket))[1] //stringify returns [null, [data]]
-
   return OPRWeights.reduce((accumulator, currentValue) => {
-    accumulator[currentValue.team_master_tm_number] = {
+    const matchNumber = currentValue.game_matchup_gm_number
+    if(accumulator[matchNumber] == null) {
+      accumulator[matchNumber] = {}
+    }
+    accumulator[matchNumber][currentValue.team_master_tm_number] = {
       autonWeight: currentValue.auton_time_weight,
-      teleopWeight: currentValue.teleop_time_weight / 210000, //fraction of total time spent cycling or stockpiling
+      teleopWeight: currentValue.teleop_time_weight / 220000, //fraction of total time spent cycling or stockpiling
+      defenseWeight: currentValue.defense_time_weight / 220000, //fraction of total time spent defending 
     }
     return accumulator
-  }, {})
+  }, [])
 }
 
 async function getMatchData() {
   const weightsPromise = database.query(database.getOPRWeights())
-  const matchDataPromise = fetchMatchData(5)
+  const matchDataPromise = fetchMatchData()
   const [weightsPacket, matchDataPacket] = await Promise.all([weightsPromise, matchDataPromise])
-
   const OPRWeights = parseOPRWeights(weightsPacket)
   const data = parseMatchData(matchDataPacket, OPRWeights)
-  console.log("PARSED DATA", data)
   return data 
 }
-
-getMatchData()
 
 
 export {getMatchData, getLatestMatchWithData}

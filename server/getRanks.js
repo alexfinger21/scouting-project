@@ -62,7 +62,7 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     teamIdx[teamArr[i]] = i
   }
 
-  console.log(teamIdx)
+  //console.log(teamIdx)
 
   for (let idx = 0; idx<alliances.length; ++idx) {
     alliances[idx] = new Array(teamArr.length).fill(0)
@@ -72,7 +72,7 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
   for (const match of matches) {
     let t_idx = 0
     for (const t of match.red.teams) {
-      console.log(t, alliances[m_idx])
+      //console.log(t, alliances[m_idx])
       alliances[m_idx][teamIdx[t]] = match.red[weightProperty][t_idx] 
       ++t_idx
     }
@@ -247,14 +247,15 @@ async function writeBlueAllianceData(matchData) {
 
 async function syncServer() {
   const data = await getMatchData()
-  /*const rankings = await returnAPIRankings()
-  console.log(data)
-  const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeight")
-  const autoOpr = calculateOpr(data, "autonFuel", "autoWeight")
+  console.dir(data, { depth: null, colors: true });
+  //const rankings = await returnAPIRankings()
+  const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
+ // const autoOpr = calculateOpr(data, "autonFuel", "autonWeights")
   // TODO: implement DPR and figure out how to use the defensive weights
-  const dpr = calculateDpr(data, teleopOpr, "teleopFuel") 
-  //write to server
-
+//  const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
+  //write to server 
+  console.log("teleop opr", teleopOpr)
+  /*
   database.query(database.deleteAPICalc(), (err, res) => {
     if(err) {
       console.log(err)
@@ -269,5 +270,7 @@ async function syncServer() {
     }
   }) */
 }
+
+syncServer()
 
 export { returnAPIRankings, syncServer }
