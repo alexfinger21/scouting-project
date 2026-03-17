@@ -18,7 +18,7 @@ router.get("/",  function(req, res) { //only gets used if the url == match-strat
             consoleLog(matchup)
             matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
             consoleLog("\nMATCH DATA: ")
-            consoleLog(matchup[0])
+            //consoleLog(matchup[0])
 
             if(getData == 1) {
                 return res.status(200).send(JSON.stringify(matchup))
