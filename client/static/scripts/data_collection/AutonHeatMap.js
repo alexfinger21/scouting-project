@@ -35,6 +35,29 @@ const get_row = (ge_key) => {
 const get_scored = (ge_key) => {
     return ge_key % 2 == 1
 }
+
+// Parse stored auton path which can be either an array of points or a stringified array of points
+const parseStoredAutonPath = (pathValue) => {
+    if (Array.isArray(pathValue)) {
+        return pathValue
+    }
+
+    if (typeof pathValue !== "string") {
+        return null
+    }
+
+    const trimmed = pathValue.trim()
+    if (!trimmed.startsWith("[")) {
+        return null
+    }
+
+    try {
+        return JSON.parse(trimmed)
+    } catch {
+        return null
+    }
+}
+
 export default class AutonHeatMap {
     /*ctx: canvas.getContext('2d')
     allianceColor: "R", "B" */
@@ -117,6 +140,18 @@ export default class AutonHeatMap {
 
     
     constructPosPath() {
+        const storedPath = parseStoredAutonPath(this.data?.auton?.path)
+
+        if (Array.isArray(storedPath)) {
+            const points = storedPath
+                .flatMap((segment) => Array.isArray(segment?.points) ? segment.points : [])
+                .filter((point) => Number.isFinite(point?.x) && Number.isFinite(point?.y))
+
+            if (points.length > 0) {
+                return points
+            }
+        }
+
         if(this.data?.auton?.path) {
             const path = this.data.auton.path.split("|").map(step => {
                 if (step > 21000 && step < 30000) {

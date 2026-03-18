@@ -659,6 +659,15 @@ router.get("/", async function (req, res) {
     )
     comments = JSON.parse(JSON.stringify(comments))
 
+    // Get auton paths for the team to display on the team details page
+    let [err5, autonPaths] = await database.query(
+        database.getAutonPaths(teamNumber),
+    )
+    autonPaths = JSON.parse(JSON.stringify(autonPaths)).map((entry) => ({
+        ...entry,
+        autonPathEncoded: encodeURIComponent(String(entry.gd_auton_path ?? "")),
+    }))
+
     const teamData = results
         .slice()
         .sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number)
@@ -673,6 +682,7 @@ router.get("/", async function (req, res) {
         matchVideos: matchVideos,
         selectedTeam: teamNumber,
         comments: comments,
+        autonPaths,
         selectedPage: selectedPage,
         match: teamData[0]?.game_matchup_gm_number ?? null,
         pitScoutingData,

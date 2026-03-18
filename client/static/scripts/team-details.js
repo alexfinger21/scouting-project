@@ -1,5 +1,5 @@
 import AutonHeatMap from "./data_collection/AutonHeatMap.js"
-import {paths, requestData, requestPage, currentPage, consoleLog, waitUntilImagesLoaded, canvasFPS} from "./utility.js"
+import {paths, requestData, requestPage, currentPage, consoleLog, canvasFPS} from "./utility.js"
 
 let heatMapObject
 
@@ -89,6 +89,7 @@ async function main() {
     const pictureName = document.getElementById("team-picture-name")
     const tabs = Array.from(document.getElementsByClassName("team-details-tab"))
     const select = document.getElementById("auton-path-select")
+    const canvas = document.getElementById("heat-map")
 
     let selectedPage = ""
     tabs.forEach((tab) => {
@@ -117,6 +118,12 @@ async function main() {
                 const newPage = document.getElementById(selectedPage)
                 newPage.style.display = "block"
                 resetTeamDetailsScroll(selectedPage)
+
+                if (selectedPage == "auton-display-page") {
+                    requestAnimationFrame(() => {
+                        renderAutonHeatMap()
+                    })
+                }
             }
         })
     })
@@ -170,16 +177,122 @@ async function main() {
             switchImage()
         })
     }
+
+    async function renderAutonHeatMap() {
+        if (!canvas || !select || select.children.length === 0) {
+            return
+        }
+
+        const canvasContainer = canvas.parentElement
+        const canvasCTX = canvas.getContext("2d")
+        const selectedOption = select.children[select.selectedIndex]
+        const allianceColor = selectedOption.getAttribute("alliance_color") || "B"
+        const loadpath = decodeURIComponent(
+            selectedOption.getAttribute("auton_path") || "",
+        )
+
+        const canvasWidth = Math.min(canvasContainer.clientWidth, 900)
+        canvas.width = canvasWidth
+        canvas.height = canvasWidth * 595 / 763
+
+        if (canvasCTX.reset) {
+            canvasCTX.reset()
+        } else {
+            canvasCTX.clearRect(0, 0, canvas.width, canvas.height)
+        }
+
+        const images = await loadAutonHeatMapImages(allianceColor)
+
+        heatMapObject = new AutonHeatMap({
+            ctx: canvasCTX,
+            data: {auton: {path: loadpath}},
+            allianceColor,
+            images,
+            cX: canvas.width,
+            cY: canvas.height,
+        })
+
+        heatMapObject.draw()
+        heatMapObject.renderQueue.render()
+    }
+
+    async function loadAutonHeatMapImages(allianceColor) {
+        const alliancePrefix = allianceColor == "B" ? "blue" : "red"
+
+        async function loadImageWithFallback(...candidates) {
+            const validCandidates = candidates.filter(Boolean)
+            const image = new Image()
+
+            await new Promise((resolve) => {
+                const tryLoad = (index) => {
+                    if (index >= validCandidates.length) {
+                        resolve(true)
+                        return
+                    }
+
+                    image.onload = () => resolve(true)
+                    image.onerror = () => tryLoad(index + 1)
+                    image.src = validCandidates[index]
+                }
+
+                tryLoad(0)
+            })
+
+            return image
+        }
+
+        const lockImage = await loadImageWithFallback("./static/images/lock.png")
+        const draggableImage = await loadImageWithFallback("./static/images/dropdown.png")
+        const gamePieceImage = await loadImageWithFallback("./static/images/data-collection/orange-note.png")
+        const mapImage = await loadImageWithFallback(
+            `./static/images/data-collection/${alliancePrefix}-map.png`,
+        )
+        const robotImage = await loadImageWithFallback(
+            `./static/images/data-collection/${alliancePrefix}-robot.png`,
+        )
+        const robotContainerImage = await loadImageWithFallback(
+            "./static/images/data-collection/robot-container.png",
+        )
+        const robotStartPosImage = await loadImageWithFallback(
+            "./static/images/data-collection/robot-starting-pos-container.png",
+        )
+        const legendButton = await loadImageWithFallback(
+            "./static/images/data-collection/legend-button.png",
+        )
+        const reefLeftImage = await loadImageWithFallback(
+            `./static/images/data-collection/${alliancePrefix}-reef-left.png`,
+        )
+        const reefRightImage = await loadImageWithFallback(
+            `./static/images/data-collection/${alliancePrefix}-reef-right.png`,
+        )
+        const clickAreaImage = await loadImageWithFallback(
+            "./static/images/data-collection/click-area.png",
+        )
+        const algaeImage = await loadImageWithFallback(
+            "./static/images/data-collection/algae.png",
+        )
+        const algaeSelectedImage = await loadImageWithFallback(
+            "./static/images/data-collection/algae-selected.png",
+        )
+        const proceedBtnImage = await loadImageWithFallback(
+            `./static/images/data-collection/proceed-btn-${alliancePrefix}.png`,
+        )
+        const images = { lockImage, draggableImage, gamePieceImage, algaeImage, algaeSelectedImage, robotImage, mapImage, robotContainerImage, legendButton, robotStartPosImage, proceedBtnImage, reefLeftImage, reefRightImage, clickAreaImage }
+
+        return images
+    }
+
+    if (select) {
+        select.addEventListener("change", () => {
+            renderAutonHeatMap()
+        })
+    }
+
+    if (selectedPage == "auton-display-page") {
+        renderAutonHeatMap()
+    }
+
 /************* *
-    const canvas = document.getElementById("heat-map")
-    const canvasContainer = canvas.parentElement
-    const canvasCTX = canvas.getContext("2d")
-    const allianceColor = "B"
-    const loadpath = select.children[select.selectedIndex].getAttribute("auton_path")
-    
-    const canvasSize = Math.min(canvasContainer.clientWidth, canvasContainer.clientHeight)
-    canvas.width = canvasSize
-    canvas.height = canvasSize*595/763
     const lockImage = new Image()
     lockImage.src = "./static/images/lock.png"
     const draggableImage = new Image()

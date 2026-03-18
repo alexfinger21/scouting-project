@@ -569,6 +569,35 @@ function getMatchComments(team) {
     trim(gc.gc_comment) <> "" `
 }
 
+// Gets auton paths for a team, used for the team details page
+function getAutonPaths(team) {
+    return SQL`
+    SELECT
+        frc_season_master_sm_year,
+        competition_master_cm_event_code,
+        game_matchup_gm_game_type,
+        team_master_tm_number,
+        game_matchup_gm_number,
+        game_matchup_gm_alliance,
+        game_matchup_gm_alliance_position,
+        tm_name,
+        ge_key,
+        gd_auton_path
+    FROM
+        teamsixn_scouting_dev.v_auton_path
+    WHERE
+        frc_season_master_sm_year = ${gameConstants.YEAR} AND
+        competition_master_cm_event_code = ${gameConstants.COMP} AND
+        game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
+        team_master_tm_number = ${team} AND
+        gd_auton_path IS NOT NULL AND
+        TRIM(gd_auton_path) <> ''
+    ORDER BY
+        game_matchup_gm_number,
+        game_matchup_gm_alliance,
+        game_matchup_gm_alliance_position;`
+}
+
 function deleteMatchDataX() {
     const matchTableXSQL = `DELETE FROM teamsixn_scouting_dev.game_matchup_x`
     return matchTableXSQL
@@ -918,6 +947,7 @@ export default {
     clearMatchStrategyTemp,
     saveComment,
     getMatchComments,
+    getAutonPaths,
     getSeventhScouter,
     getRandomTeam,
     addMatchData,
@@ -954,6 +984,7 @@ export {
     clearMatchStrategyTemp,
     saveComment,
     getMatchComments,
+    getAutonPaths,
     getSeventhScouter,
     getRandomTeam,
     addMatchData,
