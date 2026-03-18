@@ -53,12 +53,40 @@ const observer = new MutationObserver(function (mutations_list) {
 
 observer.observe(document.body, { subtree: false, childList: true });
 
+function resetTeamDetailsScroll(selectedPageId = "") {
+    window.scrollTo(0, 0)
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+
+    const pageHolder = document.getElementById("page-holder")
+    if (pageHolder) {
+        pageHolder.scrollTop = 0
+    }
+
+    const scrollers = Array.from(
+        document.getElementsByClassName("team-details-scroller"),
+    )
+
+    scrollers.forEach((scroller) => {
+        scroller.scrollTop = 0
+    })
+
+    if (selectedPageId) {
+        const selectedScroller = document.getElementById(selectedPageId)
+        if (selectedScroller) {
+            selectedScroller.scrollTop = 0
+        }
+    }
+}
+
 async function main() {
     const teamSelector = document.querySelector("#team-display-selector")
-    const pitScoutingButton = document.getElementById("pit-scouting-button")
     const pictureContainer = document.getElementById("team-pictures-container")
     const arrowLeft = document.getElementById("arrow-left")
     const arrowRight = document.getElementById("arrow-right")
+    const picture = document.getElementById("team-picture")
+    const pictureCategory = document.getElementById("team-picture-category")
+    const pictureName = document.getElementById("team-picture-name")
     const tabs = Array.from(document.getElementsByClassName("team-details-tab"))
     const select = document.getElementById("auton-path-select")
 
@@ -68,6 +96,9 @@ async function main() {
             selectedPage = tab.getAttribute("page")
         }
     })
+
+    resetTeamDetailsScroll(selectedPage)
+    requestAnimationFrame(() => resetTeamDetailsScroll(selectedPage))
     
     //handle tabs
     tabs.forEach((tab) => {
@@ -85,6 +116,7 @@ async function main() {
                 selectedPage = tab.getAttribute("page")
                 const newPage = document.getElementById(selectedPage)
                 newPage.style.display = "block"
+                resetTeamDetailsScroll(selectedPage)
             }
         })
     })
@@ -94,26 +126,50 @@ async function main() {
 
     teamSelector.addEventListener("change", async (e) => {
         consoleLog("SELECTED PAGE: " + selectedPage)
+        resetTeamDetailsScroll(selectedPage)
         const data = await requestPage(paths.teamDetails + "?team=" + teamSelector.value + "&selectedPage=" + selectedPage, {}, paths.teamDetails)
 
         consoleLog(data)
     }) 
 
     function switchImage() {
-        const container = pictureContainer.children[1]
-        consoleLog("pic" + String(pic % container.getAttribute("num-pictures")))
-        container.src = container.getAttribute("pic" + String(pic % container.getAttribute("num-pictures")))
+        if (!picture) {
+            return
+        }
+
+        const count = Number(picture.getAttribute("num-pictures"))
+        if (!count || count < 1) {
+            return
+        }
+
+        const normalizedIndex = ((pic % count) + count) % count
+        picture.src = picture.getAttribute("pic" + String(normalizedIndex))
+        picture.alt = picture.getAttribute("pic" + String(normalizedIndex) + "name") || "Pit scouting image"
+
+        if (pictureCategory) {
+            pictureCategory.textContent =
+                picture.getAttribute("pic" + String(normalizedIndex) + "label") ||
+                "Pit Image"
+        }
+
+        if (pictureName) {
+            pictureName.textContent =
+                picture.getAttribute("pic" + String(normalizedIndex) + "name") ||
+                "Uploaded image"
+        }
     }
 
-    arrowLeft.addEventListener("click", (e) => {
-        pic -= 1
-        switchImage()
-    })
+    if (pictureContainer && arrowLeft && arrowRight && picture) {
+        arrowLeft.addEventListener("click", () => {
+            pic -= 1
+            switchImage()
+        })
 
-    arrowRight.addEventListener("click", (e) => {
-        pic += 1
-        switchImage()
-    })
+        arrowRight.addEventListener("click", () => {
+            pic += 1
+            switchImage()
+        })
+    }
 /************* *
     const canvas = document.getElementById("heat-map")
     const canvasContainer = canvas.parentElement
@@ -195,4 +251,8 @@ async function main() {
 
     
     
+}
+
+if (document.querySelector("#team-display-selector")) {
+    main()
 }

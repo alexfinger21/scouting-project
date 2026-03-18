@@ -2,7 +2,7 @@
 <html lang="en">
 
 <body>
-    <div id="page-holder">
+    <div id="page-holder" class="team-details-page">
         <div class="small-input-container" id="team-display-selection-container">
             <label for="team-display-selector"> <b>Select team: </b> </label>
             <select name="team-display-selector" id="team-display-selector">
@@ -60,11 +60,11 @@
                                 <td>
                                     <% const gnum=parseFloat(teamData[i].game_matchup_gm_number)-1; if(matchVideos[gnum]) { %>
                                         <a href=<%-matchVideos[gnum][1]%> target="_blank">
-                                            <%= teamData[i].game_matchup_gm_number %> 
+                                            <%= teamData[i].game_matchup_gm_number %>
                                         </a>
                                     <% } else { %>
                                         <p>
-                                            <%= teamData[i].game_matchup_gm_number %> 
+                                            <%= teamData[i].game_matchup_gm_number %>
                                         </p>
                                     <% } %>
                                 </td>
@@ -86,8 +86,6 @@
                                 <td>
                                     <%= teamData[i].teleop_defense_time %>
                                 </td>
-                                
-
                                 <td>
                                     <% if (teamData[i].endgame_climb_l1_success) { %>
                                         L1
@@ -102,7 +100,6 @@
                                 <td>
                                     <%= teamData[i].gd_um_id%>
                                 </td>
-                               
                             </tr>
                         <% } %>
                     </tbody>
@@ -114,7 +111,7 @@
                 <% for(let i = 0; i < teamData.length; i++) { %>
                     <%if(teamData[i].game_matchup_gm_number == match) {%>
                         <option auton_path="<%=teamData[i].gd_auton_path%>" selected>
-                            <%= teamData[i].game_matchup_gm_number%>
+                            <%=teamData[i].game_matchup_gm_number%>
                         </option>
                     <%} else {%>
                         <option auton_path="<%=teamData[i].gd_auton_path%>" >
@@ -129,50 +126,143 @@
                 </div>
             </div> -->
 
-
         </div>
-        
+
         <% if(selectedPage == "pit-data-page") {%>
             <div id="pit-data-page" class="team-details-scroller" selected>
         <% } else {%>
             <div id="pit-data-page" class="team-details-scroller" style="display:none;">
         <% } %>
-            <p id="pit-data-title">
-                <%=teamInfo.tm_name + " - Rank " + (teamInfo.api_rank != null ? teamInfo.api_rank : "None")%>
-            </p>
+            <%
+                const pitTeamName = teamInfo.tm_name || ("Team " + selectedTeam)
+                const pitImages = pitScoutingData?.images || []
+                const pitLastUpdated = pitScoutingData?.lastUpdated
+                    ? new Date(pitScoutingData.lastUpdated).toLocaleString("en-US")
+                    : "Unavailable"
+                const pitGalleryAttributes = []
+                for (let i = 0; i < pitImages.length; i++) {
+                    pitGalleryAttributes.push(`pic${i}=\"${pitImages[i].url}\"`)
+                    pitGalleryAttributes.push(`pic${i}label=\"${(pitImages[i].category || "Pit Image").replace(/"/g, "&quot;")}\"`)
+                    pitGalleryAttributes.push(`pic${i}name=\"${(pitImages[i].name || "Uploaded Image").replace(/"/g, "&quot;")}\"`)
+                }
+            %>
 
-            <p class="pit-data-text">
-                <%="OPR: " + (teamInfo.api_opr != null ? teamInfo.api_opr.toFixed(1) : "None") + " - DPR: "
-                 + (teamInfo.api_dpr != null ? teamInfo.api_dpr.toFixed(1) : "None")%>
-                <br>
-                <%="Drivetrain: " + (teamInfo.Drive_Train_Type ?? "Unknown")%>
-                <br>
-                <%="Wheels used: " + (teamInfo.Wheel_Type ?? "Unknown") %>
-                <br>
-                <%="Weight: " + (teamInfo.Robot_Weight ?? "Unknown ") + "lbs"%>
-                <br>
-                <%="Length: " + (teamInfo.Robot_Length ?? "Unkown ") 
-                + "in    Width: " + (teamInfo.Robot_Width ?? "Unknown ")
-                + "in    Height: " + (teamInfo.Robot_Height ?? "Unknown ") + "in"%>
-            </p>
-            <div id="team-pictures-container">
-                <button id="arrow-left">
-                    <img src="../static/images/arrow-left.svg">
-                </button>
-                <% let attributes = " "
-                    for(let i = 0; i < teamPictures.length; i++) {
-                        attributes += "pic" + i + "=" + teamPictures[i] + " "
-                    }
-                 %>
-                <img <%-attributes%> num-pictures=<%-teamPictures.length%> src= <%- teamPictures[0] %> alt="Team Picture" id="team-picture">
-                <button id="arrow-right">
-                    <img src="../static/images/arrow-right.svg">
-                </button>
+            <section class="pit-hero-card">
+                <div class="pit-hero-copy">
+                    <p class="pit-eyebrow">Team API Pit Scouting</p>
+                    <p id="pit-data-title"><%= pitTeamName %></p>
+                    <p class="pit-data-subtitle">
+                        <%= "Team " + selectedTeam + " - Event " + (pitScoutingData?.eventId || "Unknown") %>
+                    </p>
+                </div>
+                <div class="pit-summary-grid">
+                    <div class="pit-summary-card">
+                        <span class="pit-summary-label">Rank</span>
+                        <span class="pit-summary-value"><%= teamInfo.api_rank != null ? teamInfo.api_rank : "N/A" %></span>
+                    </div>
+                    <div class="pit-summary-card">
+                        <span class="pit-summary-label">OPR / DPR</span>
+                        <span class="pit-summary-value">
+                            <%= (teamInfo.api_opr != null ? teamInfo.api_opr.toFixed(1) : "N/A") + " / " + (teamInfo.api_dpr != null ? teamInfo.api_dpr.toFixed(1) : "N/A") %>
+                        </span>
+                    </div>
+                    <div class="pit-summary-card">
+                        <span class="pit-summary-label">Responses</span>
+                        <span class="pit-summary-value"><%= pitScoutingData?.responseCount ?? 0 %></span>
+                    </div>
+                    <div class="pit-summary-card">
+                        <span class="pit-summary-label">Last Updated</span>
+                        <span class="pit-summary-value"><%= pitLastUpdated %></span>
+                    </div>
+                    <div class="pit-summary-card">
+                        <span class="pit-summary-label">Submitted By</span>
+                        <span class="pit-summary-value"><%= pitScoutingData?.submitter || "Unavailable" %></span>
+                    </div>
+                    <div class="pit-summary-card">
+                        <span class="pit-summary-label">Status</span>
+                        <span class="pit-summary-value"><%= pitScoutingData?.status || "empty" %></span>
+                    </div>
+                </div>
+            </section>
+
+            <% if (pitScoutingData?.message) { %>
+                <div class="pit-status-banner <%= pitScoutingData?.status === 'error' ? 'pit-status-error' : 'pit-status-neutral' %>">
+                    <%= pitScoutingData.message %>
+                </div>
+            <% } %>
+
+            <div class="pit-layout">
+                <div class="pit-sections-column">
+                    <% if (pitScoutingData?.sections?.length > 0) { %>
+                        <% for (const section of pitScoutingData.sections) { %>
+                            <section class="pit-section-card">
+                                <div class="pit-section-header">
+                                    <h3><%= section.title %></h3>
+                                </div>
+                                <div class="pit-field-list">
+                                    <% for (const item of section.items) { %>
+                                        <div class="pit-field-row">
+                                            <div class="pit-field-label"><%= item.label %></div>
+                                            <div class="pit-field-value">
+                                                <% if (item.isList) { %>
+                                                    <div class="pit-chip-list">
+                                                        <% for (const chip of item.value) { %>
+                                                            <span class="pit-chip"><%= chip %></span>
+                                                        <% } %>
+                                                    </div>
+                                                <% } else if (item.isLink) { %>
+                                                    <a href="<%= item.value %>" target="_blank" rel="noopener noreferrer" class="pit-link">Open Link</a>
+                                                <% } else { %>
+                                                    <span><%= item.value %></span>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </section>
+                        <% } %>
+                    <% } else { %>
+                        <section class="pit-section-card pit-empty-card">
+                            <div class="pit-section-header">
+                                <h3>Pit Details</h3>
+                            </div>
+                            <p class="pit-empty-text">No current Team API pit fields are available to display for this team.</p>
+                        </section>
+                    <% } %>
+                </div>
+
+                <aside class="pit-gallery-column">
+                    <section class="pit-section-card pit-gallery-card">
+                        <div class="pit-section-header">
+                            <h3>Robot Photos</h3>
+                        </div>
+                        <% if (pitImages.length > 0) { %>
+                            <div id="team-pictures-container" class="pit-gallery-shell">
+                                <button id="arrow-left" class="pit-gallery-arrow" type="button" aria-label="Previous pit image">
+                                    <img src="../static/images/arrow-left.svg" alt="Previous pit image">
+                                </button>
+                                <div class="pit-gallery-frame">
+                                    <img <%-pitGalleryAttributes.join(" ")%> num-pictures="<%= pitImages.length %>" src="<%= pitImages[0].url %>" alt="<%= pitImages[0].name || 'Pit scouting image' %>" id="team-picture">
+                                    <div class="pit-gallery-meta">
+                                        <p id="team-picture-category"><%= pitImages[0].category || "Pit Image" %></p>
+                                        <p id="team-picture-name"><%= pitImages[0].name || "Uploaded image" %></p>
+                                    </div>
+                                </div>
+                                <button id="arrow-right" class="pit-gallery-arrow" type="button" aria-label="Next pit image">
+                                    <img src="../static/images/arrow-right.svg" alt="Next pit image">
+                                </button>
+                            </div>
+                        <% } else { %>
+                            <div class="pit-gallery-empty">
+                                <p>No Team API pit images were found for this team yet.</p>
+                            </div>
+                        <% } %>
+                    </section>
+                </aside>
             </div>
         </div>
 
-        
-                <% if(selectedPage == "comments-display-page") {%>
+        <% if(selectedPage == "comments-display-page") {%>
             <div id="comments-display-page" class="team-details-scroller" selected>
         <% } else {%>
             <div id="comments-display-page" class="team-details-scroller" style="display:none;">
@@ -189,7 +279,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%for(let i = 0; i < comments.length; i++) { %> 
+                        <%for(let i = 0; i < comments.length; i++) { %>
                             <tr>
                                 <td>
                                     <%= comments[i].game_matchup_gm_number %>
@@ -203,7 +293,6 @@
                 </table>
             </div>
         </div>
-        
 
         <% if(selectedPage == "auton-display-page") {%>
             <div id="auton-display-page" class="team-details-scroller" selected>
@@ -222,7 +311,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%for(let i = 0; i < comments.length; i++) { %> 
+                        <%for(let i = 0; i < comments.length; i++) { %>
                             <tr>
                                 <td>
                                     <%= comments[i].game_matchup_gm_number %>
