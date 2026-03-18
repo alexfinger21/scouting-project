@@ -194,14 +194,102 @@
 #auton-path-select {
     background-color: #FFF;
     text-align: center;
-    font-size: 2.5vh;
-    width: 20vw;
-    border: 2px solid #5B6671;
-    border-radius: 2px;
+    font-size: 1rem;
+    width: min(24rem, 100%);
+    border: 1px solid var(--team-details-border);
+    border-radius: 5px;
+    box-shadow: var(--team-details-shadow);
+    padding: 0.7rem 0.8rem;
 }
 
 #auton-path-select option {
     font-size: 1.8vh;
+}
+
+#select-match {
+    color: var(--team-details-ink);
+}
+
+.auton-display-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.auton-heatmap-card {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 6px;
+    background: var(--team-details-panel);
+    border: 1px solid var(--team-details-border);
+    box-shadow: var(--team-details-shadow);
+    position: relative;
+}
+
+.auton-heatmap-card .canvas-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.auton-heatmap-card canvas {
+    display: block;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.auton-legend {
+    position: absolute;
+    top: 0.9rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.6rem 0.7rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(91, 102, 113, 0.16);
+    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(4px);
+    z-index: 2;
+}
+
+.auton-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--team-details-ink);
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+.auton-legend-dot {
+    display: inline-block;
+    flex: 0 0 auto;
+    border-radius: 999px;
+}
+
+.auton-legend-start {
+    width: 0.8rem;
+    height: 0.8rem;
+    background: #ffd166;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(255, 209, 102, 0.18);
+}
+
+.auton-legend-end {
+    width: 0.8rem;
+    height: 0.8rem;
+    background: #22c55e;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(34, 197, 94, 0.16);
+}
+
+.auton-legend-waypoint {
+    width: 0.38rem;
+    height: 0.38rem;
+    background: rgba(255, 214, 102, 0.9);
+    box-shadow: 0 0 0 2px rgba(255, 214, 102, 0.12);
 }
 
 .pit-hero-card {
@@ -504,6 +592,15 @@
 
     .pit-gallery-card {
         position: static;
+    }
+
+    .auton-display-toolbar {
+        align-items: stretch;
+    }
+
+    .auton-legend {
+        position: static;
+        margin-bottom: 0.75rem;
     }
 }
 

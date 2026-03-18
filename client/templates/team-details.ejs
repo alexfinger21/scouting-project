@@ -299,31 +299,48 @@
         <% } else {%>
             <div id="auton-display-page" class="team-details-scroller" style="display:none;">
         <% } %>
-            <div class="team-display-table-container">
-                <table class="team-display-table">
-                    <colgroup>
-                        <col span="1" style="width: 25%">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>Match</th>
-                            <th>Comment</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%for(let i = 0; i < comments.length; i++) { %>
-                            <tr>
-                                <td>
-                                    <%= comments[i].game_matchup_gm_number %>
-                                </td>
-                                <td>
-                                    <%= comments[i].gc_comment %>
-                                </td>
-                            </tr>
-                        <%}%>
-                    </tbody>
-                </table>
-            </div>
+            <% if (autonPaths.length > 0) { %>
+                <div class="auton-display-toolbar">
+                    <label id="select-match" for="auton-path-select"><b>Show Auton Path for Match:</b></label>
+                    <select id="auton-path-select" name="select-match">
+                        <% for (let i = 0; i < autonPaths.length; i++) { %>
+                            <option
+                                value="<%= autonPaths[i].game_matchup_gm_number %>"
+                                auton_path="<%= autonPaths[i].autonPathEncoded %>"
+                                alliance_color="<%= autonPaths[i].game_matchup_gm_alliance %>"
+                                <%- i === 0 ? "selected" : "" %>>
+                                <%= "Match " + autonPaths[i].game_matchup_gm_number + " - " + autonPaths[i].game_matchup_gm_alliance + autonPaths[i].game_matchup_gm_alliance_position %>
+                            </option>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="auton-heatmap-card">
+                    <div class="auton-legend" aria-label="Auton path legend">
+                        <span class="auton-legend-item">
+                            <span class="auton-legend-dot auton-legend-start"></span>
+                            <span>Yellow = Start</span>
+                        </span>
+                        <span class="auton-legend-item">
+                            <span class="auton-legend-dot auton-legend-end"></span>
+                            <span>Green = End</span>
+                        </span>
+                        <span class="auton-legend-item">
+                            <span class="auton-legend-dot auton-legend-waypoint"></span>
+                            <span>Small dots = Recorded points</span>
+                        </span>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="heat-map"></canvas>
+                    </div>
+                </div>
+            <% } else { %>
+                <section class="pit-section-card pit-empty-card">
+                    <div class="pit-section-header">
+                        <h3>Auton Path</h3>
+                    </div>
+                    <p class="pit-empty-text">No stored autonomous paths were found in the database for this team.</p>
+                </section>
+            <% } %>
         </div>
     </div>
 </body>
