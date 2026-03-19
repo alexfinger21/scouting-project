@@ -6,6 +6,16 @@ html, body {
     padding: 0;
 }
 
+#select-match {
+    width: 11rem;
+    margin: 0 1vw 0 2.5%; 
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333; 
+    text-align: left; 
+    padding-left: 5px;
+}
+
 /* 2. Container: Allows horizontal swiping for wide tables and vertical scrolling for the page */
 #match-strategy-container {
     width: 100%;
@@ -82,4 +92,178 @@ html, body {
     margin: 0;
     padding: 0;
     display: inline-block;
+}
+
+/* WRAPPER & GRID */
+.comments-wrapper {
+    width: 95%;
+    margin: 0 auto 40px auto; /* Centers the grid on the page */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; /* Slightly more breathing room between cards */
+}
+
+/* CARD CONTAINER */
+.comment-block {
+    border-radius: 8px; /* Slightly tighter, modern radius */
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* Softer, more elegant shadow */
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* HEADER */
+.comment-header {
+    padding: 10px 14px;
+    font-size: 1rem; /* Replaced vh for better accessibility */
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.comment-block.red .comment-header {
+    background-color: #FF7676;
+    color: #FFFFFF;
+}
+
+.comment-block.blue .comment-header {
+    background-color: #8ECAFA;
+    color: #003366;
+}
+
+/* COMMENT ROWS */
+.comment-row {
+    display: flex;
+    border-top: 1px solid #EAEAEA;
+    background-color: #FFFFFF;
+}
+
+/* LABEL CELL (C1, C2, etc.) */
+.comment-cell-label {
+    width: 50px; 
+    padding: 10px;
+    font-size: 0.875rem; /* ~14px */
+    font-weight: 600;
+    color: #666666;
+    background-color: #F8F9FA; /* Gives the label column a subtle contrast */
+    border-right: 1px solid #EAEAEA; /* Clean vertical divider */
+    display: flex;
+    align-items: center; /* Centers the label vertically */
+    justify-content: center; /* Centers the label horizontally */
+}
+
+/* TEXT CELL */
+.comment-cell-text {
+    flex: 1; /* Takes up all remaining space naturally */
+    padding: 10px 12px;
+    font-size: 1.5rem; /* ~14px */
+    color: #333333;
+    line-height: 1.5; /* Better readability for longer comments */
+
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.no-comments-message {
+    /* Adds plenty of breathing room around the text */
+    padding: 30px 20px;
+    
+    /* Centers the text horizontally */
+    text-align: center;
+    
+    /* A lighter grey color signals that this is inactive/empty data */
+    color: #999999; 
+    
+    font-size: 0.875rem; /* 14px */
+    font-style: italic;
+    
+    /* A very subtle off-white background to separate it from the header */
+    background-color: #FAFAFA; 
+    
+    /* If the cards stretch to match heights, this centers the text vertically */
+    flex: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comments-section-title {
+    width: 95%;
+    margin: 0 auto 20px auto; 
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333; 
+    text-align: left; 
+    padding-left: 5px;
+}
+
+.strategy-spacer {
+    height: 0vh;
+}
+
+@media (max-width: 1024px) {
+    .comments-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .comments-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print {
+    /* 1. OVERRIDE PARENT CONTAINERS (Crucial Step)
+       Printers need the body and html to be infinitely tall. 
+       If you have a main app wrapper, add its class here too. */
+    html, body {
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* 2. ADJUST THE GRID FOR PAPER 
+       Standard printer paper is narrow (Portrait mode). 
+       Forcing it to 2 columns usually looks much better on 8.5x11 paper. */
+    .comments-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 15px;
+        margin: 0; 
+        width: 100%;
+    }
+
+    .comment-cell-text {
+        font-size: 1rem;
+    }
+
+    /* 3. FIX THE CARDS */
+    .comment-block {
+        /* Prevents the printer from slicing a card perfectly in half at the bottom of a page */
+        page-break-inside: avoid;
+        break-inside: avoid;
+        
+        /* Drop the shadow. Printers hate shadows and it wastes toner. */
+        box-shadow: none; 
+        border: 1px solid #CCCCCC;
+    }
+
+    .strategy-spacer {
+        height: 20vh;
+    }
+    
+    /* 4. FORCE BACKGROUND COLORS TO PRINT
+       Browsers usually strip background colors to save ink. 
+       This forces the red/blue headers to actually print their colors. */
+    .comment-block.red .comment-header,
+    .comment-block.blue .comment-header {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .comments-section-title {
+        margin: 20px 0;
+        width: 100%;
+    }
 }

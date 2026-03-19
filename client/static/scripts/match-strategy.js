@@ -6,10 +6,17 @@ import * as graphHandler from "./graphHandler.js"
 let data
 let chart
 
+
 const observer = new MutationObserver(function (mutations_list) {
+    window.removeEventListener("beforeprint", onBeforePrint)
+    window.removeEventListener("afterprint", onAfterPrint)
+
     mutations_list.forEach(async function (mutation) {
         for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && checkPage(paths.matchStrategy)) {
+                window.addEventListener("beforeprint", onBeforePrint)
+                window.addEventListener("afterprint", onAfterPrint)
+
                 main()
                 break
             }
@@ -98,4 +105,24 @@ async function main() {
     //    chart = new Chart(ctx,
     //     config
     // )
+}
+
+function onBeforePrint() {
+    const footer = document.getElementById("footer")
+    footer.style.display = "none"
+
+    const headerLogin = document.getElementById("headerlogin")
+    headerLogin.style.display = "none"
+
+    document.body.style.zoom = "80%"
+}
+
+function onAfterPrint() {
+    const footer = document.getElementById("footer")
+    footer.style.display = "block"
+
+    const headerLogin = document.getElementById("headerlogin")
+    headerLogin.style.display = "block"
+
+    document.body.style.zoom = "100%"
 }

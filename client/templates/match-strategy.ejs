@@ -243,8 +243,39 @@
                     <% } %>
                 </tbody>
             </table>
-        </div>
-            
+
+            <div class="strategy-spacer"></div>
+
+            <h2 class="comments-section-title">Team Comments</h2>
+
+            <div class="comments-wrapper">
+
+            <% for (let i = 0; i<6; i++) { %>
+                    <div class="comment-block <%= i < 3 ? 'red' : 'blue' %>">
+
+                        <div class="comment-header">
+                            <%= `${matchup[i].tm_name} ${matchup[i].team_master_tm_number}` %>
+                        </div>
+
+                        <% for (let j = 0; j<matchup[i].comments.length; ++j) { %>
+                            <div class="comment-row">
+                                <div class="comment-cell-label">
+                                    <%= `C${j+1}` %>
+                                </div>
+
+                                <div class="comment-cell-text">
+                                    <%= matchup[i].comments[j].gc_comment %>
+                                </div>
+                            </div>
+                        <% } %>
+                        <% if (!matchup[i].comments.length) { %>
+                        <div class="no-comments-message">
+                            No comments recorded yet.
+                        </div>
+                        <% } %>
+                    </div>
+            <% } %>
+            </div>
         </div>
         
         <!--
