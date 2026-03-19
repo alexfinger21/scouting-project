@@ -1,7 +1,9 @@
 //MODULES
 import https from "https"
+import http from "http"
 import express from "express"
 import path from "path"
+import { pathToFileURL } from "url"
 import ejs from "ejs"
 import cookieParser from "cookie-parser"
 import cors from "cors"
@@ -15,63 +17,73 @@ import gameConstants from "./game.js"
 import dotenv from "dotenv"
 import { Server } from "socket.io"
 import casdoorSdk from "./auth/auth.js"
-import { pathToFileURL } from "url"
+
+dotenv.config()
 
 //DIRECTORIES
 const serverDirectory = "./server"
 const routeDirectory = "routers"
+const useDevServerCompat = process.env.SERVER_DEV_MODE === "true"
 
-const login = (await import(pathToFileURL(
-    path.resolve(serverDirectory, routeDirectory, "login.js")
-))).default
-
-//ROUTERS
-//const login = (await import(path.resolve(serverDirectory, routeDirectory, "login.js"))).default
-// const dataCollection = (await import(path.resolve(serverDirectory, routeDirectory, "data-collection.js"))).default
-// const teamSummary = (await import(path.resolve(serverDirectory, routeDirectory, "team-summary.js"))).default
-// const matchStrategy = (await import(path.resolve(serverDirectory, routeDirectory, "match-strategy.js"))).default
-// const allianceSelector = (await import(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js"))).default
-// const matchListing = (await import(path.resolve(serverDirectory, routeDirectory, "match-listing.js"))).default
-// const matchVerify = (await import(path.resolve(serverDirectory, routeDirectory, "match-verify.js"))).default
-// const adminPage = (await import(path.resolve(serverDirectory, routeDirectory, "admin-page.js"))).default
-// const teamRankings = (await import(path.resolve(serverDirectory, routeDirectory, "rankings.js"))).default
-// const teamDetails = (await import(path.resolve(serverDirectory, routeDirectory, "team-details.js"))).default
-// const allianceInput = (await import(path.resolve(serverDirectory, routeDirectory, "alliance-input.js"))).default
-// const gameStrategy = (await import(path.resolve(serverDirectory, routeDirectory, "game-strategy.js"))).default
-// const pitScouting = (await import(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js"))).default
-// const template = (await import(path.resolve(serverDirectory, routeDirectory, "template.js"))).default
-// const dataAccuracy = (await import(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js"))).default
-// const apiRouter = (await import(path.resolve(serverDirectory, routeDirectory, "api.js"))).default
-// const appMatchesRouter = (await import(path.resolve(serverDirectory, routeDirectory, "app/matches.js"))).default
-// const appTasksRouter = (await import(path.resolve(serverDirectory, routeDirectory, "app/tasks.js"))).default
-
-const dataCollection = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "data-collection.js")))).default
-const teamSummary = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "team-summary.js")))).default
-const matchStrategy = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "match-strategy.js")))).default
-const allianceSelector = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "alliance-selector.js")))).default
-const matchListing = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "match-listing.js")))).default
-const matchVerify = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "match-verify.js")))).default
-const adminPage = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "admin-page.js")))).default
-const teamRankings = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "rankings.js")))).default
-const teamDetails = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "team-details.js")))).default
-const allianceInput = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "alliance-input.js")))).default
-const gameStrategy = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "game-strategy.js")))).default
-const pitScouting = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "pit-scouting.js")))).default
-const template = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "template.js")))).default
-const dataAccuracy = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "data-accuracy.js")))).default
-const apiRouter = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "api.js")))).default
-const appMatchesRouter = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "app/matches.js")))).default
-const appTasksRouter = (await import(pathToFileURL(path.resolve(serverDirectory, routeDirectory, "app/tasks.js")))).default
-
-const app = express()
-dotenv.config()
-
-const credentials = {
-    key: fs.readFileSync("./server/certs/privkey.pem"),
-    cert: fs.readFileSync("./server/certs/fullchain.pem"),
+function importRouter(relativePath) {
+    const resolvedPath = path.resolve(serverDirectory, routeDirectory, relativePath)
+    return useDevServerCompat
+        ? import(pathToFileURL(resolvedPath).href)
+        : import(resolvedPath)
 }
 
-const server = https.createServer(credentials, app)
+//ROUTERS
+const login = (await importRouter("login.js")).default
+const dataCollection = (await importRouter("data-collection.js")).default
+const teamSummary = (await importRouter("team-summary.js")).default
+const matchStrategy = (await importRouter("match-strategy.js")).default
+const allianceSelector = (await importRouter("alliance-selector.js")).default
+const matchListing = (await importRouter("match-listing.js")).default
+const matchVerify = (await importRouter("match-verify.js")).default
+const adminPage = (await importRouter("admin-page.js")).default
+const teamRankings = (await importRouter("rankings.js")).default
+const teamDetails = (await importRouter("team-details.js")).default
+const allianceInput = (await importRouter("alliance-input.js")).default
+const gameStrategy = (await importRouter("game-strategy.js")).default
+const pitScouting = (await importRouter("pit-scouting.js")).default
+const template = (await importRouter("template.js")).default
+const dataAccuracy = (await importRouter("data-accuracy.js")).default
+const apiRouter = (await importRouter("api.js")).default
+const appMatchesRouter = (await importRouter("app/matches.js")).default
+const appTasksRouter = (await importRouter("app/tasks.js")).default
+
+const app = express()
+
+const privKeyPath = "./server/certs/privkey.pem"
+const fullChainPath = "./server/certs/fullchain.pem"
+const hasHttpsCerts = fs.existsSync(privKeyPath) && fs.existsSync(fullChainPath)
+
+if (!useDevServerCompat && !hasHttpsCerts) {
+    throw new Error("TLS certs are required unless SERVER_DEV_MODE=true.")
+}
+
+const useHttpsSocketServer = !useDevServerCompat
+    ? true
+    : process.env.SOCKET_USE_HTTPS === "true" && hasHttpsCerts
+
+const credentials = useHttpsSocketServer
+    ? {
+        key: fs.readFileSync(privKeyPath),
+        cert: fs.readFileSync(fullChainPath),
+    }
+    : null
+
+const server = useHttpsSocketServer
+    ? https.createServer(credentials, app)
+    : http.createServer(app)
+
+if (useDevServerCompat) {
+    if (useHttpsSocketServer) {
+        console.warn("SERVER_DEV_MODE=true and SOCKET_USE_HTTPS=true; Socket.IO server on port 5001 is using HTTPS.")
+    } else {
+        console.warn("SERVER_DEV_MODE=true; Socket.IO server on port 5001 is using HTTP for local testing.")
+    }
+}
 
 //CONSTANTS
 const corsOptions = {
