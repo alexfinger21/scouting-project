@@ -1,6 +1,10 @@
 import database from "../database/database.js"
 import express from "express"
 import { consoleLog } from "../utility.js"
+import {
+    buildMatchStrategyPitSummary,
+    getMergedPitScoutingData,
+} from "../pit-scouting.js"
 
 const router = express.Router()
 
@@ -14,15 +18,25 @@ router.get("/",  async function(req, res) { //only gets used if the url == match
 
     let [err2, matchup] = await database.query(database.getMatchData(match))
     matchup = JSON.parse(JSON.stringify(matchup)) //convert RowDataPacket to object
+    let [err3, teamResults] = await database.query(database.getTeamDetailsTeamData())
+    teamResults = JSON.parse(JSON.stringify(teamResults ?? []))
 
-    for (const team in matchup) {
-        const tmNum = matchup[team].team_master_tm_number
-        const [dbErr, comments] = await database.query(database.getMatchComments(tmNum))
+    consoleLog(err)
+    consoleLog(err2)
+    consoleLog(err3)
 
-        if (!dbErr) {
-            matchup[team].comments = comments
-        }
-    }
+    await Promise.all(matchup.map(async (team) => {
+        const tmNum = team.team_master_tm_number
+        const [[dbErr, comments], pitData] = await Promise.all([
+            database.query(database.getMatchComments(tmNum)),
+            getMergedPitScoutingData(req, tmNum, teamResults),
+        ])
+
+        team.comments = !dbErr
+            ? JSON.parse(JSON.stringify(comments ?? []))
+            : []
+        team.pitSummary = buildMatchStrategyPitSummary(pitData)
+    }))
 
 
     if(getData == 1) {

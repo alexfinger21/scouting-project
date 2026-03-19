@@ -59,7 +59,7 @@
                                 ).toFixed(1) %>
                             </td>
                             <td>
-                                DPR GOES HERE
+                                <%= matchup[i].api_dpr != null ? matchup[i].api_dpr.toFixed(1) : "N/A" %>
                             </td>
                             <td>
                                 <%=
@@ -72,7 +72,7 @@
                                 %>
                             </td>
                             <td>
-                                Need to get from Pit Scouting
+                                <%= matchup[i].pitSummary?.shootingRange || "N/A" %>
                             </td>
                             <td>
                                 <%= `
@@ -103,10 +103,10 @@
                             
                             </td>
                             <td>
-                                Need to get from Pit Scouting
+                                <%= matchup[i].pitSummary?.driveBase || "N/A" %>
                             </td>
                             <td>
-                                Need to get from Pit Scouting
+                                <%= matchup[i].pitSummary?.drivePracticeTime || "N/A" %>
                             </td>
                             <td>
                             
@@ -170,7 +170,7 @@
                                 ).toFixed(1) %>
                             </td>
                             <td>
-                                DPR GOES HERE
+                                <%= matchup[i].api_dpr != null ? matchup[i].api_dpr.toFixed(1) : "N/A" %>
                             </td>
                             <td>
                                 <%=
@@ -183,7 +183,7 @@
                                 %>
                             </td>
                             <td>
-                                Need to get from Pit Scouting
+                                <%= matchup[i].pitSummary?.shootingRange || "N/A" %>
                             </td>
                             <td>
                                 <%= `
@@ -214,10 +214,10 @@
                             
                             </td>
                             <td>
-                                Need to get from Pit Scouting
+                                <%= matchup[i].pitSummary?.driveBase || "N/A" %>
                             </td>
                             <td>
-                                Need to get from Pit Scouting
+                                <%= matchup[i].pitSummary?.drivePracticeTime || "N/A" %>
                             </td>
                             <td>
                             
