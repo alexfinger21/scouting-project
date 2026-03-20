@@ -82,7 +82,7 @@ function writeApiRankings(teamRankings) {
 		valuesStr += a
 	}
 
-	const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_rankings
+	const sqlStr = `REPLACE INTO teamsixn_scouting_dev.api_rankings
     (
 	frc_season_master_sm_year, 
 	competition_master_cm_event_code, 
@@ -968,13 +968,13 @@ WHERE
 }
 
 
-function deleteAPICalc() {
+function deleteApiCalc() {
 	return SQL`DELETE FROM teamsixn_scouting_dev.api_calc
     WHERE 1=1;`
 }
 
 
-function writeAPICalc(teleopOpr, autonOpr) {
+function writeApiCalc(teleopOpr, autonOpr) {
 	let valuesStr = ""
 	let counter = 0
 	const timestamp = new Date()
@@ -990,7 +990,6 @@ function writeAPICalc(teleopOpr, autonOpr) {
 	}
 
 	const sqlStr = `INSERT teamsixn_scouting_dev.api_calc
-
 	(frc_season_master_sm_year, competition_master_cm_event_code, team_master_tm_number, api_calc_ts, api_auton_opr_calc, api_teleop_opr_calc)
 	VALUES ${valuesStr};`
 
@@ -1100,8 +1099,8 @@ export default {
     getAppTasks,
     getUserFromCasdoorId,
     getGameConstants,
-    deleteAPICalc,
-    writeAPICalc,
+    deleteApiCalc,
+    writeApiCalc,
     getOPRWeights,
     deleteAPIRankings,
     writeApiRankings,
@@ -1140,8 +1139,8 @@ export {
     getScouter,
     getUserFromCasdoorId,
     getGameConstants,
-    deleteAPICalc,
-    writeAPICalc,
+    deleteApiCalc,
+    writeApiCalc,
     getOPRWeights,
     deleteAPIRankings,
     writeApiRankings,

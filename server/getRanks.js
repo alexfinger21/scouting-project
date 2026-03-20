@@ -50,12 +50,52 @@ let showObj = function () {
         //   consoleLog(teamData[prop])
     }
 }
+
+function getCumWeights(matches, weightProperty) {
+    const totalWeights = {}
+
+    for (const match of matches) {
+        let t_idx = 0
+        for (const t of match.red.teams) {
+            //console.log(t, alliances[m_idx])
+            if (!totalWeights[t]) {
+                totalWeights[t] = [match.red[weightProperty][t_idx], 1]
+            } else {
+                totalWeights[t][0] += match.red[weightProperty][t_idx]
+                ++totalWeights[t][1] 
+            }
+
+            ++t_idx
+        }
+
+        t_idx = 0
+        for (const t of match.blue.teams) {
+            if (!totalWeights[t]) {
+                totalWeights[t] = [match.blue[weightProperty][t_idx], 1]
+            } else {
+                totalWeights[t][0] += match.blue[weightProperty][t_idx]
+                ++totalWeights[t][1] 
+            }
+
+            ++t_idx
+        }
+
+    }
+
+    const cumWeights = {}
+
+    for (const team in totalWeights) {
+        cumWeights[team] = totalWeights[team][0]/totalWeights[team][1]
+    }
+
+    return cumWeights
+}
+
 function calculateOpr(matches, scoreProperty, weightProperty) {
     const alliances = new Array(matches.length * 2)
     const teams = new Set()
     const scores = new Array(alliances.length)
-    const totalWeights = {}
-
+    const cumWeights = getCumWeights(matches, weightProperty)
 
     let m_idx = 0;
     for (const match of matches) {
@@ -86,28 +126,21 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     for (const match of matches) {
         let t_idx = 0
         for (const t of match.red.teams) {
-            //console.log(t, alliances[m_idx])
-            if (!totalWeights[t]) {
-                totalWeights[t] = [match.red[weightProperty][t_idx], 1]
-            } else {
-                totalWeights[t][0] += match.red[weightProperty][t_idx]
-                ++totalWeights[t][1] 
-            }
-
+            console.log("CUM WEIGHT: ", cumWeights[t])
             alliances[m_idx][teamIdx[t]] = match.red[weightProperty][t_idx] 
+                ? match.red[weightProperty][t_idx] 
+                : cumWeights[t]
+
             ++t_idx
         }
 
         t_idx = 0
         for (const t of match.blue.teams) {
-            if (!totalWeights[t]) {
-                totalWeights[t] = [match.blue[weightProperty][t_idx], 1]
-            } else {
-                totalWeights[t][0] += match.blue[weightProperty][t_idx]
-                ++totalWeights[t][1] 
-            }
+            console.log("CUM WEIGHT: ", cumWeights[t])
+            alliances[m_idx + 1][teamIdx[t]] = match.blue[weightProperty][t_idx] 
+                ? match.blue[weightProperty][t_idx] 
+                : cumWeights[t]
 
-            alliances[m_idx+1][teamIdx[t]] = match.blue[weightProperty][t_idx] 
             ++t_idx
         }
 
@@ -120,13 +153,14 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     const oprMatrix = solve(AMatrix, bMatrix)
     const oprMap = {} 
 
-    for (let i = 0; i<teamArr.length; ++i) {
-        const cumWeight = totalWeights[teamArr[i]][0] / totalWeights[teamArr[i]][1]
+    console.log(cumWeights)
 
-        const oprVal = oprMatrix.get(i, 0) * cumWeight
+    for (let i = 0; i<teamArr.length; ++i) {
+        const oprVal = oprMatrix.get(i, 0)  
         const oprAdjusted = oprVal > 0 
             ? Math.sqrt(oprVal) 
             : -Math.sqrt(Math.abs(oprVal))
+
         oprMap[teamArr[i]] = oprAdjusted 
     }
 
@@ -219,7 +253,7 @@ function returnAPIRankings() {
         }
         request(optionsOPRS, function(error, response) {
             if (error) throw new Error(error)
-            printMessage("Status Code", response.statusCode)
+            // printMessage("Status Code", response.statusCode)
             //consoleLog(response.body)
             const oprData = JSON.parse(response.body)
 
@@ -292,12 +326,11 @@ async function writeBlueAllianceData(matchData) {
 
 
 async function syncServer() {
-
     const data = await getMatchData()
-    console.dir(data, { depth: null, colors: true })
+    // console.dir(data, { depth: null, colors: true })
 
     writeBlueAllianceData(data)
-    /*
+
     const rankings = await returnAPIRankings()
     try {
         const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
@@ -309,21 +342,20 @@ async function syncServer() {
         console.log("teleop opr", teleopOpr)
         console.log("auton opr", autonOpr)
         //console.log("dpr", dpr)
-        database.query(database.deleteAPICalc(), (err, res) => {
+        database.query(database.deleteApiCalc(), (err, res) => {
             if(err) {
                 console.log(err)
                 return
             }
             else {
-                database.query(database.writeAPICalc(teleopOpr, autonOpr), (err, res => {
+                database.query(database.writeApiCalc(teleopOpr, autonOpr), (err, res => {
                     if(err) {
                         console.log(err);
                     }
                 }))
             }
         }) 
-    }
-    catch(err) {
+    } catch(err) {
         console.log("error saving opr:", err)
     }
 
@@ -337,10 +369,9 @@ async function syncServer() {
             //consoleLog(results)
         })
         consoleLog(err)
-        //consoleLog(results)
-    }) */
+    }) 
 }
 
-//syncServer()
+syncServer()
 
 export { returnAPIRankings, syncServer }
