@@ -56,10 +56,10 @@ function deleteAPIRankings() {
 
 }
 
-function writeAPIRankings(teamRankings) {
+function writeApiRankings(teamRankings) {
 	let valuesStr = ""
 	let counter = 0
-	const time = new Date()
+	const time = new Date().toISOString()
 	//console.log(time)
 
 	for (const [k, team] of Object.entries(teamRankings)) {
@@ -73,6 +73,7 @@ function writeAPIRankings(teamRankings) {
 		const matches_played_str = String(team.matches_played ?? 0)
 		const opr_str = String(team.opr ?? 0)
 		const dpr_str = String(team.dpr ?? 0)
+
 		let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + "," + opr_str + "," + dpr_str + ",'" + String(time) + "')"
 		//console.log(a)
 		a = Object.keys(teamRankings).length != counter ? a + "," : a
@@ -126,32 +127,38 @@ function convertToInt(option) {
 
 
 function executeQuery(sql, callback = false) {
-    return new Promise(async (res, rej) => {
+    if (typeof(sql) != "string" || (typeof(sql) == "string" && sql.length)) {
+        return new Promise(async (res, rej) => {
 
-        if (sql.then) {
-            sql = await sql
-        }
-
-        pool.query(sql, function(error, results, fields) {
-            if (error) {
-                console.log(sql)
-                if (callback) {
-                    rej(callback(error, null))
-                }
-                else {
-                    rej([error, null])
-                }
-                console.log("ERROR: " + String(error))
-                throw new Error()
-            } else {
-                if (callback) {
-                    res(callback(null, results))
-                }
-                else {
-                    res([null, results])
-                }
+            if (sql.then) {
+                sql = await sql
             }
+
+            pool.query(sql, function(error, results, fields) {
+                if (error) {
+                    console.log(sql)
+                    if (callback) {
+                        rej(callback(error, null))
+                    }
+                    else {
+                        rej([error, null])
+                    }
+                    console.log("ERROR: " + String(error))
+                    throw new Error()
+                } else {
+                    if (callback) {
+                        res(callback(null, results))
+                    }
+                    else {
+                        res([null, results])
+                    }
+                }
+            })
         })
+    } 
+
+    return new Promise((res) => {
+        res(["SQL is empty!"], null)
     })
 }
 
@@ -1008,7 +1015,8 @@ function gameDetailsValue(
 
 function updateGameDetails(matchData, startingIndex) {
     let valuesStr = ""
-    for(let m = startingIndex; m < matchData.length; ++m) {
+
+    for (let m = startingIndex; m < matchData.length; ++m) {
         const match = matchData[m]
         const matchNumber = m+1
         for(const [color, alliance] of Object.entries(match)) {
@@ -1037,19 +1045,20 @@ function updateGameDetails(matchData, startingIndex) {
         }
     }
 
-    const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_calc
+    // remove comma
+    valuesStr = valuesStr.substring(0, valuesStr.length - 1)
 
-  (frc_season_master_sm_year, competition_master_cm_event_code, game_matchup_gm_game_type, game_matchup_gm_number, game_matchup_gm_alliance, game_matchup_gm_alliance_position, game_element_group_geg_grp_key, game_element_ge_key, gd_value, gd_score, gd_um_id, gd_auton_path)
-  VALUES ${valuesStr};`
+    if (valuesStr.trim().length) {
 
-    console.log(valuesStr)
+        const sqlStr = `REPLACE INTO teamsixn_scouting_dev.game_details
+      (frc_season_master_sm_year, competition_master_cm_event_code, game_matchup_gm_game_type, game_matchup_gm_number, game_matchup_gm_alliance, game_matchup_gm_alliance_position, game_element_group_geg_grp_key, game_element_ge_key, gd_value, gd_score, gd_um_id, gd_auton_path)
+      VALUES ${valuesStr};`
 
-    return sqlStr
+        return sqlStr
+    } 
+
+    return ""
 }
-
-
-
-
 
 function getGameConstants() {
     return SQL`
@@ -1095,7 +1104,7 @@ export default {
     writeAPICalc,
     getOPRWeights,
     deleteAPIRankings,
-    writeAPIRankings,
+    writeApiRankings,
     updateGameDetails,
     getLatestMatchWithData
 }
@@ -1135,7 +1144,7 @@ export {
     writeAPICalc,
     getOPRWeights,
     deleteAPIRankings,
-    writeAPIRankings,
+    writeApiRankings,
     updateGameDetails,
     getLatestMatchWithData
 }

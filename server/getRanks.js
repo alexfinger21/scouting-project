@@ -251,7 +251,7 @@ function returnAPIRankings() {
                         database.query(database.deleteAPIRankings(), (err, res) => {
                             consoleLog(err)
                             //consoleLog(res)
-                            database.query(database.writeAPIRankings(combinedTeamData), (err, res) => {
+                            database.query(database.writeApiRankings(combinedTeamData), (err, res) => {
                                 consoleLog(err)
                                 //consoleLog(res)
                             })
@@ -281,7 +281,8 @@ function returnAPIRankings() {
 async function writeBlueAllianceData(matchData) {
     const startingIndex = await getLatestMatchWithData()
     const [err, res] = await database.query(database.updateGameDetails(matchData, startingIndex))
-    if(err) {
+    
+    if (err) {
         consoleLog("Error writing blue alliance data: ", err)
     }
     else {
