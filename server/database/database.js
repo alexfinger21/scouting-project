@@ -994,56 +994,60 @@ function writeAPICalc(teleopOpr, autonOpr) {
 }
 
 function gameDetailsValue(
-  match,
-  alliance,
-  alliance_position,
-  ge_key,
-  gd_value,
-  gd_score,
-  user_id,
-  includeComma
+    match,
+    alliance,
+    alliance_position,
+    ge_key,
+    gd_value,
+    gd_score,
+    user_id,
+    includeComma
 ) {
-  return `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${match}, ${allianceColor}, ${alliancePosition}, ${ge_key.toString()[0]}, ${ge_key}, ${gd_value}, ${gd_score}, ${user_id}, ''),`
+    return `(${gameConstants.YEAR}, '${gameConstants.COMP}', '${gameConstants.GAME_TYPE}', ${match}, '${alliance}', ${alliance_position}, ${ge_key.toString()[0]}, ${ge_key}, ${gd_value}, ${gd_score}, '${user_id}', ''),`
 }
 
 function updateGameDetails(matchData, startingIndex) {
-	let valuesStr = ""
-	for(let m = startingIndex; m < matchData.length; ++m) {
-		const match = matchData[m]
-		for(let a = 0; a < 2; ++a) {
-			const alliance = match[a]
-			for(let t = 0; t < 3; ++t) {
-				const endgameClimbLevel = alliance.endgameClimbLevels[t]
-				const autonClimbLevel = alliance.autonClimbLevels[t]
-        const autonFuel = alliance.autonFuel[t]
-        const teleopFuel = alliance.teleopFuel[t]
-				const allianceColor = a == 0 ? "R" : "B"
+    let valuesStr = ""
+    for(let m = startingIndex; m < matchData.length; ++m) {
+        const match = matchData[m]
+        const matchNumber = m+1
+        for(const [color, alliance] of Object.entries(match)) {
+            for(let t = 0; t < 3; ++t) {
+                const endgameClimbLevel = alliance.endgameClimbLevels[t]
+                const endgameClimbSuccess = Math.min(endgameClimbLevel, 1)
+                const autonClimbLevel = alliance.autonClimbLevels[t]
+                const autonFuel = alliance.autonFuel
+                const teleopFuel = alliance.teleopFuel
+                const allianceColor = color == "red" ? "R" : "B"
 
-				//auton climbs successfully
-				valuesStr += gameDetailsValue(m, allianceColor, t, 2103, autonClimbLevel, autonClimbLevel, "TBA")
-        //auton climb position
-				valuesStr += gameDetailsValue(m, allianceColor, t, 2104, autonClimbLevel, autonClimbLevel, "TBA")
-				//endgame climb position
-				valuesStr += gameDetailsValue(m, allianceColor, t, 4102, endgameClimbLevel, endgameClimbLevel, "TBA")
-        //auton fuel
-				valuesStr += gameDetailsValue(m, allianceColor, t, 2201, autonFuel, autonFuel, "TBA")
-        //teleop fuel
-				valuesStr += gameDetailsValue(m, allianceColor, t, 2201, teleopFuel, teleopFuel, "TBA")
-      }
+                //auton climbs successfully
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 2103, autonClimbLevel, autonClimbLevel, "TBA")
+                //auton climb position
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 2104, autonClimbLevel, autonClimbLevel, "TBA")
+                //endgame climb successful
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 4102, endgameClimbSuccess, endgameClimbSuccess, "TBA")
+                //endgame climb position
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 4103, endgameClimbLevel, endgameClimbLevel, "TBA")
+
+                //auton fuel
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 2201, autonFuel, autonFuel, "TBA")
+                //teleop fuel
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 4200, teleopFuel, teleopFuel, "TBA")
+            }
+        }
     }
-  }
 
-	const sqlStr = `INSERT OR REPLACE INTO teamsixn_scouting_dev.api_calc
+    const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_calc
 
-	(frc_season_master_sm_year, competition_master_cm_event_code, game_matchup_gm_game_type, game_matchup_gm_number, game_matchup_gm_alliance, game_matchup_gm_alliance_position, game_element_group_geg_grp_key, game_element_ge_key, gd_value, gd_score, gd_um_id, gd_auton_path)
-	VALUES ${valuesStr};`
+  (frc_season_master_sm_year, competition_master_cm_event_code, game_matchup_gm_game_type, game_matchup_gm_number, game_matchup_gm_alliance, game_matchup_gm_alliance_position, game_element_group_geg_grp_key, game_element_ge_key, gd_value, gd_score, gd_um_id, gd_auton_path)
+  VALUES ${valuesStr};`
 
-	console.log(valuesStr)
+    console.log(valuesStr)
 
-	return sqlStr
+    return sqlStr
 }
 
-  
+
 
 
 
@@ -1092,7 +1096,8 @@ export default {
     getOPRWeights,
     deleteAPIRankings,
     writeAPIRankings,
-
+    updateGameDetails,
+    getLatestMatchWithData
 }
 
 export {
@@ -1131,4 +1136,6 @@ export {
     getOPRWeights,
     deleteAPIRankings,
     writeAPIRankings,
+    updateGameDetails,
+    getLatestMatchWithData
 }

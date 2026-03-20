@@ -280,7 +280,7 @@ function returnAPIRankings() {
 
 async function writeBlueAllianceData(matchData) {
     const startingIndex = await getLatestMatchWithData()
-    const [err, res] = database.query(database.updateGameDetails(matchData, startingIndex))
+    const [err, res] = await database.query(database.updateGameDetails(matchData, startingIndex))
     if(err) {
         consoleLog("Error writing blue alliance data: ", err)
     }
@@ -295,6 +295,8 @@ async function syncServer() {
     const data = await getMatchData()
     console.dir(data, { depth: null, colors: true })
 
+    writeBlueAllianceData(data)
+    /*
     const rankings = await returnAPIRankings()
     try {
         const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
@@ -335,7 +337,7 @@ async function syncServer() {
         })
         consoleLog(err)
         //consoleLog(results)
-    })
+    }) */
 }
 
 //syncServer()
