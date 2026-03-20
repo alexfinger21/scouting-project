@@ -9,6 +9,19 @@ import {getMatchData, getLatestMatchWithData} from "./getMatchData.js"
 dotenv.config()
 const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
+
+
+const optionsRankings = {
+    'method': 'GET',
+    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
+    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
+    //'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
+    'headers': {
+        'X-TBA-Auth-Key': auth,
+        'If-Modified-Since': ''
+    }
+}
+
 const optionsOPRS = {
     'method': 'GET',
     //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
@@ -278,34 +291,53 @@ async function writeBlueAllianceData(matchData) {
 
 
 async function syncServer() {
+
     const data = await getMatchData()
     console.dir(data, { depth: null, colors: true })
 
-    //const rankings = await returnAPIRankings()
-    const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
+    const rankings = await returnAPIRankings()
+    try {
+        const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
 
-    const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
+        const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
 
-    //const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
-    
-    console.log("teleop opr", teleopOpr)
-    console.log("auton opr", autonOpr)
-    //console.log("dpr", dpr)
-    database.query(database.deleteAPICalc(), (err, res) => {
-        if(err) {
-            console.log(err)
-            return
-        }
-        else {
-            database.query(database.writeAPICalc(teleopOpr, autonOpr), (err, res => {
-                if(err) {
-                    console.log(err);
-                }
-            }))
-        }
-    }) 
+        //const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
+
+        console.log("teleop opr", teleopOpr)
+        console.log("auton opr", autonOpr)
+        //console.log("dpr", dpr)
+        database.query(database.deleteAPICalc(), (err, res) => {
+            if(err) {
+                console.log(err)
+                return
+            }
+            else {
+                database.query(database.writeAPICalc(teleopOpr, autonOpr), (err, res => {
+                    if(err) {
+                        console.log(err);
+                    }
+                }))
+            }
+        }) 
+    }
+    catch(err) {
+        console.log("error saving opr:", err)
+    }
+
+    //reset tmp match strategy
+
+    database.query(database.clearMatchStrategyTemp(), (err, results) => {
+        console.log(err)
+        database.query(database.saveMatchStrategy(), (err, results) => {
+            consoleLog(err)
+            consoleLog("DID it")
+            //consoleLog(results)
+        })
+        consoleLog(err)
+        //consoleLog(results)
+    })
 }
 
-syncServer()
+//syncServer()
 
 export { returnAPIRankings, syncServer }
