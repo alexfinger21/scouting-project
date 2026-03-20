@@ -1,223 +1,269 @@
-#select-match {
-    margin-left: 8vw;
-}
-
-#available-matches {
-    background-color: #FFF;
-    text-align: center;
-    font-size: 2.5vh;
-    width: 20vw;
-    border: 2px solid #5B6671;
-    border-radius: 2px;
-}
-
-#available-matches option {
-    font-size: 1.8vh;
-}
-
-#alliance-properties {
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-    margin-left: auto;
-    margin-right: auto;
-    width: 95%;
-    table-layout: fixed;
-    background-color: transparent;
-    padding: 2px;
-    font-size: 2vh;
-    text-align: center;
-    border: 1px solid #5B6671;
-    border-radius: 6px;
-    flex: 1;
-}
-
-#alliance-properties tr {
-    background-color: transparent !important;
-}
-
-#alliance-properties td:nth-child(1) {
-    text-align: right;
-}
-
-#match-strategy-container {
-    width: 99.5%;
-    height: 90%;
-    overflow: scroll;
-}
-
-.stats {
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 2vh;
-    width: 95%;
-    table-layout: fixed;
-    background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 2px;
-    font-size: 1.8vh;
-}
-
-.stats td, .stats th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    font-weight: normal;
-    word-wrap:break-word;
-    text-align: center;
-}
-
-.stats td:nth-child(1) {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-}
-
-.preferred-game-piece {
-    width: 5vw;
+/* 1. Global Scrolling Reset */
+html, body {
     height: auto;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
 }
 
-tr:nth-child(even) { /* copied from w3schools lol*/
-    background-color: #dddddd;
-}
-#red-score {
-    padding: 2vh;
-    color:#FF2A2A;
-    text-align: center;
-    font-style: normal;
-    font-size: 2vh;
-}
-
-#blue-score {
-    padding: 2vh;
-    color:#3492EA;
-    font-style: normal;
-    text-align: center;
-    font-size: 2vh;
+#select-match {
+    width: 11rem;
+    margin: 0 1vw 0 2.5%; 
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333; 
+    text-align: left; 
+    padding-left: 5px;
 }
 
-.strategy-display {
-    width: 95%;
-    margin-bottom: 2vh;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 1vh;
-    font-size: 1.8vh;
-}
-
-.strategy-display p {
-    font-size: 2vh;
-    margin-bottom: 0.5vh;
-}
-
-.strategy-display p  b {
-    color: #3492EA;
-    font-weight: normal;
-}
-
-.strategy-display p em {
-    color: #FF2A2A;
-    font-style: normal;
-}
-
-.strategy-header {
-    font-size: 2.5vh !important;
-    text-align: center;
-    font-weight: normal;
-}
-
-.strategy-divider {
-    background-color: #dddddd;
-    width: 50%;
-    height: 2px;
-    margin-top: 0.5vh !important;
-    margin-bottom: 1vh !important;
-    margin: auto;
-}
-
-
-
-#match-strategy-graph-container {
+/* 2. Container: Allows horizontal swiping for wide tables and vertical scrolling for the page */
+#match-strategy-container {
+    width: 100%;
+    height: auto; 
+    overflow-x: auto; 
+    padding: 20px 0;
     display: flex;
-    flex-direction: row;
-    width: 95%;
-    overflow: hidden;
-    margin-top: 1.5vh;
-    background-color: #FFF;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    overflow: auto;
-    margin-bottom: 2vh;
-    margin-right: auto;
-    margin-left: auto;
-}
-
-#match-strategy-graph-wrapper {
-    flex: 2;
-    display: block;
-    height: 30vh;
-    max-width: 100%;
-    aspect-ratio: 1.5;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    transition: all 0.3s ease-in-out;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-@media only screen and (max-aspect-ratio: .85) {
-    #match-strategy-graph-container {
-        flex-direction: column;
-        height: 50vh;
-    }
-
-    #match-strategy-graph-wrapper {
-        flex: 5
-    }
-
-}
-
-.help-button {
-    height: 2.5vh;
-    width: 2.5vh;
-    background-color: #007bff;
-    color: white;
-    font-size: 1.5vh;
-    font-weight: bold;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    position: relative;
 }
-.help-box {
-    display: none;
-    position: absolute;
-    transform: translateX(55%);
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    width: auto;
-    white-space: nowrap;
+
+/* 3. The Table Structure */
+.alliance-table {
+    width: 95%;
+    min-width: 1100px; /* Prevents 11 columns from squishing */
+    margin-bottom: 50px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    font-size: 1.6vh;
+}
+
+/* 4. Pastel Border and Header Logic */
+
+/* RED ALLIANCE (Pastel) */
+.red-alliance {
+    border: 4px solid #FF7676; /* Soft Pastel Red */
+}
+.red-alliance thead th {
+    background-color: #FF7676;
+    color: white;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* BLUE ALLIANCE (Pastel) */
+.blue-alliance {
+    border: 4px solid #8ECAFA; /* Soft Pastel Blue */
+}
+.blue-alliance thead th {
+    background-color: #8ECAFA;
+    color: #003366; /* Darker blue text for readability on light blue */
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* 5. Cell Styling */
+.alliance-table th, .alliance-table td {
+    padding: 12px 8px;
     text-align: center;
-    z-index: 10000,
+    border-bottom: 1px solid #f0f0f0;
+    border-right: 1px solid #f0f0f0;
 }
 
-.help-box p {
-    color: #000
+/* Clean up borders on the final edges */
+.alliance-table th:last-child, 
+.alliance-table td:last-child {
+    border-right: none;
+}
+.alliance-table tr:last-child td {
+    border-bottom: none;
 }
 
-.active .help-box {
+/* 6. Highlighting Team Names */
+.alliance-table td:first-child {
+    font-weight: bold;
+    font-size: 1.8vh;
+    background-color: #fafafa;
+}
+
+/* 7. Clean up internal EJS P tags */
+.alliance-table p {
+    margin: 0;
+    padding: 0;
     display: inline-block;
+}
+
+/* WRAPPER & GRID */
+.comments-wrapper {
+    width: 95%;
+    margin: 0 auto 40px auto; /* Centers the grid on the page */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; /* Slightly more breathing room between cards */
+}
+
+/* CARD CONTAINER */
+.comment-block {
+    border-radius: 8px; /* Slightly tighter, modern radius */
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* Softer, more elegant shadow */
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* HEADER */
+.comment-header {
+    padding: 10px 14px;
+    font-size: 1rem; /* Replaced vh for better accessibility */
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.comment-block.red .comment-header {
+    background-color: #FF7676;
+    color: #FFFFFF;
+}
+
+.comment-block.blue .comment-header {
+    background-color: #8ECAFA;
+    color: #003366;
+}
+
+/* COMMENT ROWS */
+.comment-row {
+    display: flex;
+    border-top: 1px solid #EAEAEA;
+    background-color: #FFFFFF;
+}
+
+/* LABEL CELL (C1, C2, etc.) */
+.comment-cell-label {
+    width: 50px; 
+    padding: 10px;
+    font-size: 0.875rem; /* ~14px */
+    font-weight: 600;
+    color: #666666;
+    background-color: #F8F9FA; /* Gives the label column a subtle contrast */
+    border-right: 1px solid #EAEAEA; /* Clean vertical divider */
+    display: flex;
+    align-items: center; /* Centers the label vertically */
+    justify-content: center; /* Centers the label horizontally */
+}
+
+/* TEXT CELL */
+.comment-cell-text {
+    flex: 1; /* Takes up all remaining space naturally */
+    padding: 10px 12px;
+    font-size: 1.5rem; /* ~14px */
+    color: #333333;
+    line-height: 1.5; /* Better readability for longer comments */
+
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.no-comments-message {
+    /* Adds plenty of breathing room around the text */
+    padding: 30px 20px;
+    
+    /* Centers the text horizontally */
+    text-align: center;
+    
+    /* A lighter grey color signals that this is inactive/empty data */
+    color: #999999; 
+    
+    font-size: 0.875rem; /* 14px */
+    font-style: italic;
+    
+    /* A very subtle off-white background to separate it from the header */
+    background-color: #FAFAFA; 
+    
+    /* If the cards stretch to match heights, this centers the text vertically */
+    flex: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comments-section-title {
+    width: 95%;
+    margin: 0 auto 20px auto; 
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333; 
+    text-align: left; 
+    padding-left: 5px;
+}
+
+.strategy-spacer {
+    height: 0vh;
+}
+
+@media (max-width: 1024px) {
+    .comments-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .comments-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print {
+    /* 1. OVERRIDE PARENT CONTAINERS (Crucial Step)
+       Printers need the body and html to be infinitely tall. 
+       If you have a main app wrapper, add its class here too. */
+    html, body {
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    /* 2. ADJUST THE GRID FOR PAPER 
+       Standard printer paper is narrow (Portrait mode). 
+       Forcing it to 2 columns usually looks much better on 8.5x11 paper. */
+    .comments-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 15px;
+        margin: 0; 
+        width: 100%;
+    }
+
+    .comment-cell-text {
+        font-size: 1rem;
+    }
+
+    /* 3. FIX THE CARDS */
+    .comment-block {
+        /* Prevents the printer from slicing a card perfectly in half at the bottom of a page */
+        page-break-inside: avoid;
+        break-inside: avoid;
+        
+        /* Drop the shadow. Printers hate shadows and it wastes toner. */
+        box-shadow: none; 
+        border: 1px solid #CCCCCC;
+    }
+
+    .strategy-spacer {
+        height: 20vh;
+    }
+    
+    /* 4. FORCE BACKGROUND COLORS TO PRINT
+       Browsers usually strip background colors to save ink. 
+       This forces the red/blue headers to actually print their colors. */
+    .comment-block.red .comment-header,
+    .comment-block.blue .comment-header {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .comments-section-title {
+        margin: 20px 0;
+        width: 100%;
+    }
 }

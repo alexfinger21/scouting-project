@@ -2,14 +2,22 @@ import { currentPage, paths, requestPage, consoleLog, requestData, checkPage } f
 import { getTeamProperties } from "./team-summary.js"
 import * as graphHandler from "./graphHandler.js"
 
+const PRINT_ZOOM = 60
 
 let data
 let chart
 
+
 const observer = new MutationObserver(function (mutations_list) {
+    window.removeEventListener("beforeprint", onBeforePrint)
+    window.removeEventListener("afterprint", onAfterPrint)
+
     mutations_list.forEach(async function (mutation) {
         for (const removed_node of mutation.removedNodes) {
             if (removed_node.id == 'page-holder' && checkPage(paths.matchStrategy)) {
+                window.addEventListener("beforeprint", onBeforePrint)
+                window.addEventListener("afterprint", onAfterPrint)
+
                 main()
                 break
             }
@@ -40,62 +48,82 @@ observer.observe(document.body, { subtree: false, childList: true });
 
 async function main() {
     const select = document.getElementById("available-matches")
-    const canvas = document.getElementById("spider-chart")
-    const ctx = canvas.getContext("2d")
+    // const canvas = document.getElementById("spider-chart")
+    // const ctx = canvas.getContext("2d")
     select.onchange = () => {
         requestPage(paths.matchStrategy + "?match=" + select.value, {}, paths.matchStrategy)
     }
 
-    for(const b of document.getElementsByClassName("help-button")) {
-        b.addEventListener("click", () => {
-            b.classList.toggle("active")
-            for(const a of document.getElementsByClassName("help-button")) {
-                if(b!=a) {
+    // for(const b of document.getElementsByClassName("help-button")) {
+    //     b.addEventListener("click", () => {
+    //         b.classList.toggle("active")
+    //         for(const a of document.getElementsByClassName("help-button")) {
+    //             if(b!=a) {
 
-                    a.classList.remove("active")
-                }
-            }
-        })
-    }
+    //                 a.classList.remove("active")
+    //             }
+    //         }
+    //     })
+    // }
 
-    data = JSON.parse(await requestData(paths.matchStrategy + "?getData=1&match=" + select.value))
+    // data = JSON.parse(await requestData(paths.matchStrategy + "?getData=1&match=" + select.value))
 
 
-	data = data.map(i => getTeamProperties(i))
+	// data = data.map(i => getTeamProperties(i))
 
-    const red = data.slice(0, 3)
-    const blue = data.slice(3)
+    // const red = data.slice(0, 3)
+    // const blue = data.slice(3)
     
-    const config = await graphHandler.createSpiderChart(
-        [
-            {
-                teamNumber: 0,
-                teamName: "Red Alliance",
-                color: "rgb(255,0,0)",
-                hidden: false,
-                teleopStockpilingTimeAvg: sumParam(red, "teleopStockpilingTimeAvg"),
-                defensiveEffect: sumParam(red, "defensiveEffect"),
-                totalClimbScoreAvg: sumParam(red, "totalClimbScoreAvg"),
-                totalFuelScoreAvg: sumParam(red, "totalFuelScoreAvg"),
-                reliabilityIndex: sumParam(red, "reliabilityIndex"),
-                defenseResistance: sumParam(red, "defenseResistance"),
-            },
-            {
-                teamNumber: 1,
-                teamName: "Blue Alliance",
-                color: "rgb(0,0,255)",
-                hidden: false,
-                teleopStockpilingTimeAvg: sumParam(blue, "teleopStockpilingTimeAvg"),
-                defensiveEffect: sumParam(blue, "defensiveEffect"),
-                totalClimbScoreAvg: sumParam(blue, "totalClimbScoreAvg"),
-                totalFuelScoreAvg: sumParam(blue, "totalFuelScoreAvg"),
-                reliabilityIndex: sumParam(blue, "reliabilityIndex"),
-                defenseResistance: sumParam(blue, "defenseResistance"),
-            }
-        ],
-        false
-    )
-       chart = new Chart(ctx,
-        config
-    )
+    // const config = await graphHandler.createSpiderChart(
+    //     [
+    //         {
+    //             teamNumber: 0,
+    //             teamName: "Red Alliance",
+    //             color: "rgb(255,0,0)",
+    //             hidden: false,
+    //             teleopStockpilingTimeAvg: sumParam(red, "teleopStockpilingTimeAvg"),
+    //             defensiveEffect: sumParam(red, "defensiveEffect"),
+    //             totalClimbScoreAvg: sumParam(red, "totalClimbScoreAvg"),
+    //             totalFuelScoreAvg: sumParam(red, "totalFuelScoreAvg"),
+    //             reliabilityIndex: sumParam(red, "reliabilityIndex"),
+    //             defenseResistance: sumParam(red, "defenseResistance"),
+    //         },
+    //         {
+    //             teamNumber: 1,
+    //             teamName: "Blue Alliance",
+    //             color: "rgb(0,0,255)",
+    //             hidden: false,
+    //             teleopStockpilingTimeAvg: sumParam(blue, "teleopStockpilingTimeAvg"),
+    //             defensiveEffect: sumParam(blue, "defensiveEffect"),
+    //             totalClimbScoreAvg: sumParam(blue, "totalClimbScoreAvg"),
+    //             totalFuelScoreAvg: sumParam(blue, "totalFuelScoreAvg"),
+    //             reliabilityIndex: sumParam(blue, "reliabilityIndex"),
+    //             defenseResistance: sumParam(blue, "defenseResistance"),
+    //         }
+    //     ],
+    //     false
+    // )
+    //    chart = new Chart(ctx,
+    //     config
+    // )
+}
+
+function onBeforePrint() {
+    const footer = document.getElementById("footer")
+    footer.style.display = "none"
+
+    const headerLogin = document.getElementById("headerlogin")
+    headerLogin.style.display = "none"
+
+    document.body.style.zoom = PRINT_ZOOM + '%' 
+}
+
+function onAfterPrint() {
+    const footer = document.getElementById("footer")
+    footer.style.display = "block"
+
+    const headerLogin = document.getElementById("headerlogin")
+    headerLogin.style.display = "block"
+
+    document.body.style.zoom = "100%"
 }
