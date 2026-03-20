@@ -949,12 +949,12 @@ function writeAPICalc(teleopOpr, autonOpr) {
 		valuesStr += str + comma 
 	}
 
-	const sqlStr = `INSERT INTO teamsixn_scouting_dev.api_calc
+	const sqlStr = `INSERT OR REPLACE INTO teamsixn_scouting_dev.api_calc
 
 	(frc_season_master_sm_year, competition_master_cm_event_code, team_master_tm_number, api_calc_ts, api_auton_opr_calc, api_teleop_opr_calc)
 	VALUES ${valuesStr};`
 
-	console.log(valuesStr)
+	//console.log(valuesStr)
 
 	return sqlStr
 

@@ -110,7 +110,11 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     for (let i = 0; i<teamArr.length; ++i) {
         const cumWeight = totalWeights[teamArr[i]][0] / totalWeights[teamArr[i]][1]
 
-        oprMap[teamArr[i]] = oprMatrix.get(i, 0) * cumWeight
+        const oprVal = oprMatrix.get(i, 0) * cumWeight
+        const oprAdjusted = oprVal > 0 
+            ? Math.sqrt(oprVal) 
+            : -Math.sqrt(Math.abs(oprVal))
+        oprMap[teamArr[i]] = oprAdjusted 
     }
 
     return oprMap
@@ -183,6 +187,17 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
     return oprMap
 }
 
+function postProcessOpr(opr) {
+    return Object.entries(opr).sort((a, b) => 
+        b[1] - a[1]
+    ).map(val => {
+        return [val[0], val[1] > 0 
+            ? Math.sqrt(val[1]) 
+            : -Math.sqrt(Math.abs(val[1]))]
+    })
+
+}
+
 function returnAPIRankings() {
     return new Promise((resolve, reject) => {
         if (gameConstants.COMP == "test") {
@@ -240,13 +255,13 @@ function returnAPIRankings() {
             //consoleLog(teamData)
             //printMessage('Type of Data', typeof teamData)
             // teamData.teams.forEach((team) => {
-                //   printMessage('Team Info', team)
-                // }
-                // showObj()
-                // printMessage('Length of Teams array', team_data.teams.teamNumber)
-                //printMessage('Data', teamData)
-                //consoleLog(teamData.Rankings[0].teamNumber)
-            })
+            //   printMessage('Team Info', team)
+            // }
+            // showObj()
+            // printMessage('Length of Teams array', team_data.teams.teamNumber)
+            //printMessage('Data', teamData)
+            //consoleLog(teamData.Rankings[0].teamNumber)
+        })
     })
 }
 
@@ -268,32 +283,27 @@ async function syncServer() {
 
     //const rankings = await returnAPIRankings()
     const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
-    const oprValues = Object.entries(teleopOpr).sort((a, b) => 
-        b[1] - a[1]
-    ).map(val => {
-        return [val[0], val[1] > 0 
-            ? Math.sqrt(val[1]) 
-            : -Math.sqrt(Math.abs(val[1]))]
-    })
-    // const autoOpr = calculateOpr(data, "autonFuel", "autonWeights")
-    // TODO: implement DPR and figure out how to use the defensive weights
-    //  const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
-    //write to server 
-    console.log("teleop opr", oprValues)
-    /*
-        database.query(database.deleteAPICalc(), (err, res) => {
-            if(err) {
-                console.log(err)
-                return
-            }
-            else {
-                database.query(database.writeAPICalc(teleopOpr, autoOpr), (err, res => {
-                    if(err) {
-                        console.log(err);
-                    }
-                }))
-            }
-        }) */
+
+    const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
+
+    //const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
+    
+    console.log("teleop opr", teleopOpr)
+    console.log("auton opr", autonOpr)
+    //console.log("dpr", dpr)
+    database.query(database.deleteAPICalc(), (err, res) => {
+        if(err) {
+            console.log(err)
+            return
+        }
+        else {
+            database.query(database.writeAPICalc(teleopOpr, autonOpr), (err, res => {
+                if(err) {
+                    console.log(err);
+                }
+            }))
+        }
+    }) 
 }
 
 syncServer()
