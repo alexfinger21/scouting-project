@@ -341,7 +341,7 @@ async function syncServer() {
         console.log("teleop opr", teleopOpr)
         console.log("auton opr", autonOpr)
         //console.log("dpr", dpr)
-        database.query(database.deleteApiCalc(), (err, res) => {
+        /*database.query(database.deleteApiCalc(), (err, res) => {
             if(err) {
                 console.log(err)
                 return
@@ -353,7 +353,7 @@ async function syncServer() {
                     }
                 }))
             }
-        }) 
+        }) */
     } catch(err) {
         console.log("error saving opr:", err)
     }
