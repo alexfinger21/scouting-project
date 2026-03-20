@@ -58,11 +58,13 @@ function getCumWeights(matches, weightProperty) {
         let t_idx = 0
         for (const t of match.red.teams) {
             //console.log(t, alliances[m_idx])
-            if (!totalWeights[t]) {
-                totalWeights[t] = [match.red[weightProperty][t_idx], 1]
-            } else {
-                totalWeights[t][0] += match.red[weightProperty][t_idx]
-                ++totalWeights[t][1] 
+            if (match.red[weightProperty][t_idx]) {
+                if (!totalWeights[t]) {
+                    totalWeights[t] = [match.red[weightProperty][t_idx], 1]
+                } else {
+                    totalWeights[t][0] += match.red[weightProperty][t_idx]
+                    ++totalWeights[t][1] 
+                }
             }
 
             ++t_idx
@@ -70,11 +72,13 @@ function getCumWeights(matches, weightProperty) {
 
         t_idx = 0
         for (const t of match.blue.teams) {
-            if (!totalWeights[t]) {
-                totalWeights[t] = [match.blue[weightProperty][t_idx], 1]
-            } else {
-                totalWeights[t][0] += match.blue[weightProperty][t_idx]
-                ++totalWeights[t][1] 
+            if (match.blue[weightProperty][t_idx]) {
+                if (!totalWeights[t]) {
+                    totalWeights[t] = [match.blue[weightProperty][t_idx], 1]
+                } else {
+                    totalWeights[t][0] += match.blue[weightProperty][t_idx]
+                    ++totalWeights[t][1] 
+                }
             }
 
             ++t_idx
@@ -126,20 +130,18 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     for (const match of matches) {
         let t_idx = 0
         for (const t of match.red.teams) {
-            console.log("CUM WEIGHT: ", cumWeights[t])
             alliances[m_idx][teamIdx[t]] = match.red[weightProperty][t_idx] 
                 ? match.red[weightProperty][t_idx] 
-                : cumWeights[t]
+                : (cumWeights[t] ?? 0.5)
 
             ++t_idx
         }
 
         t_idx = 0
         for (const t of match.blue.teams) {
-            console.log("CUM WEIGHT: ", cumWeights[t])
             alliances[m_idx + 1][teamIdx[t]] = match.blue[weightProperty][t_idx] 
                 ? match.blue[weightProperty][t_idx] 
-                : cumWeights[t]
+                : ( cumWeights[t] ?? 0.5)
 
             ++t_idx
         }
@@ -152,8 +154,6 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
 
     const oprMatrix = solve(AMatrix, bMatrix)
     const oprMap = {} 
-
-    console.log(cumWeights)
 
     for (let i = 0; i<teamArr.length; ++i) {
         const oprVal = oprMatrix.get(i, 0)  
@@ -207,7 +207,6 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
     for (const match of matches) {
         let t_idx = 0
         for (const t of match.red.teams) {
-            console.log(t, alliances[m_idx])
             alliances[m_idx][teamIdx[t]] = match.red[weightProperty][t_idx] 
             ++t_idx
         }
