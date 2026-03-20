@@ -2,6 +2,7 @@ import { currentPage, paths, requestPage, consoleLog, requestData, checkPage } f
 import { getTeamProperties } from "./team-summary.js"
 import * as graphHandler from "./graphHandler.js"
 
+const PRINT_ZOOM = 60
 
 let data
 let chart
@@ -114,7 +115,7 @@ function onBeforePrint() {
     const headerLogin = document.getElementById("headerlogin")
     headerLogin.style.display = "none"
 
-    document.body.style.zoom = "80%"
+    document.body.style.zoom = PRINT_ZOOM + '%' 
 }
 
 function onAfterPrint() {
