@@ -270,11 +270,13 @@
             <div class="team-display-table-container">
                 <table class="team-display-table">
                     <colgroup>
-                        <col span="1" style="width: 25%">
+                        <col span="1" style="width: 10%">
+                        <col span="1" style="width: 15%">
                     </colgroup>
                     <thead>
                         <tr>
                             <th>Match</th>
+                            <th>Scouter</th>
                             <th>Comment</th>
                         </tr>
                     </thead>
@@ -283,6 +285,9 @@
                             <tr>
                                 <td>
                                     <%= comments[i].game_matchup_gm_number %>
+                                </td>
+                                <td>
+                                    <%= comments[i].gc_um_id %>
                                 </td>
                                 <td>
                                     <%= comments[i].gc_comment %>
