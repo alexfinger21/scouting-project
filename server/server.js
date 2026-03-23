@@ -23,7 +23,7 @@ dotenv.config()
 //DIRECTORIES
 const serverDirectory = "./server"
 const routeDirectory = "routers"
-const useDevServerCompat = process.env.SERVER_DEV_MODE === "true"
+const useDevServerCompat = process.env.SERVER_DEV_MODE === "1"
 
 function importRouter(relativePath) {
     const resolvedPath = path.resolve(serverDirectory, routeDirectory, relativePath)
@@ -64,7 +64,7 @@ if (!useDevServerCompat && !hasHttpsCerts) {
 
 const useHttpsSocketServer = !useDevServerCompat
     ? true
-    : process.env.SOCKET_USE_HTTPS === "true" && hasHttpsCerts
+    : process.env.SOCKET_USE_HTTPS === "1" && hasHttpsCerts
 
 const credentials = useHttpsSocketServer
     ? {
