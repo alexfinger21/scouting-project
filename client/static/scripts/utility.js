@@ -71,7 +71,7 @@ const highlightColors = {
 
 const socket = io.connect(`${window.location.hostname}:5000`, {
     forceNew: true,
-    transports: ["polling"],
+    transports: ["websocket"],
 })
 
 
