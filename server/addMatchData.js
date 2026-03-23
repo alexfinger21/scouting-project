@@ -54,10 +54,12 @@ function getData () {
             }
             const qTimes = gameTimes(qNum)
             //consoleLog("hi", qTimes)
+            /*
             consoleLog("Match output")
             consoleLog(matchOutput)
             consoleLog("Times")
             consoleLog(qTimes)
+            */
             database.query(database.deleteMatchDataX(), (err, res) => {
                 consoleLog(err)
                 //consoleLog(res)
@@ -89,7 +91,7 @@ function gameTimes(matchNum)
             dateTime.setTime(dateTime.getTime() + sched[4]) 
         }
     }
-    consoleLog(gameArray)
+    // consoleLog(gameArray)
     return gameArray
 
 }

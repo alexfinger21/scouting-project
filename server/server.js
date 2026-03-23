@@ -73,15 +73,17 @@ const credentials = useHttpsSocketServer
     }
     : null
 
+console.log("USING dev server format", useDevServerCompat)
+
 const server = useHttpsSocketServer
     ? https.createServer(credentials, app)
     : http.createServer(app)
 
 if (useDevServerCompat) {
     if (useHttpsSocketServer) {
-        console.warn("SERVER_DEV_MODE=true and SOCKET_USE_HTTPS=true; Socket.IO server on port 5001 is using HTTPS.")
+        console.warn("SERVER_DEV_MODE=true and SOCKET_USE_HTTPS=true; Socket.IO server on port 5000 is using HTTPS.")
     } else {
-        console.warn("SERVER_DEV_MODE=true; Socket.IO server on port 5001 is using HTTP for local testing.")
+        console.warn("SERVER_DEV_MODE=true; Socket.IO server on port 5000 is using HTTP for local testing.")
     }
 }
 
@@ -294,7 +296,7 @@ app.listen(3000, "0.0.0.0", (error) => {
     console.log("Listening on port 3000")
 }) //goes to localhost 3000
 
-server.listen(5001, { pingTimeout: 60000, pingInterval: 15000 })
+server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
 
 ;(async function firstCall() {
     const apiRes = await runApiCall()

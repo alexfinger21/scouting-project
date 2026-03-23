@@ -336,10 +336,11 @@ async function syncServer() {
 
         const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
 
-        //const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
-
+        // const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
+        /*
         console.log("teleop opr", teleopOpr)
         console.log("auton opr", autonOpr)
+        */
         //console.log("dpr", dpr)
         /*database.query(database.deleteApiCalc(), (err, res) => {
             if(err) {
