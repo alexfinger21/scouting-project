@@ -129,6 +129,7 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     m_idx = 0;
     for (const match of matches) {
         let t_idx = 0
+
         for (const t of match.red.teams) {
             alliances[m_idx][teamIdx[t]] = match.red[weightProperty][t_idx] 
                 ? match.red[weightProperty][t_idx] 
@@ -138,6 +139,7 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
         }
 
         t_idx = 0
+
         for (const t of match.blue.teams) {
             alliances[m_idx + 1][teamIdx[t]] = match.blue[weightProperty][t_idx] 
                 ? match.blue[weightProperty][t_idx] 
@@ -171,6 +173,7 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
     const alliances = new Array(matches.length * 2)
     const teams = new Set()
     const scores = new Array(alliances.length)
+    const cumWeights = getCumWeights(matches, weightProperty)
 
 
     let m_idx = 0;
@@ -179,14 +182,24 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
             teams.add(t)
         })
 
-        scores[m_idx] = [match.red[scoreProperty] - match.red.teams.reduce(
-            (p, a) => {
-                a + opr[p]
-            }, 0)]
+        /*
+        console.log(match.red[scoreProperty], match.red.teams.reduce(
+            (a, t) => {
+                console.log(t)
+                return a + opr[t]
+            }, 0))
+        console.log("-------------")
+        */
+
 
         scores[m_idx] = [match.blue[scoreProperty] - match.blue.teams.reduce(
-            (p, a) => {
-                a + opr[p]
+            (a, t) => {
+                return a + opr[t]
+            }, 0)]
+
+        scores[m_idx+1] = [match.red[scoreProperty] - match.red.teams.reduce(
+            (a, t) => {
+                return a + opr[t]
             }, 0)]
 
         m_idx += 2
@@ -206,14 +219,20 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
     m_idx = 0;
     for (const match of matches) {
         let t_idx = 0
+
         for (const t of match.red.teams) {
             alliances[m_idx][teamIdx[t]] = match.red[weightProperty][t_idx] 
+                ? match.red[weightProperty][t_idx] 
+                : (cumWeights[t] ?? 0.5)
             ++t_idx
         }
 
         t_idx = 0
+
         for (const t of match.blue.teams) {
             alliances[m_idx+1][teamIdx[t]] = match.blue[weightProperty][t_idx] 
+                ? match.blue[weightProperty][t_idx] 
+                : (cumWeights[t] ?? 0.5)
             ++t_idx
         }
 
@@ -223,14 +242,20 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
     const AMatrix = new Matrix(alliances)
     const bMatrix = new Matrix(scores)
 
-    const oprMatrix = solve(AMatrix, bMatrix)
-    const oprMap = {} 
+    const dprMatrix = solve(AMatrix, bMatrix)
+    const dprMap = {} 
 
     for (let i = 0; i<teamArr.length; ++i) {
-        oprMap[teamArr[i]] = oprMatrix.get(i, 0)
+        const adjustedDpr = -1 * dprMatrix.get(i, 0) * (
+                (!cumWeights[teamArr[i]] || cumWeights[teamArr[i]] == 1)
+                ? 0 
+                : cumWeights[teamArr[i]]
+            )
+
+        dprMap[teamArr[i]] = adjustedDpr 
     }
 
-    return oprMap
+    return dprMap
 }
 
 function postProcessOpr(opr) {
@@ -326,7 +351,8 @@ async function writeBlueAllianceData(matchData) {
 
 async function syncServer() {
     const data = await getMatchData()
-    // console.dir(data, { depth: null, colors: true })
+    console.dir(data, { depth: null, colors: true })
+    
 
     writeBlueAllianceData(data)
 
@@ -335,8 +361,10 @@ async function syncServer() {
         const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
 
         const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
+        console.log(teleopOpr)
 
-        // const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
+        const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
+        console.log(dpr)
         /*
         console.log("teleop opr", teleopOpr)
         console.log("auton opr", autonOpr)
