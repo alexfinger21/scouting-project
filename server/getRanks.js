@@ -350,7 +350,7 @@ async function writeBlueAllianceData(matchData) {
 
 
 async function syncServer() {
-    /*const data = await getMatchData()
+    const data = await getMatchData()
     console.dir(data, { depth: null, colors: true })
     
 
@@ -369,14 +369,14 @@ async function syncServer() {
         console.log("teleop opr", teleopOpr)
         console.log("auton opr", autonOpr)
         */
-        //console.log("dpr", dpr)
-        /*database.query(database.deleteApiCalc(), (err, res) => {
+        console.log("dpr", dpr)
+        database.query(database.deleteApiCalc(), (err, res) => {
             if(err) {
                 console.log(err)
                 return
             }
             else {
-                database.query(database.writeApiCalc(teleopOpr, autonOpr), (err, res => {
+                database.query(database.writeApiCalc(teleopOpr, autonOpr, dpr), (err, res => {
                     if(err) {
                         console.log(err);
                     }
@@ -397,7 +397,7 @@ async function syncServer() {
             //consoleLog(results)
         })
         consoleLog(err)
-    }) */ 
+    }) 
 }
 
 syncServer()

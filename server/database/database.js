@@ -974,7 +974,7 @@ function deleteApiCalc() {
 }
 
 
-function writeApiCalc(teleopOpr, autonOpr) {
+function writeApiCalc(teleopOpr, autonOpr, dpr) {
 	let valuesStr = ""
 	let counter = 0
 	const timestamp = new Date()
@@ -983,17 +983,18 @@ function writeApiCalc(teleopOpr, autonOpr) {
 	for (const [team, teleopFuel] of Object.entries(teleopOpr)) {
 		counter++
 		const autonFuel = autonOpr[team]
-		const str = `(${gameConstants.YEAR}, '${gameConstants.COMP}', ${team}, NOW(), ${autonFuel}, ${teleopFuel})`
+    const teamDpr = dpr[team]
+		const str = `(${gameConstants.YEAR}, '${gameConstants.COMP}', ${team}, NOW(), ${autonFuel}, ${teleopFuel}, ${teamDpr})`
 		const comma = Object.keys(teleopOpr).length != counter ? "," : ""
 
 		valuesStr += str + comma 
 	}
 
 	const sqlStr = `INSERT teamsixn_scouting_dev.api_calc
-	(frc_season_master_sm_year, competition_master_cm_event_code, team_master_tm_number, api_calc_ts, api_auton_opr_calc, api_teleop_opr_calc)
+	(frc_season_master_sm_year, competition_master_cm_event_code, team_master_tm_number, api_calc_ts, api_auton_opr_calc, api_teleop_opr_calc, api_dpr_calc)
 	VALUES ${valuesStr};`
 
-	//console.log(valuesStr)
+	console.log(valuesStr)
 
 	return sqlStr
 
