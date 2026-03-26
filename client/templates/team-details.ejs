@@ -78,13 +78,13 @@
                                     <%= teamData[i].teleop_fuel_score %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_cycling_time %>
+                                    <%= (teamData[i].teleop_cycling_time/1000).toFixed(1) %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_stockpiling_time %>
+                                    <%= (teamData[i].teleop_stockpiling_time/1000).toFixed(1) %>
                                 </td>
                                 <td>
-                                    <%= teamData[i].teleop_defense_time %>
+                                    <%= (teamData[i].teleop_defense_time/1000).toFixed(1) %>
                                 </td>
                                 <td>
                                     <% if (teamData[i].endgame_climb_l1_success) { %>
