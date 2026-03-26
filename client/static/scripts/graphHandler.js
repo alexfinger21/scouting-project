@@ -671,10 +671,6 @@ function createStackedBarGraph(points, orderBy, scoring, backgroundColor) {
 				}
 			},
 		},
-plugins: {
-      // Enable the plugin here
-      stacked100: { enable: true } 
-    },
 	}
 }
 

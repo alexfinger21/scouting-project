@@ -1,7 +1,6 @@
 import * as graphHandler from "./graphHandler.js"
 import { paths, requestData, highlightColors, currentPage, consoleLog } from "./utility.js"
 
-Chart.register(ChartjsPluginStacked100)
 
 const POINT_COLOR = "rgb(147, 157, 168)"
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
@@ -53,82 +52,100 @@ function getMatchTeams(matchNum) {
 }
 
 export function getTeamProperties(team) {
-	const endgameClimbScoreAvg = team.endgame_climb_l1_success_avg * 10 + team.endgame_climb_l2_success_avg * 20 + team.endgame_climb_l3_success_avg * 30
-	return {
-		// Identifiers & Meta
-		teamNumber: team.team_master_tm_number,
-		teamName: team.tm_name,
-		seasonYear: team.frc_season_master_sm_year,
-		eventCode: team.competition_master_cm_event_code,
-		gameType: team.game_matchup_gm_game_type,
-		gamesPlayed: team.nbr_games,
+    const endgameClimbScoreAvg = team.endgame_climb_l1_success_avg * 10 + team.endgame_climb_l2_success_avg * 20 + team.endgame_climb_l3_success_avg * 30
+    const defenseTimes = {
+        defensiveShiftStockpilingTimeAvg: team.defensive_first_shift_stockpiling_avg + team.defensive_second_shift_stockpiling_avg,
+        defensiveShiftCyclingTimeAvg: team.defensive_first_shift_cycling_avg + team.defensive_second_shift_cycling_avg,
+        defensiveShiftDefenseTimeAvg: team.defensive_first_shift_defense_avg + team.defensive_second_shift_defense_avg,
+        defensiveShiftBrokenTimeAvg: team.defensive_first_shift_broken_avg + team.defensive_second_shift_broken_avg,	
+    }
+    const offenseTimes = {
+        offensiveShiftStockpilingTimeAvg: team.offensive_first_shift_stockpiling_avg + team.offensive_second_shift_stockpiling_avg,
+        offensiveShiftCyclingTimeAvg: team.offensive_first_shift_cycling_avg + team.offensive_second_shift_cycling_avg,
+        offensiveShiftDefenseTimeAvg: team.offensive_first_shift_defense_avg + team.offensive_second_shift_defense_avg,
+        offensiveShiftBrokenTimeAvg: team.offensive_first_shift_broken_avg + team.offensive_second_shift_broken_avg,
+    }
+    
+    const totalDefenseTime = Object.values(defenseTimes).reduce((acc, val) => acc + val, 0) || 1
+    const totalOffenseTime = Object.values(offenseTimes).reduce((acc, val) => acc + val, 0) || 1
 
-		// Calculated Stats
-		gameScore: team.api_auton_opr_calc + team.auton_climb_successful_avg * 15 + team.api_teleop_opr_calc + endgameClimbScoreAvg,
-		autonScore: team.api_auton_opr_calc + team.auton_climb_successful_avg * 15,
-		teleopScore: team.api_teleop_opr_calc,
-		endgameClimbScoreAvg: endgameClimbScoreAvg,	
-		defensiveEffect: team.api_dpr * (team.teleop_defense_time_avg + team.teleop_stockpiling_time_avg),
-		totalClimbScoreAvg: team.auton_climb_successful_avg * 15 + endgameClimbScoreAvg,
-		totalFuelScoreAvg: team.auton_fuel_score_avg + team.teleop_fuel_score_avg,
-		reliabilityIndex: 150 - team.teleop_broken_time_avg,
-		fieldTraversalIndex: 0,
-		defenseResistance: team.robot_drive_under_trench_avg + team.robot_drive_over_bump_avg + team.robot_shoot_while_moving_avg + team.robot_shoot_from_anywhere_avg + team.auton_climb_successful_avg + 5* (endgameClimbScoreAvg + team.auton_fuel_score_avg)/team.total_score_avg,
+    return {
+        // Identifiers & Meta
+        teamNumber: team.team_master_tm_number,
+        teamName: team.tm_name,
+        seasonYear: team.frc_season_master_sm_year,
+        eventCode: team.competition_master_cm_event_code,
+        gameType: team.game_matchup_gm_game_type,
+        gamesPlayed: team.nbr_games,
 
-		defensiveShiftStockpilingTimeAvg: team.defensive_first_shift_stockpiling_avg + team.defensive_second_shift_stockpiling_avg,
-		defensiveShiftCyclingTimeAvg: team.defensive_first_shift_cycling_avg + team.defensive_second_shift_cycling_avg,
-		defensiveShiftDefenseTimeAvg: team.defensive_first_shift_defense_avg + team.defensive_second_shift_defense_avg,
-		defensiveShiftBrokenTimeAvg: team.defensive_first_shift_broken_avg + team.defensive_second_shift_broken_avg,	
+        // Calculated Stats
+        gameScore: team.api_auton_opr_calc + team.auton_climb_successful_avg * 15 + team.api_teleop_opr_calc + endgameClimbScoreAvg,
+        autonScore: team.api_auton_opr_calc + team.auton_climb_successful_avg * 15,
+        teleopScore: team.api_teleop_opr_calc,
+        endgameClimbScoreAvg: endgameClimbScoreAvg,	
+        defensiveEffect: team.api_dpr * (team.teleop_defense_time_avg + team.teleop_stockpiling_time_avg),
+        totalClimbScoreAvg: team.auton_climb_successful_avg * 15 + endgameClimbScoreAvg,
+        totalFuelScoreAvg: team.auton_fuel_score_avg + team.teleop_fuel_score_avg,
+        reliabilityIndex: 150 - team.teleop_broken_time_avg,
+        fieldTraversalIndex: 0,
+        defenseResistance: team.robot_drive_under_trench_avg + team.robot_drive_over_bump_avg + team.robot_shoot_while_moving_avg + team.robot_shoot_from_anywhere_avg + team.auton_climb_successful_avg + 5* (endgameClimbScoreAvg + team.auton_fuel_score_avg)/team.total_score_avg,
+        // Defense Time Percentages,
+        defensiveStockpiling: defenseTimes.defensiveShiftStockpilingTimeAvg / totalDefenseTime,
+        defensiveCycling: defenseTimes.defensiveShiftCyclingTimeAvg / totalDefenseTime,
+        defensiveDefense: defenseTimes.defensiveShiftDefenseTimeAvg / totalDefenseTime,
+        defensiveBroken: defenseTimes.defensiveShiftBrokenTimeAvg / totalDefenseTime,
 
-		offensiveShiftStockpilingTimeAvg: team.offensive_first_shift_stockpiling_avg + team.offensive_second_shift_stockpiling_avg,
-		offensiveShiftCyclingTimeAvg: team.offensive_first_shift_cycling_avg + team.offensive_second_shift_cycling_avg,
-		offensiveShiftDefenseTimeAvg: team.offensive_first_shift_defense_avg + team.offensive_second_shift_defense_avg,
-		offensiveShiftBrokenTimeAvg: team.offensive_first_shift_broken_avg + team.offensive_second_shift_broken_avg,
-		// Auton Stats
-		autonFuelCountSum: team.auton_fuel_count_sum,
-		autonFuelCountAvg: team.auton_fuel_count_avg,
-		autonFuelScoreSum: team.auton_fuel_score_sum,
-		autonFuelScoreAvg: team.auton_fuel_score_avg,
-		autonClimbAttemptSum: team.auton_climb_attempt_sum,
-		autonClimbAttemptAvg: team.auton_climb_attempt_avg,
-		autonClimbSuccessSum: team.auton_climb_successful_sum,
-		autonClimbSuccessAvg: team.auton_climb_successful_avg,
+        // Offense Time Percentages,
+        offensiveStockpiling: offenseTimes.offensiveShiftStockpilingTimeAvg / totalOffenseTime,
+        offensiveCycling: offenseTimes.offensiveShiftCyclingTimeAvg / totalOffenseTime,
+        offensiveDefense: offenseTimes.offensiveShiftDefenseTimeAvg / totalOffenseTime,
+        offensiveBroken: offenseTimes.offensiveShiftBrokenTimeAvg / totalOffenseTime,
 
-		// Teleop Stats
-		teleopCyclingTimeSum: team.teleop_cycling_time_sum,
-		teleopCyclingTimeAvg: team.teleop_cycling_time_avg,
-		teleopStockpilingTimeSum: team.teleop_stockpiling_time_sum,
-		teleopStockpilingTimeAvg: team.teleop_stockpiling_time_avg,
-		teleopDefenseTimeSum: team.teleop_defense_time_sum,
-		teleopDefenseTimeAvg: team.teleop_defense_time_avg,
-		teleopBrokenTimeSum: team.teleop_broken_time_sum,
-		teleopBrokenTimeAvg: team.teleop_broken_time_avg,
-		teleopFuelCountSum: team.teleop_fuel_count_sum,
-		teleopFuelCountAvg: team.teleop_fuel_count_avg,
-		teleopFuelScoreSum: team.teleop_fuel_score_sum,
-		teleopFuelScoreAvg: team.teleop_fuel_score_avg,
+        // Auton Stats
+        autonFuelCountSum: team.auton_fuel_count_sum,
+        autonFuelCountAvg: team.auton_fuel_count_avg,
+        autonFuelScoreSum: team.auton_fuel_score_sum,
+        autonFuelScoreAvg: team.auton_fuel_score_avg,
+        autonClimbAttemptSum: team.auton_climb_attempt_sum,
+        autonClimbAttemptAvg: team.auton_climb_attempt_avg,
+        autonClimbSuccessSum: team.auton_climb_successful_sum,
+        autonClimbSuccessAvg: team.auton_climb_successful_avg,
 
-		// Endgame Stats
-		endgameClimbAttemptSum: team.endgame_climb_attempt_sum,
-		endgameClimbAttemptAvg: team.endgame_climb_attempt_avg,
-		endgameClimbL1SuccessSum: team.endgame_climb_l1_success_sum,
-		endgameClimbL1SuccessAvg: team.endgame_climb_l1_success_avg,
-		endgameClimbL2SuccessSum: team.endgame_climb_l2_success_sum,
-		endgameClimbL2SuccessAvg: team.endgame_climb_l2_success_avg,
-		endgameClimbL3SuccessSum: team.endgame_climb_l3_success_sum,
-		endgameClimbL3SuccessAvg: team.endgame_climb_l3_success_avg,
+        // Teleop Stats
+        teleopCyclingTimeSum: team.teleop_cycling_time_sum,
+        teleopCyclingTimeAvg: team.teleop_cycling_time_avg,
+        teleopStockpilingTimeSum: team.teleop_stockpiling_time_sum,
+        teleopStockpilingTimeAvg: team.teleop_stockpiling_time_avg,
+        teleopDefenseTimeSum: team.teleop_defense_time_sum,
+        teleopDefenseTimeAvg: team.teleop_defense_time_avg,
+        teleopBrokenTimeSum: team.teleop_broken_time_sum,
+        teleopBrokenTimeAvg: team.teleop_broken_time_avg,
+        teleopFuelCountSum: team.teleop_fuel_count_sum,
+        teleopFuelCountAvg: team.teleop_fuel_count_avg,
+        teleopFuelScoreSum: team.teleop_fuel_score_sum,
+        teleopFuelScoreAvg: team.teleop_fuel_score_avg,
 
-		// API/Ranking Stats
-		rank: team.api_rank ?? 0,
-		win: team.api_win ?? 0,
-		loss: team.api_loss ?? 0,
-		tie: team.api_tie ?? 0,
-		dq: team.api_dq ?? 0,
-		opr: team.api_opr ?? 0,
-		dpr: team.api_dpr ?? 0,
-		oprRank: team.api_opr_rank ?? 0,
-		dprRank: team.api_dpr_rank ?? 0,
-	}
+        // Endgame Stats
+        endgameClimbAttemptSum: team.endgame_climb_attempt_sum,
+        endgameClimbAttemptAvg: team.endgame_climb_attempt_avg,
+        endgameClimbL1SuccessSum: team.endgame_climb_l1_success_sum,
+        endgameClimbL1SuccessAvg: team.endgame_climb_l1_success_avg,
+        endgameClimbL2SuccessSum: team.endgame_climb_l2_success_sum,
+        endgameClimbL2SuccessAvg: team.endgame_climb_l2_success_avg,
+        endgameClimbL3SuccessSum: team.endgame_climb_l3_success_sum,
+        endgameClimbL3SuccessAvg: team.endgame_climb_l3_success_avg,
+
+        // API/Ranking Stats
+        rank: team.api_rank ?? 0,
+        win: team.api_win ?? 0,
+        loss: team.api_loss ?? 0,
+        tie: team.api_tie ?? 0,
+        dq: team.api_dq ?? 0,
+        opr: team.api_opr ?? 0,
+        dpr: team.api_dpr ?? 0,
+        oprRank: team.api_opr_rank ?? 0,
+        dprRank: team.api_dpr_rank ?? 0,
+    }
 
 }
 
@@ -166,19 +183,19 @@ function getPoints(x, y, color) {
                 color = highlightColors[val.team_master_tm_number]
                 hidden = false
             }
-		const point = getTeamProperties(val)
+            const point = getTeamProperties(val)
 
-		if (point[x] == undefined) {
-			++noVal
-		}
-		// Graph Plotting
-		point.x = point[x] ? point[x] : 0
-		point.y = point[y] ? point[y] : 0
-		point.color = color
-		point.hidden = hidden
-		points.push(point)
+            if (point[x] == undefined) {
+                ++noVal
+            }
+            // Graph Plotting
+            point.x = point[x] ? point[x] : 0
+            point.y = point[y] ? point[y] : 0
+            point.color = color
+            point.hidden = hidden
+            points.push(point)
 
-	ind++
+            ind++
         }
     }
 
@@ -290,7 +307,7 @@ async function main() {
                     consoleLog("POINTS NOT FOUND!")
                     return false
                 }
-                
+
                 break
             case 1:
                 switchChart("bar")
@@ -309,7 +326,7 @@ async function main() {
                 } else if (!points) {
                     return false
                 }
-                
+
                 break
             case 2:
                 switchChart("spider")
@@ -319,14 +336,14 @@ async function main() {
                     const config = await graphHandler.createSpiderChart(
                         points,
                     )
-			console.log("SPIDER CHART CONFIG", config)
+                    console.log("SPIDER CHART CONFIG", config)
                     chart = new Chart(ctx,
                         config
                     )
                 } else if (!points) {
                     return false
                 }
-                
+
                 break
             case 3: //defensive shift breakdown
                 switchChart("bar")
@@ -337,7 +354,7 @@ async function main() {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
-                            ["defensiveShiftCyclingTimeAvg", "defensiveShiftStockpilingTimeAvg", "defensiveShiftDefenseTimeAvg","defensiveShiftBrokenTimeAvg"],
+                            ["defensiveCycling", "defensiveStockpiling", "defensiveDefense","defensiveBroken"],
                             "gameScore",
                             ["rgb(47, 237, 174)", "rgb(239, 220, 112)", "rgb(128, 193, 255)", "rgb(255, 113, 91)"]   
                         )
@@ -355,7 +372,7 @@ async function main() {
                     chart = new Chart(ctx,
                         graphHandler.createStackedBarGraph(
                             points,
-                            ["offensiveShiftCyclingTimeAvg", "defensiveShiftStockpilingTimeAvg", "defensiveShiftDefenseTimeAvg","defensiveShiftBrokenTimeAvg"],
+                            ["offensiveCycling", "offensiveStockpiling", "offensiveDefense","offensiveBroken"],
                             "gameScore",
                             ["rgb(47, 237, 174)", "rgb(239, 220, 112)", "rgb(128, 193, 255)", "rgb(255, 113, 91)"]   
                         )
@@ -375,13 +392,13 @@ async function main() {
                         graphHandler.createStackedBarGraph(
                             points,
                             ["teleopCyclingTimeAvg", "teleopStockpilingTimeAvg", "teleopDefenseTimeAvg", "teleopBrokenTimeAvg"],
-				"gameScore"
+                            "gameScore"
                         )
                     )
                 } else if (!points) {
                     return false
                 }
-                
+
                 break
             case 6: // Total game points on average by section
                 switchChart("bar")
@@ -399,7 +416,7 @@ async function main() {
                 } else if (!points) {
                     return false
                 }
-                
+
                 break
         }
 
