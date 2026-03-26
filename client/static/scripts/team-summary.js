@@ -82,6 +82,7 @@ export function getTeamProperties(team) {
         gameScore: team.api_auton_opr_calc + team.auton_climb_successful_avg * 15 + team.api_teleop_opr_calc + endgameClimbScoreAvg,
         autonScore: team.api_auton_opr_calc + team.auton_climb_successful_avg * 15,
         teleopScore: team.api_teleop_opr_calc,
+        dprCalc: team.api_dpr_calc,
         endgameClimbScoreAvg: endgameClimbScoreAvg,	
         defensiveEffect: team.api_dpr * (team.teleop_defense_time_avg + team.teleop_stockpiling_time_avg),
         totalClimbScoreAvg: team.auton_climb_successful_avg * 15 + endgameClimbScoreAvg,
@@ -293,7 +294,7 @@ async function main() {
                 consoleLog("TRY TO SWITCH")
                 switchChart("scatter")
                 ctx = scatterPlotCanvas.getContext("2d")
-                points = await getPoints("rank", "gameScore")
+                points = getPoints("rank", "gameScore")
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
@@ -312,7 +313,7 @@ async function main() {
             case 1:
                 switchChart("bar")
 
-                points = await getPoints("teamNumber", "gameScore`", POINT_COLOR)
+                points = getPoints("teamNumber", "gameScore`", POINT_COLOR)
 
 
                 if (oldCurrentChart == currentChart && points) {
@@ -330,7 +331,7 @@ async function main() {
                 break
             case 2:
                 switchChart("spider")
-                points = await getPoints("teamNumber", "gameScore`", POINT_COLOR)
+                points = getPoints("teamNumber", "gameScore`", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart && points) {
                     const config = await graphHandler.createSpiderChart(
@@ -348,7 +349,7 @@ async function main() {
             case 3: //defensive shift breakdown
                 switchChart("bar")
 
-                points = await getPoints("teamNumber", "gameScore`", POINT_COLOR)
+                points = getPoints("teamNumber", "gameScore`", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
@@ -366,7 +367,7 @@ async function main() {
             case 4: //offensive shift breakdown
                 switchChart("bar")
 
-                points = await getPoints("teamNumber", "gameScore`", POINT_COLOR)
+                points = getPoints("teamNumber", "gameScore`", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
@@ -385,7 +386,7 @@ async function main() {
             case 5: //total time breakdown
                 switchChart("bar")
 
-                points = await getPoints("teamNumber", "gameScore`", POINT_COLOR)
+                points = getPoints("teamNumber", "gameScore`", POINT_COLOR)
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
@@ -401,21 +402,22 @@ async function main() {
 
                 break
             case 6: // Total game points on average by section
-                switchChart("bar")
-
-                points = await getPoints("teamNumber", "gameScore`", POINT_COLOR)
+                points = getPoints("rank", "dprCalc")
 
                 if (oldCurrentChart == currentChart && points) {
                     chart = new Chart(ctx,
-                        graphHandler.createStackedBarGraph(
+                        graphHandler.createScatterChart(
                             points,
-                            ["autonFuelScoreAvg", "teleopFuelScoreAvg", "endgameClimbScoreAvg"],
-                            "gameScore",
+                            "FRC Rank", //x axis title
+                            "Defense Score" //y axis title
                         )
                     )
                 } else if (!points) {
+                    consoleLog("POINTS NOT FOUND!")
                     return false
                 }
+
+
 
                 break
         }
