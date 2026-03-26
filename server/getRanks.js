@@ -350,7 +350,7 @@ async function writeBlueAllianceData(matchData) {
 
 
 async function syncServer() {
-    const data = await getMatchData()
+    /*const data = await getMatchData()
     console.dir(data, { depth: null, colors: true })
     
 
@@ -382,7 +382,7 @@ async function syncServer() {
                     }
                 }))
             }
-        }) */
+        }) 
     } catch(err) {
         console.log("error saving opr:", err)
     }
@@ -397,7 +397,7 @@ async function syncServer() {
             //consoleLog(results)
         })
         consoleLog(err)
-    }) 
+    }) */ 
 }
 
 syncServer()

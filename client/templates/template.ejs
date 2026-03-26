@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>Team 695: Scoutify</title>
-    <link rel="icon" href="../static/images/bison-robotics.png" type="image/x-icon">
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
-    <link rel="stylesheet" href="../static/universal.css">
-    <link rel="stylesheet" href="../static/data-collection.css">
-    <link rel="stylesheet" href="../static/team-summary.css">
-    <link rel="stylesheet" href="../static/match-strategy.css">
-    <link rel="stylesheet" href="../static/alliance-selector.css">
-    <link rel="stylesheet" href="../static/match-listing.css">
-    <link rel="stylesheet" href="../static/admin-page.css">
-    <link rel="stylesheet" href="../static/pit-scouting.css">
-    <link rel="stylesheet" href="../static/team-details.css">
-    <link rel="stylesheet" href="../static/alliance-input.css">
-    <link rel="stylesheet" href="../static/rankings.css">
-    <link rel="stylesheet" href="../static/data-accuracy.css">
-    
-    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-    <script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
-    <script type="module" src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script>
-    <script type="module" src="../static/scripts/team-summary.js" defer></script>
-    <script type="module" src="../static/scripts/data-collection.js" defer></script>
-    <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
-    <script type="module" src="../static/scripts/bottomBar.js" defer></script>
-    <script type="module" src="../static/scripts/match-listing.js" defer></script>
-    <script type="module" src="../static/scripts/match-verify.js" defer></script>
-    <script type="module" src="../static/scripts/admin-page.js" defer></script>
-    <script type="module" src="../static/scripts/match-strategy.js" defer></script>
-    <script type="module" src="../static/scripts/rankings.js" defer></script>
-    <script type="module" src="../static/scripts/team-details.js" defer></script>
-    <script type="module" src="../static/scripts/alliance-input.js" defer></script>
-    <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
-    <script type="module" src="../static/scripts/dragDropPolyfill.js" defer></script>
-    <script type="module" src="../static/scripts/header.js" defer></script>
-    <script type="module" src="../static/scripts/data-accuracy.js" defer></script>
-    <script type="module" src="../static/scripts/casdoor-config.js" defer></script>
+    <head>
+        <title>Team 695: Scoutify</title>
+        <link rel="icon" href="../static/images/bison-robotics.png" type="image/x-icon">
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+        <link rel="stylesheet" href="../static/universal.css">
+        <link rel="stylesheet" href="../static/data-collection.css">
+        <link rel="stylesheet" href="../static/team-summary.css">
+        <link rel="stylesheet" href="../static/match-strategy.css">
+        <link rel="stylesheet" href="../static/alliance-selector.css">
+        <link rel="stylesheet" href="../static/match-listing.css">
+        <link rel="stylesheet" href="../static/admin-page.css">
+        <link rel="stylesheet" href="../static/pit-scouting.css">
+        <link rel="stylesheet" href="../static/team-details.css">
+        <link rel="stylesheet" href="../static/alliance-input.css">
+        <link rel="stylesheet" href="../static/rankings.css">
+        <link rel="stylesheet" href="../static/data-accuracy.css">
 
-</head>
-<body>
-    <%- include("../static/partials/header") %>
-    <div id="page-holder">
-        <form page="scouting-page" style="display:none">
-            <p id="access-denied">Loading...</p>
-        </form>
-    </div>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js" defer></script>
+        <script type="module" src="https://cdn.socket.io/4.5.4/socket.io.min.js" defer></script>
+        <script type="module" src="../static/scripts/team-summary.js" defer></script>
+        <script type="module" src="../static/scripts/data-collection.js" defer></script>
+        <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
+        <script type="module" src="../static/scripts/bottomBar.js" defer></script>
+        <script type="module" src="../static/scripts/match-listing.js" defer></script>
+        <script type="module" src="../static/scripts/match-verify.js" defer></script>
+        <script type="module" src="../static/scripts/admin-page.js" defer></script>
+        <script type="module" src="../static/scripts/match-strategy.js" defer></script>
+        <script type="module" src="../static/scripts/rankings.js" defer></script>
+        <script type="module" src="../static/scripts/team-details.js" defer></script>
+        <script type="module" src="../static/scripts/alliance-input.js" defer></script>
+        <script type="module" src="../static/scripts/alliance-selector.js" defer></script>
+        <script type="module" src="../static/scripts/dragDropPolyfill.js" defer></script>
+        <script type="module" src="../static/scripts/header.js" defer></script>
+        <script type="module" src="../static/scripts/data-accuracy.js" defer></script>
+        <script type="module" src="../static/scripts/casdoor-config.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-stacked100@1.0.0"></script>
+    </head>
+    <body>
+        <%- include("../static/partials/header") %>
+        <div id="page-holder">
+            <form page="scouting-page" style="display:none">
+                <p id="access-denied">Loading...</p>
+            </form>
+        </div>
 
-    <%- include("../static/partials/footer") %>
-</body>
+        <%- include("../static/partials/footer") %>
+    </body>

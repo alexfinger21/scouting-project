@@ -1,6 +1,8 @@
 import * as graphHandler from "./graphHandler.js"
 import { paths, requestData, highlightColors, currentPage, consoleLog } from "./utility.js"
 
+Chart.register(ChartjsPluginStacked100)
+
 const POINT_COLOR = "rgb(147, 157, 168)"
 const HIGHTLIGHT_COLOR = "rgb(158, 225, 87)"
 const RED_COLOR = "rgb(225,87,89)"
@@ -281,7 +283,7 @@ async function main() {
                         graphHandler.createScatterChart(
                             points,
                             "FRC Rank", //x axis title
-                            "Estimated Score" //y axis title
+                            "Power Score" //y axis title
                         )
                     )
                 } else if (!points) {
