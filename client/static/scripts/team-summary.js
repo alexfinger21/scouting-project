@@ -53,24 +53,32 @@ function getMatchTeams(matchNum) {
 
 export function getTeamProperties(team) {
     const endgameClimbScoreAvg = team.endgame_climb_l1_success_avg * 10 + team.endgame_climb_l2_success_avg * 20 + team.endgame_climb_l3_success_avg * 30
+    
     const defenseTimes = {
         defensiveShiftStockpilingTimeAvg: team.defensive_first_shift_stockpiling_avg + team.defensive_second_shift_stockpiling_avg,
         defensiveShiftCyclingTimeAvg: team.defensive_first_shift_cycling_avg + team.defensive_second_shift_cycling_avg,
         defensiveShiftDefenseTimeAvg: team.defensive_first_shift_defense_avg + team.defensive_second_shift_defense_avg,
         defensiveShiftBrokenTimeAvg: team.defensive_first_shift_broken_avg + team.defensive_second_shift_broken_avg,	
     }
+
     const offenseTimes = {
         offensiveShiftStockpilingTimeAvg: team.offensive_first_shift_stockpiling_avg + team.offensive_second_shift_stockpiling_avg,
         offensiveShiftCyclingTimeAvg: team.offensive_first_shift_cycling_avg + team.offensive_second_shift_cycling_avg,
         offensiveShiftDefenseTimeAvg: team.offensive_first_shift_defense_avg + team.offensive_second_shift_defense_avg,
         offensiveShiftBrokenTimeAvg: team.offensive_first_shift_broken_avg + team.offensive_second_shift_broken_avg,
     }
-    
+
+    const teleopTimes = {
+        teleopCycling: team.teleop_cycling_time_avg,
+        teleopStockpiling: team.teleop_stockpiling_time_avg,
+        teleopDefense: team.teleop_defense_time_avg,
+        teleopBroken: team.teleop_broken_time_avg,
+    } 
+
     const totalDefenseTime = Object.values(defenseTimes).reduce((acc, val) => acc + val, 0) || 1
     const totalOffenseTime = Object.values(offenseTimes).reduce((acc, val) => acc + val, 0) || 1
-
-    return {
-        // Identifiers & Meta
+    const totalTeleopTime = Object.values(teleopTimes).reduce((acc, val) => acc + val, 0) || 1
+    return { // Identifiers & Meta
         teamNumber: team.team_master_tm_number,
         teamName: team.tm_name,
         seasonYear: team.frc_season_master_sm_year,
@@ -90,17 +98,18 @@ export function getTeamProperties(team) {
         reliabilityIndex: 150 - team.teleop_broken_time_avg,
         fieldTraversalIndex: 0,
         defenseResistance: team.robot_drive_under_trench_avg + team.robot_drive_over_bump_avg + team.robot_shoot_while_moving_avg + team.robot_shoot_from_anywhere_avg + team.auton_climb_successful_avg + 5* (endgameClimbScoreAvg + team.auton_fuel_score_avg)/team.total_score_avg,
+
         // Defense Time Percentages,
-        defensiveStockpiling: defenseTimes.defensiveShiftStockpilingTimeAvg / totalDefenseTime,
-        defensiveCycling: defenseTimes.defensiveShiftCyclingTimeAvg / totalDefenseTime,
-        defensiveDefense: defenseTimes.defensiveShiftDefenseTimeAvg / totalDefenseTime,
-        defensiveBroken: defenseTimes.defensiveShiftBrokenTimeAvg / totalDefenseTime,
+        defensiveStockpiling: defenseTimes.defensiveShiftStockpilingTimeAvg / totalDefenseTime * 100,
+        defensiveCycling: defenseTimes.defensiveShiftCyclingTimeAvg / totalDefenseTime * 100,
+        defensiveDefense: defenseTimes.defensiveShiftDefenseTimeAvg / totalDefenseTime * 100,
+        defensiveBroken: defenseTimes.defensiveShiftBrokenTimeAvg / totalDefenseTime * 100,
 
         // Offense Time Percentages,
-        offensiveStockpiling: offenseTimes.offensiveShiftStockpilingTimeAvg / totalOffenseTime,
-        offensiveCycling: offenseTimes.offensiveShiftCyclingTimeAvg / totalOffenseTime,
-        offensiveDefense: offenseTimes.offensiveShiftDefenseTimeAvg / totalOffenseTime,
-        offensiveBroken: offenseTimes.offensiveShiftBrokenTimeAvg / totalOffenseTime,
+        offensiveStockpiling: offenseTimes.offensiveShiftStockpilingTimeAvg / totalOffenseTime  * 100,
+        offensiveCycling: offenseTimes.offensiveShiftCyclingTimeAvg / totalOffenseTime * 100,
+        offensiveDefense: offenseTimes.offensiveShiftDefenseTimeAvg / totalOffenseTime * 100,
+        offensiveBroken: offenseTimes.offensiveShiftBrokenTimeAvg / totalOffenseTime * 100,
 
         // Auton Stats
         autonFuelCountSum: team.auton_fuel_count_sum,
@@ -113,16 +122,11 @@ export function getTeamProperties(team) {
         autonClimbSuccessAvg: team.auton_climb_successful_avg,
 
         // Teleop Stats
-        teleopCyclingTimeSum: team.teleop_cycling_time_sum,
-        teleopCyclingTimeAvg: team.teleop_cycling_time_avg,
-        teleopStockpilingTimeSum: team.teleop_stockpiling_time_sum,
-        teleopStockpilingTimeAvg: team.teleop_stockpiling_time_avg,
-        teleopDefenseTimeSum: team.teleop_defense_time_sum,
-        teleopDefenseTimeAvg: team.teleop_defense_time_avg,
-        teleopBrokenTimeSum: team.teleop_broken_time_sum,
-        teleopBrokenTimeAvg: team.teleop_broken_time_avg,
-        teleopFuelCountSum: team.teleop_fuel_count_sum,
-        teleopFuelCountAvg: team.teleop_fuel_count_avg,
+        teleopCyclingTimeAvg: teleopTimes.teleopCycling / totalTeleopTime * 100,
+        teleopStockpilingTimeAvg: teleopTimes.teleopStockpiling / totalTeleopTime * 100,
+        teleopDefenseTimeAvg: teleopTimes.teleopDefense / totalTeleopTime * 100,
+        teleopBrokenTimeAvg: teleopTimes.teleopBroken / totalTeleopTime * 100,
+        teleopFuelCountAvg: teleopTimes.teleop_fuel_count_avg,
         teleopFuelScoreSum: team.teleop_fuel_score_sum,
         teleopFuelScoreAvg: team.teleop_fuel_score_avg,
 
