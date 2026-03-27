@@ -120,6 +120,8 @@ window.addEventListener("load", () => {
 
     const teamDetailsButton = document.getElementById("team-details-button")
     teamDetailsButton.addEventListener("click", () =>  {
+        let pageHolder = document.getElementById("page-holder")
+        pageHolder.textContent = "Loading . . ."
         requestPage(paths.teamDetails)
         hideHighlight(hoverButton)
     })

@@ -12,16 +12,20 @@ const router = express.Router()
 // Old Scouting APP Database stuff
 // -------------------------------------- 
 router.get("/", async function (req, res) {
+    //console.log("1 "+Date.now());
     //only gets used if the url == team-details
     let [err1, team_results] = await database.query(
         database.getTeamDetailsTeamData(),
     )
+    //console.log("2 "+Date.now());
 
     team_results = JSON.parse(JSON.stringify(team_results))
     let teamNumber = req.query.team || 695
     const selectedPage = req.query.selectedPage || "game-data-page"
 
     let matchVideos
+
+    //console.log("3 "+Date.now());
 
     try {
         matchVideos = await getMatchVideos()
@@ -36,6 +40,9 @@ router.get("/", async function (req, res) {
         teamInfo = team_results[0]
         teamNumber = team_results[0].team_master_tm_number
     }
+
+
+    //console.log("4 "+Date.now());
 
     let [err2, results] = await database.query(SQL`SELECT DISTINCT gd.gd_um_id, vmd.*
         FROM teamsixn_scouting_dev.game_details gd
@@ -58,10 +65,15 @@ router.get("/", async function (req, res) {
         vmd.game_matchup_gm_alliance_position = gd.game_matchup_gm_alliance_position; `)
     results = JSON.parse(JSON.stringify(results))
 
+
+    //console.log("5 "+Date.now());
+
     let [err4, comments] = await database.query(
         database.getMatchComments(teamNumber),
     )
     comments = JSON.parse(JSON.stringify(comments))
+
+    //console.log("6 "+Date.now());
 
     // Get auton paths for the team to display on the team details page
     let [err5, autonPaths] = await database.query(
@@ -72,10 +84,18 @@ router.get("/", async function (req, res) {
         autonPathEncoded: encodeURIComponent(String(entry.gd_auton_path ?? "")),
     }))
 
+    //console.log("7 "+Date.now());
+
     const teamData = results
         .slice()
         .sort((a, b) => a.game_matchup_gm_number - b.game_matchup_gm_number)
+
+    //console.log("8 "+Date.now());
+    
     const pitScoutingData = await getPitScoutingData(req, teamNumber, team_results)
+
+
+    //console.log("9 "+Date.now());
 
     res.render("team-details", {
         teams: team_results

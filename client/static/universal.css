@@ -96,9 +96,17 @@ input::-webkit-inner-spin-button {
   object-fit: cover;
 }
 
-#username-holder {
+
+.NameAndEventCodeContainer {
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 8%;
+}
+
+#VERYSPECIFICALLYNAMEDEVENTCODE-holder {
   pointer-events: none;
-  text-align: center;
+  text-align: right;
   color: rgb(255, 255, 255);
   margin-left: auto;
   margin-right: auto;
@@ -106,6 +114,15 @@ input::-webkit-inner-spin-button {
   margin-bottom: auto;
 }
 
+#username-holder {
+  pointer-events: none;
+  text-align: right;
+  color: rgb(255, 255, 255);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
 #dropdown {
   height: 2vw;
@@ -115,7 +132,7 @@ input::-webkit-inner-spin-button {
   border: none;
   padding: 0.2%;
   margin-right: 5%;
-  margin-left: 0; 
+  margin-left: auto; 
 }
 
 
