@@ -20,6 +20,33 @@ router.get("/getMatch", function (req, res) {
     })
 })
 
+router.get("/getGameConstants", async function (req, res) {
+    const [err, dbRes] = await database.query(database.getGameConstants())
+
+    if (err) {
+        console.log(`Error when getting game constants: ${err}`)
+        return res.send({
+            year: null,
+            eventCode: null,
+            gameType: null
+         })
+    }
+
+    if (dbRes.length) {
+         return res.send({
+            year: dbRes[0].frc_season_master_sm_year,
+            eventCode: dbRes[0].competition_master_cm_event_code,
+            gameType: dbRes[0].game_matchup_gm_game_type
+         })
+    } else {
+        return res.send({
+            year: null,
+            eventCode: null,
+            gameType: null
+         })
+    }
+})
+
 router.get("/getUserInfo", async function (req, res) {
     const cookieToken = req.cookies.u_token
 

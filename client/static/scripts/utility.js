@@ -142,8 +142,27 @@ function getMatch() {
     })
 }
 
-(function getUsername() {
-    return new Promise(resolve => {
+// (function getUsername() {
+//     return new Promise(resolve => {
+//         $.ajax({
+//             type: "GET",
+//             url: "/api/getUserInfo",
+//             success: function(response) {
+//                 if (Object.values(paths).includes(currentPage)) {
+//                     document.getElementById("username-holder").innerText = response.name
+//                     socket.emit("username", {name: response.name})
+//                     resolve(response)
+//                 }   
+//             }
+//         })
+//     })
+// })()
+
+
+(function superduperTestFunctionForDebuggingPurposes() {
+
+    const [prom1, prom2] = ([
+        new Promise(resolve => {
         $.ajax({
             type: "GET",
             url: "/api/getUserInfo",
@@ -154,9 +173,41 @@ function getMatch() {
                     resolve(response)
                 }   
             }
+            })
+        }),
+
+        new Promise(resolve => {
+        $.ajax({
+            type: "GET",
+            url: "/api/getGameConstants",
+            success: function(response) {
+                if (Object.values(paths).includes(currentPage)) {
+                    document.getElementById("VERYSPECIFICALLYNAMEDEVENTCODE-holder").innerText = (response.eventCode).toUpperCase()
+                    // socket.emit("eventCode", {eventCode: response.eventCode})
+                    resolve(response)
+                }   
+            }
         })
     })
+    ])
+    return [prom1, prom2]
 })()
+
+// (function getEventCode() {
+    // return new Promise(resolve => {
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "/api/getGameConstants",
+    //         success: function(response) {
+    //             if (Object.values(paths).includes(currentPage)) {
+    //                 document.getElementById("VERYSPECIFICALLYNAMEDEVENTCODE-holder").innerText = response.eventCode
+    //                 // socket.emit("eventCode", {eventCode: response.eventCode})
+    //                 resolve(response)
+    //             }   
+    //         }
+    //     })
+    // })
+// })()
 
 function requestData(url, data) {
     return new Promise(resolve => {
