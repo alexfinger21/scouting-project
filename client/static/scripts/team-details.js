@@ -91,6 +91,8 @@ async function main() {
     const tabs = Array.from(document.getElementsByClassName("team-details-tab"))
     const select = document.getElementById("auton-path-select")
     const canvas = document.getElementById("field")
+    const tower = document.getElementById("tower")
+
 
     let selectedPage = ""
     tabs.forEach((tab) => {
@@ -194,6 +196,14 @@ async function main() {
         //     selectedOption.getAttribute("auton_path") || "",
         // )
 
+const towerChart = selectedOption.getAttribute("tower");
+const Towerctx = tower.getContext("2d")
+        console.log("test1000")
+
+console.log("test tower: " )
+console.log(towerChart, ... towerChart)
+
+
 const loadpath = selectedOption.getAttribute("auton_path");
 
 let fieldpaths = [];
@@ -213,12 +223,12 @@ if (loadpath) {
         // }
    //let fieldpaths = loadpath
 
-//   let fieldpaths = [
+//  fieldpaths = [
 //             {"type":"path","points":[{"x":509.54004,"y":208.6875},{"x":509.54004,"y":208.6875},{"x":514.73535,"y":210.34277},{"x":520.46094,"y":212.18848},{"x":528.3291,"y":214.66211},{"x":535.86914,"y":217.04297},{"x":542.5176,"y":219.28418},{"x":548.7363,"y":221.45508},{"x":554.7617,"y":223.59277},{"x":561.1699,"y":225.75684},{"x":569.0664,"y":228.25098},{"x":576.7969,"y":230.49902},{"x":584.7383,"y":232.82324},{"x":592.3887,"y":234.98047},{"x":599.22754,"y":237.0918},{"x":604.38184,"y":238.87793},{"x":609.52637,"y":240.71777},{"x":615.292,"y":243.09277},{"x":620.3506,"y":245.16016},{"x":625.02246,"y":247.19238},{"x":629.6797,"y":249.27832},{"x":633.86035,"y":251.02637},{"x":636.8838,"y":252.29199},{"x":639.7207,"y":253.46582},{"x":642.0254,"y":254.46973},{"x":643.8828,"y":255.33496},{"x":645.68066,"y":256.2256},{"x":646.7998,"y":256.75},{"x":647.83203,"y":257.26562},{"x":649.01074,"y":257.95508},{"x":650.0781,"y":258.44727},{"x":651.0625,"y":258.9248},{"x":651.6006,"y":259.0996}]},
 //             {"type":"labeled","points":[{"x":664.0,"y":270.9004}],"label":"shoot"},
 //             {"type":"labeled","points":[{"x":664.0,"y":370.9004}],"label":"intake"},
 //             {"type":"labeled","points":[{"x":664.0,"y":470.9004}],"label":"broke"},
-//             {"type":"labeled","points":[{"x":664.0,"y":570.9004}],"label":"climb"}
+//             {"type":"labeled","points":[{"x":664.0,"y":570.9004}],"label":"stop"}
 //         ]; 
        //const image = await loadAutonHeatMapImages(allianceColor)
         const alliancePrefix = allianceColor == "B" ? "blue" : "red"
@@ -288,7 +298,7 @@ function drawPathStroke(stroke) {
     ctx.strokeStyle = "black";
     ctx.lineWidth = 6;
 
-    const arrowSpacing = 12; // draw arrow every 12 points
+    const arrowSpacing = 15;
 
     for (let i = 1; i < pts.length; i++) {
         const p1 = pts[i - 1];
@@ -343,9 +353,25 @@ function drawLabeledStroke(stroke) {
             ctx.fillStyle = "green";
             ctx.fillRect(x * scale - 15, y * scale - 15, 30, 30);
             break;
-    }
-}
-    
+            case "stop":
+                ctx.fillStyle = "#9B30FF"; // purple
+
+                const half = 15;
+                const cx = x * scale;
+                const cy = y * scale;
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - half);   // top
+                ctx.lineTo(cx + half, cy);   // right
+                ctx.lineTo(cx, cy + half);   // bottom
+                ctx.lineTo(cx - half, cy);   // left
+                ctx.closePath();
+                ctx.fill();
+                break;
+            }
+}                
+
+
 }
 
     // async function loadAutonHeatMapImages(allianceColor) {

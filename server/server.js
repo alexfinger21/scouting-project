@@ -27,10 +27,15 @@ const useDevServerCompat = process.env.SERVER_DEV_MODE === "1"
 
 function importRouter(relativePath) {
     const resolvedPath = path.resolve(serverDirectory, routeDirectory, relativePath)
-    return useDevServerCompat
-        ? import(pathToFileURL(resolvedPath).href)
-        : import(resolvedPath)
+    return import(pathToFileURL(resolvedPath).href)
 }
+
+// function importRouter(relativePath) {
+//     const resolvedPath = path.resolve(serverDirectory, routeDirectory, relativePath)
+//     return useDevServerCompat
+//         ? import(pathToFileURL(resolvedPath).href)
+//         : import(resolvedPath)
+// }
 
 //ROUTERS
 const login = (await importRouter("login.js")).default
