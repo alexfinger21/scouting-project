@@ -25,6 +25,57 @@ html, body {
     align-items: center;
 }
 
+
+#alliance-properties {
+    width: 95%;
+    margin: 0 auto 30px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #EAEAEA;
+}
+
+#alliance-properties th {
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    border-right: 1px solid #f0f0f0;
+}
+
+#alliance-properties th:last-child {
+    border-right: none;
+}
+
+/* Label Styling */
+#alliance-properties th:first-child {
+    background-color: #fcfcfc;
+    color: #333333;
+    font-weight: 800;
+    width: 25%;
+}
+
+/* Alliance Color Accents */
+#alliance-properties .R {
+    color: #FF7676;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+#alliance-properties .B {
+    color: #003366; /* Matching the dark blue text from your blue-alliance theme */
+    /* background-color: rgba(142, 202, 250, 0.1); Subtle blue tint */
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+/* Hover effect to match interactive feel */
+#alliance-properties tr:hover {
+    background-color: #fdfdfd;
+}
+
 .alliance-table {
     width: 95%;
     min-width: 1100px;
@@ -177,6 +228,20 @@ html, body {
 }
 
 @media (max-width: 1024px) {
+   #alliance-properties {
+        width: 90%;
+    }
+    
+    #alliance-properties th {
+        font-size: 1rem;
+        padding: 10px 5px;
+    }
+
+    #alliance-properties .R, 
+    #alliance-properties .B {
+        font-size: 1.2rem;
+    }
+
     .comments-wrapper {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -271,6 +336,33 @@ html, body {
 }
 
 @media (max-width: 650px) {
+   /* Make the Summary Table massive on phones */
+    #alliance-properties {
+        width: 92%;
+    }
+
+    #alliance-properties thead tr {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #alliance-properties th {
+        width: 100% !important;
+        border-right: none;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 25px 10px; /* Big touch area */
+    }
+
+    #alliance-properties th:first-child {
+        font-size: 1.3rem;
+        background-color: #333;
+        color: white;
+    }
+
+    #alliance-properties .R, 
+    #alliance-properties .B {
+        font-size: 2.5rem; /* Massive scores for quick reading */
+    }
     .comments-wrapper {
         grid-template-columns: 1fr;
     }
@@ -280,6 +372,19 @@ html, body {
     html, body {
         height: auto !important;
         overflow: visible !important;
+    }
+
+    #alliance-properties {
+        box-shadow: none;
+        border: 2px solid #333;
+        margin-bottom: 20px;
+    }
+
+    #alliance-properties .R, 
+    #alliance-properties .B {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        font-weight: 900;
     }
 
     .comments-wrapper {

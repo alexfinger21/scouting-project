@@ -22,13 +22,90 @@
         </div>
             <!--RED TEAM TABLE-->
         <div id="match-strategy-container">
+
+
+             <table id="alliance-properties">
+                <thead>
+                    <tr>
+                        <th>Predicted Winner</th>
+                        <th>Red</th>
+                        <th class="R">
+                            <%=
+                            (
+                                (
+                                    matchup[0].api_auton_opr_calc +
+                                    matchup[0].auton_climb_successful_avg*15 + 
+                                    matchup[0].api_teleop_opr_calc + 
+                                    matchup[0].endgame_climb_l1_success_avg * 10 +
+                                    matchup[0].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[0].endgame_climb_l3_success_avg * 30
+                                )
+                                +
+                                (
+                                    matchup[1].api_auton_opr_calc +
+                                    matchup[1].auton_climb_successful_avg*15 + 
+                                    matchup[1].api_teleop_opr_calc + 
+                                    matchup[1].endgame_climb_l1_success_avg * 10 +
+                                    matchup[1].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[1].endgame_climb_l3_success_avg * 30
+                                )
+                                +
+                                (
+                                    matchup[2].api_auton_opr_calc +
+                                    matchup[2].auton_climb_successful_avg*15 + 
+                                    matchup[2].api_teleop_opr_calc + 
+                                    matchup[2].endgame_climb_l1_success_avg * 10 +
+                                    matchup[2].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[2].endgame_climb_l3_success_avg * 30
+                                )
+                            ).toFixed(1)
+                            %>
+                        </th>
+                        <th>Blue</th>
+                        <th class="B">
+                            <%=
+                            (
+                                (
+                                    matchup[3].api_auton_opr_calc +
+                                    matchup[3].auton_climb_successful_avg*15 + 
+                                    matchup[3].api_teleop_opr_calc + 
+                                    matchup[3].endgame_climb_l1_success_avg * 10 +
+                                    matchup[3].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[3].endgame_climb_l3_success_avg * 30
+                                )
+                                +
+                                (
+                                    matchup[4].api_auton_opr_calc +
+                                    matchup[4].auton_climb_successful_avg*15 + 
+                                    matchup[4].api_teleop_opr_calc + 
+                                    matchup[4].endgame_climb_l1_success_avg * 10 +
+                                    matchup[4].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[4].endgame_climb_l3_success_avg * 30
+                                )
+                                +
+                                (
+                                    matchup[5].api_auton_opr_calc +
+                                    matchup[5].auton_climb_successful_avg*15 + 
+                                    matchup[5].api_teleop_opr_calc + 
+                                    matchup[5].endgame_climb_l1_success_avg * 10 +
+                                    matchup[5].endgame_climb_l2_success_avg * 20 + 
+                                    matchup[5].endgame_climb_l3_success_avg * 30
+                                )
+                            ).toFixed(1)
+                            %>
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+
             <table class="alliance-table red-alliance">
                 <!-- HEADINGS -->
                 <thead>
                     <tr>
                         <th></th>
                         <th>Rank/Win/Loss/Tie</th>
-                        <th>Avg Score</th>
+                        <th>Power Score</th>
                         <th>DPR</th>
                         <th>Robot Type (%)</th>
                         <th>Shooting Range</th>
@@ -138,8 +215,8 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Rank/Win/Loss/Tie</th>
-                        <th>Avg Score</th>
+                        <th>Rank/Win/Loss/Tie</th>  
+                        <th>Power Score</th>
                         <th>DPR</th>
                         <th>Robot Type (%)</th>
                         <th>Shooting Range</th>
