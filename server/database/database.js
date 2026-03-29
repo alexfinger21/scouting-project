@@ -622,6 +622,17 @@ function getAutonPaths(team) {
         game_matchup_gm_alliance_position;`
 }
 
+function getTowerEndgames(team) {
+    return SQL`
+SELECT
+    gd_value
+FROM teamsixn_scouting_dev.game_details
+WHERE frc_season_master_sm_year =  ${gameConstants.YEAR}
+  AND competition_master_cm_event_code = ${gameConstants.COMP}
+  AND game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}
+  AND game_element_ge_key = 4103;
+`
+}
 function deleteMatchDataX ()
 {
 	const matchTableXSQL = `DELETE FROM teamsixn_scouting_dev.game_matchup_x`
@@ -1089,6 +1100,7 @@ export default {
     saveComment,
     getMatchComments,
     getAutonPaths,
+    getTowerEndgames,
     getSeventhScouter,
     getRandomTeam,
     addMatchData,
@@ -1131,6 +1143,7 @@ export {
     saveComment,
     getMatchComments,
     getAutonPaths,
+    getTowerEndgames,
     getSeventhScouter,
     getRandomTeam,
     addMatchData,

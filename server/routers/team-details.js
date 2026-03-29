@@ -83,6 +83,13 @@ router.get("/", async function (req, res) {
         ...entry,
         autonPathEncoded: encodeURIComponent(String(entry.gd_auton_path ?? "")),
     }))
+    let [err6, towerEndgames] = await database.query(
+        database.getTowerEndgames(teamNumber),
+    )
+    towerEndgames = JSON.parse(JSON.stringify(towerEndgames)).map((entry) => ({
+        ...entry,
+        towerEndgameEncoded: encodeURIComponent(String(entry.gd_value ?? "")),
+    }))
 
     //console.log("7 "+Date.now());
 
@@ -107,6 +114,7 @@ router.get("/", async function (req, res) {
         selectedTeam: teamNumber,
         comments: comments,
         autonPaths,
+        towerEndgames,
         selectedPage: selectedPage,
         match: teamData[0]?.game_matchup_gm_number ?? null,
         pitScoutingData,

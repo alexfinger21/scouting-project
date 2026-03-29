@@ -30,7 +30,7 @@
                 Comments
             </button>
             <button <%- `class= "team-details-tab ${(selectedPage == "auton-display-page" ? "selected" : "")}"`%> page="auton-display-page">
-                Auton
+                Auton + Tower
             </button>
         </div>
         <% if(selectedPage == "game-data-page") {%>
@@ -306,12 +306,13 @@
         <% } %>
             <% if (autonPaths.length > 0) { %>
                 <div class="auton-display-toolbar">
-                    <label id="select-match" for="auton-path-select"><b>Show Auton Path for Match:</b></label>
+                    <label id="select-match" for="auton-path-select"><b>Show Auton Path + Tower for Match:</b></label>
                     <select id="auton-path-select" name="select-match">
                         <% for (let i = 0; i < autonPaths.length; i++) { %>
                             <option
                                 value="<%= autonPaths[i].game_matchup_gm_number %>"
                                 auton_path="<%= autonPaths[i].autonPathEncoded %>"
+                                tower="<%= towerEndgames[i].towerEndgameEncoded %>"
                                 alliance_color="<%= autonPaths[i].game_matchup_gm_alliance %>"
                                 <%- i === 0 ? "selected" : "" %>>
                                 <%= "Match " + autonPaths[i].game_matchup_gm_number + " - " + autonPaths[i].game_matchup_gm_alliance + autonPaths[i].game_matchup_gm_alliance_position %>
@@ -341,6 +342,10 @@
                     <div class="canvas-container">
                         <!-- <canvas id="heat-map"></canvas> -->
                         <canvas id="field" width="456" height="449.5"></canvas>
+                    </div>
+                    <div class="canvas-container">
+                        <!-- <canvas id="heat-map"></canvas> -->
+                        <canvas id="tower" width="456" height="449.5"></canvas>
                     </div>
                 </div>
             <% } else { %>
