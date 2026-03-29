@@ -17,12 +17,12 @@
     justify-content: center;
     align-items: center;
     width: 90%;
-    min-height: 4.4vh;
+    height: 5.6vh;
     margin-right: auto;
     margin-left: auto;
     border: 1px solid var(--team-details-border);
     border-radius: 8px;
-    overflow: hidden;
+    /* overflow: hidden; */
     background: #fff;
     box-shadow: var(--team-details-shadow);
 }
@@ -235,9 +235,11 @@
 
 .auton-heatmap-card canvas {
     display: block;
-    width: 100%;
+/*     width: 100%; */
     max-width: 900px;
     margin: 0 auto;
+    max-height: 50vh;
+    aspect-ratio: 1;
 }
 
 .auton-legend {
