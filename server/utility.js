@@ -1,7 +1,7 @@
-import dotenv from "dotenv"
 import SQL from "sql-template-strings"
 import casdoorSDK from "./auth/auth.js"
 import gameConstants from "./game.js"
+import dotenv from "dotenv"
 
 dotenv.config()
 
@@ -46,7 +46,7 @@ async function checkAdmin(req) {
     return false
 }
 
-(async function getGameConstants() {
+async function getGameConstants() {
     const database = await import("./database/database.js")
 
     const [err, dbRes] = await database.query(database.getGameConstants())
@@ -65,7 +65,7 @@ async function checkAdmin(req) {
     } else {
         return null
     }
-}());
+};
 
 function suggestTeam(currentAlliance, otherAlliances) {
     const teamStats = {
@@ -87,4 +87,11 @@ function parseData(info) {
     return JSON.parse(JSON.stringify(info))
 }
 
-export { checkAdmin, consoleLog, suggestTeam, parseData, logoutMS }
+export {
+    checkAdmin,
+    consoleLog,
+    suggestTeam,
+    parseData,
+    logoutMS,
+    getGameConstants,
+}
