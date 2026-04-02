@@ -49,7 +49,7 @@ function deleteData(data) {
 	AND game_details.game_matchup_gm_alliance_position = ${data.position};`
 }
 
-function deleteAPIRankings() {
+function deleteApiRankings() {
 	return SQL`DELETE FROM teamsixn_scouting_dev.api_rankings
     WHERE api_rankings.frc_season_master_sm_year = ${gameConstants.YEAR}
 	AND api_rankings.competition_master_cm_event_code = ${gameConstants.COMP};`
@@ -143,8 +143,7 @@ function executeQuery(sql, callback = false) {
                     else {
                         rej([error, null])
                     }
-                    console.log("ERROR: " + String(error))
-                    throw new Error()
+                    console.trace(String(error))
                 } else {
                     if (callback) {
                         res(callback(null, results))
@@ -980,10 +979,8 @@ WHERE
 
 
 function deleteApiCalc() {
-	return SQL`DELETE FROM teamsixn_scouting_dev.api_calc
-    WHERE 1=1;`
+	return "DELETE FROM teamsixn_scouting_dev.api_calc;"
 }
-
 
 function writeApiCalc(teleopOpr, autonOpr, dpr) {
 	let valuesStr = ""
@@ -1115,7 +1112,7 @@ export default {
     deleteApiCalc,
     writeApiCalc,
     getOPRWeights,
-    deleteAPIRankings,
+    deleteApiRankings,
     writeApiRankings,
     updateGameDetails,
     getLatestMatchWithData
@@ -1156,7 +1153,7 @@ export {
     deleteApiCalc,
     writeApiCalc,
     getOPRWeights,
-    deleteAPIRankings,
+    deleteApiRankings,
     writeApiRankings,
     updateGameDetails,
     getLatestMatchWithData
