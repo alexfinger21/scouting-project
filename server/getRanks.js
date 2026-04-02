@@ -349,7 +349,6 @@ async function writeBlueAllianceDaa(matchData) {
 
 async function syncServer() {
     getGameConstants()
-    console.log("got here syncServer")
 
     const data = await getMatchData()
     // console.dir(data, { depth: null, colors: true })
