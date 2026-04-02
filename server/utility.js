@@ -62,6 +62,8 @@ async function getGameConstants() {
             dbRes[0].competition_master_cm_event_code,
             dbRes[0].game_matchup_gm_game_type
         )
+
+        return true
     } else {
         return null
     }

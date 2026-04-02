@@ -6,16 +6,17 @@ import dotenv from "dotenv"
 const auth = process.env.TBA_AUTH
 dotenv.config()
 
-const matchList = {
-    "method": "GET",
-    "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-       'If-Modified-Since': ''
-    }
-}
 function getData () {
     return new Promise((resolve, reject) => {
+        const matchList = {
+            "method": "GET",
+            "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches',
+            'headers': {
+                'X-TBA-Auth-Key': auth,
+                'If-Modified-Since': ''
+            }
+        }
+
         if(gameConstants.COMP == "test")
         {
             resolve({})

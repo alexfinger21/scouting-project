@@ -7,16 +7,17 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const matchList = {
-    "method": "GET",
-    "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-       'If-Modified-Since': ''
-    }
-}
 function getData () {
     return new Promise((resolve, reject) => {
+        const matchList = {
+            "method": "GET",
+            "url":  'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + gameConstants.COMP + '/matches',
+            'headers': {
+                'X-TBA-Auth-Key': auth,
+                'If-Modified-Since': ''
+            }
+        }
+
         if(gameConstants.COMP == "test")
         {
             resolve({})
@@ -40,13 +41,13 @@ function getData () {
                 const alliancesForRed = [m.alliances.red.team_keys[0].substring(3), m.alliances.red.team_keys[1].substring(3), m.alliances.red.team_keys[2].substring(3)]
                 const matchNumber =  m.match_number
                 //const video = "https://www.youtube.com/watch?v="+m.videos[0].key
-        
+
                 if (m.comp_level != gametype)
                 {
                     continue
                 }
-               
-                
+
+
                 matchOutput [String(matchNumber)] =  m
                 matchOutput [String(matchNumber)].red = alliancesForRed
                 matchOutput [String(matchNumber)].blue = alliancesForBlue
@@ -55,21 +56,21 @@ function getData () {
             const qTimes = gameTimes(qNum)
             //consoleLog("hi", qTimes)
             /*
-            consoleLog("Match output")
+                consoleLog("Match output")
             consoleLog(matchOutput)
             consoleLog("Times")
             consoleLog(qTimes)
-            */
-            database.query(database.deleteMatchDataX(), (err, res) => {
-                consoleLog(err)
-                //consoleLog(res)
-                database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
+                */
+                database.query(database.deleteMatchDataX(), (err, res) => {
                     consoleLog(err)
                     //consoleLog(res)
+                    database.query(database.addMatchData(matchOutput, qTimes), (err, res) => {
+                        consoleLog(err)
+                        //consoleLog(res)
+                    })
                 })
-            })
             resolve(matchData)
-         
+
         })
     })
 } 
