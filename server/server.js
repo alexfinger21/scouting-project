@@ -7,9 +7,8 @@ import { pathToFileURL } from "url"
 import ejs from "ejs"
 import cookieParser from "cookie-parser"
 import cors from "cors"
-import { consoleLog } from "./utility.js"
+import { consoleLog, getGameConstants } from "./utility.js"
 import fs from "fs"
-import database from "./database/database.js"
 import { syncServer } from "./getRanks.js"
 import socketManager from "./sockets.js"
 import SQL from "sql-template-strings"
@@ -19,6 +18,7 @@ import { Server } from "socket.io"
 import casdoorSdk from "./auth/auth.js"
 
 dotenv.config()
+getGameConstants()
 
 //DIRECTORIES
 const serverDirectory = "./server"
