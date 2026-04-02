@@ -10,6 +10,7 @@ dotenv.config()
 const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 
+const powerVal = 1 
 
 const optionsRankings = {
     'method': 'GET',
@@ -107,8 +108,8 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
             teams.add(t)
         })
 
-        scores[m_idx] = [Math.pow(match.red[scoreProperty], 2)] 
-        scores[m_idx + 1] = [Math.pow(match.blue[scoreProperty], 2)]
+        scores[m_idx] = [Math.pow(match.red[scoreProperty], powerVal)] 
+        scores[m_idx + 1] = [Math.pow(match.blue[scoreProperty], powerVal)]
 
         m_idx += 2
     }
@@ -143,7 +144,7 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
         for (const t of match.blue.teams) {
             alliances[m_idx + 1][teamIdx[t]] = match.blue[weightProperty][t_idx] 
                 ? match.blue[weightProperty][t_idx] 
-                : ( cumWeights[t] ?? 0.5)
+                : (cumWeights[t] ?? 0.5)
 
             ++t_idx
         }
@@ -159,9 +160,10 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
 
     for (let i = 0; i<teamArr.length; ++i) {
         const oprVal = oprMatrix.get(i, 0)  
+
         const oprAdjusted = oprVal > 0 
-            ? Math.sqrt(oprVal) 
-            : -Math.sqrt(Math.abs(oprVal))
+            ? Math.pow(oprVal, 1/powerVal) 
+            : -Math.pow(Math.abs(oprVal), 1/powerVal)
 
         oprMap[teamArr[i]] = oprAdjusted 
     }
@@ -258,18 +260,13 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
     return dprMap
 }
 
-function postProcessOpr(opr) {
+function sortOPR(opr) {
     return Object.entries(opr).sort((a, b) => 
         b[1] - a[1]
-    ).map(val => {
-        return [val[0], val[1] > 0 
-            ? Math.sqrt(val[1]) 
-            : -Math.sqrt(Math.abs(val[1]))]
-    })
-
+    )
 }
 
-function returnAPIRankings() {
+function returnApiRankings() {
     return new Promise((resolve, reject) => {
         if (gameConstants.COMP == "test") {
             resolve({})
@@ -305,8 +302,9 @@ function returnAPIRankings() {
 
                     //consoleLog(database.writeAPIRankings(combinedTeamData))
                     //consoleLog(combinedTeamData)    
+                    console.log("GOT HERE!!!!!!!!!!!")
                     if (Object.keys(combinedTeamData).length) { 
-                        database.query(database.deleteAPIRankings(), (err, res) => {
+                        database.query(database.deleteApiRankings(), (err, res) => {
                             consoleLog(err)
                             //consoleLog(res)
                             database.query(database.writeApiRankings(combinedTeamData), (err, res) => {
@@ -336,7 +334,7 @@ function returnAPIRankings() {
     })
 }
 
-async function writeBlueAllianceData(matchData) {
+async function writeBlueAllianceDaa(matchData) {
     const startingIndex = await getLatestMatchWithData()
     const [err, res] = await database.query(database.updateGameDetails(matchData, startingIndex))
     
@@ -353,39 +351,32 @@ async function syncServer() {
     getGameConstants()
 
     const data = await getMatchData()
-    console.dir(data, { depth: null, colors: true })
+    // console.dir(data, { depth: null, colors: true })
 
-    writeBlueAllianceData(data)
+    //writeBlueAllianceData(data)
 
+    const rankings = await returnApiRankings()
+    // console.log(rankings)
 
-    const rankings = await returnAPIRankings()
     try {
         const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
 
         const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
-        console.log(teleopOpr)
+        consoleLog(autonOpr)
 
         const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
-        console.log(dpr)
+        consoleLog(dpr)
 
-        /*
-        console.log("teleop opr", teleopOpr)
-        console.log("auton opr", autonOpr)
-        */
-        console.log("dpr", dpr)
-        database.query(database.deleteApiCalc(), (err, res) => {
-            if(err) {
-                console.log(err)
-                return
-            }
-            else {
-                database.query(database.writeApiCalc(teleopOpr, autonOpr, dpr), (err, res => {
-                    if(err) {
-                        console.log(err);
-                    }
-                }))
-            }
-        }) 
+        const [errDelete, deletedRows] = await database.query(database.deleteApiCalc()) 
+        
+        if (!errDelete) {
+            const [errCreate, apiRes] = await database.query(database.writeApiCalc(teleopOpr, autonOpr, dpr)) 
+
+            console.log(errCreate, apiRes)
+        } else {
+            console.log(errDelete)
+        }
+
     } catch(err) {
         console.log("error saving opr:", err)
     }
@@ -401,8 +392,8 @@ async function syncServer() {
         })
         consoleLog(err)
     }) 
+
+    return rankings
 }
 
-syncServer()
-
-export { returnAPIRankings, syncServer }
+export { returnApiRankings, syncServer }
