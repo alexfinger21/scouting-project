@@ -2,7 +2,7 @@ import dotenv from "dotenv"
 import request from "request"
 import database from "./database/database.js"
 import gameConstants from "./game.js" 
-import { consoleLog } from "./utility.js"
+import { consoleLog, getGameConstants } from "./utility.js"
 import { Matrix, solve } from 'ml-matrix'
 import {getMatchData, getLatestMatchWithData} from "./getMatchData.js"
 
@@ -350,11 +350,13 @@ async function writeBlueAllianceData(matchData) {
 
 
 async function syncServer() {
+    getGameConstants()
+
     const data = await getMatchData()
     console.dir(data, { depth: null, colors: true })
-    
 
     writeBlueAllianceData(data)
+
 
     const rankings = await returnAPIRankings()
     try {
@@ -365,6 +367,7 @@ async function syncServer() {
 
         const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
         console.log(dpr)
+
         /*
         console.log("teleop opr", teleopOpr)
         console.log("auton opr", autonOpr)
