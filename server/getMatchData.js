@@ -10,10 +10,6 @@ dotenv.config()
 const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 
-
-/// Function to pull match details using TBA API
-const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "tuis" : gameConstants.COMP)
-
 // This function finds the latest match in the database with blue alliance data loaded for it
 async function getLatestMatchWithData() {
     let [err, res] = await database.query(database.getLatestMatchWithData())
@@ -30,6 +26,9 @@ async function getLatestMatchWithData() {
 }
 
 function fetchMatchData() {
+    /// Function to pull match details using TBA API
+    const eventCode = gameConstants.YEAR + (gameConstants.COMP == "test" ? "tuis" : gameConstants.COMP)
+
     const options = {
         'method': 'GET',
         'url': 'https://www.thebluealliance.com/api/v3/event/' + eventCode + '/matches',
@@ -38,6 +37,7 @@ function fetchMatchData() {
             'If-Modified-Since': ''
         }
     }
+
     return new Promise((resolve, reject) => {
         if (gameConstants.COMP == "xx") {
             resolve({})

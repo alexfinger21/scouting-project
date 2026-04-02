@@ -12,26 +12,6 @@ const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 
 const powerVal = 1 
 
-const optionsRankings = {
-    'method': 'GET',
-    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
-    //'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-        'If-Modified-Since': ''
-    }
-}
-
-const optionsOPRS = {
-    'method': 'GET',
-    //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
-    'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/oprs',
-    'headers': {
-        'X-TBA-Auth-Key': auth,
-        'If-Modified-Since': ''
-    }
-}
 function printMessage(title, msg) {
     consoleLog("------ " + title + " ------")
     consoleLog(msg)
@@ -268,6 +248,29 @@ function sortOPR(opr) {
 
 function returnApiRankings() {
     return new Promise((resolve, reject) => {
+        const optionsOPRS = {
+            'method': 'GET',
+            'url': 'https://www.thebluealliance.com/api/v3/event/' 
+                + gameConstants.YEAR 
+                + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) 
+                + '/oprs',
+            'headers': {
+                'X-TBA-Auth-Key': auth,
+                'If-Modified-Since': ''
+            }
+        }
+
+        const optionsRankings = {
+            'method': 'GET',
+            //'url': 'https://frc-api.firstinspires.org/v3.0/' + gameConstants.YEAR + '/rankings/'+gameConstants.COMP,
+            'url': 'https://www.thebluealliance.com/api/v3/event/' + gameConstants.YEAR + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) + '/rankings',
+            //'url': 'https://www.thebluealliance.com/api/v3/event/2023ohcl/rankings',
+            'headers': {
+                'X-TBA-Auth-Key': auth,
+                'If-Modified-Since': ''
+            }
+        }
+
         if (gameConstants.COMP == "test") {
             resolve({})
             return
@@ -302,7 +305,6 @@ function returnApiRankings() {
 
                     //consoleLog(database.writeAPIRankings(combinedTeamData))
                     //consoleLog(combinedTeamData)    
-                    console.log("GOT HERE!!!!!!!!!!!")
                     if (Object.keys(combinedTeamData).length) { 
                         database.query(database.deleteApiRankings(), (err, res) => {
                             consoleLog(err)
@@ -348,7 +350,7 @@ async function writeBlueAllianceDaa(matchData) {
 
 
 async function syncServer() {
-    getGameConstants()
+    await getGameConstants()
 
     const data = await getMatchData()
     // console.dir(data, { depth: null, colors: true })
@@ -356,29 +358,30 @@ async function syncServer() {
     //writeBlueAllianceData(data)
 
     const rankings = await returnApiRankings()
-    // console.log(rankings)
 
-    try {
-        const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
+    if (rankings && Object.keys(rankings).length) {
+        try {
+            const teleopOpr = calculateOpr(data, "teleopFuel", "teleopWeights")
 
-        const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
-        consoleLog(autonOpr)
+            const autonOpr = calculateOpr(data, "autonFuel", "autonWeights")
+            // consoleLog(autonOpr)
 
-        const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
-        consoleLog(dpr)
+            const dpr = calculateDpr(data, teleopOpr, "teleopFuel", "defenseWeights") 
+            // consoleLog(dpr)
 
-        const [errDelete, deletedRows] = await database.query(database.deleteApiCalc()) 
-        
-        if (!errDelete) {
-            const [errCreate, apiRes] = await database.query(database.writeApiCalc(teleopOpr, autonOpr, dpr)) 
+            const [errDelete, deletedRows] = await database.query(database.deleteApiCalc()) 
+            
+            if (!errDelete) {
+                const [errCreate, apiRes] = await database.query(database.writeApiCalc(teleopOpr, autonOpr, dpr)) 
 
-            console.log(errCreate, apiRes)
-        } else {
-            console.log(errDelete)
+                // console.log(errCreate, apiRes)
+            } else {
+                console.log(errDelete)
+            }
+
+        } catch(err) {
+            console.log("error saving opr:", err)
         }
-
-    } catch(err) {
-        console.log("error saving opr:", err)
     }
 
     //reset tmp match strategy
