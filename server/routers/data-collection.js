@@ -156,20 +156,28 @@ router.get("/", async function (req, res) { //only gets used if the url == data-
 })
 //*/
 
-router.post("/", function (req, res) {
+router.post("/", async function (req, res) {
     const body = req.body
 
     body.username = casdoorSdk.parseJwtToken(req.cookies.u_token).name
 
     if (body.type == "comments") {
-        consoleLog("comments:")
-        consoleLog(body.comments)
         for (const [team, comment] of Object.entries(body.comments)) {
-            database.query(database.saveComment(comment.text, body.username, body.matchNumber, comment.alliance, comment.position), (err, results) => {
-                consoleLog(err)
-                consoleLog(results)
-                consoleLog("Success in saving comments")
-            })
+            if (comment.text.length) {
+                try {
+                    const [saveErr, res] = await database.query(
+                        database.saveComment(
+                            comment.text,
+                            body.username,
+                            body.matchNumber,
+                            comment.alliance,
+                            comment.position,
+                        )
+                    )
+                } catch(e) {
+                    consoleLog("Error in saving comments: ", e)
+                }
+            }
         }
     }
 

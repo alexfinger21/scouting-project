@@ -505,7 +505,6 @@ async function loadDataCollection() {
 async function saveComments() {
     return new Promise(async resolve => {
         const match = document.getElementById("match-comment-selector").value
-        consoleLog("MATCH NUMBER: " + match)
         const ogData = JSON.parse(localStorage.getItem("comments")) != null ? JSON.parse(localStorage.getItem("comments")) : {}
         const data = {}
 
@@ -521,10 +520,12 @@ async function saveComments() {
             let title = info.innerText
             let team = title.split(" ")[0]
             let text = e.querySelector("textarea").value
-            data.comments[team] = {
-                text: text,
-                alliance: info.getAttribute("alliance"),
-                position: info.getAttribute("pos")
+            if (text.length) {
+                data.comments[team] = {
+                    text: text,
+                    alliance: info.getAttribute("alliance"),
+                    position: info.getAttribute("pos")
+                }
             }
         })
 
@@ -565,7 +566,6 @@ async function sendComments() {
         url: paths.dataCollection,
         data: JSON.stringify(data),
         success: function (response) {
-            consoleLog(response)
             alert("Comments saved")
             requestPage(paths.matchListing)
             const hoverButton = document.getElementById("hover-button")
