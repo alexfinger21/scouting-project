@@ -89,6 +89,8 @@ function parseData(info) {
     return JSON.parse(JSON.stringify(info))
 }
 
+getGameConstants()
+
 export {
     checkAdmin,
     consoleLog,

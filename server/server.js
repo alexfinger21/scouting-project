@@ -9,7 +9,6 @@ import cookieParser from "cookie-parser"
 import cors from "cors"
 import { consoleLog } from "./utility.js"
 import fs from "fs"
-import database from "./database/database.js"
 import { syncServer } from "./getRanks.js"
 import socketManager from "./sockets.js"
 import SQL from "sql-template-strings"
@@ -289,7 +288,7 @@ app.use((req, res, next) => {
 })
 
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runApiCall, 240000)
+    setInterval(runApiCall, 10*1000)
 }
 
 //PORT
