@@ -10,7 +10,7 @@ dotenv.config()
 const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 
-const powerVal = 1 
+const powerVal = 1
 
 function printMessage(title, msg) {
     consoleLog("------ " + title + " ------")
@@ -82,6 +82,7 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     const scores = new Array(alliances.length)
     const cumWeights = getCumWeights(matches, weightProperty)
 
+
     let m_idx = 0;
     for (const match of matches) {
         [...match.red.teams, ...match.blue.teams].forEach(t => {
@@ -138,14 +139,18 @@ function calculateOpr(matches, scoreProperty, weightProperty) {
     const oprMatrix = solve(AMatrix, bMatrix)
     const oprMap = {} 
 
+    //console.log("teamarr", teamArr)
+
     for (let i = 0; i<teamArr.length; ++i) {
         const oprVal = oprMatrix.get(i, 0)  
 
-        const oprAdjusted = oprVal > 0 
-            ? Math.pow(oprVal, 1/powerVal) 
-            : -Math.pow(Math.abs(oprVal), 1/powerVal)
+        const oprAdjusted = oprVal * (cumWeights[teamArr[i]] ?? 0.5)
 
-        oprMap[teamArr[i]] = oprAdjusted 
+        const oprReduced = oprAdjusted > 0 
+            ? Math.pow(oprAdjusted, 1/powerVal) 
+            : -Math.pow(Math.abs(oprAdjusted), 1/powerVal)
+
+        oprMap[teamArr[i]] = oprReduced 
     }
 
     return oprMap
@@ -165,19 +170,19 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
         })
 
         /*
-        console.log(match.red[scoreProperty], match.red.teams.reduce(
-            (a, t) => {
-                console.log(t)
-                return a + opr[t]
-            }, 0))
+            console.log(match.red[scoreProperty], match.red.teams.reduce(
+                (a, t) => {
+                    console.log(t)
+                    return a + opr[t]
+                }, 0))
         console.log("-------------")
-        */
+            */
 
 
-        scores[m_idx] = [match.blue[scoreProperty] - match.blue.teams.reduce(
-            (a, t) => {
-                return a + opr[t]
-            }, 0)]
+            scores[m_idx] = [match.blue[scoreProperty] - match.blue.teams.reduce(
+                (a, t) => {
+                    return a + opr[t]
+                }, 0)]
 
         scores[m_idx+1] = [match.red[scoreProperty] - match.red.teams.reduce(
             (a, t) => {
@@ -229,10 +234,10 @@ function calculateDpr(matches, opr, scoreProperty, weightProperty) {
 
     for (let i = 0; i<teamArr.length; ++i) {
         const adjustedDpr = -1 * dprMatrix.get(i, 0) * (
-                (!cumWeights[teamArr[i]] || cumWeights[teamArr[i]] == 1)
-                ? 0 
-                : cumWeights[teamArr[i]]
-            )
+            (!cumWeights[teamArr[i]] || cumWeights[teamArr[i]] == 1)
+            ? 0 
+            : cumWeights[teamArr[i]]
+        )
 
         dprMap[teamArr[i]] = adjustedDpr 
     }
@@ -251,9 +256,9 @@ function returnApiRankings() {
         const optionsOPRS = {
             'method': 'GET',
             'url': 'https://www.thebluealliance.com/api/v3/event/' 
-                + gameConstants.YEAR 
-                + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) 
-                + '/oprs',
+            + gameConstants.YEAR 
+            + (gameConstants.COMP == "ohwr" ? "ohwar" : gameConstants.COMP) 
+            + '/oprs',
             'headers': {
                 'X-TBA-Auth-Key': auth,
                 'If-Modified-Since': ''
@@ -326,20 +331,20 @@ function returnApiRankings() {
             //consoleLog(teamData)
             //printMessage('Type of Data', typeof teamData)
             // teamData.teams.forEach((team) => {
-            //   printMessage('Team Info', team)
-            // }
-            // showObj()
-            // printMessage('Length of Teams array', team_data.teams.teamNumber)
-            //printMessage('Data', teamData)
-            //consoleLog(teamData.Rankings[0].teamNumber)
-        })
+                //   printMessage('Team Info', team)
+                // }
+                // showObj()
+                // printMessage('Length of Teams array', team_data.teams.teamNumber)
+                //printMessage('Data', teamData)
+                //consoleLog(teamData.Rankings[0].teamNumber)
+            })
     })
 }
 
 async function writeBlueAllianceData(matchData) {
     const startingIndex = await getLatestMatchWithTBAData()
     const [err, res] = await database.query(database.updateGameDetails(matchData, startingIndex))
-    
+
     if (err) {
         consoleLog("Error writing blue alliance data: ", err)
     }
@@ -353,7 +358,7 @@ async function syncServer() {
     await getGameConstants()
 
     const data = await getMatchData()
-    console.dir(data, { depth: null, colors: true })
+    //console.dir(data, { depth: null, colors: true })
 
     writeBlueAllianceData(data)
 
@@ -400,5 +405,4 @@ async function syncServer() {
 }
 
 syncServer()
-
 export { returnApiRankings, syncServer }
