@@ -73,6 +73,7 @@ function writeApiRankings(teamRankings) {
 		const matches_played_str = String(team.matches_played ?? 0)
 		const opr_str = String(team.opr ?? 0)
 		const dpr_str = String(team.dpr ?? 0)
+        console.log(gameConstants.COMP)
 
 		let a = "(" + gameConstants.YEAR + ",'" + gameConstants.COMP + "'," + team_num_str + "," + rank_str + "," + wins_str + "," + losses_str + "," + ties_str + "," + dq_str + "," + matches_played_str + "," + opr_str + "," + dpr_str + ",'" + String(time) + "')"
 		//console.log(a)
