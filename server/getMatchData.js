@@ -11,8 +11,8 @@ const auth = process.env.TBA_AUTH
 const authbase64 = Buffer.from(auth, 'utf8').toString('base64')
 
 // This function finds the latest match in the database with blue alliance data loaded for it
-async function getLatestMatchWithData() {
-    let [err, res] = await database.query(database.getLatestMatchWithData())
+async function getLatestMatchWithTBAData() {
+    let [err, res] = await database.query(database.getLatestMatchWithTBAData())
     if(err) {
         console.log("Error getting latest match with blue alliance data:", err)
         return 0 
@@ -134,5 +134,5 @@ async function getMatchData() {
 }
 
 
-export {getMatchData, getLatestMatchWithData}
+export {getMatchData, getLatestMatchWithTBAData}
 

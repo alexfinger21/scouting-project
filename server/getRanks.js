@@ -4,7 +4,7 @@ import database from "./database/database.js"
 import gameConstants from "./game.js" 
 import { consoleLog, getGameConstants } from "./utility.js"
 import { Matrix, solve } from 'ml-matrix'
-import {getMatchData, getLatestMatchWithData} from "./getMatchData.js"
+import {getMatchData, getLatestMatchWithTBAData} from "./getMatchData.js"
 
 dotenv.config()
 const auth = process.env.TBA_AUTH
@@ -336,8 +336,8 @@ function returnApiRankings() {
     })
 }
 
-async function writeBlueAllianceDaa(matchData) {
-    const startingIndex = await getLatestMatchWithData()
+async function writeBlueAllianceData(matchData) {
+    const startingIndex = await getLatestMatchWithTBAData()
     const [err, res] = await database.query(database.updateGameDetails(matchData, startingIndex))
     
     if (err) {
@@ -353,9 +353,9 @@ async function syncServer() {
     await getGameConstants()
 
     const data = await getMatchData()
-    // console.dir(data, { depth: null, colors: true })
+    console.dir(data, { depth: null, colors: true })
 
-    //writeBlueAllianceData(data)
+    writeBlueAllianceData(data)
 
     const rankings = await returnApiRankings()
 
@@ -398,5 +398,7 @@ async function syncServer() {
 
     return rankings
 }
+
+syncServer()
 
 export { returnApiRankings, syncServer }

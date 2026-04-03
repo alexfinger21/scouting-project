@@ -2,7 +2,7 @@ import pool from "./dbconfig.js"
 import gameConstants from "../game.js"
 import SQL from "sql-template-strings"
 
-function getLatestMatchWithData() {
+function getLatestMatchWithTBAData() {
 	return SQL`
 SELECT game_matchup_gm_number
 FROM
@@ -10,7 +10,8 @@ teamsixn_scouting_dev.game_details
 WHERE game_element_ge_key = 4103 AND
 frc_season_master_sm_year = ${gameConstants.YEAR} AND 
 competition_master_cm_event_code = ${gameConstants.COMP} AND
-game_matchup_gm_game_type = ${gameConstants.GAME_TYPE}
+game_matchup_gm_game_type = ${gameConstants.GAME_TYPE} AND
+gd_um_id = 'TBA'
 ORDER BY game_matchup_gm_number DESC
 LIMIT 1;`
 }
@@ -1030,6 +1031,7 @@ function updateGameDetails(matchData, startingIndex) {
         const matchNumber = m+1
         for(const [color, alliance] of Object.entries(match)) {
             for(let t = 0; t < 3; ++t) {
+                const alliancePosition = t + 1
                 const endgameClimbLevel = alliance.endgameClimbLevels[t]
                 const endgameClimbSuccess = Math.min(endgameClimbLevel, 1)
                 const autonClimbLevel = alliance.autonClimbLevels[t]
@@ -1038,18 +1040,18 @@ function updateGameDetails(matchData, startingIndex) {
                 const allianceColor = color == "red" ? "R" : "B"
 
                 //auton climbs successfully
-                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 2103, autonClimbLevel, autonClimbLevel, "TBA")
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, alliancePosition, 2103, autonClimbLevel, autonClimbLevel, "TBA")
                 //auton climb position
-                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 2104, autonClimbLevel, autonClimbLevel, "TBA")
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, alliancePosition, 2104, autonClimbLevel, autonClimbLevel, "TBA")
                 //endgame climb successful
-                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 4102, endgameClimbSuccess, endgameClimbSuccess, "TBA")
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, alliancePosition, 4102, endgameClimbSuccess, endgameClimbSuccess, "TBA")
                 //endgame climb position
-                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 4103, endgameClimbLevel, endgameClimbLevel, "TBA")
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, alliancePosition, 4103, endgameClimbLevel, endgameClimbLevel, "TBA")
 
                 //auton fuel
-                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 2201, autonFuel, autonFuel, "TBA")
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, alliancePosition, 2201, autonFuel, autonFuel, "TBA")
                 //teleop fuel
-                valuesStr += gameDetailsValue(matchNumber, allianceColor, t, 4200, teleopFuel, teleopFuel, "TBA")
+                valuesStr += gameDetailsValue(matchNumber, allianceColor, alliancePosition, 4200, teleopFuel, teleopFuel, "TBA")
             }
         }
     }
@@ -1116,7 +1118,7 @@ export default {
     deleteApiRankings,
     writeApiRankings,
     updateGameDetails,
-    getLatestMatchWithData
+    getLatestMatchWithTBAData
 }
 
 export {
@@ -1157,5 +1159,5 @@ export {
     deleteApiRankings,
     writeApiRankings,
     updateGameDetails,
-    getLatestMatchWithData
+    getLatestMatchWithTBAData
 }

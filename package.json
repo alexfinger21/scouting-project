@@ -37,7 +37,8 @@
     },
     "devDependencies": {
         "http-server": "^14.1.1",
-        "httpserver": "^0.0.5"
+        "httpserver": "^0.0.5",
+        "typescript": "^6.0.2"
     },
     "scripts": {
         "start": "node server/server.js"
