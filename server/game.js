@@ -1,5 +1,5 @@
 let YEAR = 2026
-let COMP = "ohcl"
+let COMP = "ohmv"
 let GAME_TYPE = "Q"
 let gameStart = new Date("April 16, 2025")
 let gameEnd = new Date("December 22, 2027")
@@ -28,10 +28,6 @@ const gameConsts = {
 }
 
 function updateConstants(year, comp, gameType) {
-    gameConsts.YEAR = year
-    gameConsts.COMP = comp
-    gameConsts.GAME_TYPE = gameType
 }
-
 
 export default gameConsts
