@@ -479,7 +479,9 @@ async function main() {
     })
 
     let chartRes = await drawChart(currentChart)
-    while (chartRes === false) {
+    let pullCounter = 0
+    while (chartRes === false && pullCounter < 5) {
+        pullCounter++
         consoleLog("CHART RES")
         debounce = false
         //arrowRight.click()
