@@ -288,7 +288,7 @@ app.use((req, res, next) => {
 })
 
 if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
-    setInterval(runApiCall, 60*1000)
+    setInterval(runApiCall, 10*1000)
 }
 
 //PORT
