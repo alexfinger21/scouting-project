@@ -310,10 +310,10 @@
                     <select id="auton-path-select" name="select-match">
                         <% for (let i = 0; i < autonPaths.length; i++) { %>
                             <option
-                                value="<%= autonPaths[i].game_matchup_gm_number %>"
-                                auton_path="<%= autonPaths[i].autonPathEncoded %>"
-                                tower="<%= towerEndgames[i].towerEndgameEncoded %>"
-                                alliance_color="<%= autonPaths[i].game_matchup_gm_alliance %>"
+                                value="<%= autonPaths[i]?.game_matchup_gm_number %>"
+                                auton_path="<%= autonPaths[i]?.autonPathEncoded %>"
+                                tower="<%= towerEndgames[i]?.towerEndgameEncoded %>"
+                                alliance_color="<%= autonPaths[i]?.game_matchup_gm_alliance %>"
                                 <%- i === 0 ? "selected" : "" %>>
                                 <%= "Match " + autonPaths[i].game_matchup_gm_number + " - " + autonPaths[i].game_matchup_gm_alliance + autonPaths[i].game_matchup_gm_alliance_position %>
                             </option>
