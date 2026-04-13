@@ -8,14 +8,15 @@ const router = express.Router()
 
 
 router.get("/", async function(req, res, next) {
-
 	const userId = res.locals.authUserId
-	if(!userId) {
+
+	if (!userId) {
 		return next(new Error("User id not provided"))
 	}
 
 	const [err, tasks] = await database.query(database.getAppTasks(userId))
-	if(err) {
+
+	if (err) {
 		return next(err)
 	}
 
