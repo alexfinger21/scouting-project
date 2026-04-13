@@ -11,7 +11,6 @@ import { consoleLog } from "./utility.js"
 import fs from "fs"
 import { syncServer } from "./getRanks.js"
 import socketManager from "./sockets.js"
-import SQL from "sql-template-strings"
 import gameConstants from "./game.js"
 import dotenv from "dotenv"
 import { Server } from "socket.io"
@@ -25,7 +24,12 @@ const routeDirectory = "routers"
 const useDevServerCompat = process.env.SERVER_DEV_MODE === "1"
 
 function importRouter(relativePath) {
-    const resolvedPath = path.resolve(serverDirectory, routeDirectory, relativePath)
+    const resolvedPath = path.resolve(
+        serverDirectory,
+        routeDirectory,
+        relativePath
+    )
+
     return import(pathToFileURL(resolvedPath).href)
 }
 
@@ -85,9 +89,13 @@ const server = useHttpsSocketServer
 
 if (useDevServerCompat) {
     if (useHttpsSocketServer) {
-        console.warn("SERVER_DEV_MODE=true and SOCKET_USE_HTTPS=true; Socket.IO server on port 5000 is using HTTPS.")
+        console.warn(
+            "SERVER_DEV_MODE=true and SOCKET_USE_HTTPS=true; Socket.IO server on port 5000 is using HTTPS."
+        )
     } else {
-        console.warn("SERVER_DEV_MODE=true; Socket.IO server on port 5000 is using HTTP for local testing.")
+        console.warn(
+            "SERVER_DEV_MODE=true; Socket.IO server on port 5000 is using HTTP for local testing."
+        )
     }
 }
 
@@ -99,22 +107,33 @@ const corsOptions = {
 
 const allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-    res.header('Access-Control-Allow-Headers', 'Content-Type')
+
+    res.header(
+        'Access-Control-Allow-Methods',
+        'GET,PUT,POST,DELETE'
+    )
+
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Content-Type'
+    )
 
     next()
 }
 
 
 //sockets, they let us connect users and the server based on events
-const io = new Server(server, {
-    cors: {
-        origin: '*',
-        credentials: true
-    },
-    pingTimeout: 7200000,
-    pingInterval: 25000
-})
+const io = new Server(
+    server, 
+    {
+        cors: {
+            origin: '*',
+            credentials: true
+        },
+        pingTimeout: 7200000,
+        pingInterval: 25000
+    }
+)
 
 //FUNCTIONS
 async function runApiCall() {
@@ -124,6 +143,7 @@ async function runApiCall() {
 
     if (startTick <= currentTick && currentTick <= endTick) {
         const apiData = await syncServer()
+
         return apiData
     } else {
         return {"error": "game time is out of date"}
@@ -131,7 +151,9 @@ async function runApiCall() {
 }
 
 io.on("connection", (socket) => {
-    const socketObj = socketManager.socketArray[socketManager.addSocket(socket)]
+    const socketObj = socketManager.socketArray[
+        socketManager.addSocket(socket)
+    ]
 
     socket.on("username", (data) => {
       socketObj.username = data.name
@@ -156,7 +178,6 @@ app.use('/favicon.ico', express.static('images/favicon.ico'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
-
 app.use(cookieParser())
 
 //middleware for anyone on the site, checking whether they're logged in or not
@@ -168,26 +189,32 @@ app.use(async (req, res, next) => {
         return next()
     }
 
-    if (!req.cookies.u_token && req.path != "/login") { //for testing purposes we include every page so it doesnt always redirect u to login
+    if (!req.cookies.u_token && req.path != "/login") { 
         res.redirect("/login")
     } else if (req.path != "/login") {
         const user = casdoorSdk.parseJwtToken(req.cookies.u_token)
 
         if (user) {
             const userAgent = req.headers["user-agent"] || ""
-            res.locals.isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent) //pass in if mobile browser to ejsres
-            //res.locals.authUserId = result.um_id
+
+            //pass in if mobile browser to ejsres
+            res.locals.isMobile = /mobile|android|iphone|ipad|ipod/i.test(userAgent) 
+
             //local EJS functions
             res.locals.columnSummary = (...args) => {
-                let t = fs.readFileSync("./client/templates/columnSummary.ejs", "utf-8")
+                let t = fs.readFileSync(
+                    "./client/templates/columnSummary.ejs",
+                    "utf-8"
+                )
+
                 return ejs.render(t, ...args)
             }
-            next() //goes to the next middleware function (login or data collection)
+
+            next() 
         } else {
             return res.json({"logout": true})
         }
     } else {
-        consoleLog("next")
         next()
     }
 })
@@ -209,12 +236,11 @@ app.use((err, req, res, next) => {
 app.use("/app", template)
 
 //LOGIN
-app.use("/login", login) //it makes the app use the login router's get and post methods. its a replacement for get and post for the specific path
+app.use("/login", login) 
 
 //DATA COLLECTION
 app.use("/data-collection", dataCollection)
 /******* */
-
 
 //TEAM SUMMARY
 app.use("/team-summary", teamSummary)
@@ -278,7 +304,6 @@ app.use("/app-tasks", appTasksRouter)
 app.use((req, res, next) => {
     //pit-scouting
     if (req.path.match(/(pit-scouting)+/) != null) {
-        consoleLog("here")
         return next()
     }
 
@@ -291,18 +316,21 @@ if (gameConstants.COMP != "test" && gameConstants.GAME_TYPE != "P") {
     setInterval(runApiCall, 120*1000)
 }
 
-//PORT
+// PORT
 app.listen(3000, "0.0.0.0", (error) => {
     if (error) {
         throw new Error("Can't connect to port 3000")
     }
 
     console.log("Listening on port 3000")
-}) //goes to localhost 3000
+})
 
+
+// SOCKET 
 server.listen(5000, { pingTimeout: 60000, pingInterval: 15000 })
 
-;(async function firstCall() {
+(async function firstCall() {
     const apiRes = await runApiCall()
+
     consoleLog("RUNNING API CALL", apiRes)
 })()
